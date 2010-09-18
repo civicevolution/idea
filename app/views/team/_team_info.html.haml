@@ -1,0 +1,40 @@
+%div{:class=>'entry Team_info_entry'}
+	%div.team_page
+		%p= "Info for #{team_info.title}"
+		
+		%div#team_tab.tabs
+			%ul
+				%li
+					%a{:href=>"#tab_proposal"} Proposal
+				%li
+					%a{:href=>"#tab_team_members"} Team members
+				%li
+					%a{:href=>"#tab_activity"} Activity
+				%li
+					%a{:href=>"#tab_team_help"} Team help
+
+
+			%div.tab_window{:id=>"tab_proposal"}
+				%p Your team's proposal: Questions and their current answers
+				%div#current_proposal_view
+				
+			%div.tab_window{:id=>"tab_team_members"}
+				%p Team members
+				%div#members_offline
+					- @members.each do |m|
+						%div.ape_user{:name=>m.first_name}
+							%img{:src=>"/images/28x28/#{m.pic_id}.gif"} 
+							%span.member& #{m.first_name} #{m.last_name}
+
+				%p.clear
+								
+			%div.tab_window{:id=>"tab_activity"}
+				%p This page will show you 
+				%ul
+					%li All of the recent activity that has occurred in your team since your last visit
+					%li Suggest actions you should take now
+					%li Provide an overview of your team's progress
+
+			%div.tab_window{:id=>"tab_team_help"}
+				%p Provide tips, hints and help
+

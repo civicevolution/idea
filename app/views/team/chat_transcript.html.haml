@@ -1,0 +1,15 @@
+%div
+	- if !@chat_messages.nil?
+		%div.chat_transcript_outer
+			%table
+				- @chat_messages.each do |cm|
+					%tr.Chat
+						%td.pic
+							%img{:src=>"/images/#{cm.pic_id}.gif"}
+						%td.msg
+							%p.name
+								= cm.first_name  
+								%span.chat_ago
+									= time_ago_in_words(cm.created_at)
+									ago
+							%p.msg= cm.text

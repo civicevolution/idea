@@ -1,0 +1,39 @@
+- stars = 2
+%tr
+	%td
+		%div.bs_idea{:id=>bs_idea.id}
+			= simple_format( auto_link( h(bs_idea.text), :all, :target => "_blank" ))
+		%p.controls
+			%span.new New
+			= link_to 'Discuss', {:action => "add_comment", :id => bs_idea.id}, {:class => 'com_on_tgt'}
+			- if bs_idea.member_id == session[:member_id]
+				%span.edit
+					= link_to 'Edit', {:action => "edit_bs_idea", :id=> bs_idea.id}, {:class => 'edit_bs_idea'}
+				%abbr.timeago{:title=>bs_idea.created_at}= time_ago_in_words(bs_idea.created_at) + ' ago'	
+			-#%span= bs_idea.id								
+
+	%td
+		- form_tag( {:controller => 'team', :action => 'rating'}, {:class => 'item_rater team', :id => "item_rater_#{bs_idea.id}"}) do
+			- ANSWER_RATING_OPTIONS.sort.each do |value ,title|	
+				- if value == stars
+					%input.star{:class => 'item_rater', :name => "item_rating_#{bs_idea.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+				- else
+					%input.star{:class => 'item_rater', :name => "item_rating_#{bs_idea.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+			%p.clear_both		
+		%span.rating_results.team
+			%b
+				5
+			votes
+		%p.clear_both		
+		-#%br
+		-#%td
+		- form_tag( {:controller => 'team', :action => 'rating'}, {:class => 'item_rater', :id => "item_rater_#{bs_idea.id}"}) do
+			- ANSWER_RATING_OPTIONS.sort.each do |value ,title|	
+				- if value == stars
+					%input.star{:class => 'item_rater', :name => "item_rating_#{bs_idea.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+				- else
+					%input.star{:class => 'item_rater', :name => "item_rating_#{bs_idea.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+			%p.clear_both
+		%span.rating_results	
+			my vote
+			-#(#{count} vote avg)

@@ -1,0 +1,22 @@
+Hello #{@member.first_name},
+~ ''
+Thank you for joining this team at CivicEvolution:
+~ ''
+Title: #{@team.title}
+~ ''
+Description:
+#{@team.solution_statement}
+~ ''
+- if @team.launched
+	Your team already has a proposal development workspace at http://#{@host}/team?id=#{@team.id} 
+	~ ''
+
+- else
+	Your team currently has #{pluralize(@tr.num_members, 'member')} and as soon as it has #{pluralize(@team.min_members, 'member')} we will open a proposal workspace for your team so it can transform your ideas into a solution.
+	~ ''
+	We will notify the team by email when the proposal workspace is available. In the meantime, you can discuss the idea at http://#{@host}/team/proposal/#{@team.id} 
+	~ ''
+	Have you considered inviting your friends and colleagues to view this idea and possibly join your team?
+	~ ''
+	You can contact us at support@civicevolution.org if you have any questions.
+	

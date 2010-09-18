@@ -1,0 +1,23 @@
+<p>
+  <b>Member:</b>
+  <%=h @comment.member_id %>
+</p>
+
+<p>
+  <b>Anonymous:</b>
+  <%=h @comment.anonymous %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%=h @comment.status %>
+</p>
+
+<p>
+  <b>Text:</b>
+  <%=h @comment.text %>
+</p>
+
+
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %>

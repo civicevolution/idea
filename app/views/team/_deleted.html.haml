@@ -1,0 +1,3 @@
+- type = case item.o_type when 1; 'Question'; when 2: 'Answer'; when 3: 'Comment';  end
+- if item.o_type != 7
+	%p.deleted_item This #{type} has been deleted by the author

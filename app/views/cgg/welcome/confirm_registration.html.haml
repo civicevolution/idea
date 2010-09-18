@@ -1,0 +1,167 @@
+- content_for (:script) do
+	= javascript_include_tag "jquery-1.4.2.min.js", 'jquery.form.js', 'ce/activate/act_welcome_layout.js'
+	:javascript
+		$('a.reload_captcha').die('click').live('click',function(){Recaptcha.reload(); return false;})
+		$('form.confirm_reg_captcha button').die('click').live( 'click', 
+			function(){
+				var btn = $(this);
+				var form = btn.closest('form')
+				btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+				console.log("do confirm_reg_captcha")
+				$(':input',form).removeClass('form_error_border');
+				$('p.form_error_text',form).remove();
+        
+				form.ajaxSubmit({ 					
+				  type: "POST", 
+					url: 'http://' + document.location.host + '/welcome/confirm_reg_captcha',
+				  success: function(data,status){ 
+						console.log("confirm_reg_captcha submit success");
+						$('form.confirm_reg_captcha').prev('p').html('Thank you, you are a confirmed human').addClass('confirmed').hide().show(1000).end().hide(500)
+				  },
+					error : function(xhr,errorString,exceptionObj){
+						console.log("Error confirm_reg_captcha, xhr: " + xhr.responseText)
+						Recaptcha.reload();
+						$('<p>Please try again - <a href="#" class="reload_captcha">Show new text</a></p>').addClass('form_error_text').insertBefore(btn)
+						btn.removeAttr('disabled').next('img').remove();
+					}
+				});			
+			  
+			}
+		);
+		$('input.broadcast_email_opt_in').die('click').live('click',
+			function(){
+				var weekly = this.checked;
+				console.log("send broadcast_email_opt_in: " + weekly)
+				var inp = $(this);
+				var form = inp.closest('form');
+				inp.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+        
+				form.ajaxSubmit({ 					
+				  type: "POST", 
+					data: {broadcast: weekly},
+					url: 'http://' + document.location.host + '/welcome/broadcast_email_opt_in',
+				  success: function(data,status){ 
+						console.log("broadcast_email_opt_in submit success");
+						//$('form.confirm_reg_captcha').prev('p').html('Thank you, you are a confirmed human').addClass('confirmed').hide().show(1000).end().hide(500)
+						inp.removeAttr('disabled').next('img').remove();
+				  },
+					error : function(xhr,errorString,exceptionObj){
+						console.log("Error confirm_reg_captcha, xhr: " + xhr.responseText)
+						//$('<p>Please try again - <a href="#" class="reload_captcha">Show new text</a></p>').addClass('form_error_text').insertBefore(btn)
+						inp.removeAttr('disabled').next('img').remove();
+					}
+				});			
+			  
+				
+				
+				
+			}
+		)
+	
+	
+	
+%style
+	:sass
+		div.start 
+			position: relative
+		//div.left
+		//	position: absolute
+		//	top: 0
+		//	left: 0
+		form.upload_member_photo
+			margin-top: 8px
+		div.right
+			position: absolute
+			top: 24px
+			left: 450px
+			ul,img.sample
+				margin-left: 0px
+				
+
+		ol.start
+			font-weight: bold
+			font-size: 1.2em
+			width: 400px
+			li
+				margin-bottom: 2em
+		ul.start
+			font-weight: bold
+			font-size: 1.2em
+			width: 400px
+			li
+				margin-bottom: 1em
+				
+		p.cta
+			font-weight: bold
+			font-size: 1.2em
+		p.normal
+			font-weight: normal
+			
+		ul.legend
+			padding-left: 20px
+%div.start
+	%div.left
+		%h2 Hello #{@member.first_name}, 
+
+		%ol.start
+			%li 
+				Confirm your humanity
+				%p 
+					We make sure every user is an actual person - this protects you from SPAM email.
+					Click
+					%a.reload_captcha{:href=>'#'} reload
+					to see a different text.
+
+				- form_tag('/welcome/confirm_reg_captcha',{:class=>'confirm_reg_captcha'}) do
+					= hidden_field_tag :conf_code, params[:id]
+					%script{:src=>"http://www.google.com/recaptcha/api/challenge?k=#{RCC_PUB}"}
+					%p
+						%button Yes! I am human
+				
+			%li 
+				Now put a face on your humanity
+				%div.teams_list
+					- pic_url = @member.photo.url('36')
+					- if !pic_url.match(/members_default/).nil?
+						%span.default_pic Don't look like this...
+					= image_tag pic_url, {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+					
+				- form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
+					= file_field_tag :photo, {:value=>"Choose a photo"}
+					%p= submit_tag "Yes! Make this my photo"
+
+			%li 
+				Stay in touch with our community
+				- form_tag('/welcome/opt_in_general',{:class=>'opt_in_general'}) do
+					%p.normal
+						= check_box_tag 'broadcast_email_opt_in', true, false, {:class=>'broadcast_email_opt_in'}
+						Yes! Please tell me about new ideas at CivicEvolution (once a week or less)
+			
+		%h2 
+			Go to the 
+			= link_to '2029 home page', {:controller=>'welcome',:action => 'index'}
+			now
+		%ul.start
+			%li View the videos on the home page
+			%li Browse the ideas submitted by other participants and a the team
+			%li	Suggest your idea to make the City of Geraldton-Greenough more sustainable
+			-#%li Join a team to develop one of these ideas into a solution
+	
+		
+	%div.right.teams_list
+		%h3 How we show your picture 
+		= image_tag 'profile_pic_sample.jpg', {:class => 'sample'}
+		%ul.legend
+			%li Your picture appears with your comments
+			%li It identifies you to your teammates
+			%li You can change your picture later, click it in the right column
+	
+	
+	
+	
+	
+%p You can contact us at support@civicevolution.org for help or more information
+	
+
+
+

@@ -1,0 +1,12 @@
+%h1.title= "Proposal transcript for #{@team.title}"
+
+%div.members 
+	%span.header Members:
+	- @members.each do |m|
+		%span.member& #{m.first_name} #{m.last_name}
+
+%div.proposal	
+	%div{:class => 'item Team', :id => "i#{@team_item.id}"}
+
+		- @items_par_0_sorted.each do |i| 
+			= render_item(i,'all')

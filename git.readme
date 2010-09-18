@@ -1,0 +1,8 @@
+Git repository is in mac, ce_development
+
+for instance to check the log use this command: git --git-dir=/mnt/hgfs/ce_development/git/ce1/.git log
+
+There is also a shell for commiting recent changes:
+
+commit_ce1 (com_c)
+git --git-dir=/mnt/hgfs/ce_development/git/ce1/.git --work-tree=/vol/rb/apps/ce1 commit -a

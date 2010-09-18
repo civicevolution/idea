@@ -1,0 +1,250 @@
+$block_bg_color: #f7f3e8
+$new_item_color: #F2583E
+
+div.page
+	width: 800px
+	margin: auto
+	p.tall 
+		height: 0px
+	fieldset
+		width: 275px
+
+		
+span.promise
+	font-weight: bold
+
+div.logo
+	text-align: left
+	width: 100%
+		
+div.footer_logo
+	margin: 20px
+	width: 100%
+
+		
+div.ce_credit
+	margin: 40px
+	width: 100%
+	h3
+		margin-bottom: 6px
+	p.tag_line 
+		margin-top: 4px		
+		
+a.team_entry_title
+	display: block
+	font-weight: bold
+	p > span
+		margin-right: 20px
+	
+div.mission
+	float: left
+	width: 542px 
+	border: 0px solid red
+	text-align: left
+	
+
+div.videos
+	float: right
+	width: 225px
+	border: 0px solid red
+	padding-top: 20px
+	text-align: right
+	div, p
+		text-align: left
+		margin: 0
+		font-size: 92%
+	p.link
+		font-weight: bold
+		margin: 8px 0 0 0
+		font-size: 92%
+	select
+		margin-top: 4px
+		//font-size: 1.1em
+	img	
+		width: 225px
+		height: 140px
+	
+div.right_col	
+	float: right
+	margin-bottom: 40px
+	width: 225px
+	div.stats
+		background-color: $block_bg_color
+		border: 0px solid red	
+		text-align: left
+		padding: 10px
+		table
+			margin: 10px
+			td.two
+				padding-left: 20px
+		p
+			margin-left: 10px
+		
+
+	div.sign_in
+		background-color: $block_bg_color
+		border: 0px solid red
+		margin-top: 24px
+		padding: 10px
+		text-align: left
+		div 
+			text-align: left
+
+			
+div.left_col		
+	float: left
+	width: 542px
+	margin-bottom: 40px	
+	div.ideas_and_teams
+		margin-top: 10px
+		text-align: left
+		div.tab_window
+			overflow: visible
+			height: auto
+		ul.categories
+			padding-left: 0
+			margin-top: -10px
+			li 
+				list-style: none
+				display: inline
+				text-decoration: underline
+				margin-left: 10px
+			li.cat
+				text-decoration: none
+				margin-left: 0
+		p.desc
+			margin-top: 4px
+		p.controls
+			margin-top: -8px
+			span
+				margin-right: 20px
+			a.visit
+				font-weight: bold
+				margin-left: 20px
+			
+		p.acknowledge
+			margin-top: 30px
+		
+p.team_cnt
+	font-style: italic
+	
+h2.com_title
+	text-align: left
+ul.marketplace
+	text-align: left
+
+form.reset_password_form
+	display: none
+	
+div.right_col
+	input[type='text'], input[type='password']
+		width: 190px
+	
+form.register_form
+	display: none
+	
+	
+div.mask
+	position: absolute
+	top: 0
+	left: 0
+	z-index: 3
+	background-color: white
+	width: 100%
+	height: 100%
+
+div.right_col.reg_only
+	position: absolute
+	width: 350px
+	z-index: 5	
+	
+	
+div.teams_list
+	div.member
+		padding: 0 0 12px 42px
+		margin: 0px 0 12px 0
+		text-align: left
+		font-weight: bold
+		position: relative
+		img
+			display: block
+			cursor: pointer
+			position: absolute
+			top: 0
+			left: 0
+		p.signout 
+			margin: 0
+			font-size: 88%
+			position: absolute
+			bottom: 0
+			right: 0
+	form.upload_member_photo
+		border: 1px solid black
+		padding: 4px
+		display: none
+		
+p.teams_instr
+	text-align: left
+
+ul.teams_cta
+	text-align: left
+	padding-left: 20px
+	
+ul.teams_list
+	text-align: left
+	padding-left: 0px
+	margin-left: 0
+	li
+		list-style: none
+		cursor: pointer
+		text-decoration: underline
+		margin-bottom: 10px
+		
+div.residency
+	border: 1px solid brown
+	padding: 4px
+	margin: 10px 0
+
+div.tos_inner
+	height: 500px
+	overflow: auto
+	overflow-y: scroll
+	
+.hide
+	display: none
+	
+p.suggest_sign_in
+	color: red
+	
+form.suggest_proposal_idea_form, form.join_proposal_team, form.invite_friends
+	margin-bottom: 40px
+	margin-right: 20px
+	width: 100%
+	max-width: 500px
+	clear: both
+	label
+		display: block
+		clear: both
+		margin-top: 0px
+		font-weight: bold
+		font-style: italic
+		color: #888
+	textarea, input[type=text]
+		width: 100%
+	
+a.request_confirmation_email
+	margin-left: 10px
+	
+div.control_line.title
+	margin-bottom: 10px
+	
+p.signin_warn
+	font-size: 80%
+	margin-top: 0
+	padding: 4px
+	border: 1px solid $new_item_color
+
+span.case
+	color: $new_item_color
+	font-weight: bold
+	display: none

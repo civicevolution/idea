@@ -1,0 +1,10 @@
+%div{:class=>'entry Answer_entry'}
+	%div.answer= simple_format h answer.text
+	%p.rating_results 
+		Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
+		%span.version
+			- if answer.ver == 1
+				Original version
+			- else
+				Version #{answer.ver}
+		

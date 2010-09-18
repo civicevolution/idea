@@ -1,0 +1,236 @@
+div.page {
+  width: 800px;
+  margin: auto; }
+  div.page p.tall {
+    height: 0px; }
+  div.page fieldset {
+    width: 275px; }
+
+span.promise {
+  font-weight: bold; }
+
+div.logo {
+  text-align: left;
+  width: 100%; }
+
+div.footer_logo {
+  margin: 20px;
+  width: 100%; }
+
+div.ce_credit {
+  margin: 40px;
+  width: 100%; }
+  div.ce_credit h3 {
+    margin-bottom: 6px; }
+  div.ce_credit p.tag_line {
+    margin-top: 4px; }
+
+a.team_entry_title {
+  display: block;
+  font-weight: bold; }
+  a.team_entry_title p > span {
+    margin-right: 20px; }
+
+div.mission {
+  float: left;
+  width: 542px;
+  border: 0px solid red;
+  text-align: left; }
+
+div.videos {
+  float: right;
+  width: 225px;
+  border: 0px solid red;
+  padding-top: 20px;
+  text-align: right; }
+  div.videos div, div.videos p {
+    text-align: left;
+    margin: 0;
+    font-size: 92%; }
+  div.videos p.link {
+    font-weight: bold;
+    margin: 8px 0 0 0;
+    font-size: 92%; }
+  div.videos select {
+    margin-top: 4px; }
+  div.videos img {
+    width: 225px;
+    height: 140px; }
+
+div.right_col {
+  float: right;
+  margin-bottom: 40px;
+  width: 225px; }
+  div.right_col div.stats {
+    background-color: #f7f3e8;
+    border: 0px solid red;
+    text-align: left;
+    padding: 10px; }
+    div.right_col div.stats table {
+      margin: 10px; }
+      div.right_col div.stats table td.two {
+        padding-left: 20px; }
+    div.right_col div.stats p {
+      margin-left: 10px; }
+  div.right_col div.sign_in {
+    background-color: #f7f3e8;
+    border: 0px solid red;
+    margin-top: 24px;
+    padding: 10px;
+    text-align: left; }
+    div.right_col div.sign_in div {
+      text-align: left; }
+
+div.left_col {
+  float: left;
+  width: 542px;
+  margin-bottom: 40px; }
+  div.left_col div.ideas_and_teams {
+    margin-top: 10px;
+    text-align: left; }
+    div.left_col div.ideas_and_teams div.tab_window {
+      overflow: visible;
+      height: auto; }
+    div.left_col div.ideas_and_teams ul.categories {
+      padding-left: 0;
+      margin-top: -10px; }
+      div.left_col div.ideas_and_teams ul.categories li {
+        list-style: none;
+        display: inline;
+        text-decoration: underline;
+        margin-left: 10px; }
+      div.left_col div.ideas_and_teams ul.categories li.cat {
+        text-decoration: none;
+        margin-left: 0; }
+    div.left_col div.ideas_and_teams p.desc {
+      margin-top: 4px; }
+    div.left_col div.ideas_and_teams p.controls {
+      margin-top: -8px; }
+      div.left_col div.ideas_and_teams p.controls span {
+        margin-right: 20px; }
+      div.left_col div.ideas_and_teams p.controls a.visit {
+        font-weight: bold;
+        margin-left: 20px; }
+    div.left_col div.ideas_and_teams p.acknowledge {
+      margin-top: 30px; }
+
+p.team_cnt {
+  font-style: italic; }
+
+h2.com_title {
+  text-align: left; }
+
+ul.marketplace {
+  text-align: left; }
+
+form.reset_password_form {
+  display: none; }
+
+div.right_col input[type='text'], div.right_col input[type='password'] {
+  width: 190px; }
+
+form.register_form {
+  display: none; }
+
+div.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background-color: white;
+  width: 100%;
+  height: 100%; }
+
+div.right_col.reg_only {
+  position: absolute;
+  width: 350px;
+  z-index: 5; }
+
+div.teams_list div.member {
+  padding: 0 0 12px 42px;
+  margin: 0px 0 12px 0;
+  text-align: left;
+  font-weight: bold;
+  position: relative; }
+  div.teams_list div.member img {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  div.teams_list div.member p.signout {
+    margin: 0;
+    font-size: 88%;
+    position: absolute;
+    bottom: 0;
+    right: 0; }
+div.teams_list form.upload_member_photo {
+  border: 1px solid black;
+  padding: 4px;
+  display: none; }
+
+p.teams_instr {
+  text-align: left; }
+
+ul.teams_cta {
+  text-align: left;
+  padding-left: 20px; }
+
+ul.teams_list {
+  text-align: left;
+  padding-left: 0px;
+  margin-left: 0; }
+  ul.teams_list li {
+    list-style: none;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-bottom: 10px; }
+
+div.residency {
+  border: 1px solid brown;
+  padding: 4px;
+  margin: 10px 0; }
+
+div.tos_inner {
+  height: 500px;
+  overflow: auto;
+  overflow-y: scroll; }
+
+.hide {
+  display: none; }
+
+p.suggest_sign_in {
+  color: red; }
+
+form.suggest_proposal_idea_form, form.join_proposal_team, form.invite_friends {
+  margin-bottom: 40px;
+  margin-right: 20px;
+  width: 100%;
+  max-width: 500px;
+  clear: both; }
+  form.suggest_proposal_idea_form label, form.join_proposal_team label, form.invite_friends label {
+    display: block;
+    clear: both;
+    margin-top: 0px;
+    font-weight: bold;
+    font-style: italic;
+    color: #888888; }
+  form.suggest_proposal_idea_form textarea, form.suggest_proposal_idea_form input[type=text], form.join_proposal_team textarea, form.join_proposal_team input[type=text], form.invite_friends textarea, form.invite_friends input[type=text] {
+    width: 100%; }
+
+a.request_confirmation_email {
+  margin-left: 10px; }
+
+div.control_line.title {
+  margin-bottom: 10px; }
+
+p.signin_warn {
+  font-size: 80%;
+  margin-top: 0;
+  padding: 4px;
+  border: 1px solid #f2583e; }
+
+span.case {
+  color: #f2583e;
+  font-weight: bold;
+  display: none; }

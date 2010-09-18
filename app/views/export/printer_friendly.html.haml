@@ -1,0 +1,10 @@
+%h1.title= @team.title
+- member = @members.detect { |m| m.id == session[:member_id] }
+%p{:class=>'mem_header clear'}
+	%b Team members:
+	- @members.each do |m|
+		%span.member& #{m.first_name} #{m.last_name}
+%div.proposal	
+	%div{:class => 'item Team', :id => "i#{@team_item.id}"}
+		- @items_par_0_sorted.each do |i| 
+			= render_item(i,{1=>'show', 2=>'show'})	

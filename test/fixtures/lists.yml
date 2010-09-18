@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  format: 1
+  anonymous: false
+  status: MyString
+
+two:
+  id: 1
+  format: 1
+  anonymous: false
+  status: MyString

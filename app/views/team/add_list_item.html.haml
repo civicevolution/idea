@@ -1,0 +1,20 @@
+= error_messages_for 'list_item'
+- form_for :list_item, :url => { :action => :create_list_item } do |form| 
+	%p= form.error_messages
+	%fieldset
+		- if @mode == 'add'
+			%legend& 
+				%b Please add your item for this list
+			%h3&= @target_list.title
+			%p&= @target_list.text
+		- else
+			%legend& 
+				%b Please edit your item for this list
+
+		%p= form.label :text, "Your Item:"
+		%p= form.text_area :text, :cols => 60, :rows => 8
+		= hidden_field_tag :list_id, @target_list.id
+		= hidden_field_tag :id, @list_item.id
+		= hidden_field_tag :mode, @mode
+		= submit_tag
+		= link_to 'Cancel', :action => 'index'

@@ -1,0 +1,6 @@
+- if @resource.link_url
+	= link_to @resource.link_url, @resource.link_url, {:target => '_blank', :class => 'resource_url' }
+-else
+	- if @resource.resource_content_type =~ /image/ && @resource.resource.url(:small)
+		= image_tag @resource.resource.url(:small)
+	= link_to @resource.resource_file_name, @resource.resource.url	, {:target => '_blank', :class => 'resource_upload' }

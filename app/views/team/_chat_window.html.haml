@@ -1,0 +1,21 @@
+%div
+	%div.chat_window
+		-#%b Chat summary
+		-#%div{:class=>'chat_summary list'}
+		-#	%ul{:id=>"li", :class=>"list sortable chat_summary_list"}
+		-#%p{:style => 'clear:both'}
+		-#	= link_to "Add list item", {:action => "add_list_item"}, {:class => 'edit_list_item'}
+		-#	-#= link_to "View list history", {:action => "list_history"}, {:class => 'view_history'}
+		%b Chat
+		%span.transcript_link= link_to "View transcript", {:action => "chat_transcript"}, {:class => 'view_transcript'}
+		%div.shoutbox_msg
+			%table{:cellspacing=>0}
+				%tr
+					%td{:colspan=>2, :class=>'init_chat'} Please standby while we initialize chat...
+		%form
+			%div
+				%input{:name=>'msg', :class=>'chat_input', :autocomplete=>"off", :disabled=>true}
+				%input{:type=>'button', :value=>'Send', :class=>'chat_submit', :disabled=>true}
+			%input{:type=>'hidden', :name=>'item_id'}
+				
+				

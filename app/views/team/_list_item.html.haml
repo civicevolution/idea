@@ -1,0 +1,6 @@
+%li.list_item
+	%div.list_item= simple_format h list_item.text
+	%p.form_links	
+		= link_to "Edit", {:action => "edit_list_item", :id => list_item.id}, {:class => 'edit_list_item'}
+		= link_to "View history", {:action => "list_item_history", :id => list_item.id}, {:class => 'view_history'}
+		= link_to "Delete", {:action => "delete_list_item", :id => list_item.id}, {:class => 'delete_item'}

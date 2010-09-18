@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  team_id: 1
+  title: MyString
+  description: MyText
+  par_id: 1
+  order: 1
+  completed: false
+  request_details: false
+  details: MyText
+  discussion: 1
+
+two:
+  team_id: 1
+  title: MyString
+  description: MyText
+  par_id: 1
+  order: 1
+  completed: false
+  request_details: false
+  details: MyText
+  discussion: 1

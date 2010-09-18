@@ -1,0 +1,69 @@
+# this is the data I need to construct a team workspace for the 2029/cgg initiative
+# read the data file
+# create each entry as a page
+# add a question or team_info as shown
+# add the items as appropriate
+
+
+team_page:
+  page_title:   Proposal home page
+  chat_title:   General team chat
+  nav_title:    Proposal home page
+  team_info:    yes
+
+
+define_page:
+  page_title:   What is the change you want to make?
+  chat_title:   Chat about the change
+  nav_title:    Define the change
+  question:         What is the change you want to make? 
+  idea_criteria:    5..1000
+  answer_criteria:  5..1500
+  num_answers:      1
+
+affected_page:
+  page_title:   Who would this change affect and how?
+  chat_title:   Chat about who 
+  nav_title:    Who is affected?
+  question:         Who would this change affect and how?
+  idea_criteria:    5..1000
+  answer_criteria:  5..1500
+  num_answers:      1
+
+community_page:
+  page_title:   Why would this change be important for your community? 
+  chat_title:   Chat about community
+  nav_title:    Community
+  question:         Why would this change be important for your community? 
+  idea_criteria:    5..1000
+  answer_criteria:  5..1500
+  num_answers:      1
+
+options_page:
+  page_title:   What are some options for implementing this change?
+  chat_title:   Chat about options
+  nav_title:    Options
+  question:         What are some options for implementing this change?
+  idea_criteria:    5..1000
+  answer_criteria:  5..1500
+  num_answers:      1000
+
+
+recommendation_page:
+  page_title:   What do you recommend?
+  chat_title:   Chat about recommendations
+  nav_title:    Recommendations
+  question:         How would you recommend the change could happen?
+  idea_criteria:    5..1000
+  answer_criteria:  5..1500
+  num_answers:      1
+
+
+steps_page:
+  page_title:   What are the next steps in promoting or implementing your proposal?
+  chat_title:   Chat about next steps
+  nav_title:    Next steps
+  question:         What are the next steps in promoting or implementing your proposal?
+  idea_criteria:    5..1000
+  answer_criteria:  5..1500
+  num_answers:      1000

@@ -1,0 +1,28 @@
+<h1>Listing answers</h1>
+
+<table>
+  <tr>
+    <th>Member</th>
+    <th>Anonymous</th>
+    <th>Status</th>
+    <th>Text</th>
+    <th>Ver</th>
+  </tr>
+
+<% @answers.each do |answer| %>
+  <tr>
+    <td><%=h answer.member_id %></td>
+    <td><%=h answer.anonymous %></td>
+    <td><%=h answer.status %></td>
+    <td><%=h answer.text %></td>
+    <td><%=h answer.ver %></td>
+    <td><%= link_to 'Show', answer %></td>
+    <td><%= link_to 'Edit', edit_answer_path(answer) %></td>
+    <td><%= link_to 'Destroy', answer, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New answer', new_answer_path %>

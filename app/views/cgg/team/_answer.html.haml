@@ -1,0 +1,52 @@
+- stars = score.round.to_i 
+
+%div.plus_com
+	%div{:class=>'entry Answer_entry'}
+
+		%div.answer_controls
+			- form_tag( {:controller => 'team', :action => 'rating'}, {:class => 'item_rater', :id => "item_rater_#{item.id}"}) do
+				- ANSWER_RATING_OPTIONS.sort.each do |value ,title|	
+					- if value == stars
+						%input.star{:class => 'item_rater', :name => "item_rating_#{item.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+					- else
+						%input.star{:class => 'item_rater', :name => "item_rating_#{item.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+				%span.rating_results	(#{count} vote avg)
+						
+		%div.answer= simple_format h answer.text
+		
+		%p.answer_links
+			- if answer.ver == 1
+				%span.version Original version
+			- else
+				%span.version
+					Version #{answer.ver}
+				= link_to "View history", {:action => "item_history", :id => item.id}, {:class => 'view_history'}
+		
+			= link_to "Edit", {:action => "edit_answer", :id => answer.id}, {:class => 'edit_answer'}	
+
+						
+-#					%td.history_link
+-#						- if answer.ver == 1
+-#							Original version
+-#						- else
+-#							Version #{answer.ver}
+-#							= link_to "View history", {:action => "item_history", :id => item.id}, {:class => 'view_history'}
+-#				%tr
+-#					%td{:colspan=>3}
+-#						%hr
+-#				%tr
+-#					%td
+-#						= link_to "Discuss", {:action => "add_comment", :id => item.id}, {:class => 'add_item'}
+-#					%td	
+-#						= link_to "Edit", {:action => "edit_answer", :id => answer.id}, {:class => 'edit_item'}
+-#					%td
+-#						= link_to "Hide", {:action => "delete_answer", :id => answer.id}, {:class => 'delete_item'}
+			
+-#	%div.coms{:id=>item.id}
+-#		-#= image_tag('border_pointer_shadow_on.gif',{:class=>'border_pointer'})
+-#		%div.pointer
+-#		%div.coms_inner
+-#			%form.open_form
+-#				%input.open_form{:value=>'Discuss this answer'}			
+
+

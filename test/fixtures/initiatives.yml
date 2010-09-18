@@ -1,0 +1,51 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  description: MyText
+  min_members: 1
+  max_members: 1
+  max_teams_per_member: 1
+  limit_access: false
+  access_code: MyString
+  can_propose_team: false
+  prescreen_proposals: false
+  timezone: MyString
+  lang: MyString
+  config_id: 1
+  public_face: false
+  public_face_rating_threshold: 1
+  join_test: MyString
+  approve_join: false
+  send_invites: false
+  approve_invites: false
+  admin_groups: MyString
+  country: MyString
+  state: MyString
+  county: MyString
+  city: MyString
+
+two:
+  title: MyString
+  description: MyText
+  min_members: 1
+  max_members: 1
+  max_teams_per_member: 1
+  limit_access: false
+  access_code: MyString
+  can_propose_team: false
+  prescreen_proposals: false
+  timezone: MyString
+  lang: MyString
+  config_id: 1
+  public_face: false
+  public_face_rating_threshold: 1
+  join_test: MyString
+  approve_join: false
+  send_invites: false
+  approve_invites: false
+  admin_groups: MyString
+  country: MyString
+  state: MyString
+  county: MyString
+  city: MyString

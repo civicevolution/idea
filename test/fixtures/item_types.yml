@@ -1,0 +1,53 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+#select type||':\n  id: '||id||'\n  type: '||type||'\n  description: '||description||'\n' from item_types;
+
+question:
+  id: 1
+  type: question
+  description: question
+
+answer:
+  id: 2
+  type: answer
+  description: answer
+
+comment:
+  id: 3
+  type: comment
+  description: comment
+
+team:
+  id: 4
+  type: team
+  description: team
+
+chat_session:
+  id: 5
+  type: chat_session
+  description: chat_session
+
+chat_message:
+  id: 6
+  type: chat_message
+  description: chat_message
+
+list:
+  id: 7
+  type: list
+  description: list
+
+list_item:
+  id: 8
+  type: list_item
+  description: list_item
+
+page:
+  id: 9
+  type: page
+  description: page container
+
+team_info:
+  id: 10
+  type: team_info
+  description: information and instructions for the team

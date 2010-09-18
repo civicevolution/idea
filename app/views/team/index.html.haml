@@ -1,0 +1,35 @@
+%h1.title= @team.title
+- member = @members.detect { |m| m.id == session[:member_id] }
+%p{:class=>'mem_header clear'}
+	%b Team members:
+	- @members.each do |m|
+		%span.member& #{m.first_name} #{m.last_name}
+%p.my_teams
+	= link_to "Sign out", {:controller => "welcome", :action=> "signout"}, {:class => 'sign_out'}
+	Your teams:
+	- @my_teams.each do |mt|
+		- title = mt.title.length > 33 ? mt.title.slice(0,30) + '...' : mt.title
+		%span.team_link 
+			%a{:href=>"team?id=#{mt.id}"}= title
+
+%div.nav_chat
+	%fieldset
+		%legend 
+			%b Online now
+		%div#members_online
+			%div.members
+	%p.clear
+	%div#accordion
+	:javascript
+		var client;
+		var team_id = #{@team.id};
+		var member = {first_name: "#{member.first_name}", last_name: "#{member.last_name}", pic_id: #{member.pic_id}, unique_name: "#{member.first_name}" }
+		var page_channel = '#{@page_channel}'
+%div.proposal	
+	%div{:class => 'item Team', :id => "i#{@team_item.id}"}
+		-#= link_to "Add question", {:action => "add_question", :id => @team_item.id}, {:class => 'add_item'}
+		- @items_par_0_sorted.each do |i| 
+			-#= render_item(i,{1=>'show', 2=>'show'})
+			= render_item(i,'all')
+%div.private= @private_page
+	

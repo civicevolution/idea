@@ -1,0 +1,8 @@
+- author = @members.detect {|m| m.id == question.member_id }
+- author = author.nil? ? 'unknown' : author.first_name + ' ' + author.last_name
+%div{:class=>'entry Question_entry'}
+	%div.question
+		%h3&= question.text
+	-#%p= author + ' is responsible for this role'
+	-#%p.owner Responsibility for this role to be determined in Tuesday's session
+	%p{:style => 'clear:both'}

@@ -1,0 +1,323 @@
+- members_sorted = @members.sort {|a,b| x = a.first_name <=> b.first_name; x != 0 ? x : a.last_name <=> b.last_name}
+%div{:class=>'entry Team_info_entry'}
+	%div.team_page
+		
+		%div#team_tab.tabs
+			%ul
+				%li
+					%a{:href=>"#tab_proposal"} Proposal
+				%li
+					%a{:href=>"#tab_team_discussion"} Public review
+				%li
+					%a{:href=>"#tab_team_milestones"} Checklist
+				%li
+					%a{:href=>"#tab_team_members"} Members
+				%li
+					%a{:href=>"#tab_my_profile"} Me
+				%li
+					%a{:href=>"#tab_team_assistance"} Help
+
+
+			%div.tab_window{:id=>"tab_proposal"}
+
+				%p.instr Your team's proposal
+				%ul.instr
+					%li Your team's proposal consists of the questions we provide and the answers your team develops
+					%li You and your teammates collaboratively create your answers by discussing the questions, brainstorming ideas, and developing consensus answers
+					%li Each question has a workspace with pages for discussion, brainstorming and refining your answer
+					%li Click the page links on the left to access each question's workspace
+					%li Click on the question and answers below to go directly to the answer page for the question
+					%li This page will always show the latest versions of your team's answers to each question
+					%li The next tab "Public review" shows the proposal as it is seen by the public
+					%li.close_instr
+						= link_to 'Hide instructions', {}, {:class => 'hide_instr'} 
+
+				%div.proposal_view
+					%h3.team_title= @team.title
+					
+					%div.summary
+						%p.summary Summary
+						= simple_format h @team.solution_statement
+					%div#current_proposal_view
+
+				%p.instr Team endorsements
+				-#%ul.instr
+				-#	%li Endorsements are not open yet
+				-#	%li All the questions must be answered with at least 50% approval before endorsements can be made
+
+				
+				%div.member_endorsements	
+					%p Endorsements are not allowed until all the questions are answered with at least 50% approval
+				
+					%table
+						%tr
+							%th{:width=>'36px'}
+							%th	Member name
+							%th Endorse
+							%th{:width=>'100px'} When
+							%th{:width=>'250px'} Comment
+						- members_sorted.each do |m|
+							%tr{:class=> cycle('','stripe')}
+								%td
+									%img{:src=> m.photo.url('36')} 
+								%td
+									%span.member& #{m.first_name} #{m.last_name}
+								%td 
+								%td
+								%td
+					
+
+			%div.tab_window.public.discussion{:id=>"tab_team_discussion"}
+				%p.instr This is how the public sees your proposal
+				
+				
+				%div.proposal_view
+					%h3.team_title= @team.title
+					
+					%div.summary
+						%p.summary Summary
+						= simple_format h @team.solution_statement
+					%div#current_proposal_view
+				
+				
+				
+				- pub_disc_item = @items.detect {|i| i.par_id == @team_item.id && i.o_type == 11 } 
+				- if pub_disc_item.nil?
+					%p Public discussion is disabled for this page
+				- else 
+					%div.item{:id=>"i#{pub_disc_item.id}", :item_id=>pub_disc_item.id, :class=>'pub_coms'}
+				
+						%div.question_discussion.tab_view
+							%div.inner_question_discussion
+			
+								%p.instr Public discussion
+								%ul.instr
+									%li These are general public comments about your proposal
+									-#%li Your team can discuss general issues about your team and its progress and challenges
+									-#%li Remember, discussion about your proposal subject should occur in the appropriate question workspaces, click the links to the left
+									-#%li This is a good place to discuss problems facing the team
+									-#%li.close_instr
+										= link_to 'Hide instructions', {}, {:class => 'hide_instr'} 
+						
+						
+								%p.discussion_links
+									= link_to "Open all comments", {}, {:class => 'open_all'}
+
+								- items_child_sorted = @items.find_all {|it| it.par_id == pub_disc_item.id && it.sib_id == 0 && it.o_type == 3 }.sort {|a,b| a.order <=> b.order }
+								- items_child_sorted.each do |i|
+									= render_item(i,{3=>'show'})
+
+								-#%p.clear_both
+								= render(:partial => 'add_comment_combined', :locals => { :id => pub_disc_item.id, :label=>'Please add your comment'})
+				
+				%p.instr Public endorsements
+				-#%ul.instr
+				-#	%li Endorsements are not open yet
+				-#	%li All the questions must be answered with at least 50% approval before endorsements can be made
+				
+				%div.public_endorsements	
+					%p Endorsements are not allowed until all the questions are answered with at least 50% approval
+				
+					- public_endorsements = []
+					%table
+						%tr
+							%th{:width=>'36px'}
+							%th	Member name
+							%th{:width=>'100px'} When
+							%th{:width=>'250px'} Comment
+						- if public_endorsements.size == 0
+							%tr
+								%td
+								%td{:colspan=>3} No endorsements yet
+						-else
+							- public_endorsements.each do |m|
+								%tr{:class=> cycle('','stripe')}
+									%td
+										%img{:src=> m.photo.url('36')} 
+									%td
+										%span.member& #{m.first_name} #{m.last_name}
+									%td
+									%td
+								
+					%div.endorse_proposal	
+						- form_for( :endorse, :url => { :action => :create_answer}, :html => {:class=>'add_answer_form'} ) do |form| 
+							= hidden_field_tag :team_id, @team_id
+			
+							%div.add_answer
+								%p
+									= check_box_tag :endorse
+									I endorse this proposal
+							
+								= form.label :text, "Optional comment in support of proposal"
+								= form.text_area :text, :class=>'answer', :size=>"1x2", :alias=>'Answer'
+								%div.control_line
+									%input{:type=>'submit', :value=>'Save my endorsement'} 
+									= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+							%p.clear_both
+		
+				
+				
+			%div.tab_window{:id=>"tab_team_milestones"}
+				%p.instr Checklist for your proposal
+				%ul.instr
+					%li These are the objectives your team must complete to finish and submit your proposal
+					%li When you feel you have completed an objective, check the box and add supporting details
+					%li Once these objectives have been met, you will be able to submit your proposal
+					-#%li When your team achieves all of these milestones, you will have earned the right to have your proposal reviewed by the Alliance board.
+					-#%li 
+					-#	If you have any questions about these milestones, please consult the 
+					-#	%b
+					-#		Team assistance
+					-#	tab
+					-#%li.close_instr
+					-#	= link_to 'Hide instructions', {}, {:class => 'hide_instr'}
+						
+
+				- check_list_items_par0 = @check_list_items.find_all{ |cli| cli.par_id == 0 }
+				- if !check_list_items_par0.nil?
+					
+					%table.checklist
+						- @check_list_items_sorted = check_list_items_par0.sort {|a,b| a.order <=> b.order}.each do |cli|
+							%tr
+								%td= check_box_tag :id, cli.id, cli.completed
+								%td{:colspan=>2}
+									= cli.title
+									- if cli.description || cli.discussion !=0 || cli.request_details
+										= link_to "details"
+									- if cli.description
+										%p.details= cli.description	
+										
+							- child_list_items = @check_list_items.find_all{ |clic| clic.par_id == cli.id }
+							- if !child_list_items.nil?
+								- child_list_items.sort {|a,b| a.order <=> b.order}.each do |clic|	
+									%tr
+										%td
+										%td= check_box_tag :id, clic.id, clic.completed
+										%td
+											= clic.title
+											- if clic.description || clic.discussion !=0 || clic.request_details
+												= link_to "details"
+											- if clic.description
+												%p.details= clic.description	
+					
+					%p					
+						%button{:disabled=>true} Submit your proposal for review
+
+				
+			%div.tab_window{:id=>"tab_team_members"}
+				%p.instr Team members, roles and activity
+				%ul.instr
+					%li These are the members of your team
+					%li You can review their contributions to your team's progress
+					%li You can also view their profile and send them private messages
+					%li.close_instr
+						= link_to 'Hide instructions', {}, {:class => 'hide_instr'}			
+				%p Team members
+				
+				%div#team_members_roster
+					- members_sorted.each do |m|
+						%div.ape_user{:name=>m.first_name,:ape_code=>m.ape_code, :create_count=>0}
+							%img{:src=> m.photo.url('36')} 
+							%span.member& #{m.first_name} #{m.last_name}
+				%p.clear
+				
+				%h3.team_roles Team roles
+
+				%table.team_roles
+					%tr
+						%th Role title
+						%th Role description
+						%th Volunteers
+					- @roles.sort {|a,b| a['order'] <=> b['order']}.each do |r|
+						%tr{:class=> cycle('','stripe')}
+							%td
+								%b= r['title']
+							%td
+								%p
+									-#= truncate r['description'] ,:length=>120, :separator=>' ' 
+									= r['description']
+									= link_to 'details'
+								%div.tasks.hide
+									%p Here are some of the suggested tasks:
+									%ul
+										- r['tasks'].each do |t|
+											%li= t
+							%td
+								=link_to 'Volunteer'
+				
+
+			%div.tab_window{:id=>"tab_my_profile"}
+				%p.instr My information
+
+				%p
+					= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+					#{@member.first_name} #{@member.last_name} 
+					
+				%p 
+					= link_to 'Change your member picture', {}, {:class=>'upload_photo'}
+					
+				- form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo hide'}) do
+					%p
+						%b Upload your profile picture
+					= file_field_tag :photo
+					%p
+						= submit_tag "Upload photo"
+						= link_to 'Cancel', {}, {:class=>'cancel'}
+
+
+
+				%p.clear
+
+
+			%div.tab_window{:id=>"tab_team_assistance"}
+				-#%p.instr Team assistance
+				-#%ul.instr
+				-#	%li This page will assist you in developing your team proposal and dealing with problems that may arise.
+				-#	%li For a general overview of this Sustainability project, CivicEvolution, and the proposal development process, please view the videos below
+				-#	%li You can also check the FAQ and Help documentation
+				-#	%li Finally, you can use the form below to contact us for assistance with your proposal or your team
+				-#	%li.close_instr
+				-#		= link_to 'Hide instructions', {}, {:class => 'hide_instr'}
+				
+				%p.instr Helpful videos
+				
+				%div.videos
+					%div.video
+						%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated'} 
+							= image_tag 'ce_illustrated_thumbnail.jpg', :alt=>'CivicEvolution Illustrated video'
+						%b CivicEvolution Illustrated
+
+					%div.video
+						%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14627369', :title=>'Getting started with CivicEvolution'}  
+							= image_tag 'ce_getting_started_thumbnail.jpg', :alt=>'Getting Started with CivicEvolution video'
+						%b Getting started with CivicEvolution
+					%p.clear_both
+							
+				%h3 Contact us
+				%p Please select a category for your question or request for help
+					
+				%form.request_help
+					%p
+						%select
+							%option{:value=>0} Please select the assistance you need
+							%option{:value=>1} Report a bug
+							%option{:value=>2} I need help to use CivicEvolution
+							%option{:value=>3} I need assistance with my proposal
+							%option{:value=>4} I need help dealing with my team 
+							%option{:value=>5} I need technical assistance with my proposal
+							
+					%p.no_id.hide Name		
+					%p.no_id.hide 
+						%input{:name=>'sender_name'}
+							
+					%p.no_id.hide Email		
+					%p.no_id.hide 
+						%input{:name=>'sender_email'}
+
+					%p Please provide a clear message about the assistance you require
+					%p
+						%textarea{:rows=>8, :cols=>50, :name=>'message'}
+					%p	
+						%button
+							Send
+								

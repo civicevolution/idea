@@ -1,0 +1,47 @@
+= error_messages_for :comment, :resource
+- form_for :comment, :url => { :action => :create_comment }, :html => { :multipart => true } do |form| 
+	%fieldset
+		%legend& 
+			%b Please add your Comment and upload your file for this #{@target.type_text}
+		%h3&= @target.text
+		%p= form.label :text, "Your Comment:"
+		%p= form.text_area :text, :cols => 60, :rows => 8
+		%p= form.hidden_field :anonymous, :value => false
+		= hidden_field_tag :par_id, @target_item.id
+		= hidden_field_tag :resource_type, 'upload'	
+		= hidden_field_tag :id, @target_item.o_id
+		= hidden_field_tag :mode, params[:mode]		
+		
+		%fieldset
+			%legend 
+				%b Upload a file to include with your comment
+			- fields_for :resource, @resource do |resource|
+				%table
+					%tr
+						%td Title for this file:
+						%td= resource.text_field :title
+					%tr
+						%td Select your file:
+						%td= resource.file_field :resource
+					- if @resource.resource_file_name
+						%tr
+							%td 
+							%td Currently selected file is <b>#{@resource.resource_file_name}</b>
+					%tr
+						%td Description:
+						%td= resource.text_area :description, :class => 'resource_description', :rows => 4
+
+		= submit_tag
+		= link_to 'Cancel', :action => 'index'
+
+	%h3 Optional
+	%p If you would like to add a comment with a link to another website or online resource, or just add a simple comment, click one of these options:
+	%p
+		Add a comment with a 
+		= submit_tag 'link to a website', :name => 'option', :class => 'submitLink'
+		or any other online resource
+	%p
+		Add a 
+		= submit_tag 'simple comment', :name => 'option', :class => 'submitLink'
+
+	

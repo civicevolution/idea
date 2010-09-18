@@ -1,0 +1,50 @@
+%div{:class=>'entry Comment_entry'}
+	- resource = @resources.detect { |r| r.comment_id == comment.id }
+	- if comment.anonymous
+		- author = 'Anonymous'
+	- else
+		- author = @members.detect {|m| m.id == comment.member_id }
+		- if author
+			- author = author.first_name + ' ' + author.last_name
+		- else
+			- author = 'Unknown author'
+	%div.details 
+		- if comment.created_at > @last_ts
+			%span.mark_new_comment New
+		- elsif comment.updated_at > @last_ts
+			%span.mark_new_comment Updated
+		%span.author= author	
+		-#%span.timestamp= time_ago_in_words(comment.created_at) + ' ago'
+		%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'
+		-#- form_tag( {:controller => 'team', :action => 'thumbs_rate'}, {:class => rated != 1 ? 'mini_thumbs_up' : 'mini_thumbs_up closed', :id => "item_rater_#{item.id}"}) do
+		-#	%span{:class => 'votes_up'}
+		-#		= up if up > 0
+		-#	%input{:type => 'submit', :class => 'vote_up', :name => 'thumbsup_rating', :value => '+1', :title => 'Vote up'}
+		-#	%input{:type => 'submit', :class => 'vote_down', :name => 'thumbsup_rating', :value => '-1', :title => 'Vote down'}
+		-#	%span{:class => 'votes_down'}
+		-#		= down if down > 0
+		-#	%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{item.id}" }
+	- if comment.updated_at != comment.created_at
+		%p.edited
+			This comment was edited
+			%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
+
+	%div.comment= simple_format( auto_link( h(comment.text), :all, :target => "_blank" ))
+	- if !resource.nil?
+		%div{:class => "resource #{resource.link_url ? 'link' : 'upload'}"}
+			%h3.resource_title&= resource.title
+			%p.resource_link
+				- if resource.link_url
+					= link_to resource.link_url, resource.link_url, {:target => '_blank', :class => 'resource_url' }
+				-else
+					- if resource.resource_content_type =~ /image/ && resource.resource.url(:small)
+						= image_tag resource.resource.url(:small)
+					= link_to resource.resource_file_name, resource.resource.url	, {:target => '_blank', :class => 'resource_upload' }
+			%div.resource_description= simple_format h resource.description
+		
+	%p.item_links{:style => 'clear:both'}
+		= link_to "Reply to this comment", {:action => "add_comment", :id => item.id}, {:class => 'add_item'}
+		- if comment.member_id == session[:member_id]
+			= link_to "Edit this comment", {:action => "edit_comment", :id => comment.id}, {:class => 'edit_item'}
+			-#= link_to "Delete this comment", {:action => "delete_comment", :id => comment.id}, {:class => 'delete_item'}
+		-#%b id: #{item.id}, parent: #{item.par_id}, com: #{comment.id}

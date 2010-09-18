@@ -1,0 +1,22 @@
+= error_messages_for 'answer'
+- form_for :answer, :url => { :action => :create_answer } do |form| 
+	%p= form.error_messages
+	%fieldset
+		- if @mode == 'add'
+			%legend& 
+				%b Please add your Answer to this Question
+			%h3&= @target.text
+		- else
+			%legend& 
+				%b Please edit your Answer to this Question
+			
+		%p= form.label :text, "Your Answer:"
+		%p= form.text_area :text, :cols => 60, :rows => 8
+		%p= form.hidden_field :anonymous, :value => false
+		= hidden_field_tag :par_id, @target_item.id
+		= hidden_field_tag :id, @target_item.o_id
+		= hidden_field_tag :mode, params[:mode]
+		= submit_tag
+		= link_to 'Cancel', :action => 'index'
+
+

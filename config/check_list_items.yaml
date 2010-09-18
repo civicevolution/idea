@@ -1,0 +1,200 @@
+# this is the data I need to construct a team workspace for the 2029/cgg initiative
+# read the data file
+# create each entry as a page
+# add a question or team_info as shown
+# add the items as appropriate
+
+
+submit_idea:
+  id:               1
+  title:            Submit idea
+  description:      
+  par_id:           0         
+  order:            10       
+  completed:        true              
+  request_details:  false  
+  discussion:       false     
+
+
+publish_idea:
+  id:               2
+  title:            Get idea published
+  description:          
+  par_id:           0         
+  order:            20       
+  completed:        true              
+  request_details:  false  
+  discussion:       false     
+
+
+attract_team:
+  id:               3
+  title:            Attract a team with a diverse make up and at least 4 City of Geraldton-Greenough residents
+  description:      A diverse team ensures that all perspectives will be heard and that your solution will appeal to the broad community    
+  par_id:           0         
+  order:            30       
+  completed:        true              
+  request_details:  true  
+  discussion:       true     
+
+
+discuss_change:
+  id:               4
+  title:            Discuss the change, who is affected, and community importance with at least 4 team members
+  description:      Your team starts on its proposal by engaging in a robust, respectful dialogue about the change it wants to see. It is important to discuss this well before trying to make too much progress on the exploring your options or making recommendations.
+  par_id:           0         
+  order:            40       
+  completed:        false              
+  request_details:  true  
+  discussion:       false     
+
+assign_roles:
+  id:               5
+  title:            Recruit a volunteer for each of the team roles 
+  description:      The roles defined on the member's page help ensure that important team tasks get completed. Please make sure each of the tasks has a volunteer and that everyone is aware of the tasks your team needs to complete.
+  par_id:           0         
+  order:            50       
+  completed:        false              
+  request_details:  true  
+  discussion:       true     
+
+
+define_change:
+  id:               6
+  title:            Define the change and answer who is affected, and why it is important for your community 
+  description:      Your team should fully answer these first 3 questions to provide a solid foundation for exploring optionsn and making recommendations.
+  par_id:           0         
+  order:            60       
+  completed:        false              
+  request_details:  true  
+  discussion:       false     
+
+
+
+
+solicit_feedback:
+  id:               7
+  title:            Invite people to read and comment on your proposal (Complete at least 3)
+  description:      It is very important for your team to start to get feedback while it is developing its proposal. Below are several different ways you can get this feedback. Please complete at least 3 of them. Exposing your ideas to your community helps you make a better proposal and builds community support.
+  par_id:           0         
+  order:            70       
+  completed:        false              
+  request_details:  false  
+  discussion:       true     
+
+
+send_email:
+  id:               8
+  title:            Send invitation emails
+  description:      Each team member should invite their friends, family, neighbors and colleagues to review the proposal and even consider joining the team. 
+  par_id:           7         
+  order:            10       
+  completed:        false              
+  request_details:  true  
+  discussion:       true     
+
+social_media:
+  id:               9
+  title:            Submit it to social media such as blogs, Facebook and twitter
+  description:      Social sharing on the internet is a great way to share your ideas, let your friends follow your progress and attract new feedback.
+  par_id:           7         
+  order:            20       
+  completed:        false              
+  request_details:  true  
+  discussion:       true     
+
+post_proposal:
+  id:               10
+  title:            Post your proposal in a public places like libraries or community centers
+  description:      It is important that your community now about your proposal. You can do this easily by posting details about your proposal at the library and anywhere where your community gathers, such as cafes, community centers, and recreational facilities.
+  par_id:           7         
+  order:            30       
+  completed:        false              
+  request_details:  true  
+  discussion:       true     
+
+news_coverage:
+  id:               11
+  title:            Talk to a reporter to have your proposal covered in a newspaper or news programme
+  description:      News programs are a great way to let the community know about your proposal and the local reporters love stories about local people trying to improve their communitites.
+  par_id:           7         
+  order:            40       
+  completed:        false              
+  request_details:  true  
+  discussion:       true     
+
+present_public:
+  id:               12
+  title:            Share your proposal in public
+  description:      Sharing your proposal in public and at public meetings is a great way to build support and learn what your community really thinks. You can do this wherever people gather, from shops, to community meetings such as garden and bike clubs. 
+  par_id:           7         
+  order:            50       
+  completed:        false              
+  request_details:  true  
+  discussion:       true     
+
+discuss_feedback:
+  id:               13
+  title:            Discuss the public feedback and demonstrate an honest effort to address public concerns
+  description:      We can't stress how important it is to review the feedback you receive from your community. The feedback helps you review and revise your proposal and helps you communicate it more effectively. The support of your community will be critical to getting your ideas implemented.
+  par_id:           0         
+  order:            80       
+  completed:        false              
+  request_details:  true  
+  discussion:       true     
+
+
+answer_all:
+  id:               14
+  title:            Discuss, brainstorm and answer all proposal questions
+  description:      Discuss and finalize the answers to all of the proposal questions. Be sure to take into account the community feedback you have received.
+  par_id:           0         
+  order:            90       
+  completed:        false              
+  request_details:  true  
+  discussion:       false     
+
+
+majority_agreement:
+  id:               15
+  title:            Reach 2/3 agreement on all proposal questions
+  description:      Your team really needs to strive toward finding answers on which everyone can agree. Sure, you each may have to compromise, but hopefully you can create a proposal that moves your community closer to a good solution.
+  par_id:           0         
+  order:            100       
+  completed:        false              
+  request_details:  true  
+  discussion:       false     
+
+
+majority_agreement:
+  id:               16
+  title:            Get endorsements from at least half your active team members and at least 4 CGG members
+  description:      Your active team members needs to endorse your proposal. Your team needs to have at least 4 active members that are residents of the City of Geraldton-Greenough region and endorse the proposal.
+  par_id:           0         
+  order:            110       
+  completed:        false              
+  request_details:  true  
+  discussion:       false     
+
+
+public_endorsements:
+  id:               17
+  title:            Get 10 members of the public to endorse your proposal
+  description:      It is important to show the support of members of your community. Once your proposal is complete, you will need to show that the community supports it. The more supporters you have, the stronger your proposal will look.  
+  par_id:           0         
+  order:            120       
+  completed:        false              
+  request_details:  true  
+  discussion:       true     
+
+
+expert_endorsements:
+  id:               18
+  title:            Get endorsements from recognized authorities and experts
+  description:      Can you get endorsements from community leaders and experts? These will help build a strong case for implementing your proposal.
+  par_id:           0         
+  order:            130       
+  completed:        false              
+  request_details:  true  
+  discussion:       true     
+

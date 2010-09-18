@@ -1,0 +1,47 @@
+%style
+	:sass
+		ul.checklist
+			list-style: none
+			margin-top: 10px
+			padding-left: 20px
+			li
+				margin-bottom: 10px
+				a
+					font-size: 80%
+					margin-left: 10px
+				button
+					margin-top: 20px
+		.hide
+			display: none
+
+
+- check_list_items_par0 = @check_list_items.find_all{ |cli| cli.par_id == 0 }
+- if !check_list_items_par0.nil?
+	%h3 show_team_check_list
+	%ul.checklist
+		- @check_list_items_sorted = check_list_items_par0.sort {|a,b| a.order <=> b.order}.each do |cli|
+			%li 
+				= check_box_tag :id, cli.id, cli.completed
+				= cli.title
+				- if cli.description || cli.discussion != 0 || cli.request_details
+					= link_to "details"
+			
+				- if cli.description
+					%p.hide= cli.description
+				
+					-# any children
+				- child_list_items = @check_list_items.find_all{ |clic| clic.par_id == cli.id }
+				- if !child_list_items.nil?
+					%ul.checklist
+						- child_list_items.sort {|a,b| a.order <=> b.order}.each do |clic|
+							%li 
+								= check_box_tag :id, clic.id, clic.completed
+								= clic.title
+								- if clic.description || clic.discussion || clic.request_details
+									= link_to "details"
+
+								- if clic.description
+									%p.hide= clic.description
+					
+				
+	

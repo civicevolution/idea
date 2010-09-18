@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  session_id: MyString
+  ip: 
+  member_id: 1
+  team_id: 1
+  url: MyString
+  user_agent: MyText
+  error_log: MyText
+  load_time: 
+
+two:
+  session_id: MyString
+  ip: 
+  member_id: 1
+  team_id: 1
+  url: MyString
+  user_agent: MyText
+  error_log: MyText
+  load_time: 

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  member_id: 1
+  team_id: 1
+  action: MyString
+  session_id: MyString
+
+two:
+  member_id: 1
+  team_id: 1
+  action: MyString
+  session_id: MyString

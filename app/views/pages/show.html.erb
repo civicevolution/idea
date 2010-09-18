@@ -1,0 +1,38 @@
+<p>
+  <b>Page title:</b>
+  <%=h @page.page_title %>
+</p>
+
+<p>
+  <b>Html:</b>
+  <%=h @page.html %>
+</p>
+
+<p>
+  <b>Chat par:</b>
+  <%=h @page.chat_par_id %>
+</p>
+
+<p>
+  <b>Chat title:</b>
+  <%=h @page.chat_title %>
+</p>
+
+<p>
+  <b>Discussion:</b>
+  <%=h @page.discussion %>
+</p>
+
+<p>
+  <b>Classname:</b>
+  <%=h @page.classname %>
+</p>
+
+<p>
+  <b>Css:</b>
+  <%=h @page.css %>
+</p>
+
+
+<%= link_to 'Edit', edit_page_path(@page) %> |
+<%= link_to 'Back', pages_path %>

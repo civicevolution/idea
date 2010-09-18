@@ -1,0 +1,73 @@
+.new_comment {/* width:400px; */ /* height:100px; */ margin-bottom:1em;}
+.add_new_comment .status { display:block;float:left;}
+.add_new_comment button {margin-left:1em;}
+.add_new_comment a {margin-left:1em;}
+.add_new_comment .error {background-color: red; color: white;padding:0 1em; font-weight:bold;}
+.add_new_comment {width:500px; margin:1em;padding:1em;}
+.add_new_comment textarea {text-align: left;margin-bottom:.5em;width:100%;}
+.add_new_comment input {width:100%;}
+
+.add_new_comment {text-align:left;}
+
+label.error {
+  background:url("../images/unchecked.gif") no-repeat 0px 0px;
+  padding-left: 16px;
+  padding-bottom: 2px;
+  font-weight: bold;
+  color: #EA5200;
+}
+
+.add_new_comment label.checked { background:url("/images/checked.gif") no-repeat 0px 0px; }
+
+.img_button {  display:block; float:left;padding:2px; margin: 0 10px 0 0; height:20px;}
+.img_button i {cursor:pointer;}
+.img_button .link {padding-left:16px;background:url("/images/fb.sprite.png") no-repeat -16px -496px;}
+.img_button .upload {padding-left:16px;background:url("/images/fb.sprite.png") no-repeat -16px -736px;}
+.img_button .remove_link {padding-left:16px;background:url("/images/fb.sprite.png") no-repeat -16px -752px;}
+.img_button .remove_upload {padding-left:16px;background:url("/images/fb.sprite.png") no-repeat -16px -768px;}
+
+.over_img_btn {background-color:#ccc;}
+span.status {margin-right:2em;}
+
+.char_ctr {  display:block; float:left; padding:2px 10px 2px 2px;}
+.add_new_comment > p {margin:0;}
+
+.edit_options {position:relative;height:20px;}
+.edit_options .edit_tool_tip {display:block;color:white;position:absolute;top:-28px;padding:4px;display:none;font-weight:bold;}
+.edit_options span.link {background-color:black;left:120px;display:none;}
+.edit_options span.upload {background-color:black;left:150px;top:-28px;}
+
+.edit_options span.display_on {display:block;}
+
+.edit_options button {display:block; float:right;}
+.edit_options a {display:block; float:right;}
+
+.img_buttonR {  display:block; float:right;padding:2px;}
+.img_buttonR i.close_form {padding-left:16px;background:url("/images/fb.formsprite.gif") no-repeat -168px -83px; display:block;cursor:pointer;}
+.form_bar .form_title {font-weight:bold; margin-left:.4em; display:block; float:left;}
+.form_bar {border-bottom:1px solid black;padding-bottom:4px;clear:both;height:18px;}
+.add_comment_sub_form table .title {font-weight:bold;display:block;}
+.add_comment_sub_form table .subtitle {display:block;}
+.add_comment_sub_form table td :first {border-right:1px solid black;}
+.comment_resource {border:1px solid black;}
+.comment_resource div {padding:1em;}
+.add_new_comment .comment_resource textarea {width:100%;}
+
+.top_sibling{ border:1px solid green;margin-top:1em;}
+
+.include_resource_form{ border:1px solid black;}
+
+.form_error_border {border:1px solid red;}
+.form_error_text {color:red; font-weight:bold;}
+
+ins {color:green;}
+del {color:red;}
+
+div.chat_summary ul {overflow:auto:overflow-x:scroll; overflow-y:scroll; height:200px; border:1px solid green;padding:0;background-color:white;}
+div.chat_summary li {margin-left:2em;}
+div.list textarea {width:100%; height:60px;margin:0em;}
+div.new_list_item {padding:0 2em 0 0;}
+div.new_list_item  textarea {margin-top:-10px;}
+
+div.chat_transcript_outer {height:600px;}
+

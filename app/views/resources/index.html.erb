@@ -1,0 +1,36 @@
+<h1>Listing resources</h1>
+
+<table>
+  <tr>
+    <th>Comment</th>
+    <th>Member</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Url</th>
+    <th>File</th>
+    <th>File name</th>
+    <th>Size</th>
+    <th>Type</th>
+  </tr>
+
+<% @resources.each do |resource| %>
+  <tr>
+    <td><%=h resource.comment_id %></td>
+    <td><%=h resource.member_id %></td>
+    <td><%=h resource.title %></td>
+    <td><%=h resource.description %></td>
+    <td><%=h resource.url %></td>
+    <td><%=h resource.file_id %></td>
+    <td><%=h resource.file_name %></td>
+    <td><%=h resource.size %></td>
+    <td><%=h resource.type %></td>
+    <td><%= link_to 'Show', resource %></td>
+    <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
+    <td><%= link_to 'Destroy', resource, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New resource', new_resource_path %>

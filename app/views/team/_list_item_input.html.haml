@@ -1,0 +1,13 @@
+%li.list_item
+	%div.new_list_item
+		%form
+			%textarea{:name=>'list_item[text]'}
+			%input{:type=>'hidden',:name=>'list_item[anonymous]',:value=>'false'}
+			%input{:type=>'hidden',:name=>'id'}
+			%input{:type=>'hidden',:name=>'list_id'}
+			%input{:type=>'hidden',:name=>'post_mode',:value=>'ajax'}
+			%input{:type=>'hidden',:name=>'mode'}		
+			%p.edit_options
+				%span.char_ctr
+				%a{:href=>"#"} Cancel
+				%button Save

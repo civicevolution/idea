@@ -1,0 +1,28 @@
+<p>
+  <b>Member:</b>
+  <%=h @answer.member_id %>
+</p>
+
+<p>
+  <b>Anonymous:</b>
+  <%=h @answer.anonymous %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%=h @answer.status %>
+</p>
+
+<p>
+  <b>Text:</b>
+  <%=h @answer.text %>
+</p>
+
+<p>
+  <b>Ver:</b>
+  <%=h @answer.ver %>
+</p>
+
+
+<%= link_to 'Edit', edit_answer_path(@answer) %> |
+<%= link_to 'Back', answers_path %>

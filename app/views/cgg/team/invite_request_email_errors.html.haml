@@ -1,0 +1,16 @@
+%h3 Please fix these email address errors
+
+- if @invite.recipients.size > 0
+	- @invite.recipients.each do |recipient|
+		- if recipient[:error]
+			%p.warn FIX: #{recipient[:first_name]} #{recipient[:last_name]} &#60;#{recipient[:email]}&#62; #{recipient[:error]}
+		- else
+			%p OK: #{recipient[:first_name]} #{recipient[:last_name]} &#60;#{recipient[:email]}&#62;
+- else
+	%p.warn You must enter a valid recipient email
+
+
+= link_to 'Make changes', {:action => 'index'}, {:class=>'make_changes'}
+
+%p
+	You can contact us at support@civicevolution.org if you have any questions.

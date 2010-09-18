@@ -1,0 +1,18 @@
+%div.entry
+	%h2 Re-order the items in this list
+	%div.list
+		%h3= @list.title
+		= simple_format h @list.text
+		- form_tag( {:controller => 'team', :action => 'save_reordered_list_items'}, :id => "{@list.id}") do
+			%table.reorder_list
+				- ord = 10
+				- @this_list_items.each do |list_item|
+					%tr
+						%td
+							%input{:value=>ord, :name=>'list_item_' + list_item.id.to_s}
+						%td
+							= list_item.text
+					- ord += 10
+			%p{:style => 'clear:both'}
+				= hidden_field_tag :id, @list.id
+				= submit_tag

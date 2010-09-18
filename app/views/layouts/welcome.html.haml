@@ -1,0 +1,15 @@
+!!!
+%html{html_attrs('en-en')}
+	%head
+		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
+		%title Welcome to CivicEvolution and the CISS6011 Online Simulation
+		-#= javascript_include_tag "mob/diff_match_patch_uncompressed.js", "mob/mobwrite_core.js", "mob/mobwrite_form.js"
+		=	stylesheet_link_tag 'scaffold', 'ce1', 'jquery.rating.css', "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css", 'ce1as.css'
+	%body
+		%div.logo
+			= image_tag("logo47.gif")
+			= image_tag("ce_tm.gif")
+		%p{:style => 'clear:both; margin-top:2em'}
+		%p 
+		%p 
+		= yield

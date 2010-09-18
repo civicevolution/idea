@@ -1,0 +1,64 @@
+<h1>Listing initiatives</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Min members</th>
+    <th>Max members</th>
+    <th>Max teams per member</th>
+    <th>Limit access</th>
+    <th>Access code</th>
+    <th>Can propose team</th>
+    <th>Prescreen proposals</th>
+    <th>Timezone</th>
+    <th>Lang</th>
+    <th>Config</th>
+    <th>Public face</th>
+    <th>Public face rating threshold</th>
+    <th>Join test</th>
+    <th>Approve join</th>
+    <th>Send invites</th>
+    <th>Approve invites</th>
+    <th>Admin groups</th>
+    <th>Country</th>
+    <th>State</th>
+    <th>County</th>
+    <th>City</th>
+  </tr>
+
+<% @initiatives.each do |initiative| %>
+  <tr>
+    <td><%=h initiative.title %></td>
+    <td><%=h initiative.description %></td>
+    <td><%=h initiative.min_members %></td>
+    <td><%=h initiative.max_members %></td>
+    <td><%=h initiative.max_teams_per_member %></td>
+    <td><%=h initiative.limit_access %></td>
+    <td><%=h initiative.access_code %></td>
+    <td><%=h initiative.can_propose_team %></td>
+    <td><%=h initiative.prescreen_proposals %></td>
+    <td><%=h initiative.timezone %></td>
+    <td><%=h initiative.lang %></td>
+    <td><%=h initiative.config_id %></td>
+    <td><%=h initiative.public_face %></td>
+    <td><%=h initiative.public_face_rating_threshold %></td>
+    <td><%=h initiative.join_test %></td>
+    <td><%=h initiative.approve_join %></td>
+    <td><%=h initiative.send_invites %></td>
+    <td><%=h initiative.approve_invites %></td>
+    <td><%=h initiative.admin_groups %></td>
+    <td><%=h initiative.country %></td>
+    <td><%=h initiative.state %></td>
+    <td><%=h initiative.county %></td>
+    <td><%=h initiative.city %></td>
+    <td><%= link_to 'Show', initiative %></td>
+    <td><%= link_to 'Edit', edit_initiative_path(initiative) %></td>
+    <td><%= link_to 'Destroy', initiative, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New initiative', new_initiative_path %>

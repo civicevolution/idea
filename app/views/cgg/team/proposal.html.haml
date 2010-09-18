@@ -1,0 +1,310 @@
+- content_for (:script) do
+	= javascript_include_tag "jquery-1.4.2.min.js", 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "ce/gen/forms.js", "ce/activate/act_welcome_layout.js", "pure.js", "ce/proposal.js", "ce/gen/dispatch.js", "jquery.timeago.js", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js", "ce/gen/recaptcha"
+
+=	stylesheet_link_tag 'proposal_view.css'
+:javascript
+	var com_criteria = Number('#{@team.com_criteria}'.match(/\d+$/));
+	var res_criteria = Number('#{@team.res_criteria}'.match(/\d+$/));
+	var member_id = #{ @member.nil? ? 0 : @member.id }
+	var RCC_PUB_KEY = "#{RCC_PUB}"
+
+
+- if !@mem_teams.nil? && @mem_teams.detect { |mt| mt.id == @team.id }
+	%h3.rev_title	
+		Public proposal view /
+		= link_to "Private team workspace", {:action => "index", :id => @team.id}
+- else		
+	%h3.rev_title	proposal review
+
+
+%div.left_col
+	%h2 #{@team.title}
+	%p.summary Summary
+	%div.summary= simple_format h @team.solution_statement
+	- if @team.launched == false && !@member.nil? && @member.id == @team.org_id
+		= link_to "Edit proposal idea", {:action => "edit_proposal_idea", :id => @team.id}, {:class => 'edit_proposal_idea'}
+	
+	- page_items = @items.find_all {|pi| pi.o_type == 9 } .sort {|a,b| a.order <=> b.order }
+	- page_items.each do |pi|
+		- page = @pages.detect {|p| p.id == pi.o_id}  
+		- question_items = @items.find_all {|qi| qi.o_type == 1 && qi.par_id == pi.id } .sort {|a,b| a.order <=> b.order }
+		- question_items.each do |qi|
+			- question = @questions.detect {|q| q.id == qi.o_id}
+	
+			%div.qa
+				%h3.question= "Q: #{question.text}"
+	
+				- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }
+				- if answer_items.size > 0
+					- answer_items.each do |ai|
+						- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
+						%div.answer{:id=>"ans_#{answer.id}"}= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
+				
+				- else
+					%p No answers have been suggested for this question
+					
+				- pub_disc_item = @items.detect {|i| i.par_id == qi.id && i.o_type == 11 } 
+
+				- if !pub_disc_item.nil?
+					= link_to "Discuss", {}, {:class => 'pub_com'}				
+					%div.item{:item_id=>pub_disc_item.id, :class=>'hide pub_coms discussion'}
+						%p.discussion_links
+							= link_to "Open all comments", {}, {:class => 'open_all'}
+
+
+						- items_child_sorted = @items.find_all {|it| it.par_id == pub_disc_item.id && it.sib_id == 0 && it.o_type == 3 }.sort {|a,b| a.order <=> b.order }
+						- items_child_sorted.each do |i|
+							= render_item(i,{3=>'show'})
+
+
+						%p.clear_both
+						- if @member && !@member.confirmed
+							%p.join_sign_in You must confirm your CivicEvolution account by email before you can add a comment. You can request a confirmation email with the link on the right near the top.
+						- elsif @member.nil?
+							%p.join_sign_in You must be signed in with a confirmed email to add or rate a comment. You can join, sign in, and confirm on the right near the top.
+
+
+						= render(:partial => 'add_comment_combined', :locals => { :id => pub_disc_item.id, :label=>'Please comment on this question'})
+					
+		
+	%h2 Proposal review
+	
+	- pub_disc_item = @items.detect {|i| i.par_id == @team_item.id && i.o_type == 11 } 
+	
+	- if !pub_disc_item.nil?
+	
+		= link_to "Discuss", {}, {:class => 'pub_com'}
+		%div.item{:item_id=>pub_disc_item.id, :class =>'hide pub_coms discussion'}
+			%p.discussion_links
+				= link_to "Open all comments", {}, {:class => 'open_all'}
+	
+	
+			- items_child_sorted = @items.find_all {|it| it.par_id == pub_disc_item.id && it.sib_id == 0 && it.o_type == 3 }.sort {|a,b| a.order <=> b.order }
+			- items_child_sorted.each do |i|
+				= render_item(i,{3=>'show'})
+			
+	
+			%p.clear_both
+			- if @member && !@member.confirmed
+				%p.join_sign_in You must confirm your CivicEvolution account by email before you can add a comment. You can request a confirmation email with the link on the right near the top.
+			- elsif @member.nil?
+				%p.join_sign_in You must be signed in with a confirmed email to add or rate a comment. You can join, sign in, and confirm on the right near the top.
+	
+	
+			= render(:partial => 'add_comment_combined', :locals => { :id => pub_disc_item.id, :label=>'Please comment on this summary'})
+	
+	
+	%h3 Endorsements
+	-# Your endorsement of this proposal demonstrates community support. 
+	%p This proposal is not yet ready for review and endorsement. 
+	%p 
+		= check_box_tag :post_invite, 1
+		Please notify me when this proposal is ready to be reviewed and endorsed
+					
+			
+	- if !(!@mem_teams.nil? && @mem_teams.detect{|mt| mt.id == @team.id}) && @team.max_members.to_i > @num_mems.to_i
+		%div.join
+			%h2 Join this team
+			%ul
+				%li 
+					This team has #{pluralize(@num_mems, 'member')}
+					-if @num_mems.to_i < @team.min_members.to_i
+						and needs #{pluralize( (@team.min_members.to_i - @num_mems.to_i), 'additional committed member')} before it can start working on its proposal
+				%li	If you are committed to helping transform this idea into a solution, please join the proposal development team.
+		
+				- if @member && !@member.confirmed
+					%li.join_sign_in You must confirm your CivicEvolution account by email before you can join a proposal development team. You can request a confirmation email with the link on the right near the top.
+				- elsif @member.nil?
+					%li.join_sign_in You must be signed in with a confirmed email to join a proposal development team. You can join, sign in, and confirm on the right near the top.
+		
+				%li
+					All team members are expected to follow these 
+					%b ground rules 
+				
+					%ul
+						%li Engage in and encourage respectful discussion and sharing of ideas by all team members
+						%li Respect the privacy of your teammates and do not share your private conversations with others without their permission
+	
+			- form_tag( { :controller=> :team, :action => :join_proposal_team}, {:class=>'join_proposal_team'} ) do
+				= hidden_field_tag :team_id, @team.id
+				%div.add_idea
+					-#%label Please briefly explain why this idea is important to you
+					-#= text_area_tag :text, nil, :class=>'comment', :size=>"1x2", :alias=>'Join comment'
+					-#%div.control_line
+					-#	%div.controls
+					-#		%span.char_ctr 
+					-#			1000
+					-#			characters left
+					-#			= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+					-#
+
+					%p.acknowledge
+						= check_box_tag :accept_groundrules, 'true', false, :alias=>'You'
+						I agree to the ground rules.
+					%p
+						= submit_tag "Join team", :name=>'submit_idea', :alias=>'Please'
+
+	- if 1 > 0
+		%div.recruit
+			%h2 Tell your friends...
+			%ul
+				-if @num_mems.to_i < @team.min_members.to_i
+					%li This team has #{pluralize(@num_mems, 'member')} and needs #{pluralize( (@team.min_members.to_i - @num_mems.to_i), 'additional committed member')} before it can start working on its proposal
+				%li	Please tell your friends about this proposal
+				%li You can send them an email through CivicEvolution, or share this page using the services below
+				%li The email addresses you enter here will be used just one time to send this email
+
+				- if @member && !@member.confirmed
+					%li.join_sign_in You must confirm your CivicEvolution account by email before you can email to a friend. You can request a confirmation email with the link on the right near the top.
+				- elsif @member.nil?
+					%li.join_sign_in You must be signed in with a confirmed email before you can email to a friend. You can join, sign in, and confirm on the right near the top.
+
+			- form_tag( { :controller=> :team, :action => :invite_friends}, {:class=>'invite_friends'} ) do
+				= hidden_field_tag :team_id, @team.id
+				= hidden_field_tag :send_now
+				= hidden_field_tag :recaptcha_challenge
+				= hidden_field_tag :recaptcha_response
+				
+				%div.add_idea
+					%label 
+						Please enter your friend's names and email addresses
+						%a{:href=>'#', :class=>'how'} How
+					%div.how
+						%ul
+							%li Enter one email recipient per line
+							%li Enter the name, followed by a space, and then the email address
+							%li The name is optional. Here are examples:
+							%li Jane Public jane_public@civicevolution.org
+							%li joe_public@civicevolution.org
+					= text_area_tag :recipient_emails, nil, :class=>'comment', :size=>"1x2", :alias=>'Recipient emails'
+					%div.control_line
+						%div.controls
+							%span.char_ctr 
+								1000
+								characters left
+
+					%p Subject: John Smith thinks you should check out this community proposal
+					
+					%label Please enter an encouraging message
+					= text_area_tag :message, nil, :class=>'comment', :size=>"1x2", :alias=>'Email message'
+					%div.control_line
+						%div.controls
+							%span.char_ctr 
+								1000
+								characters left
+
+				%p
+					= submit_tag "Preview and send", :name=>'invite_friends', :alias=>'Please'
+					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+
+		
+%div.right_col
+	= render( :partial => 'welcome/signin_register' )
+
+
+	%div.proposal_header
+		%p	
+			%b Review notes
+
+		%ul.intro 
+			- if @team.launched == true
+				%li This is the full proposal developed by the team, it is still in development and subject to change. 
+				%li We encourage you to read this proposal and post comments to the team to let them know what they did well and what they are missing.
+				%li	The comments you make on this page will be reviewed by the team, though they may not respond directly to your comments.
+			- else 
+				%li This is an ideas that was suggested for a proposal
+				%li 
+					This idea has #{pluralize(@num_mems, 'member')}
+					-if @num_mems.to_i < @team.min_members.to_i
+						and needs #{pluralize( (@team.min_members.to_i - @num_mems.to_i), 'additional committed member')} before they can start developing the proposal.
+				- if !(!@mem_teams.nil? && @mem_teams.detect{|mt| mt.id == @team.id}) && @team.max_members.to_i > @num_mems.to_i
+					%li
+						You can join this team if you would like to help transform this idea into a solution					
+			
+			%li We certainly expect people to disagree with some of the ideas and proposals they will read on these pages, but that is no excuse for uncivil behaviour and it will not be tolerated 
+			%li 
+				%b Please be constructive and polite in your feedback. 
+			
+		- if @team.launched == true	
+			%b Proposal activity
+			%table
+				%tr
+					%td
+						Team members
+					%td
+						= @num_mems
+				%tr		
+					%td
+						Page views
+					%td
+						7
+				%tr
+					%td
+						Active team members
+					%td
+						= @num_mems
+				%tr
+					%td
+						Unique visitors
+					%td
+						5
+				%tr
+					%td
+						Team comments
+					%td
+						67
+				%tr
+					%td
+						Public comments
+					%td
+						0
+				%tr
+					%td
+						Brainstorming ideas
+					%td
+						4
+				%tr
+					%td
+						Proposal endorsements
+					%td
+						0
+		- else 
+			%b Proposal idea activity
+			%table
+				%tr
+					%td
+						Team members
+					%td
+						= @num_mems
+				%tr
+					%td
+						Members needed
+					%td
+						= @team.min_members.to_i - @num_mems.to_i
+				%tr		
+					%td
+						Page views
+					%td
+						7
+				%tr
+					%td
+						Unique visitors
+					%td
+						5
+				%tr
+					%td
+						Comments
+					%td
+						7
+		
+		
+%p.clear_both
+
+%div.share
+	Share this
+	= image_tag("bookmarks.jpg", :class=>'share_this')	
+				
+
+
+:javascript
+	document.title = "Proposal review: #{@team.title}"

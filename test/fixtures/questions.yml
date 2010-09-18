@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  member_id: 1
+  status: MyString
+  text: MyText
+  num_answers: 1
+
+two:
+  member_id: 1
+  status: MyString
+  text: MyText
+  num_answers: 1

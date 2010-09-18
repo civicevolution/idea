@@ -1,0 +1,48 @@
+<p>
+  <b>Comment:</b>
+  <%=h @resource.comment_id %>
+</p>
+
+<p>
+  <b>Member:</b>
+  <%=h @resource.member_id %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @resource.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @resource.description %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%=h @resource.url %>
+</p>
+
+<p>
+  <b>File:</b>
+  <%=h @resource.file_id %>
+</p>
+
+<p>
+  <b>File name:</b>
+  <%=h @resource.file_name %>
+</p>
+
+<p>
+  <b>Size:</b>
+  <%=h @resource.size %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%=h @resource.type %>
+</p>
+
+
+<%= link_to 'Edit', edit_resource_path(@resource) %> |
+<%= link_to 'Back', resources_path %>

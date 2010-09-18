@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  chat_session_id: 1
+  o_type: 1
+  o_id: 1
+  team_id: 1
+  status: MyString
+
+two:
+  chat_session_id: 1
+  o_type: 1
+  o_id: 1
+  team_id: 1
+  status: MyString

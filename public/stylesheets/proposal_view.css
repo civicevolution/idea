@@ -1,0 +1,109 @@
+h3.rev_title {
+  font-variant: small-caps; }
+
+div.page {
+  width: 800px;
+  margin: auto;
+  text-align: left; }
+  div.page p.tall {
+    height: 20px; }
+  div.page fieldset {
+    width: 275px; }
+  div.page ul.intro {
+    padding-left: 20px;
+    font-style: italic;
+    margin: 0 0 40px 0; }
+    div.page ul.intro li {
+      margin-bottom: 10px; }
+  div.page div.answer {
+    margin-left: 20px; }
+
+div.proposal_header {
+  background-color: #f7f3e8;
+  padding: 20px;
+  margin-bottom: 20px; }
+
+div.proposal_footer {
+  margin: 40px 0; }
+
+div.join, div.recruit {
+  margin: 80px 0 20px 0;
+  border: 1px solid #777777;
+  color: #777777;
+  padding: 0 20px; }
+  div.join li, div.recruit li {
+    margin-bottom: 6px; }
+  div.join li.join_sign_in, div.recruit li.join_sign_in {
+    color: #770000; }
+
+p.join_sign_in, p.warn {
+  color: #770000; }
+
+div.share {
+  font-weight: bold;
+  padding-bottom: 10px; }
+  div.share img {
+    margin-left: 20px; }
+
+div.qa {
+  margin-bottom: 40px; }
+  div.qa a {
+    margin-left: 20px; }
+  div.qa h3 {
+    margin-bottom: 8px; }
+
+p.summary {
+  font-variant: small-caps;
+  margin-bottom: -10px;
+  font-size: 1.2em; }
+
+div.summary {
+  font-size: 1.2em; }
+
+div.close_1com {
+  display: none; }
+
+div.how {
+  display: none; }
+
+a.how {
+  font-size: 0.8em;
+  font-weight: normal; }
+
+div.preview_email {
+  border: 1px solid #666666;
+  padding: 20px;
+  word-wrap: break-word; }
+
+div.email_headers p {
+  margin: 0; }
+div.email_headers p.subject {
+  margin-top: 10px; }
+div.email_headers p.recipients {
+  margin-left: 20px; }
+
+pre.email_body {
+  margin: 10px 0 30px 0; }
+
+textarea {
+  font-size: 1.2em; }
+
+.hide {
+  display: none; }
+
+div.pub_coms {
+  /* background-color broke  IE7 transparency */
+  /*background-color: #ffe */
+  margin-top: 10px;
+  padding: 0 20px 20px 0; }
+  div.pub_coms form {
+    margin-left: 20px;
+    margin-top: 10px;
+    padding-right: 20px; }
+  div.pub_coms div.comment_text p {
+    padding-right: 30px; }
+  div.pub_coms p.join_sign_in {
+    margin-left: 20px; }
+
+img.share_this {
+  cursor: pointer; }

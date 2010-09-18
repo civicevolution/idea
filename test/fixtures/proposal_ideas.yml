@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  initiative_id: 1
+  member_id: 1
+  accept_guidelines: false
+  title: MyText
+  text: MyText
+
+two:
+  initiative_id: 1
+  member_id: 1
+  accept_guidelines: false
+  title: MyText
+  text: MyText

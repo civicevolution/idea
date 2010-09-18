@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  initiative_id: 1
+  action: MyString
+  restriction: MyString
+  arg: MyString
+
+two:
+  initiative_id: 1
+  action: MyString
+  restriction: MyString
+  arg: MyString

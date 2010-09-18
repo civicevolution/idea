@@ -1,0 +1,88 @@
+-#%form.add_comment_form
+- form_for( :comment, :url => { :action => :create_comment}, :html => {:class=>'add_comment_form'} ) do |form| 
+	= form.hidden_field :anonymous, :value => 'false'
+	= form.hidden_field :target_id, :value => '0'
+	= form.hidden_field :target_type, :value => '0'
+	= hidden_field_tag :par_id, id
+	= hidden_field_tag :resource_type, 'simple'
+	= hidden_field_tag :id, id
+	= hidden_field_tag :mode, 'add'
+	= hidden_field_tag :post_mode, 'ajax'
+
+	%div.add_comment
+		= form.label :text, label		
+
+		= form.text_area :text, :class=>'comment', :size=>"1x2", :alias=>'Comment'
+		-#, :value=>'About evaluate question/role, simple comment'
+		%div.control_line
+			= image_tag('icon_linkc.gif',{:class=>'show_add_link',:title=>'Add a link'})
+			= image_tag('icon_upload.gif',{:class=>'show_attach_file',:title=>'Attach a file'})
+			%div.controls
+				%span.char_ctr
+					= @team.com_criteria.match(/..(\d+)/)[1]
+					characters left
+				%button 
+					Save
+				= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+	- fields_for :resource, @resource do |resource|		
+		%div.add_link
+			%p 
+				= image_tag('icon_linkc.gif')
+				%b Add a link
+			= resource.label :title, "Title of site/document:"
+			= resource.text_field( :title, :class=>'title', :alias=>'Title')
+			-# %input.title{:type=>'text',:name=>'resource[title]'}
+			%div.control_line
+				%div.controls
+					%span.char_ctr 255 characters left
+
+			= resource.label :link_url, "Web address (http://...):"
+			= resource.text_field( :link_url, :class=>'url', :alias=>'Web address')
+			-#%label Website address (url):
+			-#%input.url{:type=>'text',:name=>'resource[link_url]'}
+			%div.control_line
+				%div.controls
+					%span.char_ctr 255 characters left
+
+			-#%label Description of this website:
+			-#%textarea.description{:name=>'resource[description]'}
+			= resource.label :description, "Description of this website:"
+			= resource.text_area( :description, :size=>"1x2", :class=>'description', :alias=>'Description' )
+			%div.control_line
+				= image_tag('icon_linkc_S.gif',{:class=>'close_add_link',:title=>"Don't add a link"})
+				= image_tag('icon_upload.gif',{:class=>'change_to_attach_file',:title=>'Attach a file'})
+				%div.controls
+					%span.char_ctr 
+						= @team.res_criteria.match(/..(\d+)/)[1]
+						characters left
+					%button Save
+					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+
+		%div.attach_file
+			%p 
+				= image_tag('icon_upload.gif')
+				%b Attach a file
+			-#%label Title of file:
+			-#%input.title{:type=>'text',:name=>'resource[title]'}
+			= resource.label :title, "Title of file:"
+			= resource.text_field( :title, :class=>'title', :alias=>'Title')
+			
+			%div.control_line
+				%span.char_ctr 255 characters left
+
+			= resource.file_field :resource, :alias=>'A file'
+		
+			-#%label Description of this file:
+			-#%textarea.description{:name=>'resource[description]'}
+			= resource.label :description, "Description of this file:"
+			= resource.text_area :description, :size=>"1x2", :class=>'description', :alias=>'Description'	
+			%div.control_line
+				= image_tag('icon_linkc.gif',{:class=>'change_to_add_link',:title=>'Add a link'})
+				= image_tag('icon_upload_S.gif',{:class=>'close_attach_file',:title=>"Don't attach a file"})
+				%div.controls
+					%span.char_ctr 
+						= @team.res_criteria.match(/..(\d+)/)[1]
+						characters left
+					%button Save
+					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+	%p.clear_both

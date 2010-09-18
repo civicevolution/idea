@@ -1,0 +1,63 @@
+<p>
+  <b>Email:</b>
+  <%=h @member.email %>
+</p>
+
+<p>
+  <b>First name:</b>
+  <%=h @member.first_name %>
+</p>
+
+<p>
+  <b>Last name:</b>
+  <%=h @member.last_name %>
+</p>
+
+<p>
+  <b>Pic:</b>
+  <%=h @member.pic_id %>
+</p>
+
+<p>
+  <b>Init:</b>
+  <%=h @member.init_id %>
+</p>
+
+<p>
+  <b>Pwd:</b>
+  <%=h @member.pwd %>
+</p>
+
+<p>
+  <b>Confirmed:</b>
+  <%=h @member.confirmed %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%=h @member.city %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%=h @member.state %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%=h @member.country %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%=h @member.location %>
+</p>
+
+<p>
+  <b>Access code:</b>
+  <%=h @member.access_code %>
+</p>
+
+
+<%= link_to 'Edit', edit_member_path(@member) %> |
+<%= link_to 'Back', members_path %>

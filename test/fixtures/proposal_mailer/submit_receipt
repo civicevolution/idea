@@ -1,0 +1,3 @@
+ProposalMailer#submit_receipt
+
+Find me in app/views/proposal_mailer/submit_receipt.erb

@@ -1,0 +1,16 @@
+%div
+	- if !@chat_messages.nil?
+		%div.chat_transcript_outer
+			%table
+				- @chat_messages.each do |cm|
+					- member = @chat_authors.detect {|ca| ca[:id] == cm.member_id }
+					%tr.Chat
+						%td.pic
+							%img{:src=> member.photo.url('36')}
+						%td.msg
+							%p.name
+								= member.first_name  
+								%span.chat_ago
+									= time_ago_in_words(cm.created_at)
+									ago
+							%p.msg= cm.text

@@ -1,0 +1,134 @@
+%div.sign_in
+	- if !@mem_teams.nil?
+		= render :partial => 'welcome/teams_list'
+	- else
+
+		%div
+			- form_tag('/welcome/signin',{:class=>'signin_form'}) do
+				%b Please Sign In
+				%table
+					%tr
+						%td
+							%label{:for=>"email"} Email:
+					%tr		
+						%td
+							= text_field_tag :email, params[:email]
+					%tr
+						%td
+							%label{:for=>"password"} Password:
+					%tr		
+						%td
+							= password_field_tag :password, params[:password_field_tag]
+					%tr
+						%td
+							= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)'
+							Stay signed in 
+							%p.signin_warn.hide
+								We'll keep you signed in
+								%br
+								Don't use this on a public computer
+					%tr
+						%td
+							= submit_tag "Sign In"
+							= link_to 'Reset password', {}, {:class=>'reset_password'}
+					%tr
+						%td
+							= link_to 'Register now - free and fast', {}, {:class=>'register'}
+
+			- form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
+				%b Reset password
+				%table
+					%tr
+						%td
+							%label{:for=>"email"} Enter your email:
+					%tr		
+						%td
+							= text_field_tag :email, params[:email]
+					%tr
+						%td
+							= submit_tag "Reset password"
+					%tr
+						%td
+							= link_to 'Sign in to my account', {}, {:class=>'sign_in'}
+					%tr
+						%td
+							= link_to 'Register now - free and fast', {}, {:class=>'register'}
+
+
+			-#- form_tag('/welcome/register',{:class=>'register_form'}) do
+			- form_for(:member, :url => { :action => :register}, :html => {:class=>'register_form'}) do |form|
+				%b Please Register
+				- if request.subdomains.first == '2029-staff'	
+					%p Only CGG staff with email addresses ending in 'cgg.wa.gov.au' can join this staff site
+				%table
+					%tr
+						%td
+							%label{:for=>"first_name"} First name:
+					%tr		
+						%td
+							-#= text_field_tag :first_name
+							= form.text_field :first_name, :alias=>'First name'
+					%tr
+						%td
+							%label{:for=>"last_name"} Last name:
+					%tr		
+						%td
+							-#= text_field_tag :last_name, params[:last_name]
+							= form.text_field :last_name, :alias=>'last name'
+
+					%tr
+						%td
+							%label{:for=>"email"} Email:
+					%tr		
+						%td
+							-#= text_field_tag :email, params[:email]
+							= form.text_field :email, :alias=>'Email address'
+
+					%tr
+						%td
+							%label{:for=>"password"} Password:
+					%tr		
+						%td
+							-#= password_field_tag :password, params[:password_field_tag]
+							= form.password_field :password, :alias=>'Password'
+					%tr
+						%td
+							%label{:for=>"password_confirmation"} Repeat password:
+					%tr		
+						%td
+							-#= password_field_tag :password_repeat, params[:password_field_tag2]
+							= form.password_field :password_confirmation, :alias=>'Repeat password'
+
+					%tr
+						%td
+							%div.residency
+								%b Please select one:
+								%p
+									%input{:type=>'radio', :name=>'member_category', :value => '1', :alias=>'You'}
+									I am a resident of the Geraldton City Region
+								%p
+									%input{:type=>'radio', :name=>'member_category', :value => '2', :alias=>'You'}
+									I am NOT a resident of the Geraldton City Region
+
+					%tr
+						%td
+							%input{:type=>'checkbox', :name=>'accept_tos', :value=>'true', :alias=>'You'}
+							I accept the 
+							%a{:href=>'#', :class=>'terms_of_use'} terms of use
+							and this fundamental ground rule:
+							%b Be respectful toward individuals and groups
+					-#%tr
+					-#	%td
+					-#		%p 
+					-#			Entering the text below confirms you are an actual person.
+					-#			Click
+					-#			%a.reload_captcha{:href=>'#'} reload
+					-#			to see different text.
+					-#		%div#recaptcha_register
+					-#		
+					%tr
+						%td
+							= submit_tag "Join", :name=>'join', :alias=>'Please'
+					%tr
+						%td
+							= link_to 'Sign in to my account', {}, {:class=>'sign_in'}

@@ -1,0 +1,233 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# v2 fixed the id back 1
+
+brian:
+  id: 1
+  email: brian@civicevolution.org
+  first_name: Brian
+  last_name: Sullivan
+  pic_id: 10011
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+khoi:
+  id: 2
+  email: khoi@civicevolution.org
+  first_name: Khoi
+  last_name: Truong
+  pic_id: 10012
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+lian:
+  id: 3
+  email: lian@civicevolution.org
+  first_name: Lian
+  last_name: Ng
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+carson:
+  id: 4
+  email: l.carson@usyd.edu.au
+  first_name: Carson
+  last_name: Carson
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+
+
+leanne:
+  id: 5
+  email: leanne.piggott@sydney.edu.au
+  first_name: Leanne
+  last_name: Piggott
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+
+Andres:
+  id: 6
+  email: abre9084@uni.sydney.edu.au
+  first_name: Andres
+  last_name: Brender
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+Benjamin:
+  id: 7
+  email: bcon5880@uni.sydney.edu.au
+  first_name: Benjamin
+  last_name: Conley
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+Brendan:
+  id: 8
+  email: bell2168@uni.sydney.edu.au
+  first_name: Brendan
+  last_name: Elliott
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+Jean:
+  id: 9
+  email: jfia8017@uni.sydney.edu.au
+  first_name: Jean
+  last_name: Fiasson
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+Jordan:
+  id: 10
+  email: jnag9306@uni.sydney.edu.au
+  first_name: Jordan
+  last_name: Nagel
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+Katherine:
+  id: 11
+  email: khag4519@uni.sydney.edu.au
+  first_name: Katherine
+  last_name: Hagis
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+Peter:
+  id: 12
+  email: prob9822@uni.sydney.edu.au
+  first_name: Peter
+  last_name: Robertson
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+Timothy:
+  id: 13
+  email: tsha7686@uni.sydney.edu.au
+  first_name: Timothy
+  last_name: Shaw
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+William:
+  id: 14
+  email: whob3945@uni.sydney.edu.au
+  first_name: William
+  last_name: Hobart
+  pic_id: 10013
+  init_id: 1
+  hashed_pwd: 6f672374ae02274a8dc5fa125bfdba43a7bbdcda
+  confirmed: true
+  city: San Francisco
+  state: CA
+  country: United States
+  location: 
+  access_code: acode
+  salt: '-6175114180.90979560325409'
+
+
+
+

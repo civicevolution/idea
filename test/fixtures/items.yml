@@ -1,0 +1,18 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+#file = File.open('item.yml','w')
+#file.puts YAML::dump(Item.find_by_o_id_and_o_type(10000,4))
+#file.close
+
+attributes: 
+  created_at: 2010-01-03 18:59:45.335961
+  ancestors: "{0}"
+  o_id: "10000"
+  updated_at: 2010-01-03 22:43:50.107716
+  order: "0"
+  par_id: "0"
+  id: "33"
+  sib_id: "0"
+  team_id: "10000"
+  o_type: "4"
+

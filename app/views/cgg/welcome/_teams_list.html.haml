@@ -1,0 +1,62 @@
+- if @mem_teams.size > 0
+	%div.teams_list 
+		%div.member
+			-#%img{:src=>"/images/36x36/#{@member.pic_id}.gif",:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+			= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+			Welcome back 
+			%br
+			#{@member.first_name}
+			%p.signout
+				= link_to "Sign out", {:controller => "welcome", :action=> "signout"}, {:class => ''}
+				-if !@member.confirmed
+					= link_to "Confirm email", {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
+					
+		- form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
+			%p
+				%b Upload your profile picture
+			= file_field_tag :photo
+			%p
+				= submit_tag "Upload photo"
+				= link_to 'Cancel', {}, {:class=>'cancel'}
+					
+					
+	- if @mem_teams.size == 1
+		%p.teams_instr Click your team to continue:
+	- else
+		%p.teams_instr Click one of your teams to continue:
+
+	%ul.teams_list
+		- @mem_teams.each do |team|
+			%li{:class=>'team', :id=>team.id, :launched=>team.launched}= team.title
+- else
+	%div.teams_list 
+		%div.member
+			-#%img{:src=>"/images/36x36/#{@member.pic_id}.gif",:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+			= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+			Welcome back 
+			%br
+			#{@member.first_name}
+			%p.signout
+				= link_to "Sign out", {:controller => "welcome", :action=> "signout"}, {:class => ''}
+				-if !@member.confirmed
+					= link_to "Confirm email", {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
+				
+		- form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
+			%p
+				%b Upload your profile picture
+			= file_field_tag :photo
+			%p
+				= submit_tag "Upload photo"
+				= link_to 'Cancel', {}, {:class=>'cancel'}
+				
+	%p.teams_instr Here's what you can do:
+	%ul.teams_cta
+		%li Browse ideas and proposals
+		%li Discuss ideas and proposals
+		%li Join a team
+		%li Suggest an idea
+
+	- if @member && !@member.confirmed
+		%p.suggest_sign_in.hide You must confirm your CivicEvolution account by email before you can suggest an idea. You can request a confirmation email on the right.
+	- elsif @member.nil?
+		%p.suggest_sign_in.hide You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.

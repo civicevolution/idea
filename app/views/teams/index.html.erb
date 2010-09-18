@@ -1,0 +1,41 @@
+<h1>Listing teams</h1>
+
+<table>
+  <tr>
+    <th>Initiative</th>
+    <th>Title</th>
+    <th>Problem statement</th>
+    <th>Solution statement</th>
+    <th>Status</th>
+    <th>Signup mode</th>
+    <th>Admin groups</th>
+    <th>Country</th>
+    <th>State</th>
+    <th>County</th>
+    <th>City</th>
+  </tr>
+
+<% @teams.each do |team| %>
+  <tr>
+    <td><%=h team.initiative_id %></td>
+    <td><%=h team.title %></td>
+    <td><%=h team.problem_statement %></td>
+    <td><%=h team.solution_statement %></td>
+    <td><%=h team.status %></td>
+    <td><%=h team.signup_mode %></td>
+    <td><%=h team.admin_groups %></td>
+    <td><%=h team.country %></td>
+    <td><%=h team.state %></td>
+    <td><%=h team.county %></td>
+    <td><%=h team.city %></td>
+    <td><%= link_to 'Show', team %></td>
+    <td><%= link_to 'Pages',  {:action => 'show_team_pages', :id => team.id} %></td>
+    <td><%= link_to 'Edit', edit_team_path(team) %></td>
+    <!--<td><%= link_to 'Destroy', team, :confirm => 'Are you sure?', :method => :delete %></td> -->
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New team', new_team_path %>

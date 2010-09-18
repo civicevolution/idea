@@ -1,0 +1,145 @@
+
+%h3 Team data for "#{@team.title}"
+
+%style
+	:sass
+		table.questions
+			border: 1px solid black
+
+
+= error_messages_for :team, :page
+- form_for :team, :url => { :action => :update_team_pages } do |f|
+	%p
+		= f.label :title
+		%br
+		= f.text_field :title
+	%p
+		= f.label :id
+		%br
+		= f.text_field :id
+
+	%p
+		= f.label :initiative_id
+		%br
+		= f.text_field :initiative_id
+
+	%p
+		= f.label :problem_statement
+		%br
+		= f.text_area :problem_statement, :cols => 60, :rows => 4
+
+	%p
+		= f.label :solution_statement
+		%br
+		= f.text_area :solution_statement, :cols => 60, :rows => 4
+	
+	%p
+		= f.label :status
+		%br
+		= f.text_field :status
+
+	%p There are #{@pages.size} pages
+	%p= link_to 'Add a page', {:controller => 'teams', :action => "add_a_page", :id => @team.id}
+
+	%table{:border => '0'}
+		%tr
+			%th order
+			%th id
+			%th nav_title
+			%th page_title
+			%th chat title
+			%th class name
+	
+		-#- @pages_sorted = @pages.sort {|a,b| a.id <=> b.id }
+		-#- @pages_sorted.each do |p|
+		- @page_items.each do |pi|
+			- p = @pages.detect {|p| pi.o_id == p.id } 
+			%tr
+				%td
+					%input{:value => pi.order, :id => "pages[#{p.id}][order]", :name => "pages[#{p.id}][order]"}
+				%td
+					%input{:value => p.id, :id => "pages[#{p.id}][id]", :name => "pages[#{p.id}][id]"}
+				%td
+					%input{:value => p.nav_title, :id => "pages[#{p.id}][nav_title]", :name => "pages[#{p.id}][nav_title]"}
+				%td
+					%textarea{:cols => 40, :rows => 2, :id => "pages[#{p.id}][page_title]", :name => "pages[#{p.id}][page_title]"}
+						= p.page_title
+				%td
+					%textarea{:cols => 40, :rows => 2, :id => "pages[#{p.id}][chat_title]", :name => "pages[#{p.id}][chat_title]"}
+						= p.chat_title
+				%td
+					%input{:value => p.classname, :id => "pages[#{p.id}][classname]", :name => "pages[#{p.id}][classname]"}
+			%tr
+				%td
+				%td{:colspan => 5}
+					%table.questions
+						%tr
+							%td
+								%b
+									Questions
+						- ques_items = @question_items.find_all {|qi| qi.par_id == pi.id }.sort{|a,b| a.order <=> b.order }
+						- ques_items.each do |qi|	
+							- q = @questions.detect {|q| qi.o_id == q.id } 
+							- if q
+								%tr
+									%td
+										%input{:value => qi.order, :id => "questions[#{q.id}][order]", :name => "questions[#{q.id}][order]", :size => 3}
+									%td
+										%textarea{:cols => 100, :rows => 2, :id => "questions[#{q.id}][text]", :name => "questions[#{q.id}][text]"}
+											= q.text
+									%td
+										\# ans
+										%br
+										%input{:value => q.num_answers, :id => "questions[#{q.id}][num_answers]", :name => "questions[#{q.id}][num_answers]", :size => 3}
+									%td
+										Delete
+										%input{:type => 'checkbox', :name => "questions[#{q.id}][delete]"}
+						%tr		
+							%td
+							%td
+								= link_to 'Add a question', {:controller => 'teams', :action => "add_a_question", :id => p.id}
+								%br
+								%br
+			
+	
+	%p
+		= submit_tag 'Update team', :name => 'option', :class => 'submitLink'
+
+	
+-#	-#- fields_for :pages, @pages do |page|
+-#		-#%tr
+-#			-#%td= page.text_field :order
+-#			-#%td= page.text_field :id
+-#			-#%td= page.text_field :nav_title
+-#			-#%td= page.text_field :page_title
+-#			-#%td= page.text_field :chat_title
+-#			-#%td= page.text_field :classname
+-#
+-#			%td page:
+-#			%td= page.text_field :link_url
+-#		%tr
+-#			%td Description:
+-#			%td= page.text_area :description, :class => 'resource_description', :rows => 4
+	
+	
+		
+		
+-#	%p= form.label :text, "Your Comment:"
+-#	%p= form.text_area :text, :cols => 60, :rows => 8
+-#	%p= form.hidden_field :anonymous, :value => false
+-#	= hidden_field_tag :par_id, @target_item.id
+
+
+
+-#
+-#
+-#- form_for(@team) do |f|
+-#	= f.error_messages
+-#	%p
+-#		= f.label :title
+-#		%br
+-#		= f.text_field :title
+-#	
+-#		
+-#%h4 Pages
+-#

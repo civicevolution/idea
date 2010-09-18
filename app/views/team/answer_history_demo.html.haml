@@ -1,0 +1,35 @@
+%h3 Answer history demo
+= error_messages_for 'answer'
+- form_for :answer, :url => { :action => :answer_history_demo } do |form| 
+	%p= form.error_messages
+	%fieldset
+		%legend& 
+			%b Enter/edit answer
+			
+		%p= form.label :text, "Your Answer:"
+		%p= form.text_area :text, :cols => 60, :rows => 8
+		%p
+			= form.label :ver, "Version: "
+			= form.text_field :ver
+		%p= form.hidden_field :anonymous, :value => 'false'
+		= hidden_field_tag :par_id, @target_item.id
+		= hidden_field_tag :id, @target_item.o_id
+		= hidden_field_tag :mode, params[:mode]
+		= submit_tag
+		= link_to 'Cancel', :action => 'index'
+		
+		= hidden_field_tag :post_mode
+
+
+%fieldset
+	%legend& 
+		%b Answer history 
+	- if !@htmlDiffs.nil?
+		- @htmlDiffs.each do |d|
+			%p 
+				%b Version: #{d[:ver]}
+			%div= d[:html_diff]
+			
+%style
+	ins {color:green;}
+	del {color:red;}

@@ -1,0 +1,19 @@
+%p Thank you for joining the proposal development team
+%p "#{@team.title}"
+
+- if @team.launched
+	%p 
+		Your team workspace is now available for you at 
+		%a{:href=> "/team?id=#{@team.id}"} http://#{@host}/team?id=#{@team.id}
+		
+
+	%p When you close this message you will be redirected to your team page where you can start transforming your ideas into solutions.
+	
+- else
+	%p Your team now has #{pluralize(@tr.num_members,'member')}. The team must have at least #{@team.min_members} to ensure healthy group dialogue.
+	%p We will notify you and your teammates by email when your team has #{pluralize(@team.min_members,'member')}. At that time you can really begin transforming your ideas into a solution.
+	
+	%p
+		%b Have you considered inviting your friends or colleagues to join this team?
+
+%p You can contact us at support@civicevolution.org if you have any questions.

@@ -1,0 +1,22 @@
+%div.entry
+	%div.list
+		%h3= list.title
+		%div.desc= simple_format h list.text
+		%ul{:id=>"li#{list.id}", :class=>"list sortable"}
+			- @this_list_items.each do |list_item|
+				%li.list_item{:id=>"li#{list_item.id}"}
+					%div.list_item= simple_format h list_item.text
+					%p.form_links	
+						= link_to "Edit", {:action => "edit_list_item", :id => list_item.id}, {:class => 'edit_list_item'}
+						= link_to "View history", {:action => "list_item_history", :id => list_item.id}, {:class => 'view_history'}
+						= link_to "Delete", {:action => "delete_list_item", :id => list_item.id}, {:class => 'delete_item'}
+		%p{:style => 'clear:both'}
+			= link_to "Add list item", {:action => "add_list_item", :id => list.id}, {:class => 'edit_list_item'}
+			= link_to "Re-order this list", {:action => "reorder_list_items", :id => list.id}, {:class => 'reorder_list'}
+			= link_to "Choose list type", {:action => "set_list_options", :id => list.id}, {:class => 'set_list_options'}
+			= link_to "View list history", {:action => "list_history", :id => list.id}, {:class => 'view_history'}
+			-#%b id: #{item.id}, parent: #{item.par_id}, com: #{list.id}
+		%p{:style => 'clear:both'}
+			-#%b id: #{item.id}, parent: #{item.par_id}
+			= link_to "Discuss this list", {:action => "add_comment", :id => item.id}, {:class => 'add_item'}
+			

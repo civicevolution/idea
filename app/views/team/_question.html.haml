@@ -1,0 +1,25 @@
+%div.entry
+	%div.question&= question.text
+	- form_tag( {:controller => 'team', :action => 'rating'}, {:class => 'item_rater', :id => "item_rater_#{item.id}"}) do
+		%div
+			- stars = score.round.to_i 
+			- RATING_OPTIONS.sort.each do |value ,title|	
+				- if value == stars
+					%input.star{:class => 'item_rater', :name => "item_rating_#{item.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+				- else
+					%input.star{:class => 'item_rater', :name => "item_rating_#{item.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+			%span.star_hover{:style => ";"} &nbsp;
+			%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
+		= submit_tag	
+	%p.version{:style => 'clear:both'}
+		- if question.ver == 1
+			Original version
+		- else
+			Version #{question.ver}
+			= link_to "View history", {:action => "item_history", :id => item.id}, {:class => 'view_history'}
+	%p{:style => 'clear:both'}
+		-#%b id: #{item.id}, parent: #{item.par_id}
+		= link_to "Discuss this question", {:action => "add_comment", :id => item.id}, {:class => 'add_item'}
+		= link_to "Add answer", {:action => "add_answer", :id => item.id}, {:class => 'add_item'}
+		= link_to "Edit this question", {:action => "edit_question", :id => question.id}, {:class => 'edit_item'}
+		= link_to "Delete this question", {:action => "delete_question", :id => question.id}, {:class => 'delete_item'}

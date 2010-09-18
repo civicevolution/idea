@@ -1,0 +1,33 @@
+%style
+	:sass
+		.hide
+			display: none
+		table
+			width: 600px
+			th,td
+				text-align: left
+			td
+				vertical-align: top
+			
+%h3 Team roles
+
+%table.checklist
+	%tr
+		%th Role title
+		%th Role description
+		%th Volunteers
+	- @roles.sort {|a,b| a['order'] <=> b['order']}.each do |r|
+		%tr
+			%td= r['title']
+			%td
+				%p
+					= truncate r['description'] ,:length=>120, :separator=>' ' 
+					= link_to 'more'
+				%p.hide= r['description']
+				%div.tasks.hide
+					%p Here are some of the things you can do to meet your commitment:
+					%ul
+						- r['tasks'].each do |t|
+							%li= t
+			%td
+				=link_to 'Volunteer'

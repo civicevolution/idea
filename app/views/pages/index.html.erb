@@ -1,0 +1,32 @@
+<h1>Listing pages</h1>
+
+<table>
+  <tr>
+    <th>Page title</th>
+    <th>Html</th>
+    <th>Chat par</th>
+    <th>Chat title</th>
+    <th>Discussion</th>
+    <th>Classname</th>
+    <th>Css</th>
+  </tr>
+
+<% @pages.each do |page| %>
+  <tr>
+    <td><%=h page.page_title %></td>
+    <td><%=h page.html %></td>
+    <td><%=h page.chat_par_id %></td>
+    <td><%=h page.chat_title %></td>
+    <td><%=h page.discussion %></td>
+    <td><%=h page.classname %></td>
+    <td><%=h page.css %></td>
+    <td><%= link_to 'Show', page %></td>
+    <td><%= link_to 'Edit', edit_page_path(page) %></td>
+    <td><%= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New page', new_page_path %>

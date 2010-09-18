@@ -1,0 +1,3 @@
+ProposalMailer#approval_notice
+
+Find me in app/views/proposal_mailer/approval_notice.erb

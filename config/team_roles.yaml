@@ -1,0 +1,79 @@
+# this is the data I need to construct a team workspace for the 2029/cgg initiative
+# read the data file
+# create each entry as a page
+# add a question or team_info as shown
+# add the items as appropriate
+
+
+Editor:
+  id:               1
+  order:            10
+  title:            Editor
+  description:      Make sure that the answers in your team's proposal are clear and concise.
+  tasks:
+    - Read all of the answers in a timely manner
+    - Post replies to answers and suggest changes to make them more clear and concise
+    - Edit the answers to make them more clear and concise
+    - Suggest tips to your teammates for writing better answers
+    - 'Try to bring consistency to the style of the answers in each section throughout the proposal: the answers should mimic each other in construction and style'
+    - Encourage others to help refine the answers. Everyone has the right to edit any answer.
+    - Monitor the edit history of the answers to spot violations of answer editing etiquette and encourage respectful behaviour.
+
+
+Summarizer:
+  id:               2
+  order:            20
+  title:            Summariser
+  description:      Make sure that the important ideas in your team's discussions get captured as brainstorming ideas and answers. 
+  tasks:
+    - Read the team discussions in a timely manner 
+    - Capture important ideas in the discussion and submit them as brainstorming ideas 
+    - Encourage your teammates to submit important ideas as brainstorming ideas and answers. It is not your responsibility to write every answer. 
+    - Make sure the important and popular brainstorming ideas are considered in the answers
+    - Initiate discussion about the ideas and answers that you and others post.  Encourage others to join the discussion. 
+    - Encourage others to help refine the answers. Everyone has the right to edit any answer.
+    - It can be helpful for you or another teammate to play devil’s advocate when appropriate, to challenge the group’s dominant ideas. 
+
+
+Motivator:
+  id:               3
+  order:            30
+  title:            Motivator
+  description:      Help keep your team members involved and engaged until the proposal is submitted.
+  tasks:
+    - Post motivational comments in the discussions 
+    - Coach team members when needed on how to be more effective team players 
+    - Provide members with positive feedback when tasks are done well and on time 
+    - Check team members' participation and if one or several team member's participation has started to wane, send private messages to encourage them back into participating 
+    - Help ensure that all team members know how to participate and encourage others to assist if anyone needs help. 
+    - Acknowledge team accomplishments such as finishing a proposal section 
+    - Encourage other team members to talk positively and maintain a productive tone in their discussions 
+
+
+Moderator:
+  id:               4
+  order:            40
+  title:            Moderator
+  description:      Make sure that the team dialogue remains welcoming and constructive. 
+  tasks:
+    - Post comments directly in the discussion to help guide the dialogue in a more open and productive direction 
+    - Coach team members when needed on how to be more effective team players 
+    - Monitor the various discussion areas and try to redirect conversations into the appropriate sections.
+    - Help ensure that all team members know how to participate and encourage others to assist if anyone needs help. 
+    - Remind team members about the ground rules if needed 
+    - It can be helpful for you or another teammate to play devil’s advocate when appropriate, to challenge the group’s dominant ideas. 
+    - Monitor the edit history of the answers to spot violations of answer editing etiquette 
+	
+	
+Researcher:
+  id:               5
+  order:            50
+  title:            Researcher
+  description:      Make sure that your team's proposal is adequately researched.
+  tasks:
+    - Find and post relevant research information for your team at any point of the team’s work
+    - Encourage your teammates to do research and post their findings to the group. It is not your responsibility to do all the research for your team.
+    - Send emails to individual members when appropriate, asking them if they can back up their suggestions with any research or experience elsewhere 
+    - Ensure that your teammates know how to share their resources with the team 
+    - Initiate discussion about the resources that you and others post.  Encourage others to join the discussion. 
+    - It can be helpful for you or another teammate to play devil’s advocate when appropriate, to challenge the group’s dominant ideas. 

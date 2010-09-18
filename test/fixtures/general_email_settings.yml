@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  member_id: 1
+  accept_broadcast_messages: false
+  forward_messages: false
+
+two:
+  member_id: 1
+  accept_broadcast_messages: false
+  forward_messages: false

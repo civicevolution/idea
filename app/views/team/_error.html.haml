@@ -1,0 +1,12 @@
+-#%div.ajax_error
+-#	%p 
+-#		%b Sorry, we couldn't save your #{error.class}
+-#	%p We found the following #{pluralize(error.errors.size,'error')}:
+-#	%ul
+-#		- error.errors.each_full do |msg|
+-#			%li= msg
+-#	%script
+form_errors = [
+- error.errors.each() do |attr, msg|
+	= "{field: \"" + attr + "\", message: \"" + msg + "\"},"
+]

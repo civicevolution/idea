@@ -1,0 +1,17 @@
+- if @recipient[:first_name]
+	Hello #{@recipient[:first_name]},
+- else
+	Hello,
+~ ''
+#{@invite.message}
+~''
+~''
+
+The title of the proposal is "#{@team.title}"
+You can visit this proposal online at http://#{@host}/team/proposal?id=#{@team.id}
+~''
+~''
+#{@member.first_name} #{@member.last_name} (#{@member.email}) requested CivicEvolution send this email to you.
+~''
+
+

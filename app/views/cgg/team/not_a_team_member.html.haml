@@ -1,0 +1,15 @@
+%h3 You are not a member of this team
+
+%p The team workspace can only be viewed by team members.
+
+
+%p 
+	Please visit this team's 
+	= link_to 'pubic proposal page', {:action=>'proposal', :id=>params[:id]}
+%p 
+	Or return to the 
+	%a{:href=>'/'} home page
+	
+%p
+	You can contact us at 
+	%a{:mailto=>'support\@civicevolution.org'} support@civicevolution.org

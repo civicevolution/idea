@@ -1,0 +1,11 @@
+= error_messages_for 'comment'
+- form_for :comment, :url => { :action => :update_comment } do |form| 
+	%p= form.error_messages
+	%fieldset
+		%legend& Please edit your Comment
+		%p= form.label :text, "Your Comment:"
+		%p= form.text_area :text, :cols => 60, :rows => 8
+		%p= form.hidden_field :anonymous, :value => false
+		%p= form.hidden_field :id
+		= form.submit 'Update'
+		= link_to 'Cancel', :action => 'index'

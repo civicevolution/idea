@@ -1,0 +1,175 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+team:
+  id: 1
+  page_title: Team instructions and discussion
+  html: Team instructions and discussion
+  chat_par_id: 1
+  chat_title: Team instructions and discussion
+  discussion: false
+  classname: ''
+  css: ''
+
+dopm:
+  id: 2
+  page_title: Department of the Prime Minister and Cabinet
+  html: Department of the Prime Minister and Cabinet
+  chat_par_id: 2
+  chat_title: Department of the Prime Minister and Cabinet
+  discussion: false
+  classname: ''
+  css: ''
+  
+  
+au3:
+  id: 3
+  page_title: Department of Defence
+  html: Department of Defence
+  chat_par_id: 3
+  chat_title: Department of Defence
+  discussion: false
+  classname: ''
+  css: ''
+  
+au4:
+  id: 4
+  page_title: Attorney General’s Department
+  html: Attorney General’s Department
+  chat_par_id: 4
+  chat_title: Attorney General’s Department
+  discussion: false
+  classname: ''
+  css: ''
+  
+au4:
+  id: 5
+  page_title: Department of Foreign Affairs and Trade
+  html: Department of Foreign Affairs and Trade
+  chat_par_id: 5
+  chat_title: Department of Foreign Affairs and Trade
+  discussion: false
+  classname: ''
+  css: ''
+  
+au6:
+  id: 6
+  page_title: The Joint Secretariat
+  html: The Joint Secretariat for the Secretaries Committee on National Security AND the National Security Committee of Cabinet.
+  chat_par_id: 6
+  chat_title: The Joint Secretariat
+  discussion: false
+  classname: ''
+  css: ''
+  
+us1:
+  id: 7
+  page_title: Team instructions and discussion
+  html: Team instructions and discussion
+  chat_par_id: 7
+  chat_title: Team instructions and discussion
+  discussion: false
+  classname: ''
+  css: ''
+  
+us2:
+  id: 8
+  page_title: Office of the President 
+  html: Office of the President 
+  chat_par_id: 8
+  chat_title: Office of the President 
+  discussion: false
+  classname: ''
+  css: ''
+  
+us3:
+  id: 9
+  page_title: Department of Defense
+  html: Department of Defense
+  chat_par_id: 9
+  chat_title: Department of Defense
+  discussion: false
+  classname: ''
+  css: ''
+  
+us4:
+  id: 10
+  page_title: Department of Justice
+  html: Department of Justice
+  chat_par_id: 10
+  chat_title: Department of Justice
+  discussion: false
+  classname: ''
+  css: ''
+  
+us5:
+  id: 11
+  page_title: State Department
+  html: State Department
+  chat_par_id: 11
+  chat_title: State Department
+  discussion: false
+  classname: ''
+  css: ''
+  
+  
+sb1:
+  id: 12
+  page_title: Team instructions and discussion
+  html: Team instructions and discussion
+  chat_par_id: 12
+  chat_title: Team instructions and discussion
+  discussion: false
+  classname: ''
+  css: ''
+  
+sb2:
+  id: 13
+  page_title: Department of the Prime Minister and Cabinet
+  html: Department of the Prime Minister and Cabinet
+  chat_par_id: 13
+  chat_title: Department of the Prime Minister and Cabinet
+  discussion: false
+  classname: ''
+  css: ''
+  
+  
+sb3:
+  id: 14
+  page_title: Department of Defence
+  html: Department of Defence
+  chat_par_id: 14
+  chat_title: Department of Defence
+  discussion: false
+  classname: ''
+  css: ''
+  
+sb4:
+  id: 15
+  page_title: Attorney General’s Department
+  html: Attorney General’s Department
+  chat_par_id: 15
+  chat_title: Attorney General’s Department
+  discussion: false
+  classname: ''
+  css: ''
+  
+sb5:
+  id: 16
+  page_title: Department of Foreign Affairs and Trade
+  html: Department of Foreign Affairs and Trade
+  chat_par_id: 16
+  chat_title: Department of Foreign Affairs and Trade
+  discussion: false
+  classname: ''
+  css: ''
+  
+sb6:
+  id: 17
+  page_title: The Joint Secretariat
+  html: The Joint Secretariat for the Secretaries Committee on National Security AND the National Security Committee of Cabinet.
+  chat_par_id: 17
+  chat_title: The Joint Secretariat
+  discussion: false
+  classname: ''
+  css: ''
+  

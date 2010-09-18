@@ -1,0 +1,6 @@
+%div.entry
+	%div.chat_session
+		%h4 Chat session
+	%p{:style => 'clear:both'}
+		-#%b id: #{item.id}, parent: #{item.par_id}
+		= link_to "View the chat transcript", {:action => "chat_transcript", :id => item.id}, {:class => 'view_transcript'}

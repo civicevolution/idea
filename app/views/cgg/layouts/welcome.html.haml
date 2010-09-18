@@ -1,0 +1,31 @@
+!!!
+%html{html_attrs('en-en')}
+	%head
+		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
+		%title Welcome to the 2029 and Beyond Sustainable Future City Project
+		=	stylesheet_link_tag 'cgg_welcome.css', 'jquery-ui-1.8.2.custom.css', 'ce1a.css', 'ce1as.css'
+			
+	%body
+		%div.page
+			%div.logo
+				%a{ :href=> '/'}
+					= image_tag("2029beyondtaghor.jpg")
+			%hr
+			= yield
+			
+			%hr
+
+			%div.ce_credit
+				%h3 Powered by
+				= image_tag("ce_logo_20c.gif")
+				%p.tag_line Transform your ideas into solutions
+			
+		= yield :script
+		
+		-#= javascript_include_tag "jquery-1.4.2.min.js", 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "ce/gen/forms.js", "ce/activate/act_welcome_layout.js", "pure.js"
+		-#- if params[:action] == 'proposal'	
+		-#	= javascript_include_tag "ce/proposal.js", "ce/gen/dispatch.js", "jquery.timeago.js"
+		-#- elsif params[:action] == 'index'
+		-#	= javascript_include_tag "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
+		-#	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
+		-#= javascript_include_tag "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"

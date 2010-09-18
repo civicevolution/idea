@@ -1,0 +1,12 @@
+var form = $('#item_rater_<%=@item_id%>')
+var average = <%=@average%>;
+average = Math.round(average*10)/10;
+var v = <%=@count%>;
+v = v != 1 ? 'votes' : 'vote';
+$('.star_hover',form).html('')
+$('.rating_results',form).html("Average score is " + average + " out of 5 with <%= @count %> " + v).effect("highlight", {}, 3000);
+
+with ( $(':radio',form).filter(':eq(<%= @average.round.to_i-1 %>)') ){
+	data('rating').current = data('rating.star')
+	rating('draw')
+}

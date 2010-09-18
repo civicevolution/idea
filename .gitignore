@@ -1,0 +1,14 @@
+# Lines starting with '#' are considered comments.
+# Ignore these files
+*._*
+*development.log
+*.DS_Store
+public/system/*
+*.dump.sql
+*.dump
+public/javascripts/development-bundle
+temp/*
+tmp/
+public/.DS_Store
+public/test/*
+APE.txt

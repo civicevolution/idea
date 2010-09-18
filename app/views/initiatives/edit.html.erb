@@ -1,0 +1,104 @@
+<h1>Editing initiative</h1>
+
+<% form_for(@initiative) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :min_members %><br />
+    <%= f.text_field :min_members %>
+  </p>
+  <p>
+    <%= f.label :max_members %><br />
+    <%= f.text_field :max_members %>
+  </p>
+  <p>
+    <%= f.label :max_teams_per_member %><br />
+    <%= f.text_field :max_teams_per_member %>
+  </p>
+  <p>
+    <%= f.label :limit_access %><br />
+    <%= f.check_box :limit_access %>
+  </p>
+  <p>
+    <%= f.label :access_code %><br />
+    <%= f.text_field :access_code %>
+  </p>
+  <p>
+    <%= f.label :can_propose_team %><br />
+    <%= f.check_box :can_propose_team %>
+  </p>
+  <p>
+    <%= f.label :prescreen_proposals %><br />
+    <%= f.check_box :prescreen_proposals %>
+  </p>
+  <p>
+    <%= f.label :timezone %><br />
+    <%= f.text_field :timezone %>
+  </p>
+  <p>
+    <%= f.label :lang %><br />
+    <%= f.text_field :lang %>
+  </p>
+  <p>
+    <%= f.label :config_id %><br />
+    <%= f.text_field :config_id %>
+  </p>
+  <p>
+    <%= f.label :public_face %><br />
+    <%= f.check_box :public_face %>
+  </p>
+  <p>
+    <%= f.label :public_face_rating_threshold %><br />
+    <%= f.text_field :public_face_rating_threshold %>
+  </p>
+  <p>
+    <%= f.label :join_test %><br />
+    <%= f.text_field :join_test %>
+  </p>
+  <p>
+    <%= f.label :approve_join %><br />
+    <%= f.check_box :approve_join %>
+  </p>
+  <p>
+    <%= f.label :send_invites %><br />
+    <%= f.check_box :send_invites %>
+  </p>
+  <p>
+    <%= f.label :approve_invites %><br />
+    <%= f.check_box :approve_invites %>
+  </p>
+  <p>
+    <%= f.label :admin_groups %><br />
+    <%= f.text_field :admin_groups %>
+  </p>
+  <p>
+    <%= f.label :country %><br />
+    <%= f.text_field :country %>
+  </p>
+  <p>
+    <%= f.label :state %><br />
+    <%= f.text_field :state %>
+  </p>
+  <p>
+    <%= f.label :county %><br />
+    <%= f.text_field :county %>
+  </p>
+  <p>
+    <%= f.label :city %><br />
+    <%= f.text_field :city %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @initiative %> |
+<%= link_to 'Back', initiatives_path %>
