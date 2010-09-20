@@ -28,7 +28,7 @@ class Member < ActiveRecord::Base
     :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
     :path => "mp/:ape_code/:style/m.jpg",
     :url => "http://assets.civicevolution.org/mp/:ape_code/:style/m.jpg",
-    :bucket => 'assets.civicevolution.org'
+    :bucket => 'assets.civicevolution.org',
     :styles => {
       '16'  =>   ['16x16#', :jpg],
       '28' =>   ['28x28#', :jpg],
