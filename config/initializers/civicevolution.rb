@@ -10,3 +10,7 @@ end
 Paperclip.interpolates :url_ape_code do |attachment, style|
   'mp/' + attachment.instance.ape_code
 end
+
+Paperclip.interpolates :ape_code do |attachment, style|
+  attachment.instance.ape_code
+end

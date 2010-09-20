@@ -23,9 +23,18 @@ class Member < ActiveRecord::Base
   
 #  validates_attachment_size :photo, :less_than => 2.megabytes if :resource_type == 'upload'
   has_attached_file :photo, 
-    :path => "/public_assets/:path_ape_code/:style/m.jpg",
-    :url => "/:url_ape_code/:style/m.jpg",
+    #:path => "/public_assets/:path_ape_code/:style/m.jpg",
+    #:url => "/:url_ape_code/:style/m.jpg",
+    
+    :path => "mp/:ape_code/:style/m.jpg",
+    :url => "http://assets.civicevolution.org/mp/:ape_code/:style/m.jpg",
+    
     :default_url => "/images/:class_default/:style/m.jpg",
+    
+    :storage => :s3,
+    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
+    :bucket => 'assets.civicevolution.org'
+
     :styles => {
       '16'  =>   ['16x16#', :jpg],
       '28' =>   ['28x28#', :jpg],
