@@ -65,7 +65,7 @@ module LibCe
 
     logger.debug "Team channel: serialized: #{serialized}"  if debug;
 
-    http = Net::HTTP.new('0.ape.civicevolution.org', 80)
+    http = Net::HTTP.new('0.ape1.civicevolution.org', 80)
     #http.set_debug_output $stderr  # show lots of debug messages
     resp, data = http.get('/0/?' + serialized, nil )
     @resp = resp
