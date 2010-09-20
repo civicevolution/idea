@@ -3,14 +3,6 @@ QUESTION_RATING_OPTIONS = {1 => 'Not answered', 2 => "Discussion has started", 3
   5 => 'Good answers', 6 => 'Great answers', 7=>'Fully answered' }
 ANSWER_RATING_OPTIONS = {1 => 'Not important at all', 2 => "Not too important", 3 => "Fairly important", 4 => 'Very important', 5 => 'Extremely important'}
 
-Paperclip.interpolates :path_ape_code do |attachment, style|
-  'ce1/mp/' + attachment.instance.ape_code
-end
-
-Paperclip.interpolates :url_ape_code do |attachment, style|
-  'mp/' + attachment.instance.ape_code
-end
-
 Paperclip.interpolates :ape_code do |attachment, style|
   attachment.instance.ape_code
 end

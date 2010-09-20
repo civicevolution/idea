@@ -11,8 +11,13 @@ class Resource < ActiveRecord::Base
   
   validates_attachment_size :resource, :less_than => 2.megabytes if :resource_type == 'upload'
   has_attached_file :resource,
-                    :styles => { :original => '250x250>', 
-                                :small => '50x50' }  
+    :storage => :s3,
+    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
+    :path => "res/:id/:style/:basename.:extension",
+    :url => "http://assets.civicevolution.org/res/:id/:style/:basename.:extension",
+    :bucket => 'assets.civicevolution.org',
+    :styles => { :small => '50x50>' }  
+
   
   before_post_process :image?
                                 
