@@ -104,7 +104,7 @@ APE.Config.baseUrl = 'http://' + document.location.host + '/javascripts/APE-Sour
 //APE.Config.domain = 'dev-proxy.com'; 
 APE.Config.domain = document.location.host; 
 //APE.Config.server = 'ape.dev-proxy.com:6969'; //APE server URL
-APE.Config.server = 'ape.civicevolution.org'; //APE server URL
+APE.Config.server = 'ape1.civicevolution.org'; //APE server URL
 APE.Config.transport = 2;  // 2 is JSONP
 
 
