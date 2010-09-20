@@ -133,7 +133,7 @@ private
     return data = {
       "cmd" => "INLINEPUSH",
       "params"=>{
-        'password'=> 'testpasswd',
+        'password'=> 'i3H7sS9WEp',
         "data"=> {
           'from'=> {
             "properties"=>{
