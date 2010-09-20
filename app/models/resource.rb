@@ -13,8 +13,8 @@ class Resource < ActiveRecord::Base
   has_attached_file :resource,
     :storage => :s3,
     :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
-    :path => "res/:id/:style/:basename.:extension",
-    :url => "http://assets.civicevolution.org/res/:id/:style/:basename.:extension",
+    :path => "res/:res_base/:id/:style/:basename.:extension",
+    :url => "http://assets.civicevolution.org/res/:res_base/:id/:style/:basename.:extension",
     :bucket => 'assets.civicevolution.org',
     :styles => { :small => '50x50>' }  
 

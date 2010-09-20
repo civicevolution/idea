@@ -19,6 +19,7 @@ config.action_mailer.perform_deliveries = true
 config.action_mailer.delivery_method = :smtp
 config.action_mailer.default_charset = "utf-8"
 
+RES_BASE='civic_dev'
 
 RCC_PUB='6Le027wSAAAAABJKdXtEfpJb7-T3ybjUC3tpuCnn'
 RCC_PRIV='6Le027wSAAAAAPaLO5Tv3fhU-s7slUOSiwOHXwYI'

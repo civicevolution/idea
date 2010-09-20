@@ -21,6 +21,7 @@ config.action_view.cache_template_loading            = true
 # Enable serving of images, stylesheets, and javascripts from an asset server
 # config.action_controller.asset_host = "http://assets.example.com"
 
+RES_BASE='civic'
 
 RCC_PUB='6Lez27wSAAAAAO63HjGN8VutXx3zydGRc8jBUnGY'
 RCC_PRIV='6Lez27wSAAAAAHHJ0f5W_GR9JX6jGqOJX112SuvV'
