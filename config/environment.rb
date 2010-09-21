@@ -42,4 +42,4 @@ Rails::Initializer.run do |config|
   config.action_mailer.register_template_extension('haml')
 end
 
-APP_VERSION = RAILS_ROOT.match(/\/data\/(\w+)\//)[1]
+APP_NAME = RAILS_ROOT.match(/\/data\/(\w+)\//)[1]
