@@ -36,7 +36,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: ce1_test
+  database: civic_test
   pool: 5
   username: ce1
   password:
