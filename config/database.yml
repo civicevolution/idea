@@ -11,7 +11,7 @@
 development:
   adapter: postgresql
   encoding: utf8
-  database: civic_development
+  database: "#{APP_NAME}_development"
   username: postgres
   password: 3xf51k
 
@@ -36,7 +36,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: ce1_test
+  database: "#{APP_NAME}_test"
   pool: 5
   username: ce1
   password:
@@ -44,7 +44,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: civic_production
+  database: "#{APP_NAME}_production"
   pool: 5
   username: brian
   password:
