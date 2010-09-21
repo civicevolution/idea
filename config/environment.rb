@@ -42,4 +42,5 @@ Rails::Initializer.run do |config|
   config.action_mailer.register_template_extension('haml')
 end
 
-APP_NAME = RAILS_ROOT.match(/\/data\/(\w+)\//)[1]
+APP_NAME = RAILS_ROOT.match(/^\/data\//) ? RAILS_ROOT.match(/\/data\/(\w+)\//)[1] : RAILS_ROOT.match(/\/vol\/rb\/apps\/(\w+)/)[1]
+File.open("#{RAILS_ROOT}/config/database.yml", 'w') {|f| f.write( ERB.new(IO.read("#{RAILS_ROOT}/config/database.yml.erb")).result ) }
