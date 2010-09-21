@@ -2,19 +2,18 @@
 %html{html_attrs('en-en')}
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
-		%title Team: #{controller.action_name}
-		:javascript
-			var console_log='';
-			if(typeof console == 'undefined') console = {log:function(str){console_log += str + '\n' }};		
+		%title CivicEvolution
 		= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery?
-		= javascript_include_tag "jquery-1.3.2.min.js", "jquery.rating.js", 'jquery.form.js', 'jquery.MetaData.js', 'jquery-ui-1.7.2.custom.min','jquery.scrollTo-min.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js","application.js", "jquery.cookies.2.2.0.min.js", "APE-Source/APE-init.js", "item_update.js", "ape_client.js", "pure.js", "jquery.timeago.js"
+		= javascript_include_tag "jquery-1.4.2.min.js", "jquery.rating.js", 'jquery.form.js', 'jquery.MetaData.js', 'jquery-ui-1.8.custom.min.js','jquery.scrollTo-min.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "jquery.cookies.2.2.0.min.js", "pure.js", "jquery.timeago.js", "jquery.json-2.2.min.js", "ce/team.js", "ce/activate/team.js", "ce/gen/forms.js","ce/gen/notifier.js", "ce/gen/dispatch.js","APE-Source/APE-init.js", "ce/gen/ape_client.js"
 		
-		-#= javascript_include_tag "mob/diff_match_patch_uncompressed.js", "mob/mobwrite_core.js", "mob/mobwrite_form.js"
-		=	stylesheet_link_tag 'scaffold', 'ce1', 'jquery.rating.css', "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css"
+		-#= javascript_include_tag 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'
+		
+		=	stylesheet_link_tag 'jquery.rating.css', 'jquery-ui-1.8.2.custom.css','ce1a.css', 'ce1as.css'
 	%body
-		%div.logo
-			= image_tag("logo47.gif")
-			= image_tag("ce_tm.gif")
-		= @test_links if defined? @test_links
-		%p.clear{'style' => 'color: green'}= flash[:notice]
+		-#= @test_links if defined? @test_links
+		-#%p.clear{'style' => 'color: green'}= flash[:notice]
 		= yield
+
+
+		= javascript_include_tag '../plugins/jquery.hoverIntent.minified.js','../plugins/cluetip-1.0.6/jquery.cluetip.min.js', '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
+		=	stylesheet_link_tag '../plugins/cluetip-1.0.6/jquery.cluetip.css', '../plugins/prettyPhoto/css/prettyPhoto.css'
