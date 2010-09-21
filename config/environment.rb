@@ -6,6 +6,9 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+APP_NAME = RAILS_ROOT.match(/^\/data\//) ? RAILS_ROOT.match(/\/data\/(\w+)\//)[1] : RAILS_ROOT.match(/\/vol\/rb\/apps\/(\w+)/)[1]
+File.open("#{RAILS_ROOT}/config/database.yml", 'w') {|f| f.write( ERB.new(IO.read("#{RAILS_ROOT}/config/database.yml.erb")).result ) }
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -42,5 +45,3 @@ Rails::Initializer.run do |config|
   config.action_mailer.register_template_extension('haml')
 end
 
-APP_NAME = RAILS_ROOT.match(/^\/data\//) ? RAILS_ROOT.match(/\/data\/(\w+)\//)[1] : RAILS_ROOT.match(/\/vol\/rb\/apps\/(\w+)/)[1]
-File.open("#{RAILS_ROOT}/config/database.yml", 'w') {|f| f.write( ERB.new(IO.read("#{RAILS_ROOT}/config/database.yml.erb")).result ) }
