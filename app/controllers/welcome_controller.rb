@@ -3,7 +3,7 @@ class WelcomeController < ApplicationController
   include ReCaptcha::AppHelper
   
   def index
-    logger.warn "Welcome controller index in my app 1308"
+    logger.warn "Welcome controller index APP_VERSION: #{APP_VERSION}"
     # if I have a current session, get my teams and insert them into the page instead of the signin form
     if session[:member_id]
       @member = Member.find(session[:member_id])
