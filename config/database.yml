@@ -11,7 +11,11 @@
 development:
   adapter: postgresql
   encoding: utf8
+<<<<<<< HEAD:config/database.yml
   database: app_2029_development
+=======
+  database: ncdd_development
+>>>>>>> 4305cc27ea2f667023de51d79a3f8b719049f653:config/database.yml
   username: postgres
   password: 3xf51k
 
@@ -36,7 +40,11 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
+<<<<<<< HEAD:config/database.yml
   database: app_2029_test
+=======
+  database: ncdd_test
+>>>>>>> 4305cc27ea2f667023de51d79a3f8b719049f653:config/database.yml
   pool: 5
   username: ce1
   password:
@@ -44,7 +52,11 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
+<<<<<<< HEAD:config/database.yml
   database: app_2029_production
+=======
+  database: ncdd_production
+>>>>>>> 4305cc27ea2f667023de51d79a3f8b719049f653:config/database.yml
   pool: 5
   username: brian
   password:

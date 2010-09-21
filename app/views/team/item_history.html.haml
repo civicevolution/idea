@@ -1,13 +1,15 @@
 %div.item_history_outer
-	%fieldset
-		%legend& 
-			%b #{@target.class} history 
-		%b Current version:	
-		%div.answer= simple_format h @target.text	
-		%i [<ins>Green</ins> indicates text that has been added and <del>Red</del> indicates text that was deleted]
+	%div.item_history_inner
+		-#%fieldset
+		-#	%legend& 
+		-#%b #{@target.class} history 
+		-#%b Current version:	
+		-#%div.answer= simple_format h @target.text	
 		- if !@htmlDiffs.nil?
 			- @htmlDiffs.each do |d|
 				%p 
 					%b Version: #{d[:ver]}
 				%div= d[:html_diff]
-			
+		%hr		
+		%p.legend [<ins>Green</ins> indicates text that has been added and <del>Red</del> indicates text that was deleted]
+	

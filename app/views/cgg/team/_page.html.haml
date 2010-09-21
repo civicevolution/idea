@@ -1,9 +1,0 @@
-- logger.debug "page: #{page.inspect}"
-%div{:class=>"entry Page_entry", :title=>page.chat_title}
-	%a{:name=>"page#{item.id}"} 
-	-#%h3.page_title= page.page_title
-	-#= page.html
-	-# if this page has no children, add a question
-	- child = @items.detect { |i| i.par_id == item.id }
-	- if child.nil?
-		= link_to "Add question", {:action => "add_question", :id => item.id}, {:class => 'add_item'}

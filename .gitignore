@@ -12,4 +12,5 @@ tmp/
 public/.DS_Store
 public/test/*
 APE.txt
-*config/database.yml
+config/database.yml
+
