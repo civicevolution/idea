@@ -8,7 +8,7 @@
 	var member_id = #{ @member.nil? ? 0 : @member.id }
 	var my_team_ids = [ #{team_ids} ];
 	
-- if request.subdomains.first == '2029-staff'	
+- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'	
 	%div.mission
 		%h2 Help us plan a sustainable future
 		%p 

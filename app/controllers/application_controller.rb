@@ -38,12 +38,18 @@ class ApplicationController < ActionController::Base
   def set_application_view_path
     #logger.warn "v2 set_application_view_path, request.subdomains.first: #{request.subdomains.first}"
     #self.prepend_view_path("app/views/uos") if request.subdomains.first == 'uos'
-    #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/uos") ]) if request.subdomains.first == 'uos'
-    #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/demo") ]) if request.subdomains.first == 'demo'
-    
-    
+    case request.subdomains.first
+      when 'ncdd'
+        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/ncdd") ])
+      when 'civic'
+        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
+      when '2029', 'cgg'  
+        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
+    end
+    #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/ncdd") ]) if request.subdomains.first == 'uos'
+    #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/") ]) if request.subdomains.first == 'demo'
     #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ]) if !request.subdomains.first.match(/t?2029/).nil? || !request.subdomains.first.match(/t?cgg/).nil?
-    self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
+    #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
     
 #    if !request.subdomains.first.match(/^2029$/).nil? || 
 #        !request.subdomains.first.match(/^2029-staff$/).nil? || 
