@@ -436,6 +436,8 @@ form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest
     width: 100%; }
   form.add_comment_form input[type=file], form.add_answer_form input[type=file], form.add_bs_idea_form input[type=file], form.suggest_idea_form input[type=file] {
     margin: 12px 0 16px 0; }
+  form.add_comment_form input[type=text], form.add_answer_form input[type=text], form.add_bs_idea_form input[type=text], form.suggest_idea_form input[type=text] {
+    font-size: 1.2em; }
   form.add_comment_form div.controls, form.add_answer_form div.controls, form.add_bs_idea_form div.controls, form.suggest_idea_form div.controls {
     position: absolute;
     right: 0; }
@@ -455,6 +457,8 @@ form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest
     display: none; }
   form.add_comment_form button, form.add_answer_form button, form.add_bs_idea_form button, form.suggest_idea_form button {
     margin-left: 15px; }
+  form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning {
+    margin-top: -12px; }
 
 div.Answer_entry, div.Question_entry {
   border-right: 0px solid #666666;

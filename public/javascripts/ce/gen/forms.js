@@ -583,18 +583,18 @@ function activate_comment_form(form,orig_com){
 							$('div.add_link',form).find('input.title').val() );
 						$('div.attach_file',form).find('textarea.description').val(
 							$('div.add_link',form).find('textarea.description').val() );				
-						form.find('div.attach_file').remove();																					
+						form.find('div.attach_file').find('input[type="text"], textarea, input[type="file"]').attr('disabled','disabled');																					
 						break;
 					case 'upload':
 						$('div.add_link',form).find('input.title').val(
 							$('div.attach_file',form).find('input.title').val() );
 						$('div.add_link',form).find('textarea.description').val(
 							$('div.attach_file',form).find('textarea.description').val() );
-						form.find('div.add_link').remove();
+						form.find('div.add_link').find('input[type="text"], textarea, input[type="file"]').attr('disabled','disabled');
 						break;
 					case 'simple':
-						form.find('div.add_link').remove();
-						form.find('div.attach_file').remove();																
+						form.find('div.add_link').find('input[type="text"], textarea').attr('disabled','disabled');
+						form.find('div.attach_file').find('input[type="text"], textarea, input[type="file"]').attr('disabled','disabled');
 						break;						
 				}
 				
@@ -634,9 +634,12 @@ function activate_comment_form(form,orig_com){
 						
 					  var msg = $('<p class="confirmation">Your comment has been saved successfully</p>')
 						form.before(msg);
-						form.find('textarea').val('');
-						form.find('input[type="file"]').val('');
-						form.find('input[type="text"]').val('');
+						// reset the form
+						form.find('input[type="text"], textarea, input[type="file"]').removeAttr('disabled').val('')
+						$('div.add_comment button, div.add_comment a, div.add_comment img',form).show();				
+						$('div.add_link, div.attach_file',form).hide()
+						form[0].resource_type.value = 'simple';
+
 						msg.effect('highlight',{},3000, function(){$(this).remove()});	
 						if(form[0]['comment[target_id]'].value){
 							form[0]['comment[text]'].value = '';

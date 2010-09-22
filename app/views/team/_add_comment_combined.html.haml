@@ -60,7 +60,7 @@
 				%b Attach a file
 
 			= resource.file_field :resource, :alias=>'A file'
-			
+			%p.resource_warning (Warning: uploaded files are publicly accessible)
 			= resource.label :title, "Title of file:"
 			= resource.text_field( :title, :class=>'title', :alias=>'Title')
 			
