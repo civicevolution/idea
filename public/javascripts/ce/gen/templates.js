@@ -2,7 +2,7 @@ var json_templates = {}, directives, template_data, jsonFn;
 var json_test_data;
 function create_templates(data){
 	console.log("create_templates")
-	template_data = $(data)
+	template_data = $(data.replace(/src=['"]['"]/g,''))
 	// break up the template into sub templates
 	//var tmps = json_templates['full'];
 	json_templates['full'] = template_data;
@@ -55,7 +55,7 @@ function create_templates(data){
 		  'div.Comment_entry @target_type' : 'item.item.target_type',	
 		  'div.Comment_entry @target_id' : 'item.item.target_id',	
 			//'img.i36 @src+' : '#{pic_id}.gif',
-			'img.i36 @src' : 'pic_url',
+			//'img.i36 @src' : 'pic_url',
 			'span.author' : function(arg){return unescape(arg.context.author) },
 			'abbr.timeago @title' : 'data.comment.created_at',
 			'div.comment_text' : function(arg){return simple_format(unescape(arg.context.data.comment.text))},

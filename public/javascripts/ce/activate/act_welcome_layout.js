@@ -116,8 +116,6 @@ $(function(){
 	if( !(typeof member_id != 'undefined' && member_id != 0) ) $('form.mini_thumbs_up :submit').attr('disabled','disabled');
 
 	activate_text_counters_grow( $('div.left_col textarea, div.left_col input:text') )
-
-	load_templates()
 	
 }); // end of jquery onload
 
@@ -431,5 +429,7 @@ function warn_sign_in(el){
   }
 }
 
-// generic recaptcha code
-
+function link_disabled(){
+	$('<div><p>Sorry, this feature is not currently active, we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+	return false;
+}

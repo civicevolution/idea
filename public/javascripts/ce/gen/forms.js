@@ -379,7 +379,7 @@ function activate_idea_form(form,orig_idea){
 
 			var form = $(this).closest('form');
 			var btn = $(this);
-			btn.attr('disabled',true);
+			btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
 
 			$(':input',form).removeClass('form_error_border');
 			$('p.form_error_text',form).remove();
@@ -395,15 +395,15 @@ function activate_idea_form(form,orig_idea){
 					form.prepend(msg)
 					msg.effect('highlight',{},3000, function(){$(this).remove()});					
 					$('textarea',form).val('');
-					btn.removeAttr('disabled')
+					btn.removeAttr('disabled').next('img').remove();
 			  },
 				error : function(xhr,errorString,exceptionObj){
 					//console.log("Error, xhr: " + xhr.responseText)
 					try{
 						show_form_error(form, xhr.responseText);
-						btn.removeAttr('disabled')
+						btn.removeAttr('disabled').next('img').remove();
 					}catch(e){
-						btn.removeAttr('disabled')
+						btn.removeAttr('disabled').next('img').remove();
 						console.log("Brainstorm idea submit error: " + e)
 						$('<div><p>Sorry, we cannot process your brainstorm idea at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
 					}
@@ -451,7 +451,7 @@ function activate_answer_form(form,orig_ans){
 
 			var form = $(this).closest('form');
 			var btn = $(this);
-			btn.attr('disabled',true);
+			btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
 
 			$(':input',form).removeClass('form_error_border');
 			$('p.form_error_text',form).remove();
@@ -479,15 +479,15 @@ function activate_answer_form(form,orig_ans){
 					}else{
 						form.hide(1000,function(){$(this).remove()})
 					}
-					btn.removeAttr('disabled')
+					btn.removeAttr('disabled').next('img').remove();
 			  },
 				error : function(xhr,errorString,exceptionObj){
 					//console.log("Error on answer submit, xhr: " + xhr.responseText)
 					try{
 						show_form_error(form, xhr.responseText)
-						btn.removeAttr('disabled')
+						btn.removeAttr('disabled').next('img').remove();
 					}catch(e){
-						btn.removeAttr('disabled')
+						btn.removeAttr('disabled').next('img').remove();
 						console.log("Answer idea submit browser error in server error handling: " + e)
 						$('<div><p>Sorry, we cannot process your answer idea at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
 					}
@@ -569,7 +569,7 @@ function activate_comment_form(form,orig_com){
 
 				var form = $(this).closest('form');
 				var btn = $(this);
-				btn.attr('disabled',true);
+				btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
 				
 				$(':input',form).removeClass('form_error_border');
 				$('p.form_error_text',form).remove();
@@ -616,12 +616,12 @@ function activate_comment_form(form,orig_com){
 								data = eval(data)
 								console.log("html eval ok, call show_error")
 								show_form_error(form, data);
-								btn.removeAttr('disabled')
+								btn.removeAttr('disabled').next('img').remove();
 								return;								
 							}catch(e){
 								temp.com_submit_error = { data: temp.com_submit, status: status}
 								console.log("Comment submit success has an error, see temp.com_submit_error: " + e)
-								btn.removeAttr('disabled')
+								btn.removeAttr('disabled').next('img').remove();
 								return;
 							}
 						}
@@ -633,7 +633,10 @@ function activate_comment_form(form,orig_com){
 						dispatchComment(data[0].params.data,true)
 						
 					  var msg = $('<p class="confirmation">Your comment has been saved successfully</p>')
-						form.before(msg)
+						form.before(msg);
+						form.find('textarea').val('');
+						form.find('input[type="file"]').val('');
+						form.find('input[type="text"]').val('');
 						msg.effect('highlight',{},3000, function(){$(this).remove()});	
 						if(form[0]['comment[target_id]'].value){
 							form[0]['comment[text]'].value = '';
@@ -643,15 +646,15 @@ function activate_comment_form(form,orig_com){
 							form.closest('.tab_window').find('form.add_comment_form:last').fadeTo(1000,1)
 							form.hide(1000,function(){$(this).remove()});
 						}
-						btn.removeAttr('disabled')
+						btn.removeAttr('disabled').next('img').remove();
 				  },
 					error : function(xhr,errorString,exceptionObj){
 						//console.log("Error, xhr: " + xhr.responseText)
 						try{
 							show_form_error(form, xhr.responseText);
-							btn.removeAttr('disabled')
+							btn.removeAttr('disabled').next('img').remove();
 						}catch(e){
-							btn.removeAttr('disabled')
+							btn.removeAttr('disabled').next('img').remove();
 							console.log("Comment submit error: " + e)
 							$('<div><p>Sorry, we cannot process your comment at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
 						}

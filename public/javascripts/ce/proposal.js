@@ -78,7 +78,10 @@ $(function(){
 		}
 	);
 
-
+	$('a.edit_proposal_idea').click( link_disabled );
+	
+	setTimeout(load_templates,500);
+	
 }); // end of jquery onload
 
 function join_proposal_team(form){

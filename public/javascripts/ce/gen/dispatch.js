@@ -244,6 +244,10 @@ function dispatchComment(item,submit_response){
 
 	//var div = $(html).hide().addClass('test_insert');
 	var div = $(html).addClass('test_insert').addClass('full_comment_display');
+
+	// manually add the image source - when compiled it triggered extra page load
+	div.find('img.i36').attr('src',item.pic_url)
+	
 	$('div.Comment_entry:first', div).addClass('new_com');
 	// since the ellipsis aren't working yet, hide the close icon
 	//div.find('.close_1com').hide()

@@ -9,7 +9,7 @@
 	var RCC_PUB_KEY = "#{RCC_PUB}"
 
 
-- if !@mem_teams.nil? && @mem_teams.detect { |mt| mt.id == @team.id }
+- if @team.launched && !@mem_teams.nil? && @mem_teams.detect { |mt| mt.id == @team.id }
 	%h3.rev_title	
 		Public proposal view /
 		= link_to "Private team workspace", {:action => "index", :id => @team.id}
@@ -97,9 +97,9 @@
 	%h3 Endorsements
 	-# Your endorsement of this proposal demonstrates community support. 
 	%p This proposal is not yet ready for review and endorsement. 
-	%p 
-		= check_box_tag :post_invite, 1
-		Please notify me when this proposal is ready to be reviewed and endorsed
+	-#%p 
+	-#	= check_box_tag :post_invite, 1
+	-#	Please notify me when this proposal is ready to be reviewed and endorsed
 					
 			
 	- if !(!@mem_teams.nil? && @mem_teams.detect{|mt| mt.id == @team.id}) && @team.max_members.to_i > @num_mems.to_i
