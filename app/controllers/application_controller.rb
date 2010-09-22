@@ -2,67 +2,35 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  before_filter :set_application_view_path
+  before_filter :set_application_personality
   before_filter :authorize, :except => [ :login, :proposal, :join_proposal_team, :get_templates ]
-  before_filter :set_initiative_id
   helper :all # include all helpers, all the time
 #  protect_from_forgery # See ActionController::RequestForgeryProtection for details
   protect_from_forgery # :except => [:upload_member_photo]
 
-  
-  
-  
-  def set_initiative_id
+  def set_application_personality
     case request.subdomains.first
-      when /^2029-staff$/i
+      when /^2029-staff$/i, /^cgg$/
         params[:_initiative_id] = 1
+        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
       when /^2029$/	
         params[:_initiative_id] = 2
-      when /^cgg$/	
-        params[:_initiative_id] = 1
+        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
+      when 'ncdd'
+        params[:_initiative_id] = 6
+        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/ncdd") ])
       when /^demo$/i
         params[:_initiative_id] = 3
-      when /^ncdd$/i
-        params[:_initiative_id] = 6
+        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
       else	
         params[:_initiative_id] = 5
+        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
     end
-    
-    #logger.warn "request.subdomains.first: #{request.subdomains.first}, params[:_initiative_id]: #{params[:_initiative_id]}"
   end
   
 
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
-  
-  def set_application_view_path
-    #logger.warn "v2 set_application_view_path, request.subdomains.first: #{request.subdomains.first}"
-    #self.prepend_view_path("app/views/uos") if request.subdomains.first == 'uos'
-    case request.subdomains.first
-      when 'ncdd'
-        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/ncdd") ])
-      when 'civic'
-        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
-      when '2029', 'cgg'  
-        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
-    end
-    #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/ncdd") ]) if request.subdomains.first == 'uos'
-    #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/") ]) if request.subdomains.first == 'demo'
-    #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ]) if !request.subdomains.first.match(/t?2029/).nil? || !request.subdomains.first.match(/t?cgg/).nil?
-    #self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
-    
-#    if !request.subdomains.first.match(/^2029$/).nil? || 
-#        !request.subdomains.first.match(/^2029-staff$/).nil? || 
-#        !request.subdomains.first.match(/^cgg$/).nil? ||
-#        !request.subdomains.first.match(/^ncdd$/).nil? ||
-#        !request.subdomains.first.match(/^demo$/).nil?
-#      self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ]) 
-#    end
-    
-   # logger.debug "+++++ ActionController::Base.set_application_view_path based on subdomain: #{request.subdomains.first}"
-  #  ActionController::Base.application_view_path = request.subdomains.first # IF you happen to use subdomains to switch (i.e. store.app.com, inventory.app.com)
-  #  logger.debug "+++++ ActionController::Base.application_view_path: #{ActionController::Base.application_view_path}"
-  end
+  filter_parameter_logging :password
 
   def check_member_team_access(team_id)
     logger.debug "check_member_team_access for team id #{team_id}"
