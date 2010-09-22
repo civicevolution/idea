@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
   #validates_length_of :text, :in => 5..1500, :allow_blank => false
   
   before_validation_on_create :check_team_access  # checks team access and sets the team_id
-  validate_on_update :check_item_edit_access
+  validate_on_update :check_com_edit_access
   
   validate :check_length
       
@@ -49,11 +49,27 @@ class Comment < ActiveRecord::Base
     # errors.add_to_base("You must sign in to continue")
   end  
   
-  def check_item_edit_access
-    logger.debug "validate check_item_edit_access"
+  def check_com_edit_access
+    logger.debug "validate check_com_edit_access"
+    
+    # I will need to check if the iteam can still be edited
+    
+    # are you a still a team member
     is_team_member = TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.team_id).nil?
-    errors.add_to_base("You must sign in to continue") if !is_team_member
-    #errors.add_to_base("Only the original author can edit this comment") if !is_team_member
+    # return as ok if user is a team member
+    return if is_team_member
+
+    # determine if this is under a public discussion, is any ancestor, type 11?
+    item = Item.find_by_o_id_and_o_type(self.id, self.o_type)
+    pub_par_item = Item.find(
+      :all,
+      :select=>'id',
+      :conditions=> {:team_id=>self.team_id , :o_type=>11, :id => item.ancestors.split(/[^\d]/).map { |s| s.to_i }.uniq }
+    )
+    logger.debug "pub_par_item.size: #{pub_par_item.size}"
+    
+    errors.add_to_base("This discussion is private and you must be a team member to participate.") if pub_par_item.size == 0
+
   end  
   
 
