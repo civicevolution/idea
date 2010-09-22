@@ -916,7 +916,7 @@ class TeamController < ApplicationController
       return
     end
 
-
+    save_com = true
     if params[:mode] == 'add'
       logger.debug ":mode == 'add'"
       # create comment and add par_id and member_id
@@ -928,73 +928,85 @@ class TeamController < ApplicationController
     else
       logger.debug "!add, :mode is #{params[:mode]}"
       @comment = Comment.find(params[:id])
-      @comment.attributes = params[:comment]
-      logger.debug "after attributes, comment: #{@comment.inspect}"
+      
+      # I need to make sure this comment belongs to user
+      if @comment.member_id != session[:member_id]
+        @comment.errors.add_to_base("You cannot edit this comment.")
+        logger.warn "user #{session[:member_id]} tried to edit comment id: #{params[:id]}"
+        save_com = false
+        @saved = false
+      else
+        @comment.attributes = params[:comment]
+        logger.debug "after attributes, comment: #{@comment.inspect}"
+      end
     end
-    begin
-      Comment.transaction do        
-        logger.debug "try to save the comment"
-        comSave = @comment.save  
-        logger.debug "comSave; #{comSave}"        
-        #debugger if !comSave
+    
+    if save_com
+      begin
+        Comment.transaction do        
+          logger.debug "try to save the comment"
+          comSave = @comment.save  
+          logger.debug "comSave; #{comSave}"        
+          #debugger if !comSave
         
         
-        if params[:resource_type] == 'simple'
-          logger.debug "simple resource"
-          # no resource to save
-          # if there was a resource, destroy it
-          res = @comment.resource
-          if res
-            res.destroy()
-            @comment.resource
-          end
-          logger.debug "do comSave"
-          @saved = comSave
-        else
-          if params[:mode] == 'add'
-            @resource = Resource.new(params[:resource])
-            @resource.member_id = session[:member_id]
-            @resource.resource_type = params[:resource_type]
+          if params[:resource_type] == 'simple'
+            logger.debug "simple resource"
+            # no resource to save
+            # if there was a resource, destroy it
+            res = @comment.resource
+            if res
+              res.destroy()
+              @comment.resource
+            end
+            logger.debug "do comSave"
+            @saved = comSave
           else
-            @resource = @comment.resource
-            logger.debug "Determine if I need to destroy the old resource: #{@resource}"
-            # if I am changing the type of resource away from upload file,
-            # destroy the record to eliminate the downloaded file
-            if !@resource || (params[:resource_type] == 'link' && @resource.resource_file_name) || (params[:resource_type] == 'upload' && @resource.link_url)
-              @resource.destroy() unless !@resource
+            if params[:mode] == 'add'
               @resource = Resource.new(params[:resource])
               @resource.member_id = session[:member_id]
               @resource.resource_type = params[:resource_type]
             else
-              @resource.attributes = params[:resource]
+              @resource = @comment.resource
+              logger.debug "Determine if I need to destroy the old resource: #{@resource}"
+              # if I am changing the type of resource away from upload file,
+              # destroy the record to eliminate the downloaded file
+              if !@resource || (params[:resource_type] == 'link' && @resource.resource_file_name) || (params[:resource_type] == 'upload' && @resource.link_url)
+                @resource.destroy() unless !@resource
+                @resource = Resource.new(params[:resource])
+                @resource.member_id = session[:member_id]
+                @resource.resource_type = params[:resource_type]
+              else
+                @resource.attributes = params[:resource]
+              end
             end
-          end
-          #debugger
-          logger.debug "resource: #{@resource.inspect}"
-          @resource.team_id = @comment.team_id
-          if comSave 
-            @resource.comment = @comment
-            resSave = @resource.save
-          else
-            @resource.comment_id = 0 # so I can do validation
-            @resource.valid?
-            resSave = false
-          end
-          if !comSave || !resSave
-            @saved = false
-            raise ActiveRecord::Rollback
-          else
-            @saved = true
-          end
-        end # end if resource
-      end  # end of transaction
-    rescue ActiveRecord::Rollback
-      #don't need to do anything
-    rescue TeamAccessDeniedError
-      logger.debug "TeamAccessDeniedError error"
-      redirect_to :action => 'access_denied'
-      return
-    end # of begin block
+            #debugger
+            logger.debug "resource: #{@resource.inspect}"
+            @resource.team_id = @comment.team_id
+            if comSave 
+              @resource.comment = @comment
+              resSave = @resource.save
+            else
+              @resource.comment_id = 0 # so I can do validation
+              @resource.valid?
+              resSave = false
+            end
+            if !comSave || !resSave
+              @saved = false
+              raise ActiveRecord::Rollback
+            else
+              @saved = true
+            end
+          end # end if resource
+        end  # end of transaction
+      rescue ActiveRecord::Rollback
+        #don't need to do anything
+      rescue TeamAccessDeniedError
+        logger.debug "TeamAccessDeniedError error"
+        redirect_to :action => 'access_denied'
+        return
+      end # of begin block
+    end # end of save_com
     
     logger.debug "XXX 1 after save com/resource, @saved: #{@saved}"
 
