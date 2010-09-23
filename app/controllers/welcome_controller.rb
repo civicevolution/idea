@@ -6,12 +6,17 @@ class WelcomeController < ApplicationController
     logger.warn "Welcome controller index APP_NAME: #{APP_NAME}, request.subdomains.first: #{request.subdomains.first}"
     # if I have a current session, get my teams and insert them into the page instead of the signin form
     if session[:member_id]
-      @member = Member.find(session[:member_id])
-      @mem_teams = TeamRegistration.find(:all,
-        :select => 't.id, t.title, t.launched',  
-        :conditions => ['member_id = ?', @member.id],
-        :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-      )
+      @member = Member.find_by_id(session[:member_id])
+      if @member.nil?
+        # session is no good
+        session[:member_id] = nil
+      else
+        @mem_teams = TeamRegistration.find(:all,
+          :select => 't.id, t.title, t.launched',  
+          :conditions => ['member_id = ?', @member.id],
+          :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+        )
+      end
     else
        @member = nil
     end
