@@ -87,7 +87,7 @@ class Member < ActiveRecord::Base
     else
       # FOR PRODUCTION APPS I WANT TO RESERVE AN id and ape_code from the master application: app_2029
       http = Net::HTTP.new('2029.civicevolution.org', 80)
-      resp, data = http.get("/welcome/reserve_member_code?email=#{ URI.escape(self.email) }", nil )
+      resp, data = http.get("/welcome/reserve_member_code?email=#{ URI.escape(self.email, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]")) }", nil )
       data  = JSON.parse data 
       logger.warn "id: #{data[0]['id']}, ape_code: #{data[0]['ape_code']}"
       self.id = data[0]['id']
