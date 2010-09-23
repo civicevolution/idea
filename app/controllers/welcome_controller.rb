@@ -1,7 +1,4 @@
 require 'recaptcha'
-require 'net/http'
-require 'json'
-
 class WelcomeController < ApplicationController
   include ReCaptcha::AppHelper
   
@@ -355,18 +352,6 @@ class WelcomeController < ApplicationController
     render :text => [{:id=>member.id, :ape_code=> member.ape_code}].to_json
 
   end
-
-  def request_member_code
-    http = Net::HTTP.new('civic.1civicevolution.org', 80)
-    http.set_debug_output $stderr  # show lots of debug messages
-    resp, data = http.get('/reserve_member_code?email=brian@ce1.com', nil )
-
-    data  = JSON.parse data 
-    logger.debug "id: #{data[0]['id']}, ape_code: #{data[0]['ape_code']}"
-
-
-  end
-
     
 protected
   def authorize
