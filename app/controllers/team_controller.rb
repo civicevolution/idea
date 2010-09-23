@@ -98,7 +98,7 @@ class TeamController < ApplicationController
     @member = Member.find_by_id(@proposal.member_id)
     respond_to do |format|
       if @member.nil? 
-        format.html { render :text => "Please ignore-- the person that submitted this proposal is no longer a member", :layout => 'welcome' } 
+        format.html { render :text => "Please ignore this suggested idea -- the person that submitted this proposal is no longer a member", :layout => 'welcome' } 
       else
         format.html { render :action => "review_proposal_idea", :layout => 'welcome' } 
       end
