@@ -341,12 +341,13 @@ class WelcomeController < ApplicationController
   end
 
   def reserve_member_code
-    logger.debug "reserve_member_code #{params.inspect}"
+    logger.warn "reserve_member_code #{params.inspect}"
     
     member = Member.find_by_email params[:email]
     if member.nil?
-      member = Member.new :email=> params[:email], :first_name=> 'Place', :last_name=> 'Holder', :pic_id=>0, :init_id=>0, :hashed_pwd=>'*'
-      member.save
+      #member = Member.new :email=> params[:email], :first_name=> 'Place', :last_name=> 'Holder', :pic_id=>0, :init_id=>0, :hashed_pwd=>'*'
+      #member.save
+      member = Member.find(1)
     end
 
     render :text => [{:id=>member.id, :ape_code=> member.ape_code}].to_json
