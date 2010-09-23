@@ -58,7 +58,7 @@
 			-#- form_tag('/welcome/register',{:class=>'register_form'}) do
 			- form_for(:member, :url => { :action => :register}, :html => {:class=>'register_form'}) do |form|
 				%b Please Register
-				- if request.subdomains.first == '2029-staff'	
+				- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'	
 					%p Only CGG staff with email addresses ending in 'cgg.wa.gov.au' can join this staff site
 				%table
 					%tr
