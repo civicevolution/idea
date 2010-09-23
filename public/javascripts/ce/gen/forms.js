@@ -692,9 +692,10 @@ function activate_comment_form(form,orig_com){
 		function(){
 		 //console.log("Clear the comment form");
 			var form = $(this).closest('form');
-			form.find('textarea').val('');
-			form.find('input.title').val('')
-			form.find('input.url').val('')
+			form.find('input[type="text"], textarea, input[type="file"]').removeAttr('disabled').val('')
+			$('div.add_comment button, div.add_comment a, div.add_comment img',form).show();				
+			$('div.add_link, div.attach_file',form).hide()
+			form[0].resource_type.value = 'simple';
 			$(':input',form).removeClass('form_error_border');
 			$('p.form_error_text',form).remove();
 			if( $('div.add_link:visible').size() > 0){
