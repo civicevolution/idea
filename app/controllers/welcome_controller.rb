@@ -38,6 +38,7 @@ class WelcomeController < ApplicationController
   
   def home
     logger.debug "Show the CE home page"
+    render :action=>'home', :layout=>false
   end
 
   def signin

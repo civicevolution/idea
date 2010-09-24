@@ -1,0 +1,119 @@
+	body {font-family: Verdana, Arial, Helvetica, sans-serif, serif; font-size: 87.5%; }
+	#forceScrollbar { position: absolute; top: 0; bottom: -1px; width: 1em; z-index: -1; }
+	.logo {position:absolute;top:22px;left:105px;height:47px;width:59px;z-index:1;}
+	img {border:none;}	
+	.ceNameTag {position:absolute;top:21px;left:159px;height:29px;width:244px;padding-left:20px;z-index:1;}
+	.tagLine {position:absolute;top:54px;left:161px;padding-left:20px; width:400px;height:8px;}
+	#mainPage {position:absolute; top:0; left:0; width:781px}
+	#contentDiv {margin:94px 0 20px 161px;padding:0px 0 20px 20px;
+	background-color:transparent; /*width:600px;*/ 
+	/*border:2px solid green;*/ }
+	#mainBorder {position:absolute; top:80px; left:10px;width:771px; border-top: 3px dotted #69c;}
+	.mnuBtns {position:absolute; top:34px; left:740px;}
+	.mnuBtns IMG {padding-left:8px;}
+	.sideHolder {position:absolute;top:94px;left:10px;width:150px;}
+	#userNameDiv {padding:3px 0px 15px 0px;
+	border-bottom: 3px dotted #69c;
+	/* border: red 1px solid;*/
+	color:#366;text-align:right;}
+	#projectPathHolder { padding:10px 0 10px 0; width:150px; margin-left: -5px; text-align:right;}
+	.inits_list {margin-top:20px;}
+	.initSecTitle{font-size:1.5em; font-weight:bold; color:#333; }
+	.init_instr {margin:0 0 20px 0;}
+	.initTitle {margin: .5em 0 .25em 0; font-size:1em;}
+	.initDesc {margin:0 0 1.5em 0;}
+	.sugInitTitle {margin:2.5em 0 .25em 0;font-size:1em;}
+	A:link {text-decoration:none;}
+	A:visited {text-decoration:none;}
+	A:hover {text-decoration:underline;}
+	A:active {text-decoration:none;}
+	A.o, SPAN.o {color:#f60;}
+	.ob {color:#f60;font-weight:bold;}
+	UL.pageFooter {margin: 2em 0 0 0; padding-left:0px;}
+	li.inline {
+		list-style-type: disc;
+		display: inline;
+		padding: 0 1em 0 0;
+		margin: 0 1em 0 0;
+		border-right:1px solid #69c;
+	}
+	li.last {
+		list-style-type: disc;
+		display: inline;
+		padding: 0;
+		border-right:0px;
+	}
+	ul.pageFooter > li:first-child {padding-left:0;}
+	#userNameDiv P { margin:0;}
+	.signIn {width: 140px; margin: 0 0 0px 0;}
+	#userNameDiv P.signInLbl {color:#333;margin-bottom:4px;}
+	.menuHelp {font-weight:bold; display:block;margin-top:2px;}
+	.menuHelp:hover {text-decoration:underline;}
+	#userNameDiv P.button {margin-bottom: 20px; }
+	#showUser {display:none;}
+	#showSignIn {display:none;}
+	P.forgot {margin: 0px 0 4px 0; font-size:88% }
+	.firstName {font-weight: bold; color: #689bcd; }
+	.ceBoldBlue {font-weight: bold; color: #333; }
+	.warning {color:red; font-weight: bold;}
+	P.warning {text-align:left;margin-left:20px;}
+	#browser_not_ie_ff UL {text-align:left;margin:0;}
+	TD {vertical-align:top;}
+	.pwdchkinst {font-size: 88%;}
+	TD.signinChkbox {text-align:right; vertical-align:top;}
+	BUTTON {margin-right: 10px; }
+	
+	.nobreak {white-space: nowrap;}
+		.regInstr, #register LI {font-size: 88%; font-color:#555;}
+	#register UL {margin:0; padding-left:20px;}
+	.regTitle {font-size: 130%; font-weight: bold; padding-top:10px; color:#333;}	
+	.regText {width:200px; }
+	#register TD {vertical-align: top; text-align:left; }
+	.regCityOver {width:100px;}
+	P.regWelcome {margin:0; color:#333; font-weight:bold;}
+	P.regInstr {margin:0; }
+	.nobreak {white-space: nowrap;}
+	.ce_id {border: 1px solid #69c; margin-top:20px; padding:8px;}
+	#regName {font-weight:bold;}
+	#regLocation {font-weight:bold;}
+	.formLbl {color:#333;}
+	.closeHdr {margin:0 0 10px 0; padding:0; line-height:1em;}
+	.close {margin:0 0 0 20px; padding:0 0 0 0px; line-height:1em;}
+	TEXTAREA { padding: 6px;}
+	.ideaCount {color:#333; margin-left:15px;}
+	.getFlash {font-size:122%; font-weight:bold;}
+	
+	.team_topic_title {margin: 0px 0 10px 20px;color:#444;}
+	.init_desc {margin: -10px 0 10px 0px;color:#444;}
+	.team_topic_desc {margin: -10px 0 10px 20px;line-spacing:80%; color:#444;}
+	.prop_page_instr {margin: -0px 0 10px 20px; font-weight:bold; color:#444;}
+	.propSecTitle {font-weight: bold;font-variant: small-caps; margin:-10px 0 5px 0;}
+	.propSecText {margin:5px 0 15px 0;}
+	.learnMoreTitle {font-weight:bold;font-size;122%;}
+	h2.qsection {font-size: 1.2em;}
+	h2.helpTitle {font-size: 1.2em;}
+	.ss_w_legend {border: 1px solid #444; padding: 10px; margin:.75em 0;}
+	.tutorial H3 {margin-top: 1.5em; margin-bottom:0em;}
+	.tutorial H2 { margin-bottom:0em;}
+	.tutorial P {margin:.5em 0;}
+	.tutorial UL, .tutorial OL {margin-top:.5em}
+	.Qanswer {border: 1px #f60 solid; padding:10px; }
+	.imgBox {border: 1px solid #444; padding: 10px; margin:.75em 0;}
+	.toc_sec {margin-left: 2em;}
+	.toc {border:1px solid #444; padding: 2em 1em; background-color:#f8ffff; }
+	.tute_section {border:1px solid blue;margin:1em; padding:1em;}
+	.toc P { margin:.25em 0; }
+	.toc_top{text-align:right; font-size:.75em; margin:0;}
+	.initName {position:absolute;top:28px;left:159px;padding-left:20px;z-index:1; font-size:2em;color:black;}
+	
+	
+	DIV.imgFile {background-image:url(../g/bgplus.gif)}
+	
+	.player {border:1px solid #70c8d4;width:513px;}
+	.explore {margin-left:1em;font-size:.9em;font-weight:bold;}
+	
+	#contentDiv P.page_nav {margin-top:2em; width:800px;}
+	.page_nav A, .page_nav SPAN {margin-right:2em;}
+	.helpPage img {margin: 2em 0;}
+	.helpPage .heading, .helpPage .jump_header {font-weight:bold;margin-top:2em;}
+	.helpPage .caption {margin-top:-1.5em;}
