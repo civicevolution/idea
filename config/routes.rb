@@ -32,8 +32,12 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => "welcome"
-
+  if APP_NAME == 'civic'
+    map.root :controller => "welcome", :action=>'home'
+  else
+    map.root :controller => "welcome", :action=>'index'
+  end
+  
   # See how all your routes lay out with "rake routes"
 
   # Install the default routes as the lowest priority.
