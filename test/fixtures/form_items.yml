@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  form_id: 1
+  name: MyString
+  value: MyText
+
+two:
+  form_id: 1
+  name: MyString
+  value: MyText

@@ -1,0 +1,7 @@
+Hello #{@member.first_name},
+~ ''
+Please review this workshop proposal and respond within 2 business days
+http://#{@host}/workshop/review_workshop_proposal?id=#{@form_data['form_id']}
+
+~ ''
+= render :partial => 'workshop/proposal_contents_email' 

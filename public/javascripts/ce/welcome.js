@@ -2,7 +2,9 @@
 $(function(){
 	console.log("Start initializing the page, tabs first")
 		$('div.tabs').tabs();
-		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
+		try{
+			$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
+		}catch(e){}
 
 	$('form.suggest_proposal_idea_form').unbind('submit').submit(
 		function(){

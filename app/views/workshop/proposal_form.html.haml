@@ -1,0 +1,292 @@
+- content_for (:script) do
+	= javascript_include_tag "jquery-1.4.2.min.js", 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "ce/gen/forms.js", "ce/activate/act_welcome_layout.js", "ce/welcome.js", "ce/ncdd.js"
+	=	stylesheet_link_tag 'ncdd.css'
+
+
+%h3 Propose a workshop for the Norcal Conference
+
+%div.proposal_form
+	%p 
+		Our goal is that each workshop should be interactive and hands-on. So we developed the concept
+		%b Anatomy of a Public engagement.
+	
+	%p Each workshop should be based on a successful public engagement and co-lead by a team that includes the project champion from the public sector and a Dialogue and deliberation practitioner. Each workshop should tell an engaging story that sets the stage, explores strategy, details implementation, analyzes results, and provides guidance to the workshop participants. Facilitator led discussion is intertwined throughout to ensure an interactive experience. This structure was designed to
+	%ul
+		%li Ensure adequate focus on the design options, decisions and implementation 
+		%li Provide opportunities for workshop participant engagement at each stage
+		%li Ensure a mix of real world experience and D&D practice
+		%li Provide a realistic model for the workshop participants to emulate and resources to get them started
+		%li The sessions should be based on success stories and/or important lessons learned in actual engagements
+		%li They should include D&D practices, tools, and technologies embedded in real world public engagements.
+		%li We don't want lectures, theories, sales pitches or demonstrations.
+
+	%p We will provide a template for your workshop and offer some tools and guidance to help you propose and refine your workshop
+
+
+	%h3 The first step is to fill out this form
+	%ul
+		%li This form mimics the format of the sessions.
+		%li 
+			%b Filling out this form helps you start developing your workshop right away.
+		%li You MUST save your form at each step, you can return to complete the form at any time.
+		%li If your workshop proposal is accepted, you will be given a workspace to develop and refine your proposal.
+		%li The information you enter now will be copied into your workspace
+		%li 
+			%b Your first submission of the workshop form does not need to be complete nor final - we want a flavor of your presentation and a sense of how it fits into this format.
+
+	- form_for( :workshop_proposal, :url => { :controller=> :workshop, :action => :submit_workshop_idea}, :html => {:class=>'suggest_workshop_proposal_form std_form'} ) do |form| 
+		= form.hidden_field :form_name, :value=>'workshop_proposal'
+		= form.hidden_field :form_id, :value=>@form_data['form_id']
+		%div.add_idea
+			%div.section			
+				%p.header Primary contact information
+				= form.label :contact_name, "Name of primary contact"
+				= form.text_field :contact_name, :class=>'title', :alias=>'Contact name', :value=>@form_data['contact_name']
+				%div.control_line.title
+					%div.controls
+						%span.char_ctr 255 characters left
+
+				= form.label :contact_email, "Email for primary contact"
+				= form.text_field :contact_email, :class=>'title', :alias=>'Contact email', :value=>@form_data['contact_email']
+				%div.control_line.title
+					%div.controls
+						%span.char_ctr 255 characters left
+				= form.label :contact_number, "Phone number for primary contact"
+				= form.text_field :contact_number, :class=>'title', :alias=>'Contact number', :value=>@form_data['contact_number']
+				%div.control_line.title
+					%div.controls
+						%span.char_ctr 255 characters left
+
+				%div.control_line
+					%p
+						%button 
+							Save
+						= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+
+
+
+
+	- form_for( :workshop_proposal, :url => { :controller=> :workshop, :action => :submit_workshop_idea}, :html => {:class=>'suggest_workshop_proposal_form std_form'} ) do |form| 
+		= form.hidden_field :form_name, :value=>'workshop_proposal'
+		= form.hidden_field :form_id, :value=>@form_data['form_id']
+		%div.add_idea
+			%div.section			
+				%p.header Title and summary
+				= form.label :title, "Workshop title"
+				= form.text_field :title, :class=>'title', :alias=>'Title', :value=>@form_data['title']
+				%div.control_line.title
+					%div.controls
+						%span.char_ctr 255 characters left
+		
+
+				= form.label :summary, "Please summarize your workshop"
+				= form.text_area :summary, :class=>'comment', :size=>"1x2", :alias=>'Workshop summary', :value=>@form_data['summary']
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							300
+							characters left
+							= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+
+				%p.header Co-presenters
+				= form.label :champ_name, "Community champion name"
+				= form.text_field :champ_name, :class=>'title', :alias=>'Champion name', :value=>@form_data['champ_name']
+				%div.control_line.title
+					%div.controls
+						%span.char_ctr 255 characters left
+				= form.label :champ_email, "Community champion email"
+				= form.text_field :champ_email, :class=>'title', :alias=>'Champion email', :value=>@form_data['champ_email']
+				%div.control_line.title
+					%div.controls
+						%span.char_ctr 255 characters left
+
+				= form.label :prac_name, "Dialogue and Deliberation practitioner name"
+				= form.text_field :prac_name, :class=>'title', :alias=>'Practitioner name', :value=>@form_data['prac_name']
+				%div.control_line.title
+					%div.controls
+						%span.char_ctr 255 characters left
+				= form.label :prac_email, "Dialogue and Deliberation practitioner email"
+				= form.text_field :prac_email, :class=>'title', :alias=>'Practitioner email', :value=>@form_data['prac_email']
+				%div.control_line.title
+					%div.controls
+						%span.char_ctr 255 characters left
+			
+				%div.control_line
+					%p
+						%button 
+							Save
+						= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+
+
+
+	- form_for( :workshop_proposal, :url => { :controller=> :workshop, :action => :submit_workshop_idea}, :html => {:class=>'suggest_workshop_proposal_form std_form'} ) do |form| 
+		= form.hidden_field :form_name, :value=>'workshop_proposal'
+		= form.hidden_field :form_id, :value=>@form_data['form_id']
+		%div.add_idea
+			%div.section			
+				%p.header Setting the stage
+				%p The project champion opens their story by explaining their challenges and opportunities
+
+				= form.label :set_stage, "Please describe the problem and/or opportunity you hope to address"
+				= form.text_area :set_stage, :class=>'comment', :size=>"1x2", :alias=>'Setting', :value=>@form_data['set_stage']
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							1000
+							characters left
+						%button 
+							Save
+						= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}					
+							
+	- form_for( :workshop_proposal, :url => { :controller=> :workshop, :action => :submit_workshop_idea}, :html => {:class=>'suggest_workshop_proposal_form std_form'} ) do |form| 
+		= form.hidden_field :form_name, :value=>'workshop_proposal'
+		= form.hidden_field :form_id, :value=>@form_data['form_id']
+		%div.add_idea
+			%div.section			
+				%p.header Strategy
+				%p This stage starts with the practitioner showing where this problem fits into the public engagement spectrum and introducing some of the strategic options.
+
+				= form.label :strategic_options, "Please describe how this problem fits into the public engagement spectrum and what options should be considered"
+				= form.text_area :strategic_options, :class=>'comment', :size=>"1x2", :alias=>'Strategic options', :value=>@form_data['strategic_options']
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							1000
+							characters left
+
+				%p After this introduction, the champion describes the strategy that was chosen and why
+
+				= form.label :strategy, "Please describe the strategy that was selected"
+				= form.text_area :strategy, :class=>'comment', :size=>"1x2", :alias=>'Strategy', :value=>@form_data['strategy']
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							1000
+							characters left
+						%button 
+							Save
+						= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}							 
+
+				%p Now the practitioner facilitates a group conversation with the workshop participants about the strategic options and the specific choices made by the champion
+
+
+
+
+	- form_for( :workshop_proposal, :url => { :controller=> :workshop, :action => :submit_workshop_idea}, :html => {:class=>'suggest_workshop_proposal_form std_form'} ) do |form| 
+		= form.hidden_field :form_name, :value=>'workshop_proposal'
+		= form.hidden_field :form_id, :value=>@form_data['form_id']
+		%div.add_idea
+			%div.section			
+				%p.header Implementation
+				%p The project champion explains how they implemented their strategy and the challenges along the way
+
+				= form.label :implementation, "Please describe how you implemented your strategy"
+				= form.text_area :implementation, :class=>'comment', :size=>"1x2", :alias=>'Implementation', :value=>@form_data['implementation']
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							1000
+							characters left
+						%button 
+							Save
+						= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}							 
+	
+				%p Now the practitioner facilitates a group conversation with the workshop participants about the implementation of strategy
+	
+	- form_for( :workshop_proposal, :url => { :controller=> :workshop, :action => :submit_workshop_idea}, :html => {:class=>'suggest_workshop_proposal_form std_form'} ) do |form| 
+		= form.hidden_field :form_name, :value=>'workshop_proposal'
+		= form.hidden_field :form_id, :value=>@form_data['form_id']
+		%div.add_idea
+			%div.section			
+				%p.header Results
+				%p The project champion reviews the results of their strategy and implementation, including successes, lessons learned and how they plan to build on their results
+
+				= form.label :results, "Please describe the results, lessons learned, and next steps you want to share with the workshop participants"
+				= form.text_area :results, :class=>'comment', :size=>"1x2", :alias=>'Results', :value=>@form_data['results']
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							1000
+							characters left
+						%button 
+							Save
+						= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}							 
+							
+				%p Now the practitioner facilitates a group conversation with the workshop participants about the results and lessons learned
+
+	- form_for( :workshop_proposal, :url => { :controller=> :workshop, :action => :submit_workshop_idea}, :html => {:class=>'suggest_workshop_proposal_form std_form'} ) do |form| 
+		= form.hidden_field :form_name, :value=>'workshop_proposal'
+		= form.hidden_field :form_id, :value=>@form_data['form_id']
+		%div.add_idea
+			%div.section			
+				%p.header Next steps DIY
+				%p The facilitator introduces resources and guidelines that can help the workshop participants start to use these strategies in their own work
+
+				= form.label :diy, "Please describe the resources and guidelines you plan to share with the workshop participants"
+				= form.text_area :diy, :class=>'comment', :size=>"1x2", :alias=>'Resources', :value=>@form_data['diy']
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							1000
+							characters left
+						%button 
+							Save
+						= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}							 
+							
+				%p Now the practitioner facilitates a group conversation with the workshop participants about what they might do and what they need to make it happen.
+				
+	%h3 When you are have completed your workshop proposal form, please submit it to us for review
+	%ul
+		%li Remember, your first submission of the workshop form does not need to be complete nor final - we want a flavor of your presentation and a sense of how it fits into this format.
+		%li We will contact you with 2 business days to discuss your workshop with you
+		%li We appreciate your interest in presenting at the NCDD Norcal conference
+			
+	%h3		
+		= link_to "Click here to preview and submit your workshop proposal", {:controller=>'workshop',:action => 'preview_workshop_proposal_form', :id=> @form_data['form_id']}, {:class=>'propose_workshop'}							
+-#		  Stages
+-#		    Set the stage
+-#		      F
+-#		        Facilitator introduces the workshop, champion and challenge
+-#		      C
+-#		        Champion opens their story by explaining their challenges and opportunities
+-#		        Colorful and engaging
+-#		    Strategy
+-#		      F
+-#		        Orients audience to the spectrum explains how this problem relates to it
+-#		        Introduces some options to consider
+-#		      C
+-#		        Explains the strategy they chose and why they chose it
+-#		      FLD
+-#		        Discuss options
+-#		        Discuss selected strategy
+-#		        Ask C about the strategy
+-#		        Has anyone faced a similar problem/what did you do?
+-#		    Implementation
+-#		      C
+-#		        Here's what we did
+-#		        Details of how they implemented their strategy
+-#		      FLD
+-#		        Ask questions about the implementation
+-#		        Suggest alternatives
+-#		        What would you have done?
+-#		      F
+-#		        Let's see how this worked out
+-#		    Results
+-#		      C
+-#		        The results
+-#		        Our achievements
+-#		        Ways we plan to build on this
+-#		      FLD
+-#		        Questions about the results
+-#		        Analysis
+-#		        What did you learn
+-#		        What would you do differently
+-#		        How can we replicate these results
+-#		    Next steps
+-#		      F
+-#		        Take aways for the audience
+-#		        Resources
+-#		      FLD
+-#		        What might you do?
+-#		        What would you need to make it happen?
+-#

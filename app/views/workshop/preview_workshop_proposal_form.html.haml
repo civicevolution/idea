@@ -1,0 +1,16 @@
+- content_for (:script) do
+	=	stylesheet_link_tag 'ncdd.css'
+
+
+%h3 Preview your workshop proposal
+%p 
+	If you are satisfied with this proposal, click the Submit link at the bottom to send it to us for review.	If you would like to make any changes, click here
+	= link_to "Return to workshop proposal form", {:controller=>'workshop',:action => 'proposal_form', :id=>params[:id]}, {:class=>'propose_workshop'}
+%hr
+ 
+= render :partial => 'proposal_contents'
+
+%h3= link_to "Submit this workshop proposal", {:controller=>'workshop',:action => 'submit_workshop_proposal_form', :id=>params[:id]}, {:class=>'propose_workshop'}
+
+%p= link_to "Return to workshop proposal form", {:controller=>'workshop',:action => 'proposal_form', :id=>params[:id]}, {:class=>'propose_workshop'}
+

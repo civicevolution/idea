@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100917074718) do
+ActiveRecord::Schema.define(:version => 20100930032908) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -127,6 +127,21 @@ ActiveRecord::Schema.define(:version => 20100917074718) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "team_id"
+  end
+
+  create_table "form_items", :force => true do |t|
+    t.integer  "form_id",    :null => false
+    t.string   "name",       :null => false
+    t.text     "value",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "forms", :force => true do |t|
+    t.integer  "member_id",  :null => false
+    t.string   "form_name",  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "general_email_settings", :force => true do |t|

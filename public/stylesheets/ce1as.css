@@ -415,49 +415,49 @@ img {
 p.clear_both {
   clear: both; }
 
-form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest_idea_form {
+form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest_idea_form, form.std_form {
   margin-bottom: 40px;
   margin-right: 20px;
   width: 100%;
   max-width: 500px;
   clear: both; }
-  form.add_comment_form label, form.add_answer_form label, form.add_bs_idea_form label, form.suggest_idea_form label {
+  form.add_comment_form label, form.add_answer_form label, form.add_bs_idea_form label, form.suggest_idea_form label, form.std_form label {
     display: block;
     clear: both;
     margin-top: 0px;
     font-weight: bold;
     font-style: italic;
     color: #888888; }
-  form.add_comment_form img, form.add_answer_form img, form.add_bs_idea_form img, form.suggest_idea_form img {
+  form.add_comment_form img, form.add_answer_form img, form.add_bs_idea_form img, form.suggest_idea_form img, form.std_form img {
     display: block;
     float: left;
     margin: 6px 10px 0 0; }
-  form.add_comment_form textarea, form.add_comment_form input[type=text], form.add_answer_form textarea, form.add_answer_form input[type=text], form.add_bs_idea_form textarea, form.add_bs_idea_form input[type=text], form.suggest_idea_form textarea, form.suggest_idea_form input[type=text] {
+  form.add_comment_form textarea, form.add_comment_form input[type=text], form.add_answer_form textarea, form.add_answer_form input[type=text], form.add_bs_idea_form textarea, form.add_bs_idea_form input[type=text], form.suggest_idea_form textarea, form.suggest_idea_form input[type=text], form.std_form textarea, form.std_form input[type=text] {
     width: 100%; }
-  form.add_comment_form input[type=file], form.add_answer_form input[type=file], form.add_bs_idea_form input[type=file], form.suggest_idea_form input[type=file] {
+  form.add_comment_form input[type=file], form.add_answer_form input[type=file], form.add_bs_idea_form input[type=file], form.suggest_idea_form input[type=file], form.std_form input[type=file] {
     margin: 12px 0 16px 0; }
-  form.add_comment_form input[type=text], form.add_answer_form input[type=text], form.add_bs_idea_form input[type=text], form.suggest_idea_form input[type=text] {
+  form.add_comment_form input[type=text], form.add_answer_form input[type=text], form.add_bs_idea_form input[type=text], form.suggest_idea_form input[type=text], form.std_form input[type=text] {
     font-size: 1.2em; }
-  form.add_comment_form div.controls, form.add_answer_form div.controls, form.add_bs_idea_form div.controls, form.suggest_idea_form div.controls {
+  form.add_comment_form div.controls, form.add_answer_form div.controls, form.add_bs_idea_form div.controls, form.suggest_idea_form div.controls, form.std_form div.controls {
     position: absolute;
     right: 0; }
-  form.add_comment_form div.control_line, form.add_answer_form div.control_line, form.add_bs_idea_form div.control_line, form.suggest_idea_form div.control_line {
+  form.add_comment_form div.control_line, form.add_answer_form div.control_line, form.add_bs_idea_form div.control_line, form.suggest_idea_form div.control_line, form.std_form div.control_line {
     position: relative;
     margin-bottom: 10px; }
-    form.add_comment_form div.control_line img, form.add_answer_form div.control_line img, form.add_bs_idea_form div.control_line img, form.suggest_idea_form div.control_line img {
+    form.add_comment_form div.control_line img, form.add_answer_form div.control_line img, form.add_bs_idea_form div.control_line img, form.suggest_idea_form div.control_line img, form.std_form div.control_line img {
       cursor: pointer; }
-  form.add_comment_form div.add_comment, form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_comment, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_comment, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_comment, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file {
+  form.add_comment_form div.add_comment, form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_comment, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_comment, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_comment, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file, form.std_form div.add_comment, form.std_form div.add_link, form.std_form div.attach_file {
     clear: both;
     margin-right: 20px;
     border: 0px solid #dddddd; }
-    form.add_comment_form div.add_comment p img, form.add_comment_form div.add_link p img, form.add_comment_form div.attach_file p img, form.add_answer_form div.add_comment p img, form.add_answer_form div.add_link p img, form.add_answer_form div.attach_file p img, form.add_bs_idea_form div.add_comment p img, form.add_bs_idea_form div.add_link p img, form.add_bs_idea_form div.attach_file p img, form.suggest_idea_form div.add_comment p img, form.suggest_idea_form div.add_link p img, form.suggest_idea_form div.attach_file p img {
+    form.add_comment_form div.add_comment p img, form.add_comment_form div.add_link p img, form.add_comment_form div.attach_file p img, form.add_answer_form div.add_comment p img, form.add_answer_form div.add_link p img, form.add_answer_form div.attach_file p img, form.add_bs_idea_form div.add_comment p img, form.add_bs_idea_form div.add_link p img, form.add_bs_idea_form div.attach_file p img, form.suggest_idea_form div.add_comment p img, form.suggest_idea_form div.add_link p img, form.suggest_idea_form div.attach_file p img, form.std_form div.add_comment p img, form.std_form div.add_link p img, form.std_form div.attach_file p img {
       display: block;
       margin-top: -2px; }
-  form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file {
+  form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file, form.std_form div.add_link, form.std_form div.attach_file {
     display: none; }
-  form.add_comment_form button, form.add_answer_form button, form.add_bs_idea_form button, form.suggest_idea_form button {
+  form.add_comment_form button, form.add_answer_form button, form.add_bs_idea_form button, form.suggest_idea_form button, form.std_form button {
     margin-left: 15px; }
-  form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning {
+  form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning, form.std_form p.resource_warning {
     margin-top: -12px; }
 
 div.Answer_entry, div.Question_entry {

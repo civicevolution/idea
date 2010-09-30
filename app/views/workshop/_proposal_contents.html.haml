@@ -1,0 +1,37 @@
+%div.preview
+	%h3 Title: #{@form_data['title']}
+
+	%h3 Summary
+	%div #{@form_data['summary']}
+
+	%h3 Primary contact information
+	%p Name of primary contact: #{@form_data['contact_name']}
+
+	%p Email for primary contact: #{@form_data['contact_email']}
+
+	%p Phone number for primary contact #{@form_data['contact_number']}
+	
+	%h3 Co-presenters
+	%p Community champion name: #{@form_data['champ_name']}
+	%p Community champion email: #{@form_data['champ_email']}
+	%p D&D Practitioner name: #{@form_data['prac_name']}
+	%p D&D Practitioner email: #{@form_data['prac_email']}
+	
+
+	%h3 Setting the stage
+	%div #{@form_data['set_stage']}
+	
+	%h3 Strategic options 
+	%div #{@form_data['strategic_options']}
+
+	%h3 Strategic decisions
+	%div #{@form_data['strategy']}
+
+	%h3 Implementation
+	%div #{@form_data['implementation']}
+
+	%h3 Results and next steps
+	%div #{@form_data['results']}
+
+	%h3 Next steps for DIY
+	%div #{@form_data['diy']}

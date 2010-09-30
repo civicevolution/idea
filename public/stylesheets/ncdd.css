@@ -1,0 +1,19 @@
+div.proposal_form {
+  width: 600px; }
+
+div.section {
+  border: 1px solid black;
+  padding: 1em; }
+  div.section p.header {
+    font-weight: bold;
+    font-size: 1.2em; }
+
+form.std_form textarea {
+  font-size: 1.2em; }
+form.std_form input[type=text] {
+  font-size: 1.2em; }
+form.std_form div.control_line {
+  margin-bottom: 36px; }
+
+div.preview h3 {
+  margin-top: 36px; }
