@@ -95,9 +95,13 @@ class TeamController < ApplicationController
   
   def review_proposal_idea
     @proposal = ProposalIdea.find(params[:id])
-    @member = Member.find(@proposal.member_id)
+    @member = Member.find_by_id(@proposal.member_id)
     respond_to do |format|
-      format.html { render :action => "review_proposal_idea", :layout => 'welcome' } 
+      if @member.nil? 
+        format.html { render :text => "Please ignore this suggested idea -- the person that submitted this proposal is no longer a member", :layout => 'welcome' } 
+      else
+        format.html { render :action => "review_proposal_idea", :layout => 'welcome' } 
+      end
     end
   end
   
@@ -108,7 +112,8 @@ class TeamController < ApplicationController
     
     # convert the idea into a team
     
-    if session[:member_id] == 1
+    admin = Member.find_by_id(session[:member_id]);
+    if !admin.nil? && admin.email == 'brian@civicevolution.org'
     
       logger.debug "create_team_from_proposal_idea for id: #{params[:id]}"
       #id refers to the proposal
@@ -151,10 +156,10 @@ class TeamController < ApplicationController
         render :action => "proposal_idea_published", :layout => 'welcome'
       else
         logger.debug "This proposal: #{@proposal_idea} has already been converted into a team"
-        render :text=> "This proposal: #{@proposal_idea} has already been converted into a team"
+        render :text=> "This proposal: #{@proposal_idea} has already been converted into a team", :layout => 'welcome'
       end
     else
-      render :text=> "Can't do it"
+      render :action => "must_be_admin", :layout => 'welcome'
     end
   end
   

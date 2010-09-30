@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   
 
   # Scrub sensitive parameters from your log
-  filter_parameter_logging :password
+  filter_parameter_logging :password, :password_confirmation
 
   def check_member_team_access(team_id)
     logger.debug "check_member_team_access for team id #{team_id}"

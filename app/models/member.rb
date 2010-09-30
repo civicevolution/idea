@@ -1,4 +1,7 @@
 require 'digest/sha1'
+require 'net/http'
+require 'json'
+require 'uri'
 
 class Member < ActiveRecord::Base
 
@@ -72,14 +75,24 @@ class Member < ActiveRecord::Base
   
   
   def before_create
-    o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;  
-    # I can check to make sure this code isn't already in the table    
-    string = ''
-    begin
-      string  =  (1..14).map{ o[rand(o.length)]  }.join;
-      dupl = Member.find_by_ape_code(string)
-    end while not dupl.nil?
-    self.ape_code = string  
+    if APP_NAME == 'app_2029' || RAILS_ENV != 'production'
+      o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;  
+      # I can check to make sure this code isn't already in the table    
+      string = ''
+      begin
+        string  =  (1..14).map{ o[rand(o.length)]  }.join;
+        dupl = Member.find_by_ape_code(string)
+      end while not dupl.nil?
+      self.ape_code = string  
+    else
+      # FOR PRODUCTION APPS I WANT TO RESERVE AN id and ape_code from the master application: app_2029
+      http = Net::HTTP.new('2029.civicevolution.org', 80)
+      resp, data = http.get("/welcome/reserve_member_code?email=#{ URI.escape(self.email, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]")) }", nil )
+      data  = JSON.parse data 
+      logger.warn "id: #{data[0]['id']}, ape_code: #{data[0]['ape_code']}"
+      self.id = data[0]['id']
+      self.ape_code = data[0]['ape_code']
+    end
   end
   
   

@@ -72,11 +72,7 @@ class TeamRegistration < ActiveRecord::Base
       errors.add(:base, "You must be signed in to CivicEvolution before you can join a team")
       return
     end
-    email = Member.find_by_id(self.member_id).email
-    if !( email.match(/cgg.wa.gov.au$/i) || email.match(/civicevolution.org$/i) )
-      # eligible for this initiative
-      errors.add(:base, "You must have an offical cgg.wa.gov.au email address to join this team")  
-    elsif TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.team_id)
+    if TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.team_id)
       errors.add(:base, "You are already a member of this team")  
     elsif !Member.find_by_id(self.member_id).confirmed
       # confirmed
