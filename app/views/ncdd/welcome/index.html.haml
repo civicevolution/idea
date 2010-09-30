@@ -65,6 +65,8 @@
 	%h2.com_title Conference Workshops
 	%ul.marketplace
 		%li These are the workshops under consideration for the conference
+		%li
+			%b We are actively recruiting additional workshops - please use the link below to propose a workshop
 		%li You can help the presenters prepare for their workshops by suggesting topics and resources
 		%li You can help yourself get the most out of the each workshop by reviewing the recommended resources before attending the workshop
 		%li Finally, the learning and collaboration doesn't end when the workshop is over. Each workshop can host conversations for participants interested in learning more and doing it themselves.
@@ -108,8 +110,8 @@
 					- title = 'Untitled' if title.nil? || title == '' 
 					%p= link_to title, {:controller=>'workshop',:action => 'proposal_form', :id=>prop.id}, {:class=>'propose_workshop'}
 
-		%h3
-			= link_to "Submit a workshop proposal form", {:controller=>'workshop',:action => 'proposal_form'}, {:class=>'propose_workshop'}
+		%h2
+			= link_to "Submit a workshop proposal", {:controller=>'workshop',:action => 'proposal_form'}, {:class=>'propose_workshop'}
 
 
 
