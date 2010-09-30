@@ -1,6 +1,14 @@
 div.proposal_form {
   width: 600px; }
 
+div.my_proposals {
+  margin: 20px 0;
+  border: 1px solid black;
+  padding: 1em; }
+  div.my_proposals p.header {
+    font-weight: bold;
+    font-size: 1.2em; }
+
 div.section {
   border: 1px solid black;
   padding: 1em; }
@@ -17,3 +25,29 @@ form.std_form div.control_line {
 
 div.preview h3 {
   margin-top: 36px; }
+
+p.presenter {
+  font-weight: bold; }
+
+div.team_entry {
+  margin-bottom: 20px; }
+
+div.videos {
+  float: right;
+  width: 225px;
+  border: 0px solid red;
+  padding-top: 20px;
+  text-align: left; }
+  div.videos div, div.videos p {
+    text-align: left;
+    margin: 0;
+    font-size: 92%; }
+  div.videos p.link {
+    font-weight: bold;
+    margin: 8px 0 0 0;
+    font-size: 92%; }
+  div.videos select {
+    margin-top: 4px; }
+  div.videos img {
+    width: auto;
+    height: 140px; }

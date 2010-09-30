@@ -103,17 +103,20 @@
 							-#= password_field_tag :password_repeat, params[:password_field_tag2]
 							= form.password_field :password_confirmation, :alias=>'Repeat password'
 
-					%tr
-						%td
-							%div.residency
-								%b Please select one:
-								%p
-									%input{:type=>'radio', :name=>'member_category', :value => '1', :alias=>'You'}
-									I am a resident of the Geraldton City Region
-								%p
-									%input{:type=>'radio', :name=>'member_category', :value => '2', :alias=>'You'}
-									I am NOT a resident of the Geraldton City Region
-
+					- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'	
+						%tr
+							%td
+								%div.residency
+									%b Please select one:
+									%p
+										%input{:type=>'radio', :name=>'member_category', :value => '1', :alias=>'You'}
+										I am a resident of the Geraldton City Region
+									%p
+										%input{:type=>'radio', :name=>'member_category', :value => '2', :alias=>'You'}
+										I am NOT a resident of the Geraldton City Region
+					- else
+						%input{:type=>'hidden', :name=>'member_category', :value => '1'}
+						
 					%tr
 						%td
 							%input{:type=>'checkbox', :name=>'accept_tos', :value=>'true', :alias=>'You'}
