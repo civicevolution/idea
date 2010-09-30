@@ -47,6 +47,11 @@ function activate_workshop_form(form,orig_idea){
 					form_id = data[0].form_id;
 					console.log("form_id: " + form_id)
 					$('form input[name="workshop_proposal[form_id]"]').val(form_id)
+					var href = $('a.preview_workshop').attr('href');
+					if(!href.match(/\d$/)){
+						// append the form_id to href
+						$('a.preview_workshop').attr('href', href + '?id=' + form_id);
+					}
 					var msg = $('<p class="confirmation">This section has been saved successfully - Remember to submit when all sections are complete.</p>')
 					temp.btn =btn
 					btn.closest('div.control_line').after(msg)

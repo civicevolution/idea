@@ -51,3 +51,7 @@ div.videos {
   div.videos img {
     width: auto;
     height: 140px; }
+
+span.warn {
+  font-weight: bold;
+  color: red; }

@@ -28,7 +28,10 @@
 		%li This form mimics the format of the sessions.
 		%li 
 			%b Filling out this form helps you start developing your workshop right away.
-		%li You MUST save your form at each step, you can return to complete the form at any time.
+		%li 
+			You 
+			%span.warn MUST 
+			save your form at each step, you can return to complete the form at any time.
 		%li If your workshop proposal is accepted, you will be given a workspace to develop and refine your proposal.
 		%li The information you enter now will be copied into your workspace
 		%li 
@@ -242,51 +245,4 @@
 		%li We appreciate your interest in presenting at the NCDD Norcal conference
 			
 	%h3		
-		= link_to "Click here to preview and submit your workshop proposal", {:controller=>'workshop',:action => 'preview_workshop_proposal_form', :id=> @form_data['form_id']}, {:class=>'propose_workshop'}							
--#		  Stages
--#		    Set the stage
--#		      F
--#		        Facilitator introduces the workshop, champion and challenge
--#		      C
--#		        Champion opens their story by explaining their challenges and opportunities
--#		        Colorful and engaging
--#		    Strategy
--#		      F
--#		        Orients audience to the spectrum explains how this problem relates to it
--#		        Introduces some options to consider
--#		      C
--#		        Explains the strategy they chose and why they chose it
--#		      FLD
--#		        Discuss options
--#		        Discuss selected strategy
--#		        Ask C about the strategy
--#		        Has anyone faced a similar problem/what did you do?
--#		    Implementation
--#		      C
--#		        Here's what we did
--#		        Details of how they implemented their strategy
--#		      FLD
--#		        Ask questions about the implementation
--#		        Suggest alternatives
--#		        What would you have done?
--#		      F
--#		        Let's see how this worked out
--#		    Results
--#		      C
--#		        The results
--#		        Our achievements
--#		        Ways we plan to build on this
--#		      FLD
--#		        Questions about the results
--#		        Analysis
--#		        What did you learn
--#		        What would you do differently
--#		        How can we replicate these results
--#		    Next steps
--#		      F
--#		        Take aways for the audience
--#		        Resources
--#		      FLD
--#		        What might you do?
--#		        What would you need to make it happen?
--#
+		= link_to "Click here to preview and submit your workshop proposal", {:controller=>'workshop',:action => 'preview_workshop_proposal_form', :id=> @form_data['form_id']}, {:class=>'preview_workshop'}							
