@@ -33,8 +33,8 @@ class TeamController < ApplicationController
     
     if @saved
       
-      ProposalMailer.deliver_submit_receipt(member, @proposal_idea )
-      ProposalMailer.deliver_review_request(member, @proposal_idea, request.env["HTTP_HOST"] )
+      ProposalMailer.deliver_submit_receipt(member, @proposal_idea, params[:_app_name] )
+      ProposalMailer.deliver_review_request(member, @proposal_idea, request.env["HTTP_HOST"], params[:_app_name] )
     end
     
     respond_to do |format|

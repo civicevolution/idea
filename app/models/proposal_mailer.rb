@@ -1,22 +1,22 @@
 class ProposalMailer < ActionMailer::Base
   
 
-  def submit_receipt(member, proposal, sent_at = Time.now)
+  def submit_receipt(member, proposal, app_name, sent_at = Time.now)
     subject    'Your proposal idea has been submitted for review'
     recipients "#{member.first_name} #{member.last_name} <#{member.email}>"
     from       "\"CivicEvolution\" <no-reply@auto.civicevolution.org>"
     sent_on    sent_at
     
-    body       :member => member, :proposal => proposal
+    body       :member => member, :proposal => proposal, :app_name=>app_name
   end
 
-  def review_request(member, proposal, host, sent_at = Time.now)
+  def review_request(member, proposal, host, app_name, sent_at = Time.now)
     subject    'Please review this proposal idea'
     recipients 'support@civicevolution.org'
     from       "\"CivicEvolution\" <no-reply@auto.civicevolution.org>"
     sent_on    sent_at
     
-    body       :member => member, :proposal => proposal, :host=>host
+    body       :member => member, :proposal => proposal, :host=>host, :app_name=>app_name
   end
 
   def approval_notice(member, proposal, team, host, sent_at = Time.now)

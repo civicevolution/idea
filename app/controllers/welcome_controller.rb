@@ -201,7 +201,7 @@ class WelcomeController < ApplicationController
     if @saved
       mcode = MemberLookupCode.new :member_id => @member.id
       mcode.save      
-      MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"])
+      MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"], params[:_app_name])
       session[:member_id] = @member.id
     end
 
@@ -240,7 +240,7 @@ class WelcomeController < ApplicationController
     # send a new confirmation email
     mcode = MemberLookupCode.new :member_id => @member.id
     mcode.save
-    MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"])
+    MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"],params[:_app_name])
     render :action => "request_confirmation_email", :layout => false if request.xhr?  
   end
   
