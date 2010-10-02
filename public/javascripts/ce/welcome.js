@@ -21,6 +21,18 @@ $(function(){
 			return false;
 		}
 	);
+	
+	$('a.suggest_new_idea').unbind('click').click( 
+		function(){
+			try{
+				// show, scroll and highlight
+				var sug_div = $('div#tab_suggest_idea').show().effect("highlight", {}, 4000 );
+				$.scrollTo(sug_div, 700);
+				
+			}catch(e){console.log("suggest_proposal_idea_form v2 error: " + e)}
+			return false;
+		}
+	);
 
 }); // end of jquery onload
 
