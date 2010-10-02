@@ -5,8 +5,15 @@
 
 		%div
 			- form_tag('/welcome/signin',{:class=>'signin_form'}) do
-				%b Please Sign In
 				%table
+					%tr
+						%td
+							%a{:href=>'#', :class=>'register'} 
+								= image_tag 'join_us.gif', :class=>'join_us'
+					%tr
+						%td
+							%b
+								Sign in
 					%tr
 						%td
 							%label{:for=>"email"} Email:
@@ -31,9 +38,6 @@
 						%td
 							= submit_tag "Sign In"
 							= link_to 'Reset password', {}, {:class=>'reset_password'}
-					%tr
-						%td
-							= link_to 'Register now - free and fast', {}, {:class=>'register'}
 
 			- form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
 				%b Reset password
