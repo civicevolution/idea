@@ -203,6 +203,63 @@ class Team < ActiveRecord::Base
       
     end
   end
+
+  def create_custom_team_workspace(config_file_path,tr)
+    logger.debug "create_custom_team_workspace for id: #{self.id}, \"#{self.title}\" with config file: #{config_file_path}"
+    yml = YAML.load_file config_file_path
+  
+    if !self.launched
+      member = Member.find(self.org_id)
+      team_item = Item.find_by_o_id_and_o_type(self.id, 4)
+      yml.each_pair { |key, value|
+        logger.debug "#{key}"
+        rec = value
+        #logger.debug "#{rec['question']}"
+        page = Page.new :page_title=>rec['page_title'], :chat_title=>rec['chat_title'], :nav_title=>rec['nav_title'], :par_id=>team_item.id
+        page.save
+        # set the order according to yaml
+        item = Item.find(page.item_id)
+        item.order = rec['order']
+        item.save
+    
+        # if there is a question, add it
+        if !rec['question'].nil?
+          logger.debug "add_a_question for page: #{page.nav_title}"
+          # create a quesstion record
+          question = Question.new :member_id=>self.org_id, :text=>rec['question'], :par_id=> page.item_id, :target_id=>0, :target_type=>0, 
+            :idea_criteria=>rec['idea_criteria'], :answer_criteria=>rec['answer_criteria'], :num_answers=>rec['num_answers']
+          question.save   
+          
+          # create a public discussion item for the question
+          
+          pub_disc_item = Item.new( :team_id=>self.id, :o_id=> question.id, :o_type=>11, :par_id=>question.item_id, :order=>0, :sib_id=>0, 
+            :ancestors=> '{' + ((Item.find(question.item_id).ancestors.split(',').collect! {|n| n.to_i}) + [ question.item_id ]).join(',') + '}', :target_id=>0, :target_type=>0 )
+          pub_disc_item.save        
+                                                                                                                  
+        end
+
+        if !rec['team_info'].nil?
+          team_info_item = Item.new :team_id=>self.id, :o_id=> self.id, :o_type=>10, :par_id=>page.item_id, :order=>0, :sib_id=>0, 
+             :ancestors=>"{0,#{team_item.id},#{page.item_id}}", :target_id=>0, :target_type=>0
+          team_info_item.save        
+        end
+      }
+      self.launched = true
+      self.save
+      
+      #notify the team - for now just the author
+      members = Member.all( 
+          :select => 'first_name, last_name, email', 
+          :conditions => ['m.id = tr.member_id AND tr.team_id = ?', self.id],
+          :joins => 'as m inner join team_registrations as tr on m.id = tr.member_id' 
+        )
+        
+      members.each do |member|
+        ProposalMailer.deliver_team_workspace_available(member, self, tr.host )
+      end
+      
+    end
+  end
   
   def self.delete_team(team_id, delete_code)
     
