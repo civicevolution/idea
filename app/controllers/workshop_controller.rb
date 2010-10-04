@@ -82,7 +82,9 @@ class WorkshopController < ApplicationController
     render :action => "review_workshop_proposal", :layout => 'welcome'
   end
   
-  
+  def workshop_format
+    
+  end
 
   def approve_proposal
   end
