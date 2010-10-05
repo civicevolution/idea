@@ -246,17 +246,22 @@ class WelcomeController < ApplicationController
   
   def confirm_reg_captcha
     member_code = MemberLookupCode.find_by_code(params[:conf_code]);
-    @member = Member.find(member_code.member_id)
-    logger.debug "confirm_reg_captcha for id: #{@member.id}"
-    if validate_recap(params, @member.errors)
-      @member.confirmed = true
-      @member.save
-      session[:member_id] = @member.id
-      # don't destroy the code till captcha is succesful
-      member_code.destroy   
-      render :text=>'ok'
+    if member_code.nil?
+      render :text=>'no member found', :status=>500
+      return
     else
-      render :text=>'ok', :status=>500
+      @member = Member.find(member_code.member_id)
+      logger.debug "confirm_reg_captcha for id: #{@member.id}"
+      if validate_recap(params, @member.errors)
+        @member.confirmed = true
+        @member.save
+        session[:member_id] = @member.id
+        # don't destroy the code till captcha is succesful
+        member_code.destroy   
+        render :text=>'ok'
+      else
+        render :text=>'fail', :status=>500
+      end
     end
   end
   
