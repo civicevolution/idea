@@ -166,7 +166,8 @@ function signin_submit(form){
 					$('<div><p>Sorry, we cannot process your sign in request at this time. Please check your email and password.</p></div>').dialog( {title : 'Warning', modal : true } )
 				}
 			}
-		});			
+		});
+		return false;			
 }	
 
 $('li.team').die('click').live('click',
@@ -230,7 +231,8 @@ function reset_password_submit(form){
 					btn.removeAttr('disabled').next('img').remove();
 				}
 			}
-		});			
+		});
+		return false;			
 }
 
 function register_expand_col(){
@@ -300,7 +302,8 @@ function register_submit(form){
 					btn.removeAttr('disabled').next('img').remove();
 				}
 			}
-		});			
+		});
+		return false;			
 }
 
 $('a.terms_of_use').die('click').live('click',
@@ -342,7 +345,7 @@ $('a.how').die('click').live('click',
 				return false;
 			}
 		}
-		false;
+		return false;
 	}
 )
 

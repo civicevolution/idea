@@ -123,7 +123,8 @@ function join_proposal_team(form){
 				btn.removeAttr('disabled').next('img').remove();
 			}
 		}
-	});			
+	});
+	return false;			
 }
 
 var preview_dialog;
@@ -186,7 +187,8 @@ function invite_friends(form){
 				btn.removeAttr('disabled').next('img').remove();
 			}
 		}
-	});			
+	});
+	return false;			
 }
 
 
