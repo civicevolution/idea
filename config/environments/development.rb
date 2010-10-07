@@ -21,8 +21,14 @@ config.action_mailer.default_charset = "utf-8"
 
 RES_BASE='civic_dev'
 
-RCC_PUB='6Le027wSAAAAABJKdXtEfpJb7-T3ybjUC3tpuCnn'
-RCC_PRIV='6Le027wSAAAAAPaLO5Tv3fhU-s7slUOSiwOHXwYI'
+#Recaptcha constants for *.1civicevolution.org
+#RCC_PUB='6Le027wSAAAAABJKdXtEfpJb7-T3ybjUC3tpuCnn'
+#RCC_PRIV='6Le027wSAAAAAPaLO5Tv3fhU-s7slUOSiwOHXwYI'
+
+#Recaptcha constants for *.civicevolution.org
+RCC_PUB='6Lez27wSAAAAAO63HjGN8VutXx3zydGRc8jBUnGY'
+RCC_PRIV='6Lez27wSAAAAAHHJ0f5W_GR9JX6jGqOJX112SuvV'
+
 
 config.action_mailer.smtp_settings = {
   :enable_starttls_auto => true,
