@@ -9,9 +9,9 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 require 'erb'
 APP_NAME = RAILS_ROOT.match(/^\/data\//) ? RAILS_ROOT.match(/\/data\/(\w+)\//)[1] : RAILS_ROOT.match(/\/vol\/rb\/apps\/(\w+)/)[1]
-if RAILS_ENV == 'development'
-  File.open("#{RAILS_ROOT}/config/database.yml", 'w') {|f| f.write( ERB.new(IO.read("#{RAILS_ROOT}/config/database.yml.erb")).result ) }
-end
+#if RAILS_ENV == 'development'
+#  File.open("#{RAILS_ROOT}/config/database.yml", 'w') {|f| f.write( ERB.new(IO.read("#{RAILS_ROOT}/config/database.yml.erb")).result ) }
+#end
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
