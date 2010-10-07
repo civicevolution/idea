@@ -102,7 +102,21 @@ Create an environment and deploy to it with the updated chef recipe
 	Terminate development
 	
 	Reboot development from the snapshot
-
+	
+	
+	Clone with snapshot doesn't attach chef recipes
+	I need to upload and apply the recipes
+	
+			sudo monit restart mongrel -g
+			
+			after creating a clone from a snapshot, brian doesn't belong to postgres group
+			
+			upload and apply chef
+			
+			first just apply
+			
+			ey recipes apply -e development_clone
+			
 
 Notes:
 	For older os x use
@@ -110,7 +124,13 @@ Notes:
 		ssh-add
 
 
-	ssh config
+	cat .ssh/config
+		Host dev
+		Hostname ce.civicevolution.org
+		User brian
+
+	dev ssh://brian@ec2-184-73-161-53.compute-1.amazonaws.com
+	
 	Master: ssh://brian@ec2-174-129-29-14.compute-1.amazonaws.com
 	Master-db: ssh://brian@ec2-174-129-29-14.compute-1.amazonaws.com
 

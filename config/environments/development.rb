@@ -26,9 +26,12 @@ RES_BASE='civic_dev'
 #RCC_PRIV='6Le027wSAAAAAPaLO5Tv3fhU-s7slUOSiwOHXwYI'
 
 #Recaptcha constants for *.civicevolution.org
-RCC_PUB='6Lez27wSAAAAAO63HjGN8VutXx3zydGRc8jBUnGY'
-RCC_PRIV='6Lez27wSAAAAAHHJ0f5W_GR9JX6jGqOJX112SuvV'
+#RCC_PUB='6Lez27wSAAAAAO63HjGN8VutXx3zydGRc8jBUnGY'
+#RCC_PRIV='6Lez27wSAAAAAHHJ0f5W_GR9JX6jGqOJX112SuvV'
 
+#Recaptcha constants for *.civicevolution.net
+RCC_PUB='6Le4sL0SAAAAAH7uDZDOnkwRHKHCNqAbylQrGMu_'
+RCC_PRIV='6Le4sL0SAAAAAHjasKBj7ttAoNRQYjI3PGZm0xq-'
 
 config.action_mailer.smtp_settings = {
   :enable_starttls_auto => true,
