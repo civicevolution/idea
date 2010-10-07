@@ -1,0 +1,123 @@
+For remote web-based development, all I need is
+	git
+	ruby 1.8.6
+	engineyard gem
+	clone my repo
+
+
+Install git and clone my repo
+
+	Install git - requires expat
+	
+		wget http://sourceforge.net/projects/expat/files/expat/2.0.1/expat-2.0.1.tar.gz/download
+		tar xzf expat-2.0.1.tar.gz
+		cd expat-2.0.1
+		./configure --prefix=/usr/local
+		make
+		sudo make install
+
+
+		tar -xjf git-1.7.3.1.tar.bz2
+		cd git-1.7.3.1
+
+		./configure --prefix=/usr/local
+		make
+		sudo make install
+
+		Alright, I have git installed, version 1.7.3.1
+
+Install 30 day trial of textmate
+
+I need ruby and rubygems running so I can use the engineyard gem to do control line deployment
+
+	Install ruby - Ruby One-Click Installer for OSX
+	http://rubyosx.rubyforge.org/
+
+	If you want to install Ruby on Rails with the Ruby One-Click Installer for OSX, just type 'sudo gem install rails' in your Terminal.app after installation.
+	
+	/usr/local/bin/ruby --version 1.8.6
+
+	Should I make /usr/bin/ruby point to /usr/local/bin/ruby
+
+		sudo mv /usr/bin/ruby /usr/bin/ruby.1.8.2
+
+		sudo ln -s /usr/local/bin/ruby /usr/bin/ruby
+	
+
+	Update gem
+		 sudo gem update --system
+		
+		
+	Install engineyard gem
+		sudo gem install engineyard
+		
+
+clone ey recipes repo so I can create a new environment
+
+	git clone git@github.com:civicevolution/ey-cloud-recipes.git
+
+
+	So now I try to add user to postgres group in recipe
+
+		execute "add-user-postgres-group" do
+		  command "/usr/sbin/usermod -G #{user[:username]},postgres #{user[:username]}"
+		  action :run
+		end
+
+	commit and push this to my recipes repo
+
+
+
+Clone my actual code - I think it will need my pub ssh - it was already added to my account
+	git clone git@github.com:civicevolution/civic.git
+
+
+Create an environment and deploy to it with the updated chef recipe
+
+	create a development environment with ruby 1.8.7
+		Attach the new chef recipes to the environment
+			/ce_development/Rails/ey-cloud-recipes briansullivan$ ey recipes upload -e development
+
+	Boot as a single small instance
+
+	attach civic app
+		ce1.civicevolution.org
+		ey rebuild -e development
+
+	√ check postgres and brian groups
+
+
+	Now I need to deploy the app w/o migration
+		ey deploy -e development -a civic -r master --no-migrate
+
+	Now deploy with migration
+		ey deploy -e development -a civic -r master
+
+	This worked
+
+	Okay it all seems to work
+
+	Take a snapshot of development
+	
+	Terminate development
+	
+	Reboot development from the snapshot
+
+
+Notes:
+	For older os x use
+		ssh-agent /bin/bash
+		ssh-add
+
+
+	ssh config
+	Master: ssh://brian@ec2-174-129-29-14.compute-1.amazonaws.com
+	Master-db: ssh://brian@ec2-174-129-29-14.compute-1.amazonaws.com
+
+	Recaptcha - RCC constants in config/environments/* are domain specific
+
+
+Links:
+
+	http://developer.apple.com/tools/rubyonrails.html
+	http://guides.rubyonrails.org/security.html
