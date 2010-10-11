@@ -77,6 +77,7 @@ function submit_proposal_idea(form){
 					btn.removeAttr('disabled').next('img').remove();
 				}
 			}
-		});			
+		});
+		return false;			
 }
 

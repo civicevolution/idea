@@ -19,13 +19,17 @@
 						$('form.confirm_reg_captcha').prev('p').html('Thank you, you are a confirmed human').addClass('confirmed').hide().show(1000).end().hide(500)
 				  },
 					error : function(xhr,errorString,exceptionObj){
-						console.log("Error confirm_reg_captcha, xhr: " + xhr.responseText)
-						Recaptcha.reload();
-						$('<p>Please try again - <a href="#" class="reload_captcha">Show new text</a></p>').addClass('form_error_text').insertBefore(btn)
-						btn.removeAttr('disabled').next('img').remove();
+						if(xhr.responseText == 'no member found'){
+							document.location.reload()
+						}else{
+							console.log("Error confirm_reg_captcha, xhr: " + xhr.responseText)
+							Recaptcha.reload();
+							$('<p>Please try again - <a href="#" class="reload_captcha">Show new text</a></p>').addClass('form_error_text').insertBefore(btn)
+							btn.removeAttr('disabled').next('img').remove();
+						}
 					}
 				});			
-			  
+			  return false;
 			}
 		);
 		$('input.broadcast_email_opt_in').die('click').live('click',

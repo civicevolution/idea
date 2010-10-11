@@ -784,7 +784,8 @@ function chat_submit(form){
 					$('<div><p>Sorry, we cannot process your chat message at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
 				}
 			}
-		});			
+		});
+		return false;			
 	}
 }	
 
