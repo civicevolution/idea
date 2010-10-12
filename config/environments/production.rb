@@ -23,8 +23,8 @@ config.action_view.cache_template_loading            = true
 
 RES_BASE='civic'
 
-RCC_PUB='6Lez27wSAAAAAO63HjGN8VutXx3zydGRc8jBUnGY'
-RCC_PRIV='6Lez27wSAAAAAHHJ0f5W_GR9JX6jGqOJX112SuvV'
+#RCC_PUB='6Lez27wSAAAAAO63HjGN8VutXx3zydGRc8jBUnGY'
+#RCC_PRIV='6Lez27wSAAAAAHHJ0f5W_GR9JX6jGqOJX112SuvV'
 
 # Google analytics constants
 GOOGLE_ANALYTICS_ACCOUNT = "UA-19051771-1"
