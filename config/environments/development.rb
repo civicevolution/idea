@@ -33,6 +33,10 @@ RES_BASE='civic_dev'
 RCC_PUB='6Le4sL0SAAAAAH7uDZDOnkwRHKHCNqAbylQrGMu_'
 RCC_PRIV='6Le4sL0SAAAAAHjasKBj7ttAoNRQYjI3PGZm0xq-'
 
+# Google analytics constants
+GOOGLE_ANALYTICS_ACCOUNT = "UA-19050643-1"
+GOOGLE_ANALYTICS_DOMAIN = ".civicevolution.net"
+
 config.action_mailer.smtp_settings = {
   :enable_starttls_auto => true,
   :address => "smtp.civicevolution.org",

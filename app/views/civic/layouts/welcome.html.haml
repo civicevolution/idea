@@ -6,8 +6,8 @@
 		=	stylesheet_link_tag 'cgg_welcome.css', 'jquery-ui-1.8.2.custom.css', 'ce1a.css', 'ce1as.css'
 		:javascript
 			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-19050643-1']);
-			_gaq.push(['_setDomainName', '.civicevolution.net']);
+			_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
+			_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);
 			_gaq.push(['_trackPageview']);
 			(function() {
 				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
