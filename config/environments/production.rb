@@ -26,6 +26,9 @@ RES_BASE='civic'
 RCC_PUB='6Lez27wSAAAAAO63HjGN8VutXx3zydGRc8jBUnGY'
 RCC_PRIV='6Lez27wSAAAAAHHJ0f5W_GR9JX6jGqOJX112SuvV'
 
+# Google analytics constants
+GOOGLE_ANALYTICS_ACCOUNT = "UA-19051771-1"
+GOOGLE_ANALYTICS_DOMAIN = ".civicevolution.org"
 
 # Disable delivery errors, bad email addresses will be ignored
 config.action_mailer.raise_delivery_errors = false
