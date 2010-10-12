@@ -4,6 +4,16 @@
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
 		%title Welcome to the 2029 and Beyond Sustainable Future City Project
 		=	stylesheet_link_tag 'cgg_welcome.css', 'jquery-ui-1.8.2.custom.css', 'ce1a.css', 'ce1as.css'
+		:javascript
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
+			_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
 			
 	%body
 		%div.page
