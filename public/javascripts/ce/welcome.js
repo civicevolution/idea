@@ -36,6 +36,23 @@ $(function(){
 		}
 	);
 
+	$('a#play_intro_video').click(
+		function(){
+			//console.log("play_intro_video");
+			_gaq.push(['_trackEvent', 'Videos', 'Play', 'play_intro_video'])
+		}
+	);
+
+	$('a#play_getting_started').click(
+		function(){
+			//console.log("play_getting_started_video");
+			_gaq.push(['_trackEvent', 'Videos', 'Play', 'play_getting_started_video'])
+		}
+	);
+
+
+
+
 }); // end of jquery onload
 
 
