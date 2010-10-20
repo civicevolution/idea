@@ -3,36 +3,53 @@
 	-#= javascript_include_tag "jquery-1.4.2.min.js", 'jquery.form.js', 'ce/activate/act_welcome_layout.js'
 	:javascript
 		$('a.reload_captcha').die('click').live('click',function(){Recaptcha.reload(); return false;})
-		$('form.confirm_reg_captcha button').die('click').live( 'click', 
+		
+		$('form.confirm_reg_captcha :button').unbind('click').click( 
 			function(){
-				var btn = $(this);
-				var form = btn.closest('form')
-				btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
-				console.log("do confirm_reg_captcha")
-				$(':input',form).removeClass('form_error_border');
-				$('p.form_error_text',form).remove();
-        
-				form.ajaxSubmit({ 					
-				  type: "POST", 
-					url: 'http://' + document.location.host + '/welcome/confirm_reg_captcha',
-				  success: function(data,status){ 
-						console.log("confirm_reg_captcha submit success");
-						$('form.confirm_reg_captcha').prev('p').html('Thank you, you are a confirmed human').addClass('confirmed').hide().show(1000).end().hide(500)
-				  },
-					error : function(xhr,errorString,exceptionObj){
-						if(xhr.responseText == 'no member found'){
-							document.location.reload()
-						}else{
-							console.log("Error confirm_reg_captcha, xhr: " + xhr.responseText)
-							Recaptcha.reload();
-							$('<p>Please try again - <a href="#" class="reload_captcha">Show new text</a></p>').addClass('form_error_text').insertBefore(btn)
-							btn.removeAttr('disabled').next('img').remove();
-						}
-					}
-				});			
-			  return false;
+				try{
+					submit_recaptcha($(this.form));
+				}catch(e){console.log("confirm_reg_captcha v1 error: " + e)}
+				return false;
 			}
 		);
+		$('form.confirm_reg_captcha').unbind('submit').submit(
+			function(){
+				try{
+					submit_recaptcha($(this));
+				}catch(e){console.log("confirm_reg_captcha v2 error: " + e)}
+				return false;
+			}
+		);
+		
+		
+		function submit_recaptcha(form){
+			var btn = $('button',form);
+			btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+			//console.log("do confirm_reg_captcha")
+			$(':input',form).removeClass('form_error_border');
+			$('p.form_error_text',form).remove();
+       
+			form.ajaxSubmit({ 					
+			  type: "POST", 
+				url: 'http://' + document.location.host + '/welcome/confirm_reg_captcha',
+			  success: function(data,status){ 
+					console.log("confirm_reg_captcha submit success");
+					$('form.confirm_reg_captcha').prev('p').html('Thank you, you are a confirmed human').addClass('confirmed').hide().show(1000).end().hide(500)
+			  },
+				error : function(xhr,errorString,exceptionObj){
+					if(xhr.responseText == 'no member found'){
+						document.location.reload()
+					}else{
+						console.log("Error confirm_reg_captcha, xhr: " + xhr.responseText)
+						Recaptcha.reload();
+						$('<p>Please try again - <a href="#" class="reload_captcha">Show new text</a></p>').addClass('form_error_text').insertBefore(btn)
+						btn.removeAttr('disabled').next('img').remove();
+					}
+				}
+			});			
+		  return false;
+		}
+
 		$('input.broadcast_email_opt_in').die('click').live('click',
 			function(){
 				var weekly = this.checked;
