@@ -89,8 +89,8 @@ $(function(){
 	
 		// do the ux transformations
 		if(create_tabs){
-			$('div.tabs').tabs()
-			$('div.tabs > ul > li').prepend( $('<div class="new_items"></div>'))
+			$('div.team_page div.tabs').tabs()
+			$('div.team_page div.tabs > ul > li').prepend( $('<div class="new_items"></div>'))
 		}
 		activate_ux_appearance()
 	
@@ -538,3 +538,68 @@ function showUpdatingMsg(){
 	//
 	})(jQuery);
 	
+
+
+	$(function(){
+		$('ul.qa_tabs li').hover(tab_over, tab_out).live('click',tab_click)
+		$('div.tabs.question_tabs li.discuss').click()
+	});
+
+function tab_over(){
+	//console.log("tab_over");
+	if( !$(this).hasClass('active') ) $(this).addClass('hover');
+}
+function tab_out(){
+	//console.log("tab_out");
+	$(this).removeClass('hover');			
+}
+temp = {}
+function tab_click(){
+	//console.log("tab_click");
+	var tab = $(this).siblings('li').removeClass('active').end().removeClass('hover')
+	var tab_class = tab.attr('class')		
+	tab.addClass('active');
+	console.log("activate tab: " + tab_class)
+	tab_panel = tab.closest('div.tabs.question_tabs').find('div.' + tab_class);
+	tab_panel.show()
+	tab_panel.siblings('div.tab_panel').hide()
+	tab.closest('div.tabs').trigger('tabsshow', [{tab: tab, panel: tab_panel}])
+}
+$(function(){
+	$('ul.qa_tabs').each( function(){ $(this).find('li:first').click() } )
+});
+
+// you can trigger custom events registered with bind
+$('div.tabs').bind('tabsshow',
+	function(event, ui){
+		console.log("custom tabsshow event")
+		temp.ui = ui;
+		ui.tab_panel.append('<p>This was just displayed</p>')
+	}
+)
+
+
+$('a.how').die('click').live('click',
+	function(){
+		var el = $(this)
+		// find the first div.how below this
+		console.log("open how")
+		while(el = el.parent()){
+			var div = el.find('div.how:first');
+			console.log("div.size(): " + div.size())
+			if(div.size() > 0){
+				if(div.is(':visible')){
+					console.log("hide")
+					div.hide()
+					$(this).html('How')
+				}else{
+					console.log("show")
+					div.show()
+					$(this).html('Close')
+				}
+				return false;
+			}
+		}
+		return false;
+	}
+)

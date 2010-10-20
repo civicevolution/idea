@@ -368,7 +368,6 @@ $('a.request_confirmation_email').die('click').live('click',
 	}
 );
 
-console.log("activate how")
 $('a.how').die('click').live('click',
 	function(){
 		var el = $(this)
@@ -393,7 +392,7 @@ $('a.how').die('click').live('click',
 		return false;
 	}
 )
-console.log("done activating")
+
 $('div.member_info img.signin_pic').die('click').live( 'click',
 	function(){
 		var mi = $(this).closest('div.member_info');

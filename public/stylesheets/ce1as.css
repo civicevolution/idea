@@ -139,7 +139,7 @@ h3.page_title {
   position: absolute;
   top: 56px;
   left: 340px;
-  margin-top: -10px; }
+  margin-top: 12px; }
 
 div.Page {
   display: none;
@@ -162,12 +162,6 @@ div.Question {
       color: #333333;
       width: 100%; }
 
-div.question {
-  font-weight: bold;
-  margin-bottom: 20px;
-  margin-top: 10px;
-  padding-right: 10px; }
-
 div.Answer_entry div.answer_controls {
   margin-bottom: 0px;
   height: 8px; }
@@ -188,11 +182,6 @@ div.com_count {
 div.answer {
   clear: both;
   padding-right: 10px; }
-
-div.question {
-  clear: both;
-  padding-top: 6px;
-  margin-bottom: 20px; }
 
 div.embedded_discussion form.add_comment_form {
   width: 100%;
@@ -650,7 +639,6 @@ div.add_idea label {
   color: #888888; }
 
 div.tab_window {
-  border: 1px solid black;
   height: 500px;
   overflow: auto;
   overflow-y: scroll;
@@ -760,10 +748,6 @@ div.tab_view {
   div.tab_view table {
     width: 100%; }
 
-p.instr {
-  max-width: 500px;
-  font-weight: bold; }
-
 div.answers ul {
   max-width: 500px; }
 
@@ -812,16 +796,6 @@ span.new_items {
   color: #f2583e;
   font-weight: bold;
   margin-left: 10px; }
-
-div.tabs div.new_items {
-  position: absolute;
-  top: 36px;
-  left: 10px;
-  color: #f2583e;
-  font-weight: bold; }
-
-div.tabs > ul {
-  height: 56px; }
 
 body > div.clue-tip-source {
   display: none; }
@@ -878,3 +852,94 @@ div#tab_team_assistance div.videos {
     div#tab_team_assistance div.videos div.video img {
       display: block;
       margin-bottom: 8px; }
+
+div.tab_panel {
+  display: none;
+  clear: both; }
+
+ul.qa_tabs {
+  padding: 0;
+  margin: 0;
+  height: 60px; }
+  ul.qa_tabs li {
+    list-style: none;
+    float: left;
+    background: url(/images/qa_puzzle_tabs.gif) 0 0 no-repeat;
+    height: 49px; }
+  ul.qa_tabs li.discuss_tab {
+    width: 122px;
+    background-position: 0 -120px; }
+  ul.qa_tabs li.discuss_tab.active {
+    background-position: 0 0; }
+  ul.qa_tabs li.discuss_tab.hover {
+    background-position: 0 -60px; }
+  ul.qa_tabs li.brainstorm_tab {
+    width: 170px;
+    background-position: -122px -120px; }
+  ul.qa_tabs li.brainstorm_tab.active {
+    background-position: -122px 0; }
+  ul.qa_tabs li.brainstorm_tab.hover {
+    background-position: -122px -60px; }
+  ul.qa_tabs li.answer_tab {
+    width: 141px;
+    background-position: -292px -120px; }
+  ul.qa_tabs li.answer_tab.active {
+    background-position: -292px 0; }
+  ul.qa_tabs li.answer_tab.hover {
+    background-position: -292px -60px; }
+  ul.qa_tabs li.listen_tab {
+    width: 107px;
+    background-position: -433px -120px; }
+  ul.qa_tabs li.listen_tab.active {
+    background-position: -433px 0; }
+  ul.qa_tabs li.listen_tab.hover {
+    background-position: -433px -60px; }
+
+div.how {
+  display: none; }
+
+div.qa_bar {
+  border-top: 2px solid;
+  height: 1px; }
+
+div.discuss_tab div.qa_bar {
+  border-color: #b22222; }
+
+div.brainstorm_tab div.qa_bar {
+  border-color: #543d8b; }
+
+div.answer_tab div.qa_bar {
+  border-color: #11449d; }
+
+div.listen_tab div.qa_bar {
+  border-color: #006400; }
+
+p.instr {
+  max-width: 600px;
+  font-weight: bold;
+  margin: 0; }
+
+div.tabs div.new_items {
+  position: absolute;
+  top: 36px;
+  left: 10px;
+  color: #f2583e;
+  font-weight: bold; }
+
+div.tabs > ul {
+  height: 49px; }
+
+div.question {
+  font-weight: bold;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding-right: 10px;
+  font-size: 1.2em; }
+
+div.tab_panel div.question {
+  margin: 16px 0 0 0; }
+div.tab_panel p.instr {
+  margin: 12px 0 6px 0; }
+  div.tab_panel p.instr a {
+    font-size: 0.9em;
+    margin-left: 10px; }

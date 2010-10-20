@@ -81,8 +81,10 @@ function activate_ux_functions_misc(){
 	});
 	
 	$( "div.question_tabs" ).bind( "tabsshow", function(event, ui) {
-		if(ui.panel.className.match(/discussion/)){
-			ellipsis(ui.panel);
+		//if(ui.panel.className.match(/discussion/)){
+		var tab_window = $('div.tab_window',ui.panel);
+		if(tab_window.hasClass('discussion')){
+			ellipsis(tab_window);
 		}
 	});	
 	
@@ -559,7 +561,7 @@ function update_embedded_discussion_links(page){
 //} // end activate_update_css_functions
 
 function reload_css(){
-	$('head').append('<link href="/stylesheets/ce1a.css?' + Math.round(Math.random() * 10000000000) + '" media="screen" rel="stylesheet" type="text/css" />');
+	$('head').append('<link href="/stylesheets/ce1as.css?' + Math.round(Math.random() * 10000000000) + '" media="screen" rel="stylesheet" type="text/css" />');
 	$('head').append('<link href="team/get_dev_css?' + Math.round(Math.random() * 10000000000) + '" media="screen" rel="stylesheet" type="text/css" />');
 }		
 

@@ -10,7 +10,8 @@ $(function(){
 			try{
 				var a = $(this);
 				//var par = a.closest('.ui-tabs-panel');
-				var par = a.closest('.discussion');
+				//var par = a.closest('.discussion');
+				var par = a.closest('div.tab_panel').find('.discussion');
 				if( a.html().match(/Open/)){
 					$('div.Comment',par).addClass('full_comment_display').removeClass('one_line_comment');
 					a.html('Close all comments');

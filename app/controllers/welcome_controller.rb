@@ -364,7 +364,7 @@ class WelcomeController < ApplicationController
     
   end
      
-  def li_float
+  def tabs
     
   end
 

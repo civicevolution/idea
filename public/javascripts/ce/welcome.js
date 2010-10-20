@@ -1,10 +1,10 @@
 
 $(function(){
-	console.log("Start initializing the page, tabs first")
-		$('div.tabs').tabs();
-		try{
-			$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
-		}catch(e){}
+	console.log("Start initializing the page")
+	//$('div.tabs').tabs();
+	try{
+		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
+	}catch(e){}
 
 	$('form.suggest_proposal_idea_form').unbind('submit').submit(
 		function(){
