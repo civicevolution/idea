@@ -1,0 +1,9 @@
+- if member.nil?
+	%h2 We apologize for the inconvenience
+- else
+	-# @member = member
+	%h2 Hello #{member.first_name}, We apologize for inconvenience
+%p The page you are looking for "#{path}" cannot be found
+%p 
+	Please return to the 
+	= link_to 'home page', {:controller=>'welcome', :action=> 'index'}
