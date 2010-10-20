@@ -3,6 +3,11 @@
 	- form_for(:member, :url => { :action => :register}, :html => {:class=>'register_form'}) do |form|
 		- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'	
 			%p Only CGG staff with email addresses ending in 'cgg.wa.gov.au' can join this staff site
+			%p 
+				The community is invited to participate at
+				%a{:href=>'http://2029.civicevolution.org'} http://2029.civicevolution.org
+			
+			
 		%table
 			%tr
 				%td
