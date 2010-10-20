@@ -1,5 +1,5 @@
 - content_for (:script) do
-	= javascript_include_tag "jquery-1.4.2.min.js", 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "ce/gen/forms.js", "ce/activate/act_welcome_layout.js", "pure.js", "ce/proposal.js", "ce/gen/dispatch.js", "jquery.timeago.js", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js", "ce/gen/recaptcha"
+	= javascript_include_tag "jquery.show_char_limit-1.1.1.js", "pure.js", "ce/proposal.js", "ce/gen/dispatch.js", "jquery.timeago.js", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js", "ce/gen/recaptcha"
 
 =	stylesheet_link_tag 'proposal_view.css'
 :javascript
@@ -18,7 +18,7 @@
 
 
 %div.left_col
-	%h2 #{@team.title}
+	%h2.home_title #{@team.title}
 	%p.summary Summary
 	%div.summary= simple_format h @team.solution_statement
 	- if @team.launched == false && !@member.nil? && @member.id == @team.org_id
@@ -199,13 +199,10 @@
 
 		
 %div.right_col
-	= render( :partial => 'welcome/signin_register' )
-
+	-#= render( :partial => 'welcome/signin_register' )
+	%h2.home_title Review notes
 
 	%div.proposal_header
-		%p	
-			%b Review notes
-
 		%ul.intro 
 			- if @team.launched == true
 				%li This is the full proposal developed by the team, it is still in development and subject to change. 

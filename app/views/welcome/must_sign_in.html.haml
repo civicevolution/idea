@@ -1,17 +1,17 @@
 - content_for (:script) do
-	= javascript_include_tag "jquery-1.4.2.min.js", 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "ce/activate/act_welcome_layout.js"
+	:javascript	
+		$(function(){
+			$('a.sign_in').click();
+			setTimeout("$('span.ui-dialog-title').html('Please sign in to continue')",1000);
+		}); // end of jquery onload
 	
-%style
-	:sass
-		div.right_col
-			float: none
 
 %h3 You must be signed in to view this page
 
 %p Please sign in and we will take you to the page you requested
 
-%div.right_col
-	= render( :partial => 'welcome/signin_register' )
+-#%div.right_col
+-#	= render( :partial => 'welcome/signin_register' )
  
 %p 
 	Or return to the 

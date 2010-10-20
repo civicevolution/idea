@@ -2,53 +2,86 @@ var console_log='';
 if(typeof console == 'undefined') console = {log:function(str){console_log += str + '\n' }};
 
 $(function(){
-	$('a.register').die('click').live('click',
-		function(){
-			try{
-				var cur_form = $('form.signin_form:visible').size() > 0 ? $('form.signin_form') : $('form.reset_password_form');
-				$(':input',cur_form).removeClass('form_error_border');
-				$('p.form_error_text',cur_form).remove();
-				
-				cur_form.hide(1000, 
-					function(){
-						$('form.register_form').show(500, register_expand_col	);
-					}
-				);
-			}catch(e){console.log("register click e: " + e )}
-			return false
-		}
-	);
-
-	$('a.reset_password').die('click').live('click',
-		function(){
-			try{
-				$('form.reset_password_form input[name="email"]').val( $('form.signin_form input[name="email"]').val() )
-				$('form.signin_form').hide(1000, 
-					function(){
-						$('form.reset_password_form').show(1000);
-					}
-				);
-			}catch(e){console.log("register click e: " + e )}
-			return false
-		}
-	);
-
+	
+	
 	$('a.sign_in').die('click').live('click',
 		function(){
 			try{
-				restore_right_col()
-				var cur_form = $('form.register_form:visible').size() > 0 ? $('form.register_form') : $('form.reset_password_form');
-				$(':input',cur_form).removeClass('form_error_border');
-				$('p.form_error_text',cur_form).remove();
-				cur_form.hide(1000, 
-					function(){
-						$('form.signin_form').show(1000);
-					}
-				);
-			}catch(e){console.log("signin click e: " + e)}
-			return false			
+				var link = $('a#sign_in_link')
+				var pos = link.position();
+				var top = pos.top + 20;
+				var left = pos.left - 600 + link.width();
+				
+				var dialog = $('<div id="sign_in_dialog"></div>').dialog( {title : 'Please sign in', modal : true, width: '600px', position : [left,top] } ).append(  $('div#hidden_forms div#sign_in_form').clone(true) )
+				$('input[name="email"]', dialog).focus()
+				//var cur_form = $('form.signin_form:visible').size() > 0 ? $('form.signin_form') : $('form.reset_password_form');
+				var form = dialog.find('form')
+				$(':input',form).removeClass('form_error_border');
+				$('p.form_error_text',form).remove();
+				
+				// if this was called by a link in a dialog, remove the dialog
+				$(this).closest('div.ui-dialog').dialog('destroy').remove()
+			}catch(e){console.log("sign in link click e: " + e )}
+			return false
 		}
 	);
+	
+	$('a.reset_password').die('click').live('click',
+		function(){
+			try{
+				var link = $('a#sign_in_link')
+				var pos = link.position();
+				var top = pos.top + 20;
+				var left = pos.left - 285 + link.width();
+				var dialog = $('<div id="sign_in_dialog"></div>').dialog( {title : 'Reset my password', modal : true, width : '285px', position : [left,top] } ).append(  $('div#hidden_forms div#reset_password_form').clone(true) )
+				$('form.reset_password_form input[name="email"]').val( $('input[name="email"]', $(this).closest('form')).val() )
+				$('input[name="email"]', dialog).focus()
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			}catch(e){console.log("register click e: " + e )}
+			return false
+		}
+	);
+	
+	
+	$('a.join_our_community').die('click').live('click',
+		function(){
+			try{
+				var link = $('a#sign_in_link')
+				var pos = link.position();
+				var top = pos.top + 20;
+				var left = pos.left - 480 + link.width();
+				
+				var dialog = $('<div>Loading...</div>').dialog( {title : 'Please register', modal : true, width : '480px', position : [left,top], closeOnEscape : false } )
+					.load( '/welcome/join_our_community', function(){ $('input[type="text"]:first', this).focus()} )
+
+				$(this).closest('div.ui-dialog').dialog('destroy').remove()
+				
+			}catch(e){console.log("register click e: " + e )}
+			return false
+		}
+	);
+	
+	$('a#cta_register').die('click').live('click',
+		function(){
+			$('a.join_our_community').click();		
+			return false;
+		}
+	);
+
+
+	//$('a.my_teams').die('click').live('click',
+	//	function(){
+	//		try{
+	//			var link = $('a#sign_out')
+	//			var pos = link.position();
+	//			var top = pos.top + 20;
+	//			var left = pos.left - 400 + link.width();
+	//			var dialog = $('<div id="my_teams_dialog"></div>').dialog( {title : 'My teams', modal : true, width : '400px', position : [left,top] } ).append(  $('div#my_teams:first').clone().removeClass('hide') )
+	//			$('form.reset_password_form input[name="email"]').val( $('input[name="email"]', $(this).closest('form')).val() )
+	//		}catch(e){console.log("register click e: " + e )}
+	//		return false
+	//	}
+	//);
 
 	$('form.signin_form :button').unbind('click').click( 
 		function(){
@@ -66,6 +99,16 @@ $(function(){
 			return false;
 		}
 	);
+	
+	$('form.signin_form .cancel').die('click').live('click',
+		function(){
+			try{
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			}catch(e){console.log("signin_form cancel v1 error: " + e)}
+			return false;
+		}
+	);
+	
 
 	$('form.reset_password_form :button').unbind('click').click( 
 		function(){
@@ -83,8 +126,16 @@ $(function(){
 			return false;
 		}
 	);
+	$('div#reset_password_form .cancel').die('click').live('click',
+		function(){
+			try{
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			}catch(e){console.log("reset_password_submit v1 error: " + e)}
+			return false;
+		}
+	);
 
-	$('form.register_form input[type="submit"]').unbind('click').click( 
+	$('form.register_form input[type="submit"]').die('click').live('click',
 		function(){
 			try{
 				register_submit($(this.form));
@@ -92,6 +143,16 @@ $(function(){
 			return false;
 		}
 	);
+	
+	$('form.register_form .cancel').die('click').live('click',
+		function(){
+			try{
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			}catch(e){console.log("register_form cancel v1 error: " + e)}
+			return false;
+		}
+	);
+	
 
 	if($('ul.teams_list li').size() > 0 ) $('div.sign_in').effect("pulsate", 'fast');
 	
@@ -114,7 +175,19 @@ $(function(){
 	)
 
 	if( !(typeof member_id != 'undefined' && member_id != 0) ) $('form.mini_thumbs_up :submit').attr('disabled','disabled');
-
+	
+	$('form.upload_member_photo input[type="submit"]').die('click').live( 'click', 
+		function(){
+			try{
+				upload_pic($(this.form));
+			}catch(e){console.log("upload_member_photo v1 error: " + e)}
+			return false;
+		}
+	);
+	
+	// now that the page has been activated, disable the click trap
+	dontclick = false;
+	$('div#loading_please_wait').remove()
 	activate_text_counters_grow( $('div.left_col textarea, div.left_col input:text') )
 	
 }); // end of jquery onload
@@ -130,7 +203,6 @@ function signin_submit(form){
 	
 	$(':input',form).removeClass('form_error_border');
 	$('p.form_error_text',form).remove();
-	
 		form.ajaxSubmit({ 					
 		  type: "POST", 
 			url: 'http://' + document.location.host + '/welcome/signin',
@@ -141,16 +213,16 @@ function signin_submit(form){
 					document.location = data.match(/^__REDIRECT__=(.*)/)[1]			
 					return;		
 				}
-				form.closest('div').replaceWith(data)
-				$('div.sign_in').effect("pulsate", 'fast')
-				// update the suggest proposal idea message
-				
-				$('div.left_col .suggest_sign_in:first').replaceWith( $('div.right_col .suggest_sign_in').removeClass('hide') )	
 				my_team_ids = [];
 				$('ul.teams_list li').each(function(){ my_team_ids.push(this.getAttribute('id')) })
 				$('.join_sign_in').remove();
-				btn.removeAttr('disabled').next('img').remove();
-				$('form.mini_thumbs_up :submit').removeAttr('disabled')				
+				$('form.mini_thumbs_up :submit').removeAttr('disabled')
+				form.closest('div.ui-dialog').dialog('destroy').remove();		
+				$('div.join_com').replaceWith(data)
+				$('div.right_col').prepend($('div#my_teams').children())
+				//if ( $('div#my_teams ul.teams_list li').size() > 0 ){
+				//	$('a.my_teams').click()
+				//}
 		  },
 			error : function(xhr,errorString,exceptionObj){
 				console.log("Error, xhr: " + xhr.responseText )
@@ -210,11 +282,9 @@ function reset_password_submit(form){
 		  type: "POST", 
 			url: 'http://' + document.location.host + '/welcome/reset_password',
 		  success: function(data,status){ 
-				console.log("reset_password submit success, call dispatchPageChatMessage");
-				//console.log("show the teams in data: " + data)
-				$('<div><p>Please check your email for instructions to reset your pasword.</p></div>').dialog( {title : 'Reset email sent', modal : true } )
-				//$('a.sign_in').click();	
-				btn.removeAttr('disabled').next('img').remove();			
+				//console.log("reset_password submit success	");
+				form.closest('div.ui-dialog').find('div#reset_password_form').html('<p>Please check your email for instructions to reset your pasword.</p>' + 
+					'<p><a href="#" class="cancel">Close</a></p>')
 		  },
 			error : function(xhr,errorString,exceptionObj){
 				console.log("Error, xhr: " + xhr.responseText)
@@ -233,24 +303,6 @@ function reset_password_submit(form){
 			}
 		});
 		return false;			
-}
-
-function register_expand_col(){
-	//$('form.register_form').unbind('click')
-	//var mask = $('<div class="mask"></div>');
-	//mask.click( restore_right_col )
-	//$('body').append(mask)
-	//mask.css({width: $(document).width(), height: $(document).height()  }).fadeTo(500,.8)								
-	//Recaptcha.create("6Le027wSAAAAABJKdXtEfpJb7-T3ybjUC3tpuCnn","recaptcha_register");
-	//var pos = $('div.right_col').position();
-	//$('div.right_col').addClass('reg_only').css({top: pos.top, left: pos.left - 125});
-}
-	
-function restore_right_col(){
-	//$('div.right_col').removeClass('reg_only');
-	//$('div.mask').remove();
-	//$('div#recaptcha_register').html('');
-	//$('form.register_form').click( register_expand_col )
 }
 
 $('a.reload_captcha').die('click').live('click',function(){Recaptcha.reload(); return false;})
@@ -274,21 +326,9 @@ function register_submit(form){
 		  type: "POST", 
 			url: 'http://' + document.location.host + '/welcome/register',
 		  success: function(data,status){ 
-				//console.log("register success");
-				setTimeout(restore_right_col, 1000);
-				
-				console.log("show dialog")
-				$('<div>' + data + '</div>').dialog( {title : 'Thank you', modal : true } )
-
-		  	$('a.sign_in').click();
-		  	$('form.register_form input[name="member[first_name]"]').val('')
-		  	$('form.register_form input[name="member[last_name]"]').val('')
-		  	
-		  	$('form.signin_form input[name="email"]').val( $('form.register_form input[name="member[email]"]').val() )
-		  	$('form.register_form input[name="member[email]"]').val('') 
-		  	$('form.register_form input[name="member[password]"]').val('')
-		  	$('form.register_form input[name="member[password_confirmation]"]').val('')
-				btn.removeAttr('disabled').next('img').remove();
+				var dialog = $('<div>' + data + '</div>').dialog( {title : 'Thank you', modal : true } );
+				$('div.join_com').replaceWith( dialog.find('div.member_info').remove() );
+				form.closest('div.ui-dialog').dialog('destroy').remove();
 		  },
 			error : function(xhr,errorString,exceptionObj){
 				console.log("Error, xhr: " + xhr.responseText)
@@ -328,17 +368,22 @@ $('a.request_confirmation_email').die('click').live('click',
 	}
 );
 
+console.log("activate how")
 $('a.how').die('click').live('click',
 	function(){
 		var el = $(this)
 		// find the first div.how below this
+		console.log("open how")
 		while(el = el.parent()){
-		var div = el.find('div.how:first')
+			var div = el.find('div.how:first');
+			console.log("div.size(): " + div.size())
 			if(div.size() > 0){
 				if(div.is(':visible')){
+					console.log("hide")
 					div.hide()
 					$(this).html('How')
 				}else{
+					console.log("show")
 					div.show()
 					$(this).html('Close')
 				}
@@ -348,36 +393,37 @@ $('a.how').die('click').live('click',
 		return false;
 	}
 )
-
-$('div.teams_list img.signin_pic').die('click').live( 'click',
+console.log("done activating")
+$('div.member_info img.signin_pic').die('click').live( 'click',
 	function(){
-		$('div.teams_list form.upload_member_photo').show();
+		var mi = $(this).closest('div.member_info');
+		var pos = mi.position();
+		var top = pos.top + mi.height() + 20;
+		var left = pos.left - 300 + mi.width();
+		//debugger	
+		
+		var dialog = $('<div id="upload_pic_dialog"></div>')
+			.dialog( {title : 'Upload your profile picture', modal : true, width: '300px', position : [left,top] } )
+			.append(  $('form.upload_member_photo:first').clone(true) )
 	}
 )
 
-$('form.upload_member_photo input[type="submit"]').die('click').live( 'click', 
-	function(){
-		try{
-			upload_pic($(this.form));
-		}catch(e){console.log("upload_member_photo v1 error: " + e)}
-		return false;
-	}
-);
+//$('form.upload_member_photo input[type="submit"]').die('click').live( 'click', 
+//$('form.upload_member_photo button').die('click').live( 'click', 
 
 $('form.upload_member_photo a.cancel').die('click').live( 'click', 
 	function(){
-		$('div.teams_list form.upload_member_photo').hide();		
+		$(this).closest('div.ui-dialog').dialog('destroy').remove();
 		return false;
 	}
 );
 
 
 function upload_pic(form){
-	//console.log("upload an image v4");
+	console.log("upload an image v5i");
 	$(':input',form).removeClass('form_error_border');
 	$('p.form_error_text',form).remove();
-	
-	var file = $('input[type="file"]');
+	var file = $('input[type="file"]',form);
 	if( file.val() == '' ){
 		file.after( '<p class="form_error_text">Select a photo</p>');
 		return false;
@@ -394,7 +440,9 @@ function upload_pic(form){
 		 //console.log("upload image success")
 			try{
 				url = data;
-				$('div.teams_list img.signin_pic').attr('src', url.replace(/^\/+/,'/') );
+				$('div.member_info img.signin_pic').attr('src', url.replace(/^\/+/,'/') );
+				var dialog = form.closest('div.ui-dialog');
+				if (dialog.size() > 0) dialog.dialog('destroy').remove();
 				$('div.teams_list form.upload_member_photo').hide();
 				$('span.default_pic').hide()
 				btn.removeAttr('disabled').next('img').remove()

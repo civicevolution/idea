@@ -95,6 +95,13 @@ class Member < ActiveRecord::Base
     end
   end
   
+  def team_titles
+    TeamRegistration.find(:all,
+      :select => 't.id, t.title, t.launched',  
+      :conditions => ['member_id = ?', self.id],
+      :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+    )
+  end
   
   # 'password' is a virtual attribute
   

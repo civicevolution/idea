@@ -1,5 +1,5 @@
 - content_for (:script) do
-	= javascript_include_tag "jquery-1.4.2.min.js", 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "ce/gen/forms.js", "ce/activate/act_welcome_layout.js", "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js','jquery.scrollTo-min.js'
+	= javascript_include_tag "jquery.show_char_limit-1.1.1.js", "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js','jquery.scrollTo-min.js'
 	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
 	
 
@@ -7,102 +7,90 @@
 :javascript
 	var member_id = #{ @member.nil? ? 0 : @member.id }
 	var my_team_ids = [ #{team_ids} ];
-	
-- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'	
-	%div.mission
-		%h2 Help us plan for a sustainable future
-		%p 
-			The City of Geraldton-Greenough is jointly creating a sustainable future for our city region in a project called 
-			%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and beyond.
-			To help us to do this well, we first need to make some changes in our own backyard.
-		%p
-			The Executive Management Team  encourages you to join our effort and promises to review and respond to all actionable proposals that meet their
-			%a{:href=>'#', :class=>'2029_guidelines'}guidelines
-			for relevance, completeness, evidence, and community support.
-		%p This website will help you take advantage of this important opportunity. Please view these videos for more information
-- else
-	%div.mission
-		%h2 Help us plan for a sustainable future
-		%p 
-			Our community is jointly creating a sustainable future for our city region in a project called
-			%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and beyond.
-		%p 
-			%a{:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}The Alliance Governance Group 
-			and its chair, Mayor, Cr Ian Carpenter, encourage you to join our community effort and
-			%span.promise 
-				promise to review and respond to all actionable proposals that meet their 
+
+
+%div.left_col	
+	- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'	
+		%div.mission
+			%h2
+				%span.home_title Help us plan for a sustainable future
+			%p 
+				The City of Geraldton-Greenough is jointly creating a sustainable future for our City Region in a project called 
+				%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and beyond.
+				To help us to do this well, we first need to make some changes in our own backyard.
+			%p
+				The Executive Management Team encourages you to join our effort and promises to review and respond to all actionable proposals that meet their
 				%a{:href=>'#', :class=>'2029_guidelines'}guidelines
-				for relevance, completeness, evidence, and community support. 
-		-#%p This website will help you take advantage of this important opportunity. Please view the videos on the right to learn how you can contribute.
-		%p.last_sentence To meet these guidelines and claim this promise, you'll need to work as a team.
-
-
-%div.videos	
-	%h2 Introduction video 
-	-#%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=WS_EzJ0UW00'}
-	%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated', :id=>'play_intro_video'} 
-		= image_tag 'video_placeholder.jpg', :alt=>'CivicEvolution Illustrated video', :title=> 'Click to play this video'
-	%p.link
-		Also view
-		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14627369', :title=>'Getting started with CivicEvolution', :id=>'play_getting_started'} Getting started 
-	-#%p.link
-	-#	%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=tdA-xYEfw7s'} 3: CivicEvolution Demonstration 
+				for relevance, completeness, evidence, and community support.
+			%p This website will help you take advantage of this important opportunity. Please view these videos for more information
+	- else
+		%div.mission
+			%h2.home_title Help us plan for our sustainable future
+			%p 
+				Our community is jointly creating a sustainable future for our City Region in a project called
+				%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and beyond
+				overseen by the 
+				%a{:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}Alliance Governance Group 
+				and its chair, Mayor, Cr Ian Carpenter.
 			
-	-#%select
-	-#	%option Please select a video topic
-	-#	%option Introduction to CivicEvolution
-	-#	%option CivicEvolution demonstration
-	-#	-#%option Getting started
-	-#	-#%option Planning together
-	-#	-#%option Developing your proposal
-	-#	-#%option Getting public feedback
-	-#	-#%option Completing your proposal	
-		
-%p.clear_both.tall
+			%p Do you have an idea that could make our City Region an even better place to live or could help make our City Region more sustainable into the future?
 
-%div.left_col
-
-	%h2.com_title Be part of the solution
+			%p This website can help you share your idea, form a team of supporters and develop your idea into a proposal for action.
+			%p
+				The Alliance Governance Group 
+				%span.promise promises to review every proposal
+				that the community develops through CivicEvolution and meets their 
+				%a{:href=>'#', :class=>'2029_guidelines'}guidelines,
+				so this is 
+				%span.promise your opportunity to make your idea happen!
+			
+	%h2.home_title How do we create a proposal for action?
 	
+	%p A proposal for action explains how your idea can be implemented by answering What, Why, Who and How.
+	%p You will discuss, brainstorm, and answer these questions using this website, but first you'll need to recruit at least 3 other people to work with you. 	
+	%p You'll also need to listen to the community for suggestions and to build support.
+
+	%h2.home_title Get started today!
+
 	%ul.marketplace
 		%li 
+			%b Suggest a new idea:
+			-#= link_to 'Tell us', {}, {:class=>'suggest_new_idea'}
+			Tell us what you would like to change.
+			-#= link_to 'Show me how', {}, {:class=>'suggest_new_idea'}
+		%li 
 			%b Join a team:
-			Help transform an idea into a proposal for action.
+			Help develop an idea into a proposal for action.
+			-#= link_to 'Show me how', {}, {:class=>'suggest_new_idea'}
 		%li
 			%b Share your insight:
-			Review and discuss existing proposals.
-			-#Help teams develop ideas by reviewing and discussing their proposals		
+			Review and discuss community ideas.
+			-#= link_to 'Show me how', {}, {:class=>'suggest_new_idea'}
 		%li 
-			%b Suggest a new idea:
-			= link_to 'Tell us', {}, {:class=>'suggest_new_idea'}
-			what you would like to change
-		%li 
-			%b Register now:
-			So you can participate and keep in touch
+			%b Register:
+			Participate and keep in touch.
+			= link_to 'Register now', {}, {:id=>'cta_register'}
 		%li 
 			%b Watch our videos:
-			Learn more about how you can participate
+			Learn how you can participate.
+			-#= link_to 'Watch now', {}, {:class=>'suggest_new_idea'}
+			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated', :id=>'play_intro_video'} Watch intro
+			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14627369', :title=>'Getting started with CivicEvolution', :id=>'play_getting_started'} Watch demo
+		%li 
+			%b Ask for help:
+			-#We can help with your problem or question.
+			We can help, email support@civicevolution.org
+			-#= link_to 'Ask us now', {}, {:class=>'suggest_new_idea'}
 	
-
-	%h2.com_title 2029 and beyond: A marketplace of ideas
+	-#%h2.com_title 2029 and beyond: A marketplace of ideas
+	%h2.home_title 2029 and beyond: Community ideas
 	%p.header_desc 
-		Here are the ideas your community is working on right now. You can also
-		= link_to 'suggest a new idea', {}, {:class=>'suggest_new_idea'} 
+		These are the ideas your community is working on right now. 
+		Click a title to learn more. If you have a new idea that's not listed, 
+		= link_to 'suggest it now.', {}, {:class=>'suggest_new_idea'}
 	-#There are plenty of ways you can lend a hand.
 
 	%div.ideas_and_teams
-		-#%div.tabs
-		-#	%ul
-		-#		%li
-		-#			%a{:href=>"#tab_teams"} Teams
-		-#		%li
-		-#			%a{:href=>"#tab_ideas"} Ideas
-		-#		%li
-		-#			%a{:href=>"#tab_most_active"} Most active
-		-#		%li
-		-#			%a{:href=>"#tab_completed"} Completed
-		-#		%li
-		-#			%a{:href=>"#tab_suggest_idea"} Suggest an idea
 		
 		%div
 			%div.tab_window{:id=>"tab_teams"}
@@ -164,39 +152,6 @@
 							-#%span active one day ago
 							-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
 				
-	
-			
-
-			-#%div.tab_window{:id=>"tab_most_active"}
-			-#	%ul.categories
-			-#		%li All
-			-#		%li Environmental
-			-#		%li Economic development
-			-#		%li Social
-			-#		%li Cultural
-
-			-#	-#%ul.team_list
-			-#	- @teams_launched.each do |team|
-			-#		%div.team_entry
-			-#			= link_to team.title, {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'team_entry_title'}
-			-#			%p.desc= team.solution_statement
-			-#			%p.controls
-			-#				-#%span 0 comments
-			-#				%span= pluralize( team['members'], 'member')
-			-#				-#%span active one day ago
-			-#				= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
-					
-
-			-#%div.tab_window{:id=>"tab_completed"}
-			-#	%ul.categories
-			-#		%li All
-			-#		%li Environmental
-			-#		%li Economic development
-			-#		%li Social
-			-#		%li Cultural
-
-			-#	%ul.team_list
-			-#		%li No teams have completed their proposal yet
 
 			%div.tab_window.hide{:id=>"tab_suggest_idea"}
 				%h2 Suggest a new idea
@@ -295,52 +250,69 @@
 
 
 %div.right_col
-	= render( :partial => 'welcome/signin_register' )
+	-#= render( :partial => 'welcome/signin_register' )
+	- if !@member.nil?
+		%h2.home_title.my_teams My teams
+		%div.right_vertical_bar.my_teams
+			%ul.teams_list
+				- @member.team_titles.each do |team|
+					%li{:class=>'team', :id=>team.id, :launched=>team.launched}= team.title
 
+	%h2.home_title Watch our videos
+	%div.right_vertical_bar
+		%div.videos	
+			-#%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=WS_EzJ0UW00'}
+			%p Introduction to CivicEvolution
+			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated', :id=>'play_intro_video'} 
+				= image_tag 'video_placeholder1.jpg', :alt=>'CivicEvolution Illustrated video', :title=> 'Click to play this video'
 
-	%div.stats
-		%p
-			%b Community achievements
-		%table
-			%tr
-				%td
-					Ideas
-				%td
-					2
-			%tr
-				%td
-					Participants
-				%td
-					5
-			%tr
-				%td
-					Teams
-				%td
-					2
-			%tr					
-				%td
-					Visitors
-				%td
-					12
-			%tr
-				%td
-					Team comments
-				%td
-					73
-			%tr					
-				%td
-					Public comments
-				%td
-					0
-			%tr
-				%td
-					Completed proposals
-				%td
-					0
-			%tr					
-				%td
-					Proposal endorsements
-				%td
-					0
+			%p Getting started
+			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14627369', :title=>'Getting started with CivicEvolution', :id=>'play_getting_started'} 
+				= image_tag 'video_placeholder2.jpg', :alt=>'CivicEvolution Illustrated video', :title=> 'Click to play this video'
+
+		%div.stats
+			%p
+				%b Community achievements
+			%table
+				%tr
+					%td
+						Ideas
+					%td
+						2
+				%tr
+					%td
+						Participants
+					%td
+						5
+				%tr
+					%td
+						Teams
+					%td
+						2
+				%tr					
+					%td
+						Visitors
+					%td
+						12
+				%tr
+					%td
+						Team comments
+					%td
+						73
+				%tr					
+					%td
+						Public comments
+					%td
+						0
+				%tr
+					%td
+						Completed proposals
+					%td
+						0
+				%tr					
+					%td
+						Proposal endorsements
+					%td
+						0
 
 %p.clear_both

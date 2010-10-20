@@ -3,11 +3,28 @@
 
 class ApplicationController < ActionController::Base
   before_filter :set_application_personality
-  before_filter :authorize, :except => [ :login, :proposal, :join_proposal_team, :get_templates ]
+  before_filter :authorize, :except => [ :login, :proposal, :get_templates ]
+  before_filter :add_member_data
+  
   helper :all # include all helpers, all the time
 #  protect_from_forgery # See ActionController::RequestForgeryProtection for details
   protect_from_forgery # :except => [:upload_member_photo]
 
+  def add_member_data
+    @member = Member.find_by_id(session[:member_id]);
+    if @member.nil?
+      # session is no good
+      session[:member_id] = nil
+    #else
+    #  @mem_teams = TeamRegistration.find(:all,
+    #    :select => 't.id, t.title, t.launched',  
+    #    :conditions => ['member_id = ?', @member.id],
+    #    :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+    #  )
+    end
+    logger.debug "add_member_data member: #{ @member }"
+  end
+  
   def set_application_personality
     case request.subdomains.first
       when /^2029-staff$/i, /^cgg$/
@@ -32,11 +49,31 @@ class ApplicationController < ActionController::Base
         self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
     end
   end
-  
-
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password, :password_confirmation
 
+  # put most generic exception at the top
+  rescue_from Exception, :with => :error_generic
+  rescue_from ActionController::RoutingError, :with => :render_404
+  
+  def error_generic(exception)
+    log_error(exception)
+    begin
+      member = Member.find_by_id(session[:member_id])
+      render :template=> 'errors/generic_error', :layout=>'welcome', :locals => {:member=>member}
+      ErrorMailer.deliver_error_report(member, exception, request.env["HTTP_HOST"], params[:_app_name] )
+    rescue
+      log_error("XXXX error_generic Had an error trying to report an error with email and custom error page")
+    end
+  end
+
+  def render_404
+    @member = member = Member.find_by_id(session[:member_id])
+    render :template=> 'errors/404_not_found', :layout=>'welcome', :locals => {:member=>member, :path=> request.host + request.request_uri }
+  end
+  
+  
+  
   def check_member_team_access(team_id)
     logger.debug "check_member_team_access for team id #{team_id}"
     # check that member has access to this team
@@ -53,7 +90,7 @@ class ApplicationController < ActionController::Base
           # send back a simple notice, do not redirect
           m = Member.new
           m.errors.add(:base, 'You must sign in to continue')
-          render :text => [m.errors].to_json, :status => 500
+          render :text => [m.errors].to_json, :status => 401
         else
           flash[:pre_authorize_uri] = request.request_uri
           flash[:notice] = "Please sign in"

@@ -6,48 +6,99 @@ div.page {
   div.page fieldset {
     width: 275px; }
 
-span.promise {
-  font-weight: bold; }
+span.promise, p.promise {
+  font-weight: bold;
+  color: #2b3e42;
+  font-size: 96%; }
 
 div.logo {
   text-align: left;
-  width: 100%; }
+  float: left; }
+  div.logo img {
+    margin-bottom: 8px; }
+
+div.join_com {
+  float: right;
+  margin-top: 55px; }
+  div.join_com a {
+    font-size: 14px;
+    font-weight: bold; }
+
+div.member_info {
+  float: right;
+  margin-top: 19px;
+  color: #2b3e42; }
+  div.member_info div.member {
+    padding: 0 0 4px 42px;
+    margin: 0;
+    text-align: left;
+    font-weight: bold;
+    position: relative; }
+    div.member_info div.member img {
+      display: block;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0; }
+  div.member_info p.signout {
+    margin: 0; }
+    div.member_info p.signout a.my_teams {
+      margin-right: 10px; }
+  div.member_info form.upload_member_photo {
+    display: none; }
+
+form.upload_member_photo {
+  display: block; }
+  form.upload_member_photo input[type='file'] {
+    width: 200px; }
+
+hr.top {
+  clear: both;
+  margin-bottom: 0; }
 
 div.footer_logo {
   margin: 20px;
   width: 100%; }
 
 div.ce_credit {
-  margin: 40px;
   width: 100%; }
   div.ce_credit h3 {
     margin-bottom: 6px; }
   div.ce_credit p.tag_line {
-    margin-top: 4px; }
+    margin-top: 4px;
+    font-weight: bold; }
 
 a.team_entry_title {
   display: block;
-  font-weight: bold; }
-  a.team_entry_title p > span {
-    margin-right: 20px; }
+  font-weight: bold;
+  color: #2b3e42; }
 
 div.mission {
-  float: left;
   width: 542px;
   border: 0px solid red;
   text-align: left; }
+  div.mission h2 {
+    margin-bottom: 0;
+    margin-top: 22px; }
+
+h2 {
+  font-size: 1em; }
 
 div.videos {
-  float: right;
   width: 225px;
   border: 0px solid red;
   text-align: left; }
   div.videos h2 {
     margin-bottom: 0px; }
-  div.videos div, div.videos p {
+  div.videos div {
     text-align: left;
     margin: 0;
     font-size: 92%; }
+  div.videos p {
+    margin-bottom: 4px;
+    font-weight: bold;
+    color: #2b3e42;
+    font-size: 96%; }
   div.videos p.link {
     font-weight: bold;
     margin: 8px 0 0 0;
@@ -55,24 +106,32 @@ div.videos {
   div.videos select {
     margin-top: 4px; }
   div.videos img {
-    width: 225px;
-    height: 140px; }
+    width: 205px;
+    height: 126px;
+    margin-bottom: 10px; }
 
 div.right_col {
   float: right;
   margin-bottom: 40px;
+  margin-top: 22px;
   width: 225px; }
-  div.right_col div.stats {
-    background-color: #f7f3e8;
-    border: 0px solid red;
-    text-align: left;
-    padding: 10px; }
-    div.right_col div.stats table {
-      margin: 10px; }
-      div.right_col div.stats table td.two {
-        padding-left: 20px; }
-    div.right_col div.stats p {
-      margin-left: 10px; }
+  div.right_col h2.home_title {
+    margin-bottom: 0;
+    margin-top: 0px;
+    font-size: 1em; }
+  div.right_col div.right_vertical_bar {
+    padding: 10px;
+    background-color: #f7f3e8; }
+    div.right_col div.right_vertical_bar div.stats {
+      padding-top: 0px;
+      border: 0px solid red;
+      text-align: left; }
+      div.right_col div.right_vertical_bar div.stats table {
+        margin: 0 0 10px 0; }
+        div.right_col div.right_vertical_bar div.stats table td.two {
+          padding-left: 20px; }
+      div.right_col div.right_vertical_bar div.stats p {
+        margin: 13px 0 0 0; }
   div.right_col div.sign_in {
     background-color: #f7f3e8;
     border: 0px solid red;
@@ -86,6 +145,15 @@ div.left_col {
   float: left;
   width: 542px;
   margin-bottom: 40px; }
+  div.left_col p {
+    margin: 10px 0 0 0; }
+  div.left_col h2 {
+    margin-bottom: 0;
+    margin-top: 22px;
+    font-size: 1em; }
+  div.left_col div.calls_to_action h2 {
+    margin-top: 0;
+    color: #2b3e42; }
   div.left_col div.ideas_and_teams {
     margin-top: 10px;
     text-align: left; }
@@ -106,7 +174,7 @@ div.left_col {
     div.left_col div.ideas_and_teams p.desc {
       margin-top: 4px; }
     div.left_col div.ideas_and_teams p.controls {
-      margin-top: -8px; }
+      margin-top: 4px; }
       div.left_col div.ideas_and_teams p.controls span {
         margin-right: 20px; }
       div.left_col div.ideas_and_teams p.controls a.visit {
@@ -115,35 +183,65 @@ div.left_col {
     div.left_col div.ideas_and_teams p.acknowledge {
       margin-top: 30px; }
 
+div.left_col.wide {
+  width: 100%;
+  float: none;
+  margin-bottom: 0; }
+
 p.team_cnt {
   font-style: italic; }
 
-h2.com_title {
-  text-align: left; }
+h2.home_title {
+  background-color: #2b3e42;
+  color: white;
+  padding: 2px 6px; }
+
+div.calls_to_action {
+  background-color: #f7f3e8;
+  padding: 10px;
+  margin-top: 20px; }
 
 ul.marketplace {
   text-align: left;
-  margin-bottom: 30px; }
+  padding-left: 20px;
+  margin-bottom: 0px; }
   ul.marketplace li {
     margin-bottom: 6px; }
-
-p.header_desc {
-  margin: -14px 0 0 0; }
 
 p.last_sentence {
   margin-bottom: 0; }
 
 div.mission p {
-  margin: 10px 0; }
+  margin: 10px 0 10px 0; }
 
-form.reset_password_form {
-  display: none; }
+p.header_desc {
+  margin-left: 0; }
+
+div.team_entry {
+  margin-left: 0; }
+
+form.reset_password_form, form.signin_form, form.register_form {
+  max-width: 400px; }
+  form.reset_password_form label, form.signin_form label, form.register_form label {
+    font-weight: bold; }
+  form.reset_password_form input[type='text'], form.reset_password_form input[type='password'], form.signin_form input[type='text'], form.signin_form input[type='password'], form.register_form input[type='text'], form.register_form input[type='password'] {
+    width: 250px; }
+  form.reset_password_form input[type='submit'], form.signin_form input[type='submit'], form.register_form input[type='submit'] {
+    margin: 20px 0; }
+
+form.signin_form td {
+  vertical-align: top; }
+form.signin_form p {
+  width: 250px;
+  margin: 0 20px 10px 40px; }
+form.signin_form p.signin_warn {
+  margin: 0;
+  padding: 4px;
+  border: 1px solid #f2583e;
+  width: 240px; }
 
 div.right_col input[type='text'], div.right_col input[type='password'] {
   width: 190px; }
-
-form.register_form {
-  display: none; }
 
 div.mask {
   position: absolute;
@@ -237,12 +335,6 @@ a.request_confirmation_email {
 div.control_line.title {
   margin-bottom: 10px; }
 
-p.signin_warn {
-  font-size: 80%;
-  margin-top: 0;
-  padding: 4px;
-  border: 1px solid #f2583e; }
-
 span.case {
   color: #f2583e;
   font-weight: bold;
@@ -256,3 +348,15 @@ div.ideas_and_teams div.tab_window {
 img.join_us {
   display: block;
   margin-bottom: 8px; }
+
+div#loading_please_wait {
+  border: 1px solid #2b3e42;
+  padding: 10px;
+  color: #2b3e42;
+  background-color: #f5e876;
+  font-weight: bold;
+  position: absolute;
+  display: none;
+  top: 0px;
+  left: 200px;
+  z-index: 1000; }

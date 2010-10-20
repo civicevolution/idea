@@ -5,21 +5,21 @@ class WelcomeController < ApplicationController
   def index
     logger.warn "Welcome controller index APP_NAME: #{APP_NAME}, request.subdomains.first: #{request.subdomains.first}"
     # if I have a current session, get my teams and insert them into the page instead of the signin form
-    if session[:member_id]
-      @member = Member.find_by_id(session[:member_id])
-      if @member.nil?
-        # session is no good
-        session[:member_id] = nil
-      else
-        @mem_teams = TeamRegistration.find(:all,
-          :select => 't.id, t.title, t.launched',  
-          :conditions => ['member_id = ?', @member.id],
-          :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-        )
-      end
-    else
-       @member = nil
-    end
+    #if session[:member_id]
+    #  @member = Member.find_by_id(session[:member_id])
+    #  if @member.nil?
+    #    # session is no good
+    #    session[:member_id] = nil
+    #  else
+    #    @mem_teams = TeamRegistration.find(:all,
+    #      :select => 't.id, t.title, t.launched',  
+    #      :conditions => ['member_id = ?', @member.id],
+    #      :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+    #    )
+    #  end
+    #else
+    #   @member = nil
+    #end
     # use a partial template and layout to create initiative specific page details
     
     # get current list of teams for this initiative    
@@ -49,11 +49,11 @@ class WelcomeController < ApplicationController
       if request.xhr?
         if @member
           session[:member_id] = @member.id
-          @mem_teams = TeamRegistration.find(:all,
-            :select => 't.id, t.title, t.launched',  
-            :conditions => ['member_id = ?', @member.id],
-            :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-          )
+          #@mem_teams = TeamRegistration.find(:all,
+          #  :select => 't.id, t.title, t.launched',  
+          #  :conditions => ['member_id = ?', @member.id],
+          #  :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+          #)
 
           if params[:stay_signed_in]
            request.session_options = request.session_options.dup
@@ -63,12 +63,13 @@ class WelcomeController < ApplicationController
           if flash[:pre_authorize_uri]
             render :text => "__REDIRECT__=#{flash[:pre_authorize_uri]}"
           else
-            render :partial => "teams_list"
+            #render :partial => "teams_list"
+            render :partial => "member_info"
           end
           
         else
           # return error
-          render :text=> 'Invalid email or password', :status=>500
+          render :text=> 'Invalid email or password', :status=>409
         end
       else
         
@@ -76,15 +77,15 @@ class WelcomeController < ApplicationController
           session[:member_id] = @member.id
           uri = session[:original_uri]
           session[:original_uri] = nil
-          team_id = TeamRegistration.find_by_member_id(@member.id).team_id
+          #team_id = TeamRegistration.find_by_member_id(@member.id).team_id
           #team_id = 10005
-          if team_id
-            redirect_to '/team?id=' + team_id.to_s
-          else
-            #redirect_to 'index.html'
-            redirect_to :controller=> 'welcome', :action => "index"
-          end          
-        
+          #if team_id
+          #  redirect_to '/team?id=' + team_id.to_s
+          #else
+          #  #redirect_to 'index.html'
+          #  redirect_to :controller=> 'welcome', :action => "index"
+          #end          
+          redirect_to :controller=> 'welcome', :action => "index"
         else
           flash.now[:notice] = "Invalid email/password combination"
           render :controller=>'welcome', :action=>'index'
@@ -97,7 +98,7 @@ class WelcomeController < ApplicationController
   def reset_password
     member = Member.find_by_email(params[:email].downcase)
     if member.nil?
-      render :text=> "Sorry, the email you entered: #{params[:email]} is not in our records.", :status=> 500
+      render :text=> "Sorry, the email you entered: #{params[:email]} is not in our records.", :status=> 409
     else
       # create and store a code for the member
       mcode = MemberLookupCode.new :member_id => member.id
@@ -122,8 +123,13 @@ class WelcomeController < ApplicationController
     logger.debug "reset code: #{params[:id]}"
     begin
       @member = Member.find(MemberLookupCode.find_by_code( params[:id] ).member_id)
+      #@mem_teams = TeamRegistration.find(:all,
+      #  :select => 't.id, t.title, t.launched',  
+      #  :conditions => ['member_id = ?', @member.id],
+      #  :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+      #)
     rescue
-      render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 500
+      render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 409
     end
     
   end
@@ -139,7 +145,7 @@ class WelcomeController < ApplicationController
       member_code = MemberLookupCode.find_by_code(params[:code]);
       @member = Member.find(member_code.member_id)
       if @member.nil?
-        render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 500
+        render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 409
       else
         # change the password
         @member.password = params[:password]
@@ -147,7 +153,14 @@ class WelcomeController < ApplicationController
         member_code.destroy
       end
     rescue
-      render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 500
+      render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 409
+    end
+  end
+  
+  def join_our_community
+    respond_to do |format|
+      format.html { render :action => "join_our_community", :layout => false } if request.xhr?  
+      format.html { render :action => "join_our_community" }
     end
   end
   
@@ -198,6 +211,8 @@ class WelcomeController < ApplicationController
       end # of begin block 
 
     end
+    
+    
     if @saved
       mcode = MemberLookupCode.new :member_id => @member.id
       mcode.save      
@@ -208,35 +223,42 @@ class WelcomeController < ApplicationController
     respond_to do |format|
       if @saved
         format.html { render :action => "acknowledge_registration", :layout => false } if request.xhr?  
-
       else
         @im.errors.each() {|attr, msg| @member.errors.add(attr, msg)} unless @im.nil?
         @member.errors.add(:join, "correct the problems indicated above.") if !@member.errors.nil? && @member.errors.size() > 0
         
-        format.json { render :text => [@member.errors].to_json, :status => 500 }
+        format.json { render :text => [@member.errors].to_json, :status => 409 }
       end
     end
   end
 
   def confirm_registration
-    # look up the member_id for the confirm code and set the member as confirmed
+    # show the confirmation page
     #show the form
     logger.debug "confirm code: #{params[:id]}"
     begin
       member_code = MemberLookupCode.find_by_code(params[:id]);
       @member = Member.find(member_code.member_id)
       session[:member_id] = @member.id
+      #@mem_teams = TeamRegistration.find(:all,
+      #  :select => 't.id, t.title, t.launched',  
+      #  :conditions => ['member_id = ?', @member.id],
+      #  :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+      #)
     rescue
-      render :template=> 'welcome/request_new_confirm_code', :layout=> 'welcome', :status=> 500
+      @member = Member.find_by_id(session[:member_id])
+      #@mem_teams = []
+      render :template=> 'welcome/request_new_confirm_code', :layout=> 'welcome', :status=> 409
     end
   end
   
   def request_confirmation_email
     if params[:email]
       @member = Member.find_by_email(params[:email].downcase)
-    else 
-      @member = Member.find(session[:member_id])
+    #else 
+    #  @member = Member.find(session[:member_id])
     end
+    #@mem_teams = []
     # send a new confirmation email
     mcode = MemberLookupCode.new :member_id => @member.id
     mcode.save
@@ -247,7 +269,7 @@ class WelcomeController < ApplicationController
   def confirm_reg_captcha
     member_code = MemberLookupCode.find_by_code(params[:conf_code]);
     if member_code.nil?
-      render :text=>'no member found', :status=>500
+      render :text=>'no member found', :status=>409
       return
     else
       @member = Member.find(member_code.member_id)
@@ -260,7 +282,7 @@ class WelcomeController < ApplicationController
         member_code.destroy   
         render :text=>'ok'
       else
-        render :text=>'fail', :status=>500
+        render :text=>'fail', :status=>409
       end
     end
   end
@@ -273,7 +295,7 @@ class WelcomeController < ApplicationController
     if ges.save
       render :text=>"broadcast=#{params[:broadcast]}"
     else
-      render :text=>'failed', :status=>500
+      render :text=>'failed', :status=>409
     end
   end
   
@@ -296,14 +318,14 @@ class WelcomeController < ApplicationController
 
   def upload_member_photo
     logger.debug "save_photo"
-    member = Member.find(session[:member_id])
-    logger.debug "save_photo member_id: #{member.id}"
+    #member = Member.find(session[:member_id])
+    logger.debug "save_photo member_id: #{@member.id}"
     
-    member.photo = params[:photo]
-    member.save
+    @member.photo = params[:photo]
+    @member.save
     
-    logger.debug "url: #{member.photo.url('36')}"
-    render :text => member.photo.url('36')
+    logger.debug "url: #{@member.photo.url('36')}"
+    render :text => @member.photo.url('36')
     #respond_to do |format|
     #  format.json { render :text => ["url = '#{ member.photo.url('36')}'"].to_json }
     #end
@@ -327,16 +349,16 @@ class WelcomeController < ApplicationController
     end
     
     if @saved
-      member = Member.find(session[:member_id])
-      HelpMailer.deliver_help_request_receipt(member, help_request, client_details )
-      HelpMailer.deliver_help_request_review(member, help_request, client_details)
+      #member = Member.find(session[:member_id])
+      HelpMailer.deliver_help_request_receipt(@member, help_request, client_details )
+      HelpMailer.deliver_help_request_review(@member, help_request, client_details)
     end
     
     respond_to do |format|
       if @saved
         format.html { render :action => "acknowledge_request_help", :layout => false } if request.xhr?
       else
-        format.json { render :text => [@proposal_idea.errors].to_json, :status => 500 }
+        format.json { render :text => [@proposal_idea.errors].to_json, :status => 409 }
       end
     end
     

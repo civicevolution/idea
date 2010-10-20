@@ -41,7 +41,7 @@ class TeamController < ApplicationController
       if @saved
         format.html { render :action => "acknowledge_proposal_idea", :layout => false } if request.xhr?
       else
-        format.json { render :text => [@proposal_idea.errors].to_json, :status => 500 }
+        format.json { render :text => [@proposal_idea.errors].to_json, :status => 409 }
       end
     end
     
@@ -85,7 +85,7 @@ class TeamController < ApplicationController
         if !@invite.errors[:recipient_emails].nil? && @invite.errors[:recipient_emails].size() > 0 && request.xhr?
           format.html { render :action => "team/invite_request_email_errors", :layout => false }
         else
-          format.json { render :text => [@invite.errors].to_json, :status => 500 }    
+          format.json { render :text => [@invite.errors].to_json, :status => 409 }    
         end
       end
     end
@@ -166,19 +166,27 @@ class TeamController < ApplicationController
   def proposal
     # get the team data, questions, and answers and call render within the welcome layout
     @team_id = params[:id].to_i
-    begin
-      @member_id = session[:member_id]
-      @member = Member.find(@member_id)
-      @mem_teams = TeamRegistration.find(:all,
-        :select => 't.id, t.title, t.launched',
-        :conditions => ['member_id = ?', @member.id],
-        :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-      )
-      
-    rescue
+    #begin
+    #  @member_id = session[:member_id]
+    #  @member = Member.find_by_id(@member_id)
+    #  @mem_teams = TeamRegistration.find(:all,
+    #    :select => 't.id, t.title, t.launched',
+    #    :conditions => ['member_id = ?', @member.id],
+    #    :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+    #  )
+    #  
+    #rescue
+    #  @member_id = 0
+    #  @member = nil
+    #end
+    
+    @member_id = session[:member_id]
+    @member = Member.find_by_id(@member_id)
+    if @member.nil?
       @member_id = 0
       @member = nil
     end
+    
     @team = Team.find_by_id(@team_id, :limit=>1)
     
     if @team.nil?
@@ -247,7 +255,7 @@ class TeamController < ApplicationController
           ProposalMailer.deliver_team_join_confirmation(Member.find(@tr.member_id), @team, @tr, @host )
         end
       else
-        format.json { render :text => [@tr.errors].to_json, :status => 500 }
+        format.json { render :text => [@tr.errors].to_json, :status => 409 }
       end
     end
     
@@ -333,16 +341,16 @@ class TeamController < ApplicationController
     answer_rating[:count] = 7
     @answers_with_ratings = [answer_rating]
 
-    question = Question.new(:text => 'Question for template', :created_at => old_ts, :updated_at => old_ts, :answer_criteria=>'5..15',:idea_criteria=>'6..12')
-    question.id = 1
+   question = Question.new(:text => 'Question for template', :created_at => old_ts, :updated_at => old_ts, :answer_criteria=>'5..15',:idea_criteria=>'6..12')
+   question.id = 1
 
-    strs.push '<div class="item Question">'
-    strs.push render_to_string( :partial => 'question', :object => question,
-      :locals => { :item => item} )
-    strs.push '</div>'
+   strs.push '<div class="item Question">'
+   strs.push render_to_string( :partial => 'question', :object => question,
+     :locals => { :item => item} )
+   strs.push '</div>'
 
-    strs.push '<hr/><h3>comment</h3><hr/>'
-    comment_rating = ComRating.new(:created_at => old_ts, :updated_at => newer_ts)
+   strs.push '<hr/><h3>comment</h3><hr/>'
+   comment_rating = ComRating.new(:created_at => old_ts, :updated_at => newer_ts)
 
     comment_rating[:anonymous] = 'f'
     comment_rating[:member_id] = session[:member_id]
@@ -815,13 +823,13 @@ class TeamController < ApplicationController
       else
       
         if ajaxMode
-          format.json { render :text => [@answer.errors].to_json, :status => 500 }
+          format.json { render :text => [@answer.errors].to_json, :status => 409 }
           #format.html {render :partial => 'team/error', :object => @answer, :status => 500 } 
         else
           @target_item = Item.find(params[:par_id])
           @target = get_target(@target_item)
 
-          format.html { render :action => "add_answer",:status => 500 }
+          format.html { render :action => "add_answer",:status => 409 }
           format.xml  { render :xml => @answer.errors, :status => :unprocessable_entity }
         end    
       end
@@ -1061,7 +1069,7 @@ class TeamController < ApplicationController
         logger.debug "XXX 2 com/res was not saved, params[:resource_type]: #{params[:resource_type]}"
         @resource.errors.each() {|attr, msg| @comment.errors.add(attr, msg)} unless @resource.nil?
         if ajaxMode
-          format.json { render :text => [@comment.errors].to_json, :status => 500 }
+          format.json { render :text => [@comment.errors].to_json, :status => 409 }
           #combine the errors from resources into comment errors so they will all be displayed
           #format.html {render :partial => 'team/error', :object => @comment, :status => 400, :locals => { :resources => @resources} }
         else
@@ -1430,7 +1438,7 @@ class TeamController < ApplicationController
           :pic_url => member.photo.url('36'), :chat_msg_id=>chat_msg.id, :item_id=>params[:page_id] }},session);
         format.html { render :text => serialized } if request.xhr?       
       else
-        format.json { render :text => [chat_msg.errors].to_json, :status => 500 }
+        format.json { render :text => [chat_msg.errors].to_json, :status => 409 }
       end
     end
     
@@ -1446,7 +1454,7 @@ class TeamController < ApplicationController
       if @chat_messages.class == String
         # an error string was returned
         format.html { render :text=> @chat_messages, :status=>200, :layout => false} if request.xhr?
-        format.html { render :text=> @chat_messages, :status=>500} if request.xhr?  
+        format.html { render :text=> @chat_messages, :status=>409} if request.xhr?  
       else
         format.html { render :action => "page_chat_transcript", :layout => false } if request.xhr?
         format.html { render :action => "page_chat_transcript" } 
@@ -1585,7 +1593,7 @@ class TeamController < ApplicationController
         # serialize the form errors and send back ajson
         
         if ajaxMode
-          format.json { render :text => [@bs_idea.errors].to_json, :status => 500 }
+          format.json { render :text => [@bs_idea.errors].to_json, :status => 409 }
         else
           # this code generates a static page with the target of the comment, the comment form, and the error data - for now I just want the error data
           @target_item = Item.find(params[:par_id])

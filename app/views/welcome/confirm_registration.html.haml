@@ -1,5 +1,6 @@
+- @member.confirmed = true # fake this so I don't show the confirm email link
 - content_for (:script) do
-	= javascript_include_tag "jquery-1.4.2.min.js", 'jquery.form.js', 'ce/activate/act_welcome_layout.js'
+	-#= javascript_include_tag "jquery-1.4.2.min.js", 'jquery.form.js', 'ce/activate/act_welcome_layout.js'
 	:javascript
 		$('a.reload_captcha').die('click').live('click',function(){Recaptcha.reload(); return false;})
 		$('form.confirm_reg_captcha button').die('click').live( 'click', 
@@ -124,7 +125,7 @@
 				
 			%li 
 				Now put a face on your humanity
-				%div.teams_list
+				%div.member_info{:style=>'float: none'}
 					- pic_url = @member.photo.url('36')
 					- if !pic_url.match(/members_default/).nil?
 						%span.default_pic Don't look like this...
@@ -133,6 +134,8 @@
 				- form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
 					= file_field_tag :photo, {:value=>"Choose a photo"}
 					%p= submit_tag "Yes! Make this my photo"
+					-#%p
+					-#	%input{:type=>'button', :value=>"Yes! Make this my photo"}
 
 			%li 
 				Stay in touch with our community

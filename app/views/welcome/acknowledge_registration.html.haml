@@ -1,4 +1,7 @@
-%p Thank you for registering with CivicEvolution.
+- @member.confirmed = true # fake this so I don't show the confirm email link
+= render :partial => 'welcome/member_info'		
+
+%p #{@member.first_name}, thank you for registering with CivicEvolution.
 %p
 	We have sent you a confirmation email. 
 	%b Please click the link in the email to complete your registration.
