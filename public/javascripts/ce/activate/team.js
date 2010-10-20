@@ -72,19 +72,21 @@ function activate_ux_functions_misc(){
 		}catch(e){}
 	});
 
-	$( "#team_tab" ).bind( "tabsshow", function(event, ui) {
-		if(ui.panel.id == "tab_proposal"){
-			update_proposal();
-		}else if(ui.panel.className.match(/discussion/)){
-			ellipsis(ui.panel);
-		}
-	});
+	//$( "#team_tab" ).bind( "tabsshow", function(event, ui) {
+	//	if(ui.panel.id == "tab_proposal"){
+	//		update_proposal();
+	//	}else if(ui.panel.className.match(/discussion/)){
+	//		ellipsis(ui.panel);
+	//	}
+	//});
 	
 	$( "div.question_tabs" ).bind( "tabsshow", function(event, ui) {
 		//if(ui.panel.className.match(/discussion/)){
 		var tab_window = $('div.tab_window',ui.panel);
 		if(tab_window.hasClass('discussion')){
 			ellipsis(tab_window);
+		}else if (tab_window.hasClass('tab_proposal')){
+			update_proposal();
 		}
 	});	
 	
@@ -126,7 +128,7 @@ function activate_ux_functions_misc(){
 			temp.prop_ques = this;
 			id = Number(this.id.match(/\d+/))
 			change_page(Number( $('#i' + id).closest('.Page').attr('id').match(/\d+/)))
-	    $("div#proposal > div.Team > div.Page[id='i" + curPageId + "'] div.tabs").tabs('select',3)
+	    $("div#proposal > div.Team > div.Page[id='i" + curPageId + "']").find('ul.qa_tabs li').eq(2).click()
 			return false;
 	  }
 	);
@@ -433,7 +435,7 @@ function resizeUI(){
 
 		// adjust proposal height
 		//$('div#proposal').height( $("div#nav_chat_col").height()  );//avl_height - 70);
-		$('div#proposal').height( curWinHeight - curTopHeight );
+		$('div#proposal').height( curWinHeight - curTopHeight - 20 );
 	
 		set_page_tabs_height(curPageId);
 
@@ -452,7 +454,7 @@ function resizeUI(){
 			$('body').width(800);
 			var prop_width = 800 - nav_width - 20;
 		}else{
-			var prop_width = win_width - nav_width - 40;
+			var prop_width = win_width - nav_width - 60;
 		}
 		//console.log("set width to " + prop_width)
 		$('div#proposal').width( prop_width );
@@ -469,7 +471,7 @@ function resizeUI(){
 
 function activate_ux_appearance(){
 	
-	document.title = $('h3.team_title').text();
+	document.title = $('h3.team_title:first').text();
 	
 	
 	$('div.coms').addClass('coms_show_one_line');

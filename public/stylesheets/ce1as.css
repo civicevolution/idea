@@ -138,7 +138,7 @@ h3.page_title {
   width: 1120px;
   position: absolute;
   top: 56px;
-  left: 340px;
+  left: 360px;
   margin-top: 12px; }
 
 div.Page {
@@ -151,16 +151,14 @@ div.plus_com {
   position: relative;
   padding-top: 0px; }
 
-div.Question {
-  margin-bottom: 30px; }
-  div.Question form.open_form {
-    clear: both;
-    margin-bottom: 10px;
-    padding-right: 20px;
-    margin-right: 30px; }
-    div.Question form.open_form input {
-      color: #333333;
-      width: 100%; }
+div.Question form.open_form {
+  clear: both;
+  margin-bottom: 10px;
+  padding-right: 20px;
+  margin-right: 30px; }
+  div.Question form.open_form input {
+    color: #333333;
+    width: 100%; }
 
 div.Answer_entry div.answer_controls {
   margin-bottom: 0px;
@@ -196,7 +194,7 @@ div.embedded_discussion form.add_answer_form {
 div.coms {
   background: url(/images/border_shadow.gif) repeat-y left top;
   position: absolute;
-  left: 340px;
+  left: 360px;
   top: 0;
   height: 100%;
   overflow: hidden;
@@ -666,7 +664,8 @@ span.no_break, span.stars {
 
 div.proposal_view {
   max-width: 600px;
-  width: auto; }
+  width: auto;
+  margin-bottom: 40px; }
   div.proposal_view div.summary {
     margin: 0px; }
     div.proposal_view div.summary p.summary {
@@ -864,11 +863,22 @@ ul.qa_tabs {
   ul.qa_tabs li {
     list-style: none;
     float: left;
+    position: relative;
     background: url(/images/qa_puzzle_tabs.gif) 0 0 no-repeat;
     height: 49px; }
+    ul.qa_tabs li div.new_items {
+      position: absolute;
+      top: 34px;
+      font-size: 0.8em;
+      text-align: center;
+      color: black; }
+  ul.qa_tabs li.active div.new_items {
+    color: white; }
   ul.qa_tabs li.discuss_tab {
     width: 122px;
     background-position: 0 -120px; }
+    ul.qa_tabs li.discuss_tab div.new_items {
+      width: 97px; }
   ul.qa_tabs li.discuss_tab.active {
     background-position: 0 0; }
   ul.qa_tabs li.discuss_tab.hover {
@@ -876,6 +886,8 @@ ul.qa_tabs {
   ul.qa_tabs li.brainstorm_tab {
     width: 170px;
     background-position: -122px -120px; }
+    ul.qa_tabs li.brainstorm_tab div.new_items {
+      width: 145px; }
   ul.qa_tabs li.brainstorm_tab.active {
     background-position: -122px 0; }
   ul.qa_tabs li.brainstorm_tab.hover {
@@ -883,6 +895,8 @@ ul.qa_tabs {
   ul.qa_tabs li.answer_tab {
     width: 141px;
     background-position: -292px -120px; }
+    ul.qa_tabs li.answer_tab div.new_items {
+      width: 116px; }
   ul.qa_tabs li.answer_tab.active {
     background-position: -292px 0; }
   ul.qa_tabs li.answer_tab.hover {
@@ -890,10 +904,15 @@ ul.qa_tabs {
   ul.qa_tabs li.listen_tab {
     width: 107px;
     background-position: -433px -120px; }
+    ul.qa_tabs li.listen_tab div.new_items {
+      width: 107px; }
   ul.qa_tabs li.listen_tab.active {
     background-position: -433px 0; }
   ul.qa_tabs li.listen_tab.hover {
     background-position: -433px -60px; }
+
+div.team_page ul.qa_tabs li {
+  background-image: url(/images/team_puzzle_tabs.gif); }
 
 div.how {
   display: none; }
@@ -943,3 +962,7 @@ div.tab_panel p.instr {
   div.tab_panel p.instr a {
     font-size: 0.9em;
     margin-left: 10px; }
+
+div.how ul.instr {
+  margin: 10px 0;
+  max-width: 600px; }

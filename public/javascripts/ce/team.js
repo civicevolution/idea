@@ -89,8 +89,9 @@ $(function(){
 	
 		// do the ux transformations
 		if(create_tabs){
-			$('div.team_page div.tabs').tabs()
-			$('div.team_page div.tabs > ul > li').prepend( $('<div class="new_items"></div>'))
+			//$('div.team_page div.tabs').tabs()
+			//$('div.team_page div.tabs > ul > li').prepend( $('<div class="new_items"></div>'))
+			$('ul.qa_tabs > li').prepend( $('<div class="new_items"></div>'))
 		}
 		activate_ux_appearance()
 	
@@ -123,7 +124,7 @@ function set_page_tabs_height(page){
 		var curWinHeight = $(window).height();
 		var tab_top = $('div.tab_window:visible',page).offset().top
 		//console.log("tab_top: " + tab_top + " curWinHeight: " + curWinHeight + " new tab_window height: " + (curWinHeight - tab_top - 70))
-		$('div.tab_window',page).height(curWinHeight - tab_top - 75);
+		$('div.tab_window',page).height(curWinHeight - tab_top - 35);
 	}catch(e){console.log("set_page_tabs_height error: " + e)}
 }
 
@@ -197,7 +198,7 @@ function set_page_tabs_height(page){
 		  function(){
 		    $('div.Question_entry',this).each(
 		      function(){
-		        question = $(this).find('div.question').text();
+		        question = $(this).find('div.question:first').text();
 		        question = $('<div class="question" id="prop_ques_' + $(this).closest('.Question').attr('id') + '"><p class="prop_q">' + question + '</p></div>');
 		        proposal.append(question)
 		        //console.log("question: " + question)
@@ -581,21 +582,23 @@ $('div.tabs').bind('tabsshow',
 
 $('a.how').die('click').live('click',
 	function(){
-		var el = $(this)
+		var el = link = $(this)
 		// find the first div.how below this
-		console.log("open how")
+		//console.log("open how")
 		while(el = el.parent()){
 			var div = el.find('div.how:first');
-			console.log("div.size(): " + div.size())
+			//console.log("div.size(): " + div.size())
 			if(div.size() > 0){
 				if(div.is(':visible')){
-					console.log("hide")
+					//console.log("hide")
 					div.hide()
-					$(this).html('How')
+					var title = link.attr('title');
+					link.html(title || 'How')
 				}else{
-					console.log("show")
-					div.show()
-					$(this).html('Close')
+					//console.log("show")
+					div.show();
+					var title = link.html()
+					link.html('Close').attr('title',title)
 				}
 				return false;
 			}

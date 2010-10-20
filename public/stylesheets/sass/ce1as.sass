@@ -7,8 +7,8 @@ $faint_color: rgb(147, 160, 145)
 $left_col_init: 300px
 
 $proposal_width: 1120px
-$proposal_left_width: 340px
-$proposal_space_width: 40px
+$proposal_left_width: 360px
+$proposal_space_width: 60px
 $proposal_right_width: 760px
 $proposal_margin_left: 80px
 
@@ -207,7 +207,7 @@ div.plus_com
 	padding-top: 0px
 
 div.Question
-	margin-bottom: 30px
+	//margin-bottom: 30px
 	form.open_form
 		clear: both
 		margin-bottom: 10px
@@ -765,6 +765,7 @@ div.proposal_view
 	max-width: 600px
 	width: auto
 	h3.team_title
+	margin-bottom: 40px
 
 	div.summary
 		margin: 0px
@@ -873,7 +874,7 @@ a.show_instructions
 	margin-left: 20px
 	display: inline
 	font-weight: normal
-	
+
 p.targeted_object
 	font-weight: bold
 	
@@ -967,12 +968,24 @@ ul.qa_tabs
 	li
 		list-style: none
 		float: left
+		position: relative
 		background : url(/images/qa_puzzle_tabs.gif) 0 0 no-repeat
 		height: 49px
+		div.new_items
+			position: absolute
+			top: 34px
+			font-size: .8em
+			text-align: center
+			color: black
+	li.active
+		div.new_items
+			color: white
 		
 	li.discuss_tab
 		width: 122px
 		background-position : 0 -120px
+		div.new_items	
+			width: 97px
 	li.discuss_tab.active
 		background-position : 0 0
 	li.discuss_tab.hover
@@ -981,6 +994,8 @@ ul.qa_tabs
 	li.brainstorm_tab
 		width: 170px
 		background-position : -122px -120px
+		div.new_items	
+			width: 145px
 	li.brainstorm_tab.active
 		background-position : -122px 0
 	li.brainstorm_tab.hover
@@ -989,6 +1004,8 @@ ul.qa_tabs
 	li.answer_tab
 		width: 141px
 		background-position : -292px -120px
+		div.new_items	
+			width: 116px
 	li.answer_tab.active
 		background-position : -292px 0
 	li.answer_tab.hover
@@ -997,10 +1014,16 @@ ul.qa_tabs
 	li.listen_tab
 		width: 107px
 		background-position : -433px -120px
+		div.new_items	
+			width: 107px
 	li.listen_tab.active
 		background-position : -433px 0
 	li.listen_tab.hover
 		background-position : -433px -60px
+
+
+div.team_page ul.qa_tabs li
+	background-image : url(/images/team_puzzle_tabs.gif)
 
 div.how
 	display: none
@@ -1058,3 +1081,8 @@ div.tab_panel
 		a	
 			font-size: .9em
 			margin-left: 10px
+
+
+div.how ul.instr
+	margin: 10px 0
+	max-width: 600px
