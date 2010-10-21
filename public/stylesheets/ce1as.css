@@ -863,7 +863,8 @@ ul.qa_tabs {
     float: left;
     position: relative;
     background: url(/images/qa_puzzle_tabs.gif) 0 0 no-repeat;
-    height: 49px; }
+    height: 49px;
+    cursor: pointer; }
     ul.qa_tabs li div.new_items {
       position: absolute;
       top: 34px;
