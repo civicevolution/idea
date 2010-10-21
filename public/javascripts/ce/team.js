@@ -67,7 +67,6 @@ $(function(){
 		  settings.data = settings.data || "";
 		  settings.data += (settings.data ? "&" : "") + "authenticity_token=" + encodeURIComponent(AUTH_TOKEN);
 		});
-		NOTIFIER.init();
 		// force resize
 		function forceResize(){
 			lastWinWidth = lastWinHeight = 0;
@@ -93,6 +92,9 @@ $(function(){
 			//$('div.team_page div.tabs > ul > li').prepend( $('<div class="new_items"></div>'))
 			$('ul.qa_tabs > li').prepend( $('<div class="new_items"></div>'))
 		}
+		
+		NOTIFIER.init();
+		
 		activate_ux_appearance()
 	
 		activate_ux_pages()

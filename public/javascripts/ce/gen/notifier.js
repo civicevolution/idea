@@ -16,7 +16,7 @@ NOTIFIER = {
 				switch(report.target_type){
 					case 'bs_idea':
 						++this.data_model['page_' + report.page_id].idea_coms;
-						$('div.tabs > ul > li', page).eq(2).find('div.new_items').html(
+						$('div.tabs > ul > li', page).eq(1).find('div.new_items').html(
 							Number(this.data_model['page_' + report.page_id].ideas) + 
 							Number(this.data_model['page_' + report.page_id].idea_coms) + ' new');
 							//console.log("call set time out for idea: " + report.target_id)
@@ -24,7 +24,7 @@ NOTIFIER = {
 						break;
 					case 'answer':
 						++this.data_model['page_' + report.page_id].answer_coms;
-						$('div.tabs > ul > li', page).eq(3).find('div.new_items').html(
+						$('div.tabs > ul > li', page).eq(2).find('div.new_items').html(
 							Number(this.data_model['page_' + report.page_id].answers) +
 							Number(this.data_model['page_' + report.page_id].answer_coms) + ' new')
 							//console.log("call set time out for answer: " + report.target_id)
@@ -35,19 +35,19 @@ NOTIFIER = {
 			case 'pub_com':
 				++this.data_model['page_' + report.page_id].public_coms;
 				++this.data_model.totals['page_' + report.page_id];
-				$('div.tabs > ul > li', page).eq(1).find('div.new_items').html(this.data_model['page_' + report.page_id].public_coms + ' new')
+				$('div.tabs > ul > li', page).eq(3).find('div.new_items').html(this.data_model['page_' + report.page_id].public_coms + ' new')
 				break;
 			case 'bs_idea':
 				++this.data_model['page_' + report.page_id].ideas;
 				++this.data_model.totals['page_' + report.page_id];				
-				$('div.tabs > ul > li', page).eq(2).find('div.new_items').html(
+				$('div.tabs > ul > li', page).eq(1).find('div.new_items').html(
 					Number(this.data_model['page_' + report.page_id].ideas) + 
 					Number(this.data_model['page_' + report.page_id].idea_coms) + ' new')
 				break;
 			case 'answer':
 				++this.data_model['page_' + report.page_id].answers
 				++this.data_model.totals['page_' + report.page_id];
-				$('div.tabs > ul > li', page).eq(3).find('div.new_items').html(
+				$('div.tabs > ul > li', page).eq(2).find('div.new_items').html(
 					Number(this.data_model['page_' + report.page_id].answers) +
 					Number(this.data_model['page_' + report.page_id].answer_coms) + ' new')
 				break;
@@ -296,14 +296,12 @@ NOTIFIER = {
 				var p_id = Number(this.id.match(/\d+/));
 				var page_id = 'page_' + p_id;
 				//console.log("update page: " + page_id )
-
-    
 				if(data[page_id].team_coms > 0)$('div.tabs > ul > li', page).eq(0).find('div.new_items').html(data[page_id].team_coms + ' new')
-				if(data[page_id].public_coms > 0)$('div.tabs > ul > li', page).eq(1).find('div.new_items').html(data[page_id].public_coms + ' new')
-				if(Number(data[page_id].ideas) + Number(data[page_id].idea_coms) > 0)$('div.tabs > ul > li', page).eq(2).find('div.new_items').html(
+				if(data[page_id].public_coms > 0)$('div.tabs > ul > li', page).eq(3).find('div.new_items').html(data[page_id].public_coms + ' new')
+				if(Number(data[page_id].ideas) + Number(data[page_id].idea_coms) > 0)$('div.tabs > ul > li', page).eq(1).find('div.new_items').html(
 					Number(data[page_id].ideas) + 
 					Number(data[page_id].idea_coms) + ' new')
-				if(	Number(data[page_id].answers) + Number(data[page_id].answer_coms) > 0 )$('div.tabs > ul > li', page).eq(3).find('div.new_items').html(
+				if(	Number(data[page_id].answers) + Number(data[page_id].answer_coms) > 0 )$('div.tabs > ul > li', page).eq(2).find('div.new_items').html(
 					Number(data[page_id].answers) +
 					Number(data[page_id].answer_coms) + ' new')
 				//$('div#chat_' + report.page_id + ' span.new_items').html(this.data_model['page_' + report.page_id].chat_msgs + ' new');
