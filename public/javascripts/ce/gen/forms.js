@@ -197,9 +197,14 @@ $('div.comment a.reply').die('click').live('click', show_com_form);
 
 function show_com_form(){
 	try{
- //console.log("show_com_form v1");
+	//console.log("show_com_form v1");
 	$this = $(this);
 	var par = $this.closest('.item');
+	// par should only have one open form
+	if(par.find('form.add_comment_form').size()>0){
+		par.find('form.add_comment_form textarea').focus();
+		return false;
+	} 
 	var par_id = Number(par.attr('id').match(/\d+/));
 	var mode = 'add';
 	var id = par_id;
