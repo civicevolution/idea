@@ -587,7 +587,7 @@ $('a.how').die('click').live('click',
 		var el = link = $(this)
 		// find the first div.how below this
 		//console.log("open how")
-		while(el = el.parent()){
+		while( el && ( el = el.parent() ) ){
 			var div = el.find('div.how:first');
 			//console.log("div.size(): " + div.size())
 			if(div.size() > 0){
