@@ -288,6 +288,25 @@ class Team < ActiveRecord::Base
     end
   end
   
+  def self.gen_report(initiative_id)
+    # id, title, launched, # members, #coms, # ideas, # answers, # chats,     
+    #Team.all(
+    #  :select => 'id, title, launched', 
+    #  :conditions => ['initiative_id = ?', initiative_id]
+    #)
+    
+    Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement, status, min_members, max_members, signup_mode, launched,
+      (SELECT COUNT(*) FROM team_registrations WHERE team_id = t.id) AS members,
+      (SELECT COUNT(*) FROM comments WHERE team_id = t.id) AS comments,
+      (SELECT COUNT(*) FROM bs_ideas WHERE team_id = t.id) AS bs_ideas,
+      (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers
+      FROM teams t 
+      WHERE initiative_id = ?
+      ORDER BY title|, initiative_id ]
+    )
+    
+  end  
+  
   def self.delete_team(team_id, delete_code)
     
     # check that the team.join_code is delete_NNNN

@@ -1,0 +1,24 @@
+%h3 Members
+
+%table
+	%tr
+		%th
+			Name
+		%th
+			Teams
+		%th
+			Coms
+		%th
+			Ideas
+		%th
+			Answers
+
+	- @members.each do |m|
+		%tr
+			%td= "#{m.first_name} #{m.last_name}"
+			-#%td= link_to m['teams'], {:action=>'team_members', :id=>m.id}
+			%td= m['teams']
+			%td= m['comments']
+			%td= m['bs_ideas']
+			%td= m['answers']
+			

@@ -1,35 +1,65 @@
 class AdminController < ApplicationController
 
-  # just display the form and wait for user to
-  # enter a name and password
-  
-  def login
-    if request.post?
-      member = Member.authenticate(params[:email], params[:password])
-      if member
-        session[:member_id] = member.id
-        uri = session[:original_uri]
-        session[:original_uri] = nil
-        redirect_to(uri || { :action => "index" })
-      else
-        flash.now[:notice] = "Invalid email/password combination"
-      end
-    end
-    #debugger
-  end
-  
-
-  
-  def logout
-    session[:member_id] = nil
-    flash[:notice] = "Logged out"
-    redirect_to(:controller=>'welcome', :action => "index")
-  end
-  
-
-  
   def index
-    @total_members = Member.count
+    
+    
+    
   end
   
+  def members
+    @members = Member.gen_report(params[:init_id])
+  end
+
+  def teams
+    @teams = Team.gen_report(params[:init_id])
+  end
+
+  def ideas
+    @ideas = ProposalIdea.all()
+  end
+
+  def team_workspace
+    
+  end
+  
+  def team_members
+    
+  end
+
+
+
+
+
+  protected
+  
+    def authorize
+      @member = Member.find_by_id(session[:member_id])
+      unless @member
+        if request.xhr? || params[:post_mode] == 'ajax'
+          # send back a simple notice, do not redirect
+          m = Member.new
+          m.errors.add(:base, 'You must sign in to continue')
+          render :text => [m.errors].to_json, :status => 401
+        else
+          flash[:pre_authorize_uri] = request.request_uri
+          flash[:notice] = "Please sign in"
+          render :template => 'welcome/must_sign_in', :layout => 'welcome'
+          #redirect_to :controller => 'welcome' , :action => 'not_signed_in'
+        end
+      end
+      
+      if @member.email != 'brian@civicevolution.org'
+        if request.xhr? || params[:post_mode] == 'ajax'
+          # send back a simple notice, do not redirect
+          m = Member.new
+          m.errors.add(:base, 'You are not recognized as a system administrator')
+          render :text => [m.errors].to_json, :status => 401
+        else
+          flash[:pre_authorize_uri] = request.request_uri
+          render :action => 'not_recognized_admin'
+        end
+      end
+      
+    end
+
 end

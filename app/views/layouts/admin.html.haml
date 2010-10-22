@@ -1,0 +1,131 @@
+!!!
+%html{html_attrs('en-en')}
+	%head
+		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
+		%title Welcome to the 2029 and Beyond Sustainable Future City Project
+		= javascript_include_tag "jquery-1.4.2.min.js"
+		=	stylesheet_link_tag 'cgg_welcome.css', 'ce1a.css', 'ce1as.css', 'admin.css'
+		:javascript
+			var dontclick=true;
+			$(document).click(function(e){
+				if(dontclick){
+					e.preventDefault()
+					e.stopPropagation()
+					e.stopImmediatePropagation()
+					e.bubbles = false
+				}
+				$('div#loading_please_wait').show()
+			});
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
+			_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+			
+	%body
+		%div.page
+			%div.logo
+				%a{ :href=> '/admin'}
+					= image_tag("ce_logo_20c.gif")
+				%p.tag_line CivicEvolution admin
+				%p.nav
+					%a{:href=>'#', :onclick=>"history.back(); return false"} Back
+					=link_to "Home", {:action=>'index'}
+					
+			- if !@member.nil?		
+				= render :partial => 'welcome/member_info'		
+			- else
+				%div.join_com
+					-#= link_to 'Join our community', {}, {:class=>'join_our_community', :id=>'join_community_link'}
+					= link_to 'Register now', {:controller=>'welcome'}, {:class=>'join_our_community', :id=>'join_community_link'}
+					or
+					= link_to 'Sign in', {:controller=>'welcome'}, {:class=>'sign_in', :id=>'sign_in_link'}
+					
+			%hr.top
+			= yield
+			
+			%hr
+			%p
+				%a{:href=>'#', :onclick=>"history.back(); return false"} Back
+				=link_to "Home", {:action=>'index'}
+			
+
+			%div#loading_please_wait
+				%div.border
+					%p 
+						Please wait a moment while the page finishes loading...
+						%img{:src=>"/images/rotating_arrow.gif"}
+					%div.slow_msg
+						%p
+							We apologise that this page is loading slow for you. We are working to improve it.
+						%p
+							The next pages you visit should load much more quickly
+				
+			%div#hidden_forms.hide
+				%div#sign_in_form
+					- form_tag('/welcome/signin',{:class=>'signin_form'}) do
+						%table
+							%tr
+								%td
+									%label{:for=>"email"} Email:
+								%td{:rowspan=>6}
+									%p
+										If you have not already joined the 2029 and beyond community at CivicEvolution, please
+										-#= link_to 'Join our community', {}, {:class=>'join_our_community'}
+										= link_to 'Register', {:controller=>'welcome'}, {:class=>'join_our_community'}
+										now.
+									
+							%tr		
+								%td
+									= text_field_tag :email, params[:email]
+							%tr
+								%td
+									%label{:for=>"password"} Password:
+							%tr		
+								%td
+									= password_field_tag :password, params[:password_field_tag]
+							%tr
+								%td
+									= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)'
+									Stay signed in 
+									%p.signin_warn.hide
+										We'll keep you signed in
+										%br
+										Don't use this on a public computer
+							%tr
+								%td
+									= submit_tag "Sign In"
+									= link_to 'Reset password', {:controller=>'welcome'}, {:class=>'reset_password'}
+									= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
+					
+							
+						
+				%div#reset_password_form
+					- form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
+						%table
+							%tr
+								%td
+									%label{:for=>"email"} Enter your email:
+							%tr		
+								%td
+									= text_field_tag :email, params[:email]
+							%tr
+								%td
+									= submit_tag "Reset password"
+									= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
+							-#%tr
+							-#	%td
+							-#		= link_to 'Sign in', {}, {:class=>'sign_in'}
+							-#%tr
+							-#	%td
+							-#		= link_to 'Join our community', {}, {:class=>'join_our_community'}
+			
+		-#= javascript_include_tag "jquery-1.4.2.min.js"
+		= javascript_include_tag 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "ce/activate/act_welcome_layout.js", "ce/gen/forms.js"
+		=	stylesheet_link_tag 'jquery-ui-1.8.2.custom.css'
+		= yield :script
+		

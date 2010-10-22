@@ -95,9 +95,9 @@ class TeamController < ApplicationController
   
   def review_proposal_idea
     @proposal = ProposalIdea.find(params[:id])
-    @member = Member.find_by_id(@proposal.member_id)
+    @submittor = Member.find_by_id(@proposal.member_id)
     respond_to do |format|
-      if @member.nil? 
+      if @submittor.nil? 
         format.html { render :text => "Please ignore this suggested idea -- the person that submitted this proposal is no longer a member", :layout => 'welcome' } 
       else
         format.html { render :action => "review_proposal_idea", :layout => 'welcome' } 
@@ -108,7 +108,7 @@ class TeamController < ApplicationController
   def approve_proposal_idea
     # publish this idea and notify the person that submitted the idea
     @proposal_idea = ProposalIdea.find(params[:id])
-    @member = Member.find(@proposal_idea.member_id)
+    @submittor = Member.find(@proposal_idea.member_id)
     
     # convert the idea into a team
     
@@ -151,7 +151,7 @@ class TeamController < ApplicationController
         
         #notify the author
         @host = request.env["HTTP_HOST"]
-        ProposalMailer.deliver_approval_notice(@member, @proposal_idea, @team, @host )
+        ProposalMailer.deliver_approval_notice(@submittor, @proposal_idea, @team, @host )
 
         render :action => "proposal_idea_published", :layout => 'welcome'
       else

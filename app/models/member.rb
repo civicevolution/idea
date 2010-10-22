@@ -119,6 +119,22 @@ class Member < ActiveRecord::Base
     self.hashed_pwd = Member.encrypted_password(self.password, self.salt)
   end
   
+  def self.gen_report(initiative_id)
+    
+    Member.find_by_sql([ %q|SELECT m.id, first_name, last_name, email,
+      (SELECT COUNT(*) FROM team_registrations WHERE member_id = m.id) AS teams,
+      (SELECT COUNT(*) FROM comments WHERE member_id = m.id) AS comments,
+      (SELECT COUNT(*) FROM bs_ideas WHERE member_id = m.id) AS bs_ideas,
+      (SELECT COUNT(*) FROM answers WHERE member_id = m.id) AS answers
+      FROM members m, initiative_members im
+      WHERE im.initiative_id = ? AND m.id = im.member_id
+      ORDER BY first_name, last_name|, initiative_id ]
+    )
+    
+  end  
+  
+  
+  
   private
   
     #def email_for_cgg_ce

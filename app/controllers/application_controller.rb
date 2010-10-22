@@ -53,7 +53,8 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
 
   # put most generic exception at the top
-  rescue_from Exception, :with => :error_generic
+
+  rescue_from Exception, :with => :error_generic unless RAILS_ENV == 'development'
   rescue_from ActionController::RoutingError, :with => :render_404
   
   def error_generic(exception)

@@ -1,0 +1,27 @@
+%h3 Teams
+
+%table
+	%tr
+		%th
+			Title
+		%th
+			Active
+		%th
+			Mems
+		%th
+			Coms
+		%th
+			Ideas
+		%th
+			Answers
+			
+	- @teams.each do |t|
+		%tr
+			%td= link_to t.title, {:action=>'team_workspace', :id=>t.id}
+			%td= t.launched
+			%td= link_to t['members'], {:action=>'team_members', :id=>t.id}
+			%td= t['comments']
+			%td= t['bs_ideas']
+			%td= t['answers']
+
+			
