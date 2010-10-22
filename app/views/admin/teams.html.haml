@@ -2,6 +2,7 @@
 
 %table
 	%tr
+		%th= '#'
 		%th
 			Title
 		%th
@@ -14,10 +15,12 @@
 			Ideas
 		%th
 			Answers
-			
+	- ctr = 0
 	- @teams.each do |t|
-		%tr
-			%td= link_to t.title, {:action=>'team_workspace', :id=>t.id}
+		%tr{:class=> cycle('','stripe')}
+			-#%td= link_to t.title, {:action=>'team_workspace', :id=>t.id}
+			%td= ctr += 1
+			%td= link_to t.title, {:controller=>'team', :action=>'proposal', :id=>t.id}
 			%td= t.launched
 			%td= link_to t['members'], {:action=>'team_members', :id=>t.id}
 			%td= t['comments']

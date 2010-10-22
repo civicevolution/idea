@@ -2,6 +2,7 @@
 
 %table
 	%tr
+		%th= '#'
 		%th
 			Name
 		%th
@@ -12,9 +13,10 @@
 			Ideas
 		%th
 			Answers
-
+	- ctr = 0
 	- @members.each do |m|
-		%tr
+		%tr{:class=> cycle('','stripe')}
+			%td= ctr += 1		
 			%td= "#{m.first_name} #{m.last_name}"
 			-#%td= link_to m['teams'], {:action=>'team_members', :id=>m.id}
 			%td= m['teams']

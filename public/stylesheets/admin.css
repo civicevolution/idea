@@ -5,5 +5,8 @@ div.logo p.nav {
   font-weight: normal;
   margin-bottom: 6px; }
 
+td {
+  padding: 0 12px 0 4px; }
+
 div.member_info {
   margin-top: 0; }
