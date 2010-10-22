@@ -1,8 +1,16 @@
-%h3 Reports
+%h3 Reports for #{@initiative.title}
+
+%p{:style=>"color: green"}= flash[:notice]
+
 %ul
-	%li= link_to "2029 Teams", {:action=>'teams', :init_id=>2}
-	%li= link_to "CGG Teams", {:action=>'teams', :init_id=>1}
-	%li= link_to "2029 Members", {:action=>'members', :init_id=>2}
-	%li= link_to "CGG Members", {:action=>'members', :init_id=>1}
-	-#%li= link_to "Ideas", {:action=>'ideas'}
+	- if @privileges.include? 'teams'
+		%li= link_to "Teams", {:action=>'teams'}
+	- if @privileges.include? 'members'
+		%li= link_to "Members", {:action=>'members'}
 	
+	- if @privileges.include? 'change_member_id'
+		%li
+			- form_tag( {:action=>'change_member_id'} ) do
+				= text_field_tag :id, nil, {:size=>4}
+				= submit_tag "Change member id"
+			

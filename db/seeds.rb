@@ -14,12 +14,19 @@
 
 require 'active_record/fixtures'
 
-puts "create_fixture for item_types & member, team, item, team_registration"
+puts "create_fixture for admin_groups, admin_privileges, admins"
+
+Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "admins")
+Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "admin_groups")
+Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "admin_privileges")
+
+
+#puts "create_fixture for item_types & member, team, item, team_registration"
 
 #Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "item_types")
 #Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "items")
 #Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "teams")
-Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "members")
+#Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "members")
 #Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "team_registrations")
 
-Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "pages")
+#Fixtures.create_fixtures("#{Rails.root}/test/fixtures", "pages")

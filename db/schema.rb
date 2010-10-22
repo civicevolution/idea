@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100930032908) do
+ActiveRecord::Schema.define(:version => 20101022195601) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -20,6 +20,27 @@ ActiveRecord::Schema.define(:version => 20100930032908) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "ip",         :limit => nil
+  end
+
+  create_table "admin_groups", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "admin_privileges", :force => true do |t|
+    t.integer  "admin_group_id"
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "admins", :force => true do |t|
+    t.integer  "member_id"
+    t.integer  "admin_group_id"
+    t.integer  "initiative_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "answer_ratings", :force => true do |t|

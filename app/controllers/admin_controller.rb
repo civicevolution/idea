@@ -1,17 +1,24 @@
 class AdminController < ApplicationController
+  before_filter :get_admin_privileges
 
   def index
     
+  end
+
+  def change_member_id
     
+    session[:member_id] = params[:id]
+    flash.now[:notice] = "Your session has been changed to member id: #{params[:id]}"
+    render :action=>'index'
     
   end
   
   def members
-    @members = Member.gen_report(params[:init_id])
+    @members = Member.gen_report(params[:_initiative_id])
   end
 
   def teams
-    @teams = Team.gen_report(params[:init_id])
+    @teams = Team.gen_report(params[:_initiative_id])
   end
 
   def ideas
@@ -27,42 +34,26 @@ class AdminController < ApplicationController
   end
 
 
-
-
-
   protected
   
-    def authorize
-      @member = Member.find_by_id(session[:member_id])
-      unless @member
-        if request.xhr? || params[:post_mode] == 'ajax'
-          # send back a simple notice, do not redirect
-          m = Member.new
-          m.errors.add(:base, 'You must sign in to continue')
-          render :text => [m.errors].to_json, :status => 401
-          return
-        else
-          flash[:pre_authorize_uri] = request.request_uri
-          flash[:notice] = "Please sign in"
-          render :template => 'welcome/must_sign_in', :layout => 'welcome'
-          #redirect_to :controller => 'welcome' , :action => 'not_signed_in'
-          return
-        end
+    def get_admin_privileges
+      logger.debug "get_admin_privileges"
+      @privileges = AdminPrivilege.read_privileges( session[:member_id],params[:_initiative_id])
+      
+      if @privileges.size == 0
+        render :action => 'not_recognized_admin'
+        return
       end
       
-      if @member.email != 'brian@civicevolution.org'
-        if request.xhr? || params[:post_mode] == 'ajax'
-          # send back a simple notice, do not redirect
-          m = Member.new
-          m.errors.add(:base, 'You are not recognized as a system administrator')
-          render :text => [m.errors].to_json, :status => 401
-          return
-        else
-          flash[:pre_authorize_uri] = request.request_uri
-          render :action => 'not_recognized_admin'
-          return
-        end
+      # check the action against the privileges
+      if request.parameters[:action] != 'index' && !@privileges.include?( request.parameters[:action] )
+        logger.debug "user doesn't have privileges for #{request.parameters[:action]}"
+        render :action => 'not_authorized'
+        return
       end
+      
+      logger.debug "get_admin_privileges @privileges: #{@privileges}"
+      @initiative = Initiative.find(params[:_initiative_id])
       
     end
 

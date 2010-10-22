@@ -1,0 +1,26 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  admin_group_id: 1
+  title: create_admins
+
+two:
+  id: 2
+  admin_group_id: 2
+  title: members
+
+one1:
+  id: 3
+  admin_group_id: 2
+  title: teams
+
+two2:
+  id: 4
+  admin_group_id: 2
+  title: ideas
+  
+thre:
+  id: 5
+  admin_group_id: 1
+  title: change_member_id

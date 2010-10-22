@@ -1,0 +1,52 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  member_id: 1
+  admin_group_id: 1
+  initiative_id: 1
+
+two:
+  id: 2
+  member_id: 1
+  admin_group_id: 2
+  initiative_id: 1
+
+three:
+  id: 3
+  member_id: 1
+  admin_group_id: 2
+  initiative_id: 2
+  
+
+onea:
+  id: 4
+  member_id: 1
+  admin_group_id: 1
+  initiative_id: 2
+  
+
+twol:
+  id: 5
+  member_id: 16
+  admin_group_id: 2
+  initiative_id: 1
+
+threel:
+  id: 6
+  member_id: 16
+  admin_group_id: 2
+  initiative_id: 2
+
+
+twoa:
+  id: 7
+  member_id: 17
+  admin_group_id: 2
+  initiative_id: 1
+
+threea:
+  id: 8
+  member_id: 17
+  admin_group_id: 2
+  initiative_id: 2
