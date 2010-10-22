@@ -422,6 +422,8 @@ form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest
   form.add_comment_form textarea, form.add_comment_form input[type=text], form.add_answer_form textarea, form.add_answer_form input[type=text], form.add_bs_idea_form textarea, form.add_bs_idea_form input[type=text], form.suggest_idea_form textarea, form.suggest_idea_form input[type=text], form.std_form textarea, form.std_form input[type=text] {
     width: 100%;
     font-size: 1.2em; }
+  form.add_comment_form input[type=submit], form.add_answer_form input[type=submit], form.add_bs_idea_form input[type=submit], form.suggest_idea_form input[type=submit], form.std_form input[type=submit] {
+    margin: 0 10px 0 10px; }
   form.add_comment_form input[type=file], form.add_answer_form input[type=file], form.add_bs_idea_form input[type=file], form.suggest_idea_form input[type=file], form.std_form input[type=file] {
     margin: 12px 0 16px 0; }
   form.add_comment_form div.controls, form.add_answer_form div.controls, form.add_bs_idea_form div.controls, form.suggest_idea_form div.controls, form.std_form div.controls {

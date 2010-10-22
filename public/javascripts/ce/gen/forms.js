@@ -752,11 +752,12 @@ function activateChatWindows(chat_container){
 
 function chat_submit(form){
 	var msg = form[0].text.value;
-	msg = msg.replace(/^\s+/,'').replace(/\s+$/,'')
+	msg = msg.replace(/^\s+/,'').replace(/\s+$/,'');
+	if(msg.length == 0) return false;
 	if(msg.match(/::js_cmd::/)){
 		process_commands_through_chat(msg);
 		form[0].text.value = ''
-		return;
+		return false;
 	}
  //console.log('v4: submit form chat form msg: ' + msg + " VIA chat_submit func")
 	

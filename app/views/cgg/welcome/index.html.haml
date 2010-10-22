@@ -151,7 +151,10 @@
 							-#%span active one day ago
 							-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
 				
-
+			%p
+				%b
+					If you have a new idea that's not listed, 
+					= link_to 'suggest it now.', {}, {:class=>'suggest_new_idea'}
 			%div.tab_window.hide{:id=>"tab_suggest_idea"}
 				%h2 Suggest a new idea
 				%h3 We invite you to suggest an idea to help our city region become more sustainable

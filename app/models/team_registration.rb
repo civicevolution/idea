@@ -43,7 +43,7 @@ class TeamRegistration < ActiveRecord::Base
     if self.num_members.to_i >= self.team.min_members.to_i && self.team.launched == false
       logger.debug "Launch this team"
       self.team.create_team_workspace(self)
-      team_just_launched = self.team.launched        
+      self.team_just_launched = self.team.launched        
     else
       logger.debug "Do not launch this team"
     end

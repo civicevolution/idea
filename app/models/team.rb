@@ -11,6 +11,28 @@ class Team < ActiveRecord::Base
   has_many :ratings, :through => :items
   has_many :thumbs_ratings, :through => :items
   has_many :lists, :through => :items  
+
+  attr_accessor :member_id
+  
+  validate_on_update :check_team_edit_access
+  
+  
+  def check_team_edit_access
+    logger.debug "validate_on_update check_team_edit_access"
+    
+    # I will need to check if the iteam can still be edited
+    
+    # are you a still a team member
+    is_team_member = ! (TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.id).nil?)
+    logger.debug "ist_team_member: #{is_team_member}"
+    # return as ok if user is a team member
+    return if is_team_member
+    
+    errors.add_to_base("You must be a member of this team to edit it.")
+
+  end  
+  
+  
   
   def o_type
     4 #type for Teams
@@ -187,8 +209,13 @@ class Team < ActiveRecord::Base
           team_info_item.save        
         end
       }
+      
+      # I need to give it a member_id for a member so I can update the record with launched, then restore to whatever it was
+      member_id = self.member_id      
+      self.member_id = TeamRegistration.find_by_team_id(self.id).member_id
       self.launched = true
       self.save
+      self.member_id = member_id
       
       #notify the team - for now just the author
       members = Member.all( 

@@ -55,6 +55,23 @@ class ProposalMailer < ActionMailer::Base
     body       :member => member, :recipient => recipient, :invite => invite, :team => team, :host => host
   end
 
+  def review_update(member, team, field, old_ver, host, app_name, sent_at = Time.now)
+    subject    'Please review this proposal idea update'
+    recipients 'support@civicevolution.org'
+    from       "\"CivicEvolution\" <no-reply@auto.civicevolution.org>"
+    sent_on    sent_at
+    
+    body       :member => member, :team => team, :field=> field, :old_ver=>old_ver, :host=>host, :app_name=>app_name
+  end
+
+  def team_just_launched(app_name, team, tr, host, sent_at = Time.now)
+    subject    "A team was just launched for #{app_name}"
+    recipients 'support@civicevolution.org'
+    from       "\"CivicEvolution\" <no-reply@auto.civicevolution.org>"
+    sent_on    sent_at
+    
+    body       :app_name => app_name, :host => host, :team => team, :tr => tr
+  end
 
 
 end

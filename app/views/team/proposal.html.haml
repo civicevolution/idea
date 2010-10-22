@@ -19,10 +19,12 @@
 
 %div.left_col
 	%h2.home_title #{@team.title}
+	- if @team.launched == false && !@member.nil? && @member.id == @team.org_id
+		= link_to "Edit title", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{selector: '.parent().find(\\'h2.home_title\\')', chr_cnt: 255, label: 'Please edit the title', url: '/team/inline_edit?model=team&field=title&id=#{@team_id}' }]"}
 	%p.summary Summary
 	%div.summary= simple_format h @team.solution_statement
 	- if @team.launched == false && !@member.nil? && @member.id == @team.org_id
-		= link_to "Edit proposal idea", {:action => "edit_proposal_idea", :id => @team.id}, {:class => 'edit_proposal_idea'}
+		= link_to "Edit summary", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{selector: '.parent().find(\\'div.summary\\')', chr_cnt: 1000, label: 'Please edit the summary', url: '/team/inline_edit?model=team&field=solution_statement&id=#{@team_id}' }]"}
 	
 	- page_items = @items.find_all {|pi| pi.o_type == 9 } .sort {|a,b| a.order <=> b.order }
 	- page_items.each do |pi|
