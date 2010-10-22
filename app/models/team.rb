@@ -302,7 +302,7 @@ class Team < ActiveRecord::Base
       (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers
       FROM teams t 
       WHERE initiative_id = ?
-      ORDER BY title|, initiative_id ]
+      ORDER BY launched DESC, title|, initiative_id ]
     )
     
   end  

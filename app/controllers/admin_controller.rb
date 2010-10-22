@@ -40,11 +40,13 @@ class AdminController < ApplicationController
           m = Member.new
           m.errors.add(:base, 'You must sign in to continue')
           render :text => [m.errors].to_json, :status => 401
+          return
         else
           flash[:pre_authorize_uri] = request.request_uri
           flash[:notice] = "Please sign in"
           render :template => 'welcome/must_sign_in', :layout => 'welcome'
           #redirect_to :controller => 'welcome' , :action => 'not_signed_in'
+          return
         end
       end
       
@@ -54,9 +56,11 @@ class AdminController < ApplicationController
           m = Member.new
           m.errors.add(:base, 'You are not recognized as a system administrator')
           render :text => [m.errors].to_json, :status => 401
+          return
         else
           flash[:pre_authorize_uri] = request.request_uri
           render :action => 'not_recognized_admin'
+          return
         end
       end
       
