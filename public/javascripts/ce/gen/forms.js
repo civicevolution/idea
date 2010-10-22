@@ -6,12 +6,15 @@ $(function(){
 
 	$('a.open_all').die('click').live('click',
 		function(){
-			console.log("open_all")
+			//console.log("open_all (form.js)")
 			try{
 				var a = $(this);
 				//var par = a.closest('.ui-tabs-panel');
 				//var par = a.closest('.discussion');
 				var par = a.closest('div.tab_panel').find('.discussion');
+				if(par.size() == 0){
+					par = a.closest('div.discussion')
+				}
 				if( a.html().match(/Open/)){
 					$('div.Comment',par).addClass('full_comment_display').removeClass('one_line_comment');
 					a.html('Close all comments');

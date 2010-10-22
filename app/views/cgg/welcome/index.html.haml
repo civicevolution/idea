@@ -3,7 +3,7 @@
 	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
 	
 
-- team_ids = !@mem_teams.nil? ? @mem_teams.collect{ |mt| mt.id}.join(',') : ''
+- team_ids = !@member.nil? ? @member.team_titles.collect{ |mt| mt.id}.join(',') : ''
 :javascript
 	var member_id = #{ @member.nil? ? 0 : @member.id }
 	var my_team_ids = [ #{team_ids} ];

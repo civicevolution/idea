@@ -9,7 +9,7 @@
 	var RCC_PUB_KEY = "#{RCC_PUB}"
 
 
-- if @team.launched && !@mem_teams.nil? && @mem_teams.detect { |mt| mt.id == @team.id }
+- if @team.launched && !@member.nil? && @member.team_titles.detect { |mt| mt.id == @team.id }
 	%h3.rev_title	
 		Public proposal view /
 		= link_to "Private team workspace", {:action => "index", :id => @team.id}
@@ -104,7 +104,7 @@
 	-#	Please notify me when this proposal is ready to be reviewed and endorsed
 					
 			
-	- if !(!@mem_teams.nil? && @mem_teams.detect{|mt| mt.id == @team.id}) && @team.max_members.to_i > @num_mems.to_i
+	- if !(!@member.nil? && @member.team_titles.detect{|mt| mt.id == @team.id}) && @team.max_members.to_i > @num_mems.to_i
 		%div.join
 			%h2 Join this team
 			%ul
@@ -216,7 +216,7 @@
 					This idea has #{pluralize(@num_mems, 'member')}
 					-if @num_mems.to_i < @team.min_members.to_i
 						and needs #{pluralize( (@team.min_members.to_i - @num_mems.to_i), 'additional committed member')} before they can start developing the proposal.
-				- if !(!@mem_teams.nil? && @mem_teams.detect{|mt| mt.id == @team.id}) && @team.max_members.to_i > @num_mems.to_i
+				- if !(!@member.nil? && @member.team_titles.detect{|mt| mt.id == @team.id}) && @team.max_members.to_i > @num_mems.to_i
 					%li
 						You can join this team if you would like to help transform this idea into a solution					
 			
