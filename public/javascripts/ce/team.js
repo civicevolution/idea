@@ -559,7 +559,7 @@ function tab_over(){
 		temp.tab_class = tab_class;
 		var par = tab.closest('div.tabs');
 		par.children('div.tab_panel:visible').children('div.instr').hide().after(
-			par.children('div.' + tab_class + ' > div.instr > p.instr:first').clone(true)
+			par.children('div.' + tab_class + ' > div.instr > p.instr:first').clone(true).addClass('rollover')
 		)
 	} 
 	
@@ -569,7 +569,7 @@ function tab_out(){
 	var tab = $(this)
 	tab.removeClass('hover');		
 	var par = tab.closest('div.tabs')
-	par.children('div.tab_panel:visible').children('div.instr:first').show().siblings('p').remove()
+	par.children('div.tab_panel:visible').children('div.instr:first').show().siblings('p.rollover').remove()
 		
 }
 
@@ -577,7 +577,7 @@ function tab_click(){
 	//console.log("tab_click");
 	var tab = $(this);
 	// restore the current active tab
-	tab.closest('div.tabs').children('div.tab_panel:visible').children('div.instr:first').show().siblings('p').remove()
+	tab.closest('div.tabs').children('div.tab_panel:visible').children('div.instr:first').show().siblings('p.rollover').remove()
 	tab.siblings('li').removeClass('active').end().removeClass('hover');
 	var tab_class = tab.attr('class');		
 	tab.addClass('active');

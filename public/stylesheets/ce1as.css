@@ -870,7 +870,7 @@ ul.qa_tabs {
     cursor: pointer; }
     ul.qa_tabs li div.new_items {
       position: absolute;
-      top: 34px;
+      top: 28px;
       font-size: 0.8em;
       text-align: center;
       color: black; }
@@ -880,7 +880,7 @@ ul.qa_tabs {
     width: 104px;
     background-position: 0 -100px; }
     ul.qa_tabs li.discuss_tab div.new_items {
-      width: 79px; }
+      width: 72px; }
   ul.qa_tabs li.discuss_tab.active {
     background-position: 0 0; }
   ul.qa_tabs li.discuss_tab.hover {
@@ -907,7 +907,7 @@ ul.qa_tabs {
     width: 91px;
     background-position: -366px -100px; }
     ul.qa_tabs li.listen_tab div.new_items {
-      width: 91px; }
+      width: 87px; }
   ul.qa_tabs li.listen_tab.active {
     background-position: -366px 0; }
   ul.qa_tabs li.listen_tab.hover {
