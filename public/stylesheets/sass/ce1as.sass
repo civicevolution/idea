@@ -643,7 +643,7 @@ iframe.ape
 	font-size: 12px
 
 form.add_bs_idea_form
-	margin: 40px 20px 40px 0
+	margin: 20px 20px 40px 0
 	max-width: 500px
 	label
 		display: block
@@ -968,13 +968,14 @@ div.tab_panel
 ul.qa_tabs
 	padding: 0
 	margin: 0
-	height: 60px
+	margin-bottom: -12px
+	height: 43px
 	li
 		list-style: none
 		float: left
 		position: relative
-		background : url(/images/qa_puzzle_tabs.gif) 0 0 no-repeat
-		height: 49px
+		background : url(/images/qa_puzzle_tabs1.gif) 0 0 no-repeat
+		height: 43px
 		cursor: pointer
 		div.new_items
 			position: absolute
@@ -987,48 +988,112 @@ ul.qa_tabs
 			color: white
 		
 	li.discuss_tab
-		width: 122px
-		background-position : 0 -120px
+		width: 104px
+		background-position : 0 -100px
 		div.new_items	
-			width: 97px
+			width: 79px
 	li.discuss_tab.active
 		background-position : 0 0
 	li.discuss_tab.hover
-		background-position : 0 -60px
+		background-position : 0 -50px
 		
 	li.brainstorm_tab
-		width: 170px
-		background-position : -122px -120px
+		width: 143px
+		background-position : -104px -100px
 		div.new_items	
-			width: 145px
+			width: 123px
 	li.brainstorm_tab.active
-		background-position : -122px 0
+		background-position : -104px 0
 	li.brainstorm_tab.hover
-		background-position : -122px -60px
+		background-position : -104px -50px
 		
 	li.answer_tab
-		width: 141px
-		background-position : -292px -120px
+		width: 119px
+		background-position : -247px -100px
 		div.new_items	
-			width: 116px
+			width: 94px
 	li.answer_tab.active
-		background-position : -292px 0
+		background-position : -247px 0
 	li.answer_tab.hover
-		background-position : -292px -60px
+		background-position : -247px -50px
 		
 	li.listen_tab
-		width: 107px
-		background-position : -433px -120px
+		width: 91px
+		background-position : -366px -100px
 		div.new_items	
-			width: 107px
+			width: 91px
 	li.listen_tab.active
-		background-position : -433px 0
+		background-position : -366px 0
 	li.listen_tab.hover
-		background-position : -433px -60px
+		background-position : -366px -50px
 
 
-div.team_page ul.qa_tabs li
-	background-image : url(/images/team_puzzle_tabs.gif)
+div.team_page
+	ul.qa_tabs
+		padding: 0
+		margin: 0
+		//height: 60px
+		height: 43px
+		margin-bottom: -6px
+		li
+			list-style: none
+			float: left
+			position: relative
+			background : url(/images/team_puzzle_tabs7.gif) 0 0 no-repeat
+			//height: 49px
+			height: 43px
+			cursor: pointer
+			div.new_items
+				position: absolute
+				top: 34px
+				font-size: .8em
+				text-align: center
+				color: black
+		li.active
+			div.new_items
+				color: white
+
+		li.plan_tab
+			//width: 92px
+			width: 79px
+			background-position : 0 -100px
+			div.new_items	
+				width: 54px
+		li.plan_tab.active
+			background-position : 0 0
+		li.plan_tab.hover
+			background-position : 0 -50px
+
+		li.share_tab
+			width: 106px
+			background-position : -79px -100px
+			div.new_items	
+				width: 79px
+		li.share_tab.active
+			background-position : -79px 0
+		li.share_tab.hover
+			background-position : -79px -50px
+
+		li.promote_tab
+			width: 125px
+			background-position : -185px -100px
+			div.new_items	
+				width: 98px
+		li.promote_tab.active
+			background-position : -185px 0
+		li.promote_tab.hover
+			background-position : -185px -50px
+
+		li.implement_tab
+			width: 121px
+			background-position : -310px -100px
+			div.new_items	
+				width: 121px
+		li.implement_tab.active
+			background-position : -310px 0
+		li.implement_tab.hover
+			background-position : -310px -50px
+	
 
 div.how
 	display: none
@@ -1091,3 +1156,9 @@ div.tab_panel
 div.how ul.instr
 	margin: 10px 0
 	max-width: 600px
+
+div.add_comment
+	margin-top: 20px
+	
+div#team_help, div#team_stats, div#team_profile
+	display: none
