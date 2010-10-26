@@ -31,16 +31,19 @@
 		
 		%li= link_to "Sign out", {:controller => "welcome", :action=> "signout"}, {:class => 'sign_out'}
 		-#%li= link_to "My teams", {:controller => "welcome", :action=> "signout"}, {:class => 'my_teams'}
-		-#%li= link_to "My profile", {:controller => "welcome", :action=> "signout"}, {:class => 'settings'}
+		-#%li= link_to "My profile", {:controller => "welcome", :action=> "signout"}, {:class => 'profile'}
 		-#%li= link_to "Feedback", {:controller => "welcome", :action=> "signout"}, {:class => 'feedback'}
-		-#%li= link_to "Help", {:controller => "welcome", :action=> "signout"}, {:class => 'help'}
+		%li= link_to "Help", {:controller => "welcome", :action=> "signout"}, {:class => 'help'}
 
 	
 %div#nav_chat_col
 	%h3.team_title= @team.title
 	
 	%div#members_online
-		%p Team members online
+		%p 
+			Team members online
+			= link_to "Team info", {}, {:class => 'team_info'}
+			
 		%p.clear_both
 
 	- page_items = @items.find_all {|i| i.o_type == 9 }.sort {|a,b| a.order <=> b.order }

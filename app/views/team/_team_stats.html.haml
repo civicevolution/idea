@@ -1,0 +1,35 @@
+%p Team members
+
+%div#team_members_roster
+	- @members_sorted.each do |m|
+		%div.ape_user{:name=>m.first_name,:ape_code=>m.ape_code, :create_count=>0}
+			%img{:src=> m.photo.url('36')} 
+			%span.member& #{m.first_name} #{m.last_name}
+%p.clear
+
+%h3.team_roles Team roles
+%p 
+	These are some of the roles and activities that members should perform to ensure the success of their team effort. 
+	Once your team gets going, we will ask you to consider taking on a role.	
+
+%table.team_roles
+	%tr
+		%th Role title
+		%th Role description
+		%th Volunteers
+	- @roles.sort {|a,b| a['order'] <=> b['order']}.each do |r|
+		%tr{:class=> cycle('','stripe')}
+			%td
+				%b= r['title']
+			%td
+				%p
+					-#= truncate r['description'] ,:length=>120, :separator=>' ' 
+					= r['description']
+					= link_to 'details'
+				%div.tasks.hide
+					%p Here are some of the suggested tasks:
+					%ul
+						- r['tasks'].each do |t|
+							%li= t
+			%td
+				=link_to 'Volunteer'

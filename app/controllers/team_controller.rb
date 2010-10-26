@@ -601,16 +601,16 @@ class TeamController < ApplicationController
     
     @resources = @team.resources
     
-    # get checklist items - from file for now
-    yml = YAML.load_file 'config/check_list_items.yaml'
-    @check_list_items = []
-    yml.each_pair { |key, rec|
-      # construct an array of checklistitems as if form db
-      item = CheckListItem.new  :team_id=> 10007, :title=> rec['title'], :description=> rec['description'], :par_id=> rec['par_id'], :order=> rec['order'],
-        :completed=> rec['completed'], :request_details=> rec['request_details'], :discussion=> rec['discussion'] == false ? 0 : 1, :created_at=> Time.now
-      item.id = rec['id']
-      @check_list_items.push item
-    } 
+#    # get checklist items - from file for now
+#    yml = YAML.load_file 'config/check_list_items.yaml'
+#    @check_list_items = []
+#    yml.each_pair { |key, rec|
+#      # construct an array of checklistitems as if form db
+#      item = CheckListItem.new  :team_id=> 10007, :title=> rec['title'], :description=> rec['description'], :par_id=> rec['par_id'], :order=> rec['order'],
+#        :completed=> rec['completed'], :request_details=> rec['request_details'], :discussion=> rec['discussion'] == false ? 0 : 1, :created_at=> Time.now
+#      item.id = rec['id']
+#      @check_list_items.push item
+#    } 
     
     yml = YAML.load_file 'config/team_roles.yaml'
     @roles = []

@@ -1,0 +1,21 @@
+%div#tab_my_profile.tab_window
+
+	%p
+		= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+		#{@member.first_name} #{@member.last_name} 
+	
+	%p 
+		= link_to 'Change your member picture', {}, {:class=>'upload_photo'}
+	
+	- form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo hide'}) do
+		%p
+			%b Upload your profile picture
+		= file_field_tag :photo
+		%p
+			= submit_tag "Upload photo"
+			= link_to 'Cancel', {}, {:class=>'cancel'}
+
+
+
+	%p.clear
+

@@ -1,0 +1,42 @@
+%p.instr Helpful videos
+
+%div.videos
+	%div.video
+		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated'} 
+			= image_tag 'video_placeholder1.jpg', :alt=>'CivicEvolution Illustrated video'
+		%b CivicEvolution Illustrated
+
+	%div.video
+		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14627369', :title=>'Getting started with CivicEvolution'}  
+			= image_tag 'ce_getting_started_thumbnail.jpg', :alt=>'Getting Started with CivicEvolution video'
+		%b Getting started with CivicEvolution
+	%p.clear_both
+		
+%h3 Contact us
+%p Please select a category for your question or request for help
+
+%form.request_help
+	%p
+		%select
+			%option{:value=>0} Please select the assistance you need
+			%option{:value=>1} Report a bug
+			%option{:value=>2} I need help to use CivicEvolution
+			%option{:value=>3} I need assistance with my proposal
+			%option{:value=>4} I need help dealing with my team 
+			%option{:value=>5} I need technical assistance with my proposal
+		
+	%p.no_id.hide Name		
+	%p.no_id.hide 
+		%input{:name=>'sender_name'}
+		
+	%p.no_id.hide Email		
+	%p.no_id.hide 
+		%input{:name=>'sender_email'}
+
+	%p Please provide a clear message about the assistance you require
+	%p
+		%textarea{:rows=>8, :cols=>50, :name=>'message'}
+	%p	
+		%button
+			Send
+			

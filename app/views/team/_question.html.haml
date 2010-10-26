@@ -9,19 +9,19 @@
 				%li.listen_tab
 
 			%div.tab_panel.discuss_tab
-				%p.instr 
-					Discuss this question and how you would like to answer it
-					%a{:href=>'#', :class=>'how'} Help
-				%div.how
-					%ul.instr
-						%li Your goal is to discuss this question, brainstorm ideas about it, and develop an answer
-						%li You start by discussing the question on this page
-						%li You can also discuss specific brainstorm ideas and answers in their pages
-						%li All comments posted under ideas and answers will also appear in this page
-						%li Please rate each comment to indicate how helpful it was - did it help the team explore and understand the question. Remember, it can be helpful even if you don't agree with it.
-						%li There are discussion, brainstorming, and answer pages for each question in your proposal, so please try to stay focused on the question at hand
-						-#%li.close_instr
-						-#	= link_to 'Hide instructions', {}, {:class => 'hide_instr'} 
+				%div.instr
+					%p.instr 
+						Discuss this question and how you would like to answer it
+						%a{:href=>'#', :class=>'how'} Help
+					%div.how
+						%ul.instr
+							%li Your goal is to discuss this question, brainstorm ideas about it, develop an answer, and listen to the community's feedback
+							%li Start here by discussing the question on this page by adding a new comment or replying to someone else's comment
+							%li Please keep your comments focused - it is much better to post two separate comments than one comment with two different ideas. 
+							%li We limit each comment to 1500 characters to encourage members to engage in a give and take dialogue.
+							%li Try to respond to each other's comments just like you would if you were talking face to face
+							%li Also, please rate each comment to indicate how helpful it was - did it help the team explore and understand the question. Remember, it can be helpful even if you don't agree with it.
+							%li Remember, there are discussion, brainstorming, and answer pages for each question in your proposal, so please try to stay focused on the question at hand
 
 				%div.qa_bar
 				%div.question
@@ -37,25 +37,29 @@
 							-# = link_to "Load older comments", {}, {:class => 'load_older'}
 							-# items_child_sorted = @items.find_all {|it| it.par_id == i.id && it.sib_id == 0 }.sort {|a,b| a.order <=> b.order }
 							- items_child_sorted = @items.find_all {|it| it.par_id == item.id && it.sib_id == 0 && it.o_type == 3 }.sort {|a,b| a.order <=> b.order }
-							- items_child_sorted.each do |i|
-								= render_item(i,{3=>'show'})
+							- if items_child_sorted.size() == 0
+								%p.empty Please start this conversation by adding a comment in the form below
+							- else
+								- items_child_sorted.each do |i|
+									= render_item(i,{3=>'show'})
 							= render(:partial => 'add_comment_combined', :locals => { :id => item.id, :label=>'Please add your comment'})
 
 
 			%div.tab_panel.brainstorm_tab
-
-				%p.instr 
-					Your team should brainstorm ideas about this question and how to answer it
-					%a{:href=>'#', :class=>'how'} Help
-				%div.how
-					%ul.instr
-						%li Ideas remain anonymous, so don't be shy
-						%li Quantity is much more important than quality, so share your ideas, you never know where they may lead
-						%li Every team member is strongly encouraged to suggest their ideas
-						%li The ideas will appear below in order of importance as rated by the team
-						%li New ideas will appear at the top till you rate them
-						%li.close_instr
-							= link_to 'Hide instructions', {}, {:class => 'hide_instr'} 
+				%div.instr
+					%p.instr 
+						Brainstorm and share ideas about this question and how to answer it
+						%a{:href=>'#', :class=>'how'} Help
+					%div.how
+						%ul.instr
+							%li Brainstorming is simply a way to highlight important ideas and thoughts that come up in your conversation
+							%li Every team member is strongly encouraged to suggest any idea they think might be important in finding an answer to this question
+							%li Quantity is much more important than quality and there is no such thing as a dumb idea during brainstorming, so share your ideas, you never know where they may lead
+							%li All of the ideas are presented anonymously, so don't be shy		
+							%li Please limit each post to one idea so the team can discuss it		
+							%li New ideas will appear at the top till you rate them
+							%li The ideas will appear below in order of importance as rated by the team - this helps the team recognize its common ground
+							%li You can discuss ideas to suggest improvements or ask questions
 				%div.qa_bar
 				%div.question
 					%span.cap_q Q:
@@ -141,93 +145,102 @@
 				- remaining_ans = question.num_answers - answers.length
 				- if question.num_answers == 1
 					-if answers.length == 0
-						%p.instr 
-							Your team needs to develop the single, best answer to this question
-							%a{:href=>'#', :class=>'how'} Help
-						%div.how
-							%ul.instr
-								%li Any team member can suggest an answer to this question
-								%li Everyone on the team should discuss and rate the answer
-								%li Everyone is encouraged to help improve the answer through discussing and editing the answer
-								%li 
-									Your team answer should reflect the consensus of the team, so keep discussing, brainstorming, and refining the answer till everyone is 
-									%u reasonably
-									satisfied
+						%div.instr
+							%p.instr 
+								Answer this question by combining the best ideas from brainstorming
+								-#Develop the single, best answer to this question
+								%a{:href=>'#', :class=>'how'} Help
+							%div.how
+								%ul.instr
+									%li Any team member can suggest an answer to this question
+									%li Everyone on the team should help improve the answer by discussing, rating and editing the answer
+									%li Answers belong to the team and any team member can edit any answer
+									%li We maintain an edit history so you can see how an answer has developed or revert to an earlier version
+									%li 
+										Your team answer should reflect the consensus of the team, so keep discussing, brainstorming, and refining the answer till everyone is reasonably satisfied
 							
 						- show_ans = 1
 					-else
-						%p.instr 
-							Your team needs to develop the single, best answer to this question
-							%a{:href=>'#', :class=>'how'} Help
-						%div.how
-							%ul.instr
-								%li Everyone should review and discuss this answer
-								%li Rate the answer to show your agreement
-								%li
-									%b If you have any concerns about the answer, discuss it with your team
-								%li This answer belongs to the team, anyone can edit the answer
-								%li 
-									Your team answer should reflect the consensus of the team, so keep discussing, brainstorming, and refining the answer till everyone is 
-									%u reasonably
-									satisfied
+						%div.instr
+							%p.instr 
+								Develop the single, best answer to this question
+								%a{:href=>'#', :class=>'how'} Help
+							%div.how
+								%ul.instr
+									%li Everyone should review and discuss this answer
+									%li Rate the answer to show your agreement
+									%li Everyone on the team should help improve the answer by discussing, rating and editing the answer
+									%li Answers belong to the team and any team member can edit any answer
+									%li We maintain an edit history so you can see how an answer has developed or revert to an earlier version
+									%li
+										%b If you have any concerns about the answer, discuss it with your team
+									%li 
+										Your team answer should reflect the consensus of the team, so keep discussing, brainstorming, and refining the answer till everyone is reasonably satisfied
 							
 				- else
 					-if answers.length == 0
-						%p.instr 
-							Your team needs to develop one or more answers to this question
-							%a{:href=>'#', :class=>'how'} Help
-						%div.how
-							%ul.instr
-								%li Any team member can suggest an answer to this question
-								%li Everyone on the team should discuss and rate the answers
-								%li Everyone is encouraged to help improve the answers through discussing and editing the answer	
-								%li 
-									Your team answers should reflect the consensus of the team, so keep discussing, brainstorming, and suggesting and refining answers till everyone is 
-									%u reasonably
-									satisfied
+						%div.instr
+							%p.instr 
+								Develop one or more answers to this question
+								%a{:href=>'#', :class=>'how'} Help
+							%div.how
+								%ul.instr
+									%li Any team member can suggest an answer to this question
+									%li Everyone on the team should discuss and rate the answers
+									%li Everyone on the team should help improve the answer by discussing, rating and editing the answer
+									%li Answers belong to the team and any team member can edit any answer
+									%li We maintain an edit history so you can see how an answer has developed or revert to an earlier version
+									%li 
+										Your team answers should reflect the consensus of the team, so keep discussing, brainstorming, and suggesting and refining answers till everyone is reasonably satisfied
 							
 						- show_ans = 1
 					- elsif remaining_ans <= 0
-						%p.instr 
-							Your team has reached the maximum number of answers(
-							= question.num_answers
-							) for this question
-							%a{:href=>'#', :class=>'how'} Help
-						%div.how
-							%ul.instr
-								%li Team members should continue to develop these answers
-								%li Everyone on the team should discuss and rate the answers
-								%li Everyone is encouraged to help improve the answers through discussing and editing the answer							
-								%li
-									%b If you have any concerns about the answer, discuss it with your team								 
-								%li 
-									Your team answers should reflect the consensus of the team, so keep discussing, brainstorming, and refining the answers till everyone is 
-									%u reasonably
-									satisfied
+						%div.instr
+							%p.instr 
+								Continue to develop and refine the answers that have posted below
+								%a{:href=>'#', :class=>'how'} Help
+							%div.how
+								%ul.instr
+									%li Your team has reached the maximum number of answers (
+									= question.num_answers
+									) for this question
+									%li Team members should continue to develop these answers
+									%li Everyone on the team should discuss and rate the answers
+									%li Everyone on the team should help improve the answer by discussing, rating and editing the answer
+									%li Answers belong to the team and any team member can edit any answer
+									%li We maintain an edit history so you can see how an answer has developed or revert to an earlier version
+									%li
+										%b If you have any concerns about an answer, discuss it with your team								 
+									%li 
+										Your team answers should reflect the consensus of the team, so keep discussing, brainstorming, and refining the answers till everyone is reasonably satisfied
 							
 						- show_ans = 0
 					-else
-						%p.instr 
-							- if remaining_ans > 10
-								Your team can develop multiple answers to this question
-							- elsif remaining_ans > 1
-								Your team can develop up to
-								= remaining_ans
-								more answers to this question
-							- else
-								Your team can add one more answer to this question
-							%a{:href=>'#', :class=>'how'} Help
-						%div.how
-							%ul.instr
-								%li Any team member can suggest an answer to this question
-								%li Everyone on the team should discuss and rate the answers
-								%li Everyone is encouraged to help improve the answers through discussing and editing the answer							
-								%li 
-									%b If you have any concerns about the answer, discuss it with your team
-								%li 
-									Your team answers should reflect the consensus of the team, so keep discussing, brainstorming, and suggesting and refining answers till everyone is 
-									%u reasonably
-									satisfied
+						%div.instr
+							%p.instr 
+								Develop additional answers to this question
+								-#- if remaining_ans > 10
+								-#	Your team can develop multiple answers to this question
+								-#- elsif remaining_ans > 1
+								-#	Your team can develop up to
+								-#	= remaining_ans
+								-#	more answers to this question
+								-#- else
+								-#	Your team can add one more answer to this question
+								%a{:href=>'#', :class=>'how'} Help
+							%div.how
+								%ul.instr
+									%li Any team member can suggest an answer to this question
+									%li Everyone on the team should discuss and rate the answers
+									%li Everyone on the team should help improve the answer by discussing, rating and editing the answer
+									%li Answers belong to the team and any team member can edit any answer
+									%li We maintain an edit history so you can see how an answer has developed or revert to an earlier version
+									%li 
+										%b If you have any concerns about an answer, discuss it with your team
+									%li 
+										Your team answers should reflect the consensus of the team, so keep discussing, brainstorming, and suggesting and refining answers till everyone is 
+										%u reasonably
+										satisfied
 							
 						- show_ans = 1
 				%div.qa_bar
@@ -296,27 +309,29 @@
 			%div.tab_panel.listen_tab
 				- pub_disc_item = @items.detect {|i| i.par_id == item.id && i.o_type == 11 } 
 				- if pub_disc_item.nil?
-					%p.instr Public discussion is disabled for this page
-					%div.qa_bar
+					%div.instr
+						%p.instr Public discussion is disabled for this page
 				- else 
-					%p.instr 
-						These are public comments about your team's proposal
-						%a{:href=>'#', :class=>'how'} Help
-					%div.how
-						%ul.instr
-							%li The Questions and Answers you are developing also appear on a separate public page
-							%li 
-								The public can 
-								%b only
-								read the questions and answers, they 
-								%b cannot
-								read your team discussion or brainstorming
-							%li We hope you can benefit from public feedback as you develop your proposal
-							%li 
-								Remember, a successful proposal must be supported by the community - getting this
-								feedback is a great place to start
-							%li We strongly recommend that all team members review the public comments
-							%li You can reply back to these comments if you like, by that is not necessary
+					%div.instr
+						%p.instr 
+							Listen to the community feedback about this answer
+							%a{:href=>'#', :class=>'how'} Help
+						%div.how
+							%ul.instr
+								%li The Questions and Answers you are developing also appear on a separate public page
+								%li 
+									The public can 
+									%b only
+									read the questions and answers, they 
+									%b cannot
+									read your team discussion or brainstorming
+								%li When the public comments on this question and answer, the comments will automatically appear here so you can review them
+								%li We hope you can benefit from community feedback as you develop your proposal
+								%li 
+									Remember, a successful proposal must be supported by the community - getting this
+									feedback is a great place to start
+								%li We strongly recommend that all team members review the public comments
+								%li You can reply back to these comments if you like, by that is not necessary
 
 					%div.qa_bar
 					%div.question
@@ -333,7 +348,10 @@
 								%div.inner_question_discussion
 						
 									- items_child_sorted = @items.find_all {|it| it.par_id == pub_disc_item.id && it.sib_id == 0 && it.o_type == 3 }.sort {|a,b| a.order <=> b.order }
-									- items_child_sorted.each do |i|
-										= render_item(i,{3=>'show'})
+									- if items_child_sorted.size() == 0
+										%p.empty No public comments have been posted yet
+									- else
+										- items_child_sorted.each do |i|
+											= render_item(i,{3=>'show'})
 									= render(:partial => 'add_comment_combined', :locals => { :id => pub_disc_item.id, :label=>'Please add your comment'})
 					
