@@ -84,11 +84,21 @@ function activate_ux_functions_misc(){
 		//if(ui.panel.className.match(/discussion/)){
 		var tab_window = $('div.tab_window',ui.panel);
 		if(tab_window.hasClass('discussion')){
+			//console.log("tabsshow do ellipsis")
 			ellipsis(tab_window);
-		}else if (tab_window.hasClass('tab_proposal')){
-			update_proposal();
 		}
 	});	
+
+	$( "div.team_info_tabs" ).bind( "tabsshow", function(event, ui) {
+		//if(ui.panel.className.match(/discussion/)){
+		var tab_window = $('div.tab_window',ui.panel);
+		if (tab_window.hasClass('tab_proposal')){
+			update_proposal();
+			//console.log("tabsshow do update_proposal")
+		}
+	});	
+
+
 	
 	$('form').die('focus').live('focus',
 	  function(){
@@ -195,6 +205,24 @@ function activate_ux_functions_misc(){
 	$('div.public_endorsements table').css('opacity',.3);
 	$('div.member_endorsements table').css('opacity',.3);
 	
+	$('a.team_info').die('click').live('click',
+		function(){
+			var dialog = $('div#team_stats').dialog( {title : 'Team information', modal : true, width: 500 }); 
+			
+			
+			return false;
+		}
+	)
+
+	$('a.help').die('click').live('click',
+		function(){
+			var dialog = $('div#team_help').dialog( {title : 'Help', modal : true, width: 600 }); 
+			
+			
+			return false;
+		}
+	)
+
 
 } // end activate_ux_functions_misc 
 

@@ -546,24 +546,43 @@ function showUpdatingMsg(){
 	$(function(){
 		$('ul.qa_tabs li').hover(tab_over, tab_out).live('click',tab_click)
 		$('div.tabs.question_tabs li.discuss').click()
+		$('div.team_info_tabs li.propose').click()
 	});
 
 function tab_over(){
 	//console.log("tab_over");
-	if( !$(this).hasClass('active') ) $(this).addClass('hover');
+	var tab = $(this);
+	if( !tab.hasClass('active') ){
+		tab.addClass('hover');
+		temp.tab = tab;
+		var tab_class = tab.attr('class').replace(' hover','');
+		temp.tab_class = tab_class;
+		var par = tab.closest('div.tabs');
+		par.children('div.tab_panel:visible').children('div.instr').hide().after(
+			par.children('div.' + tab_class + ' > div.instr > p.instr:first').clone(true)
+		)
+	} 
+	
 }
 function tab_out(){
 	//console.log("tab_out");
-	$(this).removeClass('hover');			
+	var tab = $(this)
+	tab.removeClass('hover');		
+	var par = tab.closest('div.tabs')
+	par.children('div.tab_panel:visible').children('div.instr:first').show().siblings('p').remove()
+		
 }
-temp = {}
+
 function tab_click(){
 	//console.log("tab_click");
-	var tab = $(this).siblings('li').removeClass('active').end().removeClass('hover')
-	var tab_class = tab.attr('class')		
+	var tab = $(this);
+	// restore the current active tab
+	tab.closest('div.tabs').children('div.tab_panel:visible').children('div.instr:first').show().siblings('p').remove()
+	tab.siblings('li').removeClass('active').end().removeClass('hover');
+	var tab_class = tab.attr('class');		
 	tab.addClass('active');
-	console.log("activate tab: " + tab_class)
-	tab_panel = tab.closest('div.tabs.question_tabs').find('div.' + tab_class);
+	//console.log("activate tab: " + tab_class)
+	tab_panel = tab.closest('div.tabs').find('div.' + tab_class);
 	tab_panel.show()
 	tab_panel.siblings('div.tab_panel').hide()
 	tab.closest('div.tabs').trigger('tabsshow', [{tab: tab, panel: tab_panel}])
@@ -571,16 +590,6 @@ function tab_click(){
 $(function(){
 	$('ul.qa_tabs').each( function(){ $(this).find('li:first').click() } )
 });
-
-// you can trigger custom events registered with bind
-$('div.tabs').bind('tabsshow',
-	function(event, ui){
-		console.log("custom tabsshow event")
-		temp.ui = ui;
-		ui.tab_panel.append('<p>This was just displayed</p>')
-	}
-)
-
 
 $('a.how').die('click').live('click',
 	function(){
