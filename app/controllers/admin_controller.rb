@@ -83,6 +83,24 @@ class AdminController < ApplicationController
 
     
   end
+  
+  def content_stats
+    @com_stats = Comment.find_by_sql(%q|SELECT count(id) AS cnt, COUNT(DISTINCT member_id) AS commentors, DATE_TRUNC('day', created_at + interval '19 hours') AS day, TO_CHAR(created_at + interval '19 hours', 'Dy Mon DD, YYYY') AS cal_day
+    FROM comments
+    WHERE team_id IN (SELECT id FROM teams WHERE initiative_id IN (1,2) )
+    GROUP BY day, cal_day ORDER BY day ASC|)
+
+    @idea_stats = BsIdea.find_by_sql(%q|SELECT count(id) AS cnt, COUNT(DISTINCT member_id) AS members, DATE_TRUNC('day', created_at + interval '19 hours') AS day, TO_CHAR(created_at + interval '19 hours', 'Dy Mon DD, YYYY') AS cal_day
+    FROM bs_ideas
+    WHERE team_id IN (SELECT id FROM teams WHERE initiative_id IN (1,2) )
+    GROUP BY day, cal_day ORDER BY day ASC|);
+
+    @ans_stats = Answer.find_by_sql(%q|SELECT count(id) AS cnt, COUNT(DISTINCT member_id) AS members, DATE_TRUNC('day', created_at + interval '19 hours') AS day, TO_CHAR(created_at + interval '19 hours', 'Dy Mon DD, YYYY') AS cal_day
+    FROM answers
+    WHERE team_id IN (SELECT id FROM teams WHERE initiative_id IN (1,2) )
+    GROUP BY day, cal_day ORDER BY day ASC|);
+    
+  end
 
 
   protected

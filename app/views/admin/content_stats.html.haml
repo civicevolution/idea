@@ -1,0 +1,37 @@
+%h3 Comment stats
+
+%table
+	%tr
+		%th Day
+		%th Comments
+		%th Contributors
+	- @com_stats.each do |cs|
+		%tr
+			%td= cs.cal_day
+			%td= cs.cnt
+			%td= cs.commentors
+			
+%h3 Brainstorming idea stats
+%table
+	%tr
+		%th Day
+		%th Ideas
+		%th Contributors
+	- @idea_stats.each do |cs|
+		%tr
+			%td= cs.cal_day
+			%td= cs.cnt
+			%td= cs.members
+
+
+%h3 Answer stats
+%table
+	%tr
+		%th Day
+		%th Answers
+		%th Contributors
+	- @ans_stats.each do |cs|
+		%tr
+			%td= cs.cal_day
+			%td= cs.cnt
+			%td= cs.members

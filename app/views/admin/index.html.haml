@@ -13,9 +13,17 @@
 	- if @privileges.include? 'members'
 		%li= link_to "Members", {:action=>'members'}
 	
+			
+	- if @privileges.include? 'content_stats'
+		%li= link_to "Content stats", {:action=>'content_stats'}
+		
+		
+		
+		
+		
 	- if @privileges.include? 'change_member_id'
 		%li
 			- form_tag( {:action=>'change_member_id'} ) do
 				= text_field_tag :id, nil, {:size=>4}
 				= submit_tag "Change member id"
-			
+	
