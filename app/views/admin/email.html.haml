@@ -1,0 +1,165 @@
+- content_for (:script) do
+	-#= javascript_include_tag "jquery-1.4.2.min.js", 'jquery.form.js', 'ce/activate/act_welcome_layout.js'
+	:javascript
+		
+		$(function(){
+			$('textarea').autogrow({
+				lineHeight : 16,
+				minHeight  : 32,
+				maxHeight : 500
+			});			
+		});
+		
+		$('form :button').die('click').live('click',
+			function(){
+				console.log("form button send")
+				try{
+					send_email($(this.form));
+				}catch(e){console.log("send_email v1 error: " + e)}
+				return false;
+			}
+		);
+		$('form').die('submit').live('submit',
+			function(){
+				console.log("form send")
+				//try{
+				//	send_email($(this));
+				//}catch(e){console.log("send_email v2 error: " + e)}
+				return false;
+			}
+		);
+		$('form a.cancel').die('click').live('click',
+			function(){
+				console.log("cancel preview")
+				try{
+					$('div.compose').show();
+					$('div.email_preview').html('');
+					$('div.preview').hide();
+					$('input.act').val('preview')
+				}catch(e){console.log("cancel preview v2 error: " + e)}
+				return false;
+			}
+		);
+
+		$('form a.clear').die('click').live('click',
+			function(){
+				$(this).closest('form').find('textarea').val('');
+				return false;
+			}
+		);
+		
+		
+		
+		function send_email(form){
+			var btn = $('button',form);
+			//btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+			console.log("do send_email")
+			$(':input',form).removeClass('form_error_border');
+			$('p.form_error_text',form).remove();
+       
+			form.ajaxSubmit({ 					
+			  type: "POST", 
+				url: 'http://' + document.location.host + '/admin/email',
+			  success: function(data,status){ 
+					console.log("send_email submit success btn: " + btn.attr('class') );
+					btn.removeAttr('disabled').next('img').remove();
+					if( $('input.act').val() == 'preview' ){
+						$('div.compose').hide();
+						$('div.email_preview').html(data);
+						$('div.preview').show();
+						$('input.act').val('send')
+					}else if ( $('input.act').val() == 'send' ){
+						var dialog = $('<div>Your email was sent successfully</div>').dialog( {title : 'Success', modal : true } )
+						$('input.act').val('preview');
+						$('div.compose').show();
+						$('div.email_preview').html('');
+						$('div.preview').hide();
+					}
+					
+					
+			  },
+				error : function(xhr,errorString,exceptionObj){
+					if(xhr.responseText == 'no member found'){
+						document.location.reload()
+					}else{
+						console.log("Error confirm_reg_captcha, xhr: " + xhr.responseText)
+						Recaptcha.reload();
+						$('<p>Please try again - <a href="#" class="reload_captcha">Show new text</a></p>').addClass('form_error_text').insertBefore(btn)
+						btn.removeAttr('disabled').next('img').remove();
+					}
+				}
+			});			
+		  return false;
+		}
+
+	%style
+		:sass
+			div.email_preview
+				border: 1px solid black
+				padding: 10px
+			div.preview
+				display: none
+
+
+%h3 send email to participants
+
+
+- case
+	- when !params[:team_id].nil?
+		- team = Team.find(params[:team_id])
+		%p 
+			Recipients are members of team 
+			%b
+				#{team.title}
+		%table
+			- recip_ids = []
+			- team.members.each do |m|
+				- recip_ids.push m.id
+				%tr
+					%td #{m.first_name} #{m.last_name}
+					%td= m.email
+						
+			
+	- else
+		%p No recipients selected
+		
+- form_tag( { :action => :email}, {:class=>'std_form'} ) do
+	= hidden_field_tag :team_id, team.id
+	= hidden_field_tag :act, 'preview', {:class=>'act'}
+	= hidden_field_tag :recip_ids, recip_ids.join(',')
+		
+	%div.compose
+		%h3 Compose email
+		%a{:href=>'http://redcloth.org/textile/writing-paragraph-text/', :target=>'_blank'} Formatting reference
+		%div.add_idea
+			%label 
+				Please enter your email message
+				%a{:href=>'#', :class=>'how'} How
+			%div.how
+				%ul
+					%li image with link !http://www.w3.org/Icons/valid-html401!:http://validator.w3.org/check?uri=referer
+			= text_area_tag :message, nil, :class=>'message', :size=>"1x2", :alias=>'Message'
+
+			%div.control_line
+				%div.controls
+					-#%span.char_ctr 
+					-#	2500
+					-#	characters left
+					%button.preview
+						Preview email to send
+					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}							 
+		
+	%div.preview
+		%h3 Preview email and click send now
+		%p= link_to 'Return to compose', {:action => 'index'}, {:class=>'cancel'}
+		%div.email_preview
+		%div.control_line
+			%div.controls
+				%button.send
+					Send email
+				= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}							 
+	
+	
+	
+	
+

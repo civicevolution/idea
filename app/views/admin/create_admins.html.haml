@@ -1,0 +1,42 @@
+%h3 Create admins
+
+
+- case
+	- when params[:s].nil?
+		%p List of admins
+		%table
+			- Admin.list_admins.each do |a|
+				%tr
+					%td
+						=link_to "#{a.first_name} #{a.last_name}", {:action=>'create_admins', :id=>a.id, :s=>'list_groups'}
+						
+	- when params[:s] == 'list_groups'
+		- mem = Member.find_by_id(params[:id])
+		%p Admin groups for #{mem.first_name} #{mem.last_name}
+		%table
+			- Admin.list_admin_groups(params[:id]).each do |ag|
+				%tr
+					%td
+						=link_to "#{ag.i_title}:  #{ag.ag_title}", {:action=>'create_admins', :id=>ag.ag_id, :s=>'list_group_privileges'}
+
+	- when params[:s] == 'list_group_privileges'
+		- ag = AdminGroup.find_by_id(params[:id])
+		%p Admin privileges for group: #{ag.title}
+		%table
+			- AdminPrivilege.list_privileges(params[:id]).each do |ap|
+				%tr
+					%td
+						#{ap.title}
+					%td
+						=link_to "remove", {:action=>'create_admins', :id=>ap.id, :s=>'list_group_privileges'}
+		
+		%p
+			- form_tag( {:action=>'create_admins', :id=>ag.id, :act=>'add_new_privilege'} ) do
+				= text_field_tag :title, nil, {:size=>16}
+				= submit_tag "Add new privilege"
+					
+
+	- else
+		%p 
+			Please start 
+			= link_to "again", {:action=> 'create_admins'}

@@ -1,0 +1,17 @@
+%h3 Sorry, the email you clicked is no longer valid
+
+%p Please enter your email and click the button and we will immediately send a valid email so you can continue
+
+- form_tag('/welcome/send_new_access_code') do
+	= hidden_field_tag :code, params[:id]
+	%table
+		%tr
+			%td
+				%label{:for=>"email"} Email:
+			%td
+				= text_field_tag :email, 'brian@civicevolution.org'
+
+		%tr
+			%td{:colspan=>2}
+				= submit_tag "Request new access code"
+			
