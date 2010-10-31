@@ -3,52 +3,14 @@
 
 class ApplicationController < ActionController::Base
   before_filter :set_application_personality
-  before_filter :authorize, :except => [ :login, :proposal, :get_templates ]
   before_filter :add_member_data
+  before_filter :authorize, :except => [ :login, :proposal, :get_templates ]
+
   
   helper :all # include all helpers, all the time
 #  protect_from_forgery # See ActionController::RequestForgeryProtection for details
   protect_from_forgery # :except => [:upload_member_photo]
 
-  def add_member_data
-    @member = Member.find_by_id(session[:member_id]);
-    if @member.nil?
-      # session is no good
-      session[:member_id] = nil
-    #else
-    #  @mem_teams = TeamRegistration.find(:all,
-    #    :select => 't.id, t.title, t.launched',  
-    #    :conditions => ['member_id = ?', @member.id],
-    #    :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-    #  )
-    end
-    logger.debug "add_member_data member: #{ @member }"
-  end
-  
-  def set_application_personality
-    case request.subdomains.first
-      when /^2029-staff$/i, /^cgg$/
-        params[:_initiative_id] = 1
-        params[:_app_name] = '2029 and beyond for Staff'
-        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
-      when /^2029$/	
-        params[:_initiative_id] = 2
-        params[:_app_name] = '2029 and beyond'
-        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
-      when 'ncdd'
-        params[:_initiative_id] = 6
-        params[:_app_name] = 'NCDD'
-        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/ncdd") ])
-      when /^demo$/i
-        params[:_initiative_id] = 3
-        params[:_app_name] = 'CivicEvolution Demo'
-        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
-      else	
-        params[:_initiative_id] = 5
-        params[:_app_name] = 'CivicEvolution'
-        self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
-    end
-  end
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password, :password_confirmation
 
@@ -84,6 +46,62 @@ class ApplicationController < ActionController::Base
   end
     
   protected
+  
+    def set_application_personality
+      case request.subdomains.first
+        when /^2029-staff$/i, /^cgg$/
+          params[:_initiative_id] = 1
+          params[:_app_name] = '2029 and beyond for Staff'
+          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
+        when /^2029$/	
+          params[:_initiative_id] = 2
+          params[:_app_name] = '2029 and beyond'
+          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
+        when 'ncdd'
+          params[:_initiative_id] = 6
+          params[:_app_name] = 'NCDD'
+          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/ncdd") ])
+        when /^demo$/i
+          params[:_initiative_id] = 3
+          params[:_app_name] = 'CivicEvolution Demo'
+          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
+        else	
+          params[:_initiative_id] = 5
+          params[:_app_name] = 'CivicEvolution'
+          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
+      end
+    end
+  
+  
+    def add_member_data
+      if params[:_mlc]
+        @member = MemberLookupCode.get_member(params[:_mlc])
+        if @member.nil?
+          #render :controller=>'welcome', :action=>'request_new_access_code'
+          render :template=>'welcome/request_new_access_code', :layout=>'welcome'
+          flash[:pre_request_access_code_uri] = request.request_uri.sub(/\?.*/,'')
+          return
+        else
+          session[:member_id] = @member.id
+        end
+
+      else
+        @member = Member.find_by_id(session[:member_id]);
+      end
+      
+      if @member.nil?
+        # session is no good
+        session[:member_id] = nil
+      #else
+      #  @mem_teams = TeamRegistration.find(:all,
+      #    :select => 't.id, t.title, t.launched',  
+      #    :conditions => ['member_id = ?', @member.id],
+      #    :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+      #  )
+      end
+      logger.debug "add_member_data member: #{ @member }"
+    end
+
   
     def authorize
       unless Member.find_by_id(session[:member_id])

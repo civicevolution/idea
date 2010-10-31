@@ -8,4 +8,12 @@ class AdminPrivilege < ActiveRecord::Base
       privs.map{ |p| p.title}.uniq
   end
   
+  
+  def self.list_privileges(group_id)
+    AdminPrivilege.find_by_sql([ %q| SELECT id, title FROM admin_privileges 
+      WHERE admin_group_id  = ?
+      ORDER BY title;|, group_id ] )
+    
+  end
+  
 end

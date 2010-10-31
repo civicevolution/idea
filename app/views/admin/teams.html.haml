@@ -5,6 +5,8 @@
 		%th= '#'
 		%th
 			Title
+		%th 
+			Email
 		%th
 			Active
 		%th
@@ -21,6 +23,7 @@
 			-#%td= link_to t.title, {:action=>'team_workspace', :id=>t.id}
 			%td= ctr += 1
 			%td= link_to t.title, {:controller=>'team', :action=>'proposal', :id=>t.id}
+			%td= link_to "Email", {:action=>'email', :team_id=>t.id}
 			%td= t.launched
 			%td= link_to t['members'], {:action=>'team_members', :id=>t.id}
 			%td= t['comments']

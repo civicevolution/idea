@@ -1,4 +1,6 @@
+require 'RedCloth'
 class AdminController < ApplicationController
+  
   before_filter :get_admin_privileges
 
   def index
@@ -30,6 +32,55 @@ class AdminController < ApplicationController
   end
   
   def team_members
+    
+  end
+  
+  def email
+    message = params[:message]
+    @team = Team.find(params[:team_id])
+    @host = request.env["HTTP_HOST"]
+    
+    if params[:act] == 'preview'
+      @recipient = Member.find_by_id( params[:recip_ids].split(',') )
+      @mcode = MemberLookupCode.get_code(@recipient.id)
+      msg = render_to_string :inline=>message
+      html = RedCloth.new( msg ).to_html
+      
+      respond_to do |format|
+        format.html { render :text => html, :layout => false } if request.xhr?
+        format.html { render :text => "Please set up admin:email for non ajax" } 
+      end
+      
+      return
+      
+    elsif params[:act] == 'send'
+
+      Member.find_all_by_id( params[:recip_ids].split(',') ).each do |@recipient|
+        @mcode = MemberLookupCode.get_code(@recipient.id)
+        msg = render_to_string :inline=>message
+        AdminMailer.deliver_email_message(@recipient, msg, RedCloth.new( msg ).to_html )
+      end
+      
+      respond_to do |format|
+        format.html { render :text => "sent ok", :layout => false } if request.xhr?
+        format.html { render :action => "item_history" } 
+      end
+      
+    else
+      
+    end
+    
+    
+  end
+  
+  def create_admins
+    if params[:act] == 'add_new_privilege'
+      ap = AdminPrivilege.new :admin_group_id=>params[:id], :title=> params[:title].gsub(/ /,'')
+      ap.save
+      
+      params[:s] = 'list_group_privileges'
+    end
+
     
   end
 

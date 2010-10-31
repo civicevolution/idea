@@ -1,10 +1,15 @@
 %h3 Reports for #{@initiative.title}
 
-%p{:style=>"color: green"}= flash[:notice]
-
 %ul
+	- if @privileges.include? 'create_admins'
+		%li= link_to "Create admins", {:action=>'create_admins'}
+
+	- if @privileges.include? 'email'
+		%li= link_to "Email", {:action=>'email'}
+
 	- if @privileges.include? 'teams'
 		%li= link_to "Teams", {:action=>'teams'}
+		
 	- if @privileges.include? 'members'
 		%li= link_to "Members", {:action=>'members'}
 	

@@ -5,21 +5,6 @@ class WelcomeController < ApplicationController
   def index
     logger.warn "Welcome controller index APP_NAME: #{APP_NAME}, request.subdomains.first: #{request.subdomains.first}"
     # if I have a current session, get my teams and insert them into the page instead of the signin form
-    #if session[:member_id]
-    #  @member = Member.find_by_id(session[:member_id])
-    #  if @member.nil?
-    #    # session is no good
-    #    session[:member_id] = nil
-    #  else
-    #    @mem_teams = TeamRegistration.find(:all,
-    #      :select => 't.id, t.title, t.launched',  
-    #      :conditions => ['member_id = ?', @member.id],
-    #      :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-    #    )
-    #  end
-    #else
-    #   @member = nil
-    #end
     # use a partial template and layout to create initiative specific page details
     
     # get current list of teams for this initiative    
@@ -95,45 +80,45 @@ class WelcomeController < ApplicationController
     #debugger
   end
   
+  def request_new_access_code
+  end
+  
+  def send_new_access_code
+    @member = Member.find_by_email(params[:email].downcase)
+    if @member.nil?
+      render :text=> "Sorry, the email you entered: #{params[:email]} is not in our records.", :status=> 409
+      return
+    else
+      # create and store a code for the member
+      mcode = MemberLookupCode.get_code(@member.id)
+      
+      logger.debug "generate an email to #{@member.email} with code: #{mcode}"
+      # generate an email to the member      
+      MemberMailer.deliver_new_access_code(@member, mcode, flash[:pre_request_access_code_uri], request.env["HTTP_HOST"]) 
+      @email = @member.email
+      @member = nil
+    end
+  end
+  
   def reset_password
     member = Member.find_by_email(params[:email].downcase)
     if member.nil?
       render :text=> "Sorry, the email you entered: #{params[:email]} is not in our records.", :status=> 409
+      return
     else
       # create and store a code for the member
-      mcode = MemberLookupCode.new :member_id => member.id
-      mcode.save
-      logger.debug "generate an email to #{member.email} with code: #{mcode.code}"
+      mcode = MemberLookupCode.get_code(member.id)
+      logger.debug "generate an email to #{member.email} with code: #{mcode}"
       # generate an email to the member
       
       email = MemberMailer.deliver_reset_password(member,mcode, request.env["HTTP_HOST"]) 
-      #email = MemberMailer.create_reset_password(member,mcode) 
-      #render(:text => "<pre>" + email.encoded + "</pre>")
       render :text => 'ok'
-      
-      logger.debug "MemberMailer has been called and returned"
-      #render :text=> 'ok'
     end
-    
   end
   
   def password_reset
-    # look up the member_id for the password reset request
-    #show the form
-    logger.debug "reset code: #{params[:id]}"
-    begin
-      @member = Member.find(MemberLookupCode.find_by_code( params[:id] ).member_id)
-      #@mem_teams = TeamRegistration.find(:all,
-      #  :select => 't.id, t.title, t.launched',  
-      #  :conditions => ['member_id = ?', @member.id],
-      #  :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-      #)
-    rescue
-      render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 409
-    end
-    
   end
-  
+
   def password_reset_complete
     # now update the password
     begin
@@ -142,15 +127,12 @@ class WelcomeController < ApplicationController
         redirect_to :action => 'password_reset', :id=>params[:code]
         return
       end
-      member_code = MemberLookupCode.find_by_code(params[:code]);
-      @member = Member.find(member_code.member_id)
       if @member.nil?
         render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 409
       else
         # change the password
         @member.password = params[:password]
         @member.save
-        member_code.destroy
       end
     rescue
       render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 409
@@ -214,8 +196,7 @@ class WelcomeController < ApplicationController
     
     
     if @saved
-      mcode = MemberLookupCode.new :member_id => @member.id
-      mcode.save      
+      mcode = MemberLookupCode.get_code(@member.id)
       MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"], params[:_app_name])
       session[:member_id] = @member.id
     end
@@ -233,23 +214,6 @@ class WelcomeController < ApplicationController
   end
 
   def confirm_registration
-    # show the confirmation page
-    #show the form
-    logger.debug "confirm code: #{params[:id]}"
-    begin
-      member_code = MemberLookupCode.find_by_code(params[:id]);
-      @member = Member.find(member_code.member_id)
-      session[:member_id] = @member.id
-      #@mem_teams = TeamRegistration.find(:all,
-      #  :select => 't.id, t.title, t.launched',  
-      #  :conditions => ['member_id = ?', @member.id],
-      #  :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-      #)
-    rescue
-      @member = Member.find_by_id(session[:member_id])
-      #@mem_teams = []
-      render :template=> 'welcome/request_new_confirm_code', :layout=> 'welcome', :status=> 409
-    end
   end
   
   def request_confirmation_email
@@ -260,26 +224,21 @@ class WelcomeController < ApplicationController
     end
     #@mem_teams = []
     # send a new confirmation email
-    mcode = MemberLookupCode.new :member_id => @member.id
-    mcode.save
+    mcode = MemberLookupCode.get_code(@member.id)
     MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"],params[:_app_name])
     render :action => "request_confirmation_email", :layout => false if request.xhr?  
   end
   
   def confirm_reg_captcha
-    member_code = MemberLookupCode.find_by_code(params[:conf_code]);
-    if member_code.nil?
+    if @member.nil?
       render :text=>'no member found', :status=>409
       return
     else
-      @member = Member.find(member_code.member_id)
       logger.debug "confirm_reg_captcha for id: #{@member.id}"
       if validate_recap(params, @member.errors)
         @member.confirmed = true
         @member.save
         session[:member_id] = @member.id
-        # don't destroy the code till captcha is succesful
-        member_code.destroy   
         render :text=>'ok'
       else
         render :text=>'fail', :status=>409
