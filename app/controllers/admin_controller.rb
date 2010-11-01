@@ -42,12 +42,15 @@ class AdminController < ApplicationController
     
     if params[:act] == 'preview'
       @recipient = Member.find_by_id( params[:recip_ids].split(',') )
-      @mcode = MemberLookupCode.get_code(@recipient.id)
+      @mcode = '~~SECRET~ACCESS~CODE~~'
       msg = render_to_string :inline=>message
-      html = RedCloth.new( msg ).to_html
+      #html = RedCloth.new( msg ).to_html
+      
+      email = AdminMailer.create_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html )
       
       respond_to do |format|
-        format.html { render :text => html, :layout => false } if request.xhr?
+        #format.html { render :text => html, :layout => false } if request.xhr?
+        format.html { render :text => "<pre>#{email.encoded}</pre>", :layout => false } if request.xhr?
         format.html { render :text => "Please set up admin:email for non ajax" } 
       end
       
@@ -58,7 +61,7 @@ class AdminController < ApplicationController
       Member.find_all_by_id( params[:recip_ids].split(',') ).each do |@recipient|
         @mcode = MemberLookupCode.get_code(@recipient.id)
         msg = render_to_string :inline=>message
-        AdminMailer.deliver_email_message(@recipient, msg, RedCloth.new( msg ).to_html )
+        AdminMailer.deliver_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html )
       end
       
       respond_to do |format|
@@ -79,6 +82,17 @@ class AdminController < ApplicationController
       ap.save
       
       params[:s] = 'list_group_privileges'
+      
+    elsif params[:act] == 'add_new_group'
+      a = Admin.new :member_id=>params[:member_id], :admin_group_id=>params[:admin_group_id], :initiative_id=>params[:initiative_id]
+      a.save  
+      params[:s] = 'list_groups'
+      
+    elsif params[:act] == 'remove_admin_group'
+      a = Admin.find_by_admin_group_id_and_initiative_id_and_member_id params[:admin_group_id], params[:initiative_id], params[:member_id]
+      a.destroy unless a.nil?
+      params[:s] = 'list_groups'
+      
     end
 
     

@@ -1,7 +1,7 @@
 class AdminMailer < ActionMailer::Base
 
-  def email_message(recipient, plain_text_message, html_message, sent_at = Time.now)
-    subject    'Email message'
+  def email_message(recipient, subject, plain_text_message, html_message, sent_at = Time.now)
+    subject    subject
     recipients "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>"
     from       "\"CivicEvolution\" <support@civicevolution.org>"
     sent_on    sent_at

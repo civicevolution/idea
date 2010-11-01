@@ -5,7 +5,7 @@
 		$(function(){
 			$('textarea').autogrow({
 				lineHeight : 16,
-				minHeight  : 32,
+				minHeight  : 128,
 				maxHeight : 500
 			});			
 		});
@@ -99,6 +99,8 @@
 				padding: 10px
 			div.preview
 				display: none
+			input.subject
+				width: 400px
 
 
 %h3 send email to participants
@@ -132,6 +134,8 @@
 		%h3 Compose email
 		%a{:href=>'http://redcloth.org/textile/writing-paragraph-text/', :target=>'_blank'} Formatting reference
 		%div.add_idea
+			%label Subject
+			= text_field_tag :subject, nil, :class=>'subject', :alias=>'Subject'
 			%label 
 				Please enter your email message
 				%a{:href=>'#', :class=>'how'} How

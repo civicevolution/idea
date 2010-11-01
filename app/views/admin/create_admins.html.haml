@@ -18,6 +18,25 @@
 				%tr
 					%td
 						=link_to "#{ag.i_title}:  #{ag.ag_title}", {:action=>'create_admins', :id=>ag.ag_id, :s=>'list_group_privileges'}
+					%td
+						=link_to "remove", {:action=>'create_admins', :member_id=>mem.id, :initiative_id=>ag.i_id, :admin_group_id=>ag.ag_id, :act=>'remove_admin_group'}
+
+		%p Add new admin group for #{mem.first_name} #{mem.last_name}
+		
+		%p
+			- form_tag( {:action=>'create_admins', :member_id=>mem.id, :act=>'add_new_group'} ) do
+				%select{:name=>'initiative_id'}
+					%option{:value=>-1} Please select initiative
+					- Initiative.all(:select=>'id, title').each do |i|
+						%option{:value=>i.id}= i.title
+				%select{:name=>'admin_group_id'}
+					%option{:value=>-1} Please select admin group
+					- AdminGroup.all(:select=>'id, title').each do |ag|
+						%option{:value=>ag.id}= ag.title
+				
+				= submit_tag "Add new group"
+						
+		
 
 	- when params[:s] == 'list_group_privileges'
 		- ag = AdminGroup.find_by_id(params[:id])
