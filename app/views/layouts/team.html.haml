@@ -28,3 +28,27 @@
 				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			})();
+
+		- if !@scenario.nil?
+			:javascript
+				var scenario = {
+					title: "#{@scenario['title']}",
+					page: "#{@scenario['page']}",
+					tab: "#{@scenario['tab']}",
+					open_coms: "#{@scenario['open_coms']}",
+					call_to_action: "#{@scenario['call_to_action']}",
+				}
+				$(function(){
+					//console.log("SCENARIO: load data for the scenario: #{@scenario['title']}")
+					console.log("SCENARIO - Manifest the task scenario for '" + scenario.call_to_action + "'")
+					try{
+						if(scenario.page){
+							var page_id = $('div#nav div.link').eq(scenario.page).find('a').click().attr('href').match(/\d+/)[0];
+							var page = $('div#i' + page_id)
+							if(scenario.tab) $('div.tabs li',page).eq(scenario.tab).click();
+						}
+						if(scenario.open_coms) $('span.new',page).closest('div.Comment_entry').removeClass('one_line_comment').addClass('full_comment_display');
+
+					}catch(e){console.log("SCENARIO ERROR: " + e.message)}
+					
+				});

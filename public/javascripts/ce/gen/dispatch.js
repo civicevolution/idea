@@ -243,7 +243,9 @@ function dispatchComment(item,submit_response){
 	var html = jsonFn[item_type](item);
 
 	//var div = $(html).hide().addClass('test_insert');
-	var div = $(html).addClass('test_insert').addClass('full_comment_display');
+	//var div = $(html).addClass('test_insert').addClass('full_comment_display');
+	var div = $(html).addClass('test_insert');
+	div.find('.Comment_entry').addClass('full_comment_display');
 
 	// manually add the image source - when compiled it triggered extra page load
 	div.find('img.i36').attr('src',item.pic_url)

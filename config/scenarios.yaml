@@ -1,0 +1,20 @@
+# this is the data I need to construct the scenarios for the 2029/cgg initiative which I link to the email invitation
+# read the data file
+
+
+discuss_change:
+  id:               1
+  title:            Discuss the change
+  page:             1
+  tab:              0
+  open_coms:        1
+  call_to_action:   Talk with your team about how to define the change you want to make in your community
+  tasks:
+    - Read all of the answers in a timely manner
+    - Post replies to answers and suggest changes to make them more clear and concise
+    - Edit the answers to make them more clear and concise
+    - Suggest tips to your teammates for writing better answers
+    - 'Try to bring consistency to the style of the answers in each section throughout the proposal: the answers should mimic each other in construction and style'
+    - Encourage others to help refine the answers. Everyone has the right to edit any answer.
+    - Monitor the edit history of the answers to spot violations of answer editing etiquette and encourage respectful behaviour.
+

@@ -358,58 +358,65 @@ div.comment
 	width: auto
 	background: transparent
 	
-div.Comment.one_line_comment
-	margin-top: 0
-	margin-bottom: 0
-	p.clear_both 
+//div.Comment.one_line_comment
+//	margin-top: 0
+//	margin-bottom: 0
+//	p.clear_both 
+//		display: none
+//		padding-bottom: 0
+//		margin: 0
+//	div.new_com
+//		font-weight: bold
+
+div.Comment
+	margin-top: 16px
+
+div.Comment_entry.one_line_comment.new_com
+	font-weight: bold
+		
+div.Comment_entry.one_line_comment
+	margin-bottom: 0px
+	height: auto
+	div.close_1com
 		display: none
-		padding-bottom: 0
-		margin: 0
-	div.new_com
-		font-weight: bold
-	div.Comment_entry
-		margin-bottom: 10px
-		height: auto
-		div.close_1com
+	img
+		width: 20px
+		height: 20px
+		display: block
+		margin: 0px 10px 0px 0px
+		cursor: pointer
+	div.comment
+		/* position: relative */
+		margin-top: -20px
+		padding-left: 26px
+	span.author
+		display: none
+	abbr
+		display: none
+	div.comment_text
+		height: 20px
+		overflow: hidden
+		p
 			display: none
-		img
-			width: 20px
-			height: 20px
+		div.one_liner
 			display: block
-			margin: 0px 10px 0px 0px
-			cursor: pointer
-		div.comment
-			/* position: relative */
-			margin-top: -20px
-			padding-left: 26px
-		span.author
-			display: none
-		abbr
-			display: none
-		div.comment_text
+			position: relative
 			height: 20px
-			overflow: hidden
-			p
-				display: none
-			div.one_liner
-				display: block
-				position: relative
-				height: 20px
-				cursor: pointer
-				span.txt
-					white-space: nowrap
-				img
-					position: absolute
-					top: 0
-					right: 0
-					width: 12px
-					height: 12px
-		div.resource
-			display: none
-		span.new
-			display: none
-		div.comment_controls
-			display: none
+			cursor: pointer
+			span.txt
+				white-space: nowrap
+			img
+				position: absolute
+				top: 0
+				right: 0
+				width: 12px
+				height: 12px
+	div.resource
+		display: none
+	span.new
+		display: none
+	div.comment_controls
+		display: none
 
 div.coms_show_one_line
 	.hidden
@@ -422,8 +429,9 @@ div.coms_show_one_line
 			color: $pale_input
 			width: 100%
 
-div.Comment.full_comment_display
-	margin-bottom: 10px
+//div.Comment.full_comment_display
+//	margin-bottom: 10px
+div.Comment_entry.full_comment_display	
 	img
 		display: block
 		margin: 4px 10px 0 0

@@ -288,58 +288,55 @@ div.comment {
   width: auto;
   background: transparent; }
 
-div.Comment.one_line_comment {
-  margin-top: 0;
-  margin-bottom: 0; }
-  div.Comment.one_line_comment p.clear_both {
-    display: none;
-    padding-bottom: 0;
-    margin: 0; }
-  div.Comment.one_line_comment div.new_com {
-    font-weight: bold; }
-  div.Comment.one_line_comment div.Comment_entry {
-    margin-bottom: 10px;
-    height: auto; }
-    div.Comment.one_line_comment div.Comment_entry div.close_1com {
+div.Comment {
+  margin-top: 16px; }
+
+div.Comment_entry.one_line_comment.new_com {
+  font-weight: bold; }
+
+div.Comment_entry.one_line_comment {
+  margin-bottom: 0px;
+  height: auto; }
+  div.Comment_entry.one_line_comment div.close_1com {
+    display: none; }
+  div.Comment_entry.one_line_comment img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0px 10px 0px 0px;
+    cursor: pointer; }
+  div.Comment_entry.one_line_comment div.comment {
+    /* position: relative */
+    margin-top: -20px;
+    padding-left: 26px; }
+  div.Comment_entry.one_line_comment span.author {
+    display: none; }
+  div.Comment_entry.one_line_comment abbr {
+    display: none; }
+  div.Comment_entry.one_line_comment div.comment_text {
+    height: 20px;
+    overflow: hidden; }
+    div.Comment_entry.one_line_comment div.comment_text p {
       display: none; }
-    div.Comment.one_line_comment div.Comment_entry img {
-      width: 20px;
-      height: 20px;
+    div.Comment_entry.one_line_comment div.comment_text div.one_liner {
       display: block;
-      margin: 0px 10px 0px 0px;
-      cursor: pointer; }
-    div.Comment.one_line_comment div.Comment_entry div.comment {
-      /* position: relative */
-      margin-top: -20px;
-      padding-left: 26px; }
-    div.Comment.one_line_comment div.Comment_entry span.author {
-      display: none; }
-    div.Comment.one_line_comment div.Comment_entry abbr {
-      display: none; }
-    div.Comment.one_line_comment div.Comment_entry div.comment_text {
+      position: relative;
       height: 20px;
-      overflow: hidden; }
-      div.Comment.one_line_comment div.Comment_entry div.comment_text p {
-        display: none; }
-      div.Comment.one_line_comment div.Comment_entry div.comment_text div.one_liner {
-        display: block;
-        position: relative;
-        height: 20px;
-        cursor: pointer; }
-        div.Comment.one_line_comment div.Comment_entry div.comment_text div.one_liner span.txt {
-          white-space: nowrap; }
-        div.Comment.one_line_comment div.Comment_entry div.comment_text div.one_liner img {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 12px;
-          height: 12px; }
-    div.Comment.one_line_comment div.Comment_entry div.resource {
-      display: none; }
-    div.Comment.one_line_comment div.Comment_entry span.new {
-      display: none; }
-    div.Comment.one_line_comment div.Comment_entry div.comment_controls {
-      display: none; }
+      cursor: pointer; }
+      div.Comment_entry.one_line_comment div.comment_text div.one_liner span.txt {
+        white-space: nowrap; }
+      div.Comment_entry.one_line_comment div.comment_text div.one_liner img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 12px;
+        height: 12px; }
+  div.Comment_entry.one_line_comment div.resource {
+    display: none; }
+  div.Comment_entry.one_line_comment span.new {
+    display: none; }
+  div.Comment_entry.one_line_comment div.comment_controls {
+    display: none; }
 
 div.coms_show_one_line .hidden {
   display: none; }
@@ -351,36 +348,34 @@ div.coms_show_one_line form.open_form {
     color: #333333;
     width: 100%; }
 
-div.Comment.full_comment_display {
-  margin-bottom: 10px; }
-  div.Comment.full_comment_display img {
-    display: block;
-    margin: 4px 10px 0 0; }
-  div.Comment.full_comment_display div.comment {
-    position: relative;
-    margin-top: -40px;
-    padding-left: 46px; }
-  div.Comment.full_comment_display span.author {
-    display: inline;
-    font-weight: bold; }
-  div.Comment.full_comment_display abbr {
-    display: inline;
-    font-style: italic; }
-  div.Comment.full_comment_display div.comment_text {
-    height: auto;
-    display: inline; }
-    div.Comment.full_comment_display div.comment_text p {
-      margin: 8px 0; }
-    div.Comment.full_comment_display div.comment_text div.one_liner {
-      display: none; }
-  div.Comment.full_comment_display span.new {
-    display: block;
-    color: #f2583e;
-    font-weight: bold; }
-  div.Comment.full_comment_display div.comment_controls {
-    position: relative;
-    margin: 0;
-    padding-top: 10px; }
+div.Comment_entry.full_comment_display img {
+  display: block;
+  margin: 4px 10px 0 0; }
+div.Comment_entry.full_comment_display div.comment {
+  position: relative;
+  margin-top: -40px;
+  padding-left: 46px; }
+div.Comment_entry.full_comment_display span.author {
+  display: inline;
+  font-weight: bold; }
+div.Comment_entry.full_comment_display abbr {
+  display: inline;
+  font-style: italic; }
+div.Comment_entry.full_comment_display div.comment_text {
+  height: auto;
+  display: inline; }
+  div.Comment_entry.full_comment_display div.comment_text p {
+    margin: 8px 0; }
+  div.Comment_entry.full_comment_display div.comment_text div.one_liner {
+    display: none; }
+div.Comment_entry.full_comment_display span.new {
+  display: block;
+  color: #f2583e;
+  font-weight: bold; }
+div.Comment_entry.full_comment_display div.comment_controls {
+  position: relative;
+  margin: 0;
+  padding-top: 10px; }
 
 div.coms_show_all .hidden {
   display: block; }

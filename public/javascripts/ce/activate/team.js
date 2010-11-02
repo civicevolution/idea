@@ -362,10 +362,10 @@ function activate_ux_functions_discussion(){
 				var a = $(this);
 				var par = a.closest('.embedded_discussion');
 				if( a.html().match(/Open/)){
-					$('div.Comment',par).addClass('full_comment_display').removeClass('one_line_comment');
+					$('div.Comment_entry',par).addClass('full_comment_display').removeClass('one_line_comment');
 					a.html('Close all comments');
 				}else{
-					$('div.Comment',par).addClass('one_line_comment').removeClass('full_comment_display');
+					$('div.Comment_entry',par).addClass('one_line_comment').removeClass('full_comment_display');
 					a.html('Open all comments');
 				}			
 			}catch(e){console.log("open_all error: " + e)}
@@ -503,7 +503,7 @@ function activate_ux_appearance(){
 	
 	
 	$('div.coms').addClass('coms_show_one_line');
-	$('div.Comment').addClass('one_line_comment').removeClass('full_comment_display')
+	$('div.Comment_entry').addClass('one_line_comment').removeClass('full_comment_display')
 	
 	
 	// add link com counts

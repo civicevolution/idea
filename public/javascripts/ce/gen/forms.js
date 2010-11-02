@@ -16,10 +16,10 @@ $(function(){
 					par = a.closest('div.discussion')
 				}
 				if( a.html().match(/Open/)){
-					$('div.Comment',par).addClass('full_comment_display').removeClass('one_line_comment');
+					$('div.Comment_entry',par).addClass('full_comment_display').removeClass('one_line_comment');
 					a.html('Close all comments');
 				}else{
-					$('div.Comment',par).addClass('one_line_comment').removeClass('full_comment_display');
+					$('div.Comment_entry',par).addClass('one_line_comment').removeClass('full_comment_display');
 					a.html('Open all comments');
 					ellipsis(par)
 				}			
@@ -33,10 +33,9 @@ $(function(){
 		function(){
 			console.log("open one liner")
 			var $this = $(this);
-			$this.parents('div.Comment').addClass('full_comment_display').removeClass('one_line_comment');
-			//var com = $this.closest('div.Comment');
-			//com.addClass('full_comment_display').removeClass('one_line_comment');
-			//com.hide().slideDown(500);
+			//$this.parents('div.Comment').addClass('full_comment_display').removeClass('one_line_comment');
+			//$this.closest('div.Comment').addClass('full_comment_display').removeClass('one_line_comment');
+			$this.closest('div.Comment_entry').addClass('full_comment_display').removeClass('one_line_comment');
 		}
 	)
 
@@ -45,7 +44,7 @@ $(function(){
 			var $this = $(this);
 			$this.css('display','block');
 			$this.closest('div.comment').slideUp(500, function(){
-				$(this).closest('div.Comment').addClass('one_line_comment').removeClass('full_comment_display');
+				$(this).closest('div.Comment_entry').addClass('one_line_comment').removeClass('full_comment_display');
 				$(this).slideDown(200,
 					function(){
 						ellipsis(this);

@@ -595,7 +595,7 @@ class TeamController < ApplicationController
     @member = Member.find(member_id)
     
     @last_ts = Team.find(@team_id).last_visit( member_id )
-    #@last_ts = Time.local(2010,3,27)
+    @last_ts = Time.local(2010,11,1)
 
     @members = @team.members 
     @items = @team.items
@@ -627,6 +627,12 @@ class TeamController < ApplicationController
     yml = YAML.load_file 'config/team_roles.yaml'
     @roles = []
     yml.each_pair { |key, rec| @roles.push rec }
+    
+    # has a scenario been specified? If so, load the scenario data
+    if params[:_sc]
+      yml = YAML.load_file 'config/scenarios.yaml'
+      @scenario = yml.fetch( params[:_sc], nil )    
+    end
 
     @team_item = @items.detect {|i| i.o_id == @team_id && i.o_type == 4 } 
     @items_par_0_sorted = @items.find_all {|i| i.par_id == @team_item.id }.sort {|a,b| a.order <=> b.order }

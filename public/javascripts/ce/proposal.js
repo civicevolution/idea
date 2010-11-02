@@ -69,7 +69,7 @@ $(function(){
 
 	update_discussion_links();
 
-	$('div.Comment').addClass('one_line_comment').removeClass('full_comment_display')
+	$('div.Comment_entry').addClass('one_line_comment').removeClass('full_comment_display')
 	
 	
 	$('img.share_this').click( 
