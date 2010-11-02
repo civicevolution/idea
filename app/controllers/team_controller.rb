@@ -520,19 +520,31 @@ class TeamController < ApplicationController
       com_rating.up = rating.to_i > 0 ? 1 : 0
       com_rating.down = rating.to_i > 0 ? 0 : 1
     end
-    com_rating.save
+    saved = com_rating.save
 
-    #calculate new score, count and average
-    @up = ComRating.sum(:up, :conditions => ['comment_id = ?', com_id ])
-    @down = ComRating.sum(:down, :conditions => ['comment_id = ?', com_id ])
+    if saved
+      #calculate new score, count and average
+      @up = ComRating.sum(:up, :conditions => ['comment_id = ?', com_id ])
+      @down = ComRating.sum(:down, :conditions => ['comment_id = ?', com_id ])
     
-    serialized = sendApeNotification({:type=>'com_rate', :channel=>"team#{com_rating.team_id}", :data => {:up=>@up, :down=>@down, :com_id=>com_id, :my_vote => rating }},session);
+      serialized = sendApeNotification({:type=>'com_rate', :channel=>"team#{com_rating.team_id}", :data => {:up=>@up, :down=>@down, :com_id=>com_id, :my_vote => rating }},session);
 
-    respond_to do |format|
-      format.html { render :text => serialized } if request.xhr? # ajaxmode gets the update via APE    
-      #format.html { request.referer ?  redirect_to(request.referer + "\#item_rater_#{@item_id}") :  redirect_to( :action => 'index' ) }
+      respond_to do |format|
+        format.html { render :text => serialized } if request.xhr? # ajaxmode gets the update via APE    
+        #format.html { request.referer ?  redirect_to(request.referer + "\#item_rater_#{@item_id}") :  redirect_to( :action => 'index' ) }
+      end
+    else
+      # what to return if error?
+      logger.debug "com_rate was not saved "
+      if request.xhr?
+        respond_to do |format|
+          format.json { render :text => [com_rating.errors].to_json, :status => 409 }
+          #combine the errors from resources into comment errors so they will all be displayed
+          #format.html {render :partial => 'team/error', :object => @comment, :status => 400, :locals => { :resources => @resources} }
+        end
+      end
     end
-
+    
   end
   
   def index

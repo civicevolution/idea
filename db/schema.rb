@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101101235751) do
+ActiveRecord::Schema.define(:version => 20101102021850) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -316,7 +316,6 @@ ActiveRecord::Schema.define(:version => 20101101235751) do
   end
 
   add_index "member_lookup_codes", ["code"], :name => "unique_member_lookup_codes_code", :unique => true
-  add_index "member_lookup_codes", ["member_id"], :name => "unique_member_lookup_code_member_id", :unique => true
 
   create_table "members", :force => true do |t|
     t.string   "email",                                                :null => false

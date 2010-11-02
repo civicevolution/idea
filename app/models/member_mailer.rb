@@ -18,13 +18,13 @@ class MemberMailer < ActionMailer::Base
     body       :member => member, :mcode => mcode, :host => host
   end
 
-  def new_access_code(member, mcode, uri, host, sent_at = Time.now)
+  def new_access_code(member, uri, host, sent_at = Time.now)
     subject    'Resend email with valid access code'
     recipients "#{member.first_name} #{member.last_name} <#{member.email}>"
     from       "\"CivicEvolution\" <support@auto.civicevolution.org>"
     sent_on    sent_at
     
-    body       :member => member, :mcode => mcode, :uri=>uri, :host => host
+    body       :member => member, :uri=>uri, :host => host
   end
 
 

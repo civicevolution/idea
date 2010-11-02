@@ -59,7 +59,7 @@ class AdminController < ApplicationController
     elsif params[:act] == 'send'
 
       Member.find_all_by_id( params[:recip_ids].split(',') ).each do |@recipient|
-        @mcode = MemberLookupCode.get_code(@recipient.id)
+        @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
         msg = render_to_string :inline=>message
         AdminMailer.deliver_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html )
       end

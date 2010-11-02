@@ -28,6 +28,7 @@ class InviteEmail < Tableless
     
     lines = self.recipient_emails.split(/[\n\r]+/)
     lines.each do |line|
+      line = line.gsub(/[<>]/,'').strip
       recipient = {}
       logger.debug "extract and verify email recipient in text: #{line}"
       pieces = line.match(/(.*) ([^ ]*)/)

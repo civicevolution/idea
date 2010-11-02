@@ -90,11 +90,13 @@ class WelcomeController < ApplicationController
       return
     else
       # create and store a code for the member
-      mcode = MemberLookupCode.get_code(@member.id)
+      mcode = MemberLookupCode.get_code(@member.id, {:scenario=>'send new access code'} )
       
       logger.debug "generate an email to #{@member.email} with code: #{mcode}"
       # generate an email to the member      
-      MemberMailer.deliver_new_access_code(@member, mcode, flash[:pre_request_access_code_uri], request.env["HTTP_HOST"]) 
+      # generate new url = original url with mlc replaced with mcode
+      new_url = flash[:pre_request_access_code_uri].sub(/\b_mlc=.{36}/,'_mlc=' + mcode)
+      MemberMailer.deliver_new_access_code(@member, new_url, request.env["HTTP_HOST"]) 
       @email = @member.email
       @member = nil
     end
@@ -107,7 +109,7 @@ class WelcomeController < ApplicationController
       return
     else
       # create and store a code for the member
-      mcode = MemberLookupCode.get_code(member.id)
+      mcode = MemberLookupCode.get_code(member.id, {:scenario=>'reset password'})
       logger.debug "generate an email to #{member.email} with code: #{mcode}"
       # generate an email to the member
       
@@ -196,7 +198,7 @@ class WelcomeController < ApplicationController
     
     
     if @saved
-      mcode = MemberLookupCode.get_code(@member.id)
+      mcode = MemberLookupCode.get_code(@member.id, {:scenario=>'register confirmation'} )
       MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"], params[:_app_name])
       session[:member_id] = @member.id
     end
@@ -224,7 +226,7 @@ class WelcomeController < ApplicationController
     end
     #@mem_teams = []
     # send a new confirmation email
-    mcode = MemberLookupCode.get_code(@member.id)
+    mcode = MemberLookupCode.get_code(@member.id, {:scenario=>'request confirmation'})
     MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"],params[:_app_name])
     render :action => "request_confirmation_email", :layout => false if request.xhr?  
   end

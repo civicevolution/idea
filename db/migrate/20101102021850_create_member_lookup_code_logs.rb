@@ -1,7 +1,6 @@
 class CreateMemberLookupCodeLogs < ActiveRecord::Migration
   def self.up
     create_table :member_lookup_code_logs do |t|
-      t.string :uuid
       t.column("code", :uuid) # this works beautifully
       t.integer :member_id
       t.string :scenario

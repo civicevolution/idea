@@ -16,12 +16,28 @@ class ComRating < ActiveRecord::Base
   end
   
   def check_rating_access
-    logger.debug "check_rating_access, comment_id: #{self.comment_id}"
-    @team = Member.find_by_id(self.member_id).teams.find_by_id( Item.find_by_o_id_and_o_type(self.comment_id,3).team_id )
-    raise TeamAccessDeniedError, "In check_team_access for ComRating for comment_id: #{self.comment_id}" if @team.nil?
-    self.team_id = @team.id # this will be used to construct the item record
-    #logger.debug "Member of team #{@team.title}"
-    @team
+    #logger.debug "check_rating_access, comment_id: #{self.comment_id}"
+    rated_item = Item.find_by_o_id_and_o_type(self.comment_id,3)
+    self.team_id = rated_item.team_id
+    is_team_member = !( TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.team_id).nil? )
+    # return as ok if user is a team member or parent is the public discussion
+    return if is_team_member
+
+    #logger.debug "check for pub anc self.team_id: #{self.team_id}"
+    # determine if this is under a public discussion, is any ancestor, type 11?
+    #logger.debug "rated_item: #{rated_item.inspect}"
+    pub_par_item = Item.find(
+      :all,
+      :select=>'id',
+      :conditions=> {:team_id=>self.team_id , :o_type=>11, :id => rated_item.ancestors.split(/[^\d]/).map { |s| s.to_i }.uniq }
+    )
+    #logger.debug "pub_par_item.size: #{pub_par_item.size}"
+
+    if pub_par_item.size == 0
+      errors.add_to_base("This discussion is private and you must be a team member to rate it.") 
+      return false
+    end
+    
   end  
   
   

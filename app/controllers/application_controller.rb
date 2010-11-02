@@ -75,11 +75,11 @@ class ApplicationController < ActionController::Base
   
     def add_member_data
       if params[:_mlc]
-        @member = MemberLookupCode.get_member(params[:_mlc])
+        @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.request_uri} )
         if @member.nil?
           #render :controller=>'welcome', :action=>'request_new_access_code'
           render :template=>'welcome/request_new_access_code', :layout=>'welcome'
-          flash[:pre_request_access_code_uri] = request.request_uri.sub(/\?.*/,'')
+          flash[:pre_request_access_code_uri] = request.request_uri #.sub(/\?.*/,'')
           return
         else
           session[:member_id] = @member.id
