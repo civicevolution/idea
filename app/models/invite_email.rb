@@ -26,7 +26,7 @@ class InviteEmail < Tableless
     self.recipients = []
     # break this into lines. process each line, record errors
     
-    lines = self.recipient_emails.split(/\n+/)
+    lines = self.recipient_emails.split(/[\n\r]+/)
     lines.each do |line|
       recipient = {}
       logger.debug "extract and verify email recipient in text: #{line}"
