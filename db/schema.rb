@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101022195601) do
+ActiveRecord::Schema.define(:version => 20101101235751) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -304,11 +304,15 @@ ActiveRecord::Schema.define(:version => 20101022195601) do
     t.integer  "member_id",                    :null => false
   end
 
+# Could not dump table "member_lookup_code_logs" because of following StandardError
+#   Unknown type 'uuid' for column 'code'
+
   create_table "member_lookup_codes", :force => true do |t|
     t.string   "code",       :null => false
     t.integer  "member_id",  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "scenario"
   end
 
   add_index "member_lookup_codes", ["code"], :name => "unique_member_lookup_codes_code", :unique => true

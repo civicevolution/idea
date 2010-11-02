@@ -47,7 +47,7 @@
 		%p.clear_both
 
 	- page_items = @items.find_all {|i| i.o_type == 9 }.sort {|a,b| a.order <=> b.order }
-	%div.nav
+	%div#nav.nav
 		- page_items.each do |pi|
 			- page = @pages.detect { |p| p.id == pi.o_id }
 			%div.link

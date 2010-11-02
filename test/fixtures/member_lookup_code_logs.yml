@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  uuid: MyString
+  member_id: 1
+  scenario: MyString
+  target_id: 1
+  target_url: MyString
+
+two:
+  uuid: MyString
+  member_id: 1
+  scenario: MyString
+  target_id: 1
+  target_url: MyString
