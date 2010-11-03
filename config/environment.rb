@@ -10,6 +10,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 RCC_PUB='6Lcy0L0SAAAAAHXcETe-lnzty-iUyfYgvVp_br3Z'
 RCC_PRIV='6Lcy0L0SAAAAABuXgAChhDrX3aDx2Prv8WWAcZH4'
 
+RAILS_MONITOR_NULL_LOGGER = Logger.new('/dev/null')
 
 require 'erb'
 APP_NAME = RAILS_ROOT.match(/^\/data\//) ? RAILS_ROOT.match(/\/data\/(\w+)\//)[1] : RAILS_ROOT.match(/\/ce_development\/Rails\/(\w+)/)[1]

@@ -47,6 +47,16 @@ class ApplicationController < ActionController::Base
     
   protected
   
+    def logger
+      if params[:monitor] == 'true' && params[:controller] == 'welcome' && params[:action] == 'index'
+        # ignore monitoring requests
+        RAILS_MONITOR_NULL_LOGGER
+      else
+        RAILS_DEFAULT_LOGGER
+      end
+    end
+  
+  
     def set_application_personality
       case request.subdomains.first
         when /^2029-staff$/i, /^cgg$/
