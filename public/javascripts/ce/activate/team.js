@@ -7,9 +7,8 @@ function load_ape(chat_container_name){
 	if(params['ape'] == 'none'){
 		console.log("XXXXXXXXXXXXXXXXXX APE WILL NOT BE LOADED")
 	}else{
-		//console.log("index.html javascript to create the client, client: " + client)
+		//console.log("ce/activte/teams.js javascript to create the client")
 		if( typeof member.client == undefined || !member.client){
-			//console.log("create client")
 			member.client = new APE.Shoutbox( chat_container_name );
 			member.client.load({
 				'identifier':'chatdemo',

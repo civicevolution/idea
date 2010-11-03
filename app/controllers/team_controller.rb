@@ -595,7 +595,7 @@ class TeamController < ApplicationController
     @member = Member.find(member_id)
     
     @last_ts = Team.find(@team_id).last_visit( member_id )
-    @last_ts = Time.local(2010,11,1)
+    #@last_ts = Time.local(2010,11,1)
 
     @members = @team.members 
     @items = @team.items
