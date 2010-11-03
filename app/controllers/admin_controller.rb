@@ -1,4 +1,9 @@
 require 'RedCloth'
+module RedCloth::Formatters::HTML
+  def em(opts)
+    "_#{opts[:text]}_"
+  end
+end
 class AdminController < ApplicationController
   
   before_filter :get_admin_privileges
@@ -44,13 +49,12 @@ class AdminController < ApplicationController
       @recipient = Member.find_by_id( params[:recip_ids].split(',') )
       @mcode = '~~SECRET~ACCESS~CODE~~'
       msg = render_to_string :inline=>message
-      #html = RedCloth.new( msg ).to_html
-      
-      email = AdminMailer.create_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html )
+      html = RedCloth.new( msg ).to_html
       
       respond_to do |format|
-        #format.html { render :text => html, :layout => false } if request.xhr?
-        format.html { render :text => "<pre>#{email.encoded}</pre>", :layout => false } if request.xhr?
+        format.html { render :text => html, :layout => false } if request.xhr?
+        #email = AdminMailer.create_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html )
+        #format.html { render :text => "<pre>#{email.encoded}</pre>", :layout => false } if request.xhr?
         format.html { render :text => "Please set up admin:email for non ajax" } 
       end
       
