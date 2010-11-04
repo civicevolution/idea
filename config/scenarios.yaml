@@ -3,7 +3,7 @@
 
 
 discuss_change:
-  id:               1
+  id:               discuss_change
   title:            Discuss the change
   page:             1
   tab:              0

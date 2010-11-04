@@ -44,28 +44,6 @@ class Team < ActiveRecord::Base
     self.title
   end
   
-#  def average_ratings
-#    Rating.find_by_sql([ %q|SELECT item_id, AVG(rating) AS average, COUNT(rating) AS count
-#      FROM ratings r, items i
-#      WHERE i.team_id = ?
-#      AND i.id = r.item_id
-#      GROUP BY item_id
-#      ORDER BY item_id|,self.id ]
-#    )    
-#  end
-
-#  def average_bs_ratings
-#    BsIdeaRating.find_by_sql([ %q|SELECT bsi.id, AVG(rating) AS average, COUNT(rating) AS count,
-#      (SELECT rating FROM bs_idea_ratings WHERE member_id = 1 AND idea_id = bsi.id) AS my_vote
-#      FROM bs_idea_ratings bsir, bs_ideas bsi, items i
-#      WHERE i.team_id = ?
-#      AND i.o_type = 1
-#      AND i.o_id = bsi.question_id
-#      AND bsir.idea_id = bsi.id
-#      GROUP BY bsi.id|,self.id ]     
-#    )    
-#  end
-  
   def bs_ideas_with_ratings(memberId)
     BsIdeaRating.find_by_sql([ %q|SELECT bsi.id, 
     AVG(rating) AS average, 
@@ -110,6 +88,15 @@ class Team < ActiveRecord::Base
     #)
     #pub_authors.collect { |m| {:id=> m.id, :first_name=>m.first_name, :last_name=>m.last_name, :ape_code=> m.ape_code, :pic_id => m.pic_id,:member => 'f' }  }
   end
+    
+  def stats
+    Team.find_by_sql([ %q|SELECT (SELECT COUNT(*) FROM team_registrations WHERE team_id = ?) AS members,
+      (SELECT COUNT(*) FROM comments WHERE team_id = ?) AS comments,
+      (SELECT COUNT(*) FROM bs_ideas WHERE team_id = ?) AS bs_ideas,
+      (SELECT COUNT(*) FROM answers WHERE team_id = ?) AS answers|, self.id, self.id, self.id, self.id ]
+    )[0]
+    
+  end  
     
   def self.teams_with_stats(initiative_id)
     Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement, status, min_members, max_members, signup_mode, launched,

@@ -113,6 +113,9 @@ $(function(){
 	  	setTimeout(init_team_rating, 1000);
 	  } 	
 		if(convert_time) $("abbr.timeago").timeago();
+		
+		$('span.new').closest('div.Comment_entry').removeClass('one_line_comment').addClass('full_comment_display');
+		
 	}catch(e){console.log("jquery ready function error: " + e.message)}	
 
 });

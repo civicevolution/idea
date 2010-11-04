@@ -30,6 +30,7 @@
 			})();
 
 		- if !@scenario.nil?
+			=render :partial=>'call_to_action/' + @scenario['id']
 			:javascript
 				var scenario = {
 					title: "#{@scenario['title']}",
@@ -47,8 +48,15 @@
 							var page = $('div#i' + page_id)
 							if(scenario.tab) $('div.tabs li',page).eq(scenario.tab).click();
 						}
-						if(scenario.open_coms) $('span.new',page).closest('div.Comment_entry').removeClass('one_line_comment').addClass('full_comment_display');
+						//if(scenario.open_coms) $('span.new',page).closest('div.Comment_entry').removeClass('one_line_comment').addClass('full_comment_display');
 
 					}catch(e){console.log("SCENARIO ERROR: " + e.message)}
+					
+					$('a.close_call_to_action').die('click').live('click',
+					  function(){
+					    $(this).closest('div.call_to_action').hide();
+					    return false;
+					  }
+					);
 					
 				});

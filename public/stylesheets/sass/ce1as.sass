@@ -2,6 +2,7 @@ $menu_bg: #2277aa
 $menu_link: rgb(80, 113, 255)
 $menu_color_offset: #222222
 $new_item_color: #F2583E
+$block_bg_color: #f7f3e8
 
 $faint_color: rgb(147, 160, 145)
 $left_col_init: 300px
@@ -1170,3 +1171,27 @@ div.add_comment
 	
 div#team_help, div#team_stats, div#team_profile
 	display: none
+	
+div.call_to_action
+	//display: none
+	position: absolute
+	left:	$proposal_left_width
+	top: 190px
+	background-color: $block_bg_color
+	border: 2px solid $menu_bg
+	padding: 6px 20px 20px 20px
+	margin-left: 20px
+	max-width: 500px
+	p.close
+		width: 100%
+		text-align: right
+		margin: 0 0 6px 0
+	
+p.call_to_action 
+	font-size: 1.2em
+	
+ul.calls_to_action
+	font-size: 1.2em
+
+ul.tight
+	margin-top: -10px

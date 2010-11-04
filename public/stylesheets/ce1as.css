@@ -1023,3 +1023,26 @@ div.add_comment {
 
 div#team_help, div#team_stats, div#team_profile {
   display: none; }
+
+div.call_to_action {
+  position: absolute;
+  left: 360px;
+  top: 190px;
+  background-color: #f7f3e8;
+  border: 2px solid #2277aa;
+  padding: 6px 20px 20px 20px;
+  margin-left: 20px;
+  max-width: 500px; }
+  div.call_to_action p.close {
+    width: 100%;
+    text-align: right;
+    margin: 0 0 6px 0; }
+
+p.call_to_action {
+  font-size: 1.2em; }
+
+ul.calls_to_action {
+  font-size: 1.2em; }
+
+ul.tight {
+  margin-top: -10px; }
