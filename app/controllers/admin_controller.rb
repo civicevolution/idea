@@ -44,9 +44,9 @@ class AdminController < ApplicationController
     message = params[:message]
     @team = Team.find(params[:team_id])
     @host = request.env["HTTP_HOST"]
-    
+
     if params[:act] == 'preview'
-      @recipient = Member.find_by_id( params[:recip_ids].split(',') )
+      @recipient = Member.find_by_id( params[:recip_ids][0].to_i )
       @mcode = '~~SECRET~ACCESS~CODE~~'
       msg = render_to_string :inline=>message
       html = RedCloth.new( msg ).to_html
@@ -62,7 +62,7 @@ class AdminController < ApplicationController
       
     elsif params[:act] == 'send'
       include_bcc = true
-      Member.find_all_by_id( params[:recip_ids].split(',') ).each do |@recipient|
+      Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
         @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
         msg = render_to_string :inline=>message
         AdminMailer.deliver_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html, include_bcc )

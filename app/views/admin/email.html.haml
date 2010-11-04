@@ -102,33 +102,34 @@
 			input.subject
 				width: 400px
 
-
-%h3 send email to participants
-
-
-- case
-	- when !params[:team_id].nil?
-		- team = Team.find(params[:team_id])
-		%p 
-			Recipients are members of team 
-			%b
-				#{team.title}
-		%table
-			- recip_ids = []
-			- team.members.each do |m|
-				- recip_ids.push m.id
-				%tr
-					%td #{m.first_name} #{m.last_name}
-					%td= m.email
-						
-			
-	- else
-		%p No recipients selected
-		
 - form_tag( { :action => :email}, {:class=>'std_form'} ) do
-	= hidden_field_tag :team_id, team.id
 	= hidden_field_tag :act, 'preview', {:class=>'act'}
-	= hidden_field_tag :recip_ids, recip_ids.join(',')
+	
+	%h3 send email to participants
+	- case
+		- when !params[:team_id].nil?
+			- team = Team.find(params[:team_id])
+			= hidden_field_tag :team_id, team.id
+			%p 
+				Recipients are members of team 
+				%b
+					#{team.title}
+			%table
+				- recip_ids = []
+				- team.members.each do |m|
+					- recip_ids.push m.id
+					%tr
+						%td
+							= check_box_tag 'recip_ids[]', m.id, true
+						%td #{m.first_name} #{m.last_name}
+						%td= m.email
+
+
+		- else
+			%p No recipients selected
+	
+
+	-#= hidden_field_tag :recip_ids, recip_ids.join(',')
 		
 	%div.compose
 		%h3 Compose email
