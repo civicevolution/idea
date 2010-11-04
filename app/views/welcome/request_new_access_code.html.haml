@@ -1,4 +1,4 @@
-%h3 Sorry, the email you clicked is no longer valid
+%h3 We're sorry, the link we emailed you is only good for one use or may have expired
 
 %p Please enter your email and click the button and we will immediately send a valid email so you can continue
 
@@ -7,11 +7,12 @@
 	%table
 		%tr
 			%td
-				%label{:for=>"email"} Email:
+				%label{:for=>"email"} 
+					%b Email:
 			%td
-				= text_field_tag :email
+				= text_field_tag :email, nil, {:size=>40}
 
 		%tr
 			%td{:colspan=>2}
-				= submit_tag "Request new access code"
+				= submit_tag "Send me a new link"
 			

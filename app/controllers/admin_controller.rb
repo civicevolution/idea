@@ -61,11 +61,12 @@ class AdminController < ApplicationController
       return
       
     elsif params[:act] == 'send'
-
+      include_bcc = true
       Member.find_all_by_id( params[:recip_ids].split(',') ).each do |@recipient|
         @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
         msg = render_to_string :inline=>message
-        AdminMailer.deliver_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html )
+        AdminMailer.deliver_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html, include_bcc )
+        include_bcc = false
       end
       
       respond_to do |format|
