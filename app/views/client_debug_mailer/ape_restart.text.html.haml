@@ -1,0 +1,9 @@
+%h2 APE was restarted in a browser
+~ ''
+- if @member.nil?
+	%p Anonymous user
+-else
+	%p For member #{@member.first_name} #{@member.last_name} #{@member.email}
+	
+%h3 Browser details
+= @browser

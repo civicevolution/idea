@@ -52,6 +52,9 @@ APE.Shoutbox = APE.Client.extend({
 			this.addEvent('onRaw', this.resetWatchDogTimer);
 			
 	//		this.onError('004', this.reset);
+	
+			this.fast_close_counter = 0;
+			this.last_close_time = 0;
 	},
 
 	start: function() {
@@ -129,24 +132,26 @@ APE.Shoutbox = APE.Client.extend({
 			//this.writeMessage(raw.data.msg, raw.data.from.properties.name);
 		}catch(e){console.log("rawData.error e: " + e)}
 	},
-	apeRecordClose: function(){
-	  //console.log("apeRecordClose: ape close was received");
-		// close shouldn't come in too quickly
-		// if time since last close < 5 secs for 3 closes in a row, something is wrong, re-initialize
-		if(!this.last_close_time){
-			this.last_close_time = (new Date()).getTime();
+	apeRecordClose: function(raw,pipe){
+	  console.log("apeRecordClose: ape close was received, time: " + raw.time + ', this.last_close_time: ' + this.last_close_time + ', this.fast_close_counter: ' + this.fast_close_counter);
+		if(raw.time - this.last_close_time > 5 ){
 			this.fast_close_counter = 0;
 		}else{
-			if( ((new Date()).getTime() - this.last_close_time)/1000 < 5 ){
-				// the last empty close was less than 5 seconds ago - not a good sign
-				if(++this.fast_close_counter > 4){
-					console.log("apeRecordClose - reset ape, last interval: " + ((new Date()).getTime() - this.last_close_time)/1000 )
-					setTimeout(reinitializeApe,1000);
-				}
-			}else{
+			++this.fast_close_counter;
+			if(this.fast_close_counter > 3){
 				this.fast_close_counter = 0;
-			}
+				console.log("apeRecordClose CALL reinitializeApe fast_close_counter: " + this.fast_close_counter );
+				if(location.host.match(/dev$/)){
+					// show a dialog
+					var dialog = $('<div>APE was reset because of runaway posting</div>').dialog( {title : 'APE warning', modal : true } )
+				}
+				// tell the server
+				$.post('/client_debug/ape_report', {browser: navigator.userAgent, restart: 'true'})
+				// recover
+				//setTimeout(reinitializeApe,1000);
+			}			
 		}
+		this.last_close_time = raw.time
 	},
 	resetWatchDogTimer: function(){
 		//console.log("clearTimeout(apeResetWatchDog)")
