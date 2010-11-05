@@ -77,8 +77,6 @@ class AdminController < ApplicationController
     else
       
     end
-    
-    
   end
   
   def create_admins

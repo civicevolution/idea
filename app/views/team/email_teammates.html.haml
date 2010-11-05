@@ -1,0 +1,205 @@
+%div
+	- form_tag( { :action => :email_teammates}, {:class=>'send_teammate_email std_form'} ) do
+		= hidden_field_tag :act, 'preview', {:class=>'act'}
+	
+		- case
+			- when !params[:team_id].nil?
+				- team = Team.find(params[:team_id])
+				= hidden_field_tag :team_id, team.id
+				= hidden_field_tag :send_now, false
+				= hidden_field_tag :recaptcha_challenge
+				= hidden_field_tag :recaptcha_response
+				
+				%p
+					Select the people to whom you would like to send your message
+				%table.recip_ids{:alias=>' '}
+					- recip_ids = []
+					- team.members.each do |m|
+						- recip_ids.push m.id
+						%tr
+							%td
+								= check_box_tag 'recip_ids[]', m.id, false
+							%td #{m.first_name} #{m.last_name}
+
+			- else
+				%p No recipients selected
+	
+		%div.compose
+			%h3 Compose email
+			-#%a{:href=>'http://redcloth.org/textile/writing-paragraph-text/', :target=>'_blank'} Formatting reference
+			%div.add_idea
+				%label Subject
+				= text_field_tag :subject, '', :class=>'subject', :alias=>'Subject'
+				%label 
+					Please enter your email message
+					-#%a{:href=>'#', :class=>'how'} How
+				-#%div.how
+				-#	%ul
+				-#		%li image with link !http://www.w3.org/Icons/valid-html401!:http://validator.w3.org/check?uri=referer
+				= text_area_tag :message, '', :class=>'message', :size=>"1x2", :alias=>'Message'
+
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							2500
+							characters left
+						%button.preview
+							Preview email to send
+						-#= submit_tag "Preview email to send", :name=>'invite_friends', :alias=>'Please', :class=>'preview'
+						= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}							 
+		
+		%div.preview
+			%h3 Preview email and click send now
+			-#%p= link_to 'Return to compose', {:action => 'index'}, {:class=>'show_compose'}
+			%div.email_preview
+			%div.control_line
+				%div.controls
+					= submit_tag "Send email", :alias=>'Please', :class=>'send'
+					= link_to 'Return to compose', {:action => 'index'}, {:class=>'show_compose'}	
+					= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}							 
+	
+:javascript
+	console.log("javascript for email_teammates")
+	activate_text_counters_grow( $('form.send_teammate_email textarea') )
+  
+	$('form.send_teammate_email :button.preview').die('click').live('click',
+		function(){
+			console.log("form button send")
+			try{
+				send_email($(this.form));
+			}catch(e){console.log("send_email v1 error: " + e)}
+			return false;
+		}
+	);
+	$('form.send_teammate_email input.send').die('click').live('click',
+		function(){
+			console.log("form button send - show captcha")
+			try{
+				show_recaptcha( $(this.form), false )
+			}catch(e){console.log("send_email v1 error: " + e)}
+			return false;
+		}
+	);
+	
+	$('form.send_teammate_email').die('submit').live('submit',
+		function(){
+			console.log("form send")
+			try{
+				send_email($(this));
+			}catch(e){console.log("send_email v2 error: " + e)}
+			return false;
+		}
+	);
+	$('form.send_teammate_email a.cancel').die('click').live('click',
+		function(){
+			try{
+				$('input.act').val('preview');
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			}catch(e){console.log("cancel preview v2 error: " + e)}
+			return false;
+		}
+	);
+   
+	$('form.send_teammate_email a.show_compose').die('click').live('click',
+		function(){
+			try{
+				$('div.compose').show();
+				$('div.email_preview').html('');
+				$('div.preview').hide();
+				$('input.act').val('preview');
+			}catch(e){console.log("cancel preview v2 error: " + e)}
+			return false;
+		}
+	);
+
+
+
+	function send_email(form){
+		var btn = $('button, input[type="submit"]',form);
+		btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+		console.log("send_email() has been called")
+		$(':input',form).removeClass('form_error_border');
+		$('.form_error_border',form).removeClass('form_error_border');
+		$('p.form_error_text',form).remove();
+     
+		form.ajaxSubmit({ 					
+		  type: "POST", 
+			url: 'http://' + document.location.host + '/team/email_teammates',
+		  success: function(data,status){ 
+				console.log("send_email submit success btn: " + btn.attr('class') );
+				btn.removeAttr('disabled').next('img').remove();
+				if( $('input.act').val() == 'preview' ){
+					console.log("act was preview, so show preview and button to send")
+					$('div.compose').hide();
+					$('div.email_preview').html(data);
+					$('div.preview').show();
+					$('input.act').val('send');
+					
+					form.find('input.send').click(
+						function(){
+							if( $('input[name="send_now"]', form).val() == 'true'){
+								console.log("send this email clicked by recaptcha - submit form")
+								form.submit();
+							}else{
+								console.log("send this email clicked - show recaptcha")
+								$('input[name="send_now"]', form).val('true')
+								show_recaptcha( form, false )
+							}
+							return false;
+						}
+					)
+					
+				}else if ( $('input.act').val() == 'send' ){
+					//temp.send_form = form
+					console.log("act was send, so it is done - close the form")
+					var dialog = $('<div>Your email was sent successfully, you will receive a copy soon.</div>').dialog( {title : 'Success', modal : true } )
+					$('input.act').val('preview');
+					$('div.compose').show();
+					$('div.email_preview').html('');
+					$('div.preview').hide();
+					form.closest('div.ui-dialog').dialog('destroy').remove()
+				}
+			
+			
+		  },
+			error : function(xhr,errorString,exceptionObj){
+				console.log("send_email detected an error")
+				try{
+					if(xhr.responseText.match(/Captcha failed/) ){
+						var recaptcha_dialog = show_recaptcha( form, true );
+						var recap_btn_p = $('button',recaptcha_dialog).parent();
+						$('<p>Please try again - <a href="#" class="reload_captcha">Show new text</a></p>').addClass('form_error_text').insertBefore(recap_btn_p);
+						$('p.warn',recaptcha_dialog).remove();
+						return false;
+					}
+				
+					console.log("call show_form_error for " + xhr.responseText )
+					show_form_error(form,xhr.responseText)
+					console.log("show form error completed")
+					btn.removeAttr('disabled').next('img').remove();
+				}catch(e){
+					console.log("register_submit submit error: " + e)
+					$('<div><p>Sorry, we cannot process your team member email at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+					btn.removeAttr('disabled').next('img').remove();
+				}
+			}
+		});			
+	  return false;
+	}
+	var RCC_PUB_KEY = "#{RCC_PUB}"
+	$.getScript('http://www.google.com/recaptcha/api/js/recaptcha_ajax.js');
+	$.getScript('/javascripts/ce/gen/recaptcha.js');
+	
+-#	%style
+-#		:sass
+-#			div.email_preview
+-#				border: 1px solid black
+-#				padding: 10px
+-#				word-wrap: break-word
+-#			div.preview
+-#				display: none
+-#			input.subject
+-#				width: 400px
+
+
+

@@ -8,9 +8,15 @@
     var recaptcha_dialog = $('<form class="recaptcha"><p>Please complete this test to verify you are an actual person and not a SPAM robot. Click <a href="#" class="reload_captcha">reload</a> to see a different text.</p><div id="invite_recaptcha">Text test</div><p><button>Send email</button></p></form>').
 		      dialog( {title : 'Help us protect you from SPAM', modal : true, width: 400,
 		        open: function(){ Recaptcha.create(RCC_PUB_KEY,"invite_recaptcha"); },
-		        close: function(){ Recaptcha.destroy(); recaptcha_dialog.dialog('destroy').remove() } } );
+		        close: function(){ 
+							Recaptcha.destroy(); 
+							recaptcha_dialog.dialog('destroy').remove();
+							$('button, input[type="submit"]', form).removeAttr('disabled').next('img').remove(); 
+						} 
+					} 
+				);
 
-		if(retry == true) $('button:last',recaptcha_dialog).before('<p class="warn">We\'re sorry, please try the new text above.</p>')
+		if(retry == true) $('button:last',recaptcha_dialog).parent().before('<p class="warn">We\'re sorry, please try the new text above.</p>')
 
     $('form.recaptcha :button').unbind('click').click(
   		function(){
@@ -28,6 +34,7 @@
   			return false;
   		}
   	);
+		return recaptcha_dialog
   }
 
 

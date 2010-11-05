@@ -7,6 +7,9 @@
 			%span.member& #{m.first_name} #{m.last_name}
 %p.clear
 
+%p
+	=link_to "Send a message to your teammates", {}, {:class=>'send_team_message'}
+	
 %h3.team_roles Team roles
 %p 
 	These are some of the roles and activities that members should perform to ensure the success of their team effort. 

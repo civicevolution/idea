@@ -221,7 +221,20 @@ function activate_ux_functions_misc(){
 			return false;
 		}
 	)
-
+	
+	$('a.send_team_message').die('click').live('click',
+		function(){
+			$.get('/team/email_teammates?team_id=' + team_id,
+				function(data){
+					temp.data = data
+				  var pcs = data.split(/<script/)
+					$(pcs[0]).dialog( {title : 'Send a message to your teammates', modal : true, width: 500 } )
+					$('head').append('<script' + pcs[1])
+				})
+			return false;
+		}
+	);
+	
 
 } // end activate_ux_functions_misc 
 

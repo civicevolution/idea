@@ -875,6 +875,7 @@ function show_form_error(form, response) {
 			//console.log("attach error for fields: " + error[0])
 			var inp = $(":input[name='" + error[0] + "']:visible:first",form);
 			if(inp.size() == 0) inp = $(":input[name*='[" + error[0] + "']:visible:first",form);
+			if(inp.size() == 0) inp = $("." + error[0] + ":visible:first",form);
 			inp.addClass('form_error_border')
 			inp.before('<p class="form_error_text">' + ( inp.attr('alias') || error[0] ) + ' ' + error[1] + '</p>')
 		}

@@ -1,0 +1,6 @@
+<%=@plain_text_message%>
+
+------------------------------------
+This message was sent to you by <%= @sender.first_name%> <%= @sender.last_name%> because you are a member of the 2029 and beyond team <%= @team.title%>
+
+You can visit your team by clicking this link: http://<%=@host%>/team/<%=@team.id%>?_mlc=<%=@mcode%> and you will be signed in automatically

@@ -90,11 +90,14 @@ class Team < ActiveRecord::Base
   end
     
   def stats
-    Team.find_by_sql([ %q|SELECT (SELECT COUNT(*) FROM team_registrations WHERE team_id = ?) AS members,
-      (SELECT COUNT(*) FROM comments WHERE team_id = ?) AS comments,
-      (SELECT COUNT(*) FROM bs_ideas WHERE team_id = ?) AS bs_ideas,
-      (SELECT COUNT(*) FROM answers WHERE team_id = ?) AS answers|, self.id, self.id, self.id, self.id ]
-    )[0]
+    if @stats.nil?
+      @stats = Team.find_by_sql([ %q|SELECT (SELECT COUNT(*) FROM team_registrations WHERE team_id = ?) AS members,
+        (SELECT COUNT(*) FROM comments WHERE team_id = ?) AS comments,
+        (SELECT COUNT(*) FROM bs_ideas WHERE team_id = ?) AS bs_ideas,
+        (SELECT COUNT(*) FROM answers WHERE team_id = ?) AS answers|, self.id, self.id, self.id, self.id ]
+      )[0]
+    end
+    @stats
     
   end  
     
