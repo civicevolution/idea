@@ -7,7 +7,11 @@
 		
     var recaptcha_dialog = $('<form class="recaptcha"><p>Please complete this test to verify you are an actual person and not a SPAM robot. Click <a href="#" class="reload_captcha">reload</a> to see a different text.</p><div id="invite_recaptcha">Text test</div><p><button>Send email</button></p></form>').
 		      dialog( {title : 'Help us protect you from SPAM', modal : true, width: 400,
-		        open: function(){ Recaptcha.create(RCC_PUB_KEY,"invite_recaptcha"); },
+		        open: function(){ 
+							Recaptcha.create(RCC_PUB_KEY,"invite_recaptcha",
+								{ callback: Recaptcha.focus_response_field }
+							); 
+						},
 		        close: function(){ 
 							Recaptcha.destroy(); 
 							recaptcha_dialog.dialog('destroy').remove();

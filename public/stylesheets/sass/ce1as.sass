@@ -1199,10 +1199,20 @@ ul.tight
 div.email_preview
 	border: 1px solid black
 	padding: 10px
-	word-wrap: break-word
+	//word-wrap: break-word
+	
+.wordwrap
+	white-space: pre-wrap /* css-3 */
+	white-space: -moz-pre-wrap  /* Mozilla, since 1999 */
+	white-space: -pre-wrap /* Opera 4-6 */
+	white-space: -o-pre-wrap /* Opera 7 */
+	word-wrap: break-word /* Internet Explorer 5.5+ */ 
+
+	
 div.preview
 	display: none
 form.send_teammate_email	
+	margin-right: 0
 	input.subject
 		width: 400px
 	

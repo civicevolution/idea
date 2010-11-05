@@ -1049,11 +1049,19 @@ ul.tight {
 
 div.email_preview {
   border: 1px solid black;
-  padding: 10px;
+  padding: 10px; }
+
+.wordwrap {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
   word-wrap: break-word; }
 
 div.preview {
   display: none; }
 
-form.send_teammate_email input.subject {
-  width: 400px; }
+form.send_teammate_email {
+  margin-right: 0; }
+  form.send_teammate_email input.subject {
+    width: 400px; }

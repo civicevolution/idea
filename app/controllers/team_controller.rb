@@ -1864,8 +1864,8 @@ class TeamController < ApplicationController
       respond_to do |format|
         #format.html { render :text => message, :layout => false } if request.xhr?
         #format.html { render :text => html, :layout => false } if request.xhr?
-        email_str = TeamMailer.create_teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team ).encoded.sub(/Mime-Version.*\n/i, '').sub(/Content-Type.*\n/i, '')
-        format.html { render :text => "<pre>#{email_str}</pre>", :layout => false } if request.xhr?
+        email_str = TeamMailer.create_teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team ).encoded.sub(/Mime-Version.*\n/i, '').sub(/Content-Type.*\n/i, '').gsub(/</,'&lt;').gsub(/>/,'&gt;')
+        format.html { render :text => "<pre class='wordwrap'>#{email_str}</pre>", :layout => false } if request.xhr?
         #format.html { render :text => "Please set up admin:email for non ajax" } 
       end
       
