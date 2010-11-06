@@ -23,6 +23,12 @@ var apeResetWatchDog = setTimeout(reinitializeApe,90000);
 
 function reinitializeApe(){
 	console.log("reinitializeApe - resetting APE comm now")
+	
+	if(!temp.ape_reinitialize_notified){
+		$.post('/client_debug/ape_report', {browser: navigator.userAgent, failure: 'watchdog reinit'})
+		temp.ape_reinitialize_notified = true
+	}
+	
 	delete member.client
 	$('iframe.ape').remove()
 	chat_container_name = 'page_chat_boxes';

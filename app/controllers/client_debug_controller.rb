@@ -3,9 +3,9 @@ class ClientDebugController < ApplicationController
   end
 
   def ape_report
-    if params[:restart] == 'true'
+    if params[:failure]
       @host = request.env["HTTP_HOST"]
-      ClientDebugMailer.deliver_ape_restart(@member, params[:browser], @host )
+      ClientDebugMailer.deliver_ape_failure(@member, params[:failure], params[:browser], @host )
       render :text=>'ok'
       
     end
