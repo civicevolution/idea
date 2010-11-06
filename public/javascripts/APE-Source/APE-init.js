@@ -186,7 +186,7 @@ APE.Client = Class.extend({
 
 		//var tmp	= JSON.decode(Cookie.read('APE_Cookie'), {'domain': document.domain});
 		var tmp = $.cookies.get('APE_Cookie', {'domain': document.domain}); 
-		if(tmp && tmp != 'null') {
+		if(tmp && tmp != 'null' && tmp != 'undefined') {	
 			if( typeof tmp == 'string') tmp = $.evalJSON( tmp )
 			try{
 				config.frequency = Number(tmp.frequency) + 1;

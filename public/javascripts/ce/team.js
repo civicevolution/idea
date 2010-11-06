@@ -179,7 +179,7 @@ function set_page_tabs_height(page){
 				page_id: curPageId,
 				ape_code: member.ape_code
 			});
-			if(!no_announce) member.client.pipe.send(curPageId + '-' + member.ape_code);
+			if(!no_announce && member.client ) member.client.pipe.send(curPageId + '-' + member.ape_code);
 		}catch(e){
 			//console.log("announce_page_presence error: " + e.message)
 			setTimeout(announce_page_presence,5000);

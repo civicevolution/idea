@@ -32,6 +32,7 @@ function reinitializeApe(){
 		'channel':'team' + team_id
 	});		
 	console.log("reinitializeApe - APE comm has been reset")
+	setTimeout(announce_page_presence,15000);
 }
 
 

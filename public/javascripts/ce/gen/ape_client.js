@@ -133,7 +133,9 @@ APE.Shoutbox = APE.Client.extend({
 		}catch(e){console.log("rawData.error e: " + e)}
 	},
 	apeRecordClose: function(raw,pipe){
-	  console.log("apeRecordClose: ape close was received, time: " + raw.time + ', this.last_close_time: ' + this.last_close_time + ', this.fast_close_counter: ' + this.fast_close_counter);
+		//if(location.host.match(/dev$/)){
+	  //	console.log("apeRecordClose: ape close was received, time: " + raw.time + ', this.last_close_time: ' + this.last_close_time + ', this.fast_close_counter: ' + this.fast_close_counter);
+		//}
 		if(raw.time - this.last_close_time > 5 ){
 			this.fast_close_counter = 0;
 		}else{
@@ -145,10 +147,12 @@ APE.Shoutbox = APE.Client.extend({
 					// show a dialog
 					var dialog = $('<div>APE was reset because of runaway posting</div>').dialog( {title : 'APE warning', modal : true } )
 				}
-				// tell the server
-				$.post('/client_debug/ape_report', {browser: navigator.userAgent, restart: 'true'})
-				// recover
-				//setTimeout(reinitializeApe,1000);
+				// tell the server, one time
+				if(!temp.ape_runaway_notified){
+					$.post('/client_debug/ape_report', {browser: navigator.userAgent, restart: 'true'})
+					temp.ape_runaway_notified = true
+				}
+				this.reconnect();
 			}			
 		}
 		this.last_close_time = raw.time
