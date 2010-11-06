@@ -732,7 +732,9 @@ function activateChatWindows(chat_container){
 	ape_watchdog = null;
 	// update the init message
 	// enable inputs
-	$('td.init_chat',chat_container).each( function(){this.innerHTML = 'Chat is now active'; this.style.color = '#ccc';});
+	$('td.init_chat',chat_container).each( function(){this.innerHTML = '<p class="inst">Chat is now active</p>' + 
+		'<p class="inst">Chat is for short conversations when teammates are online at the same time</p>' +
+		'<p class="inst">Important comments should be added to the team discussion to the right</p>'; this.style.color = '#ccc';});
 	$('input',chat_container).each( function(){this.removeAttribute('disabled')});
 
 	$(':button',chat_container).unbind('click').click( function(){
