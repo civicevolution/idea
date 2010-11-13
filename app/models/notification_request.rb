@@ -133,10 +133,9 @@ class NotificationRequest < ActiveRecord::Base
         
           logger.info "I found a match for member #{request.member_id} 2: #{immed_send_mem_id}"
           if request.immediate
-            #if request.member_id == log_record.member_id 
-            #  logger.debug "Don't report immediately, it is my comment"
-            #elsif immed_send_mem_id == request.member_id
-            if immed_send_mem_id == request.member_id
+            if request.member_id == log_record.member_id 
+              logger.debug "Don't report immediately, it is my comment"
+            elsif immed_send_mem_id == request.member_id
               logger.debug "Don't report immediately, it's has already been reported immediately as a reply"
             else
               logger.debug "Send this report immediately to #{request.member_id} as report_type: #{request.report_type}"
