@@ -1,0 +1,72 @@
+%div.notification_settings
+	%h2 Notification settings
+	
+	- if @notification_setting.nil?
+		%p You do not belong to any teams at this time
+		%p
+			Please return to the 
+			= link_to "home page", :controller=> 'welcome', :action=>'index'
+	- else	
+		%p We will send you email notices when it is important that you engage with your team. These emails will include clear call to action and a link that will take you right to the action.
+
+		%p
+			%b You can also select to receive updates more regularly. These settings can be set for each team you join.
+		
+		- form_for :notification_setting, @notification_setting, :url => { :action => "update_notification_settings" } do |form|
+			= form.hidden_field :team_id, :value=>0
+
+			%p
+				%b Team
+				= form.select( :team_id, @teams,{},{:style=>'max-width: 500px'})
+
+
+
+			-#- form_tag({:action=>'update_notification_settings'}) do
+			%ul.notification_settings
+				%li
+					%h2
+						When someone replies to my comment, idea, or answer
+					%p
+						Email me  
+						= form.select( :reply_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
+						with a 
+						= form.select( :reply_format, [['Full details', 'full'], ['Summary', 'sum']])
+
+				-#%li
+				-#	%h2
+				-#		When someone edits my answer
+				-#	%p
+				-#		Email me  
+				-#		= form.select( :edit_answer_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
+				-#		with a 
+				-#		= form.select( :edit_answer_format, [['Summary', 'sum'], ['Full details', 'full']])
+
+				-#%li
+				-#	%h2
+				-#		When new ideas are added
+				-#	%p
+				-#		Email me  
+				-#		= form.select( :ideas_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
+				-#		with a 
+				-#		= form.select( :ideas_format, [['Summary', 'sum'], ['Full details', 'full']])
+
+				-#%li
+				-#	%h2
+				-#		When the team answers change
+				-#	%p
+				-#		Email me  
+				-#		= form.select( :answers_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
+				-#		with a 
+				-#		= form.select( :answers_format, [['Summary', 'sum'], ['Full details', 'full']])
+
+				%li
+					%h2
+						When any comments, ideas, and answers are added
+					%p
+						Email me  
+						= form.select( :all_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
+						with a 
+						= form.select( :all_format, [['Summary', 'sum'], ['Full details', 'full']])
+
+			%button
+				Save notification settings for this team

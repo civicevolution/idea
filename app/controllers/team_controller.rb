@@ -800,6 +800,7 @@ class TeamController < ApplicationController
       # store initial values so the revision history will work
       @answer.store_initial_values  
       @answer.attributes = params[:answer]
+      @answer.member_id = session[:member_id]
    
       logger.debug "try to save the answer"
       @saved = @answer.save  # in place of saved for testing

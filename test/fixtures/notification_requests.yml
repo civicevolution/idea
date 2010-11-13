@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  team_id: 1
+  member_id: 1
+  report_type: 1
+  report_format: MyString
+  immediate: false
+  dow_to_run: 1
+  hour_to_run: 1
+  match_queue: MyText
+
+two:
+  team_id: 1
+  member_id: 1
+  report_type: 1
+  report_format: MyString
+  immediate: false
+  dow_to_run: 1
+  hour_to_run: 1
+  match_queue: MyText

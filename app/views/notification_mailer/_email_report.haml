@@ -1,0 +1,33 @@
+
+- debugger
+- if @report.report_type == 1
+	%h3 These are replies to your comments, ideas, and answers
+- else
+	%h3 These are posts by your team
+
+- if @report.report_format == 1
+	- @report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
+		- #debugger
+		- case type.to_i
+			- when 2
+				- entry = @answers.detect{|a| a.id == id.to_i}
+				%p.entry_title An answer was added or edited
+				%p.ans #{entry.text}
+    
+			- when 3
+				- entry = @comments.detect{|c| c.id == id.to_i}
+				%p.entry_title A comment was added by #{entry.first_name} #{entry.last_name}
+				%p.com #{entry.text}
+    
+			- when 11
+				- entry = @bs_ideas.detect{|b| b.id == id.to_i}
+				%p.entry_title A brainstorming idea was added
+				%p.idea #{entry.text}
+
+- else # show stats
+	%h3 Activity since your last visit
+	%p # Comments
+	%p # Ideas
+	%p # Answers
+
+-#%p= render :partial=>'email_report'

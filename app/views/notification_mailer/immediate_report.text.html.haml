@@ -1,0 +1,39 @@
+%h3 #{@team.title}
+
+%p Immediate activity report for #{@recip.first_name} #{@recip.last_name}
+
+- case
+	- when @entry.class.to_s == "Answer" && @report[:report_format] == 1
+		%p.entry_title An answer was added or edited
+		%p.ans #{@entry.text}
+
+	- when @entry.class.to_s == "Comment" && @report[:report_format] == 1
+		%p.entry_title A comment was added by #{@entry.first_name} #{@entry.last_name}
+		%p.com #{@entry.text}
+
+	- when @entry.class.to_s == "BsIdea" && @report[:report_format] == 1
+		%p.entry_title A brainstorming idea was added
+		%p.idea #{@entry.text}
+	
+	- when @entry.class.to_s == "Answer"
+		An answer was added or edited
+
+	- when @entry.class.to_s == "Comment"
+		A comment was added
+
+	- when @entry.class.to_s == "BsIdea"
+		A brainstorming idea was added
+
+
+%style
+	:sass
+		p.entry_title
+			font-style: italic
+			margin-bottom: -10px
+		.ans
+			font-size: 1.2em
+			color: blue
+		.com
+			color: black
+		.idea
+			color: orange

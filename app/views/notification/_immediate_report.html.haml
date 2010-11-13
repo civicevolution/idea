@@ -1,0 +1,49 @@
+%h3 #{ recip.first_name }, here is your notification of activity
+-#- results.each do |result|
+-#	- if team_id.nil? || result[:rule][:team_id] != team_id
+-#		- team_id = result[:rule][:team_id]
+-#		
+-#		%h3 Activity from "#{ @teams.detect{|t| t.id == team_id}.title}"	
+-#
+-#	-#%p Report: #{result[:rule][:report_name]}
+-#	- case
+-#		- when result[:rule][:report_type] == 'sum'
+-#			%b #{result[:rule][:report_name]} (#{result[:log_entries].size})
+-#			%p There are #{result[:log_entries].size} #{result[:rule][:report_name]}
+-#		- when result[:rule][:report_type] == 'full'
+-#			%p 
+-#				%b #{result[:rule][:report_name]} (#{result[:log_entries].size})
+-#			- result[:log_entries].each do |e|
+-#				%p
+-#					-#= e[:o_type]
+-#					-#= e[:o_id]
+-#					- case
+-#						- when e[:o_type] == 2
+-#							%p.entry_title Answer:
+-#							- ans = @answers.detect{|a| a.id == e[:o_id]}
+-#							-#{ans.id}: 
+-#							%p.ans #{ans.text}
+-#						- when e[:o_type] == 3
+-#							- com = @comments.detect{|c| c.id == e[:o_id]}
+-#							%p.entry_title Comment by #{com[:first_name]} #{com[:last_name]} 
+-#							-# #{com.id}: 
+-#							%p.com #{com.text}
+-#							
+-#						- when e[:o_type] == 11
+-#							%p.entry_title Brainstorming idea
+-#							- bsi = @bs_ideas.detect{|bsi| bsi.id == e[:o_id]}
+-#							-#{bsi.id}: 
+-#							%p.idea #{bsi.text}
+							
+%style
+	:sass
+		p.entry_title
+			font-style: italic
+			margin-bottom: -10px
+		.ans
+			font-size: 1.2em
+			color: blue
+		.com
+			color: black
+		.idea
+			color: orange

@@ -18,6 +18,17 @@ class Answer < ActiveRecord::Base
   attr_accessor :insert_mode
   attr_accessor :itemDestroyed
   attr_accessor :item_id  
+  attr_accessor :par_member_id
+  
+  @record_saved = false
+  
+  def after_save
+    if !@record_saved
+      # log this item into the team_content_logs
+      TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :par_member_id=>self.par_member_id, :processed=>false).save 
+      @record_saved = true
+    end
+  end  
 
 
   def check_length
@@ -72,6 +83,7 @@ class Answer < ActiveRecord::Base
     self.previousText = self.text || ''
     self.previousVer = self.ver || 0
     self.previousUpdated_at = self.updated_at || nil
+    self.par_member_id = self.member_id
   end
 
   attr_accessor :previousText

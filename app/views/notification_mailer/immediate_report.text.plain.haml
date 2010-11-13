@@ -1,0 +1,28 @@
+#{ @recip.first_name }, here is your notification of activity
+~''
+Team: "#{ @team.title}"	
+~''
+- case
+	- when @report[:o_type] == 2 && @report[:report_type] == 'full'
+		An answer was added or edited
+		~''
+		#{@entry.text}
+
+	- when @report[:o_type] == 3 && @report[:report_type] == 'full'
+		A comment was added
+		~''
+		#{@entry.text}
+
+	- when @report[:o_type] == 11 && @report[:report_type] == 'full'
+		A brainstorming idea was added
+		~''
+		#{@entry.text}
+	
+	- when @report[:o_type] == 2
+		An answer was added or edited
+
+	- when @report[:o_type] == 3
+		A comment was added
+
+	- when @report[:o_type] == 11
+		A brainstorming idea was added

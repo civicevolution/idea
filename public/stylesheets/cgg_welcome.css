@@ -360,3 +360,12 @@ div#loading_please_wait {
   top: 0px;
   left: 200px;
   z-index: 1000; }
+
+ul.notification_settings li {
+  list-style: none;
+  margin-top: 20px; }
+ul.notification_settings p {
+  margin: -10px 0 0 0; }
+
+div.notification_settings button {
+  margin: 10px 0 40px 20px; }

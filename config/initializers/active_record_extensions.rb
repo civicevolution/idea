@@ -26,6 +26,20 @@ class ActiveRecord::Base
     else
       parItem = Item.find(self.par_id)
       ancestors = parItem.ancestors.delete('{}').split(',') + [self.par_id]
+      if self.o_type == 3 # this is a comment, record the parent item's member id
+        #logger.debug "Set par_member_id from parItem: #{parItem.inspect}"
+        case
+          when item.target_type == 2 # answer
+            self.par_member_id = ActiveRecord::Base.connection.select_value( "SELECT member_id FROM answers WHERE id = #{item.target_id}")
+          when item.target_type == 11 # bs_idea
+            self.par_member_id = ActiveRecord::Base.connection.select_value( "SELECT member_id FROM bs_ideas WHERE id = #{item.target_id}")
+
+          when parItem.o_type == 1 # question
+            self.par_member_id = 0
+          when parItem.o_type == 3 # comment
+            self.par_member_id = ActiveRecord::Base.connection.select_value( "SELECT member_id FROM comments WHERE id = #{parItem.o_id}")
+        end
+      end
     end
     item.ancestors = "{#{ancestors.join(',')}}"
 

@@ -1,0 +1,734 @@
+Wed Nov 10 16:07:13 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "./lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<MissingSourceFile: no such file to load -- differ>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<MissingSourceFile: no such file to load -- recaptcha>
+#<MissingSourceFile: no such file to load -- export_helper>
+#<NameError: uninitialized constant ApplicationController>
+#<MissingSourceFile: no such file to load -- RedCloth>
+#<MissingSourceFile: Missing helper file helpers/team_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- team_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/proposal_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- proposal_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/member_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- member_mailer_helper>
+#<NameError: uninitialized constant UUID>
+#<MissingSourceFile: no such file to load -- uuidtools>
+#<NameError: uninitialized constant Tableless>
+#<MissingSourceFile: no such file to load -- diff/lcs>
+#<MissingSourceFile: no such file to load -- differ>
+Wed Nov 10 16:09:28 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "./lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<MissingSourceFile: no such file to load -- differ>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<MissingSourceFile: no such file to load -- recaptcha>
+#<MissingSourceFile: no such file to load -- export_helper>
+#<NameError: uninitialized constant ApplicationController>
+#<MissingSourceFile: no such file to load -- RedCloth>
+#<MissingSourceFile: Missing helper file helpers/team_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- team_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/proposal_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- proposal_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/member_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- member_mailer_helper>
+#<NameError: uninitialized constant UUID>
+#<MissingSourceFile: no such file to load -- uuidtools>
+#<NameError: uninitialized constant Tableless>
+#<MissingSourceFile: no such file to load -- diff/lcs>
+#<MissingSourceFile: no such file to load -- differ>
+Wed Nov 10 16:14:41 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "./lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<MissingSourceFile: no such file to load -- differ>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<MissingSourceFile: no such file to load -- recaptcha>
+#<MissingSourceFile: no such file to load -- export_helper>
+#<NameError: uninitialized constant ApplicationController>
+#<MissingSourceFile: no such file to load -- RedCloth>
+#<MissingSourceFile: Missing helper file helpers/team_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- team_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/proposal_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- proposal_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/member_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- member_mailer_helper>
+#<NameError: uninitialized constant UUID>
+#<MissingSourceFile: no such file to load -- uuidtools>
+#<NameError: uninitialized constant Tableless>
+#<MissingSourceFile: no such file to load -- diff/lcs>
+#<MissingSourceFile: no such file to load -- differ>
+Wed Nov 10 16:19:22 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:159:in `start_all'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:158:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:158:in `start_all'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:157:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:157:in `start_all'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:80:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "./lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<MissingSourceFile: no such file to load -- form_mailer_helper>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::ENOENT: No such file or directory - /ce_development/Rails/app_2029/log/notification.rb_monitor.pid>
+#<TypeError: wrong argument type nil (expected Fixnum)>
+#<MissingSourceFile: no such file to load -- recaptcha>
+#<MissingSourceFile: no such file to load -- export_helper>
+#<NameError: uninitialized constant ApplicationController>
+#<MissingSourceFile: Missing helper file helpers/error_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- error_mailer_helper>
+#<MissingSourceFile: no such file to load -- RedCloth>
+#<MissingSourceFile: Missing helper file helpers/team_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- team_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/proposal_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- proposal_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/member_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- member_mailer_helper>
+#<NameError: uninitialized constant UUID>
+#<MissingSourceFile: no such file to load -- uuidtools>
+#<MissingSourceFile: no such file to load -- diff/lcs>
+#<MissingSourceFile: no such file to load -- differ>
+#<NameError: uninitialized constant Tableless>
+#<MissingSourceFile: Missing helper file helpers/help_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- help_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/form_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- form_mailer_helper>
+Wed Nov 10 16:22:26 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:42:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:42:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+Wed Nov 10 16:23:08 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:42:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:42:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant Tableless>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<MissingSourceFile: no such file to load -- recaptcha>
+#<MissingSourceFile: no such file to load -- export_helper>
+#<NameError: uninitialized constant ApplicationController>
+#<MissingSourceFile: no such file to load -- RedCloth>
+#<MissingSourceFile: Missing helper file helpers/team_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- team_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/proposal_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- proposal_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper>
+#<MissingSourceFile: Missing helper file helpers/member_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- member_mailer_helper>
+#<NameError: uninitialized constant UUID>
+#<MissingSourceFile: no such file to load -- uuidtools>
+#<MissingSourceFile: no such file to load -- diff/lcs>
+#<MissingSourceFile: no such file to load -- differ>
+#<NameError: uninitialized constant Tableless>
+Wed Nov 10 16:51:11 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<MissingSourceFile: no such file to load -- fast_xs>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<SyntaxError: /ce_development/Rails/app_2029/lib/daemons/notification.rb:26: syntax error, unexpected tCONSTANT, expecting ')'
+...Record::Base.logger.info "Send an email to #{recipient.email...
+                              ^>
+#<SyntaxError: /ce_development/Rails/app_2029/lib/daemons/notification.rb:26: syntax error, unexpected tCONSTANT, expecting ')'
+...Record::Base.logger.info "Send an email to #{recipient.email...
+                              ^>
+#<SyntaxError: /ce_development/Rails/app_2029/lib/daemons/notification.rb:26: syntax error, unexpected tCONSTANT, expecting ')'
+...Record::Base.logger.info "Send an email to #{recipient.email...
+                              ^>
+#<MissingSourceFile: no such file to load -- json/ext/parser>
+#<MissingSourceFile: no such file to load -- json>
+#<MissingSourceFile: no such file to load -- fast_xs>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<MissingSourceFile: no such file to load -- fast_xs>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<SyntaxError: /ce_development/Rails/app_2029/lib/daemons/notification.rb:26: syntax error, unexpected tCONSTANT, expecting ')'
+...Record::Base.logger.info "Send an email to #{recipient.email...
+                              ^>
+#<SyntaxError: /ce_development/Rails/app_2029/lib/daemons/notification.rb:26: syntax error, unexpected tCONSTANT, expecting ')'
+...Record::Base.logger.info "Send an email to #{recipient.email...
+                              ^>
+#<SyntaxError: /ce_development/Rails/app_2029/lib/daemons/notification.rb:26: syntax error, unexpected tCONSTANT, expecting ')'
+...Record::Base.logger.info "Send an email to #{recipient.email...
+                              ^>
+#<Errno::ENOENT: No such file or directory - /ce_development/Rails/app_2029/log/notification.rb.pid>
+#<MissingSourceFile: no such file to load -- json/ext/parser>
+#<MissingSourceFile: no such file to load -- json>
+#<MissingSourceFile: no such file to load -- fast_xs>
+Wed Nov 10 16:55:05 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:53:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:53:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 08:42:27 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant TeamContentLog>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<SystemExit: exit>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper.rb>
+#<NameError: uninitialized constant NotificationMailer>
+#<NameError: uninitialized constant Comment>
+#<NameError: uninitialized constant Team>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+#<NameError: uninitialized constant TeamContentLog>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<SystemExit: exit>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<SystemExit: exit>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant TeamContentLog>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<SystemExit: exit>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper.rb>
+#<NameError: uninitialized constant NotificationMailer>
+#<NameError: uninitialized constant Comment>
+#<NameError: uninitialized constant Team>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+#<NameError: uninitialized constant TeamContentLog>
+Thu Nov 11 08:43:55 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant TeamContentLog>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<SystemExit: exit>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper.rb>
+#<NameError: uninitialized constant NotificationMailer>
+#<NameError: uninitialized constant Comment>
+#<NameError: uninitialized constant Team>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+#<NameError: uninitialized constant TeamContentLog>
+Thu Nov 11 08:44:21 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:42:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:42:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 08:47:21 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+Thu Nov 11 08:48:41 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant TeamContentLog>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant TeamContentLog>
+Thu Nov 11 08:52:49 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant TeamContentLog>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant TeamContentLog>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: undefined local variable or method `check_team_content_log' for main:Object>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: undefined local variable or method `check_team_content_log' for main:Object>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: undefined local variable or method `check_team_content_log' for main:Object>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: undefined local variable or method `check_team_content_log' for main:Object>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: undefined local variable or method `check_team_content_log' for main:Object>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: undefined local variable or method `check_team_content_log' for main:Object>
+Thu Nov 11 08:55:25 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:53:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:53:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 09:29:53 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 09:59:31 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 10:15:45 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 10:33:07 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 10:40:28 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 10:41:35 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 10:51:21 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+Thu Nov 11 10:58:15 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant CeDaemons::TeamContentLog>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant CeDaemons::TeamContentLog>
+Thu Nov 11 11:01:32 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant CeDaemons::TeamContentLog>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+#<NameError: uninitialized constant CeDaemons::ImmediateNotificationRequest>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant CeDaemons::TeamContentLog>
+Thu Nov 11 11:03:47 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+Thu Nov 11 11:09:24 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 11:14:04 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant CeDaemons::TeamContentLog>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant Comment>
+#<NameError: uninitialized constant CeDaemons::Comment>
+#<NameError: uninitialized constant Team>
+#<NameError: uninitialized constant CeDaemons::Team>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant CeDaemons::Member>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+#<NameError: uninitialized constant CeDaemons::ImmediateNotificationRequest>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant CeDaemons::TeamContentLog>
+Thu Nov 11 11:25:33 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+Thu Nov 11 11:31:53 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+Thu Nov 11 11:52:00 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 11:55:44 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+Thu Nov 11 12:01:09 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 12:05:32 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant Comment>
+#<NameError: uninitialized constant ImmediateNotificationRequest::Comment>
+#<NameError: uninitialized constant Team>
+#<NameError: uninitialized constant ImmediateNotificationRequest::Team>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant ImmediateNotificationRequest::Member>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+Thu Nov 11 12:07:21 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:42:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:42:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+Thu Nov 11 12:10:40 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+Thu Nov 11 12:31:51 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant Comment>
+#<NameError: uninitialized constant ImmediateNotificationRequest::Comment>
+#<NameError: uninitialized constant Team>
+#<NameError: uninitialized constant ImmediateNotificationRequest::Team>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant ImmediateNotificationRequest::Member>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+Thu Nov 11 12:38:15 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+Thu Nov 11 12:49:03 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+Thu Nov 11 13:19:48 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:46:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NoMethodError: undefined method `title' for nil:NilClass>
+#<ActionView::TemplateError: 
+ActionView::TemplateError (undefined method `title' for nil:NilClass) on line #2 of app/views/notification_mailer/immediate_report.text.html.haml:
+1: %h3 #{ @recip.first_name }, here is your notification of activity
+2: %h3 Team: "#{ @team.title}"	
+3: 
+4: - case
+5: 	- when @report[:o_type] == 2 && @report[:report_type] == 'full'
+
+    app/views/notification_mailer/immediate_report.text.html.haml:2:in `_run_haml_app47views47notification_mailer47immediate_report46text46html46haml'
+    haml (3.0.21) lib/haml/helpers/action_view_mods.rb:13:in `render'
+    lib/daemons/notification.rb:32
+    lib/daemons/notification.rb:44:in `call'
+    lib/daemons/notification.rb:44:in `sleep'
+    lib/daemons/notification.rb:44
+    daemons (1.1.0) lib/daemons/application.rb:203:in `start_load'
+    daemons (1.1.0) lib/daemons/application.rb:296:in `start'
+    daemons (1.1.0) lib/daemons/controller.rb:70:in `run'
+    daemons (1.1.0) lib/daemons.rb:143:in `run'
+    daemons (1.1.0) lib/daemons/cmdline.rb:112:in `call'
+    daemons (1.1.0) lib/daemons/cmdline.rb:112:in `catch_exceptions'
+    daemons (1.1.0) lib/daemons.rb:142:in `run'
+    lib/daemons/notification_ctl:25
+
+>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper.rb>
+#<NameError: uninitialized constant NotificationMailer>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NoMethodError: undefined method `title' for nil:NilClass>
+#<ActionView::TemplateError: 
+ActionView::TemplateError (undefined method `title' for nil:NilClass) on line #2 of app/views/notification_mailer/immediate_report.text.html.haml:
+1: %h3 #{ @recip.first_name }, here is your notification of activity
+2: %h3 Team: "#{ @team.title}"	
+3: 
+4: - case
+5: 	- when @report[:o_type] == 2 && @report[:report_type] == 'full'
+
+    app/views/notification_mailer/immediate_report.text.html.haml:2:in `_run_haml_app47views47notification_mailer47immediate_report46text46html46haml'
+    haml (3.0.21) lib/haml/helpers/action_view_mods.rb:13:in `render'
+    lib/daemons/notification.rb:32
+    lib/daemons/notification.rb:44:in `call'
+    lib/daemons/notification.rb:44:in `sleep'
+    lib/daemons/notification.rb:44
+    daemons (1.1.0) lib/daemons/application.rb:203:in `start_load'
+    daemons (1.1.0) lib/daemons/application.rb:296:in `start'
+    daemons (1.1.0) lib/daemons/monitor.rb:51:in `watch'
+    daemons (1.1.0) lib/daemons/monitor.rb:51:in `fork'
+    daemons (1.1.0) lib/daemons/monitor.rb:51:in `watch'
+    daemons (1.1.0) lib/daemons/monitor.rb:45:in `each'
+    daemons (1.1.0) lib/daemons/monitor.rb:45:in `watch'
+    daemons (1.1.0) lib/daemons/monitor.rb:44:in `loop'
+    daemons (1.1.0) lib/daemons/monitor.rb:44:in `watch'
+    daemons (1.1.0) lib/daemons/monitor.rb:84:in `start_with_pidfile'
+    daemons (1.1.0) lib/daemons/monitor.rb:64:in `fork'
+    daemons (1.1.0) lib/daemons/monitor.rb:64:in `start_with_pidfile'
+    daemons (1.1.0) lib/daemons/monitor.rb:111:in `start'
+    daemons (1.1.0) lib/daemons/application_group.rb:149:in `create_monitor'
+    daemons (1.1.0) lib/daemons/application.rb:283:in `start'
+    daemons (1.1.0) lib/daemons/controller.rb:70:in `run'
+    daemons (1.1.0) lib/daemons.rb:143:in `run'
+    daemons (1.1.0) lib/daemons/cmdline.rb:112:in `call'
+    daemons (1.1.0) lib/daemons/cmdline.rb:112:in `catch_exceptions'
+    daemons (1.1.0) lib/daemons.rb:142:in `run'
+    lib/daemons/notification_ctl:25
+
+>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper.rb>
+#<NameError: uninitialized constant NotificationMailer>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+Thu Nov 11 13:27:05 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:53:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:53:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `each'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:45:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NoMethodError: undefined method `title' for nil:NilClass>
+#<ActionView::TemplateError: 
+ActionView::TemplateError (undefined method `title' for nil:NilClass) on line #2 of app/views/notification_mailer/immediate_report.text.html.haml:
+1: %h3 #{ @recip.first_name }, here is your notification of activity
+2: %h3 Team: "#{ @team.title}"	
+3: 
+4: - case
+5: 	- when @report[:o_type] == 2 && @report[:report_type] == 'full'
+
+    app/views/notification_mailer/immediate_report.text.html.haml:2:in `_run_haml_app47views47notification_mailer47immediate_report46text46html46haml'
+    haml (3.0.21) lib/haml/helpers/action_view_mods.rb:13:in `render'
+    lib/daemons/notification.rb:33
+    lib/daemons/notification.rb:45:in `call'
+    lib/daemons/notification.rb:45:in `sleep'
+    lib/daemons/notification.rb:45
+    daemons (1.1.0) lib/daemons/application.rb:203:in `start_load'
+    daemons (1.1.0) lib/daemons/application.rb:296:in `start'
+    daemons (1.1.0) lib/daemons/controller.rb:70:in `run'
+    daemons (1.1.0) lib/daemons.rb:143:in `run'
+    daemons (1.1.0) lib/daemons/cmdline.rb:112:in `call'
+    daemons (1.1.0) lib/daemons/cmdline.rb:112:in `catch_exceptions'
+    daemons (1.1.0) lib/daemons.rb:142:in `run'
+    lib/daemons/notification_ctl:25
+
+>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<MissingSourceFile: Missing helper file helpers/notification_mailer_helper.rb>
+#<MissingSourceFile: no such file to load -- notification_mailer_helper.rb>
+#<NameError: uninitialized constant NotificationMailer>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+Thu Nov 11 13:30:32 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant ImmediateNotificationRequest>
+Thu Nov 11 13:35:44 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+Thu Nov 11 15:22:06 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+Fri Nov 12 22:54:52 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant NotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant Member>
+#<NameError: uninitialized constant NotificationRequest::Member>
+#<NameError: uninitialized constant Comment>
+#<NameError: uninitialized constant NotificationRequest::Comment>
+#<NameError: uninitialized constant Team>
+#<NameError: uninitialized constant NotificationRequest::Team>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant NotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant NotificationRequest>
+Fri Nov 12 22:56:27 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<fatal: exception reentered>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+Sat Nov 13 12:37:44 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>
+#<ActionView::MissingTemplate: Missing template immediate_report.erb in view path app/views>

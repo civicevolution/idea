@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101102021850) do
+ActiveRecord::Schema.define(:version => 20101113094728) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -342,6 +342,20 @@ ActiveRecord::Schema.define(:version => 20101102021850) do
 
   add_index "members", ["ape_code"], :name => "unique_members_ape_code", :unique => true
 
+  create_table "notification_requests", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "member_id"
+    t.integer  "report_type"
+    t.integer  "report_format"
+    t.boolean  "immediate"
+    t.string   "dow_to_run",    :limit => nil
+    t.string   "hour_to_run",   :limit => nil
+    t.string   "match_queue",   :limit => nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "sent_time"
+  end
+
   create_table "page_chat_messages", :force => true do |t|
     t.integer  "page_id"
     t.integer  "member_id"
@@ -419,6 +433,17 @@ ActiveRecord::Schema.define(:version => 20101102021850) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "team_content_logs", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "member_id"
+    t.integer  "o_type"
+    t.integer  "o_id"
+    t.integer  "par_member_id"
+    t.boolean  "processed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "team_registrations", :force => true do |t|
     t.integer  "team_id",                            :null => false

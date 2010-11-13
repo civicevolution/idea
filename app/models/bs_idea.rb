@@ -10,6 +10,12 @@ class BsIdea < ActiveRecord::Base
   validate_on_update :check_item_edit_access
     
   #before_destroy :check_item_delete_access
+  
+  def after_save
+    # log this item into the team_content_logs
+    TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
+  end  
+  
 
   def o_type
     11 

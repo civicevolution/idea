@@ -19,7 +19,12 @@ class Comment < ActiveRecord::Base
   attr_accessor :insert_mode
   attr_accessor :itemDestroyed
   attr_accessor :item_id
+  attr_accessor :par_member_id
 
+  def after_save
+    # log this item into the team_content_logs
+    TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :par_member_id=>self.par_member_id, :processed=>false).save
+  end  
 
   def check_length
     range = Team.find(self.team_id).com_criteria
