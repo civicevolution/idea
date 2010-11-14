@@ -1,0 +1,22 @@
+Sat Nov 13 16:57:03 -0800 2010
+SIGTERM
+["/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `sleep'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:57:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `loop'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:44:in `watch'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:84:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `fork'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:64:in `start_with_pidfile'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/monitor.rb:111:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application_group.rb:149:in `create_monitor'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/application.rb:283:in `start'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/controller.rb:70:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:143:in `run'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `call'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons/cmdline.rb:112:in `catch_exceptions'", "/Library/Ruby/Gems/1.8/gems/daemons-1.1.0/lib/daemons.rb:142:in `run'", "lib/daemons/notification_ctl:25"]
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant NotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant NotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant NotificationRequest>
+*** below you find the most recent exception thrown, this will be likely (but not certainly) the exception that made the application exit abnormally ***
+#<NameError: uninitialized constant NotificationRequest>
+*** below you find all exception objects found in memory, some of them may have been thrown in your application, others may just be in memory because they are standard exceptions ***
+#<NoMemoryError: failed to allocate memory>
+#<SystemStackError: stack level too deep>
+#<fatal: exception reentered>
+#<Errno::ESRCH: No such process>
+#<NameError: uninitialized constant TeamContentLog>
+#<NameError: uninitialized constant NotificationRequest::TeamContentLog>
+#<NameError: uninitialized constant NotificationRequest>

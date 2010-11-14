@@ -1,0 +1,39 @@
+Started daemon at Sat Nov 13 17:01:36 -0800 2010 in ENV: development.
+
+LOOP call NotificationRequest.check_team_content_log at Sat Nov 13 17:01:36 -0800 2010 in ENV: development.
+
+NotificationRequest.check_team_content_log @ Sat Nov 13 17:01:36 -0800 2010
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mTeamContentLog Load (1.6ms)[0m   [0;1mSELECT * FROM "team_content_logs" WHERE (processed=false) LIMIT 50[0m
+LOOP call NotificationRequest.check_team_content_log at Sat Nov 13 17:01:41 -0800 2010 in ENV: development.
+
+NotificationRequest.check_team_content_log @ Sat Nov 13 17:01:41 -0800 2010
+  [4;35;1mTeamContentLog Load (0.7ms)[0m   [0mSELECT * FROM "team_content_logs" WHERE (processed=false) LIMIT 50[0m
+LOOP call NotificationRequest.check_team_content_log at Sat Nov 13 17:01:46 -0800 2010 in ENV: development.
+
+NotificationRequest.check_team_content_log @ Sat Nov 13 17:01:46 -0800 2010
+  [4;36;1mTeamContentLog Load (0.9ms)[0m   [0;1mSELECT * FROM "team_content_logs" WHERE (processed=false) LIMIT 50[0m
+LOOP call NotificationRequest.check_team_content_log at Sat Nov 13 17:01:51 -0800 2010 in ENV: development.
+
+NotificationRequest.check_team_content_log @ Sat Nov 13 17:01:51 -0800 2010
+  [4;35;1mTeamContentLog Load (0.7ms)[0m   [0mSELECT * FROM "team_content_logs" WHERE (processed=false) LIMIT 50[0m
+LOOP call NotificationRequest.check_team_content_log at Sat Nov 13 17:01:56 -0800 2010 in ENV: development.
+
+NotificationRequest.check_team_content_log @ Sat Nov 13 17:01:56 -0800 2010
+  [4;36;1mTeamContentLog Load (0.5ms)[0m   [0;1mSELECT * FROM "team_content_logs" WHERE (processed=false) LIMIT 50[0m
+Started daemon at Sat Nov 13 17:02:23 -0800 2010 in ENV: production.
+
+LOOP call NotificationRequest.check_team_content_log at Sat Nov 13 17:02:24 -0800 2010 in ENV: production.
+
+NotificationRequest.check_team_content_log @ Sat Nov 13 17:02:24 -0800 2010
+Started daemon at Sat Nov 13 17:05:03 -0800 2010 in ENV: production.
+
+LOOP call NotificationRequest.check_team_content_log at Sat Nov 13 17:05:03 -0800 2010 in ENV: production.
+
+NotificationRequest.check_team_content_log @ Sat Nov 13 17:05:03 -0800 2010
+Started daemon at Sat Nov 13 17:06:02 -0800 2010 in ENV: production.
+
+LOOP call NotificationRequest.check_team_content_log at Sat Nov 13 17:06:02 -0800 2010 in ENV: production.
+
+NotificationRequest.check_team_content_log @ Sat Nov 13 17:06:02 -0800 2010
