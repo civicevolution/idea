@@ -59,5 +59,5 @@ while($running) do
     last_pending_report_hour_processed = hour
   end
   
-  sleep 5
+  sleep 60
 end # end of while running
