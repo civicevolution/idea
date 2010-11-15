@@ -527,7 +527,10 @@ div.shoutbox_msg {
   border: 1px solid black; }
 
 div.shoutbox_msg {
-  overflow: auto; }
+  overflow: auto;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  background-color: white; }
   div.shoutbox_msg table td {
     vertical-align: top;
     text-align: left; }
@@ -536,6 +539,7 @@ div.shoutbox_msg {
   div.shoutbox_msg table td.msg {
     width: 100%; }
   div.shoutbox_msg p.name {
+    font-weight: bold;
     margin: 0; }
   div.shoutbox_msg p.msg {
     margin: 0.3em 0 0 0; }
