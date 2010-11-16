@@ -1,9 +1,10 @@
-require 'RedCloth'
-module RedCloth::Formatters::HTML
-  def em(opts)
-    "_#{opts[:text]}_"
-  end
-end
+#require 'RedCloth'
+#module RedCloth::Formatters::HTML
+#  def em(opts)
+#    "_#{opts[:text]}_"
+#  end
+#end
+require 'bluecloth'
 class AdminController < ApplicationController
   
   before_filter :get_admin_privileges
@@ -49,11 +50,11 @@ class AdminController < ApplicationController
       @recipient = Member.find_by_id( params[:recip_ids][0].to_i )
       @mcode = '~~SECRET~ACCESS~CODE~~'
       msg = render_to_string :inline=>message
-      html = RedCloth.new( msg ).to_html
+      html = BlueCloth.new( msg ).to_html
       
       respond_to do |format|
         format.html { render :text => html, :layout => false } if request.xhr?
-        #email = AdminMailer.create_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html )
+        #email = AdminMailer.create_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
         #format.html { render :text => "<pre>#{email.encoded}</pre>", :layout => false } if request.xhr?
         format.html { render :text => "Please set up admin:email for non ajax" } 
       end
@@ -65,8 +66,18 @@ class AdminController < ApplicationController
       Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
         @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
         msg = render_to_string :inline=>message
-        AdminMailer.deliver_email_message(@recipient, params[:subject], msg, RedCloth.new( msg ).to_html, include_bcc )
+        AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
         include_bcc = false
+        # record details on each email that is sent
+        ctae = CallToActionEmailsSent.new(
+          :member_id=> @recipient.id, 
+          :scenario=> params[:subject],
+          :version=> 0,
+          :team_id=> params[:team_id]
+        )
+        ctae.save
+        
+        
       end
       
       respond_to do |format|

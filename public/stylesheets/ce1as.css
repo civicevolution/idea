@@ -528,7 +528,6 @@ div.shoutbox_msg {
 
 div.shoutbox_msg {
   overflow: auto;
-  overflow-x: scroll;
   overflow-y: scroll;
   background-color: white; }
   div.shoutbox_msg table td {
@@ -1072,3 +1071,6 @@ form.send_teammate_email {
 
 div.shoutbox_msg p.inst {
   margin: 2px 0 4px 0; }
+
+div.email_preview img {
+  float: none; }
