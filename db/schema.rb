@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101113094728) do
+ActiveRecord::Schema.define(:version => 20101116210232) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -78,6 +78,28 @@ ActiveRecord::Schema.define(:version => 20101113094728) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "team_id"
+  end
+
+  create_table "call_to_action_emails", :force => true do |t|
+    t.string   "scenario"
+    t.integer  "version"
+    t.string   "subject"
+    t.text     "message"
+    t.string   "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "call_to_action_emails_sents", :force => true do |t|
+    t.integer  "member_id"
+    t.integer  "member_lookup_code_id"
+    t.text     "scenario"
+    t.integer  "version"
+    t.integer  "team_id"
+    t.datetime "opened_email"
+    t.datetime "visit_site"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "chat_active_sessions", :force => true do |t|

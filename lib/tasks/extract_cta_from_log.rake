@@ -40,7 +40,7 @@ task :extract_cta_from_log => :environment do
                   recip_id = recip_id.to_i
                   if recip_id > 3
                     puts "#{rec_ctr} Sent email #{subject} to id: #{recip_id} in team: #{team_id} on #{sent_date}"
-                    ctae = CallToActionEmails.new(
+                    ctae = CallToActionEmailsSent.new(
                       :member_id=> recip_id, 
                       :scenario=> subject,
                       :version=> 0,

@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  member_id: 1
+  member_lookup_code_id: 1
+  scenario: MyText
+  version: 1
+  team_id: 1
+  opened_email: 2010-11-16 13:01:54
+  visit_site: 2010-11-16 13:01:54
+
+two:
+  member_id: 1
+  member_lookup_code_id: 1
+  scenario: MyText
+  version: 1
+  team_id: 1
+  opened_email: 2010-11-16 13:01:54
+  visit_site: 2010-11-16 13:01:54
