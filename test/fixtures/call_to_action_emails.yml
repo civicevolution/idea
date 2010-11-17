@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  scenario: MyString
+  version: 1
+  subject: MyString
+  message: MyText
+  data: MyString
+  description: MyText
+
+two:
+  scenario: MyString
+  version: 1
+  subject: MyString
+  message: MyText
+  data: MyString
+  description: MyText
