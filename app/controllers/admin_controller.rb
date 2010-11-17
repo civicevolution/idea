@@ -62,31 +62,66 @@ class AdminController < ApplicationController
       return
       
     elsif params[:act] == 'send'
-      include_bcc = true
-      Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
-        @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
-        msg = render_to_string :inline=>message
-        AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
-        include_bcc = false
-        # record details on each email that is sent
-        ctae = CallToActionEmailsSent.new(
-          :member_id=> @recipient.id, 
-          :scenario=> params[:subject],
-          :version=> 0,
-          :team_id=> params[:team_id]
-        )
-        ctae.save
+      text = ''
+      if params[:save_scenario] == 'true'
+        logger.debug "Save this version"
+        cta_email = CallToActionEmail.find_by_scenario_and_version(params[:new_scenario].strip, params[:new_version])
+        if cta_email.nil?
+          cta_email = CallToActionEmail.new(
+            :scenario=>params[:new_scenario], :version=>params[:new_version], :subject=>params[:subject], :message=>params[:message]
+          )
+          cta_email.save
+        else
+          cta_email.update_attributes(
+            :scenario=>params[:new_scenario], :version=>params[:new_version], :subject=>params[:subject], :message=>params[:message]
+          )          
+        end
         
-        
+        params[:scenario] = params[:new_scenario]
+        params[:version] = params[:new_version]
+        text += "Email was saved as #{params[:scenario]}, ver: #{params[:version]}"
       end
-      
+      if params[:send] == 'true'
+        logger.debug "send this version"
+        include_bcc = true
+        Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
+          @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
+          msg = render_to_string :inline=>message
+          AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
+          include_bcc = false
+          # record details on each email that is sent
+          ctaes = CallToActionEmailsSent.new(
+            :member_id=> @recipient.id, 
+            :scenario=> params[:scenario],
+            :version=> params[:version],
+            :team_id=> params[:team_id]
+          )
+          ctaes.save
+          #update as most recent email
+          cta_email = CallToActionEmail.find(1)
+          cta_email.update_attributes(
+            :scenario=>params[:scenario], :version=>params[:version], :subject=>params[:subject], :message=>params[:message]
+          )
+          #cta_email.save
+        end
+        text += "\nEmail was sent ok"
+      end
+
       respond_to do |format|
-        format.html { render :text => "sent ok", :layout => false } if request.xhr?
+        format.html { render :text => text, :layout => false } if request.xhr?
         format.html { render :action => "item_history" } 
       end
       
     else
-      
+      # load the most recent email, always stored as #1
+      @cta_emails = CallToActionEmail.all()
+      if @cta_emails.size == 0
+        @cta_email = CallToActionEmail.new(
+          :scenario=>'Welcome', :version=>0, :subject=>'Welcome to CivicEvolution', :message=>'Hello <%=@recipient.first_name%>,\\n\nWelcome to CivicEvolution.\n\nCheers,\n\nBrian'
+        )
+        @cta_email.save
+        @cta_emails = CallToActionEmail.all()
+      end
     end
   end
   

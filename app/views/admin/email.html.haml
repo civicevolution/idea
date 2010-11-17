@@ -69,7 +69,7 @@
 						$('div.preview').show();
 						$('input.act').val('send')
 					}else if ( $('input.act').val() == 'send' ){
-						var dialog = $('<div>Your email was sent successfully</div>').dialog( {title : 'Success', modal : true } )
+						var dialog = $('<div>' + data + '</div>').dialog( {title : 'Success', modal : true } )
 						$('input.act').val('preview');
 						$('div.compose').show();
 						$('div.email_preview').html('');
@@ -101,11 +101,24 @@
 				display: none
 			input.subject
 				width: 400px
+			form.std_form
+				input.version
+					width: 50px
+				input.scenario
+					width: 150px
+				p.save_scenario
+					clear: both
+					margin:	10px 0 10px 0
 
+- email = @cta_emails.detect{|email| email.id == 1}
 - form_tag( { :action => :email}, {:class=>'std_form'} ) do
 	= hidden_field_tag :act, 'preview', {:class=>'act'}
 	
 	%h3 send email to participants
+	%hr
+	%h2 #{email.scenario} (ver: #{email.version})
+	%p= email.description
+	%hr
 	- case
 		- when !params[:team_id].nil?
 			- team = Team.find(params[:team_id])
@@ -120,7 +133,7 @@
 					- recip_ids.push m.id
 					%tr
 						%td
-							= check_box_tag 'recip_ids[]', m.id, true
+							= check_box_tag 'recip_ids[]', m.id, false
 						%td #{m.first_name} #{m.last_name}
 						%td= m.email
 
@@ -130,20 +143,21 @@
 	
 
 	-#= hidden_field_tag :recip_ids, recip_ids.join(',')
-		
+	= hidden_field_tag :version, email.version
+	= hidden_field_tag :scenario, email.scenario
 	%div.compose
 		%h3 Compose email
 		%a{:href=>'http://daringfireball.net/projects/markdown/syntax', :target=>'_blank'} Formatting reference
 		%div.add_idea
 			%label Subject
-			= text_field_tag :subject, nil, :class=>'subject', :alias=>'Subject'
+			= text_field_tag :subject, email.subject, :class=>'subject', :alias=>'Subject'
 			%label 
 				Please enter your email message
 				%a{:href=>'#', :class=>'how'} How
 			%div.how
 				%ul
 					%li image with link !http://www.w3.org/Icons/valid-html401!:http://validator.w3.org/check?uri=referer
-			= text_area_tag :message, nil, :class=>'message', :size=>"1x2", :alias=>'Message'
+			= text_area_tag :message, email.message, :class=>'message', :size=>"1x2", :alias=>'Message'
 
 			%div.control_line
 				%div.controls
@@ -158,13 +172,18 @@
 		%h3 Preview email and click send now
 		%p= link_to 'Return to compose', {:action => 'index'}, {:class=>'cancel'}
 		%div.email_preview
+
+		%p.save_scenario
+			= check_box_tag 'save_scenario', true, false
+			Save as scenario:
+			= text_field_tag :new_scenario, email.scenario, :class=>'scenario', :alias=>'Subject'
+			version: 
+			= text_field_tag :new_version, email.version, :class=>'version', :alias=>'Subject'
+
 		%div.control_line
 			%div.controls
+				= check_box_tag 'send', true, true
+				Send this email
 				%button.send
 					Send email
-				= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}							 
-	
-	
-	
-	
-
+				= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}
