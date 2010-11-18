@@ -36,6 +36,11 @@ class MemberLookupCode < ActiveRecord::Base
       mlcl.target_url = data[:target_url]
       mlcl.save
       
+      # update the call_to_actions_emails_sent if there is a match
+      sql = %Q|UPDATE call_to_action_emails_sents SET visit_site = now() at time zone 'UTC' 
+      WHERE member_lookup_code_id = #{mlc.id}|
+      ActiveRecord::Base::connection().update( sql )
+      
       return Member.find_by_id(mlc.member_id)
     else
       return nil

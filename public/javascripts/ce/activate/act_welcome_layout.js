@@ -154,7 +154,7 @@ $(function(){
 	);
 	
 
-	if($('ul.teams_list li').size() > 0 ) $('div.sign_in').effect("pulsate", 'fast');
+	if($('ul.teams_list li').size() > 0 && $('div.sign_in').size() > 0) $('div.sign_in').effect("pulsate", 'fast');
 	
 	//// for reg testing, preload the fields
 	//$('a.register').click();

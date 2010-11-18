@@ -9,7 +9,7 @@
 		        // format is called when the on init and when a sorting has finished
 		        format: function(table) {                               
 		                // loop all tr elements and set the value for the first column  
-		                for(var i=0; i < table.tBodies[0].rows.length; i++) {
+		                for(var i=0; i <= table.tBodies[0].rows.length; i++) {
 		                        $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
 		                }                                                               
 		        }
