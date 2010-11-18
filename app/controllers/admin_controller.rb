@@ -90,6 +90,7 @@ class AdminController < ApplicationController
       mem_id, team_id = params[:recip_ids][0].split('-')
       @recipient = Member.find_by_id( mem_id.to_i )
       @team = Team.find_by_id(team_id.to_i)
+      @team = Team.find_by_id(10022) if @team.nil? && mem_id.to_i == 1
       @mcode = '~~SECRET~ACCESS~CODE~~'
       msg = render_to_string :inline=>message
       html = "<h3>#{params[:subject]}</h3>"
@@ -132,6 +133,7 @@ class AdminController < ApplicationController
           mem_id, team_id = recip_id.split('-')
           @recipient = Member.find_by_id( mem_id.to_i )
           @team = Team.find_by_id(team_id.to_i)
+          @team = Team.find_by_id(10022) if @team.nil? && mem_id.to_i == 1
           
           @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
           msg = render_to_string :inline=>message
