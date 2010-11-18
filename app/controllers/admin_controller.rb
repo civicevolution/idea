@@ -224,6 +224,11 @@ class AdminController < ApplicationController
     @cta_records = CallToActionEmailsSent.get_all()
   end
 
+  def auto_signin_log
+    logger.debug "Get data for call_to_action_reports"
+    @signin_records = MemberLookupCodeLog.get_all()
+  end
+  
   protected
   
     def get_admin_privileges

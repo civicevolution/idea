@@ -20,6 +20,8 @@
 	- if @privileges.include? 'call_to_action_reports'
 		%li= link_to "Call to action reports", {:action=>'call_to_action_reports'}
 		
+	- if @privileges.include? 'auto_signin_log'
+		%li= link_to "Auto signin log", {:action=>'auto_signin_log'}
 		
 		
 		

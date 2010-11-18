@@ -1,0 +1,34 @@
+- content_for (:script) do
+	= javascript_include_tag "jquery.tablesorter.min.js"
+	:javascript
+		$(function(){
+			$("#reports").tablesorter(); 
+		});
+		
+		
+%h3 Auto sign in log
+
+%table#reports{:class=>"tablesorter"}
+	%thead
+		%tr
+			%th First name
+			%th Last name
+			%th Email
+			%th Scenario
+			%th url
+			%th Sent
+			%th Visited
+		
+	%tbody
+		- @signin_records.each do |cta|
+			%tr
+				%td= cta[:first_name]
+				%td= cta[:last_name]
+				%td= cta[:email]
+				%td= cta[:scenario]
+				%td= cta[:target_url]
+				%td= cta[:created_at]	
+				%td= cta[:updated_at]	
+			
+
+	
