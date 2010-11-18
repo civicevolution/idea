@@ -1,29 +1,58 @@
-%h3 Members for #{@initiative.title}
+- content_for (:script) do
+	= javascript_include_tag "jquery.tablesorter.min.js"
+	:javascript
+		$(function() {
+		    // add new widget called indexFirstColumn
+		    $.tablesorter.addWidget({
+		        // give the widget a id
+		        id: "indexFirstColumn",
+		        // format is called when the on init and when a sorting has finished
+		        format: function(table) {                               
+		                // loop all tr elements and set the value for the first column  
+		                for(var i=0; i < table.tBodies[0].rows.length; i++) {
+		                        $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
+		                }                                                               
+		        }
+		    });
 
-%table
-	%tr
-		%th= '#'
-		%th
-			Name
-		%th
-			Email
-		%th
-			Teams
-		%th
-			Coms
-		%th
-			Ideas
-		%th
-			Answers
-	- ctr = 0
-	- @members.each do |m|
-		%tr{:class=> cycle('','stripe')}
-			%td= ctr += 1		
-			%td= "#{m.first_name} #{m.last_name}"
-			%td= m['email']
-			-#%td= link_to m['teams'], {:action=>'team_members', :id=>m.id}
-			%td= m['teams']
-			%td= m['comments']
-			%td= m['bs_ideas']
-			%td= m['answers']
+				$("#reports").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
+		});
+	%style
+		:sass
+			table td 
+				padding: 3px
+			table tr.odd td
+				background: #e6f2ff
+
+%h3 Members for #{@initiative.title}
+%p Click columns to sort
+
+%table#reports{:class=>"tablesorter"}
+	%thead
+		%tr
+			%th #
+			%th
+				Name
+			%th
+				Email
+			%th
+				Teams
+			%th
+				Coms
+			%th
+				Ideas
+			%th
+				Answers
+				
+	%tbody			
+		- @members.each do |m|
+			%tr
+				%td
+				%td= "#{m.first_name} #{m.last_name}"
+				%td= m['email']
+				-#%td= link_to m['teams'], {:action=>'team_members', :id=>m.id}
+				%td= m['teams']
+				%td= m['comments']
+				%td= m['bs_ideas']
+				%td= m['answers']
 			

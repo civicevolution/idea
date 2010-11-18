@@ -1,33 +1,62 @@
-%h3 Teams for #{@initiative.title}
+- content_for (:script) do
+	= javascript_include_tag "jquery.tablesorter.min.js"
+	:javascript
+		$(function() {
+		    // add new widget called indexFirstColumn
+		    $.tablesorter.addWidget({
+		        // give the widget a id
+		        id: "indexFirstColumn",
+		        // format is called when the on init and when a sorting has finished
+		        format: function(table) {                               
+		                // loop all tr elements and set the value for the first column  
+		                for(var i=0; i < table.tBodies[0].rows.length; i++) {
+		                        $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
+		                }                                                               
+		        }
+		    });
 
-%table
-	%tr
-		%th= '#'
-		%th
-			Title
-		%th 
-			Email
-		%th
-			Active
-		%th
-			Mems
-		%th
-			Coms
-		%th
-			Ideas
-		%th
-			Answers
-	- ctr = 0
-	- @teams.each do |t|
-		%tr{:class=> cycle('','stripe')}
-			-#%td= link_to t.title, {:action=>'team_workspace', :id=>t.id}
-			%td= ctr += 1
-			%td= link_to t.title, {:controller=>'team', :action=>'proposal', :id=>t.id}
-			%td= link_to "Email", {:action=>'email', :team_id=>t.id}
-			%td= t.launched
-			%td= link_to t['members'], {:action=>'team_members', :id=>t.id}
-			%td= t['comments']
-			%td= t['bs_ideas']
-			%td= t['answers']
+				$("#reports").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
+		});
+	%style
+		:sass
+			table td 
+				padding: 3px
+			table tr.odd td
+				background: #e6f2ff
+
+%h3 Teams for #{@initiative.title}
+%p Click columns to sort
+
+%table#reports{:class=>"tablesorter"}
+	%thead
+		%tr
+			%th #
+			%th
+				Title
+			%th 
+				Email
+			%th
+				Active
+			%th
+				Mems
+			%th
+				Coms
+			%th
+				Ideas
+			%th
+				Answers
+				
+	%tbody			
+		- @teams.each do |t|
+			%tr
+				%td
+				-#%td= link_to t.title, {:action=>'team_workspace', :id=>t.id}
+				%td= link_to t.title, {:controller=>'team', :action=>'proposal', :id=>t.id}
+				%td= link_to "Email", {:action=>'email', :team_id=>t.id}
+				%td= t.launched
+				%td= link_to t['members'], {:action=>'team_members', :id=>t.id}
+				%td= t['comments']
+				%td= t['bs_ideas']
+				%td= t['answers']
 
 			
