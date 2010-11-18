@@ -1,9 +1,28 @@
 - content_for (:script) do
 	= javascript_include_tag "jquery.tablesorter.min.js"
 	:javascript
-		$(function(){
-			$("#reports").tablesorter(); 
+		$(function() {
+		    // add new widget called indexFirstColumn
+		    $.tablesorter.addWidget({
+		        // give the widget a id
+		        id: "indexFirstColumn",
+		        // format is called when the on init and when a sorting has finished
+		        format: function(table) {                               
+		                // loop all tr elements and set the value for the first column  
+		                for(var i=0; i < table.tBodies[0].rows.length; i++) {
+		                        $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
+		                }                                                               
+		        }
+		    });
+
+				$("#reports").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
 		});
+	%style
+		:sass
+			table td 
+				padding: 3px
+			table tr.odd td
+				background: #e6f2ff
 		
 		
 %h3 Call to action emails report
@@ -11,6 +30,7 @@
 %table#reports{:class=>"tablesorter"}
 	%thead
 		%tr
+			%th #
 			%th First name
 			%th Last name
 			%th Email
@@ -24,6 +44,7 @@
 	%tbody
 		- @cta_records.each do |cta|
 			%tr
+				%td
 				%td= cta[:first_name]
 				%td= cta[:last_name]
 				%td= cta[:email]
