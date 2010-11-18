@@ -2,7 +2,7 @@
 %html{html_attrs('en-en')}
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
-		%title Welcome to the 2029 and Beyond Sustainable Future City Project
+		%title CivicEvolution Admin page
 		= javascript_include_tag "jquery-1.4.2.min.js"
 		=	stylesheet_link_tag 'cgg_welcome.css', 'ce1a.css', 'ce1as.css', 'admin.css'
 		:javascript
@@ -16,15 +16,15 @@
 				}
 				$('div#loading_please_wait').show()
 			});
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
-			_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);
-			_gaq.push(['_trackPageview']);
-			(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
+			//var _gaq = _gaq || [];
+			//_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
+			//_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);
+			//_gaq.push(['_trackPageview']);
+			//(function() {
+			//	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			//	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			//	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			//})();
 			
 	%body
 		%div.page
@@ -125,7 +125,7 @@
 							-#		= link_to 'Join our community', {}, {:class=>'join_our_community'}
 			
 		-#= javascript_include_tag "jquery-1.4.2.min.js"
-		= javascript_include_tag 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "ce/activate/act_welcome_layout.js", "ce/gen/forms.js"
-		=	stylesheet_link_tag 'jquery-ui-1.8.2.custom.css'
+		-#= javascript_include_tag 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "ce/activate/act_welcome_layout.js", "ce/gen/forms.js"
+		-#=	stylesheet_link_tag 'jquery-ui-1.8.2.custom.css'
 		= yield :script
 		

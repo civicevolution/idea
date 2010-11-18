@@ -175,21 +175,26 @@ class AdminController < ApplicationController
   end
   
   def create_admins
-    if params[:act] == 'add_new_privilege'
-      ap = AdminPrivilege.new :admin_group_id=>params[:id], :title=> params[:title].gsub(/ /,'')
-      ap.save
+    case params[:act]
+      when 'add_new_privilege'
+        ap = AdminPrivilege.new :admin_group_id=>params[:id], :title=> params[:title].gsub(/ /,'')
+        ap.save
       
-      params[:s] = 'list_group_privileges'
+        params[:s] = 'list_group_privileges'
       
-    elsif params[:act] == 'add_new_group'
-      a = Admin.new :member_id=>params[:member_id], :admin_group_id=>params[:admin_group_id], :initiative_id=>params[:initiative_id]
-      a.save  
-      params[:s] = 'list_groups'
+      when 'add_new_group'
+        a = Admin.new :member_id=>params[:member_id], :admin_group_id=>params[:admin_group_id], :initiative_id=>params[:initiative_id]
+        a.save  
+        params[:s] = 'list_groups'
       
-    elsif params[:act] == 'remove_admin_group'
-      a = Admin.find_by_admin_group_id_and_initiative_id_and_member_id params[:admin_group_id], params[:initiative_id], params[:member_id]
-      a.destroy unless a.nil?
-      params[:s] = 'list_groups'
+      when 'remove_admin_group_privilege'
+        ap = AdminPrivilege.find_by_admin_group_id_and_title(params[:admin_group_id],params[:privilege])
+        ap.destroy
+        params[:s] = 'list_group_privileges'
+      when 'remove_admin_group'
+        a = Admin.find_by_admin_group_id_and_initiative_id_and_member_id params[:admin_group_id], params[:initiative_id], params[:member_id]
+        a.destroy unless a.nil?
+        params[:s] = 'list_groups'
       
     end
 
@@ -214,6 +219,10 @@ class AdminController < ApplicationController
     
   end
 
+  def call_to_action_reports
+    logger.debug "Get data for call_to_action_reports"
+    @cta_records = CallToActionEmailsSent.get_all()
+  end
 
   protected
   
