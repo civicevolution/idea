@@ -43,14 +43,55 @@ class AdminController < ApplicationController
   
   def email
     message = params[:message]
-    @team = Team.find(params[:team_id])
+    @team = Team.find_by_id(params[:team_id])
     @host = request.env["HTTP_HOST"]
+    @email_recipients = nil
 
-    if params[:act] == 'preview'
+    if params[:act] == 'fetch_recipients'
+      logger.debug "Load the recipients #{params[:recipient_source]}"
+      @email_recipients = CallToActionEmail.get_recipients_by_query(params[:recipient_source])
+      logger.debug "@email_recipients.size: #{@email_recipients.size}"
+      respond_to do |format|
+        format.html { render :partial => 'email_recipients' } if request.xhr?
+        #email = AdminMailer.create_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
+        #format.html { render :text => "<pre>#{email.encoded}</pre>", :layout => false } if request.xhr?
+        format.html { render :text => "Please set up admin:email for non ajax" } 
+      end
+      return
+
+    elsif params[:act] == 'fetch_scenario' 
+      logger.debug "Load the scenario #{params[:scenario]}"
+      @cta_email = CallToActionEmail.get_scenario(params[:scenario])
+      @scenarios = CallToActionEmail.get_scenarios()
+      @versions = CallToActionEmail.get_versions(@cta_email.scenario)
+      
+      respond_to do |format|
+        format.html { render :partial => 'email_compose' } if request.xhr?
+        #email = AdminMailer.create_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
+        #format.html { render :text => "<pre>#{email.encoded}</pre>", :layout => false } if request.xhr?
+        format.html { render :text => "Please set up admin:email for non ajax" } 
+      end
+      return
+    elsif params[:act] == 'fetch_version'
+      logger.debug "Load the version #{params[:scenario]}-#{params[:version]}"
+      @cta_email = CallToActionEmail.get_version(params[:scenario],params[:version])
+      @scenarios = CallToActionEmail.get_scenarios()
+      @versions = CallToActionEmail.get_versions(@cta_email.scenario)
+      
+      respond_to do |format|
+        format.html { render :partial => 'email_compose' } if request.xhr?
+        #email = AdminMailer.create_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
+        #format.html { render :text => "<pre>#{email.encoded}</pre>", :layout => false } if request.xhr?
+        format.html { render :text => "Please set up admin:email for non ajax" } 
+      end
+      return
+       
+    elsif params[:act] == 'preview'
       @recipient = Member.find_by_id( params[:recip_ids][0].to_i )
       @mcode = '~~SECRET~ACCESS~CODE~~'
       msg = render_to_string :inline=>message
-      html = BlueCloth.new( msg ).to_html
+      html = "<h3>#{params[:subject]}</h3>"
+      html += BlueCloth.new( msg ).to_html
       
       respond_to do |format|
         format.html { render :text => html, :layout => false } if request.xhr?
@@ -85,13 +126,14 @@ class AdminController < ApplicationController
         logger.debug "send this version"
         include_bcc = true
         Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
-          @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
+          @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
           msg = render_to_string :inline=>message
           AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
           include_bcc = false
           # record details on each email that is sent
           ctaes = CallToActionEmailsSent.new(
             :member_id=> @recipient.id, 
+            :member_lookup_code_id => mcode_id,
             :scenario=> params[:scenario],
             :version=> params[:version],
             :team_id=> params[:team_id]
@@ -113,15 +155,12 @@ class AdminController < ApplicationController
       end
       
     else
+      logger.debug "default - show most recent email"
       # load the most recent email, always stored as #1
-      @cta_emails = CallToActionEmail.all()
-      if @cta_emails.size == 0
-        @cta_email = CallToActionEmail.new(
-          :scenario=>'Welcome', :version=>0, :subject=>'Welcome to CivicEvolution', :message=>'Hello <%=@recipient.first_name%>,\\n\nWelcome to CivicEvolution.\n\nCheers,\n\nBrian'
-        )
-        @cta_email.save
-        @cta_emails = CallToActionEmail.all()
-      end
+      @cta_email = CallToActionEmail.get_most_recent()
+      @scenarios = CallToActionEmail.get_scenarios()
+      @versions = CallToActionEmail.get_versions(@cta_email.scenario)
+      
     end
   end
   

@@ -14,6 +14,18 @@ class MemberLookupCode < ActiveRecord::Base
     mlcl.save
     mlc.code
   end
+
+  def self.get_code_and_id(member_id, data)
+    begin
+      string = UUIDTools::UUID.timestamp_create().to_s
+      dupl = MemberLookupCode.find_by_code(string)
+    end while not dupl.nil?
+    mlc = MemberLookupCode.new(:member_id=>member_id, :code=>string, :scenario=>data[:scenario])
+    mlc.save
+    mlcl = MemberLookupCodeLog.new(:member_id=>member_id, :code=>string, :scenario=>data[:scenario], :target_id=>data[:target_id])
+    mlcl.save
+    return mlc.code, mlc.id
+  end
   
   
   def self.get_member(code, data)

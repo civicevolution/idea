@@ -1,0 +1,61 @@
+-#= hidden_field_tag :version, @cta_email.version
+-#= hidden_field_tag :scenario, @cta_email.scenario
+- logger.debug "Build compose div"
+%div.compose
+	%h3 Compose email
+	- scenarios = [] # ["Select a scenario"]
+	- @scenarios.each{|sc| scenarios.push sc.scenario }
+	- versions = [] # ["Select a version"]
+	- @versions.each{|v| versions.push v.version }
+	
+	%p 
+		= select_tag( :scenario, options_for_select( scenarios,	@cta_email.scenario) )
+		= select_tag( :version, options_for_select( versions, @cta_email.version) )
+		-#%button.send
+		-#	Load email
+	
+	-#%h3 #{@cta_email.scenario} (ver: #{@cta_email.version})
+	%p Description:
+	%p= @cta_email.description
+	
+	
+	%a{:href=>'http://daringfireball.net/projects/markdown/syntax', :target=>'_blank'} Formatting reference
+	%div.add_idea
+		%label Subject
+		= text_field_tag :subject, @cta_email.subject, :class=>'subject', :alias=>'Subject'
+		%label 
+			Please enter your email message
+			%a{:href=>'#', :class=>'how'} How
+		%div.how
+			%ul
+				%li image with link !http://www.w3.org/Icons/valid-html401!:http://validator.w3.org/check?uri=referer
+		= text_area_tag :message, @cta_email.message, :class=>'message', :size=>"1x2", :alias=>'Message'
+
+		%div.control_line
+			%div.controls
+				-#%span.char_ctr 
+				-#	2500
+				-#	characters left
+				%button.preview
+					Preview email to send
+				= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}							 
+
+%div.preview
+	%h3 Preview email and click send now
+	%p= link_to 'Return to compose', {:action => 'index'}, {:class=>'cancel'}
+	%div.email_preview
+
+	%p.save_scenario
+		= check_box_tag 'save_scenario', true, false
+		Save as scenario:
+		= text_field_tag :new_scenario, @cta_email.scenario, :class=>'scenario', :alias=>'Subject'
+		version: 
+		= text_field_tag :new_version, @cta_email.version, :class=>'version', :alias=>'Subject'
+
+	%div.control_line
+		%div.controls
+			= check_box_tag 'send', true, true
+			Send this email
+			%button.send
+				Send email
+			= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}

@@ -1,0 +1,24 @@
+-# debugger
+- if @email_recipients.size == 0
+	%h3 No recipients were found
+- else
+	-#- team = Team.find(params[:team_id])
+	-#= hidden_field_tag :team_id, team.id
+	%p 
+		Recipients are ...
+		-#%b
+		-#	#{team.title}
+	- logger.debug "show the table with @recipients: #{@recipients}"
+	%p 
+		#{@email_recipients.size} recipients
+		=link_to 'Select all', {},{:class=>'select_all'}
+		=link_to 'Unselect all', {},{:class=>'uselect_all'}
+	%table
+		-# recip_ids = []
+		- @email_recipients.each do |m|
+			-# recip_ids.push m.id
+			%tr
+				%td
+					= check_box_tag 'recip_ids[]', m.id, false
+				%td #{m.first_name} #{m.last_name} &lt;#{m.email}&gt;
+	-#= hidden_field_tag :recip_ids, recip_ids.join(',')

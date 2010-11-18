@@ -2,9 +2,9 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  before_filter :set_application_personality
-  before_filter :add_member_data
-  before_filter :authorize, :except => [ :login, :proposal, :get_templates ]
+  before_filter :set_application_personality, :except => [ :logo ]
+  before_filter :add_member_data, :except => [ :logo ]
+  before_filter :authorize, :except => [ :login, :proposal, :get_templates, :logo]
 
   
   helper :all # include all helpers, all the time

@@ -63,7 +63,12 @@
 			  success: function(data,status){ 
 					console.log("send_email submit success btn: " + btn.attr('class') );
 					btn.removeAttr('disabled').next('img').remove();
-					if( $('input.act').val() == 'preview' ){
+					//debugger
+					if( $('input.act').val() == 'fetch_recipients' ){
+						$('div#recipients').html(data)
+					
+					}else if( $('input.act').val() == 'preview' ){
+						console.log("act is preview")
 						$('div.compose').hide();
 						$('div.email_preview').html(data);
 						$('div.preview').show();
@@ -91,7 +96,38 @@
 			});			
 		  return false;
 		}
-
+		$('a.select_all').die('click').live('click',
+			function(){
+				$('div#recipients :checkbox').attr('checked','true');
+				return false;
+			}
+		)
+		$('a.unselect_all').die('click').live('click',
+			function(){
+				//$('div#recipients :checkbox').attr('checked','true');			
+				$('div#recipients :checkbox').removeAttr('checked');
+				return false;
+			}
+		)
+	
+		$('select#scenario').die('change').live('change',
+			function(){
+						$('div#compose').load('/admin/email',{act:'fetch_scenario', scenario: $('select#scenario').val()})
+			}
+		)
+		$('select#version').die('change').live('change',
+			function(){
+				$('div#compose').load('/admin/email',{act:'fetch_version', scenario: $('select#scenario').val(), version: $('select#version').val()})
+			}
+		)
+		$('select#recipient_source').die('change').live('change',
+			function(){
+				console.log("load recipients")
+				$('div#recipients').load('/admin/email',{act:'fetch_recipients', recipient_source: $('select#recipient_source').val(), version: $('select#version').val()})
+			}
+		)
+		
+		
 	%style
 		:sass
 			div.email_preview
@@ -110,80 +146,28 @@
 					clear: both
 					margin:	10px 0 10px 0
 
-- email = @cta_emails.detect{|email| email.id == 1}
+
+%h3 Send email to participants
+- logger.debug "html @recipients: #{@recipients}"
+- if @recipients.nil?
+	- logger.debug "@recipients.nil? is true"
+	- form_tag( { :action => :email}, {:class=>'std_form'} ) do
+		-#= hidden_field_tag :act, 'fetch_recipients', {:class=>'act'}
+		%p 
+			= select_tag( :recipient_source, options_for_select( {"Select recipients class"=>-1, "Test to Brian Sullivan"=>0, "Registered - no team" => 1, "Team not launched"=>2, "Team - no comment yet"=>3, "Team and commented"=>4}, -1))	
+			-#%button.send
+			-#	Load recipients
+
+
+-#- else
+- logger.debug "@recipients.nil? is false"
+- logger.debug "email: #{@cta_email.inspect}"
 - form_tag( { :action => :email}, {:class=>'std_form'} ) do
 	= hidden_field_tag :act, 'preview', {:class=>'act'}
-	
-	%h3 send email to participants
+
 	%hr
-	%h2 #{email.scenario} (ver: #{email.version})
-	%p= email.description
+	%div#recipients
+		%p No recipients selected
 	%hr
-	- case
-		- when !params[:team_id].nil?
-			- team = Team.find(params[:team_id])
-			= hidden_field_tag :team_id, team.id
-			%p 
-				Recipients are members of team 
-				%b
-					#{team.title}
-			%table
-				- recip_ids = []
-				- team.members.each do |m|
-					- recip_ids.push m.id
-					%tr
-						%td
-							= check_box_tag 'recip_ids[]', m.id, false
-						%td #{m.first_name} #{m.last_name}
-						%td= m.email
-
-
-		- else
-			%p No recipients selected
-	
-
-	-#= hidden_field_tag :recip_ids, recip_ids.join(',')
-	= hidden_field_tag :version, email.version
-	= hidden_field_tag :scenario, email.scenario
-	%div.compose
-		%h3 Compose email
-		%a{:href=>'http://daringfireball.net/projects/markdown/syntax', :target=>'_blank'} Formatting reference
-		%div.add_idea
-			%label Subject
-			= text_field_tag :subject, email.subject, :class=>'subject', :alias=>'Subject'
-			%label 
-				Please enter your email message
-				%a{:href=>'#', :class=>'how'} How
-			%div.how
-				%ul
-					%li image with link !http://www.w3.org/Icons/valid-html401!:http://validator.w3.org/check?uri=referer
-			= text_area_tag :message, email.message, :class=>'message', :size=>"1x2", :alias=>'Message'
-
-			%div.control_line
-				%div.controls
-					-#%span.char_ctr 
-					-#	2500
-					-#	characters left
-					%button.preview
-						Preview email to send
-					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}							 
-		
-	%div.preview
-		%h3 Preview email and click send now
-		%p= link_to 'Return to compose', {:action => 'index'}, {:class=>'cancel'}
-		%div.email_preview
-
-		%p.save_scenario
-			= check_box_tag 'save_scenario', true, false
-			Save as scenario:
-			= text_field_tag :new_scenario, email.scenario, :class=>'scenario', :alias=>'Subject'
-			version: 
-			= text_field_tag :new_version, email.version, :class=>'version', :alias=>'Subject'
-
-		%div.control_line
-			%div.controls
-				= check_box_tag 'send', true, true
-				Send this email
-				%button.send
-					Send email
-				= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}
+	%div#compose
+		= render :partial=> 'email_compose', :locals=>{:cta_email=>@cta_email}
