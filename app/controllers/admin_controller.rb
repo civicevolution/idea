@@ -43,7 +43,7 @@ class AdminController < ApplicationController
   
   def email
     message = params[:message]
-    @team = Team.find_by_id(params[:team_id])
+    #@team = Team.find_by_id(params[:team_id])
     @host = request.env["HTTP_HOST"]
     @email_recipients = nil
 
@@ -87,7 +87,9 @@ class AdminController < ApplicationController
       return
        
     elsif params[:act] == 'preview'
-      @recipient = Member.find_by_id( params[:recip_ids][0].to_i )
+      mem_id, team_id = params[:recip_ids][0].split('-')
+      @recipient = Member.find_by_id( mem_id.to_i )
+      @team = Team.find_by_id(team_id.to_i)
       @mcode = '~~SECRET~ACCESS~CODE~~'
       msg = render_to_string :inline=>message
       html = "<h3>#{params[:subject]}</h3>"
@@ -125,7 +127,12 @@ class AdminController < ApplicationController
       if params[:send] == 'true'
         logger.debug "send this version"
         include_bcc = true
-        Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
+        #Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
+        params[:recip_ids].each do |recip_id|
+          mem_id, team_id = recip_id.split('-')
+          @recipient = Member.find_by_id( mem_id.to_i )
+          @team = Team.find_by_id(team_id.to_i)
+          
           @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
           msg = render_to_string :inline=>message
           AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )

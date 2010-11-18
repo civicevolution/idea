@@ -40,12 +40,16 @@ class CallToActionEmail < ActiveRecord::Base
       case recipient_source.to_i
         when 0
           #Registered, no team (49)
-          Member.find_all_by_id([1,119]) #email('brian@civicevolution.org')]
+          #Member.find_all_by_id([1,119]) #email('brian@civicevolution.org')]
+          Member.find_by_sql(
+          %q|SELECT distinct first_name, last_name, email, id AS mem_id, 0 AS team_id
+          FROM members
+          WHERE id IN (1,119)|)
 
         when 1
           #Registered, no team (49)
           Member.find_by_sql(
-          %q|SELECT distinct first_name, last_name, email, m.id
+          %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id
           FROM members m, initiative_members im
           WHERE m.id = im.member_id
           AND im.initiative_id IN (1,2)
@@ -54,20 +58,21 @@ class CallToActionEmail < ActiveRecord::Base
         when 2
           #Joined a team that hasn't launched (31)
           Member.find_by_sql(
-          %q|SELECT distinct first_name, last_name, email, m.id, title, t.id
+          %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, title, t.id AS team_id
           FROM members m, initiative_members im, team_registrations tr, teams t
           WHERE im.initiative_id IN (1,2)
           AND t.launched = false
           AND m.id = im.member_id
           AND tr.member_id = m.id
           AND tr.team_id = t.id
+          AND t.id > 10018
           ORDER BY title, m.id|)
           
         when 3
           #Joined a team that launched but haven't made a comment yet (27)
 
           Member.find_by_sql(
-          %q|SELECT distinct first_name, last_name, email, m.id, title, t.id
+          %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, title, t.id AS team_id
           FROM members m, initiative_members im, team_registrations tr, teams t
           WHERE im.initiative_id IN (1,2)
           AND m.id NOT IN (SELECT member_id FROM comments WHERE member_id = m.id AND team_id = t.id)
@@ -75,14 +80,14 @@ class CallToActionEmail < ActiveRecord::Base
           AND m.id = im.member_id
           AND tr.member_id = m.id
           AND tr.team_id = t.id
-          AND t.id NOT IN (10007,10012)
+          AND t.id > 10018
           ORDER BY title, m.id|)
 
         when 4
           #Joined a team and made at least one comment (21)
 
           Member.find_by_sql(
-          %q|SELECT distinct first_name, last_name, email, m.id, title, t.id,
+          %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, title, t.id AS team_id,
           (SELECT COUNT(*) FROM comments WHERE member_id = m.id AND team_id = t.id) AS comments
           FROM members m, initiative_members im, team_registrations tr, teams t, comments c
           WHERE im.initiative_id IN (1,2)
@@ -92,7 +97,7 @@ class CallToActionEmail < ActiveRecord::Base
           AND m.id = im.member_id
           AND tr.member_id = m.id
           AND tr.team_id = t.id
-          AND t.id NOT IN (10007,10012)
+          AND t.id > 10018
           ORDER BY comments, title, m.id|)
       end
     end

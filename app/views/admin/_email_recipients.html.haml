@@ -14,11 +14,9 @@
 		=link_to 'Select all', {},{:class=>'select_all'}
 		=link_to 'Unselect all', {},{:class=>'uselect_all'}
 	%table
-		-# recip_ids = []
 		- @email_recipients.each do |m|
-			-# recip_ids.push m.id
 			%tr
 				%td
-					= check_box_tag 'recip_ids[]', m.id, false
+					= check_box_tag 'recip_ids[]', "#{m.mem_id}-#{m.team_id}", false
 				%td #{m.first_name} #{m.last_name} &lt;#{m.email}&gt;
 	-#= hidden_field_tag :recip_ids, recip_ids.join(',')
