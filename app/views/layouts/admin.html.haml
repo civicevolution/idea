@@ -7,15 +7,15 @@
 		=	stylesheet_link_tag 'cgg_welcome.css', 'ce1a.css', 'ce1as.css', 'admin.css'
 		:javascript
 			var dontclick=true;
-			$(document).click(function(e){
-				if(dontclick){
-					e.preventDefault()
-					e.stopPropagation()
-					e.stopImmediatePropagation()
-					e.bubbles = false
-				}
-				$('div#loading_please_wait').show()
-			});
+			//$(document).click(function(e){
+			//	if(dontclick){
+			//		e.preventDefault()
+			//		e.stopPropagation()
+			//		e.stopImmediatePropagation()
+			//		e.bubbles = false
+			//	}
+			//	$('div#loading_please_wait').show()
+			//});
 			//var _gaq = _gaq || [];
 			//_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
 			//_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);

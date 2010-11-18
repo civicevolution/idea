@@ -1,0 +1,38 @@
+- content_for (:script) do
+	= javascript_include_tag "jquery.tablesorter.min.js"
+	:javascript
+		$(function(){
+			$("#reports").tablesorter(); 
+		});
+		
+		
+%h3 Call to action emails report
+
+%table#reports{:class=>"tablesorter"}
+	%thead
+		%tr
+			%th First name
+			%th Last name
+			%th Email
+			%th Scenario
+			%th Ver
+			%th Open email
+			%th Visit
+			%th Sent
+			%th team_id
+		
+	%tbody
+		- @cta_records.each do |cta|
+			%tr
+				%td= cta[:first_name]
+				%td= cta[:last_name]
+				%td= cta[:email]
+				%td= cta[:scenario]
+				%td= cta[:version]
+				%td= cta[:opened_email]		
+				%td= cta[:visit_site]	
+				%td= cta[:created_at]	
+				%td= cta[:team_id]	
+			
+
+	
