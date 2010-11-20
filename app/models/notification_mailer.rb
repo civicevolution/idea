@@ -2,7 +2,7 @@ class NotificationMailer < ActionMailer::Base
   
 
   def periodic_report(recip, team, comments, answers, bs_ideas, reports, mcode, sent_at = Time.now)
-    subject    'CivicEvolution team activity notification'
+    subject    'Your 2029 CivicEvolution team has been working'
     recipients "#{recip.first_name} #{recip.last_name} <#{recip.email}>"
     from       "CivicEvolution <no-reply@auto.civicevolution.org>"
     bcc        "<test+1@auto.civicevolution.org>"
@@ -12,7 +12,7 @@ class NotificationMailer < ActionMailer::Base
   end
 
   def immediate_report(recip,team,report,entry,sent_at = Time.now)
-    subject    'CivicEvolution immediate notification report'
+    subject    'Someone just posted in your 2029 CivicEvolution team'
     recipients "#{recip.first_name} #{recip.last_name} <#{recip.email}>"
     from       "CivicEvolution <no-reply@auto.civicevolution.org>"
     bcc         "<test+1@auto.civicevolution.org>"
