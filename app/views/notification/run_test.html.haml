@@ -1,0 +1,15 @@
+%h3.result Task was run successfully
+
+- form_tag( {:action=>'run_test'} ) do
+	= hidden_field_tag :type, 'clear'
+	%p
+		Team id: 
+		= text_field_tag :team_id, params[:team_id]||10021, {:size=>4}
+		Num records
+		= text_field_tag :num_records, params[:num_records]||4, {:size=>4}
+		= submit_tag "Clear log entries"
+
+%p= link_to "Send immediate signal", :action=>'run_test', :type=>'immediate'
+
+%p= link_to "Send hourly signal", :action=>'run_test', :type=>'hourly'
+

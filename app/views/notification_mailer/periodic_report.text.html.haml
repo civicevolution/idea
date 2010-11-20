@@ -1,76 +1,98 @@
-%h3 #{@team.title}
+%style
+	:sass
+		body
+			max-width: 600px
+		p.com_author, p.ans_title
+			font-style: italic
+			margin-bottom: 0
+		p.ans_title
+			font-weight: bold
+		p.com_date
+			margin-top: 0
+			margin-left: 20px
+		p.com, p.ans
+			margin-bottom: 40px
+		h3.team_title
+			margin: 40px 0 10px 0
+		p.team_link
+			margin: -8px 0 20px 20px
+		p.summary
+			font-style: italic
+			margin-bottom: 30px
 
-%p Activity report for #{@recip.first_name} #{@recip.last_name}
 
-- if @report.report_type == 1
-	%h3 These are replies to your comments, ideas, and answers
-- else
-	%h3 These are posts by your team
+%img{:src=>"http://2029.civicevolution.org/images/2029beyondemail.jpg"}
 
-- if @report.report_format == 1
-	- @report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
-		- #debugger
-		- case type.to_i
-			- when 2
-				- entry = @answers.detect{|a| a.id == id.to_i}
-				%p.entry_title An answer was added or edited
-				%p.ans #{entry.text}
-    
-			- when 3
-				- entry = @comments.detect{|c| c.id == id.to_i}
-				%p.entry_title A comment was added by #{entry.first_name} #{entry.last_name}
-				%p.com #{entry.text}
-    
-			- when 11
-				- entry = @bs_ideas.detect{|b| b.id == id.to_i}
-				%p.entry_title A brainstorming idea was added
-				%p.idea #{entry.text}
+			
+- location = @recip.location.gsub(' ','_')
+-#%p 
+-#	#{@recip.first_name} #{@recip.last_name}'s report generated
+-#	= TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).strftime('%A %B %d, %Y at %I:%M %p')
+	
+- @reports.each do |report|
+	- team =  @team.detect{|t| t.id == report.team_id}
+	- com = idea = ans = 0
+	- report.match_queue.scan(/(\d+)-(\d+)/).each{|type, id| case type.to_i when 2: ans += 1 when 3: com +=1 when 11: idea += 1 end}
+	
+	%h3.team_title= team.title
+	-host = team.initiative_id == 1 ? 'cgg' : '2029'
 
-- else # show stats
-	%h3 Activity since your last visit
-	%p # Comments
-	%p # Ideas
-	%p # Answers
-
-- @report = @report[:report]
-- if !@report.nil?
-	- if @report.report_type == 1
-		%h3 These are replies to your comments, ideas, and answers
-	- else
-		%h3 These are posts by your team
-
-	- if @report.report_format == 1
-		- @report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
+	%p.team_link
+		Please contribute to your 
+		%a{:href=>"http://#{host}.civicevolution.org/team/#{report.team_id}?_mlc=#{@mcode}&_sc=discuss_change"}team's discussion
+		today!
+	- if report.report_type == 1
+		%p You have chosen to only see replies to your comments, ideas, and answers
+	-#- else
+	-#	%p These are posts to your team since the last report
+	
+	- if report.report_format == 1
+		%p.summary (Summary: #{com} Comments, #{idea} Ideas, #{ans} Answers)
+		- report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
 			- #debugger
 			- case type.to_i
 				- when 2
 					- entry = @answers.detect{|a| a.id == id.to_i}
-					%p.entry_title An answer was added or edited
+					- if entry.ver == 1
+						%p.ans_title New answer
+					- else
+						%p.ans_title Edited answer
+					
+					%p.com_date
+						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
 					%p.ans #{entry.text}
-    
+   
 				- when 3
 					- entry = @comments.detect{|c| c.id == id.to_i}
-					%p.entry_title A comment was added by #{entry.first_name} #{entry.last_name}
+					%p.com_author 
+						#{entry.first_name} #{entry.last_name} posted this comment
+					%p.com_date
+						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
 					%p.com #{entry.text}
-    
+				
+					-#- entry = @comments.detect{|c| c.id == id.to_i}
+					-#%p.entry_title #{entry.first_name} #{entry.last_name} says:
+					-#%p= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+					-#%p.com #{entry.text}
+   
 				- when 11
 					- entry = @bs_ideas.detect{|b| b.id == id.to_i}
 					%p.entry_title A brainstorming idea was added
 					%p.idea #{entry.text}
 
 	- else # show stats
-		%h3 Activity since your last visit
-		%p # Comments
-		%p # Ideas
-		%p # Answers
+		-# scan the queue and count the coms, ideas, and answers
+		- com = idea = ans = 0
+		- report.match_queue.scan(/(\d+)-(\d+)/).each{|type, id| case type.to_i when 2: ans += 1 when 3: com +=1 when 11: idea += 1 end}
+		- #debugger
+		%p Summary of team activity since last report
+		%p= "#{com} Comments"
+		%p= "#{idea} Ideas"
+		%p= "#{ans} Answers"
 
-		-#%h2 first call to partial
-		-#= render :partial=>'email_report', :locals=>{:report=>@report, :comments=>@comments, :answers=>@answers }
-		-#
-		-#%h2 second call to partial
-		-#- rep = @report[:report]
-		-#-#debugger
-		-#-#= render :partial=>'email_report', :locals=>{:report=>rep, :comments=>@comments, :answers=>@answers } unless @report[:report].nil?
-		-#= render :partial=>'email_report'
 
--#%p= render :partial=>'email_report'
+%p 
+	%a{:href=>"http://2029.civicevolution.org/notification/settings?_mlc=#{@mcode}"}Unsubscribe or adjust your team notification settings
+	
+	
+%img{:src=>"http://2029.civicevolution.org/img/logo/#{@mcode}"}

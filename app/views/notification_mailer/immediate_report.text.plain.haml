@@ -1,28 +1,34 @@
-#{ @recip.first_name }, here is your notification of activity
+= @team.title
 ~''
-Team: "#{ @team.title}"	
+~''
+
+Immediate activity report for #{@recip.first_name} #{@recip.last_name}
+~''
 ~''
 - case
-	- when @report[:o_type] == 2 && @report[:report_type] == 'full'
-		An answer was added or edited
+	- when @entry.class.to_s == "Answer" && @report[:report_format] == 1
+		- if @entry.ver == 1
+			A new answer was added
+		- else
+			An answer was edited
 		~''
-		#{@entry.text}
-
-	- when @report[:o_type] == 3 && @report[:report_type] == 'full'
-		A comment was added
+		= @entry.text
+		
+	- when @entry.class.to_s == "Comment" && @report[:report_format] == 1
+		A comment was added by #{@entry.first_name} #{@entry.last_name}
 		~''
-		#{@entry.text}
+		= @entry.text
 
-	- when @report[:o_type] == 11 && @report[:report_type] == 'full'
+	- when @entry.class.to_s == "BsIdea" && @report[:report_format] == 1
 		A brainstorming idea was added
 		~''
-		#{@entry.text}
+		= @entry.text
 	
-	- when @report[:o_type] == 2
+	- when @entry.class.to_s == "Answer"
 		An answer was added or edited
 
-	- when @report[:o_type] == 3
+	- when @entry.class.to_s == "Comment"
 		A comment was added
 
-	- when @report[:o_type] == 11
+	- when @entry.class.to_s == "BsIdea"
 		A brainstorming idea was added

@@ -38,6 +38,11 @@ class TeamRegistration < ActiveRecord::Base
   private
   
   def check_if_I_should_launch_team
+    # create a notification record for this user then check if I should launch
+    
+    nr = NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>2, :report_format=>1, :immediate=>false )
+    nr.save
+    
     self.num_members = TeamRegistration.count_members(self.team_id)
     logger.debug "check_if_I_should_launch_team min members: #{self.team.min_members}, num_members: #{self.num_members}"
     if self.num_members.to_i >= self.team.min_members.to_i && self.team.launched == false

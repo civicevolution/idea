@@ -38,8 +38,9 @@ Signal.trap("USR2") do
 
   hour = Time.now.utc.hour 
   dow = Time.now.utc.wday
+  sleep 8
   ActiveRecord::Base.logger.info "LOOP queue pending reports for dow: #{dow} and hour: #{hour} at #{Time.now}.\n"
-  NotificationRequest.send_periodic_report(dow,hour)
+  NotificationRequest.send_periodic_report(dow,hour,ActiveRecord::Base.logger)
 
 end
 

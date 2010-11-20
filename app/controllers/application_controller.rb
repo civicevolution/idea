@@ -87,12 +87,17 @@ class ApplicationController < ActionController::Base
       if params[:_mlc]
         @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.request_uri} )
         if @member.nil?
-          #render :controller=>'welcome', :action=>'request_new_access_code'
-          render :template=>'welcome/request_new_access_code', :layout=>'welcome'
-          flash[:pre_request_access_code_uri] = request.request_uri #.sub(/\?.*/,'')
-          return
+          if session[:_mlc] != params[:_mlc] || session[:member_id].nil?
+            #render :controller=>'welcome', :action=>'request_new_access_code'
+            render :template=>'welcome/request_new_access_code', :layout=>'welcome'
+            flash[:pre_request_access_code_uri] = request.request_uri #.sub(/\?.*/,'')
+            return
+          else
+            @member = Member.find_by_id(session[:member_id]);
+          end
         else
           session[:member_id] = @member.id
+          session[:_mlc] = params[:_mlc]
         end
 
       else

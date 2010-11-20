@@ -184,7 +184,7 @@ class NotificationRequest < ActiveRecord::Base
   
   end
 
-  def self.send_periodic_report(hod = 13, dow = 5)
+  def self.send_periodic_report(hod = 13, dow = 5, logger = logger)
     logger.debug "NotifiationRequest.send_periodic_report"
     
     reports = NotificationRequest.all(
@@ -198,12 +198,13 @@ class NotificationRequest < ActiveRecord::Base
     recip_ids = []
     member_ids = []
     displayed_objects = {'2'=>[], '3'=>[], '11'=>[]}
-    
+    recipient_reports = []
+    recipient_requests = []
     # and combine reports for the same member
     
     mem_id = nil
     reports.each do |report| 
-      #logger.debug "Collect ids for this report: #{report.inspect}"
+      logger.debug "Collect ids for this report: #{report.inspect}"
       team_ids.push report.team_id
       
       recip_ids.push report.member_id
@@ -216,46 +217,58 @@ class NotificationRequest < ActiveRecord::Base
       
       #logger.debug "Check if I have seem this member (#{report.member_id}) already"
       if mem_id == report.member_id
-        #logger.debug "combine records"
-        # I have already processed this member record once, combine this record with the earlier one
-        member_report = reports.detect{|r| r.member_id == report.member_id && r.id != report.id}
-        #logger.debug "concatenate rec #{report.id} and #{member_report.id}"
-        # concatenate the match_queues
-        #member_report.match_queue = member_report.match_queue.sub(/\}/, ',' + report.match_queue.sub(/\{/,'').sub(/\}/,'') + '}')
-        
-        # add the new report to the first report, and ignore subsequent reports to this member in email loop
-        member_report[:report] = report
-        report[:ignore] = true
+        recipient_requests.push report
       else
         #logger.debug "New member"
         mem_id = report.member_id
+        recipient_requests = [report]
+        recipient_reports.push recipient_requests
       end
     end
     
     #logger.debug "displayed_objects: #{displayed_objects}"
 
     # collect all the data I will use
-    @teams = Team.find(:all, :select=>'id, title', :conditions=> { :id=>team_ids} )
-    @recipients = Member.find(:all, :select=>'id, first_name, last_name, email', :conditions=> { :id=>recip_ids} )
-    @comments = Comment.all(
-      :select => 'c.id, text, c.updated_at, first_name, last_name',
+    @teams = Team.find(:all, :select=>'id, title, initiative_id', :conditions=> { :id=>team_ids} )
+    @recipients = Member.find(:all, :select=>'id, first_name, last_name, email, location', :conditions=> { :id=>recip_ids} )
+    # get the unique locations that need to be converted and create the location objects
+    locations = {}
+    @recipients.collect{|r| r.location.gsub(' ','_')}.uniq.each{ |l| locations[l] = TZInfo::Timezone.get(l)}
+
+    # locations['Australia/Perth'] ... locations[recipient.location]
+    @comments =  displayed_objects['3'].size == 0 ? [] : Comment.all(
+      :select => 'c.id, text, c.updated_at, first_name, last_name, team_id',
       :conditions => { 'c.id'=>displayed_objects['3'].uniq},
       :joins => 'as c inner join members as m on m.id = c.member_id' 
-    )  if displayed_objects['3'].size > 0
-    @answers = Answer.find_all_by_id(displayed_objects['2'].uniq) if displayed_objects['2'].size > 0
-    @bs_ideas = BsIdea.find_all_by_id(displayed_objects['11'].uniq) if displayed_objects['11'].size > 0
+    ) 
+    # convert the comment updated_at timestamp for each location
+    @comments.each do |c|
+      c[:tz] = {}
+      locations.each{|id,tz| c[:tz][id] = tz.utc_to_local(c.updated_at) }
+    end
     
-    reports.each do |report| 
-      if report[:ignore].nil?
-        logger.debug "Email this: #{report.inspect}"
-        #report.match_queue = report.match_queue.scan(/\d+-\d+/).map{|d| d} 
+    @answers = displayed_objects['2'].size == 0 ? [] : Answer.find_all_by_id(displayed_objects['2'].uniq)
+    @answers.each do |a|
+      a[:tz] = {}
+      locations.each{|id,tz| a[:tz][id] = tz.utc_to_local(a.updated_at) }
+    end
+
+    @bs_ideas = displayed_objects['11'].size == 0 ? [] : BsIdea.find_all_by_id(displayed_objects['11'].uniq)
+    @bs_ideas.each do |b|
+      b[:tz] = {}
+      locations.each{|id,tz| b[:tz][id] = tz.utc_to_local(b.updated_at) }
+    end    
     
-        NotificationMailer.deliver_periodic_report(@recipients.detect{|r| r.id == report.member_id}, @teams.detect{|t| t.id == report.team_id}, @comments, @answers, @bs_ideas,report)
+    recipient_reports.each do |reports| 
+      #logger.debug "Email this: #{reports.inspect}"
+      recipient = @recipients.detect{|r| r.id == reports[0].member_id}
+      mcode = MemberLookupCode.get_code(recipient.id, {:scenario=>'periodic team report'} )
+      
+      NotificationMailer.deliver_periodic_report(recipient, @teams, @comments, @answers, @bs_ideas, reports, mcode)
+      # uncomment update line to clear the queue
+      reports.each do |request|
+        ActiveRecord::Base::connection().update("update notification_requests set match_queue = null, sent_time = now() at time zone 'UTC' where id = #{request.id}");
       end
-      # uncomment update line to clear the attributes
-      #report.update_attributes( {:match_queue=>nil, :sent_time=>Time.now.utc} )
-      #NotificationRequest.update( "update notification_requests set match_queue = null, sent_time = now() at time zone 'UTC' where id = #{report.id}",'update' );
-      ActiveRecord::Base::connection().update("update notification_requests set match_queue = null, sent_time = now() at time zone 'UTC' where id = #{report.id}");
     end
   end
 

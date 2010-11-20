@@ -4,7 +4,11 @@
 
 - case
 	- when @entry.class.to_s == "Answer" && @report[:report_format] == 1
-		%p.entry_title An answer was added or edited
+		- if @entry.ver == 1
+			%p.entry_title A new answer was added
+		- else
+			%p.entry_title An answer was edited
+		
 		%p.ans #{@entry.text}
 
 	- when @entry.class.to_s == "Comment" && @report[:report_format] == 1

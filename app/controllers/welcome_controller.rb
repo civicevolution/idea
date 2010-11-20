@@ -155,6 +155,7 @@ class WelcomeController < ApplicationController
     @member.init_id = params[:_initiative_id]
     @member.ip = request.remote_ip
     @member.email = @member.email.strip.downcase
+    @member.location = 'Australia/Perth'
     
     
     restrictions_test,message = InitiativeRestriction.allow_action(params[:_initiative_id], 'join_initiative', @member)

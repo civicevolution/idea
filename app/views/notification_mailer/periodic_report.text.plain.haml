@@ -1,1 +1,67 @@
-text.plain.haml
+- location = @recip.location.gsub(' ','_')
+	
+- @reports.each do |report|
+	- team =  @team.detect{|t| t.id == report.team_id}
+	- com = idea = ans = 0
+	- report.match_queue.scan(/(\d+)-(\d+)/).each{|type, id| case type.to_i when 2: ans += 1 when 3: com +=1 when 11: idea += 1 end}
+	= team.title
+	===============================================
+	-host = team.initiative_id == 1 ? 'cgg' : '2029'
+	~''
+	Please contribute to your team's discussion today!
+	http://#{host}.civicevolution.org/team/#{report.team_id}?_mlc=#{@mcode}&_sc=discuss_change
+	~''
+	~''
+	- if report.report_type == 1
+		You have chosen to only see replies to your comments, ideas, and answers
+		~''
+		~''
+	- if report.report_format == 1
+		(Summary: #{com} Comments, #{idea} Ideas, #{ans} Answers)
+		~''
+		~''
+		- report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
+			- case type.to_i
+				- when 2
+					- entry = @answers.detect{|a| a.id == id.to_i}
+					- if entry.ver == 1
+						New answer
+					- else
+						Edited answer
+					
+					= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+					~''
+					= entry.text
+   
+				- when 3
+					- entry = @comments.detect{|c| c.id == id.to_i}
+					#{entry.first_name} #{entry.last_name} posted this comment
+					= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+					~''
+					= entry.text
+				
+				- when 11
+					- entry = @bs_ideas.detect{|b| b.id == id.to_i}
+					A brainstorming idea was added
+					~''
+					= entry.text
+			~''
+			~''
+			~''
+	- else # show stats
+		-# scan the queue and count the coms, ideas, and answers
+		- #debugger
+		Summary of team activity since last report
+		~''
+		= "#{com} Comments"
+		= "#{idea} Ideas"
+		= "#{ans} Answers"
+	~''
+	~''
+	~''
+	~''
+	
+Unsubscribe or adjust your team notification settings
+http://2029.civicevolution.org/notification/settings?_mlc=#{@mcode}
+	
+	
