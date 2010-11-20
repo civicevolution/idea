@@ -1880,7 +1880,7 @@ class TeamController < ApplicationController
         # I shortened the field name in form b/c it was removed by recaptcha
         params[:recaptcha_challenge_field] = params[:recaptcha_challenge]
         params[:recaptcha_response_field] =  params[:recaptcha_response]
-        validate_recap(params, @team_email.errors)
+        #validate_recap(params, @team_email.errors)
       end
       
       if @team_email.errors.empty?
