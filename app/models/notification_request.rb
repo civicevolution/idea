@@ -184,7 +184,7 @@ class NotificationRequest < ActiveRecord::Base
   
   end
 
-  def self.send_periodic_report(hod = 13, dow = 5, logger = logger)
+  def self.send_periodic_report(dow = 5, hod = 13, logger = logger)
     logger.debug "NotifiationRequest.send_periodic_report"
     
     reports = NotificationRequest.all(
