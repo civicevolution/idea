@@ -50,7 +50,9 @@ class AdminController < ApplicationController
     if params[:act] == 'fetch_recipients'
       logger.debug "Load the recipients #{params[:recipient_source]}"
       @email_recipients = CallToActionEmail.get_recipients_by_query(params[:recipient_source])
-      @email_recipients.concat(Member.all(:select=>"first_name, last_name, email, id AS mem_id, #{@email_recipients[0].team_id} AS team_id", :conditions=>'id in (1,119)'))
+      @email_recipients.concat(
+        Member.all(:select=>"first_name, last_name, email, id AS mem_id, #{@email_recipients[0].team_id} AS team_id", :conditions=>'id in (1,119)')
+      ) unless #{params[:recipient_source] == '0'
       logger.debug "@email_recipients.size: #{@email_recipients.size}"
       respond_to do |format|
         format.html { render :partial => 'email_recipients' } if request.xhr?
