@@ -4,8 +4,8 @@
 - else
 	- if @email_recipients[0].is_a?(Team)
 		%p Please select from one of the teams
-		- teams = { "Select a team"=>-1}
-		- @email_recipients.each{|t| teams["#{t['title']} (#{t['id']})"] = t['id'] }
+		- teams = [ ["Select a team", -1 ] ]
+		- @email_recipients.each{|t| teams.push ["#{t['title']} (#{t['id']})", t['id'] ] }
 
 		%p 
 			= select_tag( :team, options_for_select( teams,	-1) )
