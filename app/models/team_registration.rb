@@ -40,7 +40,7 @@ class TeamRegistration < ActiveRecord::Base
   def check_if_I_should_launch_team
     # create a notification record for this user then check if I should launch
     
-    nr = NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>2, :report_format=>1, :immediate=>false )
+    nr = NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>2, :report_format=>1, :immediate=>false, :hour_to_run=>'{18}' )
     nr.save
     
     self.num_members = TeamRegistration.count_members(self.team_id)
