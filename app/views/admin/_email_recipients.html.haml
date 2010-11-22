@@ -1,22 +1,32 @@
--# debugger
+- #debugger
 - if @email_recipients.size == 0
 	%h3 No recipients were found
 - else
-	-#- team = Team.find(params[:team_id])
-	-#= hidden_field_tag :team_id, team.id
-	%p 
-		Recipients are ...
-		-#%b
-		-#	#{team.title}
-	- logger.debug "show the table with @recipients: #{@recipients}"
-	%p 
-		#{@email_recipients.size} recipients
-		=link_to 'Select all', {},{:class=>'select_all'}
-		=link_to 'Unselect all', {},{:class=>'uselect_all'}
-	%table
-		- @email_recipients.each do |m|
-			%tr
-				%td
-					= check_box_tag 'recip_ids[]', "#{m.mem_id}-#{m.team_id}", false
-				%td #{m.first_name} #{m.last_name} &lt;#{m.email}&gt;
-	-#= hidden_field_tag :recip_ids, recip_ids.join(',')
+	- if @email_recipients[0].is_a?(Team)
+		%p Please select from one of the teams
+		- teams = { "Select a team"=>-1}
+		- @email_recipients.each{|t| teams["#{t['title']} (#{t['id']})"] = t['id'] }
+
+		%p 
+			= select_tag( :team, options_for_select( teams,	-1) )
+			%div#team_members
+		
+	- else
+		-#- team = Team.find(params[:team_id])
+		-#= hidden_field_tag :team_id, team.id
+		%p 
+			Recipients are ...
+			-#%b
+			-#	#{team.title}
+		- logger.debug "show the table with @recipients: #{@recipients}"
+		%p 
+			#{@email_recipients.size} recipients
+			=link_to 'Select all', {},{:class=>'select_all'}
+			=link_to 'Unselect all', {},{:class=>'uselect_all'}
+		%table
+			- @email_recipients.each do |m|
+				%tr
+					%td
+						= check_box_tag 'recip_ids[]', "#{m.mem_id}-#{m.team_id}", false
+					%td #{m.first_name} #{m.last_name} &lt;#{m.email}&gt;
+		-#= hidden_field_tag :recip_ids, recip_ids.join(',')

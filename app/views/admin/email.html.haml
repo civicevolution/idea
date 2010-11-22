@@ -123,9 +123,16 @@
 		$('select#recipient_source').die('change').live('change',
 			function(){
 				console.log("load recipients")
-				$('div#recipients').load('/admin/email',{act:'fetch_recipients', recipient_source: $('select#recipient_source').val(), version: $('select#version').val()})
+				$('div#recipients').load('/admin/email',{act:'fetch_recipients', recipient_source: $('select#recipient_source').val()})
 			}
 		)
+		$('select#team').die('change').live('change',
+			function(){
+				console.log("load team members")
+				$('div#team_members').load('/admin/email',{act:'fetch_recipients', recipient_source: 'team_id-' + $('select#team').val()})
+			}
+		)
+		
 		
 		
 	%style
@@ -154,7 +161,7 @@
 	- form_tag( { :action => :email}, {:class=>'std_form'} ) do
 		-#= hidden_field_tag :act, 'fetch_recipients', {:class=>'act'}
 		%p 
-			= select_tag( :recipient_source, options_for_select( {"Select recipients class"=>-1, "Registered - no team 2029" => 1, "Team not launched 2029"=>2, "Team - no comment yet 2029"=>3, "Team and commented 2029"=>4, "Registered - no team CGG" => 5, "Team not launched CGG"=>6, "Team - no comment yet CGG"=>7, "Team and commented CGG"=>8}, -1))	
+			= select_tag( :recipient_source, options_for_select( {"Select recipients class"=>-1, "Registered - no team 2029" => 1, "Team not launched 2029"=>2, "Team - no comment yet 2029"=>3, "Team and commented 2029"=>4, "Registered - no team CGG" => 5, "Team not launched CGG"=>6, "Team - no comment yet CGG"=>7, "Team and commented CGG"=>8,"Choose team"=>0,}, -1))	
 			-#%button.send
 			-#	Load recipients
 
