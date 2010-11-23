@@ -12,6 +12,9 @@
 		
 	- if @privileges.include? 'members'
 		%li= link_to "Members", {:action=>'members'}
+
+	- if @privileges.include? 'participant_stats'
+		%li= link_to "Participant stats", {:action=>'participant_stats'}
 	
 			
 	- if @privileges.include? 'content_stats'

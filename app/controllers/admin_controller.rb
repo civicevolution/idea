@@ -232,6 +232,38 @@ class AdminController < ApplicationController
     @signin_records = MemberLookupCodeLog.get_all()
   end
   
+  def participant_stats 
+    sql = %q|SELECT first_name, last_name, t.id, launched,
+      (SELECT COUNT(*) FROM comments WHERE member_id = m.id AND team_id = t.id) AS coms,
+      (SELECT MAX(created_at) FROM comments WHERE member_id = m.id AND team_id = t.id) AS last_com,
+      (SELECT COUNT(*) FROM bs_ideas WHERE member_id = m.id AND team_id = t.id) AS ideas,
+      (SELECT COUNT(*) FROM answers WHERE member_id = m.id AND team_id = t.id) AS ans,
+      (SELECT COUNT(*) FROM activities WHERE member_id = m.id AND team_id = t.id AND action = 'team index') AS visits,
+      (SELECT MAX(created_at) FROM activities WHERE member_id = m.id AND team_id = t.id AND action = 'team index') AS last_visit,
+      (SELECT scenario FROM call_to_action_emails_sents WHERE member_id = m.id AND team_id = t.id ORDER BY created_at DESC LIMIT 1) AS last_call_to_action,
+      title 
+      FROM members m, teams t, team_registrations tr
+      WHERE t.id = tr.team_id
+      AND m.id = tr.member_id
+      AND t.initiative_id IN (1,2)
+      ORDER BY title, first_name, last_name;
+    |;
+    
+    #%q|SELECT first_name, last_name, t.id, 
+    #(SELECT COUNT(*) FROM comments WHERE member_id = m.id AND team_id = t.id) AS coms,
+    #(SELECT COUNT(*) FROM bs_ideas WHERE member_id = m.id AND team_id = t.id) AS ideas,
+    #(SELECT COUNT(*) FROM answers WHERE member_id = m.id AND team_id = t.id) AS ans,
+    #title 
+    #FROM members m, teams t, team_registrations tr
+    #WHERE t.id = tr.team_id
+    #AND m.id = tr.member_id
+    #AND t.initiative_id IN (1,2)
+    #ORDER BY title, first_name, last_name|
+    
+    
+    @rows = Member.find_by_sql( sql );
+  end
+  
   protected
   
     def get_admin_privileges

@@ -1,0 +1,59 @@
+- content_for (:script) do
+	= javascript_include_tag "jquery.tablesorter.min.js"
+	:javascript
+		$(function() {
+		    // add new widget called indexFirstColumn
+		    $.tablesorter.addWidget({
+		        // give the widget a id
+		        id: "indexFirstColumn",
+		        // format is called when the on init and when a sorting has finished
+		        format: function(table) {                               
+		                // loop all tr elements and set the value for the first column  
+		                for(var i=0; i <= table.tBodies[0].rows.length; i++) {
+		                        $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
+		                }                                                               
+		        }
+		    });
+
+				$("#reports").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
+		});
+	%style
+		:sass
+			table td 
+				padding: 3px
+			table tr.odd td
+				background: #e6f2ff
+
+%h3 Members for #{@initiative.title}
+%p Click columns to sort
+
+%table#reports{:class=>"tablesorter"}
+	%thead
+		%tr
+			%th #
+			%th Team
+			%th
+				Name
+			%th
+				Coms
+			%th
+				Ideas
+			%th
+				Answers
+			%th Visits
+			%th Last visit
+			%th Last call to action
+				
+	%tbody			
+		- @rows.each do |m|
+			%tr
+				%td
+				%td= m['title']
+				%td= "#{m.first_name} #{m.last_name}"
+				%td= m['coms']
+				%td= m['ideas']
+				%td= m['ans']
+				%td= m['visits']
+				%td= m['last_visit']
+				%td= m['last_call_to_action']
+			
