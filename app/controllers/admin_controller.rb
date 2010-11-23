@@ -49,7 +49,7 @@ class AdminController < ApplicationController
 
     if params[:act] == 'fetch_recipients'
       logger.debug "Load the recipients #{params[:recipient_source]}"
-      @email_recipients = CallToActionEmail.get_recipients_by_query(params[:recipient_source])
+      @email_recipients = CallToActionEmail.get_recipients_by_query(params[:recipient_source], params[:search])
       @email_recipients.concat(
         Member.all(:select=>"first_name, last_name, email, id AS mem_id, #{@email_recipients[0].team_id} AS team_id", :conditions=>'id in (1,119)')
       ) unless params[:recipient_source] == '0'

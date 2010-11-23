@@ -35,7 +35,7 @@ class CallToActionEmail < ActiveRecord::Base
       )
     end
     
-    def self.get_recipients_by_query( recipient_source )
+    def self.get_recipients_by_query( recipient_source, search_phrase )
       logger.debug "recipient_source: #{recipient_source}"
       if recipient_source.match(/^team_id/)
         team_id = recipient_source.match(/^team_id-(\d+)/)[1]
@@ -163,6 +163,12 @@ class CallToActionEmail < ActiveRecord::Base
             AND t.id > 10018
             ORDER BY comments, title, m.id|)
           
+          when 9
+            # search for members
+            Member.all(
+              :select=>'first_name, last_name, email, id AS mem_id, 0 AS team_id',
+              :conditions=>['first_name ~* ? OR last_name ~* ? OR email ~* ?', search_phrase, search_phrase, search_phrase]
+            )
           
         end # end case recipient_source
       end # end if team id

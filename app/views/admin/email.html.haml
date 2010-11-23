@@ -123,13 +123,27 @@
 		$('select#recipient_source').die('change').live('change',
 			function(){
 				console.log("load recipients")
-				$('div#recipients').load('/admin/email',{act:'fetch_recipients', recipient_source: $('select#recipient_source').val()})
+				if( $('select#recipient_source').val() == 9){
+					// open the search form
+					$('p.search_data').show()
+				}else{
+					$('p.search_data').hide()
+					$('div#recipients').load('/admin/email',{act:'fetch_recipients', recipient_source: $('select#recipient_source').val()})
+				}
 			}
 		)
 		$('select#team').die('change').live('change',
 			function(){
 				console.log("load team members")
 				$('div#team_members').load('/admin/email',{act:'fetch_recipients', recipient_source: 'team_id-' + $('select#team').val()})
+			}
+		)
+		$('input.search').die('click').live('click',
+			function(){
+				console.log("search for members")
+				//$('div#team_members').load('/admin/email',{act:'fetch_recipients', recipient_source: 'team_id-' + $('select#team').val()})
+				$('div#recipients').load('/admin/email',{act:'fetch_recipients', recipient_source: $('select#recipient_source').val(), search: $('input.search_phrase').val() })
+				return false
 			}
 		)
 		
@@ -146,28 +160,31 @@
 				width: 400px
 			form.std_form
 				input.version
-					width: 50px
+					width: 50px	
 				input.scenario
 					width: 150px
 				p.save_scenario
 					clear: both
 					margin:	10px 0 10px 0
+			input.search_phrase
+				width: 200px
+			p.search_data
+				display: none
 
 
 %h3 Send email to participants
 - logger.debug "html @recipients: #{@recipients}"
 - if @recipients.nil?
 	- logger.debug "@recipients.nil? is true"
-	- form_tag( { :action => :email}, {:class=>'std_form'} ) do
+	-# form_tag( { :action => :email}, {:class=>'std_form'} ) do
 		-#= hidden_field_tag :act, 'fetch_recipients', {:class=>'act'}
-		- queries = [ ["Select recipients class", -1],["Choose team", 0],["Registered - no team 2029" ,  1],["Team not launched 2029", 2],["Team - no comment yet 2029", 3],["Team and commented 2029", 4],["Registered - no team CGG" ,  5],["Team not launched CGG", 6],["Team - no comment yet CGG", 7],["Team and commented CGG", 8] ]
-		
-		%p 
-			= select_tag( :recipient_source, options_for_select(queries, -1))	
-			-#%button.send
-			-#	Load recipients
-
-
+	- queries = [ ["Select recipients class", -1],["Choose team", 0],["Search members",9],["Registered - no team 2029" ,  1],["Team not launched 2029", 2],["Team - no comment yet 2029", 3],["Team and commented 2029", 4],["Registered - no team CGG" ,  5],["Team not launched CGG", 6],["Team - no comment yet CGG", 7],["Team and commented CGG", 8] ]
+	
+	%p 
+		= select_tag( :recipient_source, options_for_select(queries, -1))	
+	%p.search_data 
+		= text_field_tag :search_phrase, nil, {:class=>"search_phrase"}
+		%input.search{:value=>'Search', :type=>'button'}
 -#- else
 - logger.debug "@recipients.nil? is false"
 - logger.debug "email: #{@cta_email.inspect}"
