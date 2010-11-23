@@ -149,7 +149,7 @@ class AdminController < ApplicationController
             :member_lookup_code_id => mcode_id,
             :scenario=> params[:scenario],
             :version=> params[:version],
-            :team_id=> params[:team_id]
+            :team_id=> @team.id || 0
           )
           ctaes.save
           #update as most recent email
