@@ -140,7 +140,8 @@ class AdminController < ApplicationController
           
           @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
           msg = render_to_string :inline=>message
-          AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
+          #AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
+          AdminMailer.deliver_email_message_with_attachment(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
           include_bcc = false
           # record details on each email that is sent
           ctaes = CallToActionEmailsSent.new(
