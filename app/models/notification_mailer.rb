@@ -5,7 +5,7 @@ class NotificationMailer < ActionMailer::Base
     subject    'Your 2029 CivicEvolution team has been working'
     recipients "#{recip.first_name} #{recip.last_name} <#{recip.email}>"
     from       "CivicEvolution <no-reply@auto.civicevolution.org>"
-    bcc        "<test+1@auto.civicevolution.org>"
+    bcc        "support@auto.civicevolution.org"
     sent_on    sent_at
     
     body       :recip=>recip, :team=>team, :comments=>comments, :answers=>answers, :bs_ideas=>bs_ideas, :reports=>reports, :mcode=>mcode
@@ -15,7 +15,7 @@ class NotificationMailer < ActionMailer::Base
     subject    'Someone just posted in your 2029 CivicEvolution team'
     recipients "#{recip.first_name} #{recip.last_name} <#{recip.email}>"
     from       "CivicEvolution <no-reply@auto.civicevolution.org>"
-    bcc         "<test+1@auto.civicevolution.org>"
+    bcc         "support@auto.civicevolution.org"
     sent_on    sent_at
     
     

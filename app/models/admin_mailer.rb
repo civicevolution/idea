@@ -5,7 +5,7 @@ class AdminMailer < ActionMailer::Base
     recipients "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>"
     from       "\"CivicEvolution\" <support@civicevolution.org>"
     sent_on    sent_at
-    bcc       "support@civicevolution.org" if include_bcc
+    bcc       "support@auto.civicevolution.org" if include_bcc
     body      :plain_text_message => plain_text_message, :html_message => html_message
   end
 
@@ -14,7 +14,7 @@ class AdminMailer < ActionMailer::Base
     recipients "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>"
     from       "\"CivicEvolution\" <support@civicevolution.org>"
     sent_on    sent_at
-    bcc       "support@civicevolution.org" if include_bcc
+    bcc       "support@auto.civicevolution.org" if include_bcc
     content_type    "multipart/mixed"
 
     #part :content_type => "text/html",
