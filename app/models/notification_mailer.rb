@@ -2,7 +2,7 @@ class NotificationMailer < ActionMailer::Base
   
 
   def periodic_report(recip, team, comments, answers, bs_ideas, reports, mcode, sent_at = Time.now)
-    subject    'Your 2029 CivicEvolution team has been working'
+    subject    'Apologies for last report, Your 2029 CivicEvolution team has been working'
     recipients "#{recip.first_name} #{recip.last_name} <#{recip.email}>"
     from       "CivicEvolution <no-reply@auto.civicevolution.org>"
     bcc        "support@auto.civicevolution.org"
