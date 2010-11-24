@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  team_id: 1
+  member_id: 1
+  sent: false
+
+two:
+  team_id: 1
+  member_id: 1
+  sent: false
