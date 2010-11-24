@@ -15,7 +15,8 @@
 		        }
 		    });
 
-				$("#reports").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
+				$("#team_members").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
+				$("#members").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
 		});
 	%style
 		:sass
@@ -35,7 +36,7 @@
 %h3 Members for #{@initiative.title}
 %p Click columns to sort
 
-%table#reports{:class=>"tablesorter"}
+%table#team_members{:class=>"tablesorter"}
 	%thead
 		%tr
 			%th #
@@ -60,7 +61,7 @@
 			
 			
 	%tbody			
-		- @rows.each do |m|
+		- @team_stats.each do |m|
 			%tr
 				%td
 				%td.title= m['title']
@@ -85,3 +86,43 @@
 				%td
 					%span.sort_time= m['cta_time'].nil? ? 0 : Time.parse(m['cta_time']).to_i
 				%td
+				
+%h3 Members without a team
+%table#members{:class=>"tablesorter"}
+	%thead
+		%tr
+			%th #
+			%th In
+			%th Name
+			%th Reg.
+			%th v^
+			%th Coms
+			%th Visits
+			%th Last visit
+			%th v^
+			%th Scenario
+			%th CTA time
+			%th v^
+			%th Next CTA
+			%th email
+						
+	%tbody			
+		- @no_team.each do |m|
+			%tr
+				%td
+				%td= m['initiative_id']
+				%td= "#{m.first_name} #{m.last_name}"
+				%td= time_ago_in_words(m['registered']) + ' ago' unless m['registered'].nil?
+				%td
+					%span.sort_time= m['registered'].nil? ? 0 : Time.parse(m['registered']).to_i
+				%td= m['coms']
+				%td= m['visits']
+				%td= time_ago_in_words(m['last_visit']) + ' ago' unless m['last_visit'].nil?
+				%td
+					%span.sort_time= m['last_visit'].nil? ? 0 : Time.parse(m['last_visit']).to_i
+				%td= m['scenario']
+				%td= time_ago_in_words(m['cta_time']) + ' ago' unless m['cta_time'].nil?
+				%td
+					%span.sort_time= m['cta_time'].nil? ? 0 : Time.parse(m['cta_time']).to_i
+				%td
+				%td= m['email']

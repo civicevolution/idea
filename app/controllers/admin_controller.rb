@@ -249,7 +249,26 @@ class AdminController < ApplicationController
     WHERE t.initiative_id IN (1,2)
     ORDER BY m.id
     |
-    @rows = Member.find_by_sql( sql );
+    @team_stats = Member.find_by_sql( sql );
+    
+    
+    sql = %q|
+    select m.id, first_name, last_name, im.initiative_id, coms.cnt, email, m.created_at AS registered, visits.cnt AS visits, visit.last_visit AS last_visit, scenario, cta_time
+    FROM members m
+    LEFT OUTER JOIN initiative_members AS im ON im.member_id= m.id
+    LEFT OUTER JOIN (SELECT member_id, COUNT(*) AS cnt FROM comments GROUP BY member_id) AS coms ON coms.member_id = m.id
+
+    LEFT OUTER JOIN (SELECT member_id, COUNT(*) AS cnt FROM activities GROUP BY member_id) AS visits ON visits.member_id = m.id
+    LEFT OUTER JOIN (SELECT member_id, MAX(created_at) AS last_visit FROM activities GROUP BY member_id) AS visit ON visit.member_id = m.id
+    LEFT OUTER JOIN (SELECT scenario, member_id, created_at AS cta_time FROM call_to_action_emails_sents WHERE id IN (SELECT MAX(id) AS last_id FROM call_to_action_emails_sents GROUP BY member_id)) AS cta ON cta.member_id = m.id
+
+    WHERE im.initiative_id IN (1,2)  
+    AND m.id NOT IN (SELECT member_id FROM team_registrations)
+    ORDER BY initiative_id, first_name, last_name
+    |
+    @no_team = Member.find_by_sql(sql)
+    
+    
   end
   
   protected
