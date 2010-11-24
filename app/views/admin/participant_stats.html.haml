@@ -19,10 +19,18 @@
 		});
 	%style
 		:sass
+			div.page
+				width: auto
 			table td 
 				padding: 3px
 			table tr.odd td
 				background: #e6f2ff
+			span.sort_time
+				width: 20px
+				display: none
+			td.title 
+				max-width: 200px
+					
 
 %h3 Members for #{@initiative.title}
 %p Click columns to sort
@@ -32,28 +40,46 @@
 		%tr
 			%th #
 			%th Team
-			%th
-				Name
-			%th
-				Coms
-			%th
-				Ideas
-			%th
-				Answers
+			%th Joined
+			%th v^
+			%th Live
+			%th Name
+			%th Coms
+			%th Ideas
+			%th Answers
 			%th Visits
 			%th Last visit
-			%th Last call to action
-				
+			%th v^
+			%th Last com
+			%th v^
+			%th Scenario
+			%th CTA time
+			%th v^
+			%th Next CTA
+			
+			
 	%tbody			
 		- @rows.each do |m|
 			%tr
 				%td
-				%td= m['title']
+				%td.title= m['title']
+				%td= time_ago_in_words(m['join_ts']) + ' ago' unless m['join_ts'].nil?
+				%td
+					%span.sort_time= m['join_ts'].nil? ? 0 : Time.parse(m['join_ts']).to_i
+				%td= m['launched'] == 't' ? 'Live' : 'No'
 				%td= "#{m.first_name} #{m.last_name}"
 				%td= m['coms']
 				%td= m['ideas']
 				%td= m['ans']
 				%td= m['visits']
-				%td= m['last_visit']
-				%td= m['last_call_to_action']
-			
+				%td= time_ago_in_words(m['last_visit']) + ' ago' unless m['last_visit'].nil?
+				%td
+					%span.sort_time= m['last_visit'].nil? ? 0 : Time.parse(m['last_visit']).to_i
+				%td= time_ago_in_words(m['last_com']) + ' ago' unless m['last_com'].nil?
+				%td
+					%span.sort_time= m['last_com'].nil? ? 0 : Time.parse(m['last_com']).to_i
+				%td= m['scenario']
+				%td= time_ago_in_words(m['cta_time']) + ' ago' unless m['cta_time'].nil?
+				%td
+					%span.sort_time= m['cta_time'].nil? ? 0 : Time.parse(m['cta_time']).to_i
+				%td
