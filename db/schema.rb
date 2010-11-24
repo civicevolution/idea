@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101116222350) do
+ActiveRecord::Schema.define(:version => 20101124231555) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -102,6 +102,16 @@ ActiveRecord::Schema.define(:version => 20101116222350) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "call_to_action_queues", :force => true do |t|
+    t.integer  "team_id",    :default => 0,     :null => false
+    t.integer  "member_id",                     :null => false
+    t.boolean  "sent",       :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "call_to_action_queues", ["member_id", "team_id"], :name => "cta_unique_member_id_team_id", :unique => true
 
   create_table "chat_active_sessions", :force => true do |t|
     t.integer  "chat_session_id", :null => false
@@ -508,6 +518,19 @@ ActiveRecord::Schema.define(:version => 20101116222350) do
     t.string   "com_criteria",                 :default => "5..1500"
     t.string   "res_criteria",                 :default => "5..500"
     t.boolean  "launched",                     :default => false,     :null => false
+  end
+
+  create_table "temp_cta", :id => false, :force => true do |t|
+    t.integer  "id"
+    t.integer  "member_id"
+    t.integer  "member_lookup_code_id"
+    t.text     "scenario"
+    t.integer  "version"
+    t.integer  "team_id"
+    t.datetime "opened_email"
+    t.datetime "visit_site"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "thumbs_ratings", :force => true do |t|
