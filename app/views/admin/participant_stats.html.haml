@@ -40,6 +40,7 @@
 		%tr
 			%th #
 			%th Team
+			%th Mems
 			%th Joined
 			%th v^
 			%th Live
@@ -63,6 +64,7 @@
 			%tr
 				%td
 				%td.title= m['title']
+				%td= m['num_mem']
 				%td= time_ago_in_words(m['join_ts']) + ' ago' unless m['join_ts'].nil?
 				%td
 					%span.sort_time= m['join_ts'].nil? ? 0 : Time.parse(m['join_ts']).to_i

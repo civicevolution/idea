@@ -234,49 +234,21 @@ class AdminController < ApplicationController
   
   def participant_stats 
     
-    sql = %q|SELECT m.id, first_name, last_name, t.id AS team_id, title, tr.created_at AS join_ts, launched, coms.cnt AS coms, ideas.cnt AS ideas, ans.cnt AS ans, visits.cnt AS visits, visit.last_visit, com.last_com, cta.scenario, cta.cta_time
-      FROM members m
-      LEFT OUTER JOIN team_registrations AS tr ON tr.member_id = m.id
-      LEFT OUTER JOIN teams AS t ON t.id = tr.team_id
-      LEFT OUTER JOIN (SELECT member_id, team_id, COUNT(*) AS cnt FROM comments GROUP BY member_id, team_id) AS coms ON coms.member_id = m.id AND coms.team_id = tr.team_id
-      LEFT OUTER JOIN (SELECT member_id, team_id, COUNT(*) AS cnt FROM bs_ideas GROUP BY member_id, team_id) AS ideas ON ideas.member_id = m.id AND ideas.team_id = tr.team_id
-      LEFT OUTER JOIN (SELECT member_id, team_id, COUNT(*) AS cnt FROM answers GROUP BY member_id, team_id) AS ans ON ans.member_id = m.id AND ans.team_id = tr.team_id
-      LEFT OUTER JOIN (SELECT member_id, team_id, action, COUNT(*) AS cnt FROM activities GROUP BY member_id, team_id, action HAVING action = 'team index' OR action = 'proposal') AS visits ON visits.member_id = m.id AND visits.team_id = tr.team_id
-      LEFT OUTER JOIN (SELECT member_id, team_id, action, MAX(created_at) AS last_visit FROM activities GROUP BY member_id, team_id, action HAVING action = 'team index') AS visit ON visit.member_id = m.id AND visit.team_id = tr.team_id
-      LEFT OUTER JOIN (SELECT member_id, team_id, MAX(created_at) AS last_com FROM comments GROUP BY member_id, team_id) AS com ON com.member_id = m.id AND com.team_id = tr.team_id
-      LEFT OUTER JOIN (SELECT scenario, member_id, team_id, created_at AS cta_time FROM call_to_action_emails_sents WHERE id IN (SELECT MAX(id) AS last_id FROM call_to_action_emails_sents GROUP BY member_id, team_id)) AS cta ON cta.member_id = m.id AND cta.team_id = tr.team_id
-      WHERE t.initiative_id IN (1,2)
-      ORDER BY m.id
+    sql = %q|SELECT m.id, first_name, last_name, t.id AS team_id, team_members.cnt AS num_mem, title, tr.created_at AS join_ts, launched, coms.cnt AS coms, ideas.cnt AS ideas, ans.cnt AS ans, visits.cnt AS visits, visit.last_visit, com.last_com, cta.scenario, cta.cta_time
+    FROM members m
+    LEFT OUTER JOIN team_registrations AS tr ON tr.member_id = m.id
+    LEFT OUTER JOIN (SELECT team_id, COUNT(*) AS cnt FROM team_registrations GROUP BY team_id) AS team_members ON team_members.team_id = tr.team_id
+    LEFT OUTER JOIN teams AS t ON t.id = tr.team_id
+    LEFT OUTER JOIN (SELECT member_id, team_id, COUNT(*) AS cnt FROM comments GROUP BY member_id, team_id) AS coms ON coms.member_id = m.id AND coms.team_id = tr.team_id
+    LEFT OUTER JOIN (SELECT member_id, team_id, COUNT(*) AS cnt FROM bs_ideas GROUP BY member_id, team_id) AS ideas ON ideas.member_id = m.id AND ideas.team_id = tr.team_id
+    LEFT OUTER JOIN (SELECT member_id, team_id, COUNT(*) AS cnt FROM answers GROUP BY member_id, team_id) AS ans ON ans.member_id = m.id AND ans.team_id = tr.team_id
+    LEFT OUTER JOIN (SELECT member_id, team_id, action, COUNT(*) AS cnt FROM activities GROUP BY member_id, team_id, action HAVING action = 'team index') AS visits ON visits.member_id = m.id AND visits.team_id = tr.team_id
+    LEFT OUTER JOIN (SELECT member_id, team_id, action, MAX(created_at) AS last_visit FROM activities GROUP BY member_id, team_id, action HAVING action = 'team index') AS visit ON visit.member_id = m.id AND visit.team_id = tr.team_id
+    LEFT OUTER JOIN (SELECT member_id, team_id, MAX(created_at) AS last_com FROM comments GROUP BY member_id, team_id) AS com ON com.member_id = m.id AND com.team_id = tr.team_id
+    LEFT OUTER JOIN (SELECT scenario, member_id, team_id, created_at AS cta_time FROM call_to_action_emails_sents WHERE id IN (SELECT MAX(id) AS last_id FROM call_to_action_emails_sents GROUP BY member_id, team_id)) AS cta ON cta.member_id = m.id AND cta.team_id = tr.team_id
+    WHERE t.initiative_id IN (1,2)
+    ORDER BY m.id
     |
-    
-    #sql = %q|SELECT first_name, last_name, t.id, launched,
-    #  (SELECT COUNT(*) FROM comments WHERE member_id = m.id AND team_id = t.id) AS coms,
-    #  (SELECT MAX(created_at) FROM comments WHERE member_id = m.id AND team_id = t.id) AS last_com,
-    #  (SELECT COUNT(*) FROM bs_ideas WHERE member_id = m.id AND team_id = t.id) AS ideas,
-    #  (SELECT COUNT(*) FROM answers WHERE member_id = m.id AND team_id = t.id) AS ans,
-    #  (SELECT COUNT(*) FROM activities WHERE member_id = m.id AND team_id = t.id AND action = 'team index') AS visits,
-    #  (SELECT MAX(created_at) FROM activities WHERE member_id = m.id AND team_id = t.id AND action = 'team index') AS last_visit,
-    #  (SELECT scenario FROM call_to_action_emails_sents WHERE member_id = m.id AND team_id = t.id ORDER BY created_at DESC LIMIT 1) AS last_call_to_action,
-    #  title 
-    #  FROM members m, teams t, team_registrations tr
-    #  WHERE t.id = tr.team_id
-    #  AND m.id = tr.member_id
-    #  AND t.initiative_id IN (1,2)
-    #  ORDER BY title, first_name, last_name;
-    #|;
-    
-    #%q|SELECT first_name, last_name, t.id, 
-    #(SELECT COUNT(*) FROM comments WHERE member_id = m.id AND team_id = t.id) AS coms,
-    #(SELECT COUNT(*) FROM bs_ideas WHERE member_id = m.id AND team_id = t.id) AS ideas,
-    #(SELECT COUNT(*) FROM answers WHERE member_id = m.id AND team_id = t.id) AS ans,
-    #title 
-    #FROM members m, teams t, team_registrations tr
-    #WHERE t.id = tr.team_id
-    #AND m.id = tr.member_id
-    #AND t.initiative_id IN (1,2)
-    #ORDER BY title, first_name, last_name|
-    
-    
     @rows = Member.find_by_sql( sql );
   end
   
