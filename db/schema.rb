@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101124231555) do
+ActiveRecord::Schema.define(:version => 20101126202506) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20101124231555) do
     t.boolean  "sent",       :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "scenario"
   end
 
   add_index "call_to_action_queues", ["member_id", "team_id"], :name => "cta_unique_member_id_team_id", :unique => true
@@ -238,11 +239,11 @@ ActiveRecord::Schema.define(:version => 20101124231555) do
   end
 
   create_table "initiatives", :force => true do |t|
-    t.string   "title",                                           :null => false
-    t.text     "description",                                     :null => false
-    t.integer  "min_members",                  :default => 1,     :null => false
-    t.integer  "max_members",                  :default => 25,    :null => false
-    t.integer  "max_teams_per_member",         :default => 1000,  :null => false
+    t.string   "title",                                                          :null => false
+    t.text     "description",                                                    :null => false
+    t.integer  "min_members",                  :default => 1,                    :null => false
+    t.integer  "max_members",                  :default => 25,                   :null => false
+    t.integer  "max_teams_per_member",         :default => 1000,                 :null => false
     t.boolean  "limit_access"
     t.string   "access_code"
     t.boolean  "can_propose_team",             :default => true
@@ -263,6 +264,7 @@ ActiveRecord::Schema.define(:version => 20101124231555) do
     t.string   "city"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "domain",                       :default => "civicevolution.org", :null => false
   end
 
   create_table "item_diffs", :force => true do |t|

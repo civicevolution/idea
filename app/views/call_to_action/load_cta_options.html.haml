@@ -1,0 +1,37 @@
+%div
+	%table{:id=>"#{params[:member_id]}-#{params[:team_id]}"}
+		%tr
+			%td
+				%input{:type=>'radio', :name=>'cta', :value=>'join a team'} 
+			%td
+				Join a team
+		%tr
+			%td
+				%input{:type=>'radio', :name=>'cta', :value=>'invite members'} 
+			%td
+				Invite members
+		%tr
+			%td
+				%input{:type=>'radio', :name=>'cta', :value=>'introduce yourself'} 
+			%td
+				Introduce yourself
+		%tr
+			%td
+				%input{:type=>'radio', :name=>'cta', :value=>'add new comment'} 
+			%td
+				Add new comment
+		%tr
+			%td
+				%input{:type=>'radio', :name=>'cta', :value=>'add ideas'} 
+			%td
+				Add ideas
+		%tr
+			%td
+				%input{:type=>'radio', :name=>'cta', :value=>'encourage teammates'} 
+			%td
+				Encourage teammates
+		%tr
+			%td
+				%input{:type=>'radio', :name=>'cta', :value=>'clear'} 
+			%td
+				Clear next call to action

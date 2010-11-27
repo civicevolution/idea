@@ -2,26 +2,70 @@
 	= javascript_include_tag "jquery.tablesorter.min.js"
 	:javascript
 		$(function() {
-		    // add new widget called indexFirstColumn
-		    $.tablesorter.addWidget({
-		        // give the widget a id
-		        id: "indexFirstColumn",
-		        // format is called when the on init and when a sorting has finished
-		        format: function(table) {                               
-		                // loop all tr elements and set the value for the first column  
-		                for(var i=0; i <= table.tBodies[0].rows.length; i++) {
-		                        $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
-		                }                                                               
-		        }
-		    });
+			// add new widget called indexFirstColumn
+			$.tablesorter.addWidget({
+			    // give the widget a id
+			    id: "indexFirstColumn",
+			    // format is called when the on init and when a sorting has finished
+			    format: function(table) {                               
+			            // loop all tr elements and set the value for the first column  
+			            for(var i=0; i <= table.tBodies[0].rows.length; i++) {
+			                    $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
+			            }                                                               
+			    }
+			});
 
-				$("#team_members").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
-				$("#members").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
+			$("#team_members").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
+			$("#members").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
+			
+			$('table.tablesorter tr').die('click').live('click',
+				function(e){
+					ids = this.id.split('-');
+					member_id = ids[0]
+					team_id = ids[1]
+					//console.log("click on row member_id: " + member_id + ", team_id: " + team_id)
+					//console.log("x: " + e.pageX + ", y: " + e.pageY)
+					var dialog = $('<div id="select_cta"><div>').dialog( {title : false, modal : true, position : [e.pageX,e.pageY - pageYOffset - 50] } )
+					$('div#select_cta').load('/call_to_action/load_cta_options',{member_id:member_id, team_id: team_id})
+					dialog.siblings('div.ui-dialog-titlebar').remove();
+					
+				}
+			)
+			
+			$(':radio').die('click').live('click',
+				function(e){
+					var el = $(this)
+					ids = el.closest('table').attr('id').split('-');
+					member_id = ids[0]
+					team_id = ids[1]
+					scenario = el.val()
+					console.log("clicked on scenario: " + scenario + " for member_id: " + member_id + " and team_id: " + team_id)
+					// submit to the server
+					
+					$.ajax	({ 					
+					  type: "POST", 
+						url: 'http://' + document.location.host + '/call_to_action/save_to_queue',
+						data: {member_id: member_id, team_id: team_id, scenario: scenario},
+					  success: function(data,status){ 
+							console.log("/call_to_action/save_to_queue submit success");
+							//debugger
+							$('tr#' + member_id + '-' + team_id).find('td:last').html(data)
+							el.closest('div.ui-dialog').dialog('destroy').remove();
+
+					  },
+						error : function(xhr,errorString,exceptionObj){
+							console.log("error updating call to action")
+						}
+					});			
+				  return false;
+				}
+			)
 		});
 	%style
 		:sass
 			div.page
 				width: auto
+				margin-bottom: 200px
 			table td 
 				padding: 3px
 			table tr.odd td
@@ -62,7 +106,7 @@
 			
 	%tbody			
 		- @team_stats.each do |m|
-			%tr
+			%tr{:id=>"#{m['id']}-#{m['team_id']}"}
 				%td
 				%td.title= m['title']
 				%td= m['num_mem']
@@ -85,7 +129,7 @@
 				%td= time_ago_in_words(m['cta_time']) + ' ago' unless m['cta_time'].nil?
 				%td
 					%span.sort_time= m['cta_time'].nil? ? 0 : Time.parse(m['cta_time']).to_i
-				%td
+				%td= m['next_scenario']
 				
 %h3 Members without a team
 %table#members{:class=>"tablesorter"}
@@ -103,12 +147,12 @@
 			%th Scenario
 			%th CTA time
 			%th v^
-			%th Next CTA
 			%th email
-						
+			%th Next CTA						
+			
 	%tbody			
 		- @no_team.each do |m|
-			%tr
+			%tr{:id=>"#{m['id']}-#{m['initiative_id']}"}
 				%td
 				%td= m['initiative_id']
 				%td= "#{m.first_name} #{m.last_name}"
@@ -124,5 +168,5 @@
 				%td= time_ago_in_words(m['cta_time']) + ' ago' unless m['cta_time'].nil?
 				%td
 					%span.sort_time= m['cta_time'].nil? ? 0 : Time.parse(m['cta_time']).to_i
-				%td
 				%td= m['email']
+				%td= m['next_scenario']

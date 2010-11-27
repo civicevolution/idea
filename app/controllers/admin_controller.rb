@@ -43,8 +43,6 @@ class AdminController < ApplicationController
   
   def email
     message = params[:message]
-    #@team = Team.find_by_id(params[:team_id])
-    @host = request.env["HTTP_HOST"]
     @email_recipients = nil
 
     if params[:act] == 'fetch_recipients'
@@ -52,7 +50,7 @@ class AdminController < ApplicationController
       @email_recipients = CallToActionEmail.get_recipients_by_query(params[:recipient_source], params[:search])
       @email_recipients.concat(
         Member.all(:select=>"first_name, last_name, email, id AS mem_id, #{@email_recipients[0].team_id} AS team_id", :conditions=>'id in (1,119)')
-      ) unless params[:recipient_source] == '0'
+      ) unless params[:recipient_source] == 'team'
       logger.debug "@email_recipients.size: #{@email_recipients.size}"
       respond_to do |format|
         format.html { render :partial => 'email_recipients' } if request.xhr?
@@ -93,8 +91,13 @@ class AdminController < ApplicationController
       mem_id, team_id = params[:recip_ids][0].split('-')
       @recipient = Member.find_by_id( mem_id.to_i )
       @team = Team.find_by_id(team_id.to_i)
-      @team = Team.find_by_id(10022) if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
       @mcode = '~~SECRET~ACCESS~CODE~~'
+      init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
+      @host = Initiative.first(:select=>'domain',:conditions=>"id = #{init_id}").domain
+      @host.sub!(/\w+$/,'dev')
+      # just for testing
+      @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
+      
       msg = render_to_string :inline=>message
       html = "<h3>#{params[:subject]}</h3>"
       html += BlueCloth.new( msg ).to_html
@@ -136,20 +139,27 @@ class AdminController < ApplicationController
           mem_id, team_id = recip_id.split('-')
           @recipient = Member.find_by_id( mem_id.to_i )
           @team = Team.find_by_id(team_id.to_i)
-          @team = Team.find_by_id(10022) if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
-          
+          @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
           @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
+          # adjust host first subdomain based on init_id of the team or the team_id if join a team
+          init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
+          @host = Initiative.first(:select=>'domain',:conditions=>"id = #{init_id}").domain
+          @host.sub!(/\w+$/,'dev')
           msg = render_to_string :inline=>message
           AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
           #AdminMailer.deliver_email_message_with_attachment(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
           include_bcc = false
+          #set queue sent = true
+          ctaq = CallToActionQueue.find_by_member_id_and_team_id( mem_id, team_id )
+          ctaq.destroy unless ctaq.nil?
+        
           # record details on each email that is sent
           ctaes = CallToActionEmailsSent.new(
             :member_id=> @recipient.id, 
             :member_lookup_code_id => mcode_id,
             :scenario=> params[:scenario],
             :version=> params[:version],
-            :team_id=> @team.id || 0
+            :team_id=> team_id
           )
           ctaes.save
           #update as most recent email
@@ -234,7 +244,7 @@ class AdminController < ApplicationController
   
   def participant_stats 
     
-    sql = %q|SELECT m.id, first_name, last_name, t.id AS team_id, team_members.cnt AS num_mem, title, tr.created_at AS join_ts, launched, coms.cnt AS coms, ideas.cnt AS ideas, ans.cnt AS ans, visits.cnt AS visits, visit.last_visit, com.last_com, cta.scenario, cta.cta_time
+    sql = %q|SELECT m.id, first_name, last_name, t.id AS team_id, team_members.cnt AS num_mem, title, tr.created_at AS join_ts, launched, coms.cnt AS coms, ideas.cnt AS ideas, ans.cnt AS ans, visits.cnt AS visits, visit.last_visit, com.last_com, cta.scenario, cta.cta_time, next_scenario.scenario AS next_scenario
     FROM members m
     LEFT OUTER JOIN team_registrations AS tr ON tr.member_id = m.id
     LEFT OUTER JOIN (SELECT team_id, COUNT(*) AS cnt FROM team_registrations GROUP BY team_id) AS team_members ON team_members.team_id = tr.team_id
@@ -246,14 +256,15 @@ class AdminController < ApplicationController
     LEFT OUTER JOIN (SELECT member_id, team_id, action, MAX(created_at) AS last_visit FROM activities GROUP BY member_id, team_id, action HAVING action = 'team index') AS visit ON visit.member_id = m.id AND visit.team_id = tr.team_id
     LEFT OUTER JOIN (SELECT member_id, team_id, MAX(created_at) AS last_com FROM comments GROUP BY member_id, team_id) AS com ON com.member_id = m.id AND com.team_id = tr.team_id
     LEFT OUTER JOIN (SELECT scenario, member_id, team_id, created_at AS cta_time FROM call_to_action_emails_sents WHERE id IN (SELECT MAX(id) AS last_id FROM call_to_action_emails_sents GROUP BY member_id, team_id)) AS cta ON cta.member_id = m.id AND cta.team_id = tr.team_id
+    LEFT OUTER JOIN (SELECT scenario, member_id, team_id FROM call_to_action_queues) AS next_scenario ON next_scenario.member_id = m.id AND next_scenario.team_id = tr.team_id
     WHERE t.initiative_id IN (1,2)
     ORDER BY m.id
     |
     @team_stats = Member.find_by_sql( sql );
     
-    
+    # get members that don't belong to a team
     sql = %q|
-    select m.id, first_name, last_name, im.initiative_id, coms.cnt, email, m.created_at AS registered, visits.cnt AS visits, visit.last_visit AS last_visit, scenario, cta_time
+    select m.id, first_name, last_name, im.initiative_id, coms.cnt, email, m.created_at AS registered, visits.cnt AS visits, visit.last_visit AS last_visit, cta.scenario, cta_time, next_scenario.scenario AS next_scenario
     FROM members m
     LEFT OUTER JOIN initiative_members AS im ON im.member_id= m.id
     LEFT OUTER JOIN (SELECT member_id, COUNT(*) AS cnt FROM comments GROUP BY member_id) AS coms ON coms.member_id = m.id
@@ -262,6 +273,7 @@ class AdminController < ApplicationController
     LEFT OUTER JOIN (SELECT member_id, MAX(created_at) AS last_visit FROM activities GROUP BY member_id) AS visit ON visit.member_id = m.id
     LEFT OUTER JOIN (SELECT scenario, member_id, created_at AS cta_time FROM call_to_action_emails_sents WHERE id IN (SELECT MAX(id) AS last_id FROM call_to_action_emails_sents GROUP BY member_id)) AS cta ON cta.member_id = m.id
 
+    LEFT OUTER JOIN (SELECT scenario, member_id, team_id FROM call_to_action_queues) AS next_scenario ON next_scenario.member_id = m.id AND next_scenario.team_id = im.initiative_id
     WHERE im.initiative_id IN (1,2)  
     AND m.id NOT IN (SELECT member_id FROM team_registrations)
     ORDER BY initiative_id, first_name, last_name
