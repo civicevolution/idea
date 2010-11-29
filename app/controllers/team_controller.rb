@@ -568,10 +568,16 @@ class TeamController < ApplicationController
     logger.debug "Check for team registration"  
 
     # does user have access?
+    @access_by_admin = false
     team_member = TeamRegistration.find_by_member_id_and_team_id( session[:member_id] , @team_id)
     if team_member.nil?
-      render :template => 'team/not_a_team_member', :layout=>'welcome'
-      return
+      # check if member is an admin
+      if AdminPrivilege.check_admin(@member.id,@team.initiative_id, 'review_team_workspaces').nil?
+        render :template => 'team/not_a_team_member', :layout=>'welcome'
+        return
+      else
+        @access_by_admin = true
+      end
     end
       
     orig_team = @team

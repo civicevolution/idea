@@ -16,4 +16,10 @@ class AdminPrivilege < ActiveRecord::Base
     
   end
   
+  def self.check_admin(member_id,initiative_id, privilege)
+    AdminPrivilege.first(:select =>'member_id',
+    :joins =>'ap INNER JOIN admins AS a ON a.admin_group_id = ap.admin_group_id',
+    :conditions=>['member_id = ? AND title = ? AND initiative_id = ?',member_id, privilege, initiative_id]
+    )
+  end
 end

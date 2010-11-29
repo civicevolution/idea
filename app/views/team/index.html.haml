@@ -1,4 +1,8 @@
-- member = @members.detect { |m| m.id == session[:member_id] }
+- if @access_by_admin
+	- member = @member
+-else
+	- member = @members.detect { |m| m.id == session[:member_id] }
+
 :javascript
 	var client;
 	var team_id = #{@team.id};
