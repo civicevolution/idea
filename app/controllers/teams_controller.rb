@@ -206,5 +206,14 @@ class TeamsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def rss
+    @host = Initiative.first(:select=>'domain',:conditions=>"id = 2").domain
+    @teams = Team.all(
+    :select=>'id, team_members.cnt, launched, title, solution_statement, created_at',
+    :joins => 'as t LEFT OUTER JOIN (SELECT team_id, COUNT(*) AS cnt FROM team_registrations GROUP BY team_id) AS team_members ON team_members.team_id = t.id',
+    :conditions => 'initiative_id = 2'
+    )
+  end
 
 end
