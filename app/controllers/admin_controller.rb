@@ -94,7 +94,7 @@ class AdminController < ApplicationController
       @mcode = '~~SECRET~ACCESS~CODE~~'
       init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
       @host = Initiative.first(:select=>'domain',:conditions=>"id = #{init_id}").domain
-      @host.sub!(/\w+$/,'dev')
+      @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
       # just for testing
       @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
       
@@ -144,7 +144,7 @@ class AdminController < ApplicationController
           # adjust host first subdomain based on init_id of the team or the team_id if join a team
           init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
           @host = Initiative.first(:select=>'domain',:conditions=>"id = #{init_id}").domain
-          @host.sub!(/\w+$/,'dev')
+          @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
           msg = render_to_string :inline=>message
           AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
           #AdminMailer.deliver_email_message_with_attachment(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
