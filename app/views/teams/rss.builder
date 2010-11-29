@@ -4,9 +4,9 @@ xml.rss :version => "2.0", 'xmlns:atom'=>"http://www.w3.org/2005/Atom" do
   xml.channel do
     xml.title "2029 and beyond Teams"
     xml.description "2029 and beyond teams committed to developing community solutions"
-    xml.link "http://#{@host}/#get_started"
+    xml.link :href=>"http://#{@host}/#get_started", :rel=>'self', :type=>"application/rss+xml"
     #<link>http://2029.civicevolution.org/#get_started</link> 
-    xml.link :href=>"http://dallas.example.com/rss.xml", :rel=>"self", :type=>"application/rss+xml"
+    #xml.link :href=>"http://dallas.example.com/rss.xml", :rel=>"self", :type=>"application/rss+xml"
     #xml.link "href"=>"http://dallas.example.com/rss.xml" "rel"=>"self" "type"=>"application/rss+xml"
     #xml.link    "rel" => "self", "href" => url_for(:only_path => false, :controller => 'feeds', :action => 'atom')
     
