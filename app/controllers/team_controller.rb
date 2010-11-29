@@ -214,9 +214,13 @@ class TeamController < ApplicationController
     @team_item = @items.detect {|i| i.o_id == @team_id && i.o_type == 4 } 
     @items_par_0_sorted = @items.find_all {|i| i.par_id == @team_item.id }.sort {|a,b| a.order <=> b.order }
 
-    Activity.new(:member_id=>@member_id, :team_id=>@team_id, :action=>'proposal',
-      :user_agent=>request.env["HTTP_USER_AGENT"], :cookie=>request.env["HTTP_COOKIE"], :ip=>request.remote_ip).save
-
+    begin
+      Activity.new(:member_id=>@member_id, :team_id=>@team_id, :action=>'proposal',
+        :user_agent=>request.env["HTTP_USER_AGENT"], :cookie=>request.env["HTTP_COOKIE"], :ip=>request.remote_ip).save
+    rescue
+    end
+          
+      
     render :action => "proposal", :layout => 'welcome'
 
   end  
@@ -642,9 +646,11 @@ class TeamController < ApplicationController
 
     @team_item = @items.detect {|i| i.o_id == @team_id && i.o_type == 4 } 
     @items_par_0_sorted = @items.find_all {|i| i.par_id == @team_item.id }.sort {|a,b| a.order <=> b.order }
-    Activity.new(:member_id=>session[:member_id], :team_id=>@team_id, :action=>'team index',
-      :user_agent=>request.env["HTTP_USER_AGENT"], :cookie=>request.env["HTTP_COOKIE"], :ip=>request.remote_ip).save
-    
+    begin
+      Activity.new(:member_id=>session[:member_id], :team_id=>@team_id, :action=>'team index',
+        :user_agent=>request.env["HTTP_USER_AGENT"], :cookie=>request.env["HTTP_COOKIE"], :ip=>request.remote_ip).save
+    rescue
+    end
   end
   
   def private_question(arg)
@@ -707,9 +713,12 @@ class TeamController < ApplicationController
 
     # alright, I have the data 
     # now show it without a layout
-
-    Activity.new(:member_id=>session[:member_id], :team_id=>@team_id, :action=>'private_question',
-      :user_agent=>request.env["HTTP_USER_AGENT"], :cookie=>request.env["HTTP_COOKIE"], :ip=>request.remote_ip).save
+    
+    begin
+      Activity.new(:member_id=>session[:member_id], :team_id=>@team_id, :action=>'private_question',
+        :user_agent=>request.env["HTTP_USER_AGENT"], :cookie=>request.env["HTTP_COOKIE"], :ip=>request.remote_ip).save
+    rescue
+    end
     
     render_to_string :action=>'private_question', :layout=>false
     
