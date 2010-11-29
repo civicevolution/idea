@@ -26,6 +26,9 @@
 	- if @privileges.include? 'auto_signin_log'
 		%li= link_to "Auto signin log", {:action=>'auto_signin_log'}
 		
+		- if @privileges.include? 'delay_test'
+			%li= link_to "Delay test", {:action=>'delay_test'}
+
 		
 		
 	- if @privileges.include? 'change_member_id'

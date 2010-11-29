@@ -283,6 +283,12 @@ class AdminController < ApplicationController
     
   end
   
+  def delay_test
+    @time1 = Time.now
+    sleep 10
+    @time2 = Time.now
+  end
+  
   protected
   
     def get_admin_privileges
