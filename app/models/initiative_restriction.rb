@@ -8,12 +8,11 @@ class InitiativeRestriction < ActiveRecord::Base
     else
       #logger.debug "There are #{restrictions.size} tests"
       allowed = nil
-      restrictions = restrictions.sort {|a,b| b.mandatory ? 1 : 0 }
+      restrictions = restrictions.sort {|a,b| a.mandatory == true ? -1 : 1   }
       restrictions.each_index do |i|
         ir = restrictions[i]
         allowed = false if !ir.mandatory # if the test is not mandatory, then assume false until a test sets it true
         #logger.debug "Please test the restriction: #{ir.restriction} with arg: #{ir.arg}"
-
         case ir.restriction
           when 'match_email_domain'
             #logger.debug "check match_email_domain #{ir.arg} against user email: #{member.email}"
@@ -21,7 +20,7 @@ class InitiativeRestriction < ActiveRecord::Base
               allowed = true if !ir.mandatory
             else
               allowed = false if ir.mandatory
-              messages.push "note your email did not match the required domain of #{ir.arg}"
+              messages.push "your email did not match the required domain of #{ir.arg}"
             end
           
           when 'belong_to_initiative'
@@ -31,7 +30,7 @@ class InitiativeRestriction < ActiveRecord::Base
               allowed = true if !ir.mandatory
             else
               allowed = false if ir.mandatory
-              messages.push "note you do not belong to this group: #{ir.arg}"
+              messages.push "you do not belong to this group: #{ir.arg}"
             end
             
           when 'confirmed'
@@ -39,14 +38,14 @@ class InitiativeRestriction < ActiveRecord::Base
               allowed = true if !ir.mandatory
             else
               allowed = false if ir.mandatory
-              messages.push "note you need to be a confirmed member"
+              messages.push "you need to be a confirmed member"
             end
             
         end # end case ir.restriction
         #logger.debug "End of test, allowed: #{allowed},  ir: #{ir.inspect}"
         # passing a mandatory test doesn't make it allowed, just means it isn't NOT allowed
         # allowed is only set to false if the test is mandatory and the test is failed
-        return false, messages.join(', ') if allowed == false && ir.mandatory
+        return false, 'Note: ' + messages.join(' and ') if allowed == false && ir.mandatory
         
         #logger.debug "next return check"
         # only a non-mandatory test can make it allowed
@@ -55,7 +54,7 @@ class InitiativeRestriction < ActiveRecord::Base
         
       end # end each restrictions each loop
       # if no non-mandatory test set false to true, then not allowed 
-      return false, messages.join(', ') if allowed == false
+      return false, 'Note: ' + messages.join(' and ') if allowed == false
       # return true if no non-mandatory restrictions were processed and all mandatory tests were passed
       return true, 'no restriction'
     end # end if/else restrictions size == 0
