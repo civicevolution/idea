@@ -120,7 +120,7 @@ APE.Shoutbox = APE.Client.extend({
 	rawData: function(raw, pipe){
 		//debugger
 		try{
-			temp.rawData = raw
+			//temp.rawData = raw
 			//console.log("rawData raw.data.msg: " + raw.data.msg)
 			if(raw.data.msg.match(/\d+-\w+/)){
 				NOTIFIER.inform( { 
@@ -142,10 +142,12 @@ APE.Shoutbox = APE.Client.extend({
 			++this.fast_close_counter;
 			if(this.fast_close_counter > 3){
 				this.fast_close_counter = 0;
-				console.log("apeRecordClose CALL reinitializeApe fast_close_counter: " + this.fast_close_counter );
+				console.log("apeRecordClose CALL reconnect fast_close_counter: " + this.fast_close_counter );
 				if(location.host.match(/dev$/)){
 					// show a dialog
-					var dialog = $('<div>APE was reset because of runaway posting</div>').dialog( {title : 'APE warning', modal : true } )
+					if( $('div#runaway_dialog').size() == 0){
+						var dialog = $('<div id="runaway_dialog">APE was reset because of runaway posting</div>').dialog( {title : 'APE warning', modal : true } )
+					}
 				}
 				// tell the server, one time
 				if(!temp.ape_runaway_notified){
@@ -174,22 +176,26 @@ APE.Shoutbox = APE.Client.extend({
 		//console.log("rawErr: err.data.value: " + err.data.value + ", code: " + err.data.code)
 		
 		if(err.data.code=='004'){ // BAD_SESSID
-			//console.log("ape client.rawErr, BAD_SESSID");
+			console.log("ape client.rawErr, BAD_SESSID");
 			this.reconnect();
 		}		
 		
 		if(err.data.code=='007'){
-			//console.log("ape client.rawErr, this nickname is taken: " + this.nickname)
+			console.log("ape client.rawErr, this nickname is taken: " + this.nickname)
 			//console.log("add a random prefix to my nickname and try again")
 			this.nickname = member.ape_code + Math.round(Math.random()*100)
 			this.reconnect();
 		}
 	},
 	reconnect: function(){
-		//console.log("reconnect")
+		console.log("reconnect")
 		this.core.clearSession();
-		this.setEvents(); // re-init events
-		this.core.start( {'name': this.nickname}); // start after clear session will send CONNECT/JOIN
+		setTimeout(member.client.reconnect_restart, 5000)
+	},
+	reconnect_restart: function(){
+		console.log("reconnect_restart with NICK: " + member.client.nickname)
+		member.client.setEvents(); // re-init events
+		member.client.core.start( {'name': member.client.nickname}); // start after clear session will send CONNECT/JOIN
 	},
 	showRating: function(rating,pipe){
 		dispatchRating(rating)

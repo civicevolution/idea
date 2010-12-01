@@ -93,11 +93,12 @@ var APE = {
 		frequency: 0,
 		scripts: [],
 		use_compressed: (params['ape'] && params['ape'] == 'uncomp') ?  false : true, //(params['ape'] && params['ape'] == 'comp') ? true : $.browser.msie ?  false : true,
-		use_session: true
+		use_session: false
 	}
 };
 
-console.log("APE.Config.use_compressed: " + APE.Config.use_compressed)
+//console.log("APE.Config.use_compressed: " + APE.Config.use_compressed)
+//console.log("APE.Config.use_session: " + APE.Config.use_session)
 
 //APE.Config.baseUrl = 'http://dev-proxy:3000/javascripts/APE-Source/'; //APE JSF 
 APE.Config.baseUrl = 'http://' + document.location.host + '/javascripts/APE-Source/'; //APE JSF 
@@ -186,6 +187,8 @@ APE.Client = Class.extend({
 
 		//var tmp	= JSON.decode(Cookie.read('APE_Cookie'), {'domain': document.domain});
 		var tmp = $.cookies.get('APE_Cookie', {'domain': document.domain}); 
+		//console.log("ape cookie tmp: " + tmp)
+		//console.log("ape cookie $.toJSON(tmp): " + $.toJSON(tmp))
 		if(tmp && tmp != 'null' && tmp != 'undefined') {	
 			if( typeof tmp == 'string') tmp = $.evalJSON( tmp )
 			try{
@@ -197,11 +200,10 @@ APE.Client = Class.extend({
 			config.frequency = 0;
 			tmp = {'frequency': 0};
 		}
-
+		//console.log("set APE cookie to " + $.toJSON(tmp))
+		//console.log("config.frequency = " + config.frequency )
 		$.cookies.set('APE_Cookie', $.toJSON(tmp), {'domain': document.domain});
 				
-
-		
 		//console.log("APE-init.load create iframe")
 		var i = $('<iframe/>').addClass('ape').attr('id','ape_' + config.identifier)
 		$('body').append(i);

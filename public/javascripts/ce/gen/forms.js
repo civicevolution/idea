@@ -730,6 +730,7 @@ function activateChatWindows(chat_container){
 	console.log("v2 ............. activateChatWindows() chat_container: " + chat_container)
 	clearTimeout(ape_watchdog)
 	ape_watchdog = null;
+	announce_page_presence();
 	// update the init message
 	// enable inputs
 	$('td.init_chat',chat_container).each( function(){this.innerHTML = '<p class="inst">Chat is now active. ' + 

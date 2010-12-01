@@ -59,9 +59,11 @@ NOTIFIER = {
 			case 'presence':
 				console.log("presence page.id: " + report.page_id + ", ape_code: " + report.ape_code);
 				if( !this.data_model.member_page_ids[report.ape_code] && report.ape_code != member.ape_code ){
-					console.log("Didn't know where this member was, I will announce myself")
-					// I didn't have a record of this user, they may not know me as well, so I will re-announce my presence
-					announce_page_presence();
+					if(report.page_id){
+						console.log("Didn't know where this member was, I will announce myself")
+						// I didn't have a record of this user, they may not know me as well, so I will re-announce my presence
+						announce_page_presence();
+					}
 				}
 				if(report.page_id){
 					this.data_model.member_page_ids[report.ape_code] = report.page_id;
@@ -72,7 +74,7 @@ NOTIFIER = {
 					// remove this member from this.data_model.members_online
 					this.data_model.members_online = $.grep( this.data_model.members_online, 
 						function(ape_code){
-							return ape_code != report.ape_code ? true : false;
+							return ape_code != report.ape_code || member.ape_code == report.ape_code ? true : false;
 						}
 					)
 				}

@@ -28,16 +28,25 @@ function reinitializeApe(){
 		$.post('/client_debug/ape_report', {browser: navigator.userAgent, failure: 'watchdog reinit'})
 		temp.ape_reinitialize_notified = true
 	}
+	// reinit APE causes problems so don't use it now
+	// i sent a notification
+	// I can try member.client.reconnect()
+	try{
+		member.client.reconnect()
+	}catch(e){}
 	
-	delete member.client
-	$('iframe.ape').remove()
-	chat_container_name = 'page_chat_boxes';
-	member.client = new APE.Shoutbox( chat_container_name );
-	member.client.load({
-		'identifier':'chatdemo',
-		'channel':'team' + team_id
-	});		
-	console.log("reinitializeApe - APE comm has been reset")
+	// disable the clien
+	//member.client.core.clearSession();
+	//delete member.client.core
+	//delete member.client
+	//$('iframe.ape').remove()
+	//chat_container_name = 'page_chat_boxes';
+	//member.client = new APE.Shoutbox( chat_container_name );
+	//member.client.load({
+	//	'identifier':'chatdemo',
+	//	'channel':'team' + team_id
+	//});		
+	//console.log("reinitializeApe - APE comm has been reset")
 	setTimeout(announce_page_presence,15000);
 }
 
