@@ -60,7 +60,7 @@ NOTIFIER = {
 				console.log("presence page.id: " + report.page_id + ", ape_code: " + report.ape_code);
 				if( !this.data_model.member_page_ids[report.ape_code] && report.ape_code != member.ape_code ){
 					if(report.page_id){
-						console.log("Didn't know where this member was, I will announce myself")
+						console.log("Didn't know where this member was, and it is not me, I will announce myself")
 						// I didn't have a record of this user, they may not know me as well, so I will re-announce my presence
 						announce_page_presence();
 					}

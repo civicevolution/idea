@@ -313,7 +313,10 @@ APE.Shoutbox = APE.Client.extend({
 			type: 'presence',
 			ape_code: name
 		});
-		
+		// if this user is leaving and shares the same ape code as me (an alias) I need to reannounce myself
+		if( name == member.ape_code && member.client.nickname != user.properties.name){
+			announce_page_presence()
+		}
 	}
 	
 });
