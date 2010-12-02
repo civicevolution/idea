@@ -36,8 +36,8 @@ introduce_yourself:
     - Monitor the edit history of the answers to spot violations of answer editing etiquette and encourage respectful behaviour.
 
 
-add_idea:
-  id:               add_idea
+add_ideas:
+  id:               add_ideas
   title:            Add an idea
   page:             1
   tab:              1
