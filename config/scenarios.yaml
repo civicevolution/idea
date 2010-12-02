@@ -18,3 +18,19 @@ discuss_change:
     - Encourage others to help refine the answers. Everyone has the right to edit any answer.
     - Monitor the edit history of the answers to spot violations of answer editing etiquette and encourage respectful behaviour.
 
+add_idea:
+  id:               add_idea
+  title:            Add an idea
+  page:             1
+  tab:              1
+  open_coms:        1
+  call_to_action:   Add one more ideas you think the team should consider as it discusses and creates an answer to this question
+  tasks:
+    - Read all of the answers in a timely manner
+    - Post replies to answers and suggest changes to make them more clear and concise
+    - Edit the answers to make them more clear and concise
+    - Suggest tips to your teammates for writing better answers
+    - 'Try to bring consistency to the style of the answers in each section throughout the proposal: the answers should mimic each other in construction and style'
+    - Encourage others to help refine the answers. Everyone has the right to edit any answer.
+    - Monitor the edit history of the answers to spot violations of answer editing etiquette and encourage respectful behaviour.
+

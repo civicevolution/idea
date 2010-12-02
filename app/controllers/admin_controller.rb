@@ -92,11 +92,17 @@ class AdminController < ApplicationController
       @recipient = Member.find_by_id( mem_id.to_i )
       @team = Team.find_by_id(team_id.to_i)
       @mcode = '~~SECRET~ACCESS~CODE~~'
-      init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
-      @host = Initiative.first(:select=>'domain',:conditions=>"id = #{init_id}").domain
+      @init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
+      @host = Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
       @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
       # just for testing
       @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
+        
+      @init_data = [
+        {},
+        {:sponsor=>'Executive Management Team'},
+        {:sponsor=>'Alliance Governance Group'}        
+      ]
       
       msg = render_to_string :inline=>message
       html = "<h3>#{params[:subject]}</h3>"
@@ -142,9 +148,17 @@ class AdminController < ApplicationController
           @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
           @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
           # adjust host first subdomain based on init_id of the team or the team_id if join a team
-          init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
-          @host = Initiative.first(:select=>'domain',:conditions=>"id = #{init_id}").domain
+          @init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
+          @host = Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
           @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
+          
+          @init_data = [
+            {},
+            {:sponsor=>'Executive Management Team'},
+            {:sponsor=>'Alliance Governance Group'}        
+          ]
+          
+          
           msg = render_to_string :inline=>message
           AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
           #AdminMailer.deliver_email_message_with_attachment(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
