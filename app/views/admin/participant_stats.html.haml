@@ -96,6 +96,8 @@
 			%th Visits
 			%th Last visit
 			%th v^
+			%th Last CON
+			%th v^
 			%th Last com
 			%th v^
 			%th Scenario
@@ -122,9 +124,13 @@
 				%td= time_ago_in_words(m['last_visit']) + ' ago' unless m['last_visit'].nil?
 				%td
 					%span.sort_time= m['last_visit'].nil? ? 0 : Time.parse(m['last_visit']).to_i
+				%td= time_ago_in_words(m['last_content']) + ' ago' unless m['last_content'].nil?
+				%td
+					%span.sort_time= m['last_content'].nil? ? 0 : Time.parse(m['last_content']).to_i
 				%td= time_ago_in_words(m['last_com']) + ' ago' unless m['last_com'].nil?
 				%td
 					%span.sort_time= m['last_com'].nil? ? 0 : Time.parse(m['last_com']).to_i
+
 				%td= m['scenario']
 				%td= time_ago_in_words(m['cta_time']) + ' ago' unless m['cta_time'].nil?
 				%td
