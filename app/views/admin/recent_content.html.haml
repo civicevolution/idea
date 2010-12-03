@@ -92,7 +92,7 @@
 			%th Type
 			%th Content
 			%th Created
-			%th v^
+			-#%th v^
 			
 			
 			
@@ -102,12 +102,14 @@
 				%td
 				%td= "#{m.first_name} #{m.last_name}"
 				%td= "#{m.email}"
-				%td.title= m['initiative_id']
+				%td= m['initiative_id']
 				%td= m['launched'] == 't' ? 'Live' : 'No'
+				%td.title= m['title']
 				%td= m['type']
 				%td= m['content']
 				%td= time_ago_in_words(m['created_at']) + ' ago' unless m['created_at'].nil?
-				%td= m['created_at']
+				-#%td 
+				-#	= m['created_at']
 				-#%span.sort_time= m['created_at'].nil? ? 0 : Time.parse(m['created_at']).to_i
 				
 %p	
