@@ -19,6 +19,9 @@
 			
 	- if @privileges.include? 'content_stats'
 		%li= link_to "Content stats", {:action=>'content_stats'}
+	
+	- if @privileges.include? 'recent_content'
+		%li= link_to "Recent content", {:action=>'recent_content'}
 		
 	- if @privileges.include? 'call_to_action_reports'
 		%li= link_to "Call to action reports", {:action=>'call_to_action_reports'}

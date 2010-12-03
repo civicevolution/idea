@@ -21,6 +21,27 @@ class AdminController < ApplicationController
     
   end
   
+  
+  def recent_content
+    @start_days = params[:start_days].nil? ? 2 : params[:start_days].to_i
+    @end_days = params[:end_days].nil? ? 0 : params[:end_days].to_i
+
+    @items = TeamContentLog.all(
+      :select=>%q|m.id AS member_id, first_name, last_name, email, t.id AS team_id, t.initiative_id, t.launched, t.title, tcl.created_at,
+        (SELECT CASE WHEN tcl.o_type = 2 THEN 'ANS' WHEN tcl.o_type=3 THEN 'COM' WHEN tcl.o_type=11 THEN 'IDEA' END) AS type,
+        (SELECT CASE WHEN tcl.o_type = 2 THEN (SELECT text FROM answers where id = tcl.o_id) WHEN tcl.o_type=3 THEN (SELECT text FROM comments where id = tcl.o_id) WHEN tcl.o_type=11 THEN (SELECT text FROM bs_ideas where id = tcl.o_id) END) AS content|,
+      :joins=>'AS tcl INNER JOIN members AS m ON tcl.member_id = m.id INNER JOIN teams AS t ON tcl.team_id = t.id',
+      :conditions=>[%q|tcl.created_at BETWEEN now() - INTERVAL '? days' AND now() - INTERVAL '? days'|,@start_days, @end_days],
+      :order=>'tcl.created_at DESC'
+    )
+
+    if request.xhr?
+      render :action=>'recent_content', :layout=>false
+    else
+      render :action=>'recent_content'
+    end
+  end
+  
   def members
     @members = Member.gen_report(params[:_initiative_id])
   end

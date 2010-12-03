@@ -1,0 +1,115 @@
+- content_for (:script) do
+	= javascript_include_tag "jquery.tablesorter.min.js"
+	:javascript
+		var temp = {}
+		$(function() {
+			// add new widget called indexFirstColumn
+			$.tablesorter.addWidget({
+			    // give the widget a id
+			    id: "indexFirstColumn",
+			    // format is called when the on init and when a sorting has finished
+			    format: function(table) {                               
+			            // loop all tr elements and set the value for the first column  
+			            for(var i=0; i <= table.tBodies[0].rows.length; i++) {
+			                    $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
+			            }                                                               
+			    }
+			});
+
+			$("#team_content").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
+			var start_days = #{@start_days};
+			var end_days = #{@end_days};
+			$('a.add_more_days').die('click').live('click',
+				function(e){
+					//var el = $(this)
+					//ids = el.closest('table').attr('id').split('-');
+					//member_id = ids[0]
+					//team_id = ids[1]
+					//scenario = el.val()
+					start_days += 2;
+					end_days += 2
+					console.log("get more data from start_days: " + start_days + " to end_days: " + end_days )
+					// submit to the server
+					
+					$.ajax	({ 					
+					  type: "POST", 
+						url: 'http://' + document.location.host + '/admin/recent_content',
+						data: {start_days: start_days, end_days: end_days},
+					  success: function(data,status){ 
+							console.log("/recent_content submit success");
+							//debugger
+							temp.data = data
+							table = $('table#team_content')
+							new_table = $(data)
+							new_table.find('th:first').closest('tr').remove()
+							new_rows = new_table.find('tr')
+							new_rows.each(
+								function(){
+									table.find('tr:last').after(this)	
+								}
+							)
+							$("#team_content").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
+
+					  },
+						error : function(xhr,errorString,exceptionObj){
+							console.log("error increasing recent content")
+						}
+					});			
+				  return false;
+				}
+			)
+			
+			
+		});
+	%style
+		:sass
+			div.page
+				width: auto
+				margin-bottom: 200px
+			table td 
+				padding: 3px
+			table tr.odd td
+				background: #e6f2ff
+			span.sort_time
+				width: 20px
+				display: none
+			td.title 
+				max-width: 200px
+					
+
+%h3 Members for #{@initiative.title}
+%p Click columns to sort
+
+%table#team_content{:class=>"tablesorter"}
+	%thead
+		%tr
+			%th #
+			%th Name
+			%th Email
+			%th Init
+			%th Live
+			%th Team
+			%th Type
+			%th Content
+			%th Created
+			%th v^
+			
+			
+			
+	%tbody			
+		- @items.each do |m|
+			%tr
+				%td
+				%td= "#{m.first_name} #{m.last_name}"
+				%td= "#{m.email}"
+				%td.title= m['initiative_id']
+				%td= m['launched'] == 't' ? 'Live' : 'No'
+				%td= m['type']
+				%td= m['content']
+				%td= time_ago_in_words(m['created_at']) + ' ago' unless m['created_at'].nil?
+				%td= m['created_at']
+				-#%span.sort_time= m['created_at'].nil? ? 0 : Time.parse(m['created_at']).to_i
+				
+%p	
+	= link_to "Go back 2 more days", {}, {:class=>'add_more_days'}
+				
