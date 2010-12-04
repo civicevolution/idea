@@ -279,7 +279,7 @@ class AdminController < ApplicationController
   
   def participant_stats 
     
-    sql = %q|SELECT m.id, first_name, last_name, t.id AS team_id, team_members.cnt AS num_mem, title, tr.created_at AS join_ts, launched, coms.cnt AS coms, ideas.cnt AS ideas, ans.cnt AS ans, visits.cnt AS visits, visit.last_visit, com.last_com, content.last_content, cta.scenario, cta.cta_time, next_scenario.scenario AS next_scenario
+    sql = %q|SELECT m.id, first_name, last_name, t.id AS team_id, team_members.cnt AS num_mem, title, tr.created_at AS join_ts, launched, coms.cnt AS coms, ideas.cnt AS ideas, ans.cnt AS ans, visits.cnt AS visits, visit.last_visit, content.last_content, cta.scenario, cta.cta_time, next_scenario.scenario AS next_scenario
     FROM members m
     LEFT OUTER JOIN team_registrations AS tr ON tr.member_id = m.id
     LEFT OUTER JOIN (SELECT team_id, COUNT(*) AS cnt FROM team_registrations GROUP BY team_id) AS team_members ON team_members.team_id = tr.team_id
@@ -289,11 +289,7 @@ class AdminController < ApplicationController
     LEFT OUTER JOIN (SELECT member_id, team_id, COUNT(*) AS cnt FROM answers GROUP BY member_id, team_id) AS ans ON ans.member_id = m.id AND ans.team_id = tr.team_id
     LEFT OUTER JOIN (SELECT member_id, team_id, action, COUNT(*) AS cnt FROM activities GROUP BY member_id, team_id, action HAVING action = 'team index') AS visits ON visits.member_id = m.id AND visits.team_id = tr.team_id
     LEFT OUTER JOIN (SELECT member_id, team_id, action, MAX(created_at) AS last_visit FROM activities GROUP BY member_id, team_id, action HAVING action = 'team index') AS visit ON visit.member_id = m.id AND visit.team_id = tr.team_id
-
     LEFT OUTER JOIN (SELECT member_id, team_id, MAX(created_at) AS last_content FROM team_content_logs GROUP BY member_id, team_id) AS content ON content.member_id = m.id AND content.team_id = tr.team_id
-
-    LEFT OUTER JOIN (SELECT member_id, team_id, MAX(created_at) AS last_com FROM comments GROUP BY member_id, team_id) AS com ON com.member_id = m.id AND com.team_id = tr.team_id
-
     LEFT OUTER JOIN (SELECT scenario, member_id, team_id, created_at AS cta_time FROM call_to_action_emails_sents WHERE id IN (SELECT MAX(id) AS last_id FROM call_to_action_emails_sents GROUP BY member_id, team_id)) AS cta ON cta.member_id = m.id AND cta.team_id = tr.team_id
     LEFT OUTER JOIN (SELECT scenario, member_id, team_id FROM call_to_action_queues) AS next_scenario ON next_scenario.member_id = m.id AND next_scenario.team_id = tr.team_id
     WHERE t.initiative_id IN (1,2)

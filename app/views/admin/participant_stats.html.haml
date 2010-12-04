@@ -98,8 +98,6 @@
 			%th v^
 			%th Last CON
 			%th v^
-			%th Last com
-			%th v^
 			%th Scenario
 			%th CTA time
 			%th v^
@@ -127,10 +125,6 @@
 				%td= time_ago_in_words(m['last_content']) + ' ago' unless m['last_content'].nil?
 				%td
 					%span.sort_time= m['last_content'].nil? ? 0 : Time.parse(m['last_content']).to_i
-				%td= time_ago_in_words(m['last_com']) + ' ago' unless m['last_com'].nil?
-				%td
-					%span.sort_time= m['last_com'].nil? ? 0 : Time.parse(m['last_com']).to_i
-
 				%td= m['scenario']
 				%td= time_ago_in_words(m['cta_time']) + ' ago' unless m['cta_time'].nil?
 				%td
