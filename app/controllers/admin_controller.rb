@@ -31,7 +31,7 @@ class AdminController < ApplicationController
         (SELECT CASE WHEN tcl.o_type = 2 THEN 'ANS' WHEN tcl.o_type=3 THEN 'COM' WHEN tcl.o_type=11 THEN 'IDEA' END) AS type,
         (SELECT CASE WHEN tcl.o_type = 2 THEN (SELECT text FROM answers where id = tcl.o_id) WHEN tcl.o_type=3 THEN (SELECT text FROM comments where id = tcl.o_id) WHEN tcl.o_type=11 THEN (SELECT text FROM bs_ideas where id = tcl.o_id) END) AS content|,
       :joins=>'AS tcl INNER JOIN members AS m ON tcl.member_id = m.id INNER JOIN teams AS t ON tcl.team_id = t.id',
-      :conditions=>[%q|tcl.created_at BETWEEN now() - INTERVAL '? days' AND now() - INTERVAL '? days'|,@start_days, @end_days],
+      :conditions=>[%q|tcl.created_at BETWEEN (now() AT time zone 'UTC') - INTERVAL '? days' AND (now() AT time zone 'UTC') - INTERVAL '? days' AND t.initiative_id IN (1,2)|,@start_days, @end_days],
       :order=>'tcl.created_at DESC'
     )
 
