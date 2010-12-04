@@ -279,6 +279,12 @@ class AdminController < ApplicationController
   
   def participant_stats 
     
+    if @privileges.include? 'set_cta'
+      @set_cta = true
+    else
+      @set_cta = false
+    end
+      
     sql = %q|SELECT m.id, first_name, last_name, t.id AS team_id, team_members.cnt AS num_mem, title, tr.created_at AS join_ts, launched, coms.cnt AS coms, ideas.cnt AS ideas, ans.cnt AS ans, visits.cnt AS visits, visit.last_visit, content.last_content, cta.scenario, cta.cta_time, next_scenario.scenario AS next_scenario
     FROM members m
     LEFT OUTER JOIN team_registrations AS tr ON tr.member_id = m.id

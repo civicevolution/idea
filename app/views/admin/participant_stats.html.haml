@@ -18,48 +18,50 @@
 			$("#team_members").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
 			$("#members").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
 			
-			$('table.tablesorter tr').die('click').live('click',
-				function(e){
-					ids = this.id.split('-');
-					member_id = ids[0]
-					team_id = ids[1]
-					//console.log("click on row member_id: " + member_id + ", team_id: " + team_id)
-					//console.log("x: " + e.pageX + ", y: " + e.pageY)
-					var dialog = $('<div id="select_cta"><div>').dialog( {title : false, modal : true, position : [e.pageX,e.pageY - pageYOffset - 50] } )
-					$('div#select_cta').load('/call_to_action/load_cta_options',{member_id:member_id, team_id: team_id})
-					dialog.siblings('div.ui-dialog-titlebar').remove();
+			if(#{@set_cta}){
+				$('table.tablesorter tr').die('click').live('click',
+					function(e){
+						ids = this.id.split('-');
+						member_id = ids[0]
+						team_id = ids[1]
+						//console.log("click on row member_id: " + member_id + ", team_id: " + team_id)
+						//console.log("x: " + e.pageX + ", y: " + e.pageY)
+						var dialog = $('<div id="select_cta"><div>').dialog( {title : false, modal : true, position : [e.pageX,e.pageY - pageYOffset - 50] } )
+						$('div#select_cta').load('/call_to_action/load_cta_options',{member_id:member_id, team_id: team_id})
+						dialog.siblings('div.ui-dialog-titlebar').remove();
 					
-				}
-			)
+					}
+				)
 			
-			$(':radio').die('click').live('click',
-				function(e){
-					var el = $(this)
-					ids = el.closest('table').attr('id').split('-');
-					member_id = ids[0]
-					team_id = ids[1]
-					scenario = el.val()
-					console.log("clicked on scenario: " + scenario + " for member_id: " + member_id + " and team_id: " + team_id)
-					// submit to the server
+				$(':radio').die('click').live('click',
+					function(e){
+						var el = $(this)
+						ids = el.closest('table').attr('id').split('-');
+						member_id = ids[0]
+						team_id = ids[1]
+						scenario = el.val()
+						console.log("clicked on scenario: " + scenario + " for member_id: " + member_id + " and team_id: " + team_id)
+						// submit to the server
 					
-					$.ajax	({ 					
-					  type: "POST", 
-						url: 'http://' + document.location.host + '/call_to_action/save_to_queue',
-						data: {member_id: member_id, team_id: team_id, scenario: scenario},
-					  success: function(data,status){ 
-							console.log("/call_to_action/save_to_queue submit success");
-							//debugger
-							$('tr#' + member_id + '-' + team_id).find('td:last').html(data)
-							el.closest('div.ui-dialog').dialog('destroy').remove();
+						$.ajax	({ 					
+						  type: "POST", 
+							url: 'http://' + document.location.host + '/call_to_action/save_to_queue',
+							data: {member_id: member_id, team_id: team_id, scenario: scenario},
+						  success: function(data,status){ 
+								console.log("/call_to_action/save_to_queue submit success");
+								//debugger
+								$('tr#' + member_id + '-' + team_id).find('td:last').html(data)
+								el.closest('div.ui-dialog').dialog('destroy').remove();
 
-					  },
-						error : function(xhr,errorString,exceptionObj){
-							console.log("error updating call to action")
-						}
-					});			
-				  return false;
-				}
-			)
+						  },
+							error : function(xhr,errorString,exceptionObj){
+								console.log("error updating call to action")
+							}
+						});			
+					  return false;
+					}
+				)
+			}
 		});
 	%style
 		:sass
@@ -77,18 +79,21 @@
 				max-width: 200px
 					
 
-%h3 Members for #{@initiative.title}
-%p Click columns to sort
+%h3 Participant statistics
+%ul
+	%li Top table shows every team member on every team and the content they have contributed and the last call to action email they received.
+	%li Lower table shows all people registered to 2029/CGG that have not joined a team
+	%li Click columns to sort
 
 %table#team_members{:class=>"tablesorter"}
 	%thead
 		%tr
 			%th #
 			%th Team
+			%th Live
 			%th Mems
 			%th Joined
 			%th v^
-			%th Live
 			%th Name
 			%th Coms
 			%th Ideas
@@ -96,12 +101,13 @@
 			%th Visits
 			%th Last visit
 			%th v^
-			%th Last CON
+			%th Last Cont
 			%th v^
-			%th Scenario
+			%th Last Call to action
 			%th CTA time
 			%th v^
-			%th Next CTA
+			- if @set_cta == true
+				%th Next CTA
 			
 			
 	%tbody			
@@ -109,11 +115,11 @@
 			%tr{:id=>"#{m['id']}-#{m['team_id']}"}
 				%td
 				%td.title= m['title']
+				%td= m['launched'] == 't' ? 'Live' : 'No'				
 				%td= m['num_mem']
 				%td= time_ago_in_words(m['join_ts']) + ' ago' unless m['join_ts'].nil?
 				%td
 					%span.sort_time= m['join_ts'].nil? ? 0 : Time.parse(m['join_ts']).to_i
-				%td= m['launched'] == 't' ? 'Live' : 'No'
 				%td= "#{m.first_name} #{m.last_name}"
 				%td= m['coms']
 				%td= m['ideas']
@@ -129,7 +135,8 @@
 				%td= time_ago_in_words(m['cta_time']) + ' ago' unless m['cta_time'].nil?
 				%td
 					%span.sort_time= m['cta_time'].nil? ? 0 : Time.parse(m['cta_time']).to_i
-				%td= m['next_scenario']
+				- if @set_cta == true					
+					%td= m['next_scenario']
 				
 %h3 Members without a team
 %table#members{:class=>"tablesorter"}
@@ -148,7 +155,8 @@
 			%th CTA time
 			%th v^
 			%th email
-			%th Next CTA						
+			- if @set_cta == true
+				%th Next CTA						
 			
 	%tbody			
 		- @no_team.each do |m|
@@ -169,4 +177,5 @@
 				%td
 					%span.sort_time= m['cta_time'].nil? ? 0 : Time.parse(m['cta_time']).to_i
 				%td= m['email']
-				%td= m['next_scenario']
+				- if @set_cta == true
+					%td= m['next_scenario']
