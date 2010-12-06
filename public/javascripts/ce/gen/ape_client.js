@@ -151,7 +151,7 @@ APE.Shoutbox = APE.Client.extend({
 				}
 				// tell the server, one time
 				if(!temp.ape_runaway_notified){
-					$.post('/client_debug/ape_report', {browser: navigator.userAgent, failure: 'race_restart'})
+					$.post('/client_debug/ape_report', {browser: navigator.userAgent, failure: 'race_restart v1'})
 					temp.ape_runaway_notified = true
 				}
 				this.reconnect();

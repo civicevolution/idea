@@ -3,7 +3,7 @@
 */
 
 function load_ape(chat_container_name){
-	
+	_load_times.load_ape = new Date()
 	if(params['ape'] == 'none'){
 		console.log("XXXXXXXXXXXXXXXXXX APE WILL NOT BE LOADED")
 	}else{
@@ -25,7 +25,7 @@ function reinitializeApe(){
 	console.log("reinitializeApe - resetting APE comm now")
 	
 	if(!temp.ape_reinitialize_notified){
-		$.post('/client_debug/ape_report', {browser: navigator.userAgent, failure: 'watchdog reinit'})
+		$.post('/client_debug/ape_report', {browser: navigator.userAgent, failure: 'watchdog reinit v1'})
 		temp.ape_reinitialize_notified = true
 	}
 	// reinit APE causes problems so don't use it now
@@ -801,4 +801,16 @@ function upload_pic(form){
 	});
 
    return false;
+}
+
+function send_load_report(){
+	try{
+		start = _load_times.start ? _load_times.start.getTime() : 0;
+		page_loaded = _load_times.page_loaded ? _load_times.page_loaded.getTime() : 0;
+		load_ape = _load_times.load_ape ? _load_times.load_ape.getTime()  : 0;
+		all_init = _load_times.everything_initialized ? _load_times.everything_initialized.getTime() : 0;
+		
+		$.post('/client_debug/load_report', {height: $(window).height(), width: $(window).width(), start: start, 
+			page_loaded: page_loaded, load_ape: load_ape, all_init: all_init, team_id: team_id })
+	}catch(e){console.log("Failed to send load_report with e: " + e.message)}
 }

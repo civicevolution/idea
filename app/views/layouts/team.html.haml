@@ -3,6 +3,8 @@
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
 		%title CivicEvolution
+		:javascript
+			_load_times = { start: new Date()}
 		= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery?
 		= javascript_include_tag "jquery-1.4.2.min.js", "jquery.rating.js", 'jquery.form.js', 'jquery.MetaData.js', 'jquery-ui-1.8.custom.min.js','jquery.scrollTo-min.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "jquery.cookies.2.2.0.min.js", "pure.js", "jquery.timeago.js", "jquery.json-2.2.min.js", "ce/team.js", "ce/activate/team.js", "ce/gen/forms.js","ce/gen/notifier.js", "ce/gen/dispatch.js","APE-Source/APE-init.js", "ce/gen/ape_client.js"
 		
@@ -14,11 +16,12 @@
 		-#= @test_links if defined? @test_links
 		-#%p.clear{'style' => 'color: green'}= flash[:notice]
 		= yield
-
+		
 
 		= javascript_include_tag '../plugins/jquery.hoverIntent.minified.js','../plugins/cluetip-1.0.6/jquery.cluetip.min.js', '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
 		=	stylesheet_link_tag '../plugins/cluetip-1.0.6/jquery.cluetip.css', '../plugins/prettyPhoto/css/prettyPhoto.css'
 		:javascript
+			_load_times.page_loaded = new Date()
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
 			_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);

@@ -117,7 +117,8 @@ $(function(){
 		$('span.new').closest('div.Comment_entry').removeClass('one_line_comment').addClass('full_comment_display');
 		
 	}catch(e){console.log("jquery ready function error: " + e.message)}	
-
+	_load_times.everything_initialized = new Date();
+	setTimeout(send_load_report, 5000);
 });
 /***********************************************
 	End of application initialization code

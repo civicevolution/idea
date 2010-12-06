@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101126202506) do
+ActiveRecord::Schema.define(:version => 20101206214809) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -161,6 +161,21 @@ ActiveRecord::Schema.define(:version => 20101126202506) do
     t.text     "user_agent"
     t.text     "error_log"
     t.integer  "load_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "client_load_times", :force => true do |t|
+    t.string   "ip",         :limit => nil
+    t.string   "session_id"
+    t.integer  "team_id"
+    t.integer  "member_id"
+    t.integer  "page_load"
+    t.integer  "ape_load"
+    t.integer  "all_init"
+    t.text     "user_agent"
+    t.integer  "height"
+    t.integer  "width"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -520,19 +535,6 @@ ActiveRecord::Schema.define(:version => 20101126202506) do
     t.string   "com_criteria",                 :default => "5..1500"
     t.string   "res_criteria",                 :default => "5..500"
     t.boolean  "launched",                     :default => false,     :null => false
-  end
-
-  create_table "temp_cta", :id => false, :force => true do |t|
-    t.integer  "id"
-    t.integer  "member_id"
-    t.integer  "member_lookup_code_id"
-    t.text     "scenario"
-    t.integer  "version"
-    t.integer  "team_id"
-    t.datetime "opened_email"
-    t.datetime "visit_site"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "thumbs_ratings", :force => true do |t|
