@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  ip: MyString
+  session_id: MyString
+  team_id: 1
+  member_id: 1
+  page_load: 1
+  ape_load: 1
+  all_init: 1
+  user_agent: MyText
+  height: 1
+  width: 1
+
+two:
+  ip: MyString
+  session_id: MyString
+  team_id: 1
+  member_id: 1
+  page_load: 1
+  ape_load: 1
+  all_init: 1
+  user_agent: MyText
+  height: 1
+  width: 1
