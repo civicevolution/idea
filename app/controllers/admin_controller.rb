@@ -42,6 +42,28 @@ class AdminController < ApplicationController
     end
   end
   
+  def load_times
+    @start_days = params[:start_days].nil? ? 2 : params[:start_days].to_i
+    @end_days = params[:end_days].nil? ? 0 : params[:end_days].to_i
+
+    @items = ClientLoadTime.all(
+      :select=>%q|m.id AS member_id, first_name, last_name, email, t.id AS team_id, t.initiative_id, t.title, page_load, ape_load, all_init, 
+        height, width, clt.created_at, user_agent, clt.ip|,
+      :joins=>'AS clt INNER JOIN members AS m ON clt.member_id = m.id INNER JOIN teams AS t ON clt.team_id = t.id',
+      :conditions=>[%q|clt.created_at BETWEEN (now() AT time zone 'UTC') - INTERVAL '? days' AND (now() AT time zone 'UTC') - INTERVAL '? days' AND t.initiative_id IN (1,2)|,
+        @start_days, @end_days],
+      :order=>'clt.created_at DESC'
+    )
+
+    if request.xhr?
+      render :action=>'load_times', :layout=>false
+    else
+      render :action=>'load_times'
+    end
+  end
+  
+  
+  
   def members
     @members = Member.gen_report(params[:_initiative_id])
   end

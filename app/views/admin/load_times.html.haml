@@ -85,32 +85,37 @@
 		%tr
 			%th #
 			%th Name
-			%th Email
-			%th Init
-			%th Live
 			%th Team
-			%th Type
-			%th Content
+			%th page
+			%th ape
+			%th all
+			%th height
+			%th width
+			%th user_agent
 			%th Created
 			%th v^
-			
-			
+			%th Init
+			%th Email
+			%th ip
 			
 	%tbody			
 		- @items.each do |m|
 			%tr
 				%td
 				%td= "#{m.first_name} #{m.last_name}"
-				%td= "#{m.email}"
-				%td= m['initiative_id']
-				%td= m['launched'] == 't' ? 'Live' : 'No'
 				%td.title= m['title']
-				%td= m['type']
-				%td= m['content']
+				%td= m['page_load']
+				%td= m['ape_load']
+				%td= m['all_init']
+				%td= m['height']
+				%td= m['width']
+				%td= m['user_agent']
 				%td= time_ago_in_words(m['created_at']) + ' ago' unless m['created_at'].nil?
 				%td 
 					%span.sort_time= m['created_at'].nil? ? 0 : Time.parse(m['created_at'].to_s).to_i
-				
+				%td= m['initiative_id']
+				%td= "#{m.email}"
+				%td= "#{m.ip}"				
 %p	
 	= link_to "Go back 2 more days", {}, {:class=>'add_more_days'}
 				

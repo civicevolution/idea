@@ -19,7 +19,10 @@
 			
 	- if @privileges.include? 'content_stats'
 		%li= link_to "Content stats", {:action=>'content_stats'}
-	
+
+	- if @privileges.include? 'load_times'
+		%li= link_to "Load times and browser stats", {:action=>'load_times'}
+
 	- if @privileges.include? 'recent_content'
 		%li= link_to "Recent content", {:action=>'recent_content'}
 		
