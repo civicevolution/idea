@@ -205,7 +205,7 @@ function activate_ux_functions_misc(){
 
 	$('form.request_help button').click(
 		function(){
-			try{
+			try{ 
 				request_help_submit($(this.form))
 			}catch(e){console.log("request_help error: " + e.message)}
 			return false;
@@ -214,7 +214,7 @@ function activate_ux_functions_misc(){
 
 	$('div#tab_my_profile a.upload_photo').click(function(){ $(this).closest('div').find('form.upload_member_photo').show(); return false;});
 	$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
-	$('table.team_roles td > a').die('click').live('click', link_disabled);
+	$('table.team_roles td > a').die('click').live('click', team_role_volunteer);
 	
 	$('div.endorse_proposal').css('opacity',.3).find('input').attr('disabled','disabled').end().find('textarea').attr('disabled','disabled');
 	$('div.public_endorsements table').css('opacity',.3);
@@ -813,4 +813,14 @@ function send_load_report(){
 		$.post('/client_debug/load_report', {height: $(window).height(), width: $(window).width(), start: start, 
 			page_loaded: page_loaded, load_ape: load_ape, all_init: all_init, team_id: team_id })
 	}catch(e){console.log("Failed to send load_report with e: " + e.message)}
+}
+
+function team_role_volunteer(){
+	try{
+		var el = $(this)
+		console.log("team_role_volunteer id: " + el.attr('id') + ", act: " + el.attr('act') );
+		el.closest('td').load('/team/roles', {act: el.attr('act'), team_id: team_id, role_id: el.attr('id') })
+		
+	}catch(e){console.log("team_role_volunteer failed with e: " + e.message)}
+	return false;
 }

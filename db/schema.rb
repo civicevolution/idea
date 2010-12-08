@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101206214809) do
+ActiveRecord::Schema.define(:version => 20101206231737) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -494,6 +494,16 @@ ActiveRecord::Schema.define(:version => 20101206214809) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "team_member_roles", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "member_id"
+    t.integer  "role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "team_member_roles", ["member_id", "role_id", "team_id"], :name => "tma_unique_member_id_role_id_team_id", :unique => true
 
   create_table "team_registrations", :force => true do |t|
     t.integer  "team_id",                            :null => false

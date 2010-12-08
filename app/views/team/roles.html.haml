@@ -1,0 +1,12 @@
+- if @role_members.nil?
+	=link_to 'Volunteer'
+- else
+	- volunteer = true
+	- @role_members.each do |mr|
+		#{mr['first_name']} #{mr['last_name']}
+		- if mr['id'] == @member.id
+			- volunteer = false 
+			=link_to 'X', {}, {:id=>params[:role_id], :act=>'remove', :title=>"I don't want to volunteer anymore"}
+		%br
+				
+	=link_to 'Volunteer', {}, {:id=>params[:role_id], :act=>'add'} if volunteer

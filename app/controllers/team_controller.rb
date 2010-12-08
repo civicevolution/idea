@@ -638,6 +638,7 @@ class TeamController < ApplicationController
     @roles = []
     yml.each_pair { |key, rec| @roles.push rec }
     
+    @member_roles = TeamMemberRole.roles(@team_id)
     # has a scenario been specified? If so, load the scenario data
     if params[:_sc]
       yml = YAML.load_file 'config/scenarios.yaml'
@@ -1930,6 +1931,18 @@ class TeamController < ApplicationController
     end
   end
   
+  
+  def roles
+    if params[:act] == 'add'
+      tmr = TeamMemberRole.new :team_id=>params[:team_id], :member_id=>@member.id, :role_id=>params[:role_id]
+      tmr.save
+    else
+      tmr = TeamMemberRole.find_by_member_id_and_role_id_and_team_id(@member.id, params[:role_id],params[:team_id])
+      tmr.destroy unless tmr.nil?
+    end
+    @role_members = TeamMemberRole.role_holders(params[:role_id],params[:team_id])
+    
+  end
   
 protected
 

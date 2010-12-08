@@ -34,5 +34,18 @@
 					%ul
 						- r['tasks'].each do |t|
 							%li= t
-			%td
-				=link_to 'Volunteer'
+			%td 
+				- if @member_roles.nil?
+					=link_to 'Volunteer'
+				- else
+					- volunteer = true
+					- tr = @member_roles.find_all { |mr| mr.role_id == r['id'] }
+					- tr.each do |mr|
+						- m = @members_sorted.detect { |m| m.id == mr.member_id}
+						#{m.first_name} #{m.last_name}
+						- if m.id == @member.id
+							- volunteer = false 
+							=link_to 'X', {}, {:id=>r['id'], :act=>'remove', :title=>"I don't want to volunteer anymore"}
+						%br
+								
+					=link_to 'Volunteer', {}, {:id=>r['id'], :act=>'add'} if volunteer
