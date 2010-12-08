@@ -33,10 +33,10 @@
 					
 					$.ajax	({ 					
 					  type: "POST", 
-						url: 'http://' + document.location.host + '/admin/recent_content',
+						url: 'http://' + document.location.host + '/admin/load_times',
 						data: {start_days: start_days, end_days: end_days},
 					  success: function(data,status){ 
-							console.log("/recent_content submit success");
+							console.log("/load_times submit success");
 							//debugger
 							temp.data = data
 							table = $('table#team_content')
@@ -77,7 +77,7 @@
 				max-width: 200px
 					
 
-%h3 Recent content
+%h3 Load times and browser stats
 %p Click columns to sort
 
 %table#team_content{:class=>"tablesorter"}
