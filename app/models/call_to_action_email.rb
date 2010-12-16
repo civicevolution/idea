@@ -69,6 +69,19 @@ class CallToActionEmail < ActiveRecord::Base
             :conditions=>'scenario = \'join a team\' AND sent = false'
           )
 
+        when 'joined a team'
+          #Joined a team that hasn't launched (31)
+          Member.find_by_sql(
+            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id
+            FROM members m, initiative_members im, team_registrations tr, teams t
+            WHERE im.initiative_id IN (1,2)
+            AND m.id = im.member_id
+            AND tr.member_id = m.id
+            AND tr.team_id = t.id
+            AND t.id > 10018
+            ORDER BY first_name, last_name|)
+          
+
         else
           Member.all(
             :select=>'first_name, last_name, email, m.id AS mem_id, t.id AS team_id',

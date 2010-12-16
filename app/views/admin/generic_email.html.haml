@@ -1,0 +1,124 @@
+:javascript
+	$(function(){
+		$('form.invite_friends').unbind('submit').submit(
+			function(){
+				try{
+									console.log("invite_friends")
+					invite_friends(this);
+				}catch(e){console.log("invite_friends v1 error: " + e)}
+				return false;
+			}
+		);
+
+		$('form.invite_friends input[type="submit"]').unbind('click').click( 
+			function(){
+				try{
+					console.log("invite_friends")
+					invite_friends($(this.form));
+				}catch(e){console.log("invite_friends v2 error: " + e)}
+				return false;
+			}
+		);
+
+		$('form.invite_friends a.clear').unbind('click').click(
+			function(){
+				try{
+					$('textarea', this.form).val('')
+					return false;
+				}catch(e){console.log("invite_friends clear error: " + e)}
+				return false;
+			}
+		);
+	});
+	
+	var preview_dialog;
+	function invite_friends(form){
+		var btn = $('input[type="submit"]',form);
+		btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+
+		$(':input',form).removeClass('form_error_border');
+		$('p.form_error_text',form).remove();
+
+		form.ajaxSubmit({ 					
+		  type: "POST", 
+			url: 'http://' + document.location.host + '/admin/generic_email',
+		  success: function(data,status){ 
+				if($('input[name="send_now"]', form).val() == 'true'){
+					// clear preview and acknowledge email was sent
+					$('input[name="send_now"]', form).val('')
+					var dialog = $('<div>' + data + '</div>').dialog( {title : 'Thank you', modal : true, width: 500 }); 
+					// find and remove the preview dialog
+					preview_dialog.dialog('destroy').remove()
+				}else{
+					preview_dialog = $('<div>' + data + '</div>').dialog( {title : 'Please preview your email', modal : true, width: 500,
+							close: function(){ 	$('input[name="send_now"]', form).val('') } }); 
+					preview_dialog.find('a.make_changes').click(
+						function(){
+							preview_dialog.remove();
+							$('input[name="send_now"]', form).val('')
+							return false;
+						}
+					)
+					preview_dialog.find('button').click(
+						function(){
+							console.log("send this email now")
+							//dialog.remove();
+							$('input[name="send_now"]', form).val('true')
+							btn.removeAttr('disabled').next('img').remove();
+							invite_friends(form);
+						}
+					)
+				}
+				btn.removeAttr('disabled').next('img').remove();
+		  },
+			error : function(xhr,errorString,exceptionObj){
+				console.log("Error, xhr: " + xhr.responseText)
+				try{
+					if(xhr.responseText.match(/Captcha failed/) ){
+						//console.log("try recaptcha again")
+						show_recaptcha( form, true )
+						btn.removeAttr('disabled').next('img').remove();
+						return false;
+					}
+					show_form_error(form,xhr.responseText)
+					//$("input[name='first_name']",form).before('<p class="form_error_text">' + xhr.responseText + "</p>")
+					btn.removeAttr('disabled').next('img').remove();
+				}catch(e){
+					console.log("invite_friends submit error: " + e)
+					$('<div><p>Sorry, we cannot process your invitation request at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+					btn.removeAttr('disabled').next('img').remove();
+				}
+			}
+		});
+		return false;			
+	}
+	
+
+%div
+	- form_tag( { :controller=> :team, :action => :generic_email}, {:class=>'invite_friends'} ) do
+		= hidden_field_tag :send_now
+		
+		%div.add_idea
+			%label 
+				Please enter your friend's names and email addresses
+				%a{:href=>'#', :class=>'how'} How
+			%div.how
+				%ul
+					%li Enter one email recipient per line
+					%li Enter the name, followed by a space, and then the email address
+					%li The name is optional. Here are examples:
+					%li Jane Public jane_public@civicevolution.org
+					%li joe_public@civicevolution.org
+			= text_area_tag :recipient_emails, nil, :class=>'comment', :size=>"1x2", :alias=>'Recipient emails'
+
+			%label Subject
+			= text_field_tag :subject, nil, :class=>'subject', :alias=>'Subject'
+			
+			%label Message
+			= text_area_tag :message, nil, :class=>'comment', :size=>"1x2", :alias=>'Email message'
+			%div.control_line
+				%div.controls
+
+		%p
+			= submit_tag "Preview and send", :name=>'invite_friends', :alias=>'Please'
+			= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}

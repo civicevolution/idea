@@ -3,11 +3,19 @@ class InviteEmail < Tableless
   column :recipient_emails, :text
   
   attr_accessor :sender
-  
+  attr_accessor :check_size, :true
   attr_accessor :recipients
   
   validates_presence_of  :message, :recipient_emails
-  validates_length_of :message, :in => 10..1000, :message=>'seems too short, at least 10 characters'
+  #validates_length_of :message, :in => 10..6000, :message=>'seems too short, at least 10 characters'
+
+  validate :check_length
+
+  def check_length
+    return if self.check_size == false
+    errors.add(:message, "must be at least 10 characters") unless message && message.length >= 10
+    errors.add(:message, "must be at less than 1000 characters") unless message && message.length <= 1000    
+  end
   
   #validates_presence_of  :name, :email_address, :message
   before_validation :process_recipient_emails

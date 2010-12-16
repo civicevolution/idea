@@ -1,0 +1,8 @@
+%h3 Thank you for inviting your friends
+
+%p Your invitation has been sent to 
+- @invite.recipients.each do |recipient|
+	%p.recipients #{recipient[:first_name]} #{recipient[:last_name]} &#60;#{recipient[:email]}&#62;
+	
+%p
+	You can contact us at support@civicevolution.org if you have any questions.

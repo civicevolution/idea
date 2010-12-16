@@ -1,9 +1,3 @@
-#require 'RedCloth'
-#module RedCloth::Formatters::HTML
-#  def em(opts)
-#    "_#{opts[:text]}_"
-#  end
-#end
 require 'bluecloth'
 class AdminController < ApplicationController
   
@@ -133,19 +127,22 @@ class AdminController < ApplicationController
     elsif params[:act] == 'preview'
       mem_id, team_id = params[:recip_ids][0].split('-')
       @recipient = Member.find_by_id( mem_id.to_i )
-      @team = Team.find_by_id(team_id.to_i)
-      @mcode = '~~SECRET~ACCESS~CODE~~'
-      @init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
-      @host = Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
-      @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
-      # just for testing
-      @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
+      begin
+        @team = Team.find_by_id(team_id.to_i)
+        @mcode = '~~SECRET~ACCESS~CODE~~'
+        @init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
+        @host = Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
+        @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
+        # just for testing
+        @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
         
-      @init_data = [
-        {},
-        {:sponsor=>'Executive Management Team'},
-        {:sponsor=>'Alliance Governance Group'}        
-      ]
+        @init_data = [
+          {},
+          {:sponsor=>'Executive Management Team'},
+          {:sponsor=>'Alliance Governance Group'}        
+        ]
+      rescue 
+      end
       
       msg = render_to_string :inline=>message
       html = "<h3>#{params[:subject]}</h3>"
@@ -187,20 +184,22 @@ class AdminController < ApplicationController
         params[:recip_ids].each do |recip_id|
           mem_id, team_id = recip_id.split('-')
           @recipient = Member.find_by_id( mem_id.to_i )
-          @team = Team.find_by_id(team_id.to_i)
-          @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
-          @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
-          # adjust host first subdomain based on init_id of the team or the team_id if join a team
-          @init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
-          @host = Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
-          @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
+          begin
+            @team = Team.find_by_id(team_id.to_i)
+            @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
+            @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
+            # adjust host first subdomain based on init_id of the team or the team_id if join a team
+            @init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
+            @host = Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
+            @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
           
-          @init_data = [
-            {},
-            {:sponsor=>'Executive Management Team'},
-            {:sponsor=>'Alliance Governance Group'}        
-          ]
-          
+            @init_data = [
+              {},
+              {:sponsor=>'Executive Management Team'},
+              {:sponsor=>'Alliance Governance Group'}        
+            ]
+          rescue
+          end
           
           msg = render_to_string :inline=>message
           AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
@@ -350,6 +349,42 @@ class AdminController < ApplicationController
     @time1 = Time.now
     sleep 10
     @time2 = Time.now
+  end
+  
+  def generic_email
+    
+    if ! (params[:message].nil? && params[:subject].nil?)
+      # This will process the recipients and make them available as @invite.recipients
+      @invite = InviteEmail.new :sender => @member, :recipient_emails => params[:recipient_emails], :message=> params[:message], :check_size=>false
+      @invite.valid?
+
+      respond_to do |format|
+        if @invite.errors.empty?
+          if params[:send_now] != 'true'
+            recipient =  @invite.recipients[0]
+            logger.debug "Generate a sample email to #{recipient[:first_name]} at #{recipient[:email]}"
+            @email = GenericMailer.create_generic_email(@member, recipient, params[:subject], params[:message] )
+            format.html { render :action => "preview_invite_request", :layout => false } if request.xhr?
+            format.html { render :action => "preview_invite_request", :layout => 'welcome' }
+          else
+            @invite.recipients.each do |recipient|
+              logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
+              GenericMailer.deliver_generic_email(@member, recipient, params[:subject], params[:message] )
+              logger.warn "Email sent to #{recipient[:first_name]} at #{recipient[:email]}"
+            end
+            format.html { render :action => "acknowledge_invite_request", :layout => false } if request.xhr?
+            format.html { render :action => "acknowledge_invite_request", :layout => 'welcome' }
+
+          end
+        else
+          if !@invite.errors[:recipient_emails].nil? && @invite.errors[:recipient_emails].size() > 0 && request.xhr?
+            format.html { render :action => "invite_request_email_errors", :layout => false }
+          else
+            format.json { render :text => [@invite.errors].to_json, :status => 409 }    
+          end
+        end
+      end
+    end
   end
   
   protected
