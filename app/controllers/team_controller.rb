@@ -195,6 +195,10 @@ class TeamController < ApplicationController
     end
 
     @num_mems = TeamRegistration.count(:conditions => ['team_id = ?', @team_id])
+    @num_comments = Comment.count(:conditions => ['team_id = ?', @team_id])
+    @num_ideas = BsIdea.count(:conditions => ['team_id = ?', @team_id])
+    @num_ans = Answer.count(:conditions => ['team_id = ?', @team_id])
+    
     @last_ts = Team.find(@team_id).last_visit( @member_id )
     @items = @team.items
     @pages = @team.pages

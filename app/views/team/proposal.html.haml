@@ -233,41 +233,41 @@
 						Team members
 					%td
 						= @num_mems
-				%tr		
-					%td
-						Page views
-					%td
-						7
-				%tr
-					%td
-						Active team members
-					%td
-						= @num_mems
-				%tr
-					%td
-						Unique visitors
-					%td
-						5
+				-#%tr		
+				-#	%td
+				-#		Page views
+				-#	%td
+				-#		7
+				-#%tr
+				-#	%td
+				-#		Active team members
+				-#	%td
+				-#		= @num_mems
+				-#%tr
+				-#	%td
+				-#		Unique visitors
+				-#	%td
+				-#		5
 				%tr
 					%td
 						Team comments
 					%td
-						67
-				%tr
-					%td
-						Public comments
-					%td
-						0
+						= @num_comments
+				-#%tr
+				-#	%td
+				-#		Public comments
+				-#	%td
+				-#		0
 				%tr
 					%td
 						Brainstorming ideas
 					%td
-						4
+						= @num_ideas
 				%tr
 					%td
-						Proposal endorsements
+						Answers
 					%td
-						0
+						= @num_ans
 		- else 
 			%b Proposal idea activity
 			%table
@@ -281,21 +281,21 @@
 						Members needed
 					%td
 						= @team.min_members.to_i - @num_mems.to_i
-				%tr		
-					%td
-						Page views
-					%td
-						7
-				%tr
-					%td
-						Unique visitors
-					%td
-						5
-				%tr
-					%td
-						Comments
-					%td
-						7
+				-#%tr		
+				-#	%td
+				-#		Page views
+				-#	%td
+				-#		7
+				-#%tr
+				-#	%td
+				-#		Unique visitors
+				-#	%td
+				-#		5
+				-#%tr
+				-#	%td
+				-#		Comments
+				-#	%td
+				-#		7
 		
 		
 %p.clear_both
