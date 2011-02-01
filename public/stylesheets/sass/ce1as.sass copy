@@ -1,0 +1,960 @@
+$menu_bg: #2277aa
+$menu_link: rgb(80, 113, 255)
+$menu_color_offset: #222222
+
+$block_bg_color: #f7f3e8
+
+$faint_color: rgb(147, 160, 145)
+$left_col_init: 300px
+
+$proposal_width: 1120px
+$proposal_left_width: 360px
+$proposal_space_width: 60px
+$proposal_right_width: 760px
+$proposal_margin_left: 80px
+
+$nav_link_color: #2b3e42
+$nav_link_hover: rgb(60, 93, 195)
+$nav_link_active: rgb(255, 255, 255)
+$nav_link_bg: rgb(238, 238, 238)
+
+$proposal_horizontal_color: rgb(180, 180, 180)
+
+$header_dark: rgb(0, 0, 0)
+
+
+
+$com_dark_border: rgb(115, 115, 115)
+
+$qa_active_bg: rgb(244, 244, 244)
+
+$ce_orange: #ec5424
+
+$tab_discuss_bg: #B22222
+$tab_brainstorm_bg: #543d8b
+$tab_answer_bg: #11449d
+$tab_listen_bg: #006400
+
+
+$body-color: black
+
+html
+	overflow: auto
+
+body
+	color: $body-color
+
+div#top
+	position: fixed
+	top: 0
+	left: 20px
+	right: 20px
+	height: 40px
+	padding: 10px 0px 4px 0px
+	margin-bottom: 4px
+	margin-right: 0px
+	width: 100%
+	background-color: white
+	z-index: 10
+	border-bottom: 1px solid green
+
+div#top_links
+	position: fixed
+	top: 26px
+	right: 20px
+	z-index: 11
+	color: black
+
+#menu
+	margin: 0
+	list-style: none
+	font-size: 14px
+	li:first-child
+		margin-right: 20px
+	li
+		display: block
+		float: left
+		padding-left: 10px
+		a
+			text-decoration: none
+			color: $ce_orange
+			&:hover
+				color: $ce_orange - $menu_color_offset
+				//:color = !menu_link
+				text-decoration: underline
+		&.current
+			a, a:hover
+				color: black
+
+#nav_chat_col
+	border: 0px solid blue
+	width: $left_col_init
+	position: fixed
+	top: 56px
+	left: 20px
+	margin-top: -10px
+	div.nav
+		border: 0px solid
+		border-color: $nav_link_color
+		background-color: white
+		margin-left: 0px
+		margin-bottom: 12px
+		margin-top: 0px
+		div.link
+			clear: both
+			height: 16px
+			padding: 2px 0 2px 10px
+			margin: 0 0 0 -10px
+			a
+				display: block
+				float: left
+				text-decoration: none
+				font-weight: bold
+				color: $header_dark
+				&:hover
+					color: $nav_link_hover
+					text-decoration: underline
+					font-weight: bold
+				&.current
+					a, a:hover
+						color: $nav_link_active
+			div.activity_indicator
+				float : left
+				width: 28px
+				height: 16px
+				margin: -2px 0 0 14px
+				background : url(/images/activity_strength_sprite.gif) 0 0 no-repeat
+			div.member_indicator
+				float : left
+				width: 30px
+				height: 16px
+				margin: 0 0 0 10px
+				background : url(/images/member_numbers.gif) 0 0 no-repeat
+		div.cur_nav_link
+			color: white
+			background-color: $nav_link_color
+			div.member_indicator
+				background-position: -40px 0px
+
+
+div#members_online
+	p.clear_both
+		height: 20px
+	p
+		font-weight: bold
+		margin: 0px 0 2px 0
+	div.ape_user
+		float: left
+		margin: 0 6px 12px 0
+		cursor: pointer
+
+div.nav_chat
+	//border: 1px solid
+	//border-color: $proposal_horizontal_color
+	width: 100%
+	//height: 460px
+	margin-top: 12px
+	clear: both
+	display: none
+	div.inner_chat
+		//height: 400px
+		overflow: auto
+		overflow-y: scroll
+	img.temp_chat
+		width: 280px
+	input.chat_input
+		margin-top: 3px 
+		width: 230px
+		float: left
+	input.chat_submit
+		float: right
+		width: 50px
+		
+	button.chat_send
+		margin: 4px 10px 10px 10px
+		width: 270px
+
+h3.team_title
+	color: $header_dark
+	font-size: 16px
+	margin-top: 16px
+	margin-bottom: 12px
+	
+
+h3.page_title
+	color: $nav_link_color
+	margin-top: 20px
+
+#proposal
+	width: $proposal_width	
+	position: absolute
+	top: 56px
+	left: $left_col_init + $proposal_space_width
+	//margin-left: $proposal_margin_left
+	margin-top: 12px
+
+div.Page
+	display: none
+	float: left
+	width: 100%
+
+div.plus_com
+	width: 100%
+	//border-top: 1px solid
+	//border-color: $proposal_horizontal_color
+	position: relative
+	padding-top: 0px
+
+div.Question
+	//margin-bottom: 30px
+	form.open_form
+		clear: both
+		margin-bottom: 10px
+		padding-right: 20px
+		margin-right: 30px
+		input
+			color: $pale_input
+			width: 100%
+
+div.Answer_entry, div.Question_entry
+	//width: $proposal_left_width
+
+div.Answer_entry
+	div.answer_controls
+		margin-bottom: 0px
+		height: 8px
+
+div.answer_controls
+	position: relative
+	padding-top: 6px
+	span.rating_results
+		color: $faint_color
+		margin-left: 5px
+		display: block
+		float: left
+
+div.com_count
+	float: right
+	padding-right: 10px
+
+div.answer
+	clear: both
+	padding-right: 10px
+
+
+div.embedded_discussion
+	form.add_comment_form
+		width: 100%
+		clear: both
+		div.add_content
+			width: 100%
+	form.add_answer_form
+		width: 100%
+		div.add_answer
+			width: 100%
+
+div.coms
+	background: url(/images/border_shadow.gif) repeat-y left top
+	position: absolute
+	left: $proposal_left_width
+	top: 0
+	height: 100%
+	overflow: hidden
+	//width: $proposal_right_width + $proposal_space_width
+	background-color: white
+	.coms_count
+		width: 100%
+		text-align: left
+		padding-top: 6px
+		margin-bottom: 10px
+		border: 0px solid green
+		span
+			padding-right: 10px
+			margin-right: 20px
+	div.coms_empty
+		height: 25px
+	//div.coms_inner
+	//	:position relative
+	div.pointer
+		display: block
+		//:float left
+		width: 20px
+		height: 37px
+	img.border_pointer
+		display: block
+		float: left
+	div.coms_inner
+		//:float left
+		//:margin-left 6px
+		position: relative
+		top: -37px
+		left: 20px
+
+div.pointer
+	background: url(/images/border_pointer_shadow.gif) no-repeat left top
+
+div.coms_show_all div.pointer
+	background: url(/images/border_pointer_shadow_on.gif) no-repeat left top
+
+div#proposal div.coms.coms_show_all
+	overflow: visible
+	z-index: 2
+	background-color: $nav_link_bg
+	height: auto
+	padding-top: 0px
+	border-width: 1px 0 1px 0
+	border-style: solid
+	border-color: $com_dark_border
+
+div.qa_coms_shown
+	background-color: $qa_active_bg
+
+		
+
+div.coms_show_all
+	.hidden
+		display: block
+	form.open_form
+		clear: both
+		margin-bottom: 10px
+		margin-right: 10px
+		padding-right: 20px
+		input
+			color: $pale_input
+			width: 100%
+
+.item
+	clear: both
+
+img
+	border: none
+
+p.clear_both
+	clear: both
+
+
+div.Answer_entry, div.Question_entry
+	border-right: 0px solid #666666
+	padding-bottom: 10px
+	form.open_form
+		padding-left: 20px
+
+
+form.closed
+	input /* Fix for IE <= 7: text-indent does not work to hide text on submit buttons */
+		background-position: 0 -48px
+		.vote_down
+			background-position: -16px -48px
+
+img.temp_chat
+	width: 290px
+
+
+div.ui-widget-content
+	border: none
+
+div.Answer_entry
+	width: 600px
+
+div.shoutbox_msg
+	//height: 255px
+	padding: 7px
+	margin-bottom: 5px
+	overflow: hidden
+	border: 1px solid #000
+
+div.shoutbox_msg 
+	overflow: auto
+	overflow-y: scroll
+	background-color: white
+	table
+		td
+			vertical-align: top
+			text-align: left
+		td.pic
+			width: 45px
+		td.msg
+			width: 100%
+	p.name 
+		font-weight: bold
+		margin: 0
+	p.msg
+		margin: .3em 0 0 0
+	.shade
+		background-color: #eee
+
+	
+.chat_window
+	font-family: Arial,Helvetica,sans-serif
+	font-size: 12px
+
+form.add_bs_idea_form
+	margin: 20px 20px 40px 0
+	max-width: 500px
+	label
+		display: block
+		clear: both
+		margin-top: 0px
+	textarea, input[type=text]
+		width: 100%
+	div.controls
+		position: absolute
+		right: 0
+	div.control_line
+		position: relative
+		margin-bottom: 10px
+	div.add_idea
+		clear: both
+		margin-right: 20px
+		border: 0px solid #dddddd
+	div.add_link,div.attach_file
+		display: none
+	button
+		margin-left: 15px
+
+p.confirmation
+	margin: 10px
+	font-weight: bold
+	clear: both
+	
+.hide
+	display: none
+
+	
+.form_error_border
+	border: 1px solid $new_item_color
+.form_error_text, .error
+	color: $new_item_color
+	font-weight: bold
+
+	div.comment_text, div.answer, div.bs_idea
+		p
+			margin: 0 0 8px 0
+
+
+td form.item_rater
+	margin-right: 20px
+
+div.bs_ideas, div.answers
+	padding-top: 20px
+	td.rating
+		padding-left: 40px
+
+	table
+		td
+			vertical-align: top
+			form
+				margin: 0 6px 10px 0
+				float: left
+			span.rating_results
+				float: left
+				font-size: .8em
+		th
+			text-align: left
+		col.my_rating
+			width: 150px
+		p.controls 
+			font-size: .9em
+			margin: 6px 0 40px 0		
+			span.new	
+				font-weight: bold
+				color: $new_item_color
+		div.bs_idea, div.answer
+			width: 100%
+			max-width: 500px
+			p 
+				padding-right: 10px
+				font-size: 1.1em
+
+
+
+		
+div.add_idea
+	label
+		font-weight: bold
+		font-style: italic
+		color: #888
+		
+	
+div.tab_window
+	//border: 1px solid black
+	height: 500px
+	overflow: auto
+	overflow-y: scroll
+	clear: both
+	
+//div.question_discussion
+//	//border: 1px solid blue
+//	width: 100%
+//	
+//div.inner_question_discussion
+//	//border: 1px solid black
+//	margin-right: 60px
+	
+div.embedded_discussion
+	border: 1px solid black
+	margin-top: -20px
+	padding-left: 10px
+	margin-bottom: 40px
+
+div.inner_embedded_discussion
+	margin-right: 44px	
+	
+span.no_break, span.stars
+	white-space: nowrap
+	
+.idea_disc_reply	
+	display: block
+	clear: both
+	
+.open_all_idea_coms
+	display: block
+	margin: 6px 0
+	
+div.proposal_view 
+	max-width: 600px
+	width: auto
+	h3.team_title
+	margin-bottom: 40px
+	div.summary
+		margin: 0px
+		p.summary
+			margin: 6px 0 -10px 0
+			font-variant: small-caps
+	div.question 	
+		font-weight: bold
+		cursor: pointer
+		margin-top: 40px
+	div.answer
+		margin-left: 20px
+		font-weight: normal
+		
+div.embedded_discussion
+	a.view_target
+		display: none
+div.Comment	
+	div.target
+		background-color: #eee
+		padding: 10px
+		border: 1px solid #ddd
+		
+ins
+	color: green
+del 
+	color: $new_item_color
+div.item_history_outer
+	height: 240px
+	overflow: auto
+	overflow-y: scroll
+	border: 1px solid black
+	p.legend
+		font-style: italic
+		font-size: 72%
+	hr
+		margin-top: 30px
+		
+div.Team_info_entry
+	margin-bottom: 20px
+	
+span.chat_ago
+	margin-left: 2em
+	color: #888
+	font-style: italic
+	font-size: .8em
+div.chat_transcript_outer
+	max-height: 600px
+	
+span.star_hover
+	white-space: wrap
+	
+div.bs_rating_red_bg
+	//background-color: red
+	background: url(/images/red_star2.gif) repeat-x left top
+	height: 16px
+	margin-top: -16px
+div.bs_rating_grey_bg
+	//background-color: red
+	background: url(/images/grey_stars.gif) repeat-x left top
+	height: 16px
+	width: 82px
+	margin-left: 0px
+div.bs_ideas
+	div.cnt
+		margin-bottom: 2px
+		font-size: .8em
+
+span.please_rate
+	color: $new_item_color
+	font-weight: bold
+	
+form.item_rater
+	width: 100px
+	
+div.tab_view
+	max-width: 800px
+	min-width: 400px
+	table
+		width: 100%
+
+div.answers 
+	ul
+		max-width: 500px
+		
+div.comment_text, div.answer, div.bs_idea
+	p
+		margin: 0 0 8px 0
+
+ul.instr
+	font-style: italic
+	//font-size: 88%
+	margin-bottom: 40px
+	margin-top: -12px
+	li
+		line-height: 150%
+	.close_instr
+		list-style: none
+		margin-top: 0px
+		margin-left: -20px
+		
+a.show_instructions
+	font-size: 88%
+	margin-top: -10px
+	font-style: italic
+	margin-left: 20px
+	display: inline
+	font-weight: normal
+
+p.targeted_object
+	font-weight: bold
+	
+div.team_page 
+	ul.ui-tabs-nav
+		margin-top: 22px
+p.chat_title
+	font-weight: bold
+	margin-bottom: 4px	
+	
+div#members_online 
+	p.clear_both
+		line-height: 1px
+		height: 1px
+		margin: 0
+		
+div.tab_window
+	position: relative
+
+span.new_items
+	color: $new_item_color
+	font-weight: bold	
+	margin-left: 10px
+	
+body > div.clue-tip-source 
+	display: none
+	
+table.checklist 
+	max-width: 600px
+	td
+		vertical-align: top
+		padding-top: 6px
+		p.details
+			display: none
+			margin: 6px 0 13px 0
+
+div.member_endorsements	
+	table
+		max-width:	600px
+	td,th
+		text-align: left
+		vertical-align: middle
+		
+div.public_endorsements	
+	table
+		max-width:	600px
+	td,th
+		text-align: left
+		vertical-align: middle
+
+	
+div.endorse_proposal
+	margin: 40px 0 20px 0
+	border: 1px solid #777
+	padding: 0 20px
+
+.stripe
+	background-color: $nav_link_bg
+	
+h3.team_roles
+	margin-top: 40px
+table.team_roles
+	max-width: 600px
+	th,td
+		text-align: left
+		padding: 6px
+	td
+		vertical-align: top
+		p
+			margin-top: 0
+		li
+			margin-bottom: 6px
+
+div#tab_team_assistance	
+	div.videos
+		margin-bottom: 60px
+		div.video
+			float: left
+			padding: 0 40px 0 40px
+			img
+				display: block
+				margin-bottom: 8px
+
+div.tab_panel
+	display: none
+	clear: both
+ul.qa_tabs
+	padding: 0
+	margin: 0
+	margin-bottom: -12px
+	height: 43px
+	li
+		list-style: none
+		float: left
+		position: relative
+		background : url(/images/qa_puzzle_tabs1.gif) 0 0 no-repeat
+		height: 43px
+		cursor: pointer
+		div.new_items
+			position: absolute
+			top: 28px
+			font-size: .8em
+			text-align: center
+			color: black
+	li.active
+		div.new_items
+			color: white
+		
+	li.discuss_tab
+		width: 104px
+		background-position : 0 -100px
+		div.new_items	
+			width: 72px
+	li.discuss_tab.active
+		background-position : 0 0
+	li.discuss_tab.hover
+		background-position : 0 -50px
+		
+	li.brainstorm_tab
+		width: 143px
+		background-position : -104px -100px
+		div.new_items	
+			width: 123px
+	li.brainstorm_tab.active
+		background-position : -104px 0
+	li.brainstorm_tab.hover
+		background-position : -104px -50px
+		
+	li.answer_tab
+		width: 119px
+		background-position : -247px -100px
+		div.new_items	
+			width: 94px
+	li.answer_tab.active
+		background-position : -247px 0
+	li.answer_tab.hover
+		background-position : -247px -50px
+		
+	li.listen_tab
+		width: 91px
+		background-position : -366px -100px
+		div.new_items	
+			width: 87px
+	li.listen_tab.active
+		background-position : -366px 0
+	li.listen_tab.hover
+		background-position : -366px -50px
+
+
+div.team_page
+	ul.qa_tabs
+		padding: 0
+		margin: 0
+		//height: 60px
+		height: 43px
+		margin-bottom: -6px
+		li
+			list-style: none
+			float: left
+			position: relative
+			background : url(/images/team_puzzle_tabs7.gif) 0 0 no-repeat
+			//height: 49px
+			height: 43px
+			cursor: pointer
+			div.new_items
+				position: absolute
+				top: 34px
+				font-size: .8em
+				text-align: center
+				color: black
+		li.active
+			div.new_items
+				color: white
+
+		li.plan_tab
+			//width: 92px
+			width: 79px
+			background-position : 0 -100px
+			div.new_items	
+				width: 54px
+		li.plan_tab.active
+			background-position : 0 0
+		li.plan_tab.hover
+			background-position : 0 -50px
+
+		li.share_tab
+			width: 106px
+			background-position : -79px -100px
+			div.new_items	
+				width: 79px
+		li.share_tab.active
+			background-position : -79px 0
+		li.share_tab.hover
+			background-position : -79px -50px
+
+		li.promote_tab
+			width: 125px
+			background-position : -185px -100px
+			div.new_items	
+				width: 98px
+		li.promote_tab.active
+			background-position : -185px 0
+		li.promote_tab.hover
+			background-position : -185px -50px
+
+		li.implement_tab
+			width: 121px
+			background-position : -310px -100px
+			div.new_items	
+				width: 121px
+		li.implement_tab.active
+			background-position : -310px 0
+		li.implement_tab.hover
+			background-position : -310px -50px
+	
+
+div.how
+	display: none
+	
+div.qa_bar
+	border-top: 2px solid
+	height: 1px
+
+div.discuss_tab
+	div.qa_bar
+		border-color: $tab_discuss_bg
+		
+div.brainstorm_tab
+	div.qa_bar
+		border-color:	$tab_brainstorm_bg
+		
+div.answer_tab	
+	div.qa_bar
+		border-color:	$tab_answer_bg
+		
+div.listen_tab
+	div.qa_bar
+		border-color:	$tab_listen_bg
+
+p.instr
+	max-width: 600px
+	font-weight: bold
+	margin: 0 
+
+div.tabs 
+	div.new_items
+		position: absolute
+		top: 36px
+		left: 10px
+		color: $new_item_color
+		font-weight: bold	
+
+div.tabs > ul
+	height: 49px
+
+
+div.question
+	font-weight: bold
+	margin-bottom: 0px
+	margin-top: 0px
+	padding-right: 10px
+	font-size: 1.2em
+
+
+div.tab_panel 
+	div.question
+		margin: 16px 0 0 0
+	p.instr
+		margin: 12px 0 6px 0
+		a	
+			font-size: .9em
+			margin-left: 10px
+
+
+div.how ul.instr
+	margin: 10px 0
+	max-width: 600px
+
+div.add_comment
+	margin-top: 20px
+	
+div#team_help, div#team_stats, div#team_profile
+	display: none
+	
+div.call_to_action
+	//display: none
+	position: absolute
+	left:	$proposal_left_width
+	top: 190px
+	background-color: $block_bg_color
+	border: 2px solid $menu_bg
+	padding: 6px 20px 20px 20px
+	margin-left: 20px
+	max-width: 500px
+	p.close
+		width: 100%
+		text-align: right
+		margin: 0 0 6px 0
+	
+p.call_to_action 
+	font-size: 1.2em
+	
+ul.calls_to_action
+	font-size: 1.2em
+
+ul.tight
+	margin-top: -10px
+	
+div.email_preview
+	border: 1px solid black
+	padding: 10px
+	//word-wrap: break-word
+	
+.wordwrap
+	white-space: pre-wrap /* css-3 */
+	white-space: -moz-pre-wrap  /* Mozilla, since 1999 */
+	white-space: -pre-wrap /* Opera 4-6 */
+	white-space: -o-pre-wrap /* Opera 7 */
+	word-wrap: break-word /* Internet Explorer 5.5+ */ 
+
+	
+div.preview
+	display: none
+form.send_teammate_email	
+	margin-right: 0
+	input.subject
+		width: 400px
+	
+div.shoutbox_msg
+	p.inst
+		margin: 2px 0 4px 0
+		
+div.email_preview img 
+	float: none

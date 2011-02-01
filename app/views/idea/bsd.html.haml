@@ -1,0 +1,91 @@
+- @team = Team.new(:com_criteria=>'4..7', :res_criteria=>'3..8')
+- if !@error.nil?
+	%p= @error
+- else
+%div.qa_bsd	
+	- if @mode == 'page'
+		%h3.question
+			= 'Q: ' + @question.text
+			= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal'}
+		
+
+	%div.bsd
+		%div.brainstorming 
+			%h3 Brainstorming ideas
+			
+			- if @bs_ideas.size > 0
+
+				- @unrated_ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| a['id'].to_i <=> b['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+				- @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+				- @popular_ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+				
+
+				%p.idea_lists
+					- if @unrated_ideas.size>0
+						New ideas
+						-#= link_to "New ideas", {:action=>'bs_idea_comment', :id=>@question.id}, {:class=>'bs_idea_discussion'}
+						•
+					
+					- if @unrated_ideas.size>0
+						= link_to "Popular ideas", {:action=>'bs_idea_comment', :id=>@question.id}, {:class=>'bs_idea_discussion'}
+					- else
+						Popular ideas
+					= link_to "My favorites", {:action=>'bs_idea_comment', :id=>@question.id}, {:class=>'bs_idea_discussion hide'}
+					-#
+						•
+						= link_to "All", {:action=>'bs_idea_comment', :id=>@question.id}, {:class=>'bs_idea_discussion'}
+
+				
+				
+				- if @unrated_ideas.size > 0
+					%div.unrated_ideas
+						- @unrated_ideas.each do |bsi|
+							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'new', :coms=>'t'}
+
+						
+				%div{:class=> 'popular_ideas' + (@unrated_ideas.size>0 ? ' hide' : '')}
+					- @popular_ideas.slice(0,10).each do |bsi|
+						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'pop', :coms=>'t'}
+						
+					
+				%div.favorite_ideas.hide
+					- @favorite_ideas.slice(0,8).each do |bsi|
+						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
+							
+			- else
+				%p No brainstorming ideas have been suggested for this question
+				
+			= render :partial=>'add_bs_idea', :locals=> {:question=>@question}
+
+		%div.gen_discussion
+			%div.discussion.qna
+				%h3 Discuss this Q&A and ideas
+				
+				%div.inner_question_discussion
+				
+					- top_level_comments_sorted = @comments.find_all {|c| c['par_id'].to_i == @question.item_id && c.sib_id.to_i == 0 && c['target_type'].to_i == 0}.sort {|a,b| a.order.to_i <=> b.order.to_i }
+					- if top_level_comments_sorted.size > 0
+						- top_level_comments_sorted.each do |c|
+							= render :partial=> 'comment', :object=>c
+					- else
+						%p There are no comments yet, why don't you start the conversation?
+					
+				= render :partial=>'add_comment_combined', :locals=> {:id=>@question.item_id, :label=>'Please add your comment'}
+	
+
+	- if @mode == 'page'
+		%div.ans 
+			%h3 Answer
+			- if @answers.size > 0
+				- @answers.each do |a|
+					-# sort the answers
+					%div.answer{:id=>"ans_#{a['id']}"}= simple_format( auto_link( h(a['text']), :all, :target => "_blank" ))
+
+			- else
+				%p No answers have been suggested for this question
+
+			= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal'}
+
+-if @mode == 'insert'
+	%h3.clear
+		Our current answer

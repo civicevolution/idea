@@ -1,0 +1,780 @@
+$off_black: #2b3e42
+$pale_input: rgb(51, 51, 51)
+$new_item_color: #F2583E
+
+$postit: #fff89c
+
+div.page
+	width: 1000px
+	margin: auto
+	//p.tall 
+	//	height: 0px
+	//fieldset
+	//	width: 275px
+
+
+div.logo
+	text-align: left
+	//width: 100%
+	float: left
+	img
+		margin-bottom: 8px
+
+iframe.ape
+	display: none
+	position: absolute
+	left: -300px
+	top: -300px
+
+
+div.member_info
+	float: right
+	margin-top: 19px
+	color: $off_black
+	div.member
+		padding: 0 0 4px 42px
+		margin: 0
+		text-align: left
+		font-weight: bold
+		position: relative
+		img
+			display: block
+			cursor: pointer
+			position: absolute
+			top: 0
+			left: 0
+	p.signout 
+		margin: 0
+		a.my_teams
+			margin-right: 10px
+
+	//	font-size: 88%
+	//	position: absolute
+	//	bottom: 0
+	//	right: 0
+	//form.upload_member_photo
+	//	display: none
+
+
+hr.top
+	clear: both
+	margin-bottom: 0
+	
+div.footer_logo
+	margin: 20px
+	width: 100%
+		
+div.ce_credit
+	width: 100%
+	h3
+		margin-bottom: 6px
+	p.tag_line 
+		margin-top: 4px		
+		font-weight: bold
+
+hr.bottom, .clear
+	clear: both
+
+.hide
+	display: none
+
+img.i36
+	width: 36px
+	height: 36px
+	
+div.idea_page
+	width: 800px
+
+div.bs_idea
+	p.idea_controls
+		margin-top: -10px
+
+div.discussion h3
+	margin-left: 26px
+
+
+
+div.ans
+	clear: both
+	padding: 40px 0
+
+div.discussion
+	width: 320px
+
+div.brainstorming
+	div.bs_idea
+		margin-bottom: 40px
+	div.bs_idea.selected
+		//background-color: #eee
+	div.discussion
+		display: none
+	//border: 1px solid blue
+	width: 300px
+	float: left
+	
+div.gen_discussion
+	//border: 1px solid green
+	width: 366px
+	float: left
+	margin-left: 40px
+
+
+div.bs_idea
+	font-size: 120%
+	background-color: $postit
+
+	div.bs_idea_inner
+		margin: 16px
+		padding: 16px 0
+		input.fav_order
+			width: 30px
+	
+p.idea_controls
+	margin: 0px 0 30px 0
+
+a.com_author
+	margin-right: 0
+	text-decoration: none
+	
+h3.disc_title, h3.question
+	a
+		margin-left: 20px
+		font-size: 80%
+
+p.idea_lists
+	margin: -18px 0 40px 0
+
+div.close_1com
+	position: absolute
+	top: 0
+	right: 0
+	width: 16px
+	height: 16px
+	background: url(/images/idea_sprite1.gif) no-repeat 0 -16px
+	cursor: pointer
+
+div.full_comment_display div.comment
+	margin-top: -50px
+	padding-left: 46px
+	width: 100%
+	background: transparent
+
+div.one_line_comment div.comment
+	margin-top: -20px
+	padding-left: 46px
+	width: 100%
+	background: transparent
+
+div.Comment.top_sibling
+	padding-left: 6px
+	//border-left: 2px solid #68b100
+	margin-left: 20px
+
+div.Comment
+	margin-top: 20px
+	max-width: 600px
+	p.clear_both
+		padding-bottom: 4px
+		margin: 0
+
+div.comment
+	width: auto
+	background: transparent
+	
+div.Comment
+	margin-top: 16px
+
+div.Comment_entry.one_line_comment.new_com
+	font-weight: bold
+		
+div.Comment_entry.one_line_comment
+	margin-bottom: 0px
+	height: auto
+	div.close_1com
+		background-position: 0 0
+	img
+		width: 20px
+		height: 20px
+		display: block
+		margin: 0px 10px 0px 0px
+		cursor: pointer
+	div.comment
+		position: relative
+		margin-top: -20px
+		padding-left: 46px
+	span.author
+		display: none
+	abbr
+		display: none
+	div.comment_text
+		height: 20px
+		overflow: hidden
+		margin-left: -20px
+		p
+			display: none
+		div.one_liner
+			display: block
+			position: relative
+			height: 20px
+			cursor: pointer
+			span.txt
+				white-space: nowrap
+			img
+				position: absolute
+				top: 0
+				right: 0
+				width: 12px
+				height: 12px
+	div.resource
+		display: none
+	span.new
+		display: none
+	div.comment_controls
+		display: none
+
+div.coms_show_one_line
+	.hidden
+		display: none
+	form.open_form
+		clear: both
+		margin-bottom: 10px
+		padding-right: 20px
+		input
+			color: $pale_input
+			width: 100%
+
+
+div.Comment_entry.full_comment_display	
+	img
+		display: block
+		margin: 4px 10px 0 0
+	div.comment
+		position: relative
+		margin-top: -50px
+		padding-left: 46px
+	span.author
+		display: inline
+		font-size: 88%
+	abbr
+		display: block
+		font-size: 80%
+		margin-top: -4px
+		//font-style: italic
+	abbr.move_up
+		margin-top: -16px
+	div.comment_text
+		height: auto
+		display: inline
+		p
+			margin: 8px 0
+		div.one_liner
+			display: none
+	span.new
+		//display: block
+		color: $new_item_color
+		font-weight: bold
+	div.comment_controls
+		position: relative
+		margin-top: -8px
+
+div.comment_text, div.answer, div.bs_idea
+	p
+		margin: 0 0 8px 0
+
+div.comment_controls
+	height: 50px
+	div.comment_links
+		a
+			margin-right: 16px
+
+	div.rating
+		position: relative
+		height: 16px
+		margin-bottom: 4px
+	
+form.mini_thumbs_up
+	position: absolute
+	right: 0
+	top: 0
+	width: 230px
+	font-style: italic
+	span,input
+		position: absolute
+	span
+		font-weight: bold
+	input
+		width: 16px
+		height: 16px
+		background: url(/images/sprite.png) no-repeat 0 0
+		cursor: pointer
+		text-indent: -9999px
+		.selected
+			position-background-y: -48px
+	input:hover
+		background-position: 0 -16px
+	span.votes_up
+		right: 70px
+		padding-right: 10px
+		text-align: right
+		width: 30px
+		color: green
+	input.vote_up
+		right: 60px
+		.selected
+			position-background-y: -48px
+	input.vote_down
+		right: 40px
+		background-position: -16px 0
+	input.vote_down:hover
+		background-position: -16px -16px
+	input.vote_down:active
+		background-position: -16px -32px
+	input.vote_down.other_selected
+		background-position: -16px -48px
+	input.vote_up.other_selected
+		background-position: 0px -48px		
+	input:active
+		background-position: 0 -32px
+	span.votes_down
+		right: 6px
+		padding-left: 0px
+		text-align: left
+		width: 30px
+		color: $new_item_color
+	.spinner
+		background: url(/images/spinner.gif) no-repeat 0 0
+		width: 16px
+	input
+		font-size: 0
+		line-height: 999px
+		border: none
+
+
+
+form.add_comment_form,form.add_answer_form, form.add_bs_idea_form, form.suggest_idea_form, form.std_form
+	margin-bottom: 40px
+	margin-right: 0px
+	width: 100%
+	max-width: 500px
+	clear: both
+	label
+		display: block
+		clear: both
+		margin-top: 0px
+		font-weight: bold
+		font-style: italic
+		color: #888
+	img
+		display: block
+		float: left
+		margin: 6px 10px 0 0
+	textarea, input[type=text]
+		width: 100%
+		font-size: 1.2em
+	input[type=submit]
+		margin: 0 10px 0 10px
+
+	input[type=file]
+		margin: 12px 0 16px 0
+	//input[type=text] 
+	//	font-size: 1.2em
+	div.controls
+		position: absolute
+		right: 0
+	div.control_line
+		position: relative
+		margin-bottom: 10px
+		img
+			cursor: pointer
+	div.add_comment,div.add_link,div.attach_file
+		clear: both
+		margin-right: 20px
+		border: 0px solid #dddddd
+		p
+			img
+				display: block
+				margin-top: -2px
+	div.add_link,div.attach_file
+		display: none
+	button
+		margin-left: 15px
+	p.resource_warning
+		margin-top: -12px
+
+
+
+//
+//
+//$block_bg_color: #f7f3e8
+//$new_item_color: #F2583E
+//$off_black: #2b3e42
+//$title_bg_color: $off_black
+//$title_color: white
+//
+//$alert_color: #F5E876
+//
+//
+//
+//		
+//span.promise, p.promise
+//	font-weight: bold
+//	color: $off_black
+//	font-size: 96%
+//	
+//
+//	
+//div.join_com
+//	float: right
+//	margin-top: 55px
+//	a
+//		font-size: 14px
+//		font-weight: bold
+//		
+//		
+//form.upload_member_photo
+//	display: block
+//	input[type='file']
+//		width: 200px
+//
+//		
+//		
+//a.team_entry_title
+//	display: block
+//	font-weight: bold
+//	color: $off_black
+//	
+//div.mission
+//	//float: left
+//	width: 542px 
+//	border: 0px solid red
+//	text-align: left
+//	h2
+//		margin-bottom: 0
+//		margin-top: 22px
+//
+//h2
+//	font-size: 1em
+//
+//div.videos
+//	//float: right
+//	width: 225px
+//	border: 0px solid red
+//	text-align: left
+//	h2 
+//		margin-bottom: 0px
+//		//margin-top: 22px
+//	div
+//		text-align: left
+//		margin: 0
+//		font-size: 92%
+//	p 
+//		margin-bottom: 4px
+//		font-weight: bold
+//		color: $off_black
+//		font-size: 96%
+//	p.link
+//		font-weight: bold
+//		margin: 8px 0 0 0
+//		font-size: 92%
+//	select
+//		margin-top: 4px
+//		//font-size: 1.1em
+//	img	
+//		width: 205px
+//		height: 126px
+//		margin-bottom: 10px
+//	
+//div.right_col	
+//	float: right
+//	margin-bottom: 40px
+//	margin-top: 22px
+//	width: 225px
+//	h2.home_title
+//		margin-bottom: 0
+//		margin-top: 0px
+//		font-size: 1em
+//	div.right_vertical_bar
+//		padding: 10px
+//		background-color: $block_bg_color
+//		div.stats
+//			padding-top: 0px
+//			//background-color: $block_bg_color
+//			border: 0px solid red	
+//			text-align: left
+//			//padding: 10px
+//			table
+//				margin: 0 0 10px 0
+//				td.two
+//					padding-left: 20px
+//			p
+//				margin: 13px 0 0 0
+//		
+//
+//	div.sign_in
+//		background-color: $block_bg_color
+//		border: 0px solid red
+//		margin-top: 24px
+//		padding: 10px
+//		text-align: left
+//		div 
+//			text-align: left
+//
+//			
+//div.left_col		
+//	float: left
+//	width: 542px
+//	margin-bottom: 40px	
+//	p
+//		margin: 10px 0 0 0 
+//	h2
+//		margin-bottom: 0
+//		margin-top: 22px
+//		font-size: 1em
+//	div.calls_to_action
+//		h2 
+//			margin-top: 0
+//			color: $off_black
+//	div.ideas_and_teams
+//		margin-top: 10px
+//		text-align: left
+//		div.tab_window
+//			overflow: visible
+//			height: auto
+//		ul.categories
+//			padding-left: 0
+//			margin-top: -10px
+//			li 
+//				list-style: none
+//				display: inline
+//				text-decoration: underline
+//				margin-left: 10px
+//			li.cat
+//				text-decoration: none
+//				margin-left: 0
+//		p.desc
+//			margin-top: 4px
+//		p.controls
+//			margin-top: 4px
+//			span
+//				margin-right: 20px
+//			a.visit
+//				font-weight: bold
+//				margin-left: 20px
+//			
+//		p.acknowledge
+//			margin-top: 30px
+//div.left_col.wide
+//	width: 100%
+//	float: none
+//	margin-bottom: 0
+//	//margin-top: 40px
+//	
+////div.left_col.wide.transition
+////	height: 50px
+//		
+//p.team_cnt
+//	font-style: italic
+//
+//h2.home_title	
+//	background-color: $title_bg_color
+//	color: $title_color
+//	padding: 2px 6px
+//	
+//div.calls_to_action
+//	background-color: $block_bg_color
+//	padding: 10px
+//	margin-top: 20px
+//	
+//ul.marketplace
+//	text-align: left
+//	padding-left: 20px
+//	margin-bottom: 0px
+//	li
+//		margin-bottom: 6px
+//
+////p.header_desc
+////	margin: 0 0 0 0
+//	
+//p.last_sentence
+//	margin-bottom: 0
+//	
+//div.mission p 
+//	margin: 10px 0 10px 0
+//
+//p.header_desc
+//	margin-left: 0
+//
+//div.team_entry
+//	margin-left: 0
+//
+////form.reset_password_form
+////	display: none
+//	
+//form.reset_password_form, form.signin_form, form.register_form
+//	max-width: 400px
+//	label
+//		font-weight: bold
+//	input[type='text'], input[type='password'] 
+//		width: 250px
+//	input[type='submit']
+//		margin: 20px 0
+//		
+//form.signin_form
+//	td
+//		vertical-align: top
+//	p
+//		width: 250px
+//		margin: 0 20px 10px 40px
+//	p.signin_warn
+//		margin: 0
+//		//font-size: 80%
+//		padding: 4px
+//		border: 1px solid $new_item_color
+//		width: 240px	
+//
+//	
+//div.right_col
+//	input[type='text'], input[type='password']
+//		width: 190px
+//	
+//div.mask
+//	position: absolute
+//	top: 0
+//	left: 0
+//	z-index: 3
+//	background-color: white
+//	width: 100%
+//	height: 100%
+//
+//div.right_col.reg_only
+//	position: absolute
+//	width: 350px
+//	z-index: 5	
+//	
+//	
+//div.teams_list
+//	div.member
+//		padding: 0 0 12px 42px
+//		margin: 0px 0 12px 0
+//		text-align: left
+//		font-weight: bold
+//		position: relative
+//		img
+//			display: block
+//			cursor: pointer
+//			position: absolute
+//			top: 0
+//			left: 0
+//		p.signout 
+//			margin: 0
+//			font-size: 88%
+//			position: absolute
+//			bottom: 0
+//			right: 0
+//	form.upload_member_photo
+//		border: 1px solid black
+//		padding: 4px
+//		display: none
+//		
+//p.teams_instr
+//	text-align: left
+//
+//ul.teams_cta
+//	text-align: left
+//	padding-left: 20px
+//	
+//ul.teams_list
+//	text-align: left
+//	padding-left: 0px
+//	margin-left: 0
+//	li
+//		list-style: none
+//		cursor: pointer
+//		text-decoration: underline
+//		margin-bottom: 10px
+//		
+//div.residency
+//	border: 1px solid brown
+//	padding: 4px
+//	margin: 10px 0
+//
+//div.tos_inner
+//	height: 500px
+//	overflow: auto
+//	overflow-y: scroll
+//	
+//.hide
+//	display: none
+//	
+//p.suggest_sign_in
+//	color: red
+//	
+//form.suggest_proposal_idea_form, form.join_proposal_team, form.invite_friends
+//	margin-bottom: 40px
+//	margin-right: 20px
+//	width: 100%
+//	max-width: 500px
+//	clear: both
+//	label
+//		display: block
+//		clear: both
+//		margin-top: 0px
+//		font-weight: bold
+//		font-style: italic
+//		color: #888
+//	textarea, input[type=text]
+//		width: 100%
+//	
+//a.request_confirmation_email
+//	margin-left: 10px
+//	
+//div.control_line.title
+//	margin-bottom: 10px
+//
+//span.case
+//	color: $new_item_color
+//	font-weight: bold
+//	display: none
+//
+//
+//div.ideas_and_teams 
+//	div.tab_window
+//		border: none
+//		div.team_entry
+//			margin-top: 30px
+//			
+//img.join_us
+//	display: block
+//	margin-bottom: 8px
+//	
+//div#loading_please_wait
+//	border: 1px solid $off_black
+//	padding: 10px
+//	//width: 500px
+//	color: $off_black
+//	background-color: $alert_color
+//	//font-size: 1.2em
+//	font-weight: bold
+//	position: absolute
+//	display: none
+//	top: 0px
+//	left: 200px
+//	z-index: 1000
+//	//div.border
+//	//	padding: 10px
+//	//	border: 1px solid $off_black
+//	//	div.slow_msg
+//	//		display: block
+//	
+//ul.notification_settings
+//	li
+//		list-style: none
+//		margin-top: 20px
+//	p
+//		margin: -10px 0 0 0
+//
+//div.notification_settings
+//	button
+//		margin: 10px 0 40px 20px
+//
+//

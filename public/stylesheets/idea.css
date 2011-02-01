@@ -1,0 +1,356 @@
+div.page {
+  width: 1000px;
+  margin: auto; }
+
+div.logo {
+  text-align: left;
+  float: left; }
+  div.logo img {
+    margin-bottom: 8px; }
+
+iframe.ape {
+  display: none;
+  position: absolute;
+  left: -300px;
+  top: -300px; }
+
+div.member_info {
+  float: right;
+  margin-top: 19px;
+  color: #2b3e42; }
+  div.member_info div.member {
+    padding: 0 0 4px 42px;
+    margin: 0;
+    text-align: left;
+    font-weight: bold;
+    position: relative; }
+    div.member_info div.member img {
+      display: block;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0; }
+  div.member_info p.signout {
+    margin: 0; }
+    div.member_info p.signout a.my_teams {
+      margin-right: 10px; }
+
+hr.top {
+  clear: both;
+  margin-bottom: 0; }
+
+div.footer_logo {
+  margin: 20px;
+  width: 100%; }
+
+div.ce_credit {
+  width: 100%; }
+  div.ce_credit h3 {
+    margin-bottom: 6px; }
+  div.ce_credit p.tag_line {
+    margin-top: 4px;
+    font-weight: bold; }
+
+hr.bottom, .clear {
+  clear: both; }
+
+.hide {
+  display: none; }
+
+img.i36 {
+  width: 36px;
+  height: 36px; }
+
+div.idea_page {
+  width: 800px; }
+
+div.bs_idea p.idea_controls {
+  margin-top: -10px; }
+
+div.discussion h3 {
+  margin-left: 26px; }
+
+div.ans {
+  clear: both;
+  padding: 40px 0; }
+
+div.discussion {
+  width: 320px; }
+
+div.brainstorming {
+  width: 300px;
+  float: left; }
+  div.brainstorming div.bs_idea {
+    margin-bottom: 40px; }
+  div.brainstorming div.discussion {
+    display: none; }
+
+div.gen_discussion {
+  width: 366px;
+  float: left;
+  margin-left: 40px; }
+
+div.bs_idea {
+  font-size: 120%;
+  background-color: #fff89c; }
+  div.bs_idea div.bs_idea_inner {
+    margin: 16px;
+    padding: 16px 0; }
+    div.bs_idea div.bs_idea_inner input.fav_order {
+      width: 30px; }
+
+p.idea_controls {
+  margin: 0px 0 30px 0; }
+
+a.com_author {
+  margin-right: 0;
+  text-decoration: none; }
+
+h3.disc_title a, h3.question a {
+  margin-left: 20px;
+  font-size: 80%; }
+
+p.idea_lists {
+  margin: -18px 0 40px 0; }
+
+div.close_1com {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  background: url(/images/idea_sprite1.gif) no-repeat 0 -16px;
+  cursor: pointer; }
+
+div.full_comment_display div.comment {
+  margin-top: -50px;
+  padding-left: 46px;
+  width: 100%;
+  background: transparent; }
+
+div.one_line_comment div.comment {
+  margin-top: -20px;
+  padding-left: 46px;
+  width: 100%;
+  background: transparent; }
+
+div.Comment.top_sibling {
+  padding-left: 6px;
+  margin-left: 20px; }
+
+div.Comment {
+  margin-top: 20px;
+  max-width: 600px; }
+  div.Comment p.clear_both {
+    padding-bottom: 4px;
+    margin: 0; }
+
+div.comment {
+  width: auto;
+  background: transparent; }
+
+div.Comment {
+  margin-top: 16px; }
+
+div.Comment_entry.one_line_comment.new_com {
+  font-weight: bold; }
+
+div.Comment_entry.one_line_comment {
+  margin-bottom: 0px;
+  height: auto; }
+  div.Comment_entry.one_line_comment div.close_1com {
+    background-position: 0 0; }
+  div.Comment_entry.one_line_comment img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0px 10px 0px 0px;
+    cursor: pointer; }
+  div.Comment_entry.one_line_comment div.comment {
+    position: relative;
+    margin-top: -20px;
+    padding-left: 46px; }
+  div.Comment_entry.one_line_comment span.author {
+    display: none; }
+  div.Comment_entry.one_line_comment abbr {
+    display: none; }
+  div.Comment_entry.one_line_comment div.comment_text {
+    height: 20px;
+    overflow: hidden;
+    margin-left: -20px; }
+    div.Comment_entry.one_line_comment div.comment_text p {
+      display: none; }
+    div.Comment_entry.one_line_comment div.comment_text div.one_liner {
+      display: block;
+      position: relative;
+      height: 20px;
+      cursor: pointer; }
+      div.Comment_entry.one_line_comment div.comment_text div.one_liner span.txt {
+        white-space: nowrap; }
+      div.Comment_entry.one_line_comment div.comment_text div.one_liner img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 12px;
+        height: 12px; }
+  div.Comment_entry.one_line_comment div.resource {
+    display: none; }
+  div.Comment_entry.one_line_comment span.new {
+    display: none; }
+  div.Comment_entry.one_line_comment div.comment_controls {
+    display: none; }
+
+div.coms_show_one_line .hidden {
+  display: none; }
+div.coms_show_one_line form.open_form {
+  clear: both;
+  margin-bottom: 10px;
+  padding-right: 20px; }
+  div.coms_show_one_line form.open_form input {
+    color: #333333;
+    width: 100%; }
+
+div.Comment_entry.full_comment_display img {
+  display: block;
+  margin: 4px 10px 0 0; }
+div.Comment_entry.full_comment_display div.comment {
+  position: relative;
+  margin-top: -50px;
+  padding-left: 46px; }
+div.Comment_entry.full_comment_display span.author {
+  display: inline;
+  font-size: 88%; }
+div.Comment_entry.full_comment_display abbr {
+  display: block;
+  font-size: 80%;
+  margin-top: -4px; }
+div.Comment_entry.full_comment_display abbr.move_up {
+  margin-top: -16px; }
+div.Comment_entry.full_comment_display div.comment_text {
+  height: auto;
+  display: inline; }
+  div.Comment_entry.full_comment_display div.comment_text p {
+    margin: 8px 0; }
+  div.Comment_entry.full_comment_display div.comment_text div.one_liner {
+    display: none; }
+div.Comment_entry.full_comment_display span.new {
+  color: #f2583e;
+  font-weight: bold; }
+div.Comment_entry.full_comment_display div.comment_controls {
+  position: relative;
+  margin-top: -8px; }
+
+div.comment_text p, div.answer p, div.bs_idea p {
+  margin: 0 0 8px 0; }
+
+div.comment_controls {
+  height: 50px; }
+  div.comment_controls div.comment_links a {
+    margin-right: 16px; }
+  div.comment_controls div.rating {
+    position: relative;
+    height: 16px;
+    margin-bottom: 4px; }
+
+form.mini_thumbs_up {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 230px;
+  font-style: italic; }
+  form.mini_thumbs_up span, form.mini_thumbs_up input {
+    position: absolute; }
+  form.mini_thumbs_up span {
+    font-weight: bold; }
+  form.mini_thumbs_up input {
+    width: 16px;
+    height: 16px;
+    background: url(/images/sprite.png) no-repeat 0 0;
+    cursor: pointer;
+    text-indent: -9999px; }
+    form.mini_thumbs_up input .selected {
+      position-background-y: -48px; }
+  form.mini_thumbs_up input:hover {
+    background-position: 0 -16px; }
+  form.mini_thumbs_up span.votes_up {
+    right: 70px;
+    padding-right: 10px;
+    text-align: right;
+    width: 30px;
+    color: green; }
+  form.mini_thumbs_up input.vote_up {
+    right: 60px; }
+    form.mini_thumbs_up input.vote_up .selected {
+      position-background-y: -48px; }
+  form.mini_thumbs_up input.vote_down {
+    right: 40px;
+    background-position: -16px 0; }
+  form.mini_thumbs_up input.vote_down:hover {
+    background-position: -16px -16px; }
+  form.mini_thumbs_up input.vote_down:active {
+    background-position: -16px -32px; }
+  form.mini_thumbs_up input.vote_down.other_selected {
+    background-position: -16px -48px; }
+  form.mini_thumbs_up input.vote_up.other_selected {
+    background-position: 0px -48px; }
+  form.mini_thumbs_up input:active {
+    background-position: 0 -32px; }
+  form.mini_thumbs_up span.votes_down {
+    right: 6px;
+    padding-left: 0px;
+    text-align: left;
+    width: 30px;
+    color: #f2583e; }
+  form.mini_thumbs_up .spinner {
+    background: url(/images/spinner.gif) no-repeat 0 0;
+    width: 16px; }
+  form.mini_thumbs_up input {
+    font-size: 0;
+    line-height: 999px;
+    border: none; }
+
+form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest_idea_form, form.std_form {
+  margin-bottom: 40px;
+  margin-right: 0px;
+  width: 100%;
+  max-width: 500px;
+  clear: both; }
+  form.add_comment_form label, form.add_answer_form label, form.add_bs_idea_form label, form.suggest_idea_form label, form.std_form label {
+    display: block;
+    clear: both;
+    margin-top: 0px;
+    font-weight: bold;
+    font-style: italic;
+    color: #888888; }
+  form.add_comment_form img, form.add_answer_form img, form.add_bs_idea_form img, form.suggest_idea_form img, form.std_form img {
+    display: block;
+    float: left;
+    margin: 6px 10px 0 0; }
+  form.add_comment_form textarea, form.add_comment_form input[type=text], form.add_answer_form textarea, form.add_answer_form input[type=text], form.add_bs_idea_form textarea, form.add_bs_idea_form input[type=text], form.suggest_idea_form textarea, form.suggest_idea_form input[type=text], form.std_form textarea, form.std_form input[type=text] {
+    width: 100%;
+    font-size: 1.2em; }
+  form.add_comment_form input[type=submit], form.add_answer_form input[type=submit], form.add_bs_idea_form input[type=submit], form.suggest_idea_form input[type=submit], form.std_form input[type=submit] {
+    margin: 0 10px 0 10px; }
+  form.add_comment_form input[type=file], form.add_answer_form input[type=file], form.add_bs_idea_form input[type=file], form.suggest_idea_form input[type=file], form.std_form input[type=file] {
+    margin: 12px 0 16px 0; }
+  form.add_comment_form div.controls, form.add_answer_form div.controls, form.add_bs_idea_form div.controls, form.suggest_idea_form div.controls, form.std_form div.controls {
+    position: absolute;
+    right: 0; }
+  form.add_comment_form div.control_line, form.add_answer_form div.control_line, form.add_bs_idea_form div.control_line, form.suggest_idea_form div.control_line, form.std_form div.control_line {
+    position: relative;
+    margin-bottom: 10px; }
+    form.add_comment_form div.control_line img, form.add_answer_form div.control_line img, form.add_bs_idea_form div.control_line img, form.suggest_idea_form div.control_line img, form.std_form div.control_line img {
+      cursor: pointer; }
+  form.add_comment_form div.add_comment, form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_comment, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_comment, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_comment, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file, form.std_form div.add_comment, form.std_form div.add_link, form.std_form div.attach_file {
+    clear: both;
+    margin-right: 20px;
+    border: 0px solid #dddddd; }
+    form.add_comment_form div.add_comment p img, form.add_comment_form div.add_link p img, form.add_comment_form div.attach_file p img, form.add_answer_form div.add_comment p img, form.add_answer_form div.add_link p img, form.add_answer_form div.attach_file p img, form.add_bs_idea_form div.add_comment p img, form.add_bs_idea_form div.add_link p img, form.add_bs_idea_form div.attach_file p img, form.suggest_idea_form div.add_comment p img, form.suggest_idea_form div.add_link p img, form.suggest_idea_form div.attach_file p img, form.std_form div.add_comment p img, form.std_form div.add_link p img, form.std_form div.attach_file p img {
+      display: block;
+      margin-top: -2px; }
+  form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file, form.std_form div.add_link, form.std_form div.attach_file {
+    display: none; }
+  form.add_comment_form button, form.add_answer_form button, form.add_bs_idea_form button, form.suggest_idea_form button, form.std_form button {
+    margin-left: 15px; }
+  form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning, form.std_form p.resource_warning {
+    margin-top: -12px; }

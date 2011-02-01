@@ -1,0 +1,34 @@
+= error_messages_for :comment, :resource
+
+- form_for :comment, :url => { :action => :create_comment } do |form| 
+	%fieldset
+		- if params[:mode] == 'add'
+			%legend& 
+				%b Please add your Comment for this #{@target.type_text}
+			%h3&= @target.text
+		- else
+			%legend& 
+				%b Please edit your Comment
+		
+		%p= form.label :text, "Your Comment:"
+		%p= form.text_area :text, :cols => 60, :rows => 8
+		%p= form.hidden_field :anonymous, :value => false
+		= hidden_field_tag :par_id, @target_item.id
+		= hidden_field_tag :resource_type, 'simple'
+		= hidden_field_tag :mode, params[:mode]
+		
+		= submit_tag
+		= link_to 'Cancel', :action => 'bsd', :id=>@target['question_id']
+		
+-#		
+	%h3 Optional
+	%p If you would like to add a comment with a link to another website or online resource, or upload a file you want to share, click one of these options:
+	%p
+		Add a comment with a 
+		= submit_tag 'link to a website', :name => 'option', :class => 'submitLink'
+		or any other online resource
+	%p
+		Add a comment and 
+		= submit_tag 'upload a file', :name => 'option', :class => 'submitLink'
+		you want to share
+		

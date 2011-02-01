@@ -1,0 +1,27 @@
+%div.member_info
+	%div.member
+		= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+		Welcome back 
+		%br
+		#{@member.first_name}
+	%p.signout
+		-#= link_to "My teams", {:controller => "welcome", :action=> "my_teams"}, {:class => 'my_teams'}
+		= link_to "Sign out", {:controller => "welcome", :action=> "signout"}, {:class=>'sign_out', :id => 'sign_out'}
+		-if !@member.confirmed
+			= link_to "Confirm email", {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
+-#				
+	- form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
+		%p
+			%b Upload your profile picture
+		= file_field_tag :photo
+		%p
+			= submit_tag "Upload photo"
+			= link_to 'Cancel', {:controller => "welcome"}, {:class=>'cancel'}
+				
+	%div#my_teams.hide	
+		%h2.home_title.my_teams My teams
+		%div.right_vertical_bar.my_teams
+			%ul.teams_list
+				- @member.team_titles.each do |team|
+					%li{:class=>'team', :id=>team.id, :launched=>team.launched}= team.title
+	

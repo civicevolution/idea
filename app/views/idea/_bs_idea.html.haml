@@ -1,0 +1,58 @@
+%div.bs_idea{:id=>"bs_idea_#{bs_idea['id']}", :item_id=>bs_idea['item_id']}
+	%a{:name=>"bsi#{bs_idea['id']}"}
+	= "##{bs_idea['cnt']}" if mode == 'pop'
+		
+	%div.bs_idea_inner.ABC
+		= simple_format( auto_link( h(bs_idea['text']), :all, :target => "_blank" ))
+
+		-# top_level_comments_sorted = @comments.find_all {|c| c['target_id'].to_i == bs_idea['id'] && c.sib_id.to_i == 0 && c['target_type'].to_i == 11}.sort {|a,b| a.order.to_i <=> b.order.to_i }
+		- top_level_comments_sorted = @comments.find_all {|c| c['par_id'].to_i == bs_idea['item_id'].to_i && c.sib_id.to_i == 0}.sort {|a,b| a.order.to_i <=> b.order.to_i }
+		%div.discussion
+			- if coms == 't'
+				%div.bsd_disc
+					%h3.disc_title 
+						Discuss this Idea
+						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd'}
+	
+					- if top_level_comments_sorted.size > 0
+						- top_level_comments_sorted.each do |c|
+							= render :partial=> 'comment', :object=>c 
+						= render :partial=>'add_comment_combined', :locals=> {:id=>bs_idea['item_id'], :label=>'Please add your comment'}
+						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd'}
+					- else
+						= render :partial=>'add_comment_combined', :locals=> {:id=>bs_idea['item_id'], :label=>'Please add your comment'}
+
+		%p.idea_controls
+			- if top_level_comments_sorted.size > 0
+				= link_to "View idea discussion", {:action=>'bs_idea_comment', :id=>bs_idea['id']}, {:class=>'bs_idea_discussion'}
+			- else
+				= link_to "Reply", {:action=>'reply', :id=>bs_idea['item_id']}, {:class=>'bs_idea_discussion'}
+		
+			- if mode != 'fav'
+				= link_to "Report", {:action=>'report', :id=>bs_idea['item_id']}, {:class=>'report'}
+			- else
+				= link_to "Remove", {:action=>'remove_favorite', :id=>bs_idea['id']}, {:class=>'remove_favorite'}
+				
+			- if mode == 'new' && coms == 't'
+				Like
+				%input{:type=>'radio', :value=>'t', :name=>"like#{bs_idea['id']}"}Yes
+				%input{:type=>'radio', :value=>'f', :name=>"like#{bs_idea['id']}"}No
+			- elsif mode == 'pop' || coms == 'f'
+				- if bs_idea['my_fav'] == 't' 
+					-# get the cnt from my favs
+					My like ##{ @favorite_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']}
+				- else
+					= link_to "Like", {:action=>'like', :id=>bs_idea['id']}, {:class=>'like'}
+		
+		- if mode == 'pop' 
+			%p #{bs_idea['num_favs']} people like this
+		- elsif mode == 'fav'
+			%p 
+				\##{@popular_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']} of #{@popular_ideas.size} popular ideas
+				
+			%p
+				My order # 
+				%input{:type=>'text', :class=>"fav_order"}
+			
+
+

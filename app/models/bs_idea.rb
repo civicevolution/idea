@@ -9,19 +9,33 @@ class BsIdea < ActiveRecord::Base
   validate_on_create :check_team_access
   validate_on_update :check_item_edit_access
     
+  after_create :create_item_record
+  after_destroy :delete_item_record
+    
   #before_destroy :check_item_delete_access
   
+  attr_accessor :item_id
+  attr_accessor :par_id
+  attr_accessor :target_id
+  attr_accessor :target_type  
+  attr_accessor :insert_mode
+    
   def after_save
     # log this item into the team_content_logs
     TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
   end  
   
 
+  def after_find
+    item = Item.find_by_o_id_and_o_type(self.id, 12) 
+    self.item_id = item.id if item
+  end
+
   def o_type
-    11 
+    12
   end
   def type_text
-    'bs_idea' 
+    'brainstorming idea' 
   end  
 
   def check_length
@@ -55,6 +69,27 @@ class BsIdea < ActiveRecord::Base
     end
   end  
   
+  
+  def comments_with_ratings(memberId)
+    comments = Comment.find_by_sql([ %q|SELECT c.id,   
+      SUM(up) AS up,
+      SUM(down) AS down,
+      (SELECT CASE WHEN up = 1 THEN 1 ELSE -1 END FROM com_ratings WHERE member_id = ? AND comment_id = c.id) AS my_vote,
+      c.member_id, c.text, c.anonymous, c.created_at, c.updated_at, status, par_id, sib_id, "order", target_id, target_type, i.id AS item_id
+      FROM comments c 
+      LEFT JOIN items AS i ON i.o_id = c.id AND i.o_type = 3
+      LEFT OUTER JOIN com_ratings cr ON c.id = cr.comment_id
+      WHERE i.team_id = ?
+      AND o_type = 3 
+      AND ? = ANY (ancestors)
+      GROUP BY c.id, c.member_id, c.text, c.anonymous, c.created_at, c.updated_at, c.status, par_id, sib_id, "order", target_id, target_type, i.id|,
+      memberId, self.team_id, self.item_id ]
+    )
+    resources = Resource.find_all_by_comment_id( comments.collect {|c| c.id } )
+    authors = Member.all(:conditions=> {:id => (comments.collect {|c| c.member_id }.uniq) })
+    return comments, resources, authors
+    
+  end
 
     
 end

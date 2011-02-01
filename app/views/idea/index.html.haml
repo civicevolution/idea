@@ -1,0 +1,31 @@
+
+
+%div.idea_page
+	%h2.home_title #{@team.title}
+
+	%div.summary
+		= simple_format h @team.solution_statement
+	
+	-	q_cnt = 0
+	- page_items = @items.find_all {|pi| pi.o_type == 9 } .sort {|a,b| a.order <=> b.order }
+	- page_items.each do |pi|
+		- question_items = @items.find_all {|qi| qi.o_type == 1 && qi.par_id == pi.id } .sort {|a,b| a.order <=> b.order }
+		- question_items.each do |qi|
+			- question = @questions.detect {|q| q.id == qi.o_id}
+
+			%div.qa.item{:id=>"q#{question.id}", :item_id=>question.item_id}
+				%a{:name=>"q#{question.id}"}
+				%h3.question= "Q#{(q_cnt+=1)}: #{question.text}"
+			
+				= link_to "Help us answer this question", {:action=>'bsd', :id=>question.id}, {:class=>'show_bsd'}
+				%div.show_bsd
+			
+			
+				- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }
+				- if answer_items.size > 0
+					- answer_items.each do |ai|
+						- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
+						%div.answer{:id=>"ans_#{answer.id}"}= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
+			
+				- else
+					%p No answers have been suggested for this question

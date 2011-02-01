@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101206231737) do
+ActiveRecord::Schema.define(:version => 20110128034549) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -61,6 +61,14 @@ ActiveRecord::Schema.define(:version => 20101206231737) do
     t.datetime "updated_at"
     t.integer  "team_id",     :default => 0,     :null => false
     t.integer  "question_id", :default => 0,     :null => false
+  end
+
+  create_table "bs_idea_favorites", :force => true do |t|
+    t.integer  "bs_idea_id"
+    t.integer  "member_id"
+    t.boolean  "favorite"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "bs_idea_ratings", :force => true do |t|
