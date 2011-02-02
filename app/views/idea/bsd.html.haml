@@ -13,51 +13,54 @@
 		%div.brainstorming 
 			%h3 Brainstorming ideas
 			
-			- if @bs_ideas.size > 0
+			-#- if @bs_ideas.size > 0
 
-				- @unrated_ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| a['id'].to_i <=> b['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
-				- @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
-				- @popular_ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			- @unrated_ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| a['id'].to_i <=> b['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			- @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			- @popular_ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			
+
+			%p.idea_lists
+				= link_to "Most popular", {:action=>'bs_idea_list', :id=>@question.id, :list=>'pop'}
+				•
+				= link_to "New(#{@unrated_ideas.size})", {:action=>'bs_idea_list', :id=>@question.id, :list=>'new'}
+				•
+				= link_to "My favorites", {:action=>'bs_idea_list', :id=>@question.id, :list=>'fav'}
+				•
+				= link_to "All", {:action=>'bs_idea_list', :id=>@question.id, :list=>'all'}
 				
 
-				%p.idea_lists
-					- if @unrated_ideas.size>0
-						New ideas
-						-#= link_to "New ideas", {:action=>'bs_idea_comment', :id=>@question.id}, {:class=>'bs_idea_discussion'}
-						•
-					
-					- if @unrated_ideas.size>0
-						= link_to "Popular ideas", {:action=>'bs_idea_comment', :id=>@question.id}, {:class=>'bs_idea_discussion'}
-					- else
-						Popular ideas
-					= link_to "My favorites", {:action=>'bs_idea_comment', :id=>@question.id}, {:class=>'bs_idea_discussion hide'}
-					-#
-						•
-						= link_to "All", {:action=>'bs_idea_comment', :id=>@question.id}, {:class=>'bs_idea_discussion'}
-
-				
-				
-				- if @unrated_ideas.size > 0
-					%h4 New ideas
-					%div.unrated_ideas
-						- @unrated_ideas.each do |bsi|
-							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'new', :coms=>'t'}
-
-					
-				%h4 Popular ideas	
-				%div{:class=> 'popular_ideas' + (@unrated_ideas.size>100 ? ' hide' : '')}
+				%div.list.pop	
+					%h4 Most popular ideas	
 					- @popular_ideas.slice(0,10).each do |bsi|
 						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'pop', :coms=>'t'}
-						
+					- if @bs_ideas.size == 0
+						%p No brainstorming ideas have been suggested yet
+					- elsif @popular_ideas.size == 0 
+						%p There are no popular ideas yet
+				
 					
-				%h4 My favorite ideas
-				%div.favorite_ideas
+				%div.list.new.hide
+					%h4 New ideas
+					- @unrated_ideas.each do |bsi|
+						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'new', :coms=>'t'}
+					- if @unrated_ideas.size == 0
+						%p There are no new ideas right now
+					
+				%div.list.fav.hide
+					%h4 My favorite ideas
 					- @favorite_ideas.slice(0,8).each do |bsi|
 						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
-							
-			- else
-				%p No brainstorming ideas have been suggested for this question
-				
+					- if @favorite_ideas.size == 0
+						%p You do not have any favorites yet
+
+				%div.list.all.hide
+					%h4 All of the brainstorming ideas
+					- @favorite_ideas.slice(0,8).each do |bsi|
+						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
+					- if @bs_ideas.size == 0
+						%p No brainstorming ideas have been suggested yet
+						
 			= render :partial=>'add_bs_idea', :locals=> {:question=>@question}
 
 		%div.gen_discussion

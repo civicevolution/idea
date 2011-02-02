@@ -26,6 +26,22 @@ $(function(){
 });
 
 
+$('p.idea_lists a').die('click').live('click',
+	function(){
+		try{
+			temp.list_link = $(this);
+			var list_name = $(this).attr('href').match(/list=(\w+)/)[1];
+			console.log("list_name: " + list_name);
+			var par = $(this).closest('div.bsd');
+			var show_list = par.find('div.list.' + list_name).show();
+			
+			par.find('div.list').not(show_list).hide();
+		}catch(e){console.log("p.idea_lists click error: " + e.message)}
+		return false; 
+	}
+)
+
+
 $('a.report').live('click',
 	function(){
 		var item_id = Number($(this).attr('href').match(/\d+$/))
