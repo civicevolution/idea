@@ -38,17 +38,20 @@
 				
 				
 				- if @unrated_ideas.size > 0
+					%h4 New ideas
 					%div.unrated_ideas
 						- @unrated_ideas.each do |bsi|
 							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'new', :coms=>'t'}
 
-						
-				%div{:class=> 'popular_ideas' + (@unrated_ideas.size>0 ? ' hide' : '')}
+					
+				%h4 Popular ideas	
+				%div{:class=> 'popular_ideas' + (@unrated_ideas.size>100 ? ' hide' : '')}
 					- @popular_ideas.slice(0,10).each do |bsi|
 						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'pop', :coms=>'t'}
 						
 					
-				%div.favorite_ideas.hide
+				%h4 My favorite ideas
+				%div.favorite_ideas
 					- @favorite_ideas.slice(0,8).each do |bsi|
 						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
 							

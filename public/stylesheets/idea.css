@@ -64,8 +64,15 @@ img.i36 {
 div.idea_page {
   width: 800px; }
 
-div.bs_idea p.idea_controls {
-  margin-top: -10px; }
+div.bs_idea p.com_controls {
+  margin: 0 0 10px 0; }
+  div.bs_idea p.com_controls a {
+    margin-right: 20px; }
+div.bs_idea p.status {
+  margin: 0 0 10px 0; }
+div.bs_idea p.like_controls {
+  margin: 0 0 10px 0;
+  text-align: right; }
 
 div.discussion h3 {
   margin-left: 26px; }
@@ -247,10 +254,21 @@ div.comment_controls {
   height: 50px; }
   div.comment_controls div.comment_links a {
     margin-right: 16px; }
-  div.comment_controls div.rating {
-    position: relative;
-    height: 16px;
-    margin-bottom: 4px; }
+
+div.rating {
+  position: relative;
+  height: 16px;
+  margin-bottom: 4px; }
+
+div.bs_idea_inner div.rating {
+  margin-top: 12px; }
+  div.bs_idea_inner div.rating form {
+    width: auto; }
+    div.bs_idea_inner div.rating form input {
+      position: static; }
+    div.bs_idea_inner div.rating form span {
+      font-weight: normal;
+      position: static; }
 
 form.mini_thumbs_up {
   position: absolute;

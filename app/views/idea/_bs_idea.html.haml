@@ -1,12 +1,13 @@
 %div.bs_idea{:id=>"bs_idea_#{bs_idea['id']}", :item_id=>bs_idea['item_id']}
 	%a{:name=>"bsi#{bs_idea['id']}"}
-	= "##{bs_idea['cnt']}" if mode == 'pop'
+	-# = "##{bs_idea['cnt']} popular idea" if mode == 'pop'
 		
-	%div.bs_idea_inner.ABC
+	%div.bs_idea_inner
 		= simple_format( auto_link( h(bs_idea['text']), :all, :target => "_blank" ))
 
 		-# top_level_comments_sorted = @comments.find_all {|c| c['target_id'].to_i == bs_idea['id'] && c.sib_id.to_i == 0 && c['target_type'].to_i == 11}.sort {|a,b| a.order.to_i <=> b.order.to_i }
 		- top_level_comments_sorted = @comments.find_all {|c| c['par_id'].to_i == bs_idea['item_id'].to_i && c.sib_id.to_i == 0}.sort {|a,b| a.order.to_i <=> b.order.to_i }
+		- @new_coms = @coms = 0
 		%div.discussion
 			- if coms == 't'
 				%div.bsd_disc
@@ -22,37 +23,45 @@
 					- else
 						= render :partial=>'add_comment_combined', :locals=> {:id=>bs_idea['item_id'], :label=>'Please add your comment'}
 
-		%p.idea_controls
-			- if top_level_comments_sorted.size > 0
-				= link_to "View idea discussion", {:action=>'bs_idea_comment', :id=>bs_idea['id']}, {:class=>'bs_idea_discussion'}
+		%p.com_controls
+			- if @new_coms > 0
+				- str = pluralize(@new_coms, 'new reply')
+			- elsif @coms > 0
+				- str = pluralize(@coms, 'reply')
 			- else
-				= link_to "Reply", {:action=>'reply', :id=>bs_idea['item_id']}, {:class=>'bs_idea_discussion'}
-		
-			- if mode != 'fav'
-				= link_to "Report", {:action=>'report', :id=>bs_idea['item_id']}, {:class=>'report'}
-			- else
-				= link_to "Remove", {:action=>'remove_favorite', :id=>bs_idea['id']}, {:class=>'remove_favorite'}
+				- str = 'Reply'
+			= link_to str, {:action=>'bs_idea_comment', :id=>bs_idea['id']}, {:class=>'bs_idea_discussion'}
+			= link_to "Report", {:action=>'report', :id=>bs_idea['item_id']}, {:class=>'report'}
 				
-			- if mode == 'new' && coms == 't'
-				Like
-				%input{:type=>'radio', :value=>'t', :name=>"like#{bs_idea['id']}"}Yes
-				%input{:type=>'radio', :value=>'f', :name=>"like#{bs_idea['id']}"}No
-			- elsif mode == 'pop' || coms == 'f'
-				- if bs_idea['my_fav'] == 't' 
-					-# get the cnt from my favs
-					My like ##{ @favorite_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']}
-				- else
-					= link_to "Like", {:action=>'like', :id=>bs_idea['id']}, {:class=>'like'}
-		
-		- if mode == 'pop' 
-			%p #{bs_idea['num_favs']} people like this
-		- elsif mode == 'fav'
-			%p 
-				\##{@popular_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']} of #{@popular_ideas.size} popular ideas
 				
-			%p
-				My order # 
-				%input{:type=>'text', :class=>"fav_order"}
+		-#- if mode == 'pop' 
+		-#	- str1 = bs_idea['num_favs'] +  (bs_idea['num_favs'].to_i == 1 ? ' person likes this' : ' people like this')
+		-#	-#- if bs_idea['my_fav'] == 't' 
+		-#	-#	- str1 += ", your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']} favorite"
+		-#	-#- elsif bs_idea['my_fav'] == 'f' 
+		-#	-#	- str1 += ", but you didn't"
+		-#	%p.status= str1
+		-#- elsif mode == 'fav'
+		-#	%p.status 
+		-#		\##{@popular_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']} of #{@popular_ideas.size} popular ideas
+		
+		- if mode == 'fav'
+			%p.status 
+				\##{@popular_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']} of #{@popular_ideas.size} popular ideas		
 			
-
-
+		- if bs_idea['my_fav'].nil?
+			%div.rating
+				- form_tag( {:controller => 'team', :action => 'com_rate'}, {:class => 'mini_thumbs_up'}) do
+					%span Add to your favorites?
+					%input.vote_up{:type => 'submit', :name => 'thumbsup_rating', :value => '+1', :title => 'Vote up'}
+					%input.vote_down{:type => 'submit', :name => 'thumbsup_rating', :value => '-1', :title => 'Vote down'}
+					%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{bs_idea['id']}" }
+		- elsif mode == 'fav'
+			%p.like_controls
+				= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea['id']}, {:class=>'remove_favorite'}
+		- elsif mode =='pop' && bs_idea['my_fav'] == 'f'
+			%p.like_controls
+				= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea['id']}, {:class=>'remove_favorite'}
+		- elsif mode =='pop' && bs_idea['my_fav'] == 't'
+			%p.like_controls
+				Your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']} favorite idea

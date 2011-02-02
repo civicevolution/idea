@@ -34,7 +34,7 @@ $(function(){
 					temp.bs_idea_par = par	
 					qna_disc.hide();
 					qna_disc.closest('div.gen_discussion').append(par.find('div.bsd_disc').show())
-					$this.html('Back to ideas list')
+					//$this.hide();
 					// scroll page to the question
 					var question = qna_disc.closest('div.qa').find('.question:first');
 					$('html,body').animate({ scrollTop: question.offset().top }, { duration: 'slow', easing: 'swing'});
@@ -46,7 +46,7 @@ $(function(){
 					//debugger 
 					par.find('div.discussion').append(qna_disc.closest('div.gen_discussion').find('div.bsd_disc').hide())
 					qna_disc.show();
-					$this.html('View idea discussion')
+					//$this.show();
 					// scroll page to the idea
 					setTimeout(function(){$('html,body').animate({ scrollTop: this.offset().top }, { duration: 'slow', easing: 'swing'});}.bind(idea),500)		
 				}

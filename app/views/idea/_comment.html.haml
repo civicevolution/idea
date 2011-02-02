@@ -10,14 +10,16 @@
 	- else
 		- name = 'Author placeholder'
 		- pic_src = ''
-
+- @coms += 1
 - @last_ts = Time.local(2010,1,20)
 - if comment.created_at > @last_ts
 	- class_str = 'entry Comment_entry new_com full_comment_display'
 	- new_str = 1
+	- @new_coms += 1
 - elsif comment.updated_at > @last_ts
 	- class_str = 'entry Comment_entry new_com full_comment_display'
 	- new_str = 2
+	- @new_coms += 1
 - else
 	- class_str = 'entry Comment_entry one_line_comment'
 	- new_str = 0
