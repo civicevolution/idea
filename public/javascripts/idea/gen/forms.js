@@ -790,6 +790,63 @@ function activate_comment_form(form,orig_com){
 	activate_text_counters_grow( $('textarea,input:text',form) )
 }
 
+function activate_report_form(form){
+	console.log("activate_report_form")
+	//activate_text_counters_grow( $('textarea',form) )
+
+	$('a.cancel',form).click(
+		function(){
+			try{
+				console.log("Cancel the report form");
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			}catch(e){
+				console.log("activate_report_form cancel error: "+ e)
+			}
+			return false;
+		}
+	);
+
+	$(':submit', form).click(
+		function(){
+		 console.log("Submit the report form");
+
+			var form = $(this).closest('form');
+			var btn = $(this);
+			btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+
+			$(':input',form).removeClass('form_error_border');
+			$('p.form_error_text',form).remove();
+			
+			form.ajaxSubmit({ 					
+			  type: "POST", 
+			  url: "/idea/post_content_report", 
+			  success: function(data,status){ 
+					console.log("post_content_report success");
+					form.closest('div.ui-dialog').dialog('destroy').remove()
+					var dialog = $('<div><p>' + data + '</p></div>').dialog( {title : 'Thank you', modal : true, width: 500 }); 
+			  },
+				error : function(xhr,errorString,exceptionObj){
+					console.log("post_content_report error");
+					console.log("Error, xhr: " + xhr.responseText)
+					try{
+						show_form_error(form, xhr.responseText);
+						btn.removeAttr('disabled').next('img').remove();
+					}catch(e){
+						btn.removeAttr('disabled').next('img').remove();
+						console.log("report_content submit error: " + e)
+						$('<div><p>Sorry, we cannot process your report idea at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+					}
+				}
+			});
+			return false;
+		}
+	);
+}
+
+
+
+
+
 function announceNoChat(){
 	console.log("announceNoChat")
 	$('td.init_chat').each( function(){this.innerHTML = 'Chat and live page updates are currently unavailable.<br/><br/>Please try to refresh your browser.<br/><br/>We apologise for the inconvenience'});
@@ -1042,8 +1099,6 @@ function thumbs_up() {
 	// Block normal non-AJAX form submitting
 	return false;
 }
-
-$('form.mini_thumbs_up input[name=thumbsup_rating]').die('click').live('click',thumbs_up)
 
 $('form.mini_thumbs_up input[name=thumbsup_rating]').die('click').live('click',thumbs_up)
 

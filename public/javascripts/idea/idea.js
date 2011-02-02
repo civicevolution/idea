@@ -21,44 +21,127 @@ $(function(){
 		}
 	);
 
-	$('a.bs_idea_discussion').die('click').live('click',
-		function(){
-			console.log("show bs_idea_discussion")
-			try{
-				var $this = $(this);
-				var par = $this.closest('.bs_idea');
-				var qna_disc = $this.closest('div.bsd').find('div.discussion.qna');
-				if(qna_disc.is(':visible')){
-					par.addClass('selected')
-					par.closest('.brainstorming').find('div.bs_idea').not(par).hide()			
-					temp.bs_idea_par = par	
-					qna_disc.hide();
-					qna_disc.closest('div.gen_discussion').append(par.find('div.bsd_disc').show())
-					//$this.hide();
-					// scroll page to the question
-					var question = qna_disc.closest('div.qa').find('.question:first');
-					$('html,body').animate({ scrollTop: question.offset().top }, { duration: 'slow', easing: 'swing'});
-				}else{
-					par.removeClass('selected');
-					var idea = par.closest('.brainstorming').find('div.bs_idea:visible')
-					par.closest('.brainstorming').find('div.bs_idea').show();				
-					temp.idea = idea
-					//debugger 
-					par.find('div.discussion').append(qna_disc.closest('div.gen_discussion').find('div.bsd_disc').hide())
-					qna_disc.show();
-					//$this.show();
-					// scroll page to the idea
-					setTimeout(function(){$('html,body').animate({ scrollTop: this.offset().top }, { duration: 'slow', easing: 'swing'});}.bind(idea),500)		
-				}
-				
-			}catch(e){console.log("show bs_idea_discussion error: " + e)}
-			return false;
-		}
-	);
-	
 	$('div.comment_links').hide();
 
 });
+
+
+$('a.report').live('click',
+	function(){
+		var item_id = Number($(this).attr('href').match(/\d+$/))
+		$('<div></div>').load("/idea/report/" + item_id, function(){activate_report_form($(this).find('form'))}).dialog({modal:true,	title: 'Report this content', width: 'auto', height: 'auto'}); 
+		
+		return false;
+	}
+)
+
+
+
+
+$('form.mini_thumbs_up input[name=thumbsup_favorite]').die('click').live('click',thumbsup_favorite)
+
+function thumbsup_favorite() {
+	try{
+		//console.log("thumbs_up_favorite")
+		var form = $(this.form);
+		// Immediately disable the submit buttons to prevent multiple clicks
+		var btns = $(':submit', form).attr('disabled', 'disabled').blur();
+
+		// Disable the form and show a spinner
+		form.addClass('closed');
+
+		// Collect the POST data to send to the server
+		var postdata = {
+			thumbsup_id : $("input[name='thumbsup_id']", form).val(),
+			thumbsup_favorite: $(this).val() };
+			form.ajaxSubmit({ 					
+			  type: "POST", 
+			  url: "/idea/bs_idea_favorite", 
+				data: postdata,
+				dataType: 'json',
+			  success: function(data,status){ 
+					//console.log("com_rate submit success, call dispatchComRating"); with submit = true
+					temp.thumbs_up_favorite_success_data = data
+				  dispatchBsIdeaFavorite( data[0].params, true );
+					btns.removeAttr('disabled')
+			  },
+				error : function(xhr,errorString,exceptionObj){
+					console.log("Error on thumbsup_favorite submit, xhr: " + xhr.responseText)
+					btns.removeAttr('disabled')
+				}
+			});
+		}catch(e){console.log("thumbs_up error: " + e)}
+	// Block normal non-AJAX form submitting
+	return false;
+}
+
+$('a.change_favorite').die('click').live('click',set_favorite)
+function set_favorite() {
+	try{
+		console.log("set_favorite")
+		var $this = $(this);
+		var bs_idea_id = Number($this.closest('div.bs_idea').attr('id').match(/\d+/));
+
+		// Collect the POST data to send to the server
+		var postdata = {
+			thumbsup_id : bs_idea_id,
+			thumbsup_favorite: $this.html().match(/add/i) ? 1 : -1 };
+			$.ajax({ 					
+			  type: "POST", 
+			  url: "/idea/bs_idea_favorite", 
+				data: postdata,
+				dataType: 'json',
+			  success: function(data,status){ 
+					//console.log("com_rate submit success, call dispatchComRating"); with submit = true
+					temp.thumbs_up_favorite_success_data = data
+				  dispatchBsIdeaFavorite( data[0].params, true );
+			  },
+				error : function(xhr,errorString,exceptionObj){
+					console.log("Error on set_favorite submit, xhr: " + xhr.responseText)
+				}
+			});
+		}catch(e){console.log("set_favorite error: " + e)}
+	// Block normal non-AJAX form submitting
+	return false;
+}
+
+
+
+$('a.bs_idea_discussion').die('click').live('click',
+	function(){
+		console.log("show bs_idea_discussion")
+		try{
+			var $this = $(this);
+			var par = $this.closest('.bs_idea');
+			var qna_disc = $this.closest('div.bsd').find('div.discussion.qna');
+			if(qna_disc.is(':visible')){
+				par.addClass('selected')
+				par.closest('.brainstorming').find('div.bs_idea').not(par).hide()			
+				temp.bs_idea_par = par	
+				qna_disc.hide();
+				qna_disc.closest('div.gen_discussion').append(par.find('div.bsd_disc').show())
+				//$this.hide();
+				// scroll page to the question
+				var question = qna_disc.closest('div.qa').find('.question:first');
+				$('html,body').animate({ scrollTop: question.offset().top }, { duration: 'slow', easing: 'swing'});
+			}else{
+				par.removeClass('selected');
+				var idea = par.closest('.brainstorming').find('div.bs_idea:visible')
+				par.closest('.brainstorming').find('div.bs_idea').show();				
+				temp.idea = idea
+				//debugger 
+				par.find('div.discussion').append(qna_disc.closest('div.gen_discussion').find('div.bsd_disc').hide())
+				qna_disc.show();
+				//$this.show();
+				// scroll page to the idea
+				setTimeout(function(){$('html,body').animate({ scrollTop: this.offset().top }, { duration: 'slow', easing: 'swing'});}.bind(idea),500)		
+			}
+			
+		}catch(e){console.log("show bs_idea_discussion error: " + e)}
+		return false;
+	}
+);
+
 
 $('div.bsd_disc a.bsd').live('click', 
 	function(){

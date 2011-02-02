@@ -341,6 +341,84 @@ class IdeaController < ApplicationController
     end
   end
   
+  def com_rate
+    member_id = session[:member_id]
+    com_id = params[:thumbsup_id]
+    rating = params[:thumbsup_rating]
+
+    logger.debug "com_rate member: #{member_id}, com_id: #{com_id}, rating: #{rating}"
+
+    com_rating = ComRating.find_by_comment_id_and_member_id(com_id, member_id) 
+    if com_rating.nil?
+      com_rating = ComRating.new :member_id => member_id, :comment_id => com_id, :up => rating.to_i > 0 ? 1 : 0, :down => rating.to_i > 0 ? 0 : 1 
+    else
+      com_rating.up = rating.to_i > 0 ? 1 : 0
+      com_rating.down = rating.to_i > 0 ? 0 : 1
+    end
+    saved = com_rating.save
+
+    if saved
+      #calculate new score, count and average
+      @up = ComRating.sum(:up, :conditions => ['comment_id = ?', com_id ])
+      @down = ComRating.sum(:down, :conditions => ['comment_id = ?', com_id ])
+    
+      serialized = sendApeNotification({:type=>'com_rate', :channel=>"team#{com_rating.team_id}", :data => {:up=>@up, :down=>@down, :com_id=>com_id, :my_vote => rating }},session);
+
+      respond_to do |format|
+        format.html { render :text => serialized } if request.xhr? # ajaxmode gets the update via APE    
+        #format.html { request.referer ?  redirect_to(request.referer + "\#item_rater_#{@item_id}") :  redirect_to( :action => 'index' ) }
+      end
+    else
+      # what to return if error?
+      logger.debug "com_rate was not saved "
+      if request.xhr?
+        respond_to do |format|
+          format.json { render :text => [com_rating.errors].to_json, :status => 409 }
+          #combine the errors from resources into comment errors so they will all be displayed
+          #format.html {render :partial => 'team/error', :object => @comment, :status => 400, :locals => { :resources => @resources} }
+        end
+      end
+    end
+  end
+
+  def bs_idea_favorite
+    member_id = session[:member_id]
+    bs_idea_id = params[:thumbsup_id]
+    favorite = params[:thumbsup_favorite].to_i > 0 ? true : false
+
+    logger.debug "bs_idea_favorite member: #{member_id}, bs_idea_id: #{bs_idea_id}, favorite: #{favorite}"
+
+    bs_idea_favorite = BsIdeaFavorite.find_by_bs_idea_id_and_member_id(bs_idea_id, member_id) 
+    if bs_idea_favorite.nil?
+      bs_idea_favorite = BsIdeaFavorite.new :member_id => member_id, :bs_idea_id => bs_idea_id, :favorite => favorite 
+    else
+      bs_idea_favorite.favorite = favorite
+    end
+    saved = bs_idea_favorite.save
+
+    if saved
+      #calculate new score, count and average
+      #@up = BsIdeaFavorite.sum(:up, :conditions => ['comment_id = ?', bs_idea_id ])
+      #@down = BsIdeaFavorite.sum(:down, :conditions => ['comment_id = ?', bs_idea_id ])
+    
+      serialized = sendApeNotification({:type=>'com_rate', :channel=>"team#{bs_idea_favorite.team_id}", :data => { :bs_idea_id=>bs_idea_id, :favorite => favorite }},session);
+
+      respond_to do |format|
+        format.html { render :text => serialized } if request.xhr? # ajaxmode gets the update via APE    
+        #format.html { request.referer ?  redirect_to(request.referer + "\#item_rater_#{@item_id}") :  redirect_to( :action => 'index' ) }
+      end
+    else
+      # what to return if error?
+      logger.debug "com_rate was not saved "
+      if request.xhr?
+        respond_to do |format|
+          format.json { render :text => [bs_idea_favorite.errors].to_json, :status => 409 }
+          #combine the errors from resources into comment errors so they will all be displayed
+          #format.html {render :partial => 'team/error', :object => @comment, :status => 400, :locals => { :resources => @resources} }
+        end
+      end
+    end
+  end
 
 
   def get_templates
@@ -399,7 +477,8 @@ class IdeaController < ApplicationController
     @authors = [Member.new :first_name=>'J', :last_name=>'Public' ]
     @authors[0].id = 1
     @comments = []
-
+    @new_coms = @coms = 0
+    
     
     strs.push '<div class="item Comment">'
     strs.push render_to_string( :partial => 'comment', :object => @comment,
@@ -427,8 +506,57 @@ class IdeaController < ApplicationController
     
   end
   
+  def report
+    item = Item.find(params[:id])
+    case item.o_type
+      when 2 #answer
+        @text = Answer.find(item.o_id).text
+      when 3 # comment
+        @text = Comment.find(item.o_id).text
+      when 12 # bs_idea
+        @text = BsIdea.find(item.o_id).text
+    end
+    @text += "..." if @text.slice!(200 .. -1)
+    
+    render :action=> 'report', :layout=>false
+    
+  end
   
+  def post_content_report
+    
+    @report = ContentReport.new params[:content_report]
+    @report.member_id = @member.id unless @member.nil?
+    @saved = @report.save
+    
+    if @saved
+      if @member
+        @report.sender_name = @member.first_name + ' ' + @member.last_name
+        @report.sender_email = @member.email
+      end
+      
+      item = Item.find(@report.item_id)
+      case item.o_type
+        when 2 #answer
+          @text = Answer.find(item.o_id).text
+        when 3 # comment
+          @text = Comment.find(item.o_id).text
+        when 12 # bs_idea
+          @text = BsIdea.find(item.o_id).text
+      end
 
+      AdminReportMailer.deliver_report_content(@report, @text, item, request.env['HTTP_HOST'],params[:_app_name] )
+    end
+
+    respond_to do |format|
+      if @saved
+        format.html { render :text => "Thank you for reporting this content. We will review it soon.", :layout => false, :status => 500 } if request.xhr?
+      else
+        format.json { render :text => [@proposal_idea.errors].to_json, :status => 409 }
+      end
+    end
+
+  end
+  
   protected
 
   def get_target(target_item)

@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  item_id: 1
+  member_id: 1
+  sender_name: MyString
+  sender_email: MyString
+  report_type: MyString
+  text: MyText
+
+two:
+  item_id: 1
+  member_id: 1
+  sender_name: MyString
+  sender_email: MyString
+  report_type: MyString
+  text: MyText

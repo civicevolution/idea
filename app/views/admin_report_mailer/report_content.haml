@@ -1,0 +1,13 @@
+The following content has been reported by a #{@app} visitor on #{@host}
+~ ''
+Report type: #{@report.report_type}
+~''
+Message: 
+#{@report.text}
+~''
+Item text:
+#{@item_text}
+~''
+Team: http://#{@host}/idea/#{@item.team_id}?item=#{@item.id}
+~''
+Sender: #{@report.sender_name}, #{@report.sender_email}

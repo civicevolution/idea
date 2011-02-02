@@ -563,6 +563,33 @@ function dispatchComRating(rating,submit_response){
 	
 }	
 
+function dispatchBsIdeaFavorite(rating,submit_response){
+	console.log("dispatchBsIdeaFavorite");
+	
+	temp.dispatchBsIdeaFavorite = rating
+	
+	return;
+
+	var form = $('#com_' + rating.data.com_id + ' form.mini_thumbs_up');
+	
+	if(!submit_response &&  $('input.other_selected',form).size() == 0 ) return; // if this has not been rated, only update for the user's own submit
+	$('span.votes_up', form).html( ( rating.data.up > 0 ? rating.data.up : '' ) )
+	$('span.votes_down', form).html( ( rating.data.down > 0 ? rating.data.down : '' ) )
+
+	//$('input.vote_up', form).css('background-position-y', ( rating.data.my_vote < 0 ? '-48px' : '') );
+	//$('input.vote_up', form).addClass('selected');
+	//$('input.vote_down', form).css('background-position-y', ( rating.data.my_vote > 0 ? '-48px' : '') );
+	if(rating.data.my_vote>0){
+		$('input.vote_up', form).removeClass('other_selected');
+		$('input.vote_down', form).addClass('other_selected');
+	}else{
+		$('input.vote_up', form).addClass('other_selected');
+		$('input.vote_down', form).removeClass('other_selected');
+	}
+	
+}	
+
+
 function dispatchPageChatMessage(chat){
 	temp.chat = chat
 	//console.log("v3 dispatchPageChatMessage text: " + unescape(chat.data.text));
