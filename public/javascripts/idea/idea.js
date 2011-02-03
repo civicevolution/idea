@@ -77,7 +77,37 @@ function thumbsup_favorite() {
 				dataType: 'json',
 			  success: function(data,status){ 
 					//console.log("com_rate submit success, call dispatchComRating"); with submit = true
-					temp.thumbs_up_favorite_success_data = data
+					temp.thumbs_up_favorite_success_data = data;
+
+					var b = form.closest('div.bs_idea');
+					if(data[0].params.data.favorite){
+						b.append('<p class="fav_action_status fav">Added to your favorites</p>');
+					}else{
+						b.append('<p class="fav_action_status">Not a favorite</p>')
+					}
+
+					b.children('div').fadeTo(500,.1,
+						function(){
+							$(this).parent().hide("blind", { direction: "vertical" }, 800,
+								function(){
+									$this = $(this);
+									//temp.$this = $this
+									if($this.find('p.fav').size() > 0){
+										//console.log("add to fav list")
+										$this.closest('div.brainstorming').find('div.list.fav h4').after(this);
+										$this.children('p.fav_action_status').remove();
+										$this.show().children('div').fadeTo(10,1);
+										$this.find('div.rating').remove();
+										$this.find('p.like_controls').show();
+									}else{
+										//console.log("remove from new list");
+										$this.remove();
+									}
+								}
+							)
+						}
+					)
+					
 				  dispatchBsIdeaFavorite( data[0].params, true );
 					btns.removeAttr('disabled')
 			  },
@@ -96,6 +126,7 @@ function set_favorite() {
 	try{
 		console.log("set_favorite")
 		var $this = $(this);
+		temp.set_favorite_$this = $this
 		var bs_idea_id = Number($this.closest('div.bs_idea').attr('id').match(/\d+/));
 
 		// Collect the POST data to send to the server
@@ -109,7 +140,49 @@ function set_favorite() {
 				dataType: 'json',
 			  success: function(data,status){ 
 					//console.log("com_rate submit success, call dispatchComRating"); with submit = true
-					temp.thumbs_up_favorite_success_data = data
+					temp.set_favorite_success_data = data
+					if(data[0].params.data.favorite){
+						console.log("add idea in popular to my favorites");
+						// copy the idea to top of my favorites
+						// change link to remove
+						var b = $this.closest('div.bs_idea');
+						var fav_b = b.clone(true)
+						
+						b.closest('div.brainstorming').find('div.list.fav h4').after(fav_b);
+						fav_b.find('p.like_controls.add').remove();
+						fav_b.find('p.like_controls').show();
+						
+						
+						// remove add link from popular
+						// change to "Added to your favorites"
+						b.find('p.like_controls.add').html('Added to your favorites')
+						
+						
+					}else{
+						// update the list in popular to remove as my favorite	
+						//console.log("data[0].params.data.bs_idea_id: " + data[0].params.data.bs_idea_id)	
+						var idea_in_pop_list = $this.closest('div.brainstorming').find('div.list.pop').find('div.bs_idea#bs_idea_' + data[0].params.data.bs_idea_id );
+						if(idea_in_pop_list.size()>0){
+							//console.log("Un-favorited idea is in the popular ideas list");
+							idea_in_pop_list.find('p.like_controls.fav').remove();
+							idea_in_pop_list.find('p.like_controls').show();
+						}
+
+						//console.log("remove idea from my favorites")
+						var b = $this.closest('div.bs_idea'); 
+						b.append('<p class="fav_action_status fav">Removed from your favorites</p>');
+						b.children('div').fadeTo(500,.1,
+							function(){
+								$(this).parent().hide("blind", { direction: "vertical" }, 800,
+									function(){
+										$this = $(this);
+										$this.remove();
+										}
+								)
+							}
+						)
+						
+					}
 				  dispatchBsIdeaFavorite( data[0].params, true );
 			  },
 				error : function(xhr,errorString,exceptionObj){
