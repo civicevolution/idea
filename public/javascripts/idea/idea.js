@@ -1,29 +1,72 @@
 var temp = {}
 $(function(){
 
-
-	$('a.show_bsd').live('click',
-		function(){
-			$this = $(this);
-			$this.hide();
-			$this.next('div.show_bsd').html('Loading...')
-			$this.next('div.show_bsd').load('/idea/bsd',{id: $this.attr('href').match(/\d+/)[0]}, 
-				function(){
-					//console.log("activate_comment_form(form);")
-					//temp.bsd = this
-					activate_comment_form( $('form.add_comment_form', this) );
-					activate_idea_form( $('form.add_bs_idea_form', this) );
-				}
-			)
-			
-			
-			return false;
-		}
-	);
-
 	$('div.comment_links').hide();
 
 });
+
+$('a.show_bsd').live('click',
+	function(){
+		$this = $(this);
+		$this.hide();
+		$this.next('div.show_bsd').html('Loading...')
+		$this.next('div.show_bsd').load('/idea/bsd',{id: $this.attr('href').match(/\d+/)[0]}, 
+			function(){
+				//console.log("activate_comment_form(form);")
+				//temp.bsd = this
+				activate_comment_form( $('form.add_comment_form', this) );
+				activate_idea_form( $('form.add_bs_idea_form', this) );
+				$('div.list.fav div.list_inner', this).sortable( { update: idea_list_sort_update })
+			}
+		)
+		return false;
+	}
+);
+
+$('a.close_bsd').live('click',
+	function(){
+		console.log("close_bsd");
+		$this = $(this);
+		$this.closest('div.qa_bsd').hide("blind", { direction: "vertical" }, 800,
+			function(){
+				$this = $(this);
+				$this.closest('div.qa').find('a.show_bsd').show();
+				$this.remove();
+			}
+		)
+		return false;
+	}
+);
+
+
+
+function idea_list_sort_update(event,ui){
+	console.log("idea_list_sort_update");
+	var bs_ideas = ui.item.closest('div.list_inner').children('div.bs_idea');
+	var ordered_ids = $.map(bs_ideas, function(n,i){ return Number(n.id.match(/\d+/)) })
+	var question_id = Number(ui.item.closest('div.qa').attr('id').match(/\d+/));
+	send_bs_idea_order_to_server(question_id, ordered_ids)
+}
+
+function send_bs_idea_order_to_server(question_id, ordered_ids){
+	console.log("send_bs_idea_order_to_server question_id: " + question_id + ", ordered_ids: " + ordered_ids)
+	$.ajax({ 					
+	  type: "POST", 
+	  url: "/idea/update_fav_bs_idea_order", 
+		data: { question_id: question_id,
+			ids: ordered_ids
+		},
+		dataType: 'json',
+	  success: function(data,status){ 
+			//console.log("com_rate submit success, call dispatchComRating"); with submit = true
+			temp.set_favorite_success_data = data
+		  dispatchBsIdeaFavorite( data[0].params, true );
+	  },
+		error : function(xhr,errorString,exceptionObj){
+			console.log("Error on set_favorite submit, xhr: " + xhr.responseText)
+		}
+	});
+}
 
 
 $('p.idea_lists a').die('click').live('click',
@@ -94,11 +137,12 @@ function thumbsup_favorite() {
 									//temp.$this = $this
 									if($this.find('p.fav').size() > 0){
 										//console.log("add to fav list")
-										$this.closest('div.brainstorming').find('div.list.fav h4').after(this);
 										$this.children('p.fav_action_status').remove();
-										$this.show().children('div').fadeTo(10,1);
+										//$this.show().children('div').fadeTo(10,1);
+										$this.show().children('div').css({opacity:1});
 										$this.find('div.rating').remove();
 										$this.find('p.like_controls').show();
+										$this.closest('div.brainstorming').find('div.list.fav div.list_inner').prepend($this.clone());
 									}else{
 										//console.log("remove from new list");
 										$this.remove();
@@ -147,8 +191,7 @@ function set_favorite() {
 						// change link to remove
 						var b = $this.closest('div.bs_idea');
 						var fav_b = b.clone(true)
-						
-						b.closest('div.brainstorming').find('div.list.fav h4').after(fav_b);
+						b.closest('div.brainstorming').find('div.list.fav div.list_inner').prepend(fav_b);
 						fav_b.find('p.like_controls.add').remove();
 						fav_b.find('p.like_controls').show();
 						
@@ -251,28 +294,6 @@ $('div.comment').live('mouseover mouseout', function(event) {
 		$(this).find('div.comment_links').hide();
   }
 });
-
-
-
-
-$('a.open_all').die('click').live('click',
-	function(){
-		//console.log("open_all (form.js)")
-		try{
-			var a = $(this);
-			var par = a.closest('div');
-			if( a.html().match(/Open/)){
-				$('div.Comment_entry',par).addClass('full_comment_display').removeClass('one_line_comment');
-				a.html('Close all comments');
-			}else{
-				$('div.Comment_entry',par).addClass('one_line_comment').removeClass('full_comment_display');
-				a.html('Open all comments');
-				ellipsis(par)
-			}			
-		}catch(e){console.log("open_all error: " + e)}
-		return false;
-	}
-);
 
 
 

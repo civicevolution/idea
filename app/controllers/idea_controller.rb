@@ -39,15 +39,16 @@ class IdeaController < ApplicationController
       @error = "Sorry, this is a protected page"
     else
       # collect the bs_ideas with rating and the comments with ratings and display page
-      @bs_ideas = @question.bs_ideas_with_favorites(@member.id)
+      @bs_ideas,priorities = @question.bs_ideas_with_favorites(@member.id)
+      @priority = priorities.nil? ? [] : priorities.priority.scan(/\d+/).collect{|p| p.to_i }
       @comments, @resources, @authors = @question.comments_with_ratings(@member.id)
       @mode = request.xhr? ? 'insert' : 'page'
       if @mode == 'insert'
         render :action => "bsd", :layout => false
       else
         @answers = @question.answers_with_ratings(@member.id)  
-        
       end
+      
     end
     
   end
@@ -418,6 +419,22 @@ class IdeaController < ApplicationController
         end
       end
     end
+  end
+
+
+  def update_fav_bs_idea_order
+    logger.debug "update_fav_bs_idea_order for question_id: #{params[:question_id]}, order: #{params[:ids]}"
+ 
+    ids = '{' + params[:ids].join(',') + '}'
+    ideas_priority = BsIdeaFavoritePriority.find_by_member_id_and_question_id(@member.id, params[:question_id]) 
+    if ideas_priority.nil?
+      ideas_priority = BsIdeaFavoritePriority.new :member_id => @member.id, :question_id => params[:question_id], :priority => ids
+    else
+      ideas_priority.priority = ids
+    end
+    saved = ideas_priority.save
+    
+    render :text=> 'ok'
   end
 
 

@@ -34,8 +34,10 @@
 			= link_to "Report", {:action=>'report', :id=>bs_idea['item_id']}, {:class=>'report'}
 				
 		- if mode == 'fav'
-			%p.status 
-				\##{@popular_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']} of #{@popular_ideas.size} popular ideas		
+			- s_id = @popular_ideas.detect{|i| i['id']== bs_idea['id']}
+			- if !s_id.nil?
+				%p.status 
+					\##{s_id['cnt']} of #{@popular_ideas.size} popular ideas		
 			
 		- if bs_idea['my_fav'].nil?
 			%div.rating
@@ -49,12 +51,12 @@
 		- elsif mode == 'fav'
 			%p.like_controls
 				= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea['id']}, {:class=>'change_favorite'}
-		- elsif mode =='pop' && bs_idea['my_fav'] == 'f'
+		- elsif (mode =='pop' || mode == 'all') && bs_idea['my_fav'] == 'f'
 			%p.like_controls.add
 				= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea['id']}, {:class=>'change_favorite'}
 			%p.like_controls.hide
 				= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea['id']}, {:class=>'change_favorite'}
-		- elsif mode =='pop' && bs_idea['my_fav'] == 't'
+		- elsif (mode =='pop' || mode == 'all')  && bs_idea['my_fav'] == 't'
 			%p.like_controls.fav
 				Your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea['id']}['cnt']} favorite idea
 			%p.like_controls.hide

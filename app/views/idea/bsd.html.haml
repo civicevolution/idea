@@ -13,11 +13,20 @@
 		%div.brainstorming 
 			%h3 Brainstorming ideas
 			
-			-#- if @bs_ideas.size > 0
-
 			- @unrated_ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| a['id'].to_i <=> b['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
-			- @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
 			- @popular_ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+
+			-# - @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			- @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }
+			- # get the unprioritized favs (in order by idea.id)
+			- unprioritised = @favorite_ideas.select{ |f| !@priority.include?(f.id) }.sort{ |a,b| a.id <=> b.id }
+
+			- # Get the prioritized favs in order of priority
+			- @priority.map!{ |p| @favorite_ideas.detect{|f| f.id == p }}
+			- # show the unprioritized favs then the prioritized favs
+			- @favorite_ideas = (unprioritised + @priority.map)
+			- @favorite_ideas.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+		
 			
 
 			%p.idea_lists
@@ -49,15 +58,16 @@
 					
 				%div.list.fav.hide
 					%h4 My favorite ideas
-					- @favorite_ideas.slice(0,8).each do |bsi|
-						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
-					- if @favorite_ideas.size == 0
-						%p You do not have any favorites yet
+					%div.list_inner
+						- @favorite_ideas.slice(0,8).each do |bsi|
+							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
+						- if @favorite_ideas.size == 0
+							%p You do not have any favorites yet
 
 				%div.list.all.hide
 					%h4 All of the brainstorming ideas
-					- @favorite_ideas.slice(0,8).each do |bsi|
-						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
+					- @bs_ideas.slice(0,25).sort{|a,b| a.id <=> b.id}.each do |bsi|
+						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'all', :coms=>'t'}
 					- if @bs_ideas.size == 0
 						%p No brainstorming ideas have been suggested yet
 						
@@ -92,6 +102,9 @@
 
 			= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal'}
 
--if @mode == 'insert'
-	%h3.clear
-		Our current answer
+	-if @mode == 'insert'
+		%p.clear
+			= link_to "Close brainstorming and discussion", {}, {:class=>'close_bsd'}
+
+		%h3.clear
+			Our current answer
