@@ -50,7 +50,7 @@ $(function(){
 	var master_debug = false;
 	
 	var load_ape_client = master_debug ? true : true;
-	var convert_stars = master_debug ? true : true;
+	var convert_stars = master_debug ? true : false;
 	var convert_time = master_debug ? false : true;
 	var activate_debug = true;
 	var do_load_templates = master_debug ? true : true;
@@ -288,31 +288,34 @@ function set_page_tabs_height(page){
 	
 	
 function init_rating_stars(obj){
-	//console.log("init_rating_stars, activate star_hover v2")
+	console.log("init_rating_stars, activate star_hover v2");
 	try{
 		if(!obj || !obj.size || obj.size() == 0 ) obj = $(':radio.star');
 		//console.log("obj.size(): " + obj.size() );
 		obj.rating({
 			callback: function (value, link){
 				//$(this.form).ajaxSubmit( {beforeSubmit: showUpdatingMsg, dataType: 'script'});
-				$(this.form).ajaxSubmit({ 
+				var form = $(this.form)
+				form.find('span.star_hover').html('Updating')
+				
+				form.ajaxSubmit({ 
 					type: "POST",
 					dataType: 'json',
 					success: function(data,status){ 
 						//console.log("rating submit success, call dispatchRating");
-						temp.rating_submit = data
+						temp.rating_submit = data;
 					  dispatchRating( data[0].params, true );
 				  }				
 				});
 			}, 
 			focus: function(value, link){
-		    var tip = $('.star_hover',this.form);
+		    var tip = $('.star_hover',this.form.parentElement);
 		    tip[0].data = tip[0].data || tip.html();
-		    tip.html((link.title || 'value: '+value) );
+		    tip.html( link.title || 'value: '+value );
 				$('.rating_results',this.form).hide();
 		  },
 		  blur: function(value, link){
-		    var tip = $('.star_hover',this.form);
+		    var tip = $('.star_hover',this.form.parentElement);
 		    $('.star_hover',this.form).html(tip[0].data || '');
 				$('.rating_results',this.form).show();
 		  },
@@ -320,25 +323,6 @@ function init_rating_stars(obj){
 		});	
 	}catch(e){console.log("init_rating_stars error: " + e)}
 	$('form.item_rater :submit').hide()
-}
-
-function init_team_rating(par){
-	try{
-		if(!par || !par.size || par.size() == 0 ) par = $('body');
-		var bgr = $('<div class="bs_rating_red_bg"></div>');
-		var bgg = $('<div class="bs_rating_grey_bg"></div>');
-		var cnt = $('<div class="cnt"></div>');
-		$('span.team_rating span.avg',par).each(
-		  function(){
-		    var avg = $(this);
-		    var votes = avg.next('span').html();
-		    votes = (votes + ' team vote') + (votes == 1 ? '' : 's');
-		    //console.log("process bs rating_average: " + avg.html() + ", cnt: " + cnt.html());
-		   //avg.parent().prepend( cnt.clone().html( votes )).prepend( bgr.clone().css('width', 80 * avg.html() / 5 )).prepend(bgg.clone())
-		   avg.parent().before(bgg.clone()).before( bgr.clone().css('width', 85 * avg.html() / 5 ) ).before( cnt.clone().html( votes ) ).remove();
-		  }
-		)
-	}catch(e){console.log("init_team_rating error: " + e)}
 }
 
 function showUpdatingMsg(){

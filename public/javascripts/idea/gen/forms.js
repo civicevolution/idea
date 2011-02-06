@@ -524,7 +524,7 @@ function activate_answer_form(form,orig_ans){
 
 	$('div.control_line button',form).click(
 		function(){
-		 //console.log("Submit the answer form");
+		 console.log("Submit the answer form");
 
 			var form = $(this).closest('form');
 			var btn = $(this);
@@ -538,7 +538,7 @@ function activate_answer_form(form,orig_ans){
 			  url: "/idea/create_answer", 
 				dataType: 'json',
 			  success: function(data,status){ 
-				 //console.log("answer submit success, call dispatchAnswers");
+				 	console.log("answer submit success, call dispatchAnswers");
 					temp.answer_success_data = data
 					dispatchAnswer(data[0].params.data,true)
 					var msg = $('<p class="confirmation">Your answer has been saved successfully</p>')

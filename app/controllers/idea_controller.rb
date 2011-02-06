@@ -421,6 +421,83 @@ class IdeaController < ApplicationController
     end
   end
 
+  def create_answer
+    logger.debug "create the answer"
+    
+    begin
+      if params[:mode] == 'add'
+        # create answer and add par_id and member_id
+        @answer = Answer.new
+        @answer.par_id = params[:par_id]
+        @answer.member_id = session[:member_id]
+        @answer.insert_mode = params[:insert_mode]
+      else
+        @answer = Answer.find(params[:id])
+      end
+      # store initial values so the revision history will work
+      @answer.store_initial_values  
+      @answer.attributes = params[:answer]
+      @answer.member_id = session[:member_id]
+   
+      logger.debug "try to save the answer"
+      @saved = @answer.save  # in place of saved for testing
+      logger.debug "answer saved = #{@saved}"
+    rescue TeamAccessDeniedError
+      logger.debug "TeamAccessDeniedError error"
+      redirect_to :action => 'access_denied'
+      return
+    end
+
+    ajaxMode = request.xhr? || params[:post_mode] == 'ajax'
+    # render a response
+    respond_to do |format|
+      if @saved
+        logger.debug "answer was saved successfully"
+        flash[:notice] = 'Answer was successfully created.'
+
+        # I need to provide these items when the partial is used to generate html for APE
+        item = Item.find_by_o_id_and_o_type(@answer.id,@answer.o_type) 
+        @answer.item_id = item.id
+        @members = [ Member.find( session[:member_id] )]
+
+        if params[:mode] != 'add'
+          logger.debug "Get the score data for this answer which is being edited"
+          rating = AnswerRating.answer_ratings(@answer.id,session[:member_id])[0]
+          average = rating.nil? ? 0 : rating.average
+          count = rating.nil? ? 0 : rating.count
+          my_vote = rating.nil? ? 0 : rating.my_vote
+        else
+          average = count = my_vote = 0
+        end
+        
+        # send JSON data to ape, it will be converted to js
+        serialized = sendApeNotification({:type=>'ans_json', :channel=>"team#{item.team_id}", :debug_save_id => item.id,
+          :data => {:mode=>params[:mode], :item_id=>item.id, :par_id=>item.par_id, :sib_id=>item.sib_id, :item => item, :data => @answer, 
+          :average => average, :count => count, :my_vote => my_vote, :remaining_ans => @answer.remaining_answers }},session);
+
+        #format.html { render :text => "ok" } if ajaxMode # ajaxmode gets the update via APE
+        format.html { render :text => serialized } if ajaxMode # ajaxmode gets the update via APE
+        format.html { redirect_to( :action => 'index' ) }
+        format.xml  { render :xml => @answer, :status => :created, :location => @answer }
+      else
+      
+        if ajaxMode
+          format.json { render :text => [@answer.errors].to_json, :status => 409 }
+          #format.html {render :partial => 'team/error', :object => @answer, :status => 500 } 
+        else
+          @target_item = Item.find(params[:par_id])
+          @target = get_target(@target_item)
+
+          format.html { render :action => "add_answer",:status => 409 }
+          format.xml  { render :xml => @answer.errors, :status => :unprocessable_entity }
+        end    
+      end
+    end
+  end
+
+
+
+
 
   def update_fav_bs_idea_order
     logger.debug "update_fav_bs_idea_order for question_id: #{params[:question_id]}, order: #{params[:ids]}"

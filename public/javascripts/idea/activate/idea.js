@@ -301,18 +301,19 @@ function activate_ux_functions_edit(){
 
   $('a.edit_answer').die('click').live('click',
   	function(){
+			console.log("Edit answer");
   		try{
   			var a = $(this);
-				var ans = a.closest('td').find('div.answer');
+				var ans = a.closest('div.qa').find('div.answer');
 				var ctls = a.closest('p');
   			//console.log("edit this answer")
-				var id = Number(a.attr('href').match(/\d+$/))
+				var id = Number(ans.attr('id').match(/\d+$/))
 				var mode = 'edit';
 				var par_id = 0;
 				//console.log("id: " + id)
 				var form = $( jsonFn.add_answer_form({par_id : par_id, mode : mode, id : id }) );
 				$('label',form).html("Please edit this answer");
-				var char_cnt = Number(ans.closest('div.answers').attr('criteria').match(/\d+$/))
+				var char_cnt = Number(ans.closest('div.answer_section').attr('criteria').match(/\d+$/))
 				//console.log("change answer form character count to " + char_cnt )
 				form.find('span.char_ctr').html(char_cnt + ' characters left');
 				$('a.clear',form).removeClass('clear').addClass('cancel').html('Cancel');

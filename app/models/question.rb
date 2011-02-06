@@ -32,6 +32,7 @@ class Question < ActiveRecord::Base
   end
   
   def after_find
+    return if self.nil? || self.id.nil?
     item = Item.find_by_o_id_and_o_type(self.id, 1) 
     self.team_id = item.team_id
     self.item_id = item.id

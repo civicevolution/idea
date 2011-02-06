@@ -108,3 +108,5 @@
 
 		%h3.clear
 			Our current answer
+			- ans_id = !@answers.nil? && @answers.size > 0 ? @answers[0].id : @question.id
+			= link_to "Edit answer", {:action => "edit_answer", :id => ans_id}, {:class => 'edit_answer'}	

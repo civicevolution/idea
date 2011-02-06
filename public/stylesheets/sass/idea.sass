@@ -1,6 +1,7 @@
 $off_black: #2b3e42
 $pale_input: rgb(51, 51, 51)
 $new_item_color: #F2583E
+$faint_color: rgb(147, 160, 145)
 
 $postit: #fff89c
 
@@ -440,6 +441,95 @@ form.add_comment_form,form.add_answer_form, form.add_bs_idea_form, form.suggest_
 		margin-top: -12px
 
 
+
+
+div.answer_section
+	padding-top: 20px
+	td.rating
+		padding-left: 40px
+
+	div.rating
+		vertical-align: top
+
+	col.my_rating
+		width: 150px
+	p.controls 
+		font-size: .9em
+		margin: 6px 0 40px 0		
+		span.new	
+			font-weight: bold
+			color: $new_item_color
+
+
+
+span.star_hover
+	white-space: wrap
+	
+div.bs_rating_red_bg
+	//background-color: red
+	//background: url(/images/red_star.gif) repeat-x left top
+	background: url(/images/red_stars.gif) no-repeat left top
+	height: 16px
+	margin-top: -16px
+div.bs_rating_grey_bg
+	//background-color: red
+	background: url(/images/grey_stars.gif) no-repeat left top
+	height: 16px
+	//width: 82px
+	width: 85px
+	text-align: right
+	margin-left: 0px
+div.bs_ideas
+	div.cnt
+		margin-bottom: 2px
+		font-size: .8em
+
+span.please_rate
+	color: $new_item_color
+	font-weight: bold
+	
+form.item_rater
+	width: 300px
+
+
+div.answer_controls
+	position: relative
+	padding-top: 6px
+
+div.rate
+	height: 20px
+	p
+		font-weight: bold
+		float: left
+		margin: 0
+	div.rating
+		float: right
+		
+div.answer
+	clear: both
+
+div.answer_section
+	div.rating
+		form
+			display: none
+		
+span.stars
+	display: block
+	float: right
+span.star_hover, span.rating_results
+	display: block
+	float: right
+	margin-right: 10px
+div.rating form
+	float: right
+	margin-left: 20px
+
+div.rating
+	div.cnt
+		float: right
+		margin-right: 10px
+	div.result_stars
+		float: right
 
 //
 //

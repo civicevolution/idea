@@ -35,14 +35,13 @@ var new_icon_data = {
 function dispatchAnswer(item,submit_response){
 	console.log("v1 dispatchAnswer, item_id(item.item_id): " + item.item_id + " submit_response: " + submit_response)
 	//console.log("dispatchItem, comment_text(item.data.comment.text): " + item.data.comment.text)
-
 	//	// get the parent to which this belongs
 	//	var question_id = idea.question_id
 	//	var par = $('#bs_ideas_' + question_id);
 	//
 	//console.log("uid: " + item.uid)
 	try{
-		var node = $("tr[uid='" + item.uid + "']" )	
+		var node = $("div.answer[uid='" + item.uid + "']" )	
 		//	
 		if(submit_response){
 			//console.log("submit_response is true, force it to write the data");
@@ -83,7 +82,7 @@ function dispatchAnswer(item,submit_response){
 		}
 		
 		var prop_answer = div.clone();
-	
+debugger
 		if(node.size() > 0){
 			// this item was already added by ape before submit_response 
 			console.log("replace ape version with submit response version")
@@ -108,7 +107,7 @@ function dispatchAnswer(item,submit_response){
 		}else{
 			console.log("mode is " + item.mode);
 			temp.ans_new_div = div
-			var par = $('div#ans_' + item.data.answer.id).closest('tr')
+			var par = $('div#ans_' + item.data.answer.id);
 			temp.ans_par = par
 			//div = div.find('div.entry');
 			$('span.new._answer',div).replaceWith('<span class="new _updated _answer">Updated</span>');
@@ -118,7 +117,8 @@ function dispatchAnswer(item,submit_response){
 			div.effect("highlight", {}, 2000);
 			par.prev('form.add_answer_form').hide(1000,
 				function(){
-					$(this).remove()
+					$(this).remove();
+					par.show(1000)
 				}
 			);
 			
@@ -134,22 +134,6 @@ function dispatchAnswer(item,submit_response){
 			
 			
 		}
-		// update the answer in the proposal view
-		prop_answer = prop_answer.find('div.answer');
-		var new_id = 'prop_' + prop_answer.attr('id');
-		prop_answer.attr('id',new_id);
-		var cur_prop_answer = $('div#proposal_view div#' + new_id);
-		if(cur_prop_answer.size() > 0 ){
-			cur_prop_answer.replaceWith(prop_answer);
-			prop_answer.hide().show(2000, function(){
-				prop_answer.effect("highlight", {}, 4000)
-			})
-		}else{
-			console.log("remove no_answer in div#prop_ques_i" + item.par_id )
-			$('div#prop_ques_i' + item.par_id + ' div.no_answers').remove();
-			$('div#prop_ques_i' + item.par_id).append(prop_answer);
-			prop_answer.effect("highlight", {}, 2000);
-		}
 	}catch(e){
 		console.log("Error in dispatchItem,  item.par_id: " + item.par_id + ", e: " + e)
 	}
@@ -161,8 +145,8 @@ function dispatchAnswer(item,submit_response){
 		$(':radio:checked',div).removeAttr('checked');
 		$('span.team_rating',div).replaceWith( $('<span class="please_rate">Please rate</span>') );		
 	}
-	init_team_rating(div)
-	init_rating_stars( $(':radio.star',div) );
+	//init_team_rating(div)
+	//init_rating_stars( $(':radio.star',div) );
 }
 
 function dispatchComment(item,submit_response){
@@ -489,7 +473,7 @@ function dispatchBsIdeas(item,submit_response){
 }
 
 function dispatchRating(rating,submit_response){
-	//console.log("dispatchRating");
+	console.log("dispatchRating");
 	temp.rating = rating
 	// rating.data.type = 'answer' | 'bs_idea'
 	// rating.data = {type: , average: , count: , id: }
@@ -498,17 +482,18 @@ function dispatchRating(rating,submit_response){
 		case 'bs_idea': var id = '#bs_'; break;
 		default: console.log("dispatchRating type unknown: " + rating.data.type); return;
 	}
-	id += rating.data.id
-	//console.log("id: " + id)
-	var s = $(id).closest('tr').find('div.bs_rating_red_bg');
-	if(s.attr('uid') == rating.data.uid){
+	id += rating.data.id;
+	console.log("id: " + id);
+	//var s = $(id).closest('div.answer_section').find('div.bs_rating_red_bg');
+	var results = $(id).closest('div.answer_section').find('div.rating');
+	if(results.attr('uid') == rating.data.uid){
 		//console.log("exit dispatchRating, already updated")
 		return; // don't update this 2x
 	}
-	if(s.size() == 0){
+	if(results.size() == 0){
 		if(!submit_response) return; // if this has not been rated, only update for the user's own submit
 		//console.log("replace please rate with the rating graphic");
-		s = $(id).closest('tr').find('span.please_rate');
+		results = $(id).closest('tr').find('span.please_rate');
 		if(s.size() == 0 || s.attr('uid') == rating.data.uid){
 			//console.log("exit dispatchRating, replace please rate has started")
 			return; // don't update this 2x
@@ -527,14 +512,19 @@ function dispatchRating(rating,submit_response){
 			}
 		)
 	}else{
-		//console.log("update rating")
-		s.attr('uid',rating.data.uid)
-		s.next().andSelf().fadeTo(2000,.01, 
+		console.log("update rating")
+		results.attr('uid',rating.data.uid)
+		//results.css({opacity: 0})
+		results.fadeTo(100,.01, 
 			function(){
-				s.css('width', 85 * rating.data.average / 5 );
-				var votes = (rating.data.count + ' vote') + (rating.data.count == 1 ? '' : 's')
-				s.next().html(votes)
-				$(this).fadeTo(2000,1)
+				//results.find('div.updating').remove();
+				results.find('div.bs_rating_red_bg').css('width', 17 * rating.data.average );
+				var votes = '(' + (rating.data.count + ' vote') + (rating.data.count == 1 ? '' : 's') + ')'
+				results.find('div.cnt').html(votes);
+				//results.show();
+				results.parent().find('form span.star_hover').html('Saved')
+				$(this).fadeTo(1000,1);
+				
 			}
 		)
 	}

@@ -107,7 +107,7 @@ function create_templates(data){
 	}	
 	
 	jsonFn = {
-		//answer: json_templates.answer.compile(directives.answer),
+		answer: json_templates.answer.compile(directives.answer),
 		bs_idea: json_templates.bs_idea.compile(directives.bs_idea),
 		comment: json_templates.comment.compile(directives.comment),
 		//resource: json_templates.resource.compile(directives.resource),

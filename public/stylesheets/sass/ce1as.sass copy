@@ -224,14 +224,6 @@ div.Answer_entry
 		margin-bottom: 0px
 		height: 8px
 
-div.answer_controls
-	position: relative
-	padding-top: 6px
-	span.rating_results
-		color: $faint_color
-		margin-left: 5px
-		display: block
-		float: left
 
 div.com_count
 	float: right
@@ -432,39 +424,7 @@ p.confirmation
 			margin: 0 0 8px 0
 
 
-td form.item_rater
-	margin-right: 20px
 
-div.bs_ideas, div.answers
-	padding-top: 20px
-	td.rating
-		padding-left: 40px
-
-	table
-		td
-			vertical-align: top
-			form
-				margin: 0 6px 10px 0
-				float: left
-			span.rating_results
-				float: left
-				font-size: .8em
-		th
-			text-align: left
-		col.my_rating
-			width: 150px
-		p.controls 
-			font-size: .9em
-			margin: 6px 0 40px 0		
-			span.new	
-				font-weight: bold
-				color: $new_item_color
-		div.bs_idea, div.answer
-			width: 100%
-			max-width: 500px
-			p 
-				padding-right: 10px
-				font-size: 1.1em
 
 
 
@@ -564,31 +524,6 @@ span.chat_ago
 div.chat_transcript_outer
 	max-height: 600px
 	
-span.star_hover
-	white-space: wrap
-	
-div.bs_rating_red_bg
-	//background-color: red
-	background: url(/images/red_star2.gif) repeat-x left top
-	height: 16px
-	margin-top: -16px
-div.bs_rating_grey_bg
-	//background-color: red
-	background: url(/images/grey_stars.gif) repeat-x left top
-	height: 16px
-	width: 82px
-	margin-left: 0px
-div.bs_ideas
-	div.cnt
-		margin-bottom: 2px
-		font-size: .8em
-
-span.please_rate
-	color: $new_item_color
-	font-weight: bold
-	
-form.item_rater
-	width: 100px
 	
 div.tab_view
 	max-width: 800px

@@ -2,7 +2,25 @@ var temp = {}
 $(function(){
 
 	$('div.comment_links').hide();
+	
+	setTimeout(init_rating_stars, 1000);
+	//setTimeout(init_team_rating, 1000);
+	
 
+});
+
+$('div.rate').live('mouseover mouseout', function(event) {
+  if (event.type == 'mouseover') {
+    // do something on mouseover
+		$this = $(this)
+		$this.find('div.results').hide();
+		$this.find('form').show();
+  } else {
+    // do something on mouseout
+		$this = $(this)
+		$this.find('div.results').show();
+		$this.find('form').hide();
+  }
 });
 
 $('a.show_bsd').live('click',
@@ -16,7 +34,8 @@ $('a.show_bsd').live('click',
 				//temp.bsd = this
 				activate_comment_form( $('form.add_comment_form', this) );
 				activate_idea_form( $('form.add_bs_idea_form', this) );
-				$('div.list.fav div.list_inner', this).sortable( { update: idea_list_sort_update })
+				$('div.list.fav div.list_inner', this).sortable( { update: idea_list_sort_update });
+				$('a.edit_answer')
 			}
 		)
 		return false;

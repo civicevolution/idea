@@ -388,3 +388,82 @@ form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest
     margin-left: 15px; }
   form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning, form.std_form p.resource_warning {
     margin-top: -12px; }
+
+div.answer_section {
+  padding-top: 20px; }
+  div.answer_section td.rating {
+    padding-left: 40px; }
+  div.answer_section div.rating {
+    vertical-align: top; }
+  div.answer_section col.my_rating {
+    width: 150px; }
+  div.answer_section p.controls {
+    font-size: 0.9em;
+    margin: 6px 0 40px 0; }
+    div.answer_section p.controls span.new {
+      font-weight: bold;
+      color: #f2583e; }
+
+span.star_hover {
+  white-space: wrap; }
+
+div.bs_rating_red_bg {
+  background: url(/images/red_stars.gif) no-repeat left top;
+  height: 16px;
+  margin-top: -16px; }
+
+div.bs_rating_grey_bg {
+  background: url(/images/grey_stars.gif) no-repeat left top;
+  height: 16px;
+  width: 85px;
+  text-align: right;
+  margin-left: 0px; }
+
+div.bs_ideas div.cnt {
+  margin-bottom: 2px;
+  font-size: 0.8em; }
+
+span.please_rate {
+  color: #f2583e;
+  font-weight: bold; }
+
+form.item_rater {
+  width: 300px; }
+
+div.answer_controls {
+  position: relative;
+  padding-top: 6px; }
+
+div.rate {
+  height: 20px; }
+  div.rate p {
+    font-weight: bold;
+    float: left;
+    margin: 0; }
+  div.rate div.rating {
+    float: right; }
+
+div.answer {
+  clear: both; }
+
+div.answer_section div.rating form {
+  display: none; }
+
+span.stars {
+  display: block;
+  float: right; }
+
+span.star_hover, span.rating_results {
+  display: block;
+  float: right;
+  margin-right: 10px; }
+
+div.rating form {
+  float: right;
+  margin-left: 20px; }
+
+div.rating div.cnt {
+  float: right;
+  margin-right: 10px; }
+div.rating div.result_stars {
+  float: right; }
