@@ -573,7 +573,6 @@ class IdeaController < ApplicationController
     @team = Team.new(:com_criteria=>'4..7', :res_criteria=>'3..8')
     strs = []
     strs.push '<div>'
-    item = Item.new(:target_id => 1, :target_type => 11)
     old_ts = Time.local(2020,1,1)
     newer_ts = Time.local(2025,1,1)
 
@@ -600,9 +599,10 @@ class IdeaController < ApplicationController
     @comments = []
     @new_coms = @coms = 0
     
+    #item = Item.new(:target_id => 1, :target_type => 11)
     strs.push '<div class="item Comment">'
     strs.push render_to_string( :partial => 'comment', :object => @comment,
-      :locals => { :item => item, :down => 0, :up => 0,  :rated => 0})
+      :locals => { :item => Item.new, :down => 0, :up => 0,  :rated => 0})
     strs.push '</div>'
 
     strs.push '<hr/><h3>add_comment_combined</h3><hr/>'

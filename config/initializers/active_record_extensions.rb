@@ -38,6 +38,8 @@ class ActiveRecord::Base
             self.par_member_id = 0
           when parItem.o_type == 3 # comment
             self.par_member_id = ActiveRecord::Base.connection.select_value( "SELECT member_id FROM comments WHERE id = #{parItem.o_id}")
+          when parItem.o_type == 12 # bs_idea
+            self.par_member_id = ActiveRecord::Base.connection.select_value( "SELECT member_id FROM bs_ideas WHERE id = #{parItem.o_id}")
         end
       end
     end
