@@ -2,6 +2,7 @@ $off_black: #2b3e42
 $pale_input: rgb(51, 51, 51)
 $new_item_color: #F2583E
 $faint_color: rgb(147, 160, 145)
+$nav_link_bg: rgb(238, 238, 238)
 
 $postit: #fff89c
 
@@ -79,6 +80,22 @@ hr.bottom, .clear
 .hide
 	display: none
 
+tr.stripe
+	background-color: $nav_link_bg
+
+
+div.idea_page
+	float: left
+	width: 798px
+	//border-right: 1px solid black
+	
+div.side_bar
+	width: 180px
+	float: left
+	margin-left: 20px
+	div.share
+		margin: 20px 0
+
 div.report
 	max-width: 500px
 	p.cat
@@ -91,9 +108,28 @@ div.report
 img.i36
 	width: 36px
 	height: 36px
+
+div#endorsements
+	margin: 40px 0
+	h3
+		margin: 0
+	p
+		margin: 0 0 12px 0
+	table
+		margin: 8px 0 30px 0
+		th
+			text-align: left
+		td
+			text-align: left
+			vertical-align: top
+			
+div#submit
+	margin-bottom: 40px
+	h3
+		margin: 0
+	p.desc
+		margin-top: 0			
 	
-div.idea_page
-	width: 800px
 
 div.bs_idea
 	position: relative

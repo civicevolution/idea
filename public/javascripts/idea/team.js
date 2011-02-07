@@ -50,6 +50,9 @@ $(function(){
 	var master_debug = false;
 	
 	var load_ape_client = master_debug ? true : true;
+	console.log("load_ape_client = false")
+	load_ape_client = false;
+	
 	var convert_stars = master_debug ? true : false;
 	var convert_time = master_debug ? false : true;
 	var activate_debug = true;

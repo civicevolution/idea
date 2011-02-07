@@ -844,6 +844,76 @@ function activate_report_form(form){
 }
 
 
+function activate_endorsement_form(form,orig_idea){
+	console.log("activate_endorsement_form")
+	form = $('div#endorsements form');
+	activate_text_counters_grow( $('textarea',form) )
+
+	$('div.control_line a.cancel',form).click(
+		function(){
+			try{
+				//console.log("Cancel the idea form");
+				var form = $(this).closest('form');
+				form.remove();
+				// restore a form that may have been faded
+				//form.closest('.tab_window').find('form.add_answer_form:last').fadeTo(1000,1)
+				if(orig_idea)orig_idea.show(1000)
+			}catch(e){
+				console.log("answer cancel error: "+ e)
+			}
+			return false;
+		}
+	);
+	
+	$('div.control_line a.clear',form).click(
+		function(){
+		 //console.log("Clear the idea form");
+			$(this).closest('form').find('textarea').val('');
+			$(':input',form).removeClass('form_error_border');
+			$('p.form_error_text',form).remove();
+			return false;
+		}
+	);
+
+	$('button', form).unbind('click').click(
+		function(){
+		 console.log("Submit the endorse_proposal form");
+			var form = $(this).closest('form');
+			var btn = $(this);
+			btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+
+			$(':input',form).removeClass('form_error_border');
+			$('p.form_error_text',form).remove();
+			
+			form.ajaxSubmit({ 					
+			  type: "POST", 
+			  url: "/idea/endorse_proposal", 
+				dataType: 'json',
+			  success: function(data,status){ 
+				 //console.log("endorse_proposal submit success, call dispatchEndorsement");
+				  dispatchEndorsement( data[0].params.data, true );
+					var msg = $('<p class="confirmation">Your endorsment has been saved successfully & inserted above</p>')
+					form.prepend(msg)
+					msg.effect('highlight',{},3000, function(){$(this).remove()});					
+					$('textarea',form).val('');
+					btn.removeAttr('disabled').next('img').remove();
+			  },
+				error : function(xhr,errorString,exceptionObj){
+					//console.log("Error, xhr: " + xhr.responseText)
+					try{
+						show_form_error(form, xhr.responseText);
+						btn.removeAttr('disabled').next('img').remove();
+					}catch(e){
+						btn.removeAttr('disabled').next('img').remove();
+						console.log("Endorsement submit error: " + e)
+						$('<div><p>Sorry, we cannot process your endorsement at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+					}
+				}
+			});
+			return false;
+		}
+	);
+}
 
 
 

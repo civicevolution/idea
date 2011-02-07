@@ -57,6 +57,20 @@ hr.bottom, .clear {
 .hide {
   display: none; }
 
+tr.stripe {
+  background-color: #eeeeee; }
+
+div.idea_page {
+  float: left;
+  width: 798px; }
+
+div.side_bar {
+  width: 180px;
+  float: left;
+  margin-left: 20px; }
+  div.side_bar div.share {
+    margin: 20px 0; }
+
 div.report {
   max-width: 500px; }
   div.report p.cat {
@@ -70,8 +84,26 @@ img.i36 {
   width: 36px;
   height: 36px; }
 
-div.idea_page {
-  width: 800px; }
+div#endorsements {
+  margin: 40px 0; }
+  div#endorsements h3 {
+    margin: 0; }
+  div#endorsements p {
+    margin: 0 0 12px 0; }
+  div#endorsements table {
+    margin: 8px 0 30px 0; }
+    div#endorsements table th {
+      text-align: left; }
+    div#endorsements table td {
+      text-align: left;
+      vertical-align: top; }
+
+div#submit {
+  margin-bottom: 40px; }
+  div#submit h3 {
+    margin: 0; }
+  div#submit p.desc {
+    margin-top: 0; }
 
 div.bs_idea {
   position: relative; }

@@ -6,34 +6,36 @@ function create_templates(data){
 	// break up the template into sub templates
 	//var tmps = json_templates['full'];
 	json_templates['full'] = template_data;
-	json_templates['answer'] = $('div.answer', template_data).closest('tr');
-	json_templates['bs_idea'] = $('div.bs_idea', template_data); //.closest('tr');
+	json_templates['answer'] = $('div.answer', template_data);
+	json_templates['bs_idea'] = $('div.bs_idea', template_data);
 	json_templates['comment'] = $('div.Comment', template_data);
 	json_templates['resource'] = $('div.resource', template_data);//.remove();
 	json_templates['chat_message'] = $('tr.Chat', template_data);
 	json_templates['add_comment_form'] = $('form.add_comment_form', template_data);	
 	json_templates['add_answer_form'] = $('form.add_answer_form:last', template_data);
 	json_templates['add_bs_idea_form'] = $('form.add_bs_idea_form', template_data);			
+	json_templates['endorsement'] = $('div#endorsements tr:last', template_data);			
 	
 	//console.log("set the template directives")
 	directives = {
 		answer : {
 			'@uid' : 'uid',
 			'@class+' : function(arg){ return (arg.context.item.item.sib_id > 0) ? ' sibling' : ' top_sibling' },
-			'@id' : 'i#{item_id}',
-			'div.answer @id+' : 'data.answer.id',
-			'div.answer' : function(arg){return simple_format(unescape(arg.context.data.answer.text))},
-			'a.com_on_tgt @href+' : '/#{data.answer.id}',
-			'a.edit_answer @href+' : '/#{data.answer.id}',
-			'a.edit_answer @class+' : function(arg){return (arg.context.edit_link != 'on') ? ' hide' : '' },
-			'span.version' : function(arg){ return (arg.context.data.answer.ver == 1) ? 'Original version' : 'Version ' + arg.context.data.answer.ver },
-			'abbr.timeago @title' : 'data.answer.updated_at',
-			'a.view_history @href+' : '/#{data.answer.id}',
-			'a.view_history @rel+' : '#{data.answer.id}',
-			'a.view_history @class+' : function(arg){ return (arg.context.data.answer.ver == 1) ? ' hide' : '' },
-			'span.avg' : 'average',
-			'span.cnt' : 'count',
-			'input.star @name+' : 'data.answer.id'
+			//'@id' : 'i#{item_id}',
+			'@id+' : 'data.answer.id',
+			//'div.answer' : function(arg){return simple_format(unescape(arg.context.data.answer.text))},
+			'.' : function(arg){return simple_format(unescape(arg.context.data.answer.text))},
+			//'a.com_on_tgt @href+' : '/#{data.answer.id}',
+			//'a.edit_answer @href+' : '/#{data.answer.id}',
+			//'a.edit_answer @class+' : function(arg){return (arg.context.edit_link != 'on') ? ' hide' : '' },
+			//'span.version' : function(arg){ return (arg.context.data.answer.ver == 1) ? 'Original version' : 'Version ' + arg.context.data.answer.ver },
+			//'abbr.timeago @title' : 'data.answer.updated_at',
+			//'a.view_history @href+' : '/#{data.answer.id}',
+			//'a.view_history @rel+' : '#{data.answer.id}',
+			//'a.view_history @class+' : function(arg){ return (arg.context.data.answer.ver == 1) ? ' hide' : '' },
+			//'span.avg' : 'average',
+			//'span.cnt' : 'count',
+			//'input.star @name+' : 'data.answer.id'
 		},
 		bs_idea : {
 		  '@uid' : 'uid',
@@ -103,7 +105,17 @@ function create_templates(data){
 			"input[name='mode'] @value" : 'mode',
 			"input[name='bs_idea[question_id]'] @value" : 'q_id',
 			"input[name='idea_id'] @value" : 'id'
+		},
+		endorsement : {
+				'@id' : 'ape_code',
+				'td.pic' : '<img src="#{pic_url}" />',
+				'td.name' : function(arg){ return unescape(arg.context.name);},
+				'td.text' : function(arg){ return simple_format(arg.context.data.endorsement.text)},
+				'abbr.timeago' : function(arg){ return 'just now'},
+				'abbr.timeago @title' : 'data.endorsement.updated_at',
+				'td.delete @class+' : function(arg){return arg.context.show_delete == 't' ? '' : ' hide'; }
 		}
+		
 	}	
 	
 	jsonFn = {
@@ -114,7 +126,8 @@ function create_templates(data){
 		//chat_message: json_templates.chat_message.compile(directives.chat_message),
 		add_comment_form: json_templates.add_comment_form.compile(directives.add_comment_form),
 		add_answer_form: json_templates.add_answer_form.compile(directives.add_answer_form),
-		add_bs_idea_form : json_templates.add_bs_idea_form.compile(directives.add_bs_idea_form)
+		add_bs_idea_form : json_templates.add_bs_idea_form.compile(directives.add_bs_idea_form),
+		endorsement : json_templates.endorsement.compile(directives.endorsement)	
 	}
 	return false;
 }
@@ -124,7 +137,7 @@ function create_templates(data){
 
 
 function simple_format(s){
-	var strs = s.split(/\n\n/)
+	var strs = unescape(s).split(/\n\n/)
 	s = ''
 	for(var i=0;str=strs[i];i++) s += '<p>'+str+'</p>'
 	return s.replace(/\n/g,'<br/>')

@@ -21,6 +21,9 @@ class IdeaController < ApplicationController
     @questions = @team.questions
     @answers_with_ratings = @team.answers_with_ratings( @member.id )
     
+    @mems = Member.all( :conditions=>['id IN (SELECT distinct member_id FROM comments WHERE team_id = ?)',@team.id]);
+  	@endorsements = Endorsement.all(:conditions=>['team_id=?',@team.id])
+  	@endorsers = Member.all(:conditions=> {:id => @endorsements.map{|e| e.member_id }.uniq })
     
     
   end
@@ -515,43 +518,67 @@ class IdeaController < ApplicationController
   end
 
 
+  def endorse_proposal
+    logger.debug "endorse_proposal for question_id: #{params[:question_id]}, order: #{params[:ids]}"
+    endorsement = Endorsement.find_by_member_id_and_team_id(@member.id, params[:team_id]) 
+    if params[:act] == 'delete'
+      endorsement.destroy
+      # create a new endorsment object so I can send ape message
+      endorsement = Endorsement.new :member_id => @member.id, :team_id => params[:team_id], :text => ''
+      saved = true
+    elsif endorsement.nil?
+      endorsement = Endorsement.new :member_id => @member.id, :team_id => params[:team_id], :text => params[:endorse][:text]
+      saved = endorsement.save
+      pic_url = @member.photo.url('36')
+    else
+      endorsement.text = params[:endorse][:text]
+      saved = endorsement.save
+      pic_url = @member.photo.url('36')
+    end
+    mem_name = @member.first_name + '%20' + @member.last_name
+    # render a response
+    respond_to do |format|
+      if saved
+        logger.debug "endorse_proposal was saved successfully"
+        #flash[:notice] = 'Idea was successfully created.'
+        # send JSON data to ape, it will be converted to js
+        serialized = sendApeNotification({:type=>'endorsment', :channel=>"team#{params[:team_id]}", :debug_save_id => 'endorsement',
+          :data => {:mode=>params[:mode], :data => endorsement, :name => mem_name, :ape_code=> @member.ape_code,  :pic_url => pic_url || '' }},session);
+          
+        format.html { render :text => serialized } if request.xhr?
+        format.html { redirect_to( :action => 'index' ) }
+        #format.xml  { render :xml => @answer, :status => :created, :location => @answer }
+      else
+        # serialize the form errors and send back ajson
+        
+        if ajaxMode
+          format.json { render :text => [endorsement.errors].to_json, :status => 409 }
+        else
+          # this code generates a static page with the target of the comment, the comment form, and the error data - for now I just want the error data
+          #@target_item = Item.find(params[:par_id])
+          #@target = get_target(@target_item)
+          #format.html { render :action => "add_answer" }
+        end
+      end
+    end
+    
+  end
+  
+  def guidelines
+    render :action => "guidelines", :layout => false 
+  end
+  
   def get_templates
 
     @team = Team.new(:com_criteria=>'4..7', :res_criteria=>'3..8')
     strs = []
     strs.push '<div>'
     item = Item.new(:target_id => 1, :target_type => 11)
-    # @members = [ ]
-    # @items = [ ]
-    # @last_ts = Time.now
     old_ts = Time.local(2020,1,1)
     newer_ts = Time.local(2025,1,1)
-    #  
-    # strs.push '<hr/><h3>Question w/ answer and idea</h3><hr/>'
-    # bs_idea_rating = BsIdeaRating.new(:member_id => session[:member_id], :created_at => old_ts, :updated_at => newer_ts)
-    # bs_idea_rating[:q_id] = 1
-    # bs_idea_rating[:my_vote] = 3
-    # bs_idea_rating[:text] = 'Idea for the template'
-    # bs_idea_rating[:average] = 4.5
-    # bs_idea_rating[:count] = 7
-    # @bs_ideas_with_ratings = [ bs_idea_rating ] 
-    # 
-    # answer_rating = AnswerRating.new(:created_at => old_ts, :updated_at => old_ts)
-    # answer_rating[:q_id] = 1
-    # answer_rating[:my_vote] = 2
-    # answer_rating[:text] = 'answer for the template'
-    # answer_rating[:ver] = 2
-    # answer_rating[:average] = 4.5
-    # answer_rating[:count] = 7
-    # @answers_with_ratings = [answer_rating]
 
     @question = Question.new(:text => 'Question for template', :created_at => old_ts, :updated_at => old_ts, :answer_criteria=>'5..15',:idea_criteria=>'6..12')
     @question.id = 1
-    #
-    #strs.push '<div class="item Question">'
-    #strs.push render_to_string( :partial => '/team/question', :object => question,
-    # :locals => { :item => item} )
-    #strs.push '</div>'
 
     strs.push '<hr/><h3>comment</h3><hr/>'
     @comment = Comment.new(:created_at => old_ts, :updated_at => newer_ts)
@@ -573,12 +600,10 @@ class IdeaController < ApplicationController
     @comments = []
     @new_coms = @coms = 0
     
-    
     strs.push '<div class="item Comment">'
     strs.push render_to_string( :partial => 'comment', :object => @comment,
       :locals => { :item => item, :down => 0, :up => 0,  :rated => 0})
     strs.push '</div>'
-
 
     strs.push '<hr/><h3>add_comment_combined</h3><hr/>'
     strs.push render_to_string(:partial => 'add_comment_combined', :locals => { :id => 1, :label=>'Please add your comment'})
@@ -591,9 +616,20 @@ class IdeaController < ApplicationController
     bs_idea[:item_id] = 1
     strs.push '<hr/><h3>bs_idea</h3><hr/>'
     strs.push render_to_string( :partial=> 'bs_idea', :object=>bs_idea, :locals=>{:mode=>'new', :coms=>'t'} )
+ 
+    answer = Answer.new
+    strs.push '<hr/><h3>answer</h3><hr/>'
+    strs.push render_to_string( :partial=> 'answer', :object=>answer)
+    
 
     #strs.push '<hr/><h3>chat message</h3><hr/>'
     #strs.push render_to_string(:partial => '/team/chat')
+    
+    @endorsements = [Endorsement.new :member_id=>1, :updated_at=> old_ts]
+    @member = Member.find(1)
+  	@endorsers = [ @member ]
+    strs.push '<hr/><h3>endorsement</h3><hr/>'
+    strs.push render_to_string( :partial=> 'endorsements')
 
     strs.push '</div>'
     render :text => strs.join('') #, :content_type => 'text/xml'

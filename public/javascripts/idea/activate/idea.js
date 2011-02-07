@@ -304,6 +304,9 @@ function activate_ux_functions_edit(){
 			console.log("Edit answer");
   		try{
   			var a = $(this);
+				if( a.closest('div.qa').find('form.add_answer_form').size() > 0) return false;
+
+
 				var ans = a.closest('div.qa').find('div.answer');
 				var ctls = a.closest('p');
   			//console.log("edit this answer")

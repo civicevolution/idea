@@ -5,9 +5,64 @@ $(function(){
 	
 	setTimeout(init_rating_stars, 1000);
 	//setTimeout(init_team_rating, 1000);
+	activate_endorsement_form();
 	
+	$('div#endorsements table abbr.timeago').timeago();
 
 });
+
+$('a.delete_endorsement').live('click', 
+	function(){
+		console.log("delete_endorsement");
+		try{
+			
+			$.ajax({ 					
+			  type: "POST", 
+			  url: "/idea/endorse_proposal", 
+				data: { team_id: team_id,
+					act: 'delete'
+				},
+				dataType: 'json',
+			  success: function(data,status){ 
+					//console.log("com_rate submit success, call dispatchComRating"); with submit = true
+					temp.delete_endorsement = data
+				  dispatchEndorsement( data[0].params.data, true );
+			  },
+				error : function(xhr,errorString,exceptionObj){
+					console.log("Error on set_favorite submit, xhr: " + xhr.responseText)
+				}
+			});
+			
+			
+		}catch(e){console.log("delete_endorsement e: " + e.message)}
+		return false;
+	}
+);
+
+$('a.2029_guidelines').live('click',
+	function(){
+		$('<div>Loading...</div>').load("/idea/guidelines", function(){
+			$(this).dialog( {title : '2029 and beyond Online Groundrules and Guidelines', modal : true, width: 600, maxHeight: 500 } );
+		})
+		return false;
+	}
+)
+
+
+$('a.update_endorsement').live('click', 
+	function(){
+		console.log("update_endorsement");
+		try{
+			var form = $('div#endorsements form');
+			form.show();
+			var t = $(this).closest('tr').find('td.text').html();
+			form.find('textarea').val( strip_white_space(t) )
+		}catch(e){console.log("update_endorsement e: " + e.message)}
+		return false;
+	}
+);
+
+
 
 $('div.rate').live('mouseover mouseout', function(event) {
   if (event.type == 'mouseover') {

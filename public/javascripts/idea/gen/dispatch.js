@@ -32,6 +32,40 @@ var new_icon_data = {
 	bs_idea : 'p.controls'
 }
 
+function dispatchEndorsement(item,submit_response){
+	console.log("dispatchEndorsement");
+	temp.dispatchEndorsement_item = item;
+	if(item.data.endorsement.created_at == null){
+		// the endorsement was deleted
+		console.log("delete endorsement")
+		var tr = $('div#endorsements').find('tr#' + item.ape_code)
+		tr.remove();
+		if(tr.find('a.delete_endorsement').size()>0){
+			// this is my endorsement, show the form again
+			$('div#endorsements form').removeClass('hide');
+		}
+	}else{
+		console.log("insert the new endorsement")
+		item.show_delete = submit_response ? 't' : 'f';
+		var html = jsonFn.endorsement(item);
+		var table = $('div#endorsements table tbody');
+		var form = $('div#endorsements form');
+		form.find('a.clear').click();
+		form.hide();
+		// is this new or update
+		var tr = table.find('tr[id="' + item.ape_code + '"]');
+		if(tr.size() > 0){
+			tr = tr.replaceWith(html)
+			table.find('tr[id="' + item.ape_code + '"] abbr').timeago();
+		}else{
+			table.append(html);
+			table.find('tr:last abbr.timeago').timeago();
+		}
+	}
+	
+	
+}
+
 function dispatchAnswer(item,submit_response){
 	console.log("v1 dispatchAnswer, item_id(item.item_id): " + item.item_id + " submit_response: " + submit_response)
 	//console.log("dispatchItem, comment_text(item.data.comment.text): " + item.data.comment.text)
@@ -82,7 +116,7 @@ function dispatchAnswer(item,submit_response){
 		}
 		
 		var prop_answer = div.clone();
-debugger
+
 		if(node.size() > 0){
 			// this item was already added by ape before submit_response 
 			console.log("replace ape version with submit response version")
