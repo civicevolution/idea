@@ -5,7 +5,7 @@
 			%b ground rules 
 			to be accepted and published:
 		%ul
-			- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'
+			- if params[:_initiative_id] == 1
 				%li Be legal
 				%li Be consistent with the City of Geraldton-Greenough Organisational Values
 				%li Focus on organisational processes in order to help the City work better with the community
@@ -16,7 +16,7 @@
 				%li Help create a more sustainable future for our city region in terms of our environment, economic development, social, and cultural affairs.
 				%li Demonstrate effective use of rate payer funds, if appropriate
 
-	- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'			
+	- if params[:_initiative_id] == 1			
 		%p
 			The Executive Management Team promises to review and respond to all actionable proposals that meet their guidelines
 			for relevance, completeness, evidence, and community support.
@@ -37,7 +37,7 @@
 			to earn official review:	
 
 		%ul
-			- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'
+			- if params[:_initiative_id] == 1
 				%li Comply with the general ground rules
 				%li Answer all questions in the proposal outline
 				%li Work in a team with at least 4 staff members of the City of Geraldton-Greenough

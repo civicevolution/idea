@@ -162,12 +162,44 @@ $('p.idea_lists a').die('click').live('click',
 $('a.report').live('click',
 	function(){
 		var item_id = Number($(this).attr('href').match(/\d+$/))
-		$('<div></div>').load("/idea/report/" + item_id, function(){activate_report_form($(this).find('form'))}).dialog({modal:true,	title: 'Report this content', width: 'auto', height: 'auto'}); 
-		
+		$('<div></div>').load("/idea/report/" + item_id, 
+			function(){
+				var $this = $(this);
+				$this.dialog({modal:true,	title: 'Report this content', width: 'auto', height: 'auto'}); 
+				activate_report_form($this.find('form'))
+			}
+		)
 		return false;
 	}
 )
 
+$('a.pre_review_proposal:first').live('click',
+	function(){
+		var item_id = Number($(this).attr('href').match(/\d+$/))
+		$('<div></div>').load("/idea/submit_proposal/" + team_id + '?act=pre_review', 
+			function(){
+				var $this = $(this);
+				$this.dialog({modal:true,	title: 'Request pre-submission review', width: 'auto', height: 'auto'}); 
+				activate_submit_form($this.find('form'))
+			}
+		)
+		return false;
+	}
+)
+
+$('a.submit_proposal:first').live('click',
+	function(){
+		var item_id = Number($(this).attr('href').match(/\d+$/))
+		$('<div></div>').load("/idea/submit_proposal/" + team_id + '?act=submit', 
+			function(){
+				var $this = $(this);
+				$this.dialog({modal:true,	title: 'Submit for official review', width: 'auto', height: 'auto'}); 
+				activate_submit_form($this.find('form'))
+			}
+		)
+		return false;
+	}
+)
 
 
 

@@ -67,9 +67,9 @@ class ApplicationController < ActionController::Base
           params[:_initiative_id] = 2
           params[:_app_name] = '2029 and beyond'
           self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
-        when 'ncdd'
-          params[:_initiative_id] = 6
-          params[:_app_name] = 'NCDD'
+        when 'game'
+          params[:_initiative_id] = 1
+          params[:_app_name] = '2029 and beyond Staff GAME'
           self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/ncdd") ])
         when /^demo$/i
           params[:_initiative_id] = 3

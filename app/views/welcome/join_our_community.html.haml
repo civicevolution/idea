@@ -1,7 +1,7 @@
 %div.join_our_community
 	-#- form_tag('/welcome/register',{:class=>'register_form'}) do
 	- form_for(:member, :url => { :action => :register}, :html => {:class=>'register_form'}) do |form|
-		- if request.subdomains.first == '2029-staff' || request.subdomains.first == 'cgg'	
+		- if params[:_initiative_id] == 1	
 			%p Only CGG staff with email addresses ending in 'cgg.wa.gov.au' can join this staff site
 			%p 
 				The community is invited to participate at
@@ -51,7 +51,7 @@
 					-#= password_field_tag :password_repeat, params[:password_field_tag2]
 					= form.password_field :password_confirmation, :alias=>'Repeat password'
 
-			- if request.subdomains.first == '2029' || request.subdomains.first == 'cgg'	
+			- if params[:_initiative_id] == 1 || params[:_initiative_id] == 2
 				%tr
 					%td
 						%div.residency

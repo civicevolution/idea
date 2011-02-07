@@ -1,0 +1,16 @@
+The following proposal has been submitted from #{@app} on #{@host}
+~ ''
+Team: #{@team.title}
+~''
+Review type: #{@submit_request.submit_type}
+~''
+Message: 
+#{@submit_request.text}
+~''
+
+~''
+Team: http://#{@host}/idea/#{@team.id}
+~''
+Submitter provided details: #{@submit_request.name}, #{@submit_request.email}
+~''
+Actual member details: #{@member.first_name} #{@member.last_name}, #{@member.email}

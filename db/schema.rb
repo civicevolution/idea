@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110206170956) do
+ActiveRecord::Schema.define(:version => 20110207070241) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -471,6 +471,18 @@ ActiveRecord::Schema.define(:version => 20110206170956) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "launched",          :default => false, :null => false
+  end
+
+  create_table "proposal_submits", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "member_id"
+    t.string   "submit_type"
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "questions", :force => true do |t|

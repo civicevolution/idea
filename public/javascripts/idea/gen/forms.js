@@ -834,7 +834,7 @@ function activate_report_form(form){
 					}catch(e){
 						btn.removeAttr('disabled').next('img').remove();
 						console.log("report_content submit error: " + e)
-						$('<div><p>Sorry, we cannot process your report idea at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+						$('<div><p>Sorry, we cannot process your report at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
 					}
 				}
 			});
@@ -915,6 +915,59 @@ function activate_endorsement_form(form,orig_idea){
 	);
 }
 
+function activate_submit_form(form){
+	console.log("activate_submit_form")
+	//activate_text_counters_grow( $('textarea',form) )
+
+	$('a.cancel',form).click(
+		function(){
+			try{
+				console.log("Cancel the report form");
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			}catch(e){
+				console.log("activate_report_form cancel error: "+ e)
+			}
+			return false;
+		}
+	);
+
+	$(':submit', form).click(
+		function(){
+		 console.log("Submit the proposal");
+
+			var form = $(this).closest('form');
+			var btn = $(this);
+			btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+
+			$(':input',form).removeClass('form_error_border');
+			$('p.form_error_text',form).remove();
+			 
+			var team_id = form.find('input[name="proposal_submit[team_id]"]').val();
+			form.ajaxSubmit({ 					
+			  type: "POST", 
+			  url: "/idea/submit_proposal/" + team_id , 
+			  success: function(data,status){ 
+					console.log("submit_proposal success");
+					form.closest('div.ui-dialog').dialog('destroy').remove()
+					var dialog = $('<div><p>' + data + '</p></div>').dialog( {title : 'Thank you', modal : true, width: 500 }); 
+			  },
+				error : function(xhr,errorString,exceptionObj){
+					console.log("post_submit error");
+					console.log("Error, xhr: " + xhr.responseText)
+					try{
+						show_form_error(form, xhr.responseText);
+						btn.removeAttr('disabled').next('img').remove();
+					}catch(e){
+						btn.removeAttr('disabled').next('img').remove();
+						console.log("report_content submit error: " + e)
+						$('<div><p>Sorry, we cannot process your proposal submission at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+					}
+				}
+			});
+			return false;
+		}
+	);
+}
 
 
 function announceNoChat(){

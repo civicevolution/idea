@@ -679,13 +679,45 @@ class IdeaController < ApplicationController
 
     respond_to do |format|
       if @saved
-        format.html { render :text => "Thank you for reporting this content. We will review it soon.", :layout => false, :status => 500 } if request.xhr?
+        format.html { render :text => "Thank you for reporting this content. We will review it soon.", :layout => false } if request.xhr?
       else
         format.json { render :text => [@proposal_idea.errors].to_json, :status => 409 }
       end
     end
 
   end
+
+  def submit_proposal
+    @team = Team.find(params[:id])
+    
+    # params[:act]  = pre_review | submit
+    # params[:step] = post | nil
+    if params[:step].nil?
+      render :action=> 'submit_proposal', :layout=> false
+      return
+      
+    else
+      submit_request = ProposalSubmit.new params[:proposal_submit]
+      submit_request.member_id = @member.id
+      logger.debug "review submit_request: #{submit_request.inspect}"
+      @saved = submit_request.save
+      
+      AdminReportMailer.deliver_submit_proposal(submit_request, @team, @member, request.env['HTTP_HOST'],params[:_app_name] )
+      
+      respond_to do |format|
+        if @saved
+          format.html { render :action=> 'submit_proposal_acknowledge', :layout=>false } if request.xhr?
+        else
+          format.json { render :text => [@proposal_idea.errors].to_json, :status => 409 }
+        end
+      end
+      
+      return
+    end
+
+  end
+
+
   
   protected
 
