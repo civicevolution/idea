@@ -613,6 +613,8 @@ class TeamController < ApplicationController
 
     @members = @team.members 
     @items = @team.items
+    # fix the par_ids back to point to the questions
+    @items.find_all{|i| i.target_type == 11}.each{ |i| i.par_id = i.ancestors.match(/(\d+)\}/)[1].to_i }
     @pages = @team.pages
     @questions = @team.questions
     @answers_with_ratings = @team.answers_with_ratings( member_id )
