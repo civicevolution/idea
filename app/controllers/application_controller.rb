@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
         when 'game'
           params[:_initiative_id] = 1
           params[:_app_name] = '2029 and beyond Staff GAME'
-          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/ncdd") ])
+          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
         when /^demo$/i
           params[:_initiative_id] = 3
           params[:_app_name] = 'CivicEvolution Demo'
