@@ -45,6 +45,7 @@ class IdeaController < ApplicationController
       @bs_ideas,priorities = @question.bs_ideas_with_favorites(@member.id)
       @priority = priorities.nil? ? [] : priorities.priority.scan(/\d+/).collect{|p| p.to_i }
       @comments, @resources, @authors = @question.comments_with_ratings(@member.id)
+      @new_coms = @coms = 0
       @mode = request.xhr? ? 'insert' : 'page'
       if @mode == 'insert'
         render :action => "bsd", :layout => false
