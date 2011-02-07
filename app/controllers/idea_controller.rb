@@ -45,6 +45,9 @@ class IdeaController < ApplicationController
       @bs_ideas,priorities = @question.bs_ideas_with_favorites(@member.id)
       @priority = priorities.nil? ? [] : priorities.priority.scan(/\d+/).collect{|p| p.to_i }
       @comments, @resources, @authors = @question.comments_with_ratings(@member.id)
+      # get the public discussion node and process the public comments so they are part of the unified discussion
+      pub_item = Item.find_by_sql(["SELECT * FROM items WHERE o_type = 11 and par_id in (SELECT id FROM items WHERE o_type = 1 and o_id = ?)",@question.id])[0]
+      @comments.each{|c| c['par_id'] = pub_item.par_id.to_s if c['par_id'].to_i == pub_item.id} unless pub_item.nil?
       @new_coms = @coms = 0
       @mode = request.xhr? ? 'insert' : 'page'
       if @mode == 'insert'
