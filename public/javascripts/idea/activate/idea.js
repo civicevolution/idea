@@ -331,48 +331,6 @@ function activate_ux_functions_edit(){
   	}
   );
 
-  $('a.edit_bs_idea').die('click').live('click',
-  	function(){
-  		try{
-  			var a = $(this);
-				var idea = a.closest('td').find('div.bs_idea');
-				var ctls = a.closest('p');
-  			//console.log("edit this idea, size: " + idea.size())
-				var id = Number(a.attr('href').match(/\d+$/));
-				var ideas = idea.closest('div.bs_ideas');
-				var q_id = Number(ideas.attr('id').match(/\d+/))
-				var mode = 'edit';
-				//console.log("id: " + id)
-				var form = $( jsonFn.add_bs_idea_form({id : id, q_id: q_id, mode : mode }) );
-				$('label',form).html("Please edit this idea");
-				var char_cnt = Number(idea.closest('div.bs_ideas').attr('criteria').match(/\d+$/))
-				//console.log("change answer form character count to " + char_cnt )
-				form.find('span.char_ctr').html(char_cnt + ' characters left');
-				
-				$('div.control_line',form).css('margin-bottom','40px');
-				$('a.clear',form).removeClass('clear').addClass('cancel').html('Cancel');
-				var s  = idea.html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'');
-		 		
-				$('textarea',form).html(s);
-				//console.log("ready to show form before idea: size: " + idea.size())
-				form.hide();
-				ctls.hide(1000);
-				idea.hide(1000, 
-					function(){
-						//console.log("now add the idea form idea.size: " + idea.size())
-						idea.before( form );
-						form.show(1000)
-					}
-				);
-				orig_idea = $.merge(ctls,idea);
-				activate_idea_form(form,orig_idea);
-  		}catch(e){console.log("edit_idea error: " + e)}
-  		return false;
-  	}
-  );
-
-	activate_idea_forms();
-
 
 } // end activate_ux_functions_edit
 

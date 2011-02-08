@@ -2,6 +2,7 @@
 
 NOTIFIER = {
   inform: function(report){
+		return;
 		temp.report = report
 		// this must only be called/counted once
     //console.log("Notifier.inform")
