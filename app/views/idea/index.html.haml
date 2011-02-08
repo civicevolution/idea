@@ -43,7 +43,7 @@
 											%div.cnt= "(#{pluralize(answer.count, 'vote')})"
 
 
-									- form_tag( {:controller => 'team', :action => 'answer_rating'}, {:class => 'item_rater'} ) do
+									- form_tag( {:controller => 'idea', :action => 'answer_rating'}, {:class => 'item_rater'} ) do
 										%span.stars
 											- ANSWER_RATING_OPTIONS_G.sort.each do |value ,title|	
 												- if value.to_i == answer.my_vote.to_i

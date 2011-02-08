@@ -388,6 +388,37 @@ class IdeaController < ApplicationController
       end
     end
   end
+  
+  def answer_rating
+    logger.debug "answer_rating: #{params.inspect}"
+    name = params.keys.grep(/bs_rating/)[0]
+    # what if name is nil?
+    score = params[name]
+
+    @answer_id = name.match(/(\d+)/)[1]
+    member_id =  session[:member_id]
+    logger.debug "save answer_rating :member_id: #{member_id}, :answer_id => #{@answer_id}, :score => #{score}"
+    rating = AnswerRating.find_by_answer_id_and_member_id(@answer_id, member_id) 
+
+    if rating.nil?
+      rating = AnswerRating.new :member_id => member_id, :answer_id => @answer_id, :rating => score
+    else
+      rating.rating = score
+    end
+    rating.save
+
+    #calculate new score, count and average
+    @average = AnswerRating.average(:rating, :conditions => ['answer_id = ?', @answer_id ])
+    @count = AnswerRating.count(:rating, :conditions => ['answer_id = ?', @answer_id ])
+
+    serialized = sendApeNotification({:type=>'rating', :channel=>"team#{rating.team_id}", :data => {:type => 'answer', :average=>@average, :count=>@count, :id=>@answer_id }},session);
+
+    respond_to do |format|
+      format.html { render :text => serialized } if request.xhr? # ajaxmode gets the update via APE
+      #format.js
+      format.html { request.referer ?  redirect_to(request.referer + "\#item_rater_#{@item_id}") :  redirect_to( :action => 'index' ) }
+    end
+  end  
 
   def bs_idea_favorite
     member_id = session[:member_id]
