@@ -427,8 +427,12 @@ form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest
   form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning, form.std_form p.resource_warning {
     margin-top: -12px; }
 
+form.add_answer_form {
+  margin-bottom: 80px; }
+
 div.answer_section {
-  padding-top: 20px; }
+  padding-top: 20px;
+  margin-bottom: 50px; }
   div.answer_section td.rating {
     padding-left: 40px; }
   div.answer_section div.rating {

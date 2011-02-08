@@ -85,12 +85,17 @@ $('a.show_bsd').live('click',
 		$this.next('div.show_bsd').html('Loading...')
 		$this.next('div.show_bsd').load('/idea/bsd',{id: $this.attr('href').match(/\d+/)[0]}, 
 			function(){
+				var $this = $(this);
+				$this.hide();
+				$this.show("blind", { direction: "vertical" }, 2000);
+				
 				//console.log("activate_comment_form(form);")
 				//temp.bsd = this
+				$this.find('div.comment_links').hide();
 				activate_comment_form( $('form.add_comment_form', this) );
 				activate_idea_form( $('form.add_bs_idea_form', this) );
 				$('div.list.fav div.list_inner', this).sortable( { update: idea_list_sort_update });
-				$('a.edit_answer')
+				//$('a.edit_answer')
 			}
 		)
 		return false;
@@ -101,7 +106,7 @@ $('a.close_bsd').live('click',
 	function(){
 		console.log("close_bsd");
 		$this = $(this);
-		$this.closest('div.qa_bsd').hide("blind", { direction: "vertical" }, 800,
+		$this.closest('div.qa_bsd').hide("blind", { direction: "vertical" }, 1200,
 			function(){
 				$this = $(this);
 				$this.closest('div.qa').find('a.show_bsd').show();
