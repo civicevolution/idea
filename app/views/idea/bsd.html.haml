@@ -24,8 +24,8 @@
 			- # Get the prioritized favs in order of priority
 			- @priority.map!{ |p| @favorite_ideas.detect{|f| f.id == p }}
 			- # show the unprioritized favs then the prioritized favs
-			- @favorite_ideas = (unprioritised + @priority.map)
-			- @favorite_ideas.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			- @favorite_ideas = (unprioritised + @priority.map).find_all{|f| !f.nil?}
+			- @favorite_ideas.each_with_index{ |i, idx| i['cnt'] = idx + 1 } 
 		
 			
 
@@ -40,36 +40,36 @@
 				
 
 				%div.list.pop	
-					%h4 Most popular ideas	
+					-#%h4 Most popular ideas	
 					- @popular_ideas.slice(0,10).each do |bsi|
 						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'pop', :coms=>'t'}
 					- if @bs_ideas.size == 0
 						%p No brainstorming ideas have been suggested yet
 					- elsif @popular_ideas.size == 0 
-						%p There are no popular ideas yet
+						%p.empty There are no popular ideas yet
 				
 					
 				%div.list.new.hide
-					%h4 New ideas
+					-#%h4 New ideas
 					- @unrated_ideas.each do |bsi|
 						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'new', :coms=>'t'}
 					- if @unrated_ideas.size == 0
-						%p There are no new ideas right now
+						%p.empty There are no new ideas right now
 					
 				%div.list.fav.hide
-					%h4 My favorite ideas
+					-#%h4 My favorite ideas
 					%div.list_inner
 						- @favorite_ideas.slice(0,8).each do |bsi|
 							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
 						- if @favorite_ideas.size == 0
-							%p You do not have any favorites yet
+							%p.empty You do not have any favorites yet
 
 				%div.list.all.hide
-					%h4 All of the brainstorming ideas
+					-#%h4 All of the brainstorming ideas
 					- @bs_ideas.slice(0,25).sort{|a,b| a.id <=> b.id}.each do |bsi|
 						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'all', :coms=>'t'}
 					- if @bs_ideas.size == 0
-						%p No brainstorming ideas have been suggested yet
+						%p.empty No brainstorming ideas have been suggested yet
 						
 			= render :partial=>'add_bs_idea', :locals=> {:question=>@question}
 

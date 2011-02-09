@@ -95,6 +95,7 @@ $('a.show_bsd').live('click',
 				activate_comment_form( $('form.add_comment_form', this) );
 				activate_idea_form( $('form.add_bs_idea_form', this) );
 				$('div.list.fav div.list_inner', this).sortable( { update: idea_list_sort_update });
+				$this.find('p.idea_lists a').eq(0).click();
 				//$('a.edit_answer')
 			}
 		)

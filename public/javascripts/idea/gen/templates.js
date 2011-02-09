@@ -37,19 +37,12 @@ function create_templates(data){
 			//'span.cnt' : 'count',
 			//'input.star @name+' : 'data.answer.id'
 		},
-		bs_idea : {
+		bs_idea : 
+		{
 		  '@uid' : 'uid',
-		  //'div.bs_idea @id+' : 'data.bs_idea.id',
 			'@id+' : 'data.bs_idea.id',
-		  'div.bs_idea_inner' : function(arg){return simple_format(unescape(arg.context.data.bs_idea.text))},
-			//'a.com_on_tgt @href+' : '/#{data.bs_idea.id}',
-			//'a.edit_bs_idea @href+' : '/#{data.bs_idea.id}',
-			//'a.edit_bs_idea @class+' : function(arg){return (arg.context.edit_link != 'on') ? ' hide' : '' },
-			//'abbr.timeago @title' : 'data.bs_idea.created_at',
-			//'span.avg' : 'average',
-			//'span.cnt' : 'count',
-			//'input.star @name+' : 'data.bs_idea.id'
-		},		
+		  'div.bs_idea_inner div.text' : function(arg){return simple_format(unescape(arg.context.data.bs_idea.text))}
+		},
 		comment : {
 			'@id' : 'i#{item_id}',
 		  '@uid' : 'uid',

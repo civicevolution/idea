@@ -1,0 +1,73 @@
+%style
+	:sass
+		$nav_link_bg: rgb(238, 238, 238)
+		tr.stripe
+			background-color: $nav_link_bg
+		td.opt
+			width: 100px
+		td, th
+			vertical-align: top
+			text-align: left
+			padding: 10px 10px
+		input[type='submit']
+			margin: 30px 40px 30px 0
+			
+
+:javascript
+	function all_yes(){
+		$('input[value="t"]').attr('checked',true);
+
+	}
+
+	function all_no(){
+		$('input[value="f"]').attr('checked',true);
+
+	}
+
+- if @comments.size == 0
+	%h3 Thank you, all of your 2029 comments have been reviewed
+
+- else
+
+	%h3 Please review and release your 2029 comments
+
+	%p As part of the changing the 2029 website to encourage more people to participate the idea proposal pages will now be open to the public. 
+
+	%p 
+		We are giving you this opportunity to review the comments you made when the pages were more private. We won't display your comments on the new page until you have reviewed and released them.
+		%b We hope you will allow us to publish your comments.
+
+	%p
+		You can click the link "Mark all Yes" or "Mark all No" to make this review faster.
+	
+	%p
+		%b You must click the "Save my preferences" or "Publish all my comments" button to complete your review.
+	
+	%p Thanks from the 2029 team
+
+
+	- form_tag('/idea/release_comments') do
+		= hidden_field_tag :act, 'save'
+		%table
+			%tbody
+				%tr
+					%th Comment
+					%th When
+					%th
+						%a{ :href=>"#", :onclick=>"all_yes(); return false"} Mark all Yes
+						%a{ :href=>"#", :onclick=>"all_no(); return false"} Mark all No
+				- @comments.each do |c|
+					%tr{:class=> cycle('','stripe')}
+						%td
+							= c.text
+						%td
+							= time_ago_in_words(c.created_at) + ' ago'
+						%td.opt
+							%input{:type=>'radio', :name=>"com#{c.id}", :value=>'t'}
+							Yes
+							%br
+							%input{:type=>'radio', :name=>"com#{c.id}", :value=>'f'}
+							No
+		%p
+			%input{:type => 'submit', :name => 'act', :value => 'Save my preferences'}
+			%input{:type => 'submit', :name => 'act', :value => 'Publish all my comments'}

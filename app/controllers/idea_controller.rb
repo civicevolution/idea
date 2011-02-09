@@ -297,6 +297,7 @@ class IdeaController < ApplicationController
       logger.debug "try to save the brainstorm_idea"
       
       @saved = @bs_idea.save  # in place of saved for testing
+      BsIdeaFavorite.new( :member_id => @member.id, :bs_idea_id => @bs_idea.id, :favorite => true ).save
       
     rescue TeamAccessDeniedError
       logger.debug "TeamAccessDeniedError error"
@@ -650,7 +651,7 @@ class IdeaController < ApplicationController
     bs_idea = BsIdeaRating.new(:member_id => session[:member_id], :created_at => old_ts, :updated_at => newer_ts)
     bs_idea[:item_id] = 1
     strs.push '<hr/><h3>bs_idea</h3><hr/>'
-    strs.push render_to_string( :partial=> 'bs_idea', :object=>bs_idea, :locals=>{:mode=>'new', :coms=>'t'} )
+    strs.push render_to_string( :partial=> 'bs_idea', :object=>bs_idea, :locals=>{:mode=>'templ', :coms=>'t'} )
  
     answer = Answer.new
     strs.push '<hr/><h3>answer</h3><hr/>'
@@ -752,7 +753,32 @@ class IdeaController < ApplicationController
 
   end
 
+  def release_comments
 
+    case params[:act]
+      when /preferences/
+        logger.debug "release_comments Save preferences"
+        params.each_pair do |key,val| 
+          mat = /^com(\d+)$/.match(key)
+          if !mat.nil?
+            id = mat[1].to_i
+            pub = val == 't' ? true : false
+            #puts "set com #{id} to #{val}"
+            ActiveRecord::Base.connection.update_sql("UPDATE comments SET publish = #{pub} where id = #{id}");
+          end
+        end
+      when /Publish/
+        logger.debug "release_comments Publish all"
+        ActiveRecord::Base.connection.update_sql("UPDATE comments SET publish = true where member_id = #{@member.id}");
+      else
+    end
+    
+    @comments = Comment.all( :conditions=>"member_id = #{@member.id} AND team_id > 10017 AND publish is NULL", :order=>'created_at');
+    
+    render :action=>'release_comments', :layout=>'welcome'
+    
+  end
+  
   
   protected
 
