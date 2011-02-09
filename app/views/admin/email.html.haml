@@ -179,7 +179,7 @@
 	-# form_tag( { :action => :email}, {:class=>'std_form'} ) do
 		-#= hidden_field_tag :act, 'fetch_recipients', {:class=>'act'}
 	-# queries = [ ["Select recipients class", -1],["Choose team", 0],["Search members",9],["Registered - no team 2029" ,  1],["Team not launched 2029", 2],["Team - no comment yet 2029", 3],["Team and commented 2029", 4],["Registered - no team CGG" ,  5],["Team not launched CGG", 6],["Team - no comment yet CGG", 7],["Team and commented CGG", 8] ]
-	- queries = [ ["Select recipients class", -1],["Choose team", "team"],["Search members","search"], ['join a team','join a team'], ['invite members','invite members'], ['introduce yourself','introduce yourself'], ['add new comment','add new comment'], ['add ideas','add ideas'], ['encourage teammates','encourage teammates'], ['joined a team', 'joined a team']	]	
+	- queries = [ ["Select recipients class", -1],["Choose team", "team"],["Search members","search"], ['join a team','join a team'], ['invite members','invite members'], ['introduce yourself','introduce yourself'], ['add new comment','add new comment'], ['add ideas','add ideas'], ['encourage teammates','encourage teammates'], ['joined a team', 'joined a team'],['Commented','commented']	]	
 	
 	%p 
 		= select_tag( :recipient_source, options_for_select(queries, -1))	

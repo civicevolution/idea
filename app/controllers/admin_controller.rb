@@ -130,8 +130,8 @@ class AdminController < ApplicationController
       begin
         @team = Team.find_by_id(team_id.to_i)
         @mcode = '~~SECRET~ACCESS~CODE~~'
-        @init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
-        @host = Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
+        @init_id = params[:recipient_source] == 'join a team' ? team_id : (@team.nil? ? nil : @team.initiative_id)
+        @host = @init_id.nil? ? request.env['HTTP_HOST'] : Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
         @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
         # just for testing
         @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
@@ -186,13 +186,17 @@ class AdminController < ApplicationController
           @recipient = Member.find_by_id( mem_id.to_i )
           begin
             @team = Team.find_by_id(team_id.to_i)
-            @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
+            
             @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
             # adjust host first subdomain based on init_id of the team or the team_id if join a team
-            @init_id = params[:recipient_source] == 'join a team' ? team_id : @team.initiative_id
-            @host = Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
+            @init_id = params[:recipient_source] == 'join a team' ? team_id : (@team.nil? ? nil : @team.initiative_id)
+            @host = @init_id.nil? ? request.env['HTTP_HOST'] : Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
             @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
-          
+            if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
+              # for testing
+              @team = Team.first()
+              @init_id = params[:recipient_source] == 'join a team' ? team_id : (@team.nil? ? nil : @team.initiative_id)
+            end
             @init_data = [
               {},
               {:sponsor=>'Executive Management Team'},

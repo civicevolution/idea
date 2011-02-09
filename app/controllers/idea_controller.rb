@@ -50,6 +50,7 @@ class IdeaController < ApplicationController
       @comments.each{|c| c['par_id'] = pub_item.par_id.to_s if c['par_id'].to_i == pub_item.id} unless pub_item.nil?
       @new_coms = @coms = 0
       @mode = request.xhr? ? 'insert' : 'page'
+
       if @mode == 'insert'
         render :action => "bsd", :layout => false
       else
@@ -619,6 +620,7 @@ class IdeaController < ApplicationController
     @comment = Comment.new(:created_at => old_ts, :updated_at => newer_ts)
            
     @comment[:anonymous] = 'f'
+    @comment.publish = true
     @comment[:member_id] = session[:member_id]
     @comment[:pic_id] = 10011
     @comment[:text] = ''
@@ -767,12 +769,11 @@ class IdeaController < ApplicationController
             ActiveRecord::Base.connection.update_sql("UPDATE comments SET publish = #{pub} where id = #{id}");
           end
         end
-      when /Publish/
+      when /Release/
         logger.debug "release_comments Publish all"
         ActiveRecord::Base.connection.update_sql("UPDATE comments SET publish = true where member_id = #{@member.id}");
       else
     end
-    
     @comments = Comment.all( :conditions=>"member_id = #{@member.id} AND team_id > 10017 AND publish is NULL", :order=>'created_at');
     
     render :action=>'release_comments', :layout=>'welcome'

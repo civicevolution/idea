@@ -78,14 +78,14 @@ class Question < ActiveRecord::Base
       SUM(up) AS up,
       SUM(down) AS down,
       (SELECT CASE WHEN up = 1 THEN 1 ELSE -1 END FROM com_ratings WHERE member_id = ? AND comment_id = c.id) AS my_vote,
-      c.member_id, c.text, c.anonymous, c.created_at, c.updated_at, status, par_id, sib_id, "order", target_id, target_type, i.id AS item_id
+      c.member_id, c.text, c.anonymous, c.created_at, c.updated_at, status, publish, par_id, sib_id, "order", target_id, target_type, i.id AS item_id
       FROM comments c 
       LEFT JOIN items AS i ON i.o_id = c.id AND i.o_type = 3
       LEFT OUTER JOIN com_ratings cr ON c.id = cr.comment_id
       WHERE i.team_id = ?
       AND o_type = 3 
       AND ? = ANY (ancestors)
-      GROUP BY c.id, c.member_id, c.text, c.anonymous, c.created_at, c.updated_at, c.status, par_id, sib_id, "order", target_id, target_type, i.id|,
+      GROUP BY c.id, c.member_id, c.text, c.anonymous, c.created_at, c.updated_at, c.status, c.publish, par_id, sib_id, "order", target_id, target_type, i.id|,
       memberId, self.team_id, self.item_id ]
     )
     resources = Resource.find_all_by_comment_id( comments.collect {|c| c.id } )

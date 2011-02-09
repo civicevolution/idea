@@ -37,6 +37,9 @@
 			-#%span.author= name
 			
 			-#%div.comment_text= simple_format(auto_link(h( name + ' ' + comment.text), :all, :target => "_blank"))
+			- comment.text = "... Hidden by author" if !comment.publish
+			- comment.text = "... Waiting for author's release" if comment.publish.nil?
+			
 			%div.comment_text= show_author_comment(name, member.ape_code, comment.text)
 			- if !resource.nil?
 				%div{:class => "resource #{resource.link_url ? 'link' : 'upload'}"}
@@ -53,29 +56,31 @@
 			
 			
 			%div.comment_controls
-				%div.rating
-					- form_tag( {:controller => 'idea', :action => 'com_rate'}, {:class => 'mini_thumbs_up'}) do
-						- comment.my_vote = 0 if comment.my_vote.nil?
-						- if comment.my_vote.to_i == 0	# show the constructive prompt
-							Is this constructive?
-						%span{:class => 'votes_up'}
-							= (!comment.up.nil? && comment.up.to_i > 0) ? comment.up : 0
-						%input{:type => 'submit', :class => comment.my_vote.to_i < 0 ? 'vote_up other_selected' : 'vote_up ',	:name => 'thumbsup_rating', :value => '+1', :title => 'Vote up'}
-						%input{:type => 'submit', :class => comment.my_vote.to_i > 0 ? 'vote_down other_selected' : 'vote_down ', :name => 'thumbsup_rating', :value => '-1', :title => 'Vote down'}
-						%span{:class => 'votes_down'}
-							= (!comment.down.nil? && comment.down.to_i > 0) ? comment.down : 0
+				- if comment.publish
+					%div.rating
+						- form_tag( {:controller => 'idea', :action => 'com_rate'}, {:class => 'mini_thumbs_up'}) do
+							- comment.my_vote = 0 if comment.my_vote.nil?
+							- if comment.my_vote.to_i == 0	# show the constructive prompt
+								Is this constructive?
+							%span{:class => 'votes_up'}
+								= (!comment.up.nil? && comment.up.to_i > 0) ? comment.up : 0
+							%input{:type => 'submit', :class => comment.my_vote.to_i < 0 ? 'vote_up other_selected' : 'vote_up ',	:name => 'thumbsup_rating', :value => '+1', :title => 'Vote up'}
+							%input{:type => 'submit', :class => comment.my_vote.to_i > 0 ? 'vote_down other_selected' : 'vote_down ', :name => 'thumbsup_rating', :value => '-1', :title => 'Vote down'}
+							%span{:class => 'votes_down'}
+								= (!comment.down.nil? && comment.down.to_i > 0) ? comment.down : 0
 				
-						%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{comment.id}" }
+							%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{comment.id}" }
 				%abbr{:class => comment.my_vote.to_i == 0 ? 'timeago' : 'timeago move_up', :title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'
 				
 				
 				%div.comment_links
-					= link_to "Reply", {:action=>'reply', :id => comment['item_id']}, {:class=>'reply'}
+					- if comment.publish
+						= link_to "Reply", {:action=>'reply', :id => comment['item_id']}, {:class=>'reply'}
 				
-					- if comment.member_id == session[:member_id]
-						= link_to "Edit", {:action => "edit_comment", :id => comment.id}, {:class => 'edit_com'}
-					- else
-						= link_to "Report", {:action=>'report', :id=>comment['item_id']}, {:class=>'report'}
+						- if comment.member_id == session[:member_id]
+							= link_to "Edit", {:action => "edit_comment", :id => comment.id}, {:class => 'edit_com'}
+						- else
+							= link_to "Report", {:action=>'report', :id=>comment['item_id']}, {:class=>'report'}
 					
 
 

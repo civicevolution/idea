@@ -25,25 +25,37 @@
 	}
 
 - if @comments.size == 0
-	%h3 Thank you, all of your 2029 comments have been reviewed
+	%h3 
+		Thank you
+		= "#{@member.first_name},"
+		all of your 2029 comments have been reviewed
 
 - else
 
-	%h3 Please review and release your 2029 comments
+	%h3 
+		= "#{@member.first_name},"
+		please review and release your 2029 comments
 
-	%p As part of the changing the 2029 website to encourage more people to participate the idea proposal pages will now be open to the public. 
+	%p To make it easier for new visitors to see what the 2029 and beyond ideas are about and get involved, from now on all of the comments made to the CivicEvolution website will be public.
 
 	%p 
-		We are giving you this opportunity to review the comments you made when the pages were more private. We won't display your comments on the new page until you have reviewed and released them.
-		%b We hope you will allow us to publish your comments.
+		We are giving you this opportunity to review the comments you made when the pages were more private. We won't display your old comments on the new pages until you have reviewed and released them.
+		%b
+			We hope you will allow us to display your comments so your idea can continue to build on your contributions.
 
 	%p
 		You can click the link "Mark all Yes" or "Mark all No" to make this review faster.
 	
 	%p
-		%b You must click the "Save my preferences" or "Publish all my comments" button to complete your review.
+		%b You must click the "Save my preferences" or "Release all my comments" button to complete your review.
 	
 	%p Thanks from the 2029 team
+
+
+
+
+
+
 
 
 	- form_tag('/idea/release_comments') do
@@ -54,6 +66,9 @@
 					%th Comment
 					%th When
 					%th
+						%b Release
+						%br
+						%br
 						%a{ :href=>"#", :onclick=>"all_yes(); return false"} Mark all Yes
 						%a{ :href=>"#", :onclick=>"all_no(); return false"} Mark all No
 				- @comments.each do |c|
@@ -70,4 +85,4 @@
 							No
 		%p
 			%input{:type => 'submit', :name => 'act', :value => 'Save my preferences'}
-			%input{:type => 'submit', :name => 'act', :value => 'Publish all my comments'}
+			%input{:type => 'submit', :name => 'act', :value => 'Release all my comments'}
