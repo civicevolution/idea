@@ -483,6 +483,11 @@ div.answer_controls {
   position: relative;
   padding-top: 6px; }
 
+div.ans_comment_links {
+  height: 20px; }
+  div.ans_comment_links a {
+    margin-right: 16px; }
+
 div.rate {
   height: 20px; }
   div.rate p {

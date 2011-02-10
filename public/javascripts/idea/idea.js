@@ -2,6 +2,7 @@ var temp = {}
 $(function(){
 
 	$('div.comment_links').hide();
+	$('div.ans_comment_links a').hide();
 	
 	setTimeout(init_rating_stars, 1000);
 	//setTimeout(init_team_rating, 1000);
@@ -172,6 +173,16 @@ $('div.comment').live('mouseover mouseout', function(event) {
   } else {
     // do something on mouseout
 		$(this).find('div.comment_links').hide();
+  }
+});
+
+$('div.answer_section').live('mouseover mouseout', function(event) {
+  if (event.type == 'mouseover') {
+    // do something on mouseover
+		$(this).find('div.ans_comment_links a').show();
+  } else {
+    // do something on mouseout
+		$(this).find('div.ans_comment_links a').hide();
   }
 });
 
