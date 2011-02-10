@@ -34,6 +34,7 @@ class Comment < ActiveRecord::Base
   end
   
   def check_team_access
+    self.publish = true
     logger.debug "validate check_team_access, @par_id: #{@par_id}"
     par_item = Item.find_by_id(@par_id);
     self.team_id = par_item.team_id
