@@ -756,7 +756,6 @@ class IdeaController < ApplicationController
   end
 
   def release_comments
-
     case params[:act]
       when /preferences/
         logger.debug "release_comments Save preferences"
@@ -769,7 +768,7 @@ class IdeaController < ApplicationController
             ActiveRecord::Base.connection.update_sql("UPDATE comments SET publish = #{pub} where id = #{id}");
           end
         end
-      when /Release/
+      when /public/
         logger.debug "release_comments Publish all"
         ActiveRecord::Base.connection.update_sql("UPDATE comments SET publish = true where member_id = #{@member.id}");
       else
