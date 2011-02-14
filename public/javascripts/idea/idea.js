@@ -79,15 +79,19 @@ $('div.rate').live('mouseover mouseout', function(event) {
   }
 });
 
-$('a.show_bsd').live('click',
+//$('a.show_bsd').live('click',
+$('div.q_cta').live('click', 
 	function(){
 		$this = $(this);
-		$this.hide();
-		$this.next('div.show_bsd').html('Loading...')
-		$this.next('div.show_bsd').load('/idea/bsd',{id: $this.attr('href').match(/\d+/)[0]}, 
+		$this.removeClass('mouseover');
+		//$this.hide();
+		$this.next('div.show_bsd').html('<p class="loading">Loading...</p>')
+		//$this.next('div.show_bsd').load('/idea/bsd',{id: $this.attr('href').match(/\d+/)[0]}, 
+		$this.next('div.show_bsd').load('/idea/bsd',{id: $this.attr('id').match(/\d+/)[0]}, 
 			function(){
 				var $this = $(this);
 				$this.hide();
+				
 				$this.show("blind", { direction: "vertical" }, 2000);
 				
 				//console.log("activate_comment_form(form);")
@@ -97,22 +101,40 @@ $('a.show_bsd').live('click',
 				activate_idea_form( $('form.add_bs_idea_form', this) );
 				$('div.list.fav div.list_inner', this).sortable( { update: idea_list_sort_update });
 				$this.find('p.idea_lists a').eq(0).click();
+				var par = $this.closest('div.qa');
+				par.find('div.answer_section').append( par.find('div.bsd_bar.bottom'));
+				
 				//$('a.edit_answer')
 			}
 		)
+		$this.hide("blind", { direction: "vertical" }, 600);
 		return false;
 	}
 );
 
-$('a.close_bsd').live('click',
+$('div.q_cta').live('mouseover mouseout', function(event) {
+  if (event.type == 'mouseover') {
+    //' do something on mouseover
+		$(this).addClass('mouseover');
+  } else {
+    // do something on mouseout
+		$(this).removeClass('mouseover');
+  }
+});
+
+
+
+
+$('a.bsd_close').live('click',
 	function(){
-		console.log("close_bsd");
+		console.log("bsd_close");
 		$this = $(this);
-		$this.closest('div.qa_bsd').hide("blind", { direction: "vertical" }, 1200,
+		var bsd = $this.closest('div.qa').find('div.qa_bsd');
+		$this.closest('div.qa').find('div.bsd_bar.bottom').remove();
+		bsd.hide("blind", { direction: "vertical" }, 1200,
 			function(){
 				$this = $(this);
-				$this.closest('div.qa').find('a.show_bsd').show();
-				$this.remove();
+ 				$this.closest('div.qa').find('div.q_cta').show("blind", { direction: "vertical" }, 600);
 			}
 		)
 		return false;

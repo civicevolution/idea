@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110209080114) do
+ActiveRecord::Schema.define(:version => 20110210220621) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -222,6 +222,12 @@ ActiveRecord::Schema.define(:version => 20110209080114) do
     t.string   "sender_name"
     t.string   "sender_email"
     t.string   "report_type"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "default_answers", :force => true do |t|
     t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -487,16 +493,17 @@ ActiveRecord::Schema.define(:version => 20110209080114) do
   end
 
   create_table "questions", :force => true do |t|
-    t.integer  "member_id",                              :null => false
-    t.string   "status",          :default => "ok",      :null => false
-    t.text     "text",                                   :null => false
-    t.integer  "num_answers",     :default => 1000,      :null => false
+    t.integer  "member_id",                                :null => false
+    t.string   "status",            :default => "ok",      :null => false
+    t.text     "text",                                     :null => false
+    t.integer  "num_answers",       :default => 1000,      :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "anonymous",       :default => false,     :null => false
-    t.integer  "ver",             :default => 0,         :null => false
-    t.string   "idea_criteria",   :default => "5..1000"
-    t.string   "answer_criteria", :default => "5..1500"
+    t.boolean  "anonymous",         :default => false,     :null => false
+    t.integer  "ver",               :default => 0,         :null => false
+    t.string   "idea_criteria",     :default => "5..1000"
+    t.string   "answer_criteria",   :default => "5..1500"
+    t.integer  "default_answer_id"
   end
 
   create_table "ratings", :force => true do |t|

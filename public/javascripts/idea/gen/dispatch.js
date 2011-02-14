@@ -48,7 +48,8 @@ function dispatchEndorsement(item,submit_response){
 		console.log("insert the new endorsement")
 		item.show_delete = submit_response ? 't' : 'f';
 		var html = jsonFn.endorsement(item);
-		var table = $('div#endorsements table tbody');
+		var table = $('div#endorsements table');
+		table.prev('p.desc').html('Here are the people that have endorsed this proposal.');
 		var form = $('div#endorsements form');
 		form.find('a.clear').click();
 		form.hide();

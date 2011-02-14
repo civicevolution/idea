@@ -4,7 +4,15 @@ $new_item_color: #F2583E
 $faint_color: rgb(147, 160, 145)
 $nav_link_bg: rgb(238, 238, 238)
 
-$postit: #fff89c
+$postit: #fcf88a //#fcf17d //#fff89c
+$bsd_bar: #FDC762
+$bsd_bar_light: #fff4e0
+$navy_blue: #23238E
+
+
+body, p, ol, ul, td
+	font-family: verdana, arial, helvetica, sans-serif
+	font-size:   13px 
 
 
 img
@@ -61,6 +69,14 @@ div.member_info
 	//form.upload_member_photo
 	//	display: none
 
+div.join_com
+	float: right
+	margin-top: 55px
+	a
+		font-size: 14px
+		font-weight: bold
+
+
 
 hr.top
 	clear: both
@@ -87,11 +103,23 @@ hr.bottom, .clear
 tr.stripe
 	background-color: $nav_link_bg
 
+p.loading
+	font-weight: bold
+	font-size: 1.2em
 
 div.idea_page
 	float: left
 	width: 798px
 	//border-right: 1px solid black
+	
+h2.home_title
+	margin: 20px 41px 0px 41px
+div.summary
+	margin: -16px 41px 20px 41px
+	font-size: 1.12em
+
+div.answer
+	font-size: 1.12em
 	
 div.side_bar
 	width: 180px
@@ -117,8 +145,8 @@ img.i36
 
 div#endorsements
 	margin: 40px 0
-	h3
-		margin: 0
+	h2
+		margin: 0 0 4px 0
 	p
 		margin: 0 0 12px 0
 	table
@@ -135,9 +163,9 @@ div#endorsements
 			
 			
 div#submit
-	margin-bottom: 40px
-	h3
-		margin: 0
+	margin: 60px 0 40px 0
+	h2
+		margin: 0 0 4px 0
 	p.desc
 		margin-top: 0			
 	
@@ -169,7 +197,10 @@ div.ans
 	padding: 40px 0
 
 div.discussion
-	width: 320px
+	width: 420px
+	margin-left: -20px
+	form.add_comment_form
+		margin-left: 20px
 
 div.brainstorming
 	div.bs_idea
@@ -184,7 +215,7 @@ div.brainstorming
 	
 div.gen_discussion
 	//border: 1px solid green
-	width: 366px
+	width: 450px
 	float: left
 	margin-left: 40px
 
@@ -192,12 +223,16 @@ div.gen_discussion
 div.bs_idea
 	font-size: 120%
 	background-color: $postit
-
 	div.bs_idea_inner
 		margin: 16px
 		padding: 16px 0
 		input.fav_order
 			width: 30px
+
+div.bs_idea_add
+	font-size: 120%
+	background-color: $postit
+	margin-top: 40px
 	
 p.idea_controls
 	margin: 0px 0 30px 0
@@ -212,11 +247,12 @@ h3.disc_title, h3.question
 		font-size: 80%
 
 p.idea_lists
-	margin: -18px 0 20px 0
+	margin: -14px 0 20px 0
 	a.active_list
 		text-decoration: none
 		font-weight: bold
 		color: black
+		font-size: .9em
 
 div.close_1com
 	position: absolute
@@ -227,6 +263,9 @@ div.close_1com
 	background: url(/images/idea_sprite1.gif) no-repeat 0 -16px
 	cursor: pointer
 
+div.controls
+	font-size: .8em
+	
 div.full_comment_display div.comment
 	margin-top: -50px
 	padding-left: 46px
@@ -512,7 +551,15 @@ div.answer_section
 			font-weight: bold
 			color: $new_item_color
 
-
+form.add_bs_idea_form
+	label
+		color: $navy_blue
+		margin-bottom: 20px
+	div.control_line
+		margin-bottom: 20px
+	div.add_idea		
+		margin: 16px
+		padding: 16px 0
 
 span.star_hover
 	white-space: wrap
@@ -544,6 +591,26 @@ form.item_rater
 	width: 300px
 
 
+div.q_cta
+	height: 40px
+	width: 100%
+	background: url(/images/cta_speakup.gif) no-repeat left top
+	cursor: pointer
+	div
+		height: 38px
+		margin-left: 100px
+		margin-right: 40px
+		border: 2px dashed red
+		border-left: none
+		a
+			display: block
+			margin-left: 40px
+			font-size: 20px
+			margin-top: 6px
+div.q_cta.mouseover
+	background: url(/images/cta_speakup_mo2.gif) no-repeat left top
+
+
 div.answer_controls
 	position: relative
 	padding-top: 6px
@@ -567,9 +634,48 @@ div.answer
 	clear: both
 
 div.answer_section
+	clear: both
 	div.rating
 		form
 			display: none
+			
+div.bsd_bar
+	background-color: $bsd_bar
+	height: 40px
+	width: 100%
+	clear: both
+	color: $navy_blue
+	h3
+		float: left 
+		margin: 10px 0 0 10px
+	a
+		display: block
+		float: left
+		margin: 10px 0 0 20px
+		font-weight: bold
+	a.bsd_close
+		float: right
+		margin: 10px 10px 0 0
+
+div.bsd_bar.bottom
+	margin-top: 20px
+	
+div.bsd_instr
+	background-color: $bsd_bar_light
+	padding: 10px 10px 10px 10px
+	a.show_me_how
+		font-style: italic
+		margin-left: 8px
+	a.next_action
+		margin-left: 16px
+	p
+		margin-top: 0
+	
+p.intro
+	margin-bottom: -6px
+p.intro.cta
+	margin-bottom: 50px
+	
 		
 span.stars
 	display: block
@@ -627,12 +733,6 @@ div#submit_proposal_acknowledge
 //	
 //
 //	
-//div.join_com
-//	float: right
-//	margin-top: 55px
-//	a
-//		font-size: 14px
-//		font-weight: bold
 //		
 //		
 //form.upload_member_photo

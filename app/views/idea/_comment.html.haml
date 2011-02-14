@@ -77,7 +77,7 @@
 					- if comment.publish
 						= link_to "Reply", {:action=>'reply', :id => comment['item_id']}, {:class=>'reply'}
 				
-						- if comment.member_id == session[:member_id]
+						- if comment.member_id == @member.id
 							= link_to "Edit", {:action => "edit_comment", :id => comment.id}, {:class => 'edit_com'}
 						- else
 							= link_to "Report", {:action=>'report', :id=>comment['item_id']}, {:class=>'report'}

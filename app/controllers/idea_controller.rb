@@ -4,11 +4,28 @@ class IdeaController < ApplicationController
   def index
     @team_id = params[:id].to_i
     @team = Team.find_by_id(@team_id, :limit=>1)
-    
+
     if @team.nil?
       render :template => 'team/proposal_not_found', :layout=>'welcome'
       return
     end
+    
+    
+    # verify acccess to this team
+    restrictions_test,message = InitiativeRestriction.allow_action(@team.initiative_id, 'view_idea_page', @member)
+    if !restrictions_test
+      if @member.id == 0
+        flash[:pre_authorize_uri] = request.request_uri
+        flash[:notice] = "Please sign in"
+        render :template => 'welcome/must_sign_in', :layout => 'welcome'
+        return
+      else
+        render :template => 'idea/private_page'
+        return
+      end
+    end
+    
+    
 
     #@num_mems = TeamRegistration.count(:conditions => ['team_id = ?', @team_id])
     #@num_comments = Comment.count(:conditions => ['team_id = ?', @team_id])
@@ -19,7 +36,12 @@ class IdeaController < ApplicationController
     # get the page, question and answer items
     @items = @team.items.find(:all, :conditions => 'o_type IN (1,2,9)')
     @questions = @team.questions
+    def_ans_ids = @questions.map{|q| q.default_answer_id}.reject{|i| i.nil?}
+    @default_answers = DefaultAnswer.all(def_ans_ids)
     @answers_with_ratings = @team.answers_with_ratings( @member.id )
+    
+    # remove answer_items for testing
+    @items = @items.find_all{|i| i.o_type != 2 }
     
     @mems = Member.all( :conditions=>['id IN (SELECT distinct member_id FROM comments WHERE team_id = ?)',@team.id]);
   	@endorsements = Endorsement.all(:conditions=>['team_id=?',@team.id])
@@ -630,12 +652,14 @@ class IdeaController < ApplicationController
     @comment[:par_id] = 0
     @comment[:sib_id] = 123
     @comment[:item_id] = 123
-    @comment.member_id = 1
+    @comment.member_id = 0
     @resources = [ Resource.new ] 
     @authors = [Member.new :first_name=>'J', :last_name=>'Public' ]
-    @authors[0].id = 1
+    @authors[0].id = 0
     @comments = []
     @new_coms = @coms = 0
+    @member = Member.new
+    @member.id = 0
     
     #item = Item.new(:target_id => 1, :target_type => 11)
     strs.push '<div class="item Comment">'
@@ -810,5 +834,31 @@ class IdeaController < ApplicationController
     #logger.debug "target comment is #{@target.text}"
     @target
   end  
+  
+  def authorize
+    if @member.nil?
+      @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
+      @member.id = 0
+      @member.email = ''
+    end
+    return
+    logger.debug "IdeaController authorize"
+    # and I expect @member to be set
+    # create an anonympus member object
+    unless Member.find_by_id(session[:member_id])
+      if request.xhr? || params[:post_mode] == 'ajax'
+        # send back a simple notice, do not redirect
+        m = Member.new
+        m.errors.add(:base, 'You must sign in to continue')
+        render :text => [m.errors].to_json, :status => 401
+      else
+        flash[:pre_authorize_uri] = request.request_uri
+        flash[:notice] = "Please sign in"
+        render :template => 'welcome/must_sign_in', :layout => 'welcome'
+        #redirect_to :controller => 'welcome' , :action => 'not_signed_in'
+      end
+    end
+  end
+  
 
 end

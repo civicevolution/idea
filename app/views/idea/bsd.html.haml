@@ -10,6 +10,30 @@
 		
 
 	%div.bsd
+		%div.bsd_bar
+			%h3 Brainstorm and discuss the answer
+			%a{:href=>"#", :class=>'bsd_close'} Close
+		%div.bsd_instr
+			%p
+				Your community can find a shared answer to this question by following these steps:
+				= link_to "Tell me more", {:id=>'brainstorm'}, {:class=>'show_me_how'}
+			%ol
+				%li 
+					Brainstorm new ideas and discuss them.
+					= link_to "Show me how", {:id=>'brainstorm'}, {:class=>'show_me_how'}
+				%li 
+					Collect your favorite ideas and prioritise them.
+					= link_to "Show me how", {:id=>'favorites'}, {:class=>'show_me_how'}
+				%li 
+					Explore the ideas that people agree on and use them to answer this question.
+					= link_to "Show me how", {:id=>'explore'}, {:class=>'show_me_how'}
+		
+			%p.rec_action
+				%b Recommended action: 
+				Review the new brainstorming ideas and add your own
+				= link_to "Show me how", {:id=>'rec_action'}, {:class=>'show_me_how'}
+				= link_to "Next action", {:id=>'rec_action'}, {:class=>'next_action'}
+		
 		%div.brainstorming 
 			%h3 Brainstorming ideas
 			
@@ -44,7 +68,7 @@
 					- @popular_ideas.slice(0,10).each do |bsi|
 						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'pop', :coms=>'t'}
 					- if @bs_ideas.size == 0
-						%p No brainstorming ideas have been suggested yet
+						%p No ideas suggested yet, be the first to suggest an idea about this question
 					- elsif @popular_ideas.size == 0 
 						%p.empty There are no popular ideas yet
 				
@@ -62,14 +86,14 @@
 						- @favorite_ideas.slice(0,8).each do |bsi|
 							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
 						- if @favorite_ideas.size == 0
-							%p.empty You do not have any favorites yet
+							%p.empty You do not have any favorites yet, please review the new ideas or suggest an idea about this question
 
 				%div.list.all.hide
 					-#%h4 All of the brainstorming ideas
 					- @bs_ideas.slice(0,25).sort{|a,b| a.id <=> b.id}.each do |bsi|
 						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'all', :coms=>'t'}
 					- if @bs_ideas.size == 0
-						%p.empty No brainstorming ideas have been suggested yet
+						%p.empty No ideas suggested yet, be the first to suggest an idea about this question
 						
 			= render :partial=>'add_bs_idea', :locals=> {:question=>@question}
 
@@ -88,7 +112,7 @@
 					
 				= render :partial=>'add_comment_combined', :locals=> {:id=>@question.item_id, :label=>'Please add your comment'}
 	
-
+		%div.clear
 	- if @mode == 'page'
 		%div.ans 
 			%h3 Answer
@@ -102,11 +126,12 @@
 
 			= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal'}
 
-	-if @mode == 'insert'
-		%p.clear
-			= link_to "Close brainstorming and discussion", {}, {:class=>'close_bsd'}
-
-		%h3.clear
-			Our current answer
-			- ans_id = !@answers.nil? && @answers.size > 0 ? @answers[0].id : @question.id
-			= link_to "Edit answer", {:action => "edit_answer", :id => ans_id}, {:class => 'edit_answer'}	
+			
+	- ans_id = !@answers.nil? && @answers.size > 0 ? @answers[0].id : @question.id		
+	%div.bsd_bar.bottom
+		-#%a{:href=>"#", :class=>'edit'} Edit answer
+		= link_to "Edit answer", {:action => "edit_answer", :id => ans_id}, {:class => 'edit_answer'}	
+		%a{:href=>"#", :class=>'history'} View answer history
+		%a{:href=>"#", :class=>'checklist'} Answer checklist
+		%a{:href=>"#", :class=>'bsd_close'} Close
+	

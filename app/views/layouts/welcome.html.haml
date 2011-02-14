@@ -17,7 +17,7 @@
 				$('div#loading_please_wait').show()
 			});
 		- if params[:monitor] != 'true'
-			-logger.debug "add google analytics code"
+			-#logger.debug "add google analytics code"
 			:javascript
 				var _gaq = _gaq || [];
 				_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
@@ -35,7 +35,7 @@
 				%a{ :href=> '/'}
 					= image_tag("2029beyondtaghor.jpg")
 					
-			- if !@member.nil?		
+			- if !@member.nil? && @member.id != 0	
 				= render :partial => 'welcome/member_info'		
 			- else
 				%div.join_com

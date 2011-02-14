@@ -4,13 +4,15 @@
 	= hidden_field_tag :mode, 'add'
 	= hidden_field_tag :idea_id
 
-	%div.add_idea
-		= form.label :text, "Add a new brainstorming idea"
-		= form.text_area :text, :class=>'comment', :size=>"1x2", :alias=>'Idea'
-		%div.control_line
-			%div.controls
-				%span.char_ctr 
-					= question.idea_criteria.match(/..(\d+)/)[1]
-					characters left
-				%button Save
-				= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+	%div.bs_idea_add
+
+		%div.add_idea
+			= form.label :text, "Add a new brainstorming idea"
+			= form.text_area :text, :class=>'comment', :size=>"1x2", :alias=>'Idea'
+			%div.control_line
+				%div.controls
+					%span.char_ctr 
+						= question.idea_criteria.match(/..(\d+)/)[1]
+						characters left
+					%button Save
+					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}

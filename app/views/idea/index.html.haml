@@ -1,25 +1,65 @@
 
 
 %div.idea_page
+	- org = @mems.detect{|m| m.id == @team.org_id}
+	%h3
+		%img{:src=>org.photo.url('36'),:class=>'i36'}
+		#{org.first_name} #{org.last_name} suggested this idea for change in the community:
 	%h2.home_title #{@team.title}
 
 	%div.summary
 		= simple_format h @team.solution_statement
-	
+		
+		
+	%p.intro
+		#{org.first_name}'s idea is just a start&mdash;a real solution needs a plan for action and community support.
+		A plan for action answers 4 questions about this idea for change: What, Why, How, and What are the next steps.
+		The challenge is to find answers to these questions that most community members can accept.
+		
+	%p.intro
+		Finding these shared answers will take some work, so we've tried to make this fun and interesting for you.
+		You'll need to bring your best ideas, along with your openness, honesty and respect for your neighbors.
+		
+	%p.intro.cta
+		- if @member.id != 0
+			%b
+				#{@member.first_name},
+				will you help?
+			Click the 
+			%b Speak up 
+			button below each question to get started.	
+		- else
+			%b
+				Will you help?
+			Click the 
+			%b Speak up 
+			button below each question to get started.	
+			
 	-	q_cnt = 0
 	- page_items = @items.find_all {|pi| pi.o_type == 9 } .sort {|a,b| a.order <=> b.order }
 	- page_items.each do |pi|
 		- question_items = @items.find_all {|qi| qi.o_type == 1 && qi.par_id == pi.id } .sort {|a,b| a.order <=> b.order }
 		- question_items.each do |qi|
 			- question = @questions.detect {|q| q.id == qi.o_id}
+			- def_ans = @default_answers.detect{ |da| da.id == question.default_answer_id}
 
 			%div.qa.item{:id=>"q#{question.id}", :item_id=>question.item_id}
 				%a{:name=>"q#{question.id}"}
-				%h3.question= "Q#{(q_cnt+=1)}: #{question.text}"
+				%h3.question 
+					= "Q#{(q_cnt+=1)}: #{question.text}"
+					-#
+						- if !def_ans.nil?
+							= link_to "details", {:action=>'bsd', :id=>question.id}, {:class=>'question_details'}
+							%d.question_details.hide= def_ans.text 
+				-#
+					
+					
 			
-				= link_to "Help us answer this question", {:action=>'bsd', :id=>question.id}, {:class=>'show_bsd'}
+				%div.q_cta{:id=>question.id}
+					%div
+						= link_to "Please read and respond to 5 new comments", {:action=>'bsd', :id=>question.id}, {:class=>'show_bsd'}
+						
 				%div.show_bsd
-			
 			
 				%div.answer_section{:criteria=>question.answer_criteria}
 					- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }
@@ -27,7 +67,7 @@
 						- answer_items.each do |ai|
 							- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
 							%div.rate
-								%p Answer
+								%p Current answer
 							
 								%div.rating
 									%div.results
@@ -58,7 +98,6 @@
 										-#%span.rating_results	
 											my rating
 							
-							
 							%div.answer{:id=>"ans_#{answer.id}"}= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
 							%div.ans_comment_links
 								= link_to "History", {:action=>'report', :id=>answer['id']}, {:class=>'report'}
@@ -66,8 +105,15 @@
 							
 			
 					- else
-						%p No answers have been suggested for this question
-
+						- if !def_ans.nil?
+							%div.rate
+								%p Suggested answer details
+							
+							%div.answer.default
+								= def_ans.text
+						- else
+							%p No answer has been suggested for this question
+	
 	= render :partial => 'endorsements'
 	
 	= render :partial => 'submit'

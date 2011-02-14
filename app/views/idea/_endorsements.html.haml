@@ -1,13 +1,17 @@
 %div#endorsements	
-	%h3 Endorsements
-	%p.desc Here are the people that have endorsed this proposal.
+	%h2 Endorsements
+	
+	- if @endorsements.size == 0
+		%p.desc No one has endorsed this proposal yet.
+	- else
+		%p.desc Here are the people that have endorsed this proposal.
+
 
 	%table
 		%tr
 			%th{:colspan=>'2'} Name
 			%th Comment
 			%th When
-		
 		- endorsed = false	
 		- @endorsements.each do |e|
 			- m = @endorsers.detect{|m| m.id == e.member_id}
@@ -26,7 +30,7 @@
 						= link_to 'Update', {:action => 'index'}, {:class=>'update_endorsement'}
 						%br
 						= link_to 'Delete', {:action => 'index'}, {:class=>'delete_endorsement'}
-						
+			
 				
 	- form_for( :endorse, :url => { :action => :create_answer}, :html => {:class=>'std_form' + ( endorsed ? ' hide' : '' )} ) do |form| 
 		%p Show your support for this proposal by adding a short statement in this form and clicking the button			
@@ -40,5 +44,6 @@
 					%span.char_ctr 500 characters left
 					%button I endorse this proposal
 					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
-		%p.clear_both
+		%p.clear
+%p.clear
 
