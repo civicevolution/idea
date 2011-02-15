@@ -232,6 +232,8 @@ $('div.discussion').delegate( 'div.close_1com, div.one_line', 'click',
 	}
 );
 
+$('a.show_me_how, a.tell_me_more, a.next_action, a.checklist, a.history').live('click', link_disabled);
+
 
 Function.prototype.bind = function(bind, args){
 	return this.create({bind: bind, arguments: args});

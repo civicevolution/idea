@@ -25,8 +25,6 @@ class IdeaController < ApplicationController
       end
     end
     
-    
-
     #@num_mems = TeamRegistration.count(:conditions => ['team_id = ?', @team_id])
     #@num_comments = Comment.count(:conditions => ['team_id = ?', @team_id])
     #@num_ideas = BsIdea.count(:conditions => ['team_id = ?', @team_id])
@@ -41,7 +39,7 @@ class IdeaController < ApplicationController
     @answers_with_ratings = @team.answers_with_ratings( @member.id )
     
     # remove answer_items for testing
-    @items = @items.find_all{|i| i.o_type != 2 }
+    #@items = @items.find_all{|i| i.o_type != 2 }
     
     @mems = Member.all( :conditions=>['id IN (SELECT distinct member_id FROM comments WHERE team_id = ?)',@team.id]);
   	@endorsements = Endorsement.all(:conditions=>['team_id=?',@team.id])
@@ -56,8 +54,7 @@ class IdeaController < ApplicationController
     @question = Question.find(params[:id])
     # after_find gets the question's item_id and the team_id
     
-    team_init_id = ActiveRecord::Base.connection.select_value( "SELECT initiative_id FROM teams WHERE id = #{@question.team_id}")
-    restrictions_test,message = InitiativeRestriction.allow_action(team_init_id, 'view_question_details', @member)
+    restrictions_test,message = InitiativeRestriction.allow_action({:team_id=>@question.team_id}, 'view_question_details', @member)
     
     if !restrictions_test
       #logger.warn "failed restrictons test with message: #{message}"
@@ -91,8 +88,7 @@ class IdeaController < ApplicationController
     @question = Question.find(@bs_idea.question_id)
     # after_find gets the question's item_id and the team_id
     
-    team_init_id = ActiveRecord::Base.connection.select_value( "SELECT initiative_id FROM teams WHERE id = #{@question.team_id}")
-    restrictions_test,message = InitiativeRestriction.allow_action(team_init_id, 'view_question_details', @member)
+    restrictions_test,message = InitiativeRestriction.allow_action({:team_id=>@question.team_id}, 'view_question_details', @member)
     
     if !restrictions_test
       #logger.warn "failed restrictons test with message: #{message}"

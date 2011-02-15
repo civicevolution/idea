@@ -1,6 +1,25 @@
 class InitiativeRestriction < ActiveRecord::Base
   
   def self.allow_action(initiative_id, action, member)
+    # the first argument is the initiative_id if it is an integer
+    # otherwise it is a hash such as :team_id=>, :question_id=>, or :answer_id=>
+    if initiative_id.class.to_s == 'Hash'
+      case initiative_id.keys[0].to_s
+        when 'team_id'
+          initiative_id = ActiveRecord::Base.connection.select_value( "SELECT initiative_id FROM teams WHERE id = #{initiative_id.values[0].to_i}" )
+        when 'question_id'
+          initiative_id = ActiveRecord::Base.connection.select_value( "SELECT initiative_id FROM teams WHERE id = (SElECT team_id FROM items where o_id = #{initiative_id.values[0].to_i} and o_type = 1)" )
+        when 'answer_id'
+          initiative_id = ActiveRecord::Base.connection.select_value( "SELECT initiative_id FROM teams WHERE id = (SElECT team_id FROM answers where id = #{initiative_id.values[0].to_i})" )
+        when 'comment_id'
+          initiative_id = ActiveRecord::Base.connection.select_value( "SELECT initiative_id FROM teams WHERE id = (SElECT team_id FROM comments where id = #{initiative_id.values[0].to_i})" )
+        when 'bs_idea_id'
+          initiative_id = ActiveRecord::Base.connection.select_value( "SELECT initiative_id FROM teams WHERE id = (SElECT team_id FROM bs_ideas where id = #{initiative_id.values[0].to_i})" )
+        when 'item_id'
+          initiative_id = ActiveRecord::Base.connection.select_value( "SELECT initiative_id FROM teams WHERE id = (SElECT team_id FROM items where id = #{initiative_id.values[0].to_i})" )
+      end
+    end
+    
     messages = []
     restrictions = InitiativeRestriction.find_all_by_initiative_id_and_action(initiative_id, action)
     if restrictions.size == 0
