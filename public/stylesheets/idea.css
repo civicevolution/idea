@@ -84,9 +84,13 @@ div.idea_page {
 
 h2.home_title {
   margin: 20px 41px 0px 41px; }
+  h2.home_title a {
+    font-size: 0.6em;
+    margin-left: 0px;
+    font-weight: normal; }
 
 div.summary {
-  margin: -16px 41px 20px 41px;
+  margin: -10px 41px 20px 41px;
   font-size: 1.12em; }
 
 div.answer {
@@ -138,6 +142,13 @@ div#submit {
     margin: 0 0 4px 0; }
   div#submit p.desc {
     margin-top: 0; }
+
+.form_error_border {
+  border: 1px solid #f2583e; }
+
+.form_error_text, .error {
+  color: #f2583e;
+  font-weight: bold; }
 
 div.bs_idea {
   position: relative; }
@@ -224,7 +235,7 @@ div.close_1com {
   background: url(/images/idea_sprite1.gif) no-repeat 0 -16px;
   cursor: pointer; }
 
-div.controls {
+div.add_idea div.controls {
   font-size: 0.8em; }
 
 div.full_comment_display div.comment {

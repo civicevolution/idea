@@ -5,12 +5,17 @@
 	%h3
 		%img{:src=>org.photo.url('36'),:class=>'i36'}
 		#{org.first_name} #{org.last_name} suggested this idea for change in the community:
-	%h2.home_title #{@team.title}
+	%h2.home_title 
+		%span #{@team.title}
+		- if @member.id == @team.org_id
+			= link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{form_tgt_selector: '.closest(\\'h2\\')', selector: '.parent().find(\\'span\\')', chr_cnt: 255, label: 'Please edit the title', url: '/idea/inline_edit?model=team&field=title&id=#{@team_id}' }]"}
 
 	%div.summary
-		= simple_format h @team.solution_statement
-		
-		
+		- if @member.id == @team.org_id
+			= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{selector: '.closest(\\\\'div.summary\\\\')', chr_cnt: 1000, label: 'Please edit the summary', url: '/team/inline_edit?model=team&field=solution_statement&id=#{@team_id}' }]"} ) + '</p>')
+		- else
+			= simple_format h @team.solution_statement
+
 	%p.intro
 		#{org.first_name}'s idea is just a start&mdash;a real solution needs a plan for action and community support.
 		A plan for action answers 4 questions about this idea for change: What, Why, How, and What are the next steps.
@@ -41,78 +46,78 @@
 		- question_items = @items.find_all {|qi| qi.o_type == 1 && qi.par_id == pi.id } .sort {|a,b| a.order <=> b.order }
 		- question_items.each do |qi|
 			- question = @questions.detect {|q| q.id == qi.o_id}
-			- def_ans = @default_answers.detect{ |da| da.id == question.default_answer_id}
+			- if !question.nil?
+				- def_ans = @default_answers.detect{ |da| da.id == question.default_answer_id}
 
-			%div.qa.item{:id=>"q#{question.id}", :item_id=>question.item_id}
-				%a{:name=>"q#{question.id}"}
-				%h3.question 
-					= "Q#{(q_cnt+=1)}: #{question.text}"
+				%div.qa.item{:id=>"q#{question.id}", :item_id=>question.item_id}
+					%a{:name=>"q#{question.id}"}
+					%h3.question 
+						= "Q#{(q_cnt+=1)}: #{question.text}"
+						-#
+							- if !def_ans.nil?
+								= link_to "details", {:action=>'bsd', :id=>question.id}, {:class=>'question_details'}
+								%d.question_details.hide= def_ans.text 
 					-#
-						- if !def_ans.nil?
-							= link_to "details", {:action=>'bsd', :id=>question.id}, {:class=>'question_details'}
-							%d.question_details.hide= def_ans.text 
-				-#
 					
 					
 			
-				%div.q_cta{:id=>question.id}
-					%div
-						= link_to "Please read and respond to 5 new comments", {:action=>'bsd', :id=>question.id}, {:class=>'show_bsd'}
+					%div.q_cta{:id=>question.id}
+						%div
+							= link_to "Please read and respond to 5 new comments", {:action=>'bsd', :id=>question.id}, {:class=>'show_bsd'}
 						
-				%div.show_bsd
+					%div.show_bsd
 			
-				%div.answer_section{:criteria=>question.answer_criteria}
-					- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }
-					- if answer_items.size > 0
-						- answer_items.each do |ai|
-							- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
-							%div.rate
-								%p Current answer
+					%div.answer_section{:criteria=>question.answer_criteria}
+						- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }
+						- if answer_items.size > 0
+							- answer_items.each do |ai|
+								- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
+								%div.rate
+									%p Current answer
 							
-								%div.rating
-									%div.results
-										- if answer.my_vote.to_i == 0
-											%div.result_stars
-												%div.bs_rating_grey_bg
-												%div.bs_rating_red_bg{:style=>"width: 0px"}
-											%div.cnt= "Please rate"
-										- else
-											%div.result_stars
-												%div.bs_rating_grey_bg
-												%div.bs_rating_red_bg{:style=>"width: #{17 * answer.average.to_i}px"}
-											%div.cnt= "(#{pluralize(answer.count, 'vote')})"
+									%div.rating
+										%div.results
+											- if answer.my_vote.to_i == 0
+												%div.result_stars
+													%div.bs_rating_grey_bg
+													%div.bs_rating_red_bg{:style=>"width: 0px"}
+												%div.cnt= "Please rate"
+											- else
+												%div.result_stars
+													%div.bs_rating_grey_bg
+													%div.bs_rating_red_bg{:style=>"width: #{17 * answer.average.to_i}px"}
+												%div.cnt= "(#{pluralize(answer.count, 'vote')})"
 
 
-									- form_tag( {:controller => 'idea', :action => 'answer_rating'}, {:class => 'item_rater'} ) do
-										%span.stars
-											- ANSWER_RATING_OPTIONS_G.sort.each do |value ,title|	
-												- if value.to_i == answer.my_vote.to_i
-													%input.star{:class => 'item_rater', :name => "bs_rating_#{answer.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
-												- else
-													%input.star{:class => 'item_rater', :name => "bs_rating_#{answer.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
-										%p.clear_both
-										%span.rating_results
-											My rating
-										%span.star_hover
+										- form_tag( {:controller => 'idea', :action => 'answer_rating'}, {:class => 'item_rater'} ) do
+											%span.stars
+												- ANSWER_RATING_OPTIONS_G.sort.each do |value ,title|	
+													- if value.to_i == answer.my_vote.to_i
+														%input.star{:class => 'item_rater', :name => "bs_rating_#{answer.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+													- else
+														%input.star{:class => 'item_rater', :name => "bs_rating_#{answer.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+											%p.clear_both
+											%span.rating_results
+												My rating
+											%span.star_hover
 										
-										-#%span.rating_results	
-											my rating
+											-#%span.rating_results	
+												my rating
 							
-							%div.answer{:id=>"ans_#{answer.id}"}= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
-							%div.ans_comment_links
-								= link_to "History", {:action=>'report', :id=>answer['id']}, {:class=>'history'}
-								= link_to "Report", {:action=>'report', :id=>answer['id']}, {:class=>'report'}
-							
+								%div.answer{:id=>"ans_#{answer.id}"}= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
+								%div.ans_comment_links
+									= link_to "History", {:action=>'report', :id=>answer['id']}, {:class=>'history'}
+									= link_to "Report", {:action=>'report', :id=>answer['item_id']}, {:class=>'report'}
 			
-					- else
-						- if !def_ans.nil?
-							%div.rate
-								%p Suggested answer details
-							
-							%div.answer.default
-								= def_ans.text
 						- else
-							%p No answer has been suggested for this question
+							- if !def_ans.nil?
+								%div.rate
+									%p Suggested answer details
+							
+								%div.answer.default
+									= def_ans.text
+							- else
+								%p No answer has been suggested for this question
 	
 	= render :partial => 'endorsements'
 	

@@ -33,8 +33,9 @@ class IdeaController < ApplicationController
     #@last_ts = Team.find(@team_id).last_visit( @member_id )
     # get the page, question and answer items
     @items = @team.items.find(:all, :conditions => 'o_type IN (1,2,9)')
-    @questions = @team.questions
-    def_ans_ids = @questions.map{|q| q.default_answer_id}.reject{|i| i.nil?}
+
+    @questions = @team.questions.reject{|q| q.default_answer_id.nil?}
+    def_ans_ids = @questions.map{|q| q.default_answer_id} #.reject{|i| i.nil?}
     @default_answers = DefaultAnswer.all(def_ans_ids)
     @answers_with_ratings = @team.answers_with_ratings( @member.id )
     
@@ -816,6 +817,51 @@ class IdeaController < ApplicationController
     @comments = Comment.all( :conditions=>"member_id = #{@member.id} AND team_id > 10017 AND publish is NULL", :order=>'created_at');
     
     render :action=>'release_comments', :layout=>'welcome'
+    
+  end
+  
+  def inline_edit
+    # handles posts from inline edit
+    # look at type
+    # data is in edited text
+    
+    logger.debug "inline_edit submission: #{params.inspect}"
+   # # {} submission for type: #{params[:type]} with data: #{params[:edited_text]}"
+   # 
+    #format.html { render :action => "team/preview_invite_request", :layout => false } if request.xhr?
+
+    #ProposalMailer.deliver_team_send_invite(member, recipient, @invite, team, request.env["HTTP_HOST"] )
+    
+    case params[:model]
+      when 'team'
+        model = Team.find( params[:id])
+        model.member_id = @member.id
+        old_ver = model[params[:field]]
+        new_ver = params[:edited_text].strip
+        if old_ver != new_ver
+          model[params[:field]] = new_ver
+          saved = model.save
+          if saved
+            updated = true
+            ProposalMailer.deliver_review_update(@member, model, params[:field], old_ver, request.env["HTTP_HOST"], params[:_app_name] )
+          end
+        else
+          saved = true # no errors to show
+          updated = false
+        end
+        
+      else
+        logger.debug "Don't know how to handle model: #{params[:model]}"
+        render :text=> 'Error - cannot handle request, we have been notified', :status=>500
+    end
+    
+    if saved
+      #format.html { render :action => "team/acknowledge_invite_request", :layout => false }      
+      render :text=> params[:edited_text].strip
+    else
+    #  if !@invite.errors[:recipient_emails].nil? && @invite.errors[:recipient_emails].size() > 0 && request.xhr?
+      render :text => [model.errors].to_json, :status => 409
+    end
     
   end
   

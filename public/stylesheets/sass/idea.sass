@@ -114,9 +114,15 @@ div.idea_page
 	
 h2.home_title
 	margin: 20px 41px 0px 41px
+	a
+		font-size: .6em
+		margin-left: 0px
+		font-weight: normal
+		
 div.summary
-	margin: -16px 41px 20px 41px
+	margin: -10px 41px 20px 41px
 	font-size: 1.12em
+	
 
 div.answer
 	font-size: 1.12em
@@ -169,6 +175,13 @@ div#submit
 	p.desc
 		margin-top: 0			
 	
+.form_error_border
+	border: 1px solid $new_item_color
+.form_error_text, .error
+	color: $new_item_color
+	font-weight: bold
+
+
 
 div.bs_idea
 	position: relative
@@ -263,7 +276,7 @@ div.close_1com
 	background: url(/images/idea_sprite1.gif) no-repeat 0 -16px
 	cursor: pointer
 
-div.controls
+div.add_idea div.controls
 	font-size: .8em
 	
 div.full_comment_display div.comment

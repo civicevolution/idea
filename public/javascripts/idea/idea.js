@@ -10,6 +10,8 @@ $(function(){
 	
 	$('div#endorsements table abbr.timeago').timeago();
 
+	$('a.edit_in_place').edit_in_place();
+	
 });
 
 $('a.delete_endorsement').live('click', 
@@ -232,7 +234,7 @@ $('div.discussion').delegate( 'div.close_1com, div.one_line', 'click',
 	}
 );
 
-$('a.show_me_how, a.tell_me_more, a.next_action, a.checklist, a.history').live('click', link_disabled);
+$('a.show_me_how, a.tell_me_more, a.next_action, a.checklist, a.history, a.com_author').live('click', link_disabled);
 
 
 Function.prototype.bind = function(bind, args){
@@ -258,3 +260,158 @@ Function.prototype.create = function(options){
 		return returns();
 	};
 }
+
+//
+// create closure
+//
+;(function($) {
+  //
+  // plugin definition
+  //
+	
+  $.fn.edit_in_place = function(selector) {
+		return this.filter(
+			function(index){
+				var	element = $(this)
+				element.unbind('click').die('click').click( edit_in_place)
+				return true;
+			}
+		)
+		
+		function edit_in_place(){
+			try{
+			  var edit_link = $(this);
+	      //Read that portion of the class
+	      var class_obj = edit_link.attr('class').match(/(\[.*\])/)[0]
+	      //Convert it into an object:
+	      var opts = eval(class_obj)[0];
+				var add_pars_to_str = false;
+				temp.selector = 'edit_link' + opts.selector
+			  var edit_target = eval('edit_link' + opts.selector);
+			temp.edit_target = edit_target
+				var form_div = create_form(opts);
+				var textarea = $('textarea',form_div);
+				var str = edit_target.clone().find('a.edit_in_place').remove().end().html()
+				if(str.match(/<p>/i)){
+					str = str.replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'');
+					add_pars_to_str = true;
+				}
+				textarea.val( str )
+				if(opts.form_tgt_selector){
+					var form_target = eval('edit_link' + opts.form_tgt_selector);
+					form_target.after(form_div).hide();
+				}else{
+					edit_target.after(form_div).hide();
+				}
+				edit_link.hide();
+				//console.log("activate: " + $('textarea',form_div).size() )
+				activate_text_counters_grow( textarea )
+				form_div.find('form').submit( function(){ 
+					submit_edit(this); return false;
+					} 
+				);
+				form_div.find('form :submit').submit( 
+					function(){ 
+						submit_edit( $(this.form) ); 
+						return false;
+					} 
+				);
+				form_div.find('a.cancel').click( cancel_edit );
+			}catch(e){console.log("edit_in_place error: " + e.message)}
+		  return false;
+		
+			function cancel_edit(){
+				edit_link.show();
+				edit_target.show();
+				if(form_target) form_target.show();
+				form_div.remove();
+				return false;
+			}
+			
+			function submit_edit(form){
+				//console.log("submit the edit v2");
+				form = $(form)
+				try{
+					var btn = $(':submit',form);
+					btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+					$(':input',form).removeClass('form_error_border');
+					$('p.form_error_text',form).remove();
+
+					form.ajaxSubmit({ 					
+					  type: "POST", 
+						url: opts.url,
+					  success: function(data,status){ 
+							//console.log("inline_edit success data: " + data)
+							//if(add_pars_to_str){
+							//	edit_target.html('');
+							//	$.each( data.split(/\n\n/), 
+							//		function(){
+							//			edit_target.append( '<p>' + this + '</p>' )
+							//		} 
+							//	);
+							//	edit_target.show();
+							//}else{
+							//	edit_target.html( data.replace(/\s+/g,' ') ).show();
+							//}
+
+							form_div.remove();
+							if(form_target) form_target.show();
+							edit_link.show();
+							
+							if(add_pars_to_str){
+								var str = '';
+								$.each( data.split(/\n\n/), 
+									function(){
+										str += '<p>' + this + '</p>';
+									} 
+								);
+								edit_target.html( str ).show();
+								edit_target.find('p:last').append(' ').append(edit_link);
+								$('a.edit_in_place').edit_in_place();
+							}else{
+								var str = data.replace(/\s+/g,' ')
+								edit_target.html( str ).show();
+							}
+							
+					  },
+						error : function(xhr,errorString,exceptionObj){
+							console.log("Error inline_edit, xhr: " + xhr.responseText)
+							try{
+								show_form_error(form,xhr.responseText)
+								//$("input[name='first_name']",form).before('<p class="form_error_text">' + xhr.responseText + "</p>")
+								btn.removeAttr('disabled').next('img').remove();
+							}catch(e){
+								console.log("inline_edit submit error: " + e)
+								$('<div><p>Sorry, we cannot process your edit at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+								btn.removeAttr('disabled').next('img').remove();
+							}
+						}
+					});
+				}catch(e){console.log("inline_edit:submit_edit error: " + e.message)}
+				return false;
+			}
+		
+		}
+
+		function create_form(opts){
+			var form = $([
+				'<div class="edit_in_place_form">',
+					'<form class="std_form">',
+					'<label>' + opts.label + '</label>',
+					'<textarea cols="1" rows="2" name="edited_text" style="overflow-x: hidden; overflow-y: hidden; line-height: 16px; "></textarea>',
+					'<div class="control_line">',
+				  	'<div class="controls">',
+				    	'<span class="char_ctr">' + opts.chr_cnt + ' characters left</span>',
+				    	'<input type="submit" value="Save" />',
+							'<a href="/" class="cancel">Cancel	</a>',
+				  	'</div>',
+					'</div>',
+				'</form>',
+			'</div>'].join('') );
+			return form;
+		}
+  };
+//
+// end of closure
+//
+})(jQuery);
