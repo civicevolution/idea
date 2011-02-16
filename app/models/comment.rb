@@ -20,7 +20,8 @@ class Comment < ActiveRecord::Base
   attr_accessor :itemDestroyed
   attr_accessor :item_id
   attr_accessor :par_member_id
-
+  attr_accessor :member
+  
   def after_save
     # log this item into the team_content_logs
     TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :par_member_id=>self.par_member_id, :processed=>false).save
@@ -38,6 +39,17 @@ class Comment < ActiveRecord::Base
     logger.debug "validate check_team_access, @par_id: #{@par_id}"
     par_item = Item.find_by_id(@par_id);
     self.team_id = par_item.team_id
+    
+    if !self.member.nil?
+      # this is access check for the idea page version
+      allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
+      if !allowed
+        errors.add_to_base("Sorry, you do not have permission to add a comment.") 
+        return false
+      end
+      return
+    end
+    
     is_team_member = !( TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.team_id).nil? )
     # return as ok if user is a team member or parent is the public discussion
     return if is_team_member || par_item.o_type == 11
@@ -62,6 +74,22 @@ class Comment < ActiveRecord::Base
     logger.debug "validate check_com_edit_access"
   
     # I will need to check if the iteam can still be edited
+    
+    
+    if !self.member.nil?
+      # this is access check for the idea page version
+      allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
+      if !allowed
+        errors.add_to_base("Sorry, you do not have permission to edit a comment.") 
+        return false
+      end
+      if self.member_id != self.member.id
+        errors.add_to_base("Sorry, only the author can edit this comment.") 
+        return false
+      end
+      return
+    end
+    
     
     # are you a still a team member
     is_team_member = !( TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.team_id).nil? )

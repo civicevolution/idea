@@ -20,6 +20,11 @@ class InitiativeRestriction < ActiveRecord::Base
       end
     end
     
+    logger.debug "InitiativeRestrictions initiative_id #{initiative_id}, action: #{action}, for member: #{member.inspect}"
+    if initiative_id.nil?
+      logger.debug 'No initiative_id was specified'
+      return false, 'No initiative_id was specified'
+    end
     messages = []
     restrictions = InitiativeRestriction.find_all_by_initiative_id_and_action(initiative_id, action)
     if restrictions.size == 0

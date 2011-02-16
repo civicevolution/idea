@@ -19,6 +19,7 @@ class Answer < ActiveRecord::Base
   attr_accessor :itemDestroyed
   attr_accessor :item_id  
   attr_accessor :par_member_id
+  attr_accessor :member
   
   @record_saved = false
   
@@ -48,6 +49,20 @@ class Answer < ActiveRecord::Base
   
   def check_team_access
     logger.debug "validate check_team_access, @par_id: #{@par_id}"
+
+    par_item = Item.find_by_id(@par_id)
+    self.team_id = par_item.team_id
+    self.question_id = par_item.o_id
+    if !self.member.nil?
+      # this is access check for the idea page version
+      allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
+      if !allowed
+        errors.add_to_base("Sorry, you do not have permission to add an answer.") 
+        return false
+      end
+      return
+    end
+    
     begin
       par_item = Item.find_by_id(@par_id);
       @team = Member.find_by_id(self.member_id).teams.find_by_id( par_item.team_id )
@@ -64,6 +79,18 @@ class Answer < ActiveRecord::Base
   
   def check_item_edit_access
     logger.debug "validate check_item_edit_access"
+    
+    if !self.member.nil?
+      # this is access check for the idea page version
+      allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
+      if !allowed
+        errors.add_to_base("Sorry, you do not have permission to edit this answer.") 
+        return false
+      end
+      return
+    end
+    
+    
     begin
       @team = Member.find_by_id(self.member_id).teams.find_by_id( self.team_id )
     rescue

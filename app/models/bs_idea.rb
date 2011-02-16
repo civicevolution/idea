@@ -19,6 +19,7 @@ class BsIdea < ActiveRecord::Base
   attr_accessor :target_id
   attr_accessor :target_type  
   attr_accessor :insert_mode
+  attr_accessor :member
     
   def after_save
     # log this item into the team_content_logs
@@ -47,6 +48,20 @@ class BsIdea < ActiveRecord::Base
     
   def check_team_access
     #logger.debug "check_team_access, for BsIdea question_id = #{self.question_id}"
+    
+    self.team_id = ActiveRecord::Base.connection.select_value( "SELECT team_id FROM items where o_id = #{self.question_id} and o_type = 1" )
+    
+    if !self.member.nil?
+      # this is access check for the idea page version
+      allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
+      if !allowed
+        errors.add_to_base("Sorry, you do not have permission to add a brainstorming idea.") 
+        return false
+      end
+      return
+    end
+    
+    
     begin
       @team = Member.find_by_id(self.member_id).teams.find_by_id( Item.find_by_o_id_and_o_type(self.question_id,1).team_id )
     rescue
@@ -60,6 +75,22 @@ class BsIdea < ActiveRecord::Base
   
   def check_item_edit_access
     #logger.debug "validate check_item_edit_access"
+    
+    if !self.member.nil?
+      # this is access check for the idea page version
+      allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
+      if !allowed
+        errors.add_to_base("Sorry, you do not have permission to edit this brainstorming idea.") 
+        return false
+      end
+      if self.member_id != self.member.id
+        errors.add_to_base("Sorry, only the author can edit this brainstorming idea.") 
+        return false
+      end
+      return
+    end
+    
+    
     begin
       @team = Member.find_by_id(self.member_id).teams.find_by_id( self.team_id )
     rescue

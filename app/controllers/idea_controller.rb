@@ -12,8 +12,8 @@ class IdeaController < ApplicationController
     
     
     # verify acccess to this team
-    restrictions_test,message = InitiativeRestriction.allow_action(@team.initiative_id, 'view_idea_page', @member)
-    if !restrictions_test
+    allowed,message = InitiativeRestriction.allow_action(@team.initiative_id, 'view_idea_page', @member)
+    if !allowed
       if @member.id == 0
         flash[:pre_authorize_uri] = request.request_uri
         flash[:notice] = "Please sign in"
@@ -54,9 +54,9 @@ class IdeaController < ApplicationController
     @question = Question.find(params[:id])
     # after_find gets the question's item_id and the team_id
     
-    restrictions_test,message = InitiativeRestriction.allow_action({:team_id=>@question.team_id}, 'view_question_details', @member)
+    allowed,message = InitiativeRestriction.allow_action({:team_id=>@question.team_id}, 'view_question_details', @member)
     
-    if !restrictions_test
+    if !allowed
       #logger.warn "failed restrictons test with message: #{message}"
       @error = "Sorry, this is a protected page"
     else
@@ -88,9 +88,9 @@ class IdeaController < ApplicationController
     @question = Question.find(@bs_idea.question_id)
     # after_find gets the question's item_id and the team_id
     
-    restrictions_test,message = InitiativeRestriction.allow_action({:team_id=>@question.team_id}, 'view_question_details', @member)
+    allowed,message = InitiativeRestriction.allow_action({:team_id=>@question.team_id}, 'view_question_details', @member)
     
-    if !restrictions_test
+    if !allowed
       #logger.warn "failed restrictons test with message: #{message}"
       @error = "Sorry, this is a protected page"
     else
@@ -149,6 +149,7 @@ class IdeaController < ApplicationController
     
       @comment.member_id = session[:member_id]
       @comment.insert_mode = params[:insert_mode]
+      @comment.member = @member
     else
       logger.debug "!add, :mode is #{params[:mode]}"
       @comment = Comment.find(params[:id])
@@ -161,6 +162,7 @@ class IdeaController < ApplicationController
         @saved = false
       else
         @comment.attributes = params[:comment]
+        @comment.member = @member
         logger.debug "after attributes, comment: #{@comment.inspect}"
       end
     end
@@ -311,12 +313,12 @@ class IdeaController < ApplicationController
         @bs_idea = BsIdea.find( params[:idea_id] )
       end
       @bs_idea.attributes = params[:bs_idea]
+      @bs_idea.member = @member
       #@bs_idea.par_id = @bs_idea.question_id
    
       logger.debug "try to save the brainstorm_idea"
       
       @saved = @bs_idea.save  # in place of saved for testing
-      BsIdeaFavorite.new( :member_id => @member.id, :bs_idea_id => @bs_idea.id, :favorite => true ).save
       
     rescue TeamAccessDeniedError
       logger.debug "TeamAccessDeniedError error"
@@ -325,21 +327,22 @@ class IdeaController < ApplicationController
     end
 
     ajaxMode = request.xhr? || params[:post_mode] == 'ajax'
-    
-    
-    if params[:mode] != 'add'
-      logger.debug "Get the score data for this answer which is being edited"
-      rating = BsIdeaRating.idea_ratings(@bs_idea.id,session[:member_id])[0]
-      average = rating.nil? ? 0 : rating.average
-      count = rating.nil? ? 0 : rating.count
-      my_vote = rating.nil? ? 0 : rating.my_vote
-    else
-      average = count = my_vote = 0
-    end
 
     # render a response
     respond_to do |format|
       if @saved
+        BsIdeaFavorite.new( :member_id => @member.id, :bs_idea_id => @bs_idea.id, :favorite => true ).save
+        
+        if params[:mode] != 'add'
+          logger.debug "Get the score data for this answer which is being edited"
+          rating = BsIdeaRating.idea_ratings(@bs_idea.id,session[:member_id])[0]
+          average = rating.nil? ? 0 : rating.average
+          count = rating.nil? ? 0 : rating.count
+          my_vote = rating.nil? ? 0 : rating.my_vote
+        else
+          average = count = my_vote = 0
+        end
+        
         logger.debug "idea was saved successfully"
         flash[:notice] = 'Idea was successfully created.'
         
@@ -370,19 +373,19 @@ class IdeaController < ApplicationController
   end
   
   def com_rate
-    member_id = session[:member_id]
     com_id = params[:thumbsup_id]
     rating = params[:thumbsup_rating]
 
-    logger.debug "com_rate member: #{member_id}, com_id: #{com_id}, rating: #{rating}"
-
-    com_rating = ComRating.find_by_comment_id_and_member_id(com_id, member_id) 
+    #logger.debug "com_rate member: #{@member.id}, com_id: #{com_id}, rating: #{rating}"
+    
+    com_rating = ComRating.find_by_comment_id_and_member_id(com_id, @member.id) 
     if com_rating.nil?
-      com_rating = ComRating.new :member_id => member_id, :comment_id => com_id, :up => rating.to_i > 0 ? 1 : 0, :down => rating.to_i > 0 ? 0 : 1 
+      com_rating = ComRating.new :member_id => @member.id, :comment_id => com_id, :up => rating.to_i > 0 ? 1 : 0, :down => rating.to_i > 0 ? 0 : 1
     else
       com_rating.up = rating.to_i > 0 ? 1 : 0
       com_rating.down = rating.to_i > 0 ? 0 : 1
     end
+    com_rating.member = @member
     saved = com_rating.save
 
     if saved
@@ -416,27 +419,39 @@ class IdeaController < ApplicationController
     score = params[name]
 
     @answer_id = name.match(/(\d+)/)[1]
-    member_id =  session[:member_id]
-    logger.debug "save answer_rating :member_id: #{member_id}, :answer_id => #{@answer_id}, :score => #{score}"
-    rating = AnswerRating.find_by_answer_id_and_member_id(@answer_id, member_id) 
+    logger.debug "save answer_rating :member_id: #{@member.id}, :answer_id => #{@answer_id}, :score => #{score}"
+    rating = AnswerRating.find_by_answer_id_and_member_id(@answer_id, @member.id) 
 
     if rating.nil?
-      rating = AnswerRating.new :member_id => member_id, :answer_id => @answer_id, :rating => score
+      rating = AnswerRating.new :member_id => @member.id, :answer_id => @answer_id, :rating => score
     else
       rating.rating = score
     end
-    rating.save
+    rating.member = @member
+    saved = rating.save
+    if saved
+      #calculate new score, count and average
+      @average = AnswerRating.average(:rating, :conditions => ['answer_id = ?', @answer_id ])
+      @count = AnswerRating.count(:rating, :conditions => ['answer_id = ?', @answer_id ])
 
-    #calculate new score, count and average
-    @average = AnswerRating.average(:rating, :conditions => ['answer_id = ?', @answer_id ])
-    @count = AnswerRating.count(:rating, :conditions => ['answer_id = ?', @answer_id ])
+      serialized = sendApeNotification({:type=>'rating', :channel=>"team#{rating.team_id}", :data => {:type => 'answer', :average=>@average, :count=>@count, :id=>@answer_id }},session);
 
-    serialized = sendApeNotification({:type=>'rating', :channel=>"team#{rating.team_id}", :data => {:type => 'answer', :average=>@average, :count=>@count, :id=>@answer_id }},session);
-
-    respond_to do |format|
-      format.html { render :text => serialized } if request.xhr? # ajaxmode gets the update via APE
-      #format.js
-      format.html { request.referer ?  redirect_to(request.referer + "\#item_rater_#{@item_id}") :  redirect_to( :action => 'index' ) }
+      respond_to do |format|
+        format.html { render :text => serialized } if request.xhr? # ajaxmode gets the update via APE
+        #format.js
+        format.html { request.referer ?  redirect_to(request.referer + "\#item_rater_#{@item_id}") :  redirect_to( :action => 'index' ) }
+      end
+    else
+      # what to return if error?
+      logger.debug "answer rating was not saved "
+      if request.xhr?
+        respond_to do |format|
+          format.json { render :text => [rating.errors].to_json, :status => 409 }
+          #combine the errors from resources into comment errors so they will all be displayed
+          #format.html {render :partial => 'team/error', :object => @comment, :status => 400, :locals => { :resources => @resources} }
+        end
+      end
+      
     end
   end  
 
@@ -453,6 +468,7 @@ class IdeaController < ApplicationController
     else
       bs_idea_favorite.favorite = favorite
     end
+    bs_idea_favorite.member = @member
     saved = bs_idea_favorite.save
 
     if saved
@@ -468,7 +484,7 @@ class IdeaController < ApplicationController
       end
     else
       # what to return if error?
-      logger.debug "com_rate was not saved "
+      logger.debug "bs_idea_favorite was not saved "
       if request.xhr?
         respond_to do |format|
           format.json { render :text => [bs_idea_favorite.errors].to_json, :status => 409 }
@@ -487,7 +503,7 @@ class IdeaController < ApplicationController
         # create answer and add par_id and member_id
         @answer = Answer.new
         @answer.par_id = params[:par_id]
-        @answer.member_id = session[:member_id]
+        @answer.member_id = @member.id
         @answer.insert_mode = params[:insert_mode]
       else
         @answer = Answer.find(params[:id])
@@ -495,7 +511,8 @@ class IdeaController < ApplicationController
       # store initial values so the revision history will work
       @answer.store_initial_values  
       @answer.attributes = params[:answer]
-      @answer.member_id = session[:member_id]
+      @answer.member_id = @member.id
+      @answer.member = @member
    
       logger.debug "try to save the answer"
       @saved = @answer.save  # in place of saved for testing
@@ -516,11 +533,11 @@ class IdeaController < ApplicationController
         # I need to provide these items when the partial is used to generate html for APE
         item = Item.find_by_o_id_and_o_type(@answer.id,@answer.o_type) 
         @answer.item_id = item.id
-        @members = [ Member.find( session[:member_id] )]
+        @members = [ @member ]
 
         if params[:mode] != 'add'
           logger.debug "Get the score data for this answer which is being edited"
-          rating = AnswerRating.answer_ratings(@answer.id,session[:member_id])[0]
+          rating = AnswerRating.answer_ratings(@answer.id,@member.id)[0]
           average = rating.nil? ? 0 : rating.average
           count = rating.nil? ? 0 : rating.count
           my_vote = rating.nil? ? 0 : rating.my_vote
@@ -567,6 +584,7 @@ class IdeaController < ApplicationController
     else
       ideas_priority.priority = ids
     end
+    ideas_priority.member = @member
     saved = ideas_priority.save
     
     render :text=> 'ok'
@@ -582,15 +600,17 @@ class IdeaController < ApplicationController
       endorsement = Endorsement.new :member_id => @member.id, :team_id => params[:team_id], :text => ''
       saved = true
     elsif endorsement.nil?
-      endorsement = Endorsement.new :member_id => @member.id, :team_id => params[:team_id], :text => params[:endorse][:text]
+      endorsement = Endorsement.new :member_id => @member.id, :team_id => params[:team_id], :text => params[:endorse][:text], :member=>@member
       saved = endorsement.save
       pic_url = @member.photo.url('36')
     else
       endorsement.text = params[:endorse][:text]
+      endorsement.member = @member
       saved = endorsement.save
       pic_url = @member.photo.url('36')
     end
     mem_name = @member.first_name + '%20' + @member.last_name
+    ajaxMode = request.xhr? || params[:post_mode] == 'ajax'
     # render a response
     respond_to do |format|
       if saved
@@ -756,17 +776,17 @@ class IdeaController < ApplicationController
       
     else
       submit_request = ProposalSubmit.new params[:proposal_submit]
+      submit_request.member = @member
       submit_request.member_id = @member.id
       logger.debug "review submit_request: #{submit_request.inspect}"
       @saved = submit_request.save
       
-      AdminReportMailer.deliver_submit_proposal(submit_request, @team, @member, request.env['HTTP_HOST'],params[:_app_name] )
-      
       respond_to do |format|
         if @saved
+          AdminReportMailer.deliver_submit_proposal(submit_request, @team, @member, request.env['HTTP_HOST'],params[:_app_name] )
           format.html { render :action=> 'submit_proposal_acknowledge', :layout=>false } if request.xhr?
         else
-          format.json { render :text => [@proposal_idea.errors].to_json, :status => 409 }
+          format.json { render :text => [submit_request.errors].to_json, :status => 409 }
         end
       end
       

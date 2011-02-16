@@ -55,7 +55,7 @@ $('a.update_endorsement').live('click',
 		console.log("update_endorsement");
 		try{
 			var form = $('div#endorsements form');
-			form.show();
+			form.removeClass('hide');
 			var t = $(this).closest('tr').find('td.text').html();
 			form.find('textarea').val( strip_white_space(t) )
 		}catch(e){console.log("update_endorsement e: " + e.message)}

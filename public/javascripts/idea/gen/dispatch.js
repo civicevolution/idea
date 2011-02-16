@@ -52,7 +52,7 @@ function dispatchEndorsement(item,submit_response){
 		table.prev('p.desc').html('Here are the people that have endorsed this proposal.');
 		var form = $('div#endorsements form');
 		form.find('a.clear').click();
-		form.hide();
+		form.addClass('hide');
 		// is this new or update
 		var tr = table.find('tr[id="' + item.ape_code + '"]');
 		if(tr.size() > 0){
