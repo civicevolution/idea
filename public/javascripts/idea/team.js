@@ -105,7 +105,6 @@ $(function(){
 		activate_ux_function_calls();
 		activate_ux_functions_misc();
 		activate_ux_functions_edit();
-		activate_ux_functions_discussion();
 	
 		if (load_ape_client) load_ape(chat_container_name);
 

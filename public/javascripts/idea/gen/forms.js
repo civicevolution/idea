@@ -1,136 +1,79 @@
 //console.log("Loading temp.js");
 var temp = temp || {};
 
-$(function(){
 
+$('a.edit_com').die('click').live('click',
+	function(){
+		try{
+			//console.log("edit_com v2")
+			var a = $(this);
+			temp.edit_com_a = a;
+			var com_entry = a.closest('div.Comment_entry');
+			var id = Number(a.attr('href').match(/\d+$/));
+			var mode = 'edit';
+			var res_type = 'simple';
+			var anon = 'false';
+			var form = $( jsonFn.add_comment_form({id : id, mode : mode, anon: anon, resource_type: res_type}) );
+			temp.com_form = form
+			$('label:first',form).html("Please edit this comment");
+			//$('div.control_line',form).css('margin-bottom','40px');
+			$(form).css('margin-bottom','60px');
+			$('a.clear',form).removeClass('clear').addClass('cancel').html('Cancel');
+			form.find('div.add_comment span.char_ctr:last').html(com_criteria + ' characters left');
+			form.find('div.add_link span.char_ctr:last').html(res_criteria + ' characters left');
+			form.find('div.attach_file span.char_ctr:last').html(res_criteria + ' characters left');
 
-	$('a.open_all').die('click').live('click',
-		function(){
-			//console.log("open_all (form.js)")
-			try{
-				var a = $(this);
-				//var par = a.closest('.ui-tabs-panel');
-				//var par = a.closest('.discussion');
-				var par = a.closest('div.tab_panel').find('.discussion');
-				if(par.size() == 0){
-					par = a.closest('div.discussion')
-				}
-				if( a.html().match(/Open/)){
-					$('div.Comment_entry',par).addClass('full_comment_display').removeClass('one_line_comment');
-					a.html('Close all comments');
-				}else{
-					$('div.Comment_entry',par).addClass('one_line_comment').removeClass('full_comment_display');
-					a.html('Open all comments');
-					ellipsis(par)
-				}			
-			}catch(e){console.log("open_all error: " + e)}
-			return false;
-		}
-	);
-
-
-	$('div#proposal, div.left_col').delegate( 'div.one_liner, div.Comment_entry img', 'click', 
-		function(){
-			console.log("open one liner")
-			var $this = $(this);
-			//$this.parents('div.Comment').addClass('full_comment_display').removeClass('one_line_comment');
-			//$this.closest('div.Comment').addClass('full_comment_display').removeClass('one_line_comment');
-			$this.closest('div.Comment_entry').addClass('full_comment_display').removeClass('one_line_comment');
-		}
-	)
-
-	$('div#proposal').delegate( 'div.close_1com', 'click', 
-		function(){
-			var $this = $(this);
-			$this.css('display','block');
-			$this.closest('div.comment').slideUp(500, function(){
-				$(this).closest('div.Comment_entry').addClass('one_line_comment').removeClass('full_comment_display');
-				$(this).slideDown(200,
-					function(){
-						ellipsis(this);
-						$this.css('display','');
-					}
-				)
-			},'easeOutQuart');
-
-		}
-	);
-
-	$('a.edit_com').die('click').live('click',
-		function(){
-			try{
-				//console.log("edit_com v2")
-				var a = $(this);
-				temp.edit_com_a = a;
-				var com_entry = a.closest('div.Comment_entry');
-				var id = Number(a.attr('href').match(/\d+$/));
-				var mode = 'edit';
-				var res_type = 'simple';
-				var anon = 'false';
-				var form = $( jsonFn.add_comment_form({id : id, mode : mode, anon: anon, resource_type: res_type}) );
-				temp.com_form = form
-				$('label:first',form).html("Please edit this comment");
-				//$('div.control_line',form).css('margin-bottom','40px');
-				$(form).css('margin-bottom','60px');
-				$('a.clear',form).removeClass('clear').addClass('cancel').html('Cancel');
-				form.find('div.add_comment span.char_ctr:last').html(com_criteria + ' characters left');
-				form.find('div.add_link span.char_ctr:last').html(res_criteria + ' characters left');
-				form.find('div.attach_file span.char_ctr:last').html(res_criteria + ' characters left');
-
-				var com_text = com_entry.find('div.comment_text').clone();
-				com_text.find('.one_liner').remove();
-				// can I ignore the <br> ?
-		 		var com_text = com_text.html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
-				$('textarea.comment',form).html(com_text);
-				if( (res = $('div.link:visible',com_entry)).size() > 0 ){
-					$('div.add_link input.title',form).val(
-						$('h3.resource_title',res).html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
-					);
-					$('div.add_link textarea.description',form).html(
-						$('div.resource_description',res).html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
-					);
-					$('div.add_link input.url',form).val(
-						$('a.resource_url',res).html()
-					);
-					res_type = 'link';
-				}else if( (res = $('div.upload:visible',com_entry)).size() > 0 ){
-					$('div.attach_file input.title',form).val(
-						$('h3.resource_title',res).html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
-					);
-					$('div.attach_file textarea.description',form).html(
-						$('div.resource_description',res).html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
-					);
-					$('div.attach_file input#resource_resource',form).after('<span class="file_name">' +
-						$('a.resource_upload',res).html()
-						+'</span>');
-					res_type = 'upload'
-				}
-				form.hide();
-				com_entry.hide(500, 
-					function(){
-						//console.log("now add the idea form idea.size: " + idea.size())
-						com_entry.before( form );
-						form.show(500)
-					}
+			var com_text = com_entry.find('div.comment_text').clone();
+			com_text.find('.one_liner').remove();
+			// can I ignore the <br> ?
+	 		var com_text = com_text.html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
+			$('textarea.comment',form).html(com_text);
+			if( (res = $('div.link:visible',com_entry)).size() > 0 ){
+				$('div.add_link input.title',form).val(
+					$('h3.resource_title',res).html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
 				);
-				//console.log("activate the form")
-				activate_comment_form(form,com_entry);
-				//console.log("click the image for res_type: " + res_type)
-				temp.com_form = form
-				if(res_type == 'link'){
-					//$('img.show_add_link', form).click();
-					setTimeout(function(){$('img.show_add_link', this).click();}.bind(form),2000)
-				}else if(res_type == 'upload'){
-					//$('img.show_attach_file', form).click();
-					setTimeout(function(){$('img.show_attach_file', this).click();}.bind(form),2000)
+				$('div.add_link textarea.description',form).html(
+					$('div.resource_description',res).html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
+				);
+				$('div.add_link input.url',form).val(
+					$('a.resource_url',res).html()
+				);
+				res_type = 'link';
+			}else if( (res = $('div.upload:visible',com_entry)).size() > 0 ){
+				$('div.attach_file input.title',form).val(
+					$('h3.resource_title',res).html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
+				);
+				$('div.attach_file textarea.description',form).html(
+					$('div.resource_description',res).html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
+				);
+				$('div.attach_file input#resource_resource',form).after('<span class="file_name">' +
+					$('a.resource_upload',res).html()
+					+'</span>');
+				res_type = 'upload'
+			}
+			form.hide();
+			com_entry.hide(500, 
+				function(){
+					//console.log("now add the idea form idea.size: " + idea.size())
+					com_entry.before( form );
+					form.show(500)
 				}
-			}catch(e){console.log("edit_comment error: " + e)}
-			return false;
-		}
-	);
-
-}) // end of jquery on load
-
+			);
+			//console.log("activate the form")
+			activate_comment_form(form,com_entry);
+			//console.log("click the image for res_type: " + res_type)
+			temp.com_form = form
+			if(res_type == 'link'){
+				//$('img.show_add_link', form).click();
+				setTimeout(function(){$('img.show_add_link', this).click();}.bind(form),2000)
+			}else if(res_type == 'upload'){
+				//$('img.show_attach_file', form).click();
+				setTimeout(function(){$('img.show_attach_file', this).click();}.bind(form),2000)
+			}
+		}catch(e){console.log("edit_comment error: " + e)}
+		return false;
+	}
+);
 
 
 
