@@ -1,22 +1,135 @@
-var temp = {}
+/***********************************************
+ Initialization that needs to happen ASAP
+************************************************/
+
+var console_log='';
+if(typeof console == 'undefined') console = {log:function(str){console_log += str + '\n' }};
+
+function getUrlParameters() {
+	var map = {};
+	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+		map[key] = value;
+	});
+return map; 
+}
+
+var params = getUrlParameters();
+
+var answerHTML
+var curPageId;
+var targets_array = {};
+var target_ctr = 0;
+var disable_coms_view = false;
+var scroll_temp_disable_mouseenter = false;
+var scroll_temp_disable_mouseenter_timer;
+var temp_close_com_disable = false;
+var temp = {};
+var lastWinWidth = lastWinHeight = 0;
+var ie7 = false;
+	
+/***********************************************
+	End ASAP initialization
+***********************************************/
+
+/***********************************************
+	Place all of the application initialization code here
+***********************************************/
 $(function(){
+	console.log("execute jquery on ready")
 
-	$('div.comment_links').hide();
-	$('div.ans_comment_links a').hide();
-	
-	setTimeout(init_rating_stars, 1000);
-	//setTimeout(init_team_rating, 1000);
-	activate_endorsement_form();
-	
-	$('div#endorsements table abbr.timeago').timeago();
+	if($.browser.msie){
+		//alert("MSIE version is " + $.browser.version)
+		if($.browser.version.match(/7\./)){
+			ie7 = true;
+		}
+	} 
 
-	$('a.edit_in_place').edit_in_place();
+	var master_debug = false;
 	
-	//console.log("Take down the mask and loading message");
-	$('div#load_mask').remove();
-	$('h2#load_message').remove();
+	var load_ape_client = master_debug ? true : true;
+	console.log("load_ape_client = false")
+	load_ape_client = false;
+	
+	var convert_stars = master_debug ? false : true;
+	var convert_time = master_debug ? false : true;
+	var activate_debug = true;
+	var do_load_templates = master_debug ? true : true;
+	var allow_resize = master_debug ? true : true;
+	var update_css = true;
+	
+	try{ 
+		// this modifies the ajaxSend globally so it will include the auth token with every ajax request
+		$(document).ajaxSend(function(event, request, settings) {
+		  if (typeof(AUTH_TOKEN) == "undefined") return;
+		  // settings.data is a serialized string like "foo=bar&baz=boink" (or null)
+		  settings.data = settings.data || "";
+		  settings.data += (settings.data ? "&" : "") + "authenticity_token=" + encodeURIComponent(AUTH_TOKEN);
+		});
+		// force resize
+		function forceResize(){
+			lastWinWidth = lastWinHeight = 0;
+			resizeUI()
+		}
+
+		if(allow_resize){
+			$(window).resize(function(){
+		    	resizeUI()
+			});
+		}	
+		if(allow_resize) setTimeout(forceResize,3000)
+		if(allow_resize) setTimeout(forceResize,6000)
+		if(allow_resize) setTimeout(forceResize,10000)
+	
+		// call the functions that are stored in activate.js
+		
+		if(do_load_templates)load_templates()
+	
+		NOTIFIER.init();
+		
+		activate_ux_appearance()
+	
+		activate_ux_pages()
+	
+		activate_ux_function_calls();
+		activate_ux_functions_misc();
+		activate_ux_functions_edit();
+	
+		if (load_ape_client) load_ape(chat_container_name);
+
+		if(activate_debug) activate_debug_functions_extras();
+	
+	  if(convert_stars) setTimeout(init_rating_stars, 1000);
+
+		if(convert_time) $("abbr.timeago").timeago();
+		
+		$('span.new').closest('div.Comment_entry').removeClass('one_line_comment').addClass('full_comment_display');
+	
+		_load_times.everything_initialized = new Date();
+		setTimeout(send_load_report, 5000);
+
+		$('div.comment_links').hide();
+		$('div.ans_comment_links a').hide();
+
+		activate_endorsement_form();
+
+		$('div#endorsements table abbr.timeago').timeago();
+
+		$('a.edit_in_place').edit_in_place();
+
+		//console.log("Take down the mask and loading message");
+		$('div#load_mask').remove();
+		$('h2#load_message').remove();
+		
+		
+		//if( !(typeof member_id != 'undefined' && member_id != 0) ) $('form.mini_thumbs_up :submit').attr('disabled','disabled');
+		
+		
+	}catch(e){console.log("idea/idea.js jquery ready function error: " + e.message)}	
 	
 });
+/***********************************************
+	End of application initialization code
+***********************************************/
 
 $('a.delete_endorsement').live('click', 
 	function(){

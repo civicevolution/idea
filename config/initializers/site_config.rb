@@ -4,4 +4,7 @@
   
   class  EditAccessDeniedError < ArgumentError
   end
+
+  class  EmailRejectedError < ArgumentError
+  end
   

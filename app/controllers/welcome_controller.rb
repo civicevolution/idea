@@ -200,7 +200,15 @@ class WelcomeController < ApplicationController
     
     if @saved
       mcode = MemberLookupCode.get_code(@member.id, {:scenario=>'register confirmation'} )
-      MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"], params[:_app_name])
+      begin
+        MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"], params[:_app_name])
+      rescue Net::SMTPFatalError => e
+        @member.destroy
+        @im.destroy
+        logger.info "Registration email was rejected and member destroyed for #{@member.inspect}"
+        @saved = false
+        @member.errors.add(:email,"was rejected as invalid")
+      end
       session[:member_id] = @member.id
     end
 

@@ -1,130 +1,6 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
-/***********************************************
- Initialization that needs to happen ASAP
-************************************************/
-
-var console_log='';
-if(typeof console == 'undefined') console = {log:function(str){console_log += str + '\n' }};
-
-function getUrlParameters() {
-	var map = {};
-	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-		map[key] = value;
-	});
-return map; 
-}
-
-var params = getUrlParameters();
-
-var answerHTML
-var curPageId;
-var targets_array = {};
-var target_ctr = 0;
-var disable_coms_view = false;
-var scroll_temp_disable_mouseenter = false;
-var scroll_temp_disable_mouseenter_timer;
-var temp_close_com_disable = false;
-var temp = {};
-var lastWinWidth = lastWinHeight = 0;
-var ie7 = false;
-	
-/***********************************************
-	End ASAP initialization
-***********************************************/
-
-/***********************************************
-	Place all of the application initialization code here
-***********************************************/
-$(function(){
-	console.log("execute jquery on ready")
-
-	if($.browser.msie){
-		//alert("MSIE version is " + $.browser.version)
-		if($.browser.version.match(/7\./)){
-			ie7 = true;
-		}
-	} 
-
-	var master_debug = false;
-	
-	var load_ape_client = master_debug ? true : true;
-	console.log("load_ape_client = false")
-	load_ape_client = false;
-	
-	var convert_stars = master_debug ? true : false;
-	var convert_time = master_debug ? false : true;
-	var activate_debug = true;
-	var do_load_templates = master_debug ? true : true;
-	var allow_resize = master_debug ? true : true;
-	var chat_container_name = 'page_chat_boxes'; // 'accordion';
-	var update_css = true;
-	var create_tabs = true;
-	
-	try{ 
-		// this modifies the ajaxSend globally so it will include the auth token with every ajax request
-		$(document).ajaxSend(function(event, request, settings) {
-		  if (typeof(AUTH_TOKEN) == "undefined") return;
-		  // settings.data is a serialized string like "foo=bar&baz=boink" (or null)
-		  settings.data = settings.data || "";
-		  settings.data += (settings.data ? "&" : "") + "authenticity_token=" + encodeURIComponent(AUTH_TOKEN);
-		});
-		// force resize
-		function forceResize(){
-			lastWinWidth = lastWinHeight = 0;
-			resizeUI()
-		}
-
-		if(allow_resize){
-			$(window).resize(function(){
-		    	resizeUI()
-			});
-		}	
-		if(allow_resize) setTimeout(forceResize,3000)
-		if(allow_resize) setTimeout(forceResize,6000)
-		if(allow_resize) setTimeout(forceResize,10000)
-	
-		// call the functions that are stored in activate.js
-		
-		if(do_load_templates)load_templates()
-	
-		// do the ux transformations
-		if(create_tabs){
-			//$('div.team_page div.tabs').tabs()
-			//$('div.team_page div.tabs > ul > li').prepend( $('<div class="new_items"></div>'))
-			$('ul.qa_tabs > li').prepend( $('<div class="new_items"></div>'))
-		}
-		
-		NOTIFIER.init();
-		
-		activate_ux_appearance()
-	
-		activate_ux_pages()
-	
-		activate_ux_function_calls();
-		activate_ux_functions_misc();
-		activate_ux_functions_edit();
-	
-		if (load_ape_client) load_ape(chat_container_name);
-
-		if(activate_debug) activate_debug_functions_extras();
-	
-	  if(convert_stars){
-	  	setTimeout(init_rating_stars, 1000);
-	  	setTimeout(init_team_rating, 1000);
-	  } 	
-		if(convert_time) $("abbr.timeago").timeago();
-		
-		$('span.new').closest('div.Comment_entry').removeClass('one_line_comment').addClass('full_comment_display');
-		
-	}catch(e){console.log("jquery ready function error: " + e.message)}	
-	_load_times.everything_initialized = new Date();
-	setTimeout(send_load_report, 5000);
-});
-/***********************************************
-	End of application initialization code
-***********************************************/
 function set_page_tabs_height(page){
 	//console.log("set_page_tabs_height v2");
 	try{
@@ -532,13 +408,6 @@ function showUpdatingMsg(){
 	})(jQuery);
 	
 
-
-	$(function(){
-		$('ul.qa_tabs li').hover(tab_over, tab_out).live('click',tab_click)
-		$('div.tabs.question_tabs li.discuss').click()
-		$('div.team_info_tabs li.propose').click()
-	});
-
 function tab_over(){
 	//console.log("tab_over");
 	var tab = $(this);
@@ -577,9 +446,6 @@ function tab_click(){
 	tab_panel.siblings('div.tab_panel').hide()
 	tab.closest('div.tabs').trigger('tabsshow', [{tab: tab, panel: tab_panel}])
 }
-$(function(){
-	$('ul.qa_tabs').each( function(){ $(this).find('li:first').click() } )
-});
 
 $('a.how').die('click').live('click',
 	function(){

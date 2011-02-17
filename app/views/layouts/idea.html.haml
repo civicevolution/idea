@@ -75,64 +75,64 @@
 						%p
 							The next pages you visit should load much more quickly
 		-#				
-			%div#hidden_forms.hide
-				%div#sign_in_form
-					- form_tag('/welcome/signin',{:class=>'signin_form'}) do
-						%table
-							%tr
-								%td
-									%label{:for=>"email"} Email:
-								%td{:rowspan=>6}
-									%p
-										If you have not already joined the 2029 and beyond community at CivicEvolution, please
-										-#= link_to 'Join our community', {}, {:class=>'join_our_community'}
-										= link_to 'Register', {:controller=>'welcome'}, {:class=>'join_our_community'}
-										now.
-									
-							%tr		
-								%td
-									= text_field_tag :email, params[:email]
-							%tr
-								%td
-									%label{:for=>"password"} Password:
-							%tr		
-								%td
-									= password_field_tag :password, params[:password_field_tag]
-							%tr
-								%td
-									= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)'
-									Stay signed in 
-									%p.signin_warn.hide
-										We'll keep you signed in
-										%br
-										Don't use this on a public computer
-							%tr
-								%td
-									= submit_tag "Sign In"
-									= link_to 'Reset password', {:controller=>'welcome'}, {:class=>'reset_password'}
-									= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
-					
-							
+		%div#hidden_forms.hide
+			%div#sign_in_form
+				- form_tag('/welcome/signin',{:class=>'signin_form'}) do
+					%table
+						%tr
+							%td
+								%label{:for=>"email"} Email:
+							%td{:rowspan=>6}
+								%p
+									If you have not already joined the 2029 and beyond community at CivicEvolution, please
+									-#= link_to 'Join our community', {}, {:class=>'join_our_community'}
+									= link_to 'Register', {:controller=>'welcome'}, {:class=>'join_our_community'}
+									now.
+								
+						%tr		
+							%td
+								= text_field_tag :email, params[:email]
+						%tr
+							%td
+								%label{:for=>"password"} Password:
+						%tr		
+							%td
+								= password_field_tag :password, params[:password_field_tag]
+						%tr
+							%td
+								= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)'
+								Stay signed in 
+								%p.signin_warn.hide
+									We'll keep you signed in
+									%br
+									Don't use this on a public computer
+						%tr
+							%td
+								= submit_tag "Sign In"
+								= link_to 'Reset password', {:controller=>'welcome'}, {:class=>'reset_password'}
+								= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
+				
 						
-				%div#reset_password_form
-					- form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
-						%table
-							%tr
-								%td
-									%label{:for=>"email"} Enter your email:
-							%tr		
-								%td
-									= text_field_tag :email, params[:email]
-							%tr
-								%td
-									= submit_tag "Reset password"
-									= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
-							-#%tr
-							-#	%td
-							-#		= link_to 'Sign in', {}, {:class=>'sign_in'}
-							-#%tr
-							-#	%td
-							-#		= link_to 'Join our community', {}, {:class=>'join_our_community'}
+					
+			%div#reset_password_form
+				- form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
+					%table
+						%tr
+							%td
+								%label{:for=>"email"} Enter your email:
+						%tr		
+							%td
+								= text_field_tag :email, params[:email]
+						%tr
+							%td
+								= submit_tag "Reset password"
+								= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
+						-#%tr
+						-#	%td
+						-#		= link_to 'Sign in', {}, {:class=>'sign_in'}
+						-#%tr
+						-#	%td
+						-#		= link_to 'Join our community', {}, {:class=>'join_our_community'}
 							
 		:javascript
 			_load_times.page_loaded = new Date()
@@ -146,7 +146,7 @@
 
 		= javascript_include_tag "jquery-1.4.4.min.js", "jquery.rating.js", 'jquery.form.js', 'jquery.MetaData.js', 'jquery-ui-1.8.9.custom.min.js','jquery.scrollTo-min.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "jquery.cookies.2.2.0.min.js", "pure.js", "jquery.timeago.js", "jquery.json-2.2.min.js"
 		
-		= javascript_include_tag "idea/team.js", "idea/activate/idea.js", "idea/gen/forms.js","idea/gen/notifier.js", "idea/gen/dispatch.js","APE-Source/APE-init.js", "idea/gen/ape_client.js", "idea/idea.js", "idea/Ideas.js"
+		= javascript_include_tag "idea/team.js", "idea/activate/idea.js", "idea/gen/forms.js","idea/gen/notifier.js", "idea/gen/dispatch.js","APE-Source/APE-init.js", "idea/gen/ape_client.js", "idea/idea.js", "idea/Ideas.js", "idea/activate/act_welcome_layout.js"
 
 		=	stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.9.custom.css','jquery.rating.css'
 		= yield :script

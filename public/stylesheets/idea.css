@@ -60,6 +60,8 @@ div.member_info {
     margin: 0; }
     div.member_info p.signout a.my_teams {
       margin-right: 10px; }
+  div.member_info form.upload_member_photo {
+    display: none; }
 
 div.join_com {
   float: right;
@@ -674,3 +676,23 @@ div#submit_proposal {
 
 div#submit_proposal_acknowledge {
   max-width: 500px; }
+
+form.reset_password_form, form.signin_form, form.register_form {
+  max-width: 400px; }
+  form.reset_password_form label, form.signin_form label, form.register_form label {
+    font-weight: bold; }
+  form.reset_password_form input[type='text'], form.reset_password_form input[type='password'], form.signin_form input[type='text'], form.signin_form input[type='password'], form.register_form input[type='text'], form.register_form input[type='password'] {
+    width: 250px; }
+  form.reset_password_form input[type='submit'], form.signin_form input[type='submit'], form.register_form input[type='submit'] {
+    margin: 20px 0; }
+
+form.signin_form td {
+  vertical-align: top; }
+form.signin_form p {
+  width: 250px;
+  margin: 0 20px 10px 40px; }
+form.signin_form p.signin_warn {
+  margin: 0;
+  padding: 4px;
+  border: 1px solid #f2583e;
+  width: 240px; }
