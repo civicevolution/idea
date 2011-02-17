@@ -45,8 +45,7 @@
 
 			:javascript
 				var mask = document.getElementById('load_mask');
-				mask.style.width = document.width + 'px';
-				mask.style.height = document.height + 'px';
+				mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
 				mask.style.display = 'block';
 				document.getElementById('load_message').style.display = 'block';
 			
@@ -61,8 +60,8 @@
 				
 		:javascript
 			var mask = document.getElementById('load_mask');
-			mask.style.width = document.width + 'px';
-			mask.style.height = document.height + 'px';
+			mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
+			mask.style.height = (document.height ? document.height : document.body.clientHeight) + 'px';
 		
 		-#
 			%div#loading_please_wait

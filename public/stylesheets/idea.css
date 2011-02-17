@@ -7,12 +7,16 @@ img {
 
 div#load_mask {
   background-color: #23238e;
-  opacity: 0.05;
+  filter: alpha(opacity=10);
+  -moz-opacity: 0.1;
+  -khtml-opacity: 0.1;
+  opacity: 0.1;
   z-index: 1000;
   position: absolute;
   top: 0;
   left: 0;
-  display: none; }
+  display: none;
+  height: 1000px; }
 
 h2#load_message {
   color: #23238e;

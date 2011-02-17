@@ -9,6 +9,13 @@ $bsd_bar: #FDC762
 $bsd_bar_light: #fff4e0
 $navy_blue: #23238E
 
+//sass mixin for opacity
+=opacity(!opacity)
+	:filter alpha(opacity= !opacity * 100)
+	:-moz-opacity = !opacity
+	:-khtml-opacity = !opacity
+	:opacity = !opacity
+
 
 body, p, ol, ul, td
 	font-family: verdana, arial, helvetica, sans-serif
@@ -20,12 +27,13 @@ img
 
 div#load_mask
 	background-color: $navy_blue
-	opacity: .05
+	+opacity(0.1)
 	z-index: 1000
 	position: absolute
 	top: 0
 	left: 0
 	display: none
+	height: 1000px
 
 h2#load_message
 	color: $navy_blue
