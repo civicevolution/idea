@@ -598,23 +598,18 @@ form.add_bs_idea_form
 		margin: 16px
 		padding: 16px 0
 
-span.star_hover
-	white-space: wrap
+//span.star_hover
+//	white-space: wrap
 	
-div.bs_rating_red_bg
-	//background-color: red
-	//background: url(/images/red_star.gif) repeat-x left top
-	background: url(/images/red_stars.gif) no-repeat left top
-	height: 16px
-	margin-top: -16px
-div.bs_rating_grey_bg
-	//background-color: red
-	background: url(/images/grey_stars.gif) no-repeat left top
-	height: 16px
-	//width: 82px
-	width: 85px
-	text-align: right
-	margin-left: 0px
+//div.bs_rating_red_bg
+//	background: url(/images/red_stars.gif) no-repeat left top
+//	height: 16px
+//	margin-top: -16px
+//	width: 0
+//div.bs_rating_grey_bg
+//	background: url(/images/grey_stars.gif) no-repeat left top
+//	height: 16px
+//	width: 85px
 div.bs_ideas
 	div.cnt
 		margin-bottom: 2px
@@ -714,6 +709,9 @@ p.intro.cta
 	margin-bottom: 50px
 	
 		
+span.star_hover
+	white-space: wrap
+		
 span.stars
 	display: block
 	float: right
@@ -731,6 +729,20 @@ div.rating
 		margin-right: 10px
 	div.result_stars
 		float: right
+		position: relative
+		div.bs_rating_red_bg
+			background: url(/images/red_stars.gif) no-repeat left top
+			height: 16px
+			width: 0
+			position: absolute
+			top: 0
+			left: 0
+		div.bs_rating_grey_bg
+			background: url(/images/grey_stars.gif) no-repeat left top
+			height: 16px
+			width: 85px
+		
+		
 
 div#submit_proposal
 	p.title

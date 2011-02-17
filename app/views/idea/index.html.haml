@@ -57,10 +57,7 @@
 							- if !def_ans.nil?
 								= link_to "details", {:action=>'bsd', :id=>question.id}, {:class=>'question_details'}
 								%d.question_details.hide= def_ans.text 
-					-#
-					
-					
-			
+
 					%div.q_cta{:id=>question.id}
 						%div
 							= link_to "Please read and respond to 5 new comments", {:action=>'bsd', :id=>question.id}, {:class=>'show_bsd'}
@@ -80,7 +77,7 @@
 											- if answer.my_vote.to_i == 0
 												%div.result_stars
 													%div.bs_rating_grey_bg
-													%div.bs_rating_red_bg{:style=>"width: 0px"}
+													%div.bs_rating_red_bg
 												%div.cnt= "Please rate"
 											- else
 												%div.result_stars

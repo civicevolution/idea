@@ -529,21 +529,6 @@ form.add_bs_idea_form div.add_idea {
   margin: 16px;
   padding: 16px 0; }
 
-span.star_hover {
-  white-space: wrap; }
-
-div.bs_rating_red_bg {
-  background: url(/images/red_stars.gif) no-repeat left top;
-  height: 16px;
-  margin-top: -16px; }
-
-div.bs_rating_grey_bg {
-  background: url(/images/grey_stars.gif) no-repeat left top;
-  height: 16px;
-  width: 85px;
-  text-align: right;
-  margin-left: 0px; }
-
 div.bs_ideas div.cnt {
   margin-bottom: 2px;
   font-size: 0.8em; }
@@ -639,6 +624,9 @@ p.intro {
 p.intro.cta {
   margin-bottom: 50px; }
 
+span.star_hover {
+  white-space: wrap; }
+
 span.stars {
   display: block;
   float: right; }
@@ -656,7 +644,19 @@ div.rating div.cnt {
   float: right;
   margin-right: 10px; }
 div.rating div.result_stars {
-  float: right; }
+  float: right;
+  position: relative; }
+  div.rating div.result_stars div.bs_rating_red_bg {
+    background: url(/images/red_stars.gif) no-repeat left top;
+    height: 16px;
+    width: 0;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  div.rating div.result_stars div.bs_rating_grey_bg {
+    background: url(/images/grey_stars.gif) no-repeat left top;
+    height: 16px;
+    width: 85px; }
 
 div#submit_proposal {
   max-width: 500px; }
