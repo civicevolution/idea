@@ -21,6 +21,9 @@
 				})();
 			
 	%body
+	
+		%div#load_mask
+	
 		%div.page
 			%div.logo
 				%a{ :href=> '/'}
@@ -36,6 +39,17 @@
 					= link_to 'Sign in', {:controller=>'welcome'}, {:class=>'sign_in', :id=>'sign_in_link'}
 					
 			%hr.top
+			%h2#load_message
+				%img{:src=>"/images/rotating_arrow.gif"}
+				Please wait while the page finishes loading
+
+			:javascript
+				var mask = document.getElementById('load_mask');
+				mask.style.width = document.width + 'px';
+				mask.style.height = document.height + 'px';
+				mask.style.display = 'block';
+				document.getElementById('load_message').style.display = 'block';
+			
 			= yield
 			
 			%hr.bottom
@@ -45,11 +59,10 @@
 				= image_tag("ce_logo_20c.gif")
 				%p.tag_line Transform your ideas into solutions
 				
-				
-		
-		
-		
-		
+		:javascript
+			var mask = document.getElementById('load_mask');
+			mask.style.width = document.width + 'px';
+			mask.style.height = document.height + 'px';
 		
 		-#
 			%div#loading_please_wait

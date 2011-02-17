@@ -12,6 +12,10 @@ $(function(){
 
 	$('a.edit_in_place').edit_in_place();
 	
+	//console.log("Take down the mask and loading message");
+	$('div#load_mask').remove();
+	$('h2#load_message').remove();
+	
 });
 
 $('a.delete_endorsement').live('click', 

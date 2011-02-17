@@ -5,6 +5,21 @@ body, p, ol, ul, td {
 img {
   border: none; }
 
+div#load_mask {
+  background-color: #23238e;
+  opacity: 0.05;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none; }
+
+h2#load_message {
+  color: #23238e;
+  display: none;
+  border: 2px solid #23238e;
+  padding: 10px; }
+
 div.page {
   width: 1000px;
   margin: auto; }
