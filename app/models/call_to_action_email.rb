@@ -87,6 +87,13 @@ class CallToActionEmail < ActiveRecord::Base
             FROM members m
             WHERE m.id in (SELECT distinct member_id FROM comments WHERE team_id > 10017)
             ORDER BY first_name, last_name|)
+
+        when 'all 2029'
+          Member.find_by_sql(
+            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id
+            FROM members m, initiative_members im
+            WHERE im.initiative_id in (1,2) and im.member_id = m.id
+            ORDER BY first_name, last_name|)
           
 
         else
