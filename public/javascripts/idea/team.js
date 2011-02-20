@@ -1,117 +1,3 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
-
-function set_page_tabs_height(page){
-	//console.log("set_page_tabs_height v2");
-	try{
-		page = isNaN(page) ? page : $("div#proposal > div.Team > div.Page[id='i" + page + "']");
-		var curWinHeight = $(window).height();
-		var tab_top = $('div.tab_window:visible',page).offset().top
-		//console.log("tab_top: " + tab_top + " curWinHeight: " + curWinHeight + " new tab_window height: " + (curWinHeight - tab_top - 70))
-		$('div.tab_window',page).height(curWinHeight - tab_top - 35);
-	}catch(e){console.log("set_page_tabs_height error: " + e)}
-}
-
-	function change_page(id){
-		try{
-			//console.log("change_page")
-			id = isNaN(id) ? this.getAttribute('href').match(/\d+$/)[0] : id;
-			//console.log("id: " + id)
-
-			var new_page = $("div#proposal > div.Team > div.Page[id='i" + id + "']");
-			adjust_page(new_page);
-			$("div#nav_chat_col a[href='#page" + curPageId + "']").css('color','').closest('div').removeClass('cur_nav_link');
-			$("div#proposal > div.Team > div.Page[id='i" + curPageId + "']").fadeOut(200, 
-				function(){
-					$("div#nav_chat_col a[href='#page" + id + "']").css('color','white').closest('div').addClass('cur_nav_link');
-					// announce new page presence to the team, APE may not be active yet, so I may need to try again
-					//console.log("in change_page fadeout function, I will announce myself")
-					announce_page_presence(true); // this second one updates the sprite position so it will look correct against the active nav bar
-					new_page.fadeIn(200,
-						function(){
-							set_page_tabs_height($(this));
-						},'easeInExpo');
-					adjust_page_coms(new_page);
-					// only call ellipsis if a discussion tab is open/visible
-					if( $('div.tab_window:visible',new_page).hasClass('discussion')) ellipsis(new_page);						
-				},'easeOutExpo'
-			);	
-			var new_chat = $("div#page_chat_boxes > div.nav_chat[id='chat_" + id + "']");	
-			$("div#page_chat_boxes > div.nav_chat[id='chat_" + curPageId + "']").fadeOut(200, 
-				function(){
-					new_chat.fadeIn(200,'easeInExpo');
-				},'easeOutExpo'
-			
-			);
-			curPageId = id;
-			// announce new page presence to the team, APE may not be active yet, so I may need to try again
-			//console.log("in change_page  function, I will announce myself")
-			announce_page_presence();
-		}catch(e){ console.log("change_page error: " + e)}
-		return false;
-	}
-	function announce_page_presence(no_announce){
-		try{
-			//console.log("announce_page_presence-call my notifier")
-			NOTIFIER.inform( { 
-				type: 'presence',
-				page_id: curPageId,
-				ape_code: member.ape_code
-			});
-			if(!no_announce && member.client ) member.client.pipe.send(curPageId + '-' + member.ape_code);
-		}catch(e){
-			//console.log("announce_page_presence error: " + e.message)
-			setTimeout(announce_page_presence,5000);
-		}
-		
-	}
-	
-	function adjust_page(page){
-		//console.log("adjust_page for temp.page")
-		// if the page needs to be updated, do it here
-		// this should be automated with registered events. but for now it can be simple
-		if($('div#team_tab',page).size() > 0) update_proposal();
-	}
-	
-	function update_proposal(){
-		$('div#current_proposal_view').html('')
-		//var proposal = $('<div id="proposal_view"></div>');
-		var proposal = $('<div id="proposal_view"></div>');
-		//proposal.append( $('h3.team_title').clone(true) )
-		$('div.Page').each(
-		  function(){
-		    $('div.Question_entry',this).each(
-		      function(){
-		        question = $(this).find('div.question:first').text();
-		        question = $('<div class="question" id="prop_ques_' + $(this).closest('.Question').attr('id') + '"><p class="prop_q">' + question + '</p></div>');
-		        proposal.append(question)
-		        //console.log("question: " + question)
-		        proposal.append( question )
-		        var answers =  $('div.answer',this);
-		        if(answers.size() > 0){
-
-		          answers.each(
-		            function(){
-									// console.log("answer: " + $(this).html() )
-									answer = $(this).clone()
-									answer.attr('id','prop_' + answer.attr('id'));
-		             //console.log("answer: " + answer.html())
-		             //answer = $('<div class="answer">' + answer + '</div>');
-		             question.append(answer)
-		            }
-		          )
-		        }else{
-		          //console.log("no answer yet")
-		          question.append('<div class="answer no_answers"><p>No answers have been suggested yet</p></div>') 
-		        }        
-
-		      }
-		    )
-		  }
-		)
-		$('div#current_proposal_view').html('');
-		$('div#current_proposal_view').append(proposal);
-	}
 
 	function setFormFocusFade(form){
 	  form = $(form);
@@ -166,7 +52,7 @@ function set_page_tabs_height(page){
 	
 	
 function init_rating_stars(obj){
-	console.log("init_rating_stars, activate star_hover v2");
+	//console.log("init_rating_stars, activate star_hover v2");
 	try{
 		if(!obj || !obj.size || obj.size() == 0 ) obj = $(':radio.star');
 		//console.log("obj.size(): " + obj.size() );
@@ -183,7 +69,22 @@ function init_rating_stars(obj){
 						//console.log("rating submit success, call dispatchRating");
 						temp.rating_submit = data;
 					  dispatchRating( data[0].params, true );
-				  }				
+				  },
+					error : function(xhr,errorString,exceptionObj){
+						console.log("Error on answer rating submit, xhr: " + xhr.responseText)
+						try{
+							var form_errors = eval(xhr.responseText)[0];	
+							if(form_errors[0][0] == 'Sign in required'){
+								console.log("show the sign in form");
+								show_signin_form('rate an answer');
+							}else{
+								console.log("answer rating error, not sign in required")
+							}
+						}catch(e){
+							console.log("answer rating submit browser error in server error handling: " + e)
+							$('<div><p>Sorry, we cannot process your answer rating at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+						}
+					}
 				});
 			}, 
 			focus: function(value, link){
@@ -209,106 +110,6 @@ function showUpdatingMsg(){
 	$('.rating_results > span',jForm).html("Updating, please wait...")
 }
 
-
-	function showProposalView(old_id, new_id){
-		//$('div#i' + old_id).hide(500)
-		$('div#i' + old_id).hide("blind", { direction: "vertical" }, 600, function(){
-			//console.log("showProposalView hide callback");
-			$('div#i' + new_id).show("blind", { direction: "vertical" }, 600)
-		})
-		//$('div#i' + new_id).show(500)
-		//$('div#i' + new_id).show("blind", { direction: "vertical" }, 400)
-	}
-
-
-	function edit_list_item(){
-		//console.log("edit_list_items")
-		var el = this;
-		try{
-			var id = $(el).attr('href').match(/(\w+)_list_item\/(\d+)/)
-			var mode = id[1];
-			id = id[2]
-			//console.log("type: " + mode + " id: " + id)
-			//debugger
-			var text = mode == 'add' ? '' : strip_white_space($(this).closest('li').find('div.list_item').text())
-
-			var html = jsonFn['list_item_input']({id: id, list_id: id, mode: mode, text: text });
-			var	edit_div = $(html);
-			// insert form
-			if(mode == 'add'){
-				//console.log(html)
-				// append to list
-				$(this).closest('div.list').find('ul').append(edit_div)
-				$(this).closest('div.list').find('ul').scrollTo(edit_div,800)			
-			}else{
-				// replace current
-				var entry = $(this).closest('li');
-				var oldEntry = entry.clone(true);
-				entry.replaceWith(edit_div);
-				var t = $("div." + mode,oldEntry).html()
-		    $.data(edit_div[0],"oldEntry",oldEntry); 
-				$(edit_div).closest('div.list').find('ul').scrollTo(edit_div,800)
-			}
-
-			// Now I need submit and cancel				
-			$('button',edit_div).click( function(e){
-				//return false
-				var form = $(this).closest('form');
-				var btn = $(this)
-				btn.attr('disabled',true)
-				$(':input',form).removeClass('form_error_border');
-				$('p.form_error_text',form).remove();
-				form.ajaxSubmit({ 
-				  type: "POST", 
-				  url: "/idea/create_list_item", 
-				  success: function(html,status){ 
-						//console.log("item success")
-						if(mode == 'add'){
-							var li = form.closest('li');
-							li.hide(1000, function () { 
-							  li.remove();
-							});
-						}
-				  },
-					error : function(xhr,errorString,exceptionObj){
-						//console.log("Error, xhr: " + xhr.responseText)
-						try{
-							show_form_error(form, xhr.responseText)
-							btn.removeAttr('disabled')
-						}catch(e){
-							btn.removeAttr('disabled')
-							console.log("Comment submit error: " + e)
-							$('<div><p>Sorry, we cannot process your comment at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
-						}
-					}
-				});
-				return false;
-			});
-
-			$('a',edit_div).click( function(e){
-				//console.log("cancel edit_ite")
-				var form = $(this).closest('form');
-				var par = form.closest('li');	
-				// if this is edit, the par has an oldPar data value, restore it, otherwise close the 
-		   	var oldEntry = $.data(par[0], "oldEntry");
-				if(inputs_are_empty_or_confirm_close(form)){
-					if(oldEntry){
-						$.data(par[0], "oldEntry",null);
-						par.replaceWith(oldEntry);					
-					}else{
-						par.remove();
-					}
-				}
-			});		
-
-
-
-		}catch(e){
-			console.log(e)
-		}
-		return false;
-	}
-
 	function view_history(){
 		//console.log("view_history")
 		try{
@@ -326,48 +127,6 @@ function showUpdatingMsg(){
 
 		}catch(err){
 			console.log("view_history error: " + err)
-		}
-		return false;
-	}
-
-	function view_chat_transcript(){
-		var a = $(this);
-		try{
-			var id = Number(a.attr('href').match(/\d+$/))
-			//console.log("view_chat_transcript id: " + id)
-
-			$.get('/idea/page_chat_transcript', 'id=' + id, function(html) {
-				var dlg = $(html).dialog( {title : 'Chat transcript', width: '500px'} )
-				dlg.css('border','1px solid black');
-			}, 'html');
-
-		}catch(err){
-			console.log("view_chat_transcript error: " + err)
-		}
-		return false;
-	}
-
-
-
-	function delete_item(e){
-		var el = this; // for $().live('type',func) or el = e.currentTarget for $().click(func)
-		try{
-			var id = $(el).attr('href').match(/(delete_\w+)\/(\d+)/)
-			var type = id[1]
-			id = id[2]
-			//console.log('delete ' + type + ' id: ' + id)
-			if(confirm('Are you sure you want to delete this item?\n\nDelete cannot be undone!\n\nClick "Yes" to delete now.')){
-
-				$.post('/idea/' + type, 'id=' + id, function(data) {
-					// Show error message, if any
-					if (data.error) {
-						alert(data.error);
-					}
-					//console.log("delete the " + type + " div.item or div.pieces\n" + "delete_mode: " + data.delete_mode)
-				}, 'json');
-			}
-		}catch(err){
-			console.log("error: " + err)
 		}
 		return false;
 	}
@@ -407,45 +166,6 @@ function showUpdatingMsg(){
 	//
 	})(jQuery);
 	
-
-function tab_over(){
-	//console.log("tab_over");
-	var tab = $(this);
-	if( !tab.hasClass('active') ){
-		tab.addClass('hover');
-		temp.tab = tab;
-		var tab_class = tab.attr('class').replace(' hover','');
-		temp.tab_class = tab_class;
-		var par = tab.closest('div.tabs');
-		par.children('div.tab_panel:visible').children('div.instr').hide().after(
-			par.children('div.' + tab_class + ' > div.instr > p.instr:first').clone(true).addClass('rollover')
-		)
-	} 
-	
-}
-function tab_out(){
-	//console.log("tab_out");
-	var tab = $(this)
-	tab.removeClass('hover');		
-	var par = tab.closest('div.tabs')
-	par.children('div.tab_panel:visible').children('div.instr:first').show().siblings('p.rollover').remove()
-		
-}
-
-function tab_click(){
-	//console.log("tab_click");
-	var tab = $(this);
-	// restore the current active tab
-	tab.closest('div.tabs').children('div.tab_panel:visible').children('div.instr:first').show().siblings('p.rollover').remove()
-	tab.siblings('li').removeClass('active').end().removeClass('hover');
-	var tab_class = tab.attr('class');		
-	tab.addClass('active');
-	//console.log("activate tab: " + tab_class)
-	tab_panel = tab.closest('div.tabs').find('div.' + tab_class);
-	tab_panel.show()
-	tab_panel.siblings('div.tab_panel').hide()
-	tab.closest('div.tabs').trigger('tabsshow', [{tab: tab, panel: tab_panel}])
-}
 
 $('a.how').die('click').live('click',
 	function(){

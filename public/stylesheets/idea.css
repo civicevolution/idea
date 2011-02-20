@@ -1,4 +1,4 @@
-body, p, ol, ul, td {
+body, p, ol, ul, td, textarea {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px; }
 
@@ -25,7 +25,7 @@ h2#load_message {
   padding: 10px; }
 
 div.page {
-  width: 1000px;
+  width: 980px;
   margin: auto; }
 
 div.logo {
@@ -101,7 +101,7 @@ p.loading {
 
 div.idea_page {
   float: left;
-  width: 798px; }
+  width: 778px; }
 
 h2.home_title {
   margin: 20px 41px 0px 41px; }
@@ -196,7 +196,7 @@ div.ans {
   padding: 40px 0; }
 
 div.discussion {
-  width: 420px;
+  width: 400px;
   margin-left: -20px; }
   div.discussion form.add_comment_form {
     margin-left: 20px; }
@@ -210,7 +210,7 @@ div.brainstorming {
     display: none; }
 
 div.gen_discussion {
-  width: 450px;
+  width: 430px;
   float: left;
   margin-left: 40px; }
 
@@ -360,7 +360,8 @@ div.Comment_entry.full_comment_display span.author {
 div.Comment_entry.full_comment_display abbr {
   display: block;
   font-size: 80%;
-  margin-top: -4px; }
+  margin-top: -4px;
+  border: none; }
 div.Comment_entry.full_comment_display abbr.move_up {
   margin-top: -16px; }
 div.Comment_entry.full_comment_display div.comment_text {
@@ -696,3 +697,6 @@ form.signin_form p.signin_warn {
   padding: 4px;
   border: 1px solid #f2583e;
   width: 240px; }
+form.signin_form p.signin_action_warn {
+  color: red;
+  font-weight: bold; }

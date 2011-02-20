@@ -9,12 +9,19 @@ $(function(){
 $('a.sign_in').die('click').live('click',
 	function(){
 		try{
-			var link = $('a#sign_in_link')
-			var pos = link.position();
-			var top = pos.top + 20;
-			var left = pos.left - 600 + link.width();
+			//var link = $('a#sign_in_link')
+			var link = $(this);
+			if(link.size()==0 || link.attr('pos') == 'center'){
+				var pos = 'center';				
+			}else if(link.size()>0){
+				var pos = link.position();
+				var top = pos.top + 20;
+				var left = pos.left - 600 + link.width();
+				pos = [left,top]
+			}
 			
-			var dialog = $('<div id="sign_in_dialog"></div>').dialog( {title : 'Please sign in', modal : true, width: '600px', position : [left,top] } ).append(  $('div#hidden_forms div#sign_in_form').clone(true) )
+			var dialog = $('<div id="sign_in_dialog"></div>').dialog( {title : 'Please sign in', modal : true, width: '600px', position : pos } ).append(  $('div#hidden_forms div#sign_in_form').clone(true) )
+			if(pos == 'center')	$('a',dialog).attr('pos','center');
 			$('input[name="email"]', dialog).focus()
 			//var cur_form = $('form.signin_form:visible').size() > 0 ? $('form.signin_form') : $('form.reset_password_form');
 			var form = dialog.find('form')
@@ -22,7 +29,7 @@ $('a.sign_in').die('click').live('click',
 			$('p.form_error_text',form).remove();
 			
 			// if this was called by a link in a dialog, remove the dialog
-			$(this).closest('div.ui-dialog').dialog('destroy').remove()
+			if(link.size()>0) link.closest('div.ui-dialog').dialog('destroy').remove()
 		}catch(e){console.log("sign in link click e: " + e )}
 		return false
 	}
@@ -31,14 +38,22 @@ $('a.sign_in').die('click').live('click',
 $('a.reset_password').die('click').live('click',
 	function(){
 		try{
-			var link = $('a#sign_in_link')
-			var pos = link.position();
-			var top = pos.top + 20;
-			var left = pos.left - 285 + link.width();
-			var dialog = $('<div id="sign_in_dialog"></div>').dialog( {title : 'Reset my password', modal : true, width : '285px', position : [left,top] } ).append(  $('div#hidden_forms div#reset_password_form').clone(true) )
+			//var link = $('a#sign_in_link')
+			var link = $(this)
+			if(link.size()==0 || link.attr('pos') == 'center'){
+				var pos = 'center';				
+			}else if(link.size()>0){
+				var pos = link.position();
+				var top = pos.top + 20;
+				var left = pos.left - 285 + link.width();
+				pos = [left,top]
+			}
+
+			var dialog = $('<div id="sign_in_dialog"></div>').dialog( {title : 'Reset my password', modal : true, width : '285px', position : pos } ).append(  $('div#hidden_forms div#reset_password_form').clone(true) )
+			if(pos == 'center')	$('a',dialog).attr('pos','center');
 			$('form.reset_password_form input[name="email"]').val( $('input[name="email"]', $(this).closest('form')).val() )
-			$('input[name="email"]', dialog).focus()
-			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			$('input[name="email"]', dialog).focus();
+			if(link.size()>0) link.closest('div.ui-dialog').dialog('destroy').remove()
 		}catch(e){console.log("register click e: " + e )}
 		return false
 	}
@@ -48,16 +63,30 @@ $('a.reset_password').die('click').live('click',
 $('a.join_our_community').die('click').live('click',
 	function(){
 		try{
-			var link = $('a#sign_in_link')
-			var pos = link.position();
-			var top = pos.top + 20;
-			var left = pos.left - 480 + link.width();
+			//var link = $('a#sign_in_link')
+			var link = $(this)
+			if(link.size()==0 || link.attr('pos') == 'center'){
+				var pos = 'center';				
+			}else if(link.size()>0){
+				var pos = link.position();
+				var top = pos.top + 20;
+				var left = pos.left - 480 + link.width();
+				pos = [left,top]
+			}
 			
-			var dialog = $('<div>Loading...</div>').dialog( {title : 'Please register', modal : true, width : '480px', position : [left,top], closeOnEscape : false } )
-				.load( '/welcome/join_our_community', function(){ $('input[type="text"]:first', this).focus()} )
-
-			$(this).closest('div.ui-dialog').dialog('destroy').remove()
+			$('<div></div>').load("/welcome/join_our_community", 
+				function(){
+					var $this = $(this);
+					$this.dialog( {title : 'Please register', modal : true, width : '480px', position : pos, closeOnEscape : false } )
+					if(pos == 'center')	$('a',dialog).attr('pos','center');
+				}
+			)
+			if(link.size()>0) link.closest('div.ui-dialog').dialog('destroy').remove()
 			
+			//var dialog = $('<div>Loading...</div>').dialog( {title : 'Please register', modal : true, width : '480px', position : pos, closeOnEscape : false } )
+			//	.load( '/welcome/join_our_community', function(){ $('input[type="text"]:first', this).focus()} )
+			//if(pos == 'center')	$('a',dialog).attr('pos','center');
+			//if(link.size()>0) link.closest('div.ui-dialog').dialog('destroy').remove()
 		}catch(e){console.log("register click e: " + e )}
 		return false
 	}

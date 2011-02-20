@@ -3,11 +3,27 @@
 */
 
 function load_ape(chat_container_name){
+	console.log("load ape.js")
+	$.getScript('/javascripts/APE-Source/APE-init.js',
+		function(data){
+			console.log("loaded APE-Source/APE-init.js");		
+
+			$.getScript('/javascripts/idea/gen/ape_client.js',
+				function(data){
+					console.log("loaded ape_client.js");	
+					init_ape_client(chat_container_name);
+				}
+			);
+		}
+	);
+	return false;
+}
+
+function init_ape_client(chat_container_name){
 	_load_times.load_ape = new Date()
 	if(params['ape'] == 'none'){
 		console.log("XXXXXXXXXXXXXXXXXX APE WILL NOT BE LOADED")
 	}else{
-		//console.log("ce/activte/teams.js javascript to create the client")
 		if( typeof member.client == undefined || !member.client){
 			member.client = new APE.Shoutbox( chat_container_name );
 			member.client.load({
@@ -19,61 +35,6 @@ function load_ape(chat_container_name){
 
 }
 
-//var apeResetWatchDog = setTimeout(reinitializeApe,90000);
-
-function reinitializeApe(){
-	console.log("reinitializeApe - resetting APE comm now")
-	
-	if(!temp.ape_reinitialize_notified){
-		$.post('/client_debug/ape_report', {browser: navigator.userAgent, failure: 'watchdog reinit v1'})
-		temp.ape_reinitialize_notified = true
-	}
-	// reinit APE causes problems so don't use it now
-	// i sent a notification
-	// I can try member.client.reconnect()
-	try{
-		member.client.reconnect()
-	}catch(e){}
-	
-	// disable the clien
-	//member.client.core.clearSession();
-	//delete member.client.core
-	//delete member.client
-	//$('iframe.ape').remove()
-	//chat_container_name = 'page_chat_boxes';
-	//member.client = new APE.Shoutbox( chat_container_name );
-	//member.client.load({
-	//	'identifier':'chatdemo',
-	//	'channel':'team' + team_id
-	//});		
-	//console.log("reinitializeApe - APE comm has been reset")
-	setTimeout(announce_page_presence,15000);
-}
-
-
-/*
-	activate_ux_function_calls activates core user functionality
-*/
-
-function activate_ux_function_calls(){
-	
-	$('a.view_history').die('click').live('click',view_history);
-	$('a.view_transcript').die('click').live('click',view_chat_transcript);
-	
-	
-	//$('a.my_teams').die('click').live('click', link_disabled);
-	//$('a.settings').die('click').live('click', link_disabled);
-	//$('a.feedback').die('click').live('click', link_disabled);
-	//$('a.help').die('click').live('click', link_disabled);
-	
-	// defined functions 
-	
-	function link_disabled(){
-		$('<div><p>Sorry, this function is not currently active, we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
-		return false;
-	}	
-
-} // end activate_ux_function_calls
 
 /*
 	activate_ux_functions_misc activates core user functionality
@@ -143,20 +104,7 @@ function activate_ux_functions_misc(){
 	$('div.Question,div.Answer').each( function(){ $('div.coms_inner',this).prepend( $(this).children('div.Comment' )) });
 		
 	
-	
-	
-	$('div#proposal_view .question').die('click').live('click',
-	  function(){
-	    //console.log("this.id: " + this.id)
-	    //console.log("Number(this.id.match(/\d+/)): " + Number(this.id.match(/\d+/)))
-			// target id is for question, find question's page
-			temp.prop_ques = this;
-			id = Number(this.id.match(/\d+/))
-			change_page(Number( $('#i' + id).closest('.Page').attr('id').match(/\d+/)))
-	    $("div#proposal > div.Team > div.Page[id='i" + curPageId + "']").find('ul.qa_tabs li').eq(2).click()
-			return false;
-	  }
-	);
+
 	
 	$('a.sign_out').die('click').live('click', 
 		function(){
@@ -253,43 +201,6 @@ function activate_ux_functions_misc(){
 	
 
 } // end activate_ux_functions_misc 
-
-/*
-	activate_ux_pages activates the pages
-*/
-
-function activate_ux_pages(){
-	
-	//var page_links = $('#nav_chat_col div.nav a');
-	//curPageId = page_links[0].getAttribute('href').match(/\d+$/)[0];
-	////console.log("curPageId: " + curPageId)
-	////console.log("set links to change_page for page_links.size(): " + page_links.size() )
-	//page_links.die('click').live('click', change_page);
-	//$('div#nav_chat_col > .nav a:first').click();
-	//
-	//$('div.member_indicator').attr({href:'#page_presence_cluetip', rel: '#page_presence_cluetip', title: 'Team members viewing this page'}).cluetip(
-	//  {local: true, 
-	//  hideLocal: true, 
-	//  cursor: 'pointer',
-	//  onActivate: NOTIFIER.report_page_presence}
-	//);
-  //
-	//
-	//$('a.view_history').cluetip({
-	//  cluetipClass: 'jtip', 
-	//  arrows: true, 
-	//  dropShadow: false, 
-	//  height: '300px', 
-	//  width: '400px',
- 	//  sticky: true,
-	//	showTitle: false,
-	//  positionBy: 'bottomTop'
-	//});	
-	
-	
-} // end activate_ux_pages
-
-
 
 
 
@@ -407,154 +318,16 @@ function activate_ux_appearance(){
 	)
 } // end activate_ux_appearance
 
-function update_embedded_discussion_links(page){
-	//console.log("update_embedded_discussion_links");
-	var page_disc = $(page).find('.inner_question_discussion');
-	// I can also call this to update the link for a single item, in which case page is an element in the page
-	var single_mode = false;
-	if(page_disc.size() == 0 ){
-		page_disc = $(page).closest('.Page').find('.inner_question_discussion');
-		single_mode = true;
-		temp.update_embedded_discussion_links_single_mode_page = page
-	} 
-	//console.log("single_mode: " + single_mode)
-	$('a.com_on_tgt',page).each(
-	  function(){
-			//if(single_mode)debugger
-	    var link = $(this);
-	    var id = Number(link.attr('href').match(/\d+$/))
-			if(link.hasClass('idea')){
-		    var idea_coms = $('div[target_id=' + id + '][target_type=11]',page_disc).parent().find('div.comment');
-				var new_coms = idea_coms.find('span.new._comment')
-		    //console.log("find coms with target_id: " + id + " coms: " + idea_coms.size() )
-				if(new_coms.size()>0){
-					var str = ('View ' + new_coms.length + ' new comment') + ((new_coms.length==1) ? '' : 's')
-					link.css('color','red');
-					if(single_mode){
-						//console.log("single mode idea , str: " + str)
-			      link.attr('title_count', str );
-						if(!link.html().match(/Close/)){
-							link.html( str );
-						}
-					}else{
-			      link.html( str );
-					}
-				}else if(idea_coms.size()>0){
-		      link.html('View ' + idea_coms.size() + ' comments')
-		    }else{
-		      link.html('Discuss')
-		    }
-			}else{
-		    var ans_coms = $('div[target_id=' + id + '][target_type=2]',page_disc).parent().find('div.comment');
-				var new_coms = ans_coms.find('span.new._comment')
-		    //console.log("find coms with target_id: " + id + " coms: " + idea_coms.size() )
-				if(new_coms.size()>0){
-					var str = ('View ' + new_coms.length + ' new comment') + ((new_coms.length==1) ? '' : 's')
-					link.css('color','red');
-					if(single_mode){
-						//console.log("single mode ans , str: " + str)
-			      link.attr('title_count', str );
-						if(!link.html().match(/Close/)){
-							link.html( str );
-						}
-					}else{
-			      link.html( str );
-					}					
-				}else if(ans_coms.size()>0){
-		      link.html('View ' + ans_coms.size() + ' comments')
-		    }else{
-		      link.html('Discuss')
-		    }
-			}
-	  }
-	)
-}
 
 /*
 	activate_debug_functions_core contains important functions and links for debugging
 */
 
-//function activate_update_css_functions(){
-//	var h = $('div#logo')
-//	h.wrap('<a href="#"></a>');
-//	h.closest('a').click( function(){
-//		$('head').append('<link href="/stylesheets/ce1a.css?' + Math.round(Math.random() * 10000000000) + '" media="screen" rel="stylesheet" type="text/css" />');
-//		$('head').append('<link href="team/get_dev_css?' + Math.round(Math.random() * 10000000000) + '" media="screen" rel="stylesheet" type="text/css" />');
-//	});		
-//} // end activate_update_css_functions
 
 function reload_css(){
 	$('head').append('<link href="/stylesheets/ce1as.css?' + Math.round(Math.random() * 10000000000) + '" media="screen" rel="stylesheet" type="text/css" />');
 	$('head').append('<link href="team/get_dev_css?' + Math.round(Math.random() * 10000000000) + '" media="screen" rel="stylesheet" type="text/css" />');
 }		
-
-
-/*
-	activate_debug_functions contains non-essential functions and links for debugging
-*/
-
-function activate_debug_functions_extras(){
-
-		$('#get_ape_item').die('click').live('click', request_ape_send);
-	
-		$('a.test_template').unbind('click').click( load_templates );
-	
-		$('a.update_com_func').click(
-			function(){
-				//console.log(".update_com_func'.click")
-				$.getScript('/javascripts/app_dev.js')
-				return false;
-			}
-		).click();
-
-		$('a.test_pure').click(
-			function(){
-				$.getScript('/javascripts/test_pure.js')
-				return false;
-			}
-		);
-	
-		$('a.update_insert_func').click(
-			function(){
-				//console.log(".update_com_func'.click")
-				$.getScript('/javascripts/item_update.js')
-				return false;
-			}
-		);	
-	
-		$('.clear_ape_updates').unbind('click').click(
-			function(){
-				//console.log("clear_ape_updates")
-				return false;
-			}
-		);
-
-		$('.clear_shoutbox_func').unbind('click').click(
-			function(){
-				//console.log("clear_shoutbox_func")
-				$('#shoutbox_msg').html("");
-				return false;
-			}
-		);
-
-		$('a.clear_ape_updates').unbind('click').click(
-			function(){
-				//console.log('clear the divs I inserted')
-				$('div.test_insert').remove()
-				return false;
-			}
-		);
-		
-		$('a.load_js').click(
-			function(){
-				//console.log(".update_com_func'.click")
-				$.getScript('/javascripts/temp.js')
-				$.getScript('/javascripts/item_update.js')
-				return false;
-			}
-		).click();
-} // end activate_debug_functions_extras
-
 
 function request_help_submit(form){
 	var msg = form[0].message.value;
@@ -680,12 +453,3 @@ function send_load_report(){
 	}catch(e){console.log("Failed to send load_report with e: " + e.message)}
 }
 
-function team_role_volunteer(){
-	try{
-		var el = $(this)
-		console.log("team_role_volunteer id: " + el.attr('id') + ", act: " + el.attr('act') );
-		el.closest('td').load('/idea/roles', {act: el.attr('act'), team_id: team_id, role_id: el.attr('id') })
-		
-	}catch(e){console.log("team_role_volunteer failed with e: " + e.message)}
-	return false;
-}

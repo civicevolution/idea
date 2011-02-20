@@ -75,42 +75,6 @@ $('a.edit_com').die('click').live('click',
 	}
 );
 
-
-
-function request_ape_send(){
- //console.log("request_ape_send")
-	var id = $(this).parent().find('#ape_item_id').val()
- //console.log("request_ape_send for item: " + id)
-	$.get('http://cgg.1civicevolution.org/idea/send_ape/',{id: id}, 
-		function(data,status){
-			//console.log("request_ape_send data: " + data);
-			//console.log("request_ape_send status: " + status);
-		 //console.log("saved ape data to temp.send_ape_data")
-			temp.send_ape_data = data
-			// Now dispatch this data to insert it as a new item
-		 //console.log("call dispatchItem with submit_reponse = true for raw " + data[0].params.raw)
-			switch(data[0].params.raw){
-				case 'com_json':
-					dispatchComment(data[0].params.data,true)
-					break;
-				case 'ans_json':
-					dispatchAnswer(data[0].params.data,true)
-					break;
-				case 'ques_json':
-				 //console.log("ques_json dispatch not defined yet")
-				case 'bs_idea':
-					dispatchBsIdeas(data[0].params,true)
-					break;
-				default:
-				 //console.log("dispatch not defined for " + data[0].params.raw)
-			}
-
-		},
-		'json')
-	return false;
-	
-}
-
 $('div.answers a.add_answer').die('click').live('click', show_answer_form);
 
 function show_answer_form(){
@@ -389,7 +353,7 @@ function activate_comment_form(form,orig_com){
 						form.find('div.attach_file').find('input[type="text"], textarea, input[type="file"]').attr('disabled','disabled');
 						break;						
 				}
-				
+				console.log("submit comment")
 				form.ajaxSubmit({ 					
 				  type: "POST", 
 				  url: "/idea/create_" + type, 
@@ -559,7 +523,6 @@ function activate_report_form(form){
 
 
 function activate_endorsement_form(form,orig_idea){
-	console.log("activate_endorsement_form")
 	form = $('div#endorsements form');
 	activate_text_counters_grow( $('textarea',form) )
 
@@ -684,70 +647,6 @@ function activate_submit_form(form){
 }
 
 
-function announceNoChat(){
-	console.log("announceNoChat")
-	$('td.init_chat').each( function(){this.innerHTML = 'Chat and live page updates are currently unavailable.<br/><br/>Please try to refresh your browser.<br/><br/>We apologise for the inconvenience'});
-}
-//var ape_watchdog = setTimeout(announceNoChat,60000);
-
-function activateChatWindows(chat_container){
-}	
-
-function chat_submit(form){
-	var msg = form[0].text.value;
-	msg = msg.replace(/^\s+/,'').replace(/\s+$/,'');
-	if(msg.length == 0) return false;
-	if(msg.match(/::js_cmd::/)){
-		process_commands_through_chat(msg);
-		form[0].text.value = ''
-		return false;
-	}
- //console.log('v4: submit form chat form msg: ' + msg + " VIA chat_submit func")
-	
-	var btn = $('input.chat_submit',form);
-	btn.attr('disabled',true);
-	$(':input',form).removeClass('form_error_border');
-	$('p.form_error_text',form).remove();
-	
-	if(msg!=''){
-		form.ajaxSubmit({ 					
-		  type: "POST", 
-		  url: "/idea/page_chat_message", 
-			data: {text : msg, page_id : form[0].page_id.value },
-			//dataType: 'json',
-		  success: function(data,status){ 
-				//console.log("chat submit success, call dispatchPageChatMessage");
-				data = eval(data)
-				temp.chat_submit_response = data
-			  dispatchPageChatMessage( data[0].params, true );
-				form[0].text.value = ''
-				btn.removeAttr('disabled')
-		  },
-			error : function(xhr,errorString,exceptionObj){
-				console.log("Error, xhr: " + xhr.responseText)
-				try{
-					show_form_error(form, xhr.responseText);
-					btn.removeAttr('disabled')
-				}catch(e){
-					btn.removeAttr('disabled')
-					console.log("Chat submit error: " + e)
-					$('<div><p>Sorry, we cannot process your chat message at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
-				}
-			}
-		});
-		return false;			
-	}
-}	
-
-function process_commands_through_chat(cmd){
-	console.log("1. process_commands_through_chat cmd: " + cmd)
-	try{
-		cmd = cmd.match(/::js_cmd::(.*)/)[1]
-		console.log("2. process_commands_through_chat cmd: " + cmd)
-		eval(cmd)
-	}catch(e){console.log("error in process_commands_through_chat e: " + e.message)}
-}
-
 function activate_text_counters_grow(els){
 	var focused = false;
 	els.each(
@@ -797,7 +696,10 @@ function show_form_error(form, response) {
 	// form_errors[name] must have come from evaluating the script text
 	for(var i=0,error;(error = form_errors[i]);i++){
 		//console.log("error field: " + error[0] + ", message: " + error[1])
-		if(error[0] == 'timeout'){
+		if(error[0] == 'Sign in required'){
+			console.log("show the sign in form");
+			show_signin_form(error[1]);
+		}else if(error[0] == 'timeout'){
 			//console.log("there is a base error: " + error[1])
 			$('<div><p>Sorry, your session has expired, you must sign in again to continue.</p></div>').dialog( {title : 'Warning', modal : true } )
 		}else	if(error[0] == 'reload_recaptcha'){			
@@ -821,6 +723,17 @@ function show_form_error(form, response) {
 			inp.before('<p class="form_error_text">' + ( inp.attr('alias') || error[0] ) + ' ' + error[1] + '</p>')
 		}
 	}
+}
+
+function show_signin_form(action){
+	var dialog = $('<div id="sign_in_dialog"></div>').dialog( {title : 'Please sign in', modal : true, width: '600px'} ).append(  $('div#hidden_forms div#sign_in_form').clone(true) )
+	$('input[name="email"]', dialog).focus();
+	$('a',dialog).attr('pos','center');
+	//var cur_form = $('form.signin_form:visible').size() > 0 ? $('form.signin_form') : $('form.reset_password_form');
+	if(action) dialog.find('td#signin_msg').prepend('<p class="signin_action_warn">You must sign in or register to ' + action + ' and then try again</p>')
+	var form = dialog.find('form')
+	$(':input',form).removeClass('form_error_border');
+	$('p.form_error_text',form).remove();
 }
 
 function strip_white_space(t){
@@ -849,10 +762,8 @@ function inputs_are_empty_or_confirm_close(container, msg){
 }
 
 function load_templates(templates){
-	console.log("load ce_templates.js")
 	$.getScript('/javascripts/idea/gen/templates.js',
 		function(data){
-			console.log("load templates")		
 			$.get("/idea/get_templates",
 				function(data){ 
 					create_templates(data)
@@ -886,24 +797,24 @@ function thumbs_up() {
 					//console.log("com_rate submit success, call dispatchComRating"); with submit = true
 					temp.com_rate_success_data = data
 				  dispatchComRating( data[0].params, true );
-					//form.removeClass('closed');
-					//// Update the votes balance
-					//$votes_balance.hide().text(((data.results.votes_balance > 0) ? '+' : '')+data.results.votes_balance).fadeIn('slow');
-					//$(':submit', form).removeAttr('disabled');
-					//dispatchAnswer(data[0].params.data,true)
 					btns.removeAttr('disabled')
 			  },
 				error : function(xhr,errorString,exceptionObj){
 					console.log("Error on com_rate submit, xhr: " + xhr.responseText)
 					btns.removeAttr('disabled')
-					//try{
-					//	show_form_error(form, xhr.responseText)
-					//	btns.removeAttr('disabled')
-					//}catch(e){
-					//	btn.removeAttr('disabled')
-					//	console.log("Answer idea submit browser error in server error handling: " + e)
-					//	$('<div><p>Sorry, we cannot process your answer idea at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
-					//}
+					try{
+						var form_errors = eval(xhr.responseText)[0];	
+						if(form_errors[0][0] == 'Sign in required'){
+							console.log("show the sign in form");
+							show_signin_form('rate a comment');
+						}else{
+							console.log("thumbs_up error, not sign in required")
+						}
+					}catch(e){
+						btn.removeAttr('disabled')
+						console.log("thumbs_up submit browser error in server error handling: " + e)
+						$('<div><p>Sorry, we cannot process your comment rating at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+					}
 				}
 			});
 		}catch(e){console.log("thumbs_up error: " + e)}

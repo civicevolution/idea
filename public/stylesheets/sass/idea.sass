@@ -16,8 +16,14 @@ $navy_blue: #23238E
 	:-khtml-opacity = !opacity
 	:opacity = !opacity
 
+$page_width: 980px
+$idea_page_width: 778px
+$side_bar_width: 180px
+$brainstorming_width: 300px
+$gen_discussion_width: 430px
+$inner_discussion_width: 400px
 
-body, p, ol, ul, td
+body, p, ol, ul, td, textarea
 	font-family: verdana, arial, helvetica, sans-serif
 	font-size:   13px 
 
@@ -43,17 +49,12 @@ h2#load_message
 	
 		
 div.page
-	width: 1000px
+	width: $page_width
 	margin: auto
-	//p.tall 
-	//	height: 0px
-	//fieldset
-	//	width: 275px
 
 
 div.logo
 	text-align: left
-	//width: 100%
 	float: left
 	img
 		margin-bottom: 8px
@@ -133,8 +134,7 @@ p.loading
 
 div.idea_page
 	float: left
-	width: 798px
-	//border-right: 1px solid black
+	width: $idea_page_width
 	
 h2.home_title
 	margin: 20px 41px 0px 41px
@@ -152,7 +152,7 @@ div.answer
 	font-size: 1.12em
 	
 div.side_bar
-	width: 180px
+	width: $side_bar_width
 	float: left
 	margin-left: 20px
 	div.share
@@ -234,7 +234,7 @@ div.ans
 	padding: 40px 0
 
 div.discussion
-	width: 420px
+	width: $inner_discussion_width
 	margin-left: -20px
 	form.add_comment_form
 		margin-left: 20px
@@ -247,12 +247,12 @@ div.brainstorming
 	div.discussion
 		display: none
 	//border: 1px solid blue
-	width: 300px
+	width: $brainstorming_width
 	float: left
 	
 div.gen_discussion
 	//border: 1px solid green
-	width: 450px
+	width: $gen_discussion_width
 	float: left
 	margin-left: 40px
 
@@ -410,6 +410,7 @@ div.Comment_entry.full_comment_display
 		font-size: 80%
 		margin-top: -4px
 		//font-style: italic
+		border: none
 	abbr.move_up
 		margin-top: -16px
 	div.comment_text
@@ -598,18 +599,6 @@ form.add_bs_idea_form
 		margin: 16px
 		padding: 16px 0
 
-//span.star_hover
-//	white-space: wrap
-	
-//div.bs_rating_red_bg
-//	background: url(/images/red_stars.gif) no-repeat left top
-//	height: 16px
-//	margin-top: -16px
-//	width: 0
-//div.bs_rating_grey_bg
-//	background: url(/images/grey_stars.gif) no-repeat left top
-//	height: 16px
-//	width: 85px
 div.bs_ideas
 	div.cnt
 		margin-bottom: 2px
@@ -985,6 +974,10 @@ form.signin_form
 		padding: 4px
 		border: 1px solid $new_item_color
 		width: 240px	
+	p.signin_action_warn
+		color: red
+		font-weight: bold
+	
 //
 //	
 //div.right_col

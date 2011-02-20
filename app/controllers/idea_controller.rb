@@ -38,7 +38,7 @@ class IdeaController < ApplicationController
     def_ans_ids = @questions.map{|q| q.default_answer_id} #.reject{|i| i.nil?}
     @default_answers = DefaultAnswer.all(def_ans_ids)
     @answers_with_ratings = @team.answers_with_ratings( @member.id )
-    
+
     # remove answer_items for testing
     #@items = @items.find_all{|i| i.o_type != 2 }
     
@@ -587,8 +587,9 @@ class IdeaController < ApplicationController
     end
     ideas_priority.member = @member
     saved = ideas_priority.save
-    
-    render :text=> 'ok'
+    respond_to do |format|
+      format.json { render :text => ['ok'].to_json }
+    end
   end
 
 
@@ -897,12 +898,35 @@ class IdeaController < ApplicationController
     @target
   end  
   
+  IDEA_CONTROLLER_PUBLIC_METHODS = ['index', 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report']
+  
   def authorize
+    unless IDEA_CONTROLLER_PUBLIC_METHODS.include? request[:action]
+      # do this except for public methods
+      if (@member.nil? || @member.id == 0 ) && request.xhr?
+        respond_to do |format|
+          case request[:action]
+            when 'create_answer'
+              act = 'add or edit an answer'
+            when 'create_comment'
+              act = 'add or edit a comment'
+            when 'create_brainstorm_idea'
+              act = 'add a brainstorming idea'
+            else
+              act = 'continue'
+          end
+          format.json { render :text => [[['Sign in required',act]]].to_json, :status => 409 }
+        end
+        return
+      end
+    end
+
     if @member.nil?
       @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
       @member.id = 0
       @member.email = ''
     end
+    
     return
     logger.debug "IdeaController authorize"
     # and I expect @member to be set

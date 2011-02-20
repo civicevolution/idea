@@ -128,12 +128,24 @@ function send_bs_idea_order_to_server(question_id, ordered_ids){
 		},
 		dataType: 'json',
 	  success: function(data,status){ 
-			//console.log("com_rate submit success, call dispatchComRating"); with submit = true
+			console.log("com_rate submit success, call dispatchComRating");
 			temp.set_favorite_success_data = data
 		  dispatchBsIdeaFavorite( data[0].params, true );
 	  },
 		error : function(xhr,errorString,exceptionObj){
-			console.log("Error on set_favorite submit, xhr: " + xhr.responseText)
+			console.log("v1 Error on set_favorite submit, xhr: " + xhr.responseText)
+			try{
+				var form_errors = eval(xhr.responseText)[0];	
+				if(form_errors[0][0] == 'Sign in required'){
+					console.log("show the sign in form");
+					show_signin_form('prioritize favorite ideas');
+				}else{
+					console.log("set_favorite error, not sign in required")
+				}
+			}catch(e){
+				console.log("set_favorite submit browser error in server error handling: " + e)
+				$('<div><p>Sorry, we cannot process your comment rating at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+			}
 		}
 	});
 }
@@ -188,7 +200,20 @@ function send_favorite_to_server(bs_idea_id,fav){
 		  },
 			error : function(xhr,errorString,exceptionObj){
 				console.log("Error on send_favorite_to_server submit, xhr: " + xhr.responseText)
+				try{
+					var form_errors = eval(xhr.responseText)[0];	
+					if(form_errors[0][0] == 'Sign in required'){
+						console.log("show the sign in form");
+						show_signin_form('add a favorite idea');
+					}else{
+						console.log("send_favorite_to_server error, not sign in required")
+					}
+				}catch(e){
+					console.log("send_favorite_to_server submit browser error in server error handling: " + e)
+					$('<div><p>Sorry, we cannot process your favorite rating at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+				}
 			}
+			
 		});
 		}catch(e){console.log("send_favorite_to_server error: " + e)}
 }

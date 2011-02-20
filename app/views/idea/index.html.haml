@@ -103,7 +103,11 @@
 							
 								%div.answer{:id=>"ans_#{answer.id}"}= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
 								%div.ans_comment_links
-									= link_to "History", {:action=>'report', :id=>answer['id']}, {:class=>'history'}
+									- if answer.ver.to_i == 0
+										%span Original version
+									- else
+										%span Version #{answer.ver}
+										= link_to "History", {:action=>'report', :id=>answer['id']}, {:class=>'history'}
 									= link_to "Report", {:action=>'report', :id=>answer['item_id']}, {:class=>'report'}
 			
 						- else

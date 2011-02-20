@@ -35,7 +35,7 @@ var ie7 = false;
 	Place all of the application initialization code here
 ***********************************************/
 $(function(){
-	console.log("execute jquery on ready")
+	console.log("execute idea.js jquery on ready")
 
 	if($.browser.msie){
 		//alert("MSIE version is " + $.browser.version)
@@ -82,22 +82,19 @@ $(function(){
 	
 		// call the functions that are stored in activate.js
 		
-		if(do_load_templates)load_templates()
+		if(do_load_templates){
+			load_templates()
+		}
 	
 		NOTIFIER.init();
 		
 		activate_ux_appearance()
 	
-		activate_ux_pages()
-	
-		activate_ux_function_calls();
 		activate_ux_functions_misc();
 		activate_ux_functions_edit();
 	
 		if (load_ape_client) load_ape(chat_container_name);
 
-		if(activate_debug) activate_debug_functions_extras();
-	
 	  if(convert_stars) setTimeout(init_rating_stars, 1000);
 
 		if(convert_time) $("abbr.timeago").timeago();
@@ -108,7 +105,7 @@ $(function(){
 		setTimeout(send_load_report, 5000);
 
 		$('div.comment_links').hide();
-		$('div.ans_comment_links a').hide();
+		$('div.ans_comment_links').children().hide();
 
 		activate_endorsement_form();
 
@@ -125,6 +122,8 @@ $(function(){
 		
 		
 	}catch(e){console.log("idea/idea.js jquery ready function error: " + e.message)}	
+	
+	console.log("completed idea.js jquery on ready")
 	
 });
 /***********************************************
@@ -320,10 +319,10 @@ $('div.comment').live('mouseover mouseout', function(event) {
 $('div.answer_section').live('mouseover mouseout', function(event) {
   if (event.type == 'mouseover') {
     // do something on mouseover
-		$(this).find('div.ans_comment_links a').show();
+		$(this).find('div.ans_comment_links').children().show();
   } else {
     // do something on mouseout
-		$(this).find('div.ans_comment_links a').hide();
+		$(this).find('div.ans_comment_links').children().hide();
   }
 });
 
