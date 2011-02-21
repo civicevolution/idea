@@ -1,3 +1,4 @@
+- mode = '' unless !mode.nil?
 - resource = @resources.detect { |r| r.comment_id == comment.id }
 - if comment.anonymous == 't'
 	- name = 'Anonymous'
@@ -34,11 +35,15 @@
 			-#- elsif new_str == 2
 			-#	%span.new._comment Updated
 				
-			-#%span.author= name
+			- if comment.publish.nil? && comment.status != 'prereview' || mode	== 'templ'
+				%p.not_published
+					Your comment will not be published until you  
+					= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
+					your email.
+
 			
-			-#%div.comment_text= simple_format(auto_link(h( name + ' ' + comment.text), :all, :target => "_blank"))
-			- comment.text = "... Hidden by author" if !comment.publish
-			- comment.text = "... Waiting for author's release" if comment.publish.nil?
+			- comment.text = "... Hidden by author" if comment.publish == false
+			- comment.text = "... Waiting for author's release" if comment.publish.nil? && comment.status == 'prereview'
 			
 			%div.comment_text= show_author_comment(name, member.ape_code, comment.text)
 			- if !resource.nil?
@@ -70,19 +75,23 @@
 								= (!comment.down.nil? && comment.down.to_i > 0) ? comment.down : 0
 				
 							%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{comment.id}" }
+				
+				-# if comment.publish.nil? && comment.status != 'prereview' || mode	== 'templ'
+					%p.not_published
+						Your comment will not be published until you  
+						= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
+						your email.
+
 				%abbr{:class => comment.my_vote.to_i == 0 ? 'timeago' : 'timeago move_up', :title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'
-				
-				
+ 
 				%div.comment_links
-					- if comment.publish
+					- if comment.publish 
 						= link_to "Reply", {:action=>'reply', :id => comment['item_id']}, {:class=>'reply'}
 				
 						- if comment.member_id == @member.id
 							= link_to "Edit", {:action => "edit_comment", :id => comment.id}, {:class => 'edit_com'}
 						- else
 							= link_to "Report", {:action=>'report', :id=>comment['item_id']}, {:class=>'report'}
-					
-
 
 
 	- child_comments_sorted = @comments.find_all {|c| c['par_id'].to_i == comment['item_id'].to_i && c.sib_id.to_i == 0 }.sort {|a,b| a.order.to_i <=> b.order.to_i }

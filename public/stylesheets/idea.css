@@ -199,7 +199,8 @@ div.discussion {
   width: 400px;
   margin-left: -20px; }
   div.discussion form.add_comment_form {
-    margin-left: 20px; }
+    margin-left: 20px;
+    margin-top: 20px; }
 
 div.brainstorming {
   width: 300px;
@@ -222,6 +223,9 @@ div.bs_idea {
     padding: 16px 0; }
     div.bs_idea div.bs_idea_inner input.fav_order {
       width: 30px; }
+
+p.not_published {
+  color: red; }
 
 div.bs_idea_add {
   font-size: 120%;

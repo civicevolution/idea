@@ -416,6 +416,7 @@ function dispatchComment(item,submit_response){
 				console.log("vote < 0 ")
 				$('input.vote_up',this).addClass('other_selected');				
 			}
+			$('div.comment_links',this).hide();
 		}
 	);
 

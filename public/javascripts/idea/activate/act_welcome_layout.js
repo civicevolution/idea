@@ -367,9 +367,11 @@ $('a.terms_of_use').die('click').live('click',
 
 $('a.request_confirmation_email').die('click').live('click', 
 	function(){
+		var dlg = $('<p>Please wait...</p>').dialog( {title : 'Requesting confirmation email', modal : true } )
 		$.get('/welcome/request_confirmation_email',
 			function(data){
-				$(data).dialog( {title : 'Confirmation email has been sent', modal : true, width: 500, maxHeight: 500 } )
+				$('<div>' + data + '</div>').dialog( {title : 'Confirmation email has been sent', modal : true, width: 500, maxHeight: 500 } )
+				dlg.dialog('destroy').remove();
 			})
 		
 		return false;

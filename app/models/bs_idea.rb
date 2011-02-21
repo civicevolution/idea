@@ -47,6 +47,7 @@ class BsIdea < ActiveRecord::Base
   end
     
   def check_team_access
+    self.publish = true unless !self.member.confirmed
     #logger.debug "check_team_access, for BsIdea question_id = #{self.question_id}"
     
     self.team_id = ActiveRecord::Base.connection.select_value( "SELECT team_id FROM items where o_id = #{self.question_id} and o_type = 1" )
@@ -120,6 +121,10 @@ class BsIdea < ActiveRecord::Base
     authors = Member.all(:conditions=> {:id => (comments.collect {|c| c.member_id }.uniq) })
     return comments, resources, authors
     
+  end
+
+  def self.member_confirmed_publish(member_id)
+    ActiveRecord::Base.connection.update_sql("UPDATE bs_ideas SET publish = true where member_id = #{member_id}");    
   end
 
     

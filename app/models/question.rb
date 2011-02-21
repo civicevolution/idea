@@ -95,10 +95,10 @@ class Question < ActiveRecord::Base
   end
 
   def bs_ideas_with_favorites(memberId)
-    bs_ideas = BsIdeaRating.find_by_sql([ %q|SELECT bsi.id, 
+    bs_ideas = BsIdea.find_by_sql([ %q|SELECT bsi.id, 
       (SELECT count(*) FROM bs_idea_favorites WHERE bs_idea_id = bsi.id AND favorite = true) AS num_favs,
       (SELECT favorite FROM bs_idea_favorites WHERE member_id = ? AND bs_idea_id = bsi.id) AS my_fav,
-      bsi.question_id, bsi.member_id, bsi.text, bsi.created_at, bsi.updated_at, i.id as item_id
+      bsi.question_id, bsi.member_id, bsi.text, bsi.created_at, bsi.updated_at, bsi.publish, i.id as item_id
       FROM bs_ideas bsi
       LEFT JOIN items AS i ON i.o_id = bsi.id AND i.o_type = 12
       WHERE question_id = ? ORDER BY num_favs|, memberId, self.id ]
@@ -106,7 +106,7 @@ class Question < ActiveRecord::Base
     priorities = BsIdeaFavoritePriority.find_by_member_id_and_question_id(member_id, self.id)
     return bs_ideas, priorities
   end
-
+  
   def answers_with_ratings(memberId)
     AnswerRating.find_by_sql([ %q|SELECT a.id, 
       AVG(rating) AS average, 

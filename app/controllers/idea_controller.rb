@@ -62,11 +62,17 @@ class IdeaController < ApplicationController
       @error = "Sorry, this is a protected page"
     else
       # collect the bs_ideas with rating and the comments with ratings and display page
+      # but exclude ideas that are not published and don't belong to this author
       @bs_ideas,priorities = @question.bs_ideas_with_favorites(@member.id)
+      @bs_ideas.reject!{|bsi| bsi.publish == false || !bsi.publish && bsi.member_id != @member.id}
+      
+      
       @priority = priorities.nil? ? [] : priorities.priority.scan(/\d+/).collect{|p| p.to_i }
       @comments, @resources, @authors = @question.comments_with_ratings(@member.id)
       # get the public discussion node and process the public comments so they are part of the unified discussion
       pub_item = Item.find_by_sql(["SELECT * FROM items WHERE o_type = 11 and par_id in (SELECT id FROM items WHERE o_type = 1 and o_id = ?)",@question.id])[0]
+      # but exclude comments that are not published and don't belong to this author      
+      @comments.reject!{|c| c.publish == false || c.publish.nil? && ( c.member_id != @member.id && c.status != 'prereview' ) }
       @comments.each{|c| c['par_id'] = pub_item.par_id.to_s if c['par_id'].to_i == pub_item.id} unless pub_item.nil?
       @new_coms = @coms = 0
       @mode = request.xhr? ? 'insert' : 'page'
@@ -682,7 +688,7 @@ class IdeaController < ApplicationController
     #item = Item.new(:target_id => 1, :target_type => 11)
     strs.push '<div class="item Comment">'
     strs.push render_to_string( :partial => 'comment', :object => @comment,
-      :locals => { :item => Item.new, :down => 0, :up => 0,  :rated => 0})
+      :locals => { :item => Item.new, :down => 0, :up => 0,  :rated => 0, :mode=>'templ'})
     strs.push '</div>'
 
     strs.push '<hr/><h3>add_comment_combined</h3><hr/>'
@@ -692,8 +698,8 @@ class IdeaController < ApplicationController
     strs.push '<hr/><h3>add_bs_idea</h3><hr/>'
     strs.push render_to_string(:partial => 'add_bs_idea', :locals => { :question=>@question })
 
-    bs_idea = BsIdeaRating.new(:member_id => session[:member_id], :created_at => old_ts, :updated_at => newer_ts)
-    bs_idea[:item_id] = 1
+    bs_idea = BsIdea.new(:member_id => session[:member_id], :created_at => old_ts, :updated_at => newer_ts)
+    bs_idea.item_id = 1
     strs.push '<hr/><h3>bs_idea</h3><hr/>'
     strs.push render_to_string( :partial=> 'bs_idea', :object=>bs_idea, :locals=>{:mode=>'templ', :coms=>'t'} )
  

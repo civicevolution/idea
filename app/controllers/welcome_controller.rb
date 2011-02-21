@@ -249,6 +249,8 @@ class WelcomeController < ApplicationController
       if validate_recap(params, @member.errors)
         @member.confirmed = true
         @member.save
+        Comment.member_confirmed_publish(@member.id)
+        BsIdea.member_confirmed_publish(@member.id)
         session[:member_id] = @member.id
         render :text=>'ok'
       else

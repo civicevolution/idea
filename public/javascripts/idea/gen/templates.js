@@ -28,7 +28,8 @@ function create_templates(data){
 		{
 		  '@uid' : 'uid',
 			'@id+' : 'data.bs_idea.id',
-		  'div.bs_idea_inner div.text' : function(arg){return simple_format(unescape(arg.context.data.bs_idea.text))}
+		  'div.bs_idea_inner div.text' : function(arg){return simple_format(unescape(arg.context.data.bs_idea.text))},
+			'p.not_published @class+' : function(arg){return (arg.context.data.bs_idea.publish != null) ? ' hide' : '' }
 		},
 		comment : {
 			'@id' : 'i#{item_id}',
@@ -46,7 +47,8 @@ function create_templates(data){
 			'a.reply @href+' : '/#{data.comment.id}',
 			"input[name='thumbsup_id'] @value" : 'data.comment.id',
 			'span.votes_up' : function(arg){return (arg.context.up>0) ? arg.context.up : '0' },
-			'span.votes_down' : function(arg){return (arg.context.down>0) ? arg.context.down : '0' }
+			'span.votes_down' : function(arg){return (arg.context.down>0) ? arg.context.down : '0' },
+			'p.not_published @class+' : function(arg){return (arg.context.data.comment.publish != null) ? ' hide' : '' }
 		},	
 		resource : {
 			'@class' : 'clear',

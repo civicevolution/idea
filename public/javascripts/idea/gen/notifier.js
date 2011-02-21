@@ -63,7 +63,7 @@ NOTIFIER = {
 					if(report.page_id){
 						console.log("Didn't know where this member was, and it is not me, I will announce myself")
 						// I didn't have a record of this user, they may not know me as well, so I will re-announce my presence
-						announce_page_presence();
+						//announce_page_presence();
 					}
 				}
 				if(report.page_id){

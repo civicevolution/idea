@@ -238,7 +238,7 @@ APE.Shoutbox = APE.Client.extend({
 	initChannelUsers: function(data,pipe){
 		// now that I am in the team channel, tell them what page I am on
 		//console.log("I just inited the channel, I will announce myself");
-		announce_page_presence()
+		//announce_page_presence()
 		//temp.initChannelUsers_data = data
 		////console.log("initChannelUsers update online list");
 		//mem_online = $('div#members_online');
@@ -315,7 +315,7 @@ APE.Shoutbox = APE.Client.extend({
 		});
 		// if this user is leaving and shares the same ape code as me (an alias) I need to reannounce myself
 		if( name == member.ape_code && member.client.nickname != user.properties.name){
-			announce_page_presence()
+			//announce_page_presence()
 		}
 	}
 	
