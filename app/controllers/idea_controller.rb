@@ -37,7 +37,7 @@ class IdeaController < ApplicationController
     @questions = @team.questions.reject{|q| q.default_answer_id.nil?}
     def_ans_ids = @questions.map{|q| q.default_answer_id} #.reject{|i| i.nil?}
     @default_answers = DefaultAnswer.all(def_ans_ids)
-    @answers_with_ratings = @team.answers_with_ratings( @member.id )
+    @answers_with_ratings = @team.answers_with_ratings_i( @member.id )
 
     # remove answer_items for testing
     #@items = @items.find_all{|i| i.o_type != 2 }
@@ -512,7 +512,6 @@ class IdeaController < ApplicationController
         @answer = Answer.new
         @answer.par_id = params[:par_id]
         @answer.member_id = @member.id
-        @answer.insert_mode = params[:insert_mode]
       else
         @answer = Answer.find(params[:id])
       end
@@ -704,9 +703,10 @@ class IdeaController < ApplicationController
     strs.push '<hr/><h3>bs_idea</h3><hr/>'
     strs.push render_to_string( :partial=> 'bs_idea', :object=>bs_idea, :locals=>{:mode=>'templ', :coms=>'t'} )
  
-    answer = Answer.new
+    answer = Answer.new :text=>'', :ver=>1, :item_id=>0
+		answer['my_vote'] = answer['average'] = answer['count'] = 3
     strs.push '<hr/><h3>answer</h3><hr/>'
-    strs.push render_to_string( :partial=> 'answer', :object=>answer)
+    strs.push render_to_string( :partial => 'answer', :object=>answer, :locals=> {:question=> @question, :title=>'Current answer', :is_def_ans=>false} )
     
 
     #strs.push '<hr/><h3>chat message</h3><hr/>'

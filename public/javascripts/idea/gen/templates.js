@@ -6,7 +6,7 @@ function create_templates(data){
 	// break up the template into sub templates
 	//var tmps = json_templates['full'];
 	json_templates['full'] = template_data;
-	json_templates['answer'] = $('div.answer', template_data);
+	json_templates['answer'] = $('div.answer_section', template_data);
 	json_templates['bs_idea'] = $('div.bs_idea', template_data);
 	json_templates['comment'] = $('div.Comment', template_data);
 	json_templates['resource'] = $('div.resource', template_data);//.remove();
@@ -20,9 +20,14 @@ function create_templates(data){
 	directives = {
 		answer : {
 			'@uid' : 'uid',
-			'@class+' : function(arg){ return (arg.context.item.item.sib_id > 0) ? ' sibling' : ' top_sibling' },
-			'@id+' : 'data.answer.id',
-			'.' : function(arg){return simple_format(unescape(arg.context.data.answer.text))}
+			'div.answer @id+' : 'data.answer.id',
+			'div.answer' : function(arg){return simple_format(unescape(arg.context.data.answer.text))},
+			'a.history @href+' : '/#{data.answer.id}',
+			'a.report @href+' : '/#{item_id}',
+			"input[type='radio'] @name+" : 'data.answer.id',
+			'div.ans_comment_links span' : function(arg){return arg.context.data.answer.ver == 0 ? 'Original version' : 'Version ' + arg.context.data.answer.ver },
+			'div.cnt' : function(arg){return arg.context.my_vote == null || arg.context.my_vote == 0 ? 'Please rate' : '(' + arg.context.count + ( arg.context.count == 1 ? ' vote' : ' votes') + ')' },
+			'div.bs_rating_red_bg @style' : function(arg){return 'width: ' + (arg.context.average * 17) + 'px' }
 		},
 		bs_idea : 
 		{
@@ -73,7 +78,8 @@ function create_templates(data){
 		add_answer_form:{
 			"input[name='par_id'] @value" : 'par_id',
 			"input[name='mode'] @value" : 'mode',
-			"input[name='id'] @value" : 'id'
+			"input[name='id'] @value" : 'id',
+			"span.char_ctr" : '#{char_cnt} characters left'
 		},
 		add_bs_idea_form : {
 			"input[name='mode'] @value" : 'mode',

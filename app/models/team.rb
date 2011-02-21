@@ -68,6 +68,17 @@ class Team < ActiveRecord::Base
     )
   end
 
+  def answers_with_ratings_i(memberId)
+    Answer.find_by_sql([ %q|SELECT a.id, 
+      AVG(rating) AS average, 
+      COUNT(rating) AS count, 
+      (SELECT rating FROM answer_ratings WHERE member_id = ? AND answer_id = a.id) AS my_vote,
+      a.question_id AS q_id, a.member_id, a.text, a.ver, a.created_at, a.updated_at, i.id AS item_id
+      FROM answers a LEFT JOIN items AS i ON i.o_id = a.id AND i.o_type = 2 LEFT OUTER JOIN answer_ratings ar ON a.id = ar.answer_id
+      WHERE a.team_id = ?
+      GROUP BY a.id, a.question_id, a.member_id,a.text, a.ver, a.created_at, a.updated_at, i.id|, memberId, self.id ]
+    )
+  end
 
   def comments_with_ratings(memberId)
     Comment.find_by_sql([ %q|SELECT c.id, 

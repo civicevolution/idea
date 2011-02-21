@@ -217,26 +217,37 @@ function activate_ux_functions_edit(){
   			var a = $(this);
 				if( a.closest('div.qa').find('form.add_answer_form').size() > 0) return false;
 
-
 				var ans = a.closest('div.qa').find('div.answer');
 				var ctls = a.closest('p');
   			//console.log("edit this answer")
 				var id = Number(ans.attr('id').match(/\d+$/))
-				var mode = 'edit';
-				var par_id = 0;
-				//console.log("id: " + id)
-				var form = $( jsonFn.add_answer_form({par_id : par_id, mode : mode, id : id }) );
-				$('label',form).html("Please edit this answer");
-				var char_cnt = Number(ans.closest('div.answer_section').attr('criteria').match(/\d+$/))
-				//console.log("change answer form character count to " + char_cnt )
-				form.find('span.char_ctr').html(char_cnt + ' characters left');
-				$('a.clear',form).removeClass('clear').addClass('cancel').html('Cancel');
-				var s  = ans.html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/<br\/?>/gi,'\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'');
+				if(ans.hasClass('default')){
+					var mode = 'add';
+					var par_id = a.closest('div.qa').attr('item_id');
+				}else{
+					var mode = 'edit';
+					var par_id = 0;
+				} 
 				
-				$('textarea',form).html(s);
+				//console.log("id: " + id)
+				var form = $( jsonFn.add_answer_form({par_id : par_id, mode : mode, id : id, char_cnt: Number( a.closest('div.qa').attr('ans_criteria').match(/\d+$/)) }) );
+				$('label',form).html("Please edit this answer");
+				//var char_cnt = Number(ans.closest('div.answer_section').attr('criteria').match(/\d+$/))
+				//console.log("change answer form character count to " + char_cnt )
+				//form.find('span.char_ctr').html(char_cnt + ' characters left');
+				$('a.clear',form).removeClass('clear').addClass('cancel').html('Cancel');
+				if(ans.hasClass('default')){
+					form.find('label').html('Please write an answer for this question')
+				}else{
+					$('textarea',form).html(
+						ans.html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/<br\/?>/gi,'\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
+					);
+				} 
 				ans.before( form );
-				orig_ans = $.merge(ans,ctls).hide(1000)
+				orig_ans = $.merge(ans,ctls).hide(1000);
 				activate_answer_form(form,orig_ans);
+				ans.closest('div.answer_section').find('div.ans_comment_links').hide();
+				$('textarea',form).focus();
   		}catch(e){console.log("edit_answer error: " + e)}
   		return false;
   	}

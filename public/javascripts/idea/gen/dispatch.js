@@ -104,10 +104,11 @@ function dispatchAnswer(item,submit_response){
 	
 		for (x in json_test_data.data) var item_type = x;
 		console.log("item_type: " + item_type)
-
+ 
 		var html = jsonFn[item_type](item);
-
-		var div = $(html).addClass('test_insert');
+		temp.ans_html = html;
+		var div = $(html);
+		temp.ans_div = div;
 	
 		var icon_elm = $(new_icon_data[item_type], div);
 		if(item.mode == 'add'){
@@ -116,56 +117,66 @@ function dispatchAnswer(item,submit_response){
 			icon_elm.prepend('<span class="new _updated _answer">Updated</span>');
 		}
 		
-		var prop_answer = div.clone();
-
 		if(node.size() > 0){
 			// this item was already added by ape before submit_response 
 			console.log("replace ape version with submit response version")
 			// give div the sibling class of the node
 			node.replaceWith(div);
 			//node.after(div)  // for testing
-		}else if(item.mode == 'add'){
-			console.log("no duplicate, append this answer to the div.answers for par " + item.par_ids)
-			var par = $('div#i' + item.par_id + ' div.answers tr:last');
-			if(par.size() == 0){
-				// empty table doesn't any tr, so append to the table
-				par = $('div#i' + item.par_id + ' div.answers table')
-				var tb = $('<tbody></tbody>');
-				tb.append(div);
-				par.append( tb );
-			}else{
-				par.after( div );		
-			}
-			div.hide().show(2000, function(){
-				div.effect("highlight", {}, 4000)
-			})
+		//}else if(item.mode == 'add'){
+		//	console.log("no duplicate, append this answer to the div.answers for par " + item.par_ids);
+		//	
+		//	debugger
+		//	
+		//	var par = $('div#i' + item.par_id + ' div.answers tr:last');
+		//	if(par.size() == 0){
+		//		// empty table doesn't any tr, so append to the table
+		//		par = $('div#i' + item.par_id + ' div.answers table')
+		//		var tb = $('<tbody></tbody>');
+		//		tb.append(div);
+		//		par.append( tb );
+		//	}else{
+		//		par.after( div );		
+		//	}
+		//	div.hide().show(2000, function(){
+		//		div.effect("highlight", {}, 4000)
+		//	})
 		}else{
 			console.log("mode is " + item.mode);
 			temp.ans_new_div = div
-			var par = $('div#ans_' + item.data.answer.id);
-			temp.ans_par = par
-			//div = div.find('div.entry');
-			$('span.new._answer',div).replaceWith('<span class="new _updated _answer">Updated</span>');
+			
+			if(item.mode == 'edit'){
+				var par = $('div#ans_' + item.data.answer.id).closest('div.answer_section');
+			}else{
+				var par = $('div#q' + item.data.answer.question_id).find('div.answer_section');
+			}
+			
+			temp.ans_par = par;
+			var bsd_bar_bottom = par.find('div.bsd_bar').remove();
+			
+			//$('span.new._answer',div).replaceWith('<span class="new _updated _answer">Updated</span>');
 	//		$('span.mark_new_answer',div).hide();
 	//		icon_elm.prepend('<span class="mark_new_' + item_type + '">Updated</span>');
 			par.replaceWith(div);
-			div.effect("highlight", {}, 2000);
-			par.prev('form.add_answer_form').hide(1000,
-				function(){
-					$(this).remove();
-					par.show(1000)
-				}
-			);
+			div.append(bsd_bar_bottom);
 			
-			$('a.view_history',div).cluetip({
-			  cluetipClass: 'jtip', 
-			  arrows: true, 
-			  dropShadow: false, 
-			  height: '300px', 
-			  width: '400px',
-			  sticky: true,
-			  positionBy: 'bottomTop'
-			});	
+			div.effect("highlight", {}, 2000);
+			//par.prev('form.add_answer_form').hide(1000,
+			//	function(){
+			//		$(this).remove();
+			//		par.show(1000)
+			//	}
+			//);
+			
+			//$('a.view_history',div).cluetip({
+			//  cluetipClass: 'jtip', 
+			//  arrows: true, 
+			//  dropShadow: false, 
+			//  height: '300px', 
+			//  width: '400px',
+			//  sticky: true,
+			//  positionBy: 'bottomTop'
+			//});	
 			
 			
 		}
@@ -180,8 +191,8 @@ function dispatchAnswer(item,submit_response){
 		$(':radio:checked',div).removeAttr('checked');
 		$('span.team_rating',div).replaceWith( $('<span class="please_rate">Please rate</span>') );		
 	}
-	//init_team_rating(div)
-	//init_rating_stars( $(':radio.star',div) );
+	init_rating_stars( $(':radio.star',div) );
+	$('div.ans_comment_links', div).children().hide();
 }
 
 function dispatchComment(item,submit_response){

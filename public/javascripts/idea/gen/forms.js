@@ -178,6 +178,7 @@ function activate_answer_form(form,orig_ans){
 			try{
 				//console.log("Cancel the answer form");
 				var form = $(this).closest('form');
+				form.closest('div.answer_section').find('div.ans_comment_links').show();
 				form.remove();
 				// restore a form that may have been faded
 				//form.closest('.tab_window').find('form.add_answer_form:last').fadeTo(1000,1)

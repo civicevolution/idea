@@ -108,7 +108,7 @@ class Question < ActiveRecord::Base
   end
   
   def answers_with_ratings(memberId)
-    AnswerRating.find_by_sql([ %q|SELECT a.id, 
+    Answer.find_by_sql([ %q|SELECT a.id, 
       AVG(rating) AS average, 
       COUNT(rating) AS count, 
       (SELECT rating FROM answer_ratings WHERE member_id = ? AND answer_id = a.id) AS my_vote,
@@ -118,6 +118,18 @@ class Question < ActiveRecord::Base
       GROUP BY a.id, a.question_id, a.member_id,a.text, a.ver, a.created_at, a.updated_at|, memberId, self.id ]
     )
   end
+  
+  #def answers_with_ratings(memberId)
+  #  AnswerRating.find_by_sql([ %q|SELECT a.id, 
+  #    AVG(rating) AS average, 
+  #    COUNT(rating) AS count, 
+  #    (SELECT rating FROM answer_ratings WHERE member_id = ? AND answer_id = a.id) AS my_vote,
+  #    a.question_id, a.member_id, a.text, a.ver, a.created_at, a.updated_at
+  #    FROM answers a LEFT OUTER JOIN answer_ratings ar ON a.id = ar.answer_id
+  #    WHERE question_id = ?
+  #    GROUP BY a.id, a.question_id, a.member_id,a.text, a.ver, a.created_at, a.updated_at|, memberId, self.id ]
+  #  )
+  #end
   
   
 end

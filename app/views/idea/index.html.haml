@@ -49,7 +49,7 @@
 			- if !question.nil?
 				- def_ans = @default_answers.detect{ |da| da.id == question.default_answer_id}
 
-				%div.qa.item{:id=>"q#{question.id}", :item_id=>question.item_id}
+				%div.qa.item{:id=>"q#{question.id}", :item_id=>question.item_id, :ans_criteria=>question.answer_criteria, :bs_idea_criteria=>question.idea_criteria}
 					%a{:name=>"q#{question.id}"}
 					%h3.question 
 						= "Q#{(q_cnt+=1)}: #{question.text}"
@@ -64,61 +64,22 @@
 						
 					%div.show_bsd
 			
-					%div.answer_section{:criteria=>question.answer_criteria}
-						- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }
-						- if answer_items.size > 0
-							- answer_items.each do |ai|
-								- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
-								%div.rate
-									%p Current answer
+					- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }
+					- if answer_items.size > 0
+						- answer_items.each do |ai|
+							- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
+							= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'Current answer', :is_def_ans=>false}
 							
-									%div.rating
-										%div.results
-											- if answer.my_vote.to_i == 0
-												%div.result_stars
-													%div.bs_rating_grey_bg
-													%div.bs_rating_red_bg
-												%div.cnt= "Please rate"
-											- else
-												%div.result_stars
-													%div.bs_rating_grey_bg
-													%div.bs_rating_red_bg{:style=>"width: #{17 * answer.average.to_i}px"}
-												%div.cnt= "(#{pluralize(answer.count, 'vote')})"
+					- elsif !def_ans.nil?
+						- answer = Answer.new :text=>def_ans.text, :ver=>0, :item_id=>0
+						- answer['my_vote'] = answer['average'] = answer['count'] = 0
+						= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'Suggested answer guidelines', :is_def_ans=>true}
 
-
-										- form_tag( {:controller => 'idea', :action => 'answer_rating'}, {:class => 'item_rater'} ) do
-											%span.stars
-												- ANSWER_RATING_OPTIONS_G.sort.each do |value ,title|	
-													- if value.to_i == answer.my_vote.to_i
-														%input.star{:class => 'item_rater', :name => "bs_rating_#{answer.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
-													- else
-														%input.star{:class => 'item_rater', :name => "bs_rating_#{answer.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
-											%p.clear_both
-											%span.rating_results
-												My rating
-											%span.star_hover
-										
-											-#%span.rating_results	
-												my rating
-							
-								%div.answer{:id=>"ans_#{answer.id}"}= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
-								%div.ans_comment_links
-									- if answer.ver.to_i == 0
-										%span Original version
-									- else
-										%span Version #{answer.ver}
-										= link_to "History", {:action=>'report', :id=>answer['id']}, {:class=>'history'}
-									= link_to "Report", {:action=>'report', :id=>answer['item_id']}, {:class=>'report'}
-			
-						- else
-							- if !def_ans.nil?
-								%div.rate
-									%p Suggested answer details
-							
-								%div.answer.default
-									= def_ans.text
-							- else
-								%p No answer has been suggested for this question
+					- else
+						- answer = Answer.new :text=>'No answer has been suggested for this question', :ver=>0, :item_id=>0
+						- answer['my_vote'] = answer['average'] = answer['count'] = 0
+						= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'No answer yet', :is_def_ans=>false}
+						
 	
 	= render :partial => 'endorsements'
 	
