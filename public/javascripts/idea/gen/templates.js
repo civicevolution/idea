@@ -105,10 +105,6 @@ function create_templates(data){
 	}
 	return false;
 }
-//'input.star @checked' : function(arg){debugger; return false}
-//'div.item @class+' : function(arg){ return (arg.context.data.item.item.sib_id > 0) ? ' sibling' : ' top_sibling' }
-
-
 
 function simple_format(s){
 	var strs = unescape(s).split(/\n\n/)
@@ -124,9 +120,7 @@ function simple_com_format(context){
 	for(var i=0;str=strs[i];i++) s += '<p>'+str+'</p>'
 	s = s.replace(/\n/g,'<br/>')
 	
-	try{
-		var author = '<a href="/idea/author_info/' + context.pic_url.match(/mp\/(\w{14})/)[1] + ' class="com_author">' + unescape(context.author) + '</a>'
-	}catch(e){var author = 'unknown'}
+	var author = '<a href="/idea/author_info/' + context.ape_code + ' class="com_author">' + unescape(context.author) + '</a>'
 
   s = s.replace(/<p>/,'<p>' + author + ' ')
 	console.log("simple_com_format s: " + s)

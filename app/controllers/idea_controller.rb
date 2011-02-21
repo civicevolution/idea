@@ -154,7 +154,7 @@ class IdeaController < ApplicationController
       @comment = Comment.new(params[:comment])
       @comment.par_id = params[:par_id]
     
-      @comment.member_id = session[:member_id]
+      @comment.member_id = @member.id
       @comment.insert_mode = params[:insert_mode]
       @comment.member = @member
     else
@@ -162,9 +162,9 @@ class IdeaController < ApplicationController
       @comment = Comment.find(params[:id])
       
       # I need to make sure this comment belongs to user
-      if @comment.member_id != session[:member_id]
+      if @comment.member_id != @member.id
         @comment.errors.add_to_base("You cannot edit this comment.")
-        logger.warn "user #{session[:member_id]} tried to edit comment id: #{params[:id]}"
+        logger.warn "user #{@member.id} tried to edit comment id: #{params[:id]}"
         save_com = false
         @saved = false
       else
@@ -197,7 +197,7 @@ class IdeaController < ApplicationController
           else
             if params[:mode] == 'add'
               @resource = Resource.new(params[:resource])
-              @resource.member_id = session[:member_id]
+              @resource.member_id = @member.id
               @resource.resource_type = params[:resource_type]
             else
               @resource = @comment.resource
@@ -207,7 +207,7 @@ class IdeaController < ApplicationController
               if !@resource || (params[:resource_type] == 'link' && @resource.resource_file_name) || (params[:resource_type] == 'upload' && @resource.link_url)
                 @resource.destroy() unless !@resource
                 @resource = Resource.new(params[:resource])
-                @resource.member_id = session[:member_id]
+                @resource.member_id = @member.id
                 @resource.resource_type = params[:resource_type]
               else
                 @resource.attributes = params[:resource]
@@ -254,11 +254,11 @@ class IdeaController < ApplicationController
         # I need to provide these items to generate html for APE
         item = Item.find_by_o_id_and_o_type(@comment.id,@comment.o_type) 
         @resources = [ @resource || Resource.new ]   
-        member = Member.find( session[:member_id] )
-        @members = [ member ]
+        @members = [ @member ]
         
-        author = escape_json_text( @comment.anonymous ? 'Anonymous' : (member.nil? ? 'Unknown author' : member.first_name + ' ' + member.last_name) )
-        author_url = @comment.anonymous ? '/images/members_default/36/m.jpg' : (member.nil? ? '/images/members_default/36/m.jpg' : member.photo.url('36')) 
+        author = escape_json_text( @comment.anonymous ? 'Anonymous' : (@member.nil? ? 'Unknown author' : @member.first_name + ' ' + @member.last_name) )
+        ape_code = @comment.anonymous ? '' : @member.ape_code
+        author_url = @comment.anonymous ? '/images/members_default/36/m.jpg' : (@member.nil? ? '/images/members_default/36/m.jpg' : @member.photo.url('36')) 
        # time_ago = escape_json_text( time_ago_in_words(@comment.created_at) + ' ago' )
         #debugger
 
@@ -266,7 +266,7 @@ class IdeaController < ApplicationController
         
         # get the score data: up, down, my_vote
         if params[:mode] != 'add'
-          rating = ComRating.com_ratings(@comment.id,session[:member_id])[0]
+          rating = ComRating.com_ratings(@comment.id,@member.id)[0]
           up = rating.nil? ? 0 : rating.up
           down = rating.nil? ? 0 : rating.down
           my_vote = rating.nil? ? 0 : rating.my_vote
@@ -276,8 +276,9 @@ class IdeaController < ApplicationController
 
         # send JSON data to ape, it will be converted to js
         serialized = sendApeNotification({:type=>'com_json', :channel=>"team#{@comment.team_id}", :debug_save_id => item.id,
-          :data => {:mode=>params[:mode], :item_id=>item.id, :par_id=>item.par_id, :sib_id=>item.sib_id, :item => item, :author => author, :pic_url=> author_url, :pic_id=>member.pic_id, :data => @comment, 
-          :resource => @resources[0], :resource_link => res_link, :up => up, :down => down, :my_vote => my_vote }},session);
+          :data => {:mode=>params[:mode], :item_id=>item.id, :par_id=>item.par_id, :sib_id=>item.sib_id, :item => item, :author => author, :ape_code=> ape_code, 
+          :pic_url=> author_url, :data => @comment, :resource => @resources[0], :resource_link => res_link, :up => up, :down => down,
+          :my_vote => my_vote }},session);
 
         #format.html { render :partial => 'comment', :object => @comment, 
         #  :locals => { :item => item, :count => 0, :score => 0,  :t_count => 0, :t_score => 0, :rated => 0}  } if ajaxMode
@@ -315,7 +316,7 @@ class IdeaController < ApplicationController
       if params[:mode] == 'add'
         # create answer and add par_id and member_id
         @bs_idea = BsIdea.new
-        @bs_idea.member_id = session[:member_id]
+        @bs_idea.member_id = @member.id
       else
         @bs_idea = BsIdea.find( params[:idea_id] )
       end
@@ -342,7 +343,7 @@ class IdeaController < ApplicationController
         
         if params[:mode] != 'add'
           logger.debug "Get the score data for this answer which is being edited"
-          rating = BsIdeaRating.idea_ratings(@bs_idea.id,session[:member_id])[0]
+          rating = BsIdeaRating.idea_ratings(@bs_idea.id,@member.id)[0]
           average = rating.nil? ? 0 : rating.average
           count = rating.nil? ? 0 : rating.count
           my_vote = rating.nil? ? 0 : rating.my_vote
@@ -463,7 +464,7 @@ class IdeaController < ApplicationController
   end  
 
   def bs_idea_favorite
-    member_id = session[:member_id]
+    member_id = @member.id
     bs_idea_id = params[:thumbsup_id]
     favorite = params[:thumbsup_favorite].to_i > 0 ? true : false
 
@@ -667,7 +668,7 @@ class IdeaController < ApplicationController
            
     @comment[:anonymous] = 'f'
     @comment.publish = true
-    @comment[:member_id] = session[:member_id]
+    @comment[:member_id] = @member.id
     @comment[:pic_id] = 10011
     @comment[:text] = ''
     @comment[:my_vote] = 0
@@ -698,7 +699,7 @@ class IdeaController < ApplicationController
     strs.push '<hr/><h3>add_bs_idea</h3><hr/>'
     strs.push render_to_string(:partial => 'add_bs_idea', :locals => { :question=>@question })
 
-    bs_idea = BsIdea.new(:member_id => session[:member_id], :created_at => old_ts, :updated_at => newer_ts)
+    bs_idea = BsIdea.new(:member_id => @member.id, :created_at => old_ts, :updated_at => newer_ts)
     bs_idea.item_id = 1
     strs.push '<hr/><h3>bs_idea</h3><hr/>'
     strs.push render_to_string( :partial=> 'bs_idea', :object=>bs_idea, :locals=>{:mode=>'templ', :coms=>'t'} )
@@ -932,25 +933,7 @@ class IdeaController < ApplicationController
       @member.id = 0
       @member.email = ''
     end
-    
-    return
-    logger.debug "IdeaController authorize"
-    # and I expect @member to be set
-    # create an anonympus member object
-    unless Member.find_by_id(session[:member_id])
-      if request.xhr? || params[:post_mode] == 'ajax'
-        # send back a simple notice, do not redirect
-        m = Member.new
-        m.errors.add(:base, 'You must sign in to continue')
-        render :text => [m.errors].to_json, :status => 401
-      else
-        flash[:pre_authorize_uri] = request.request_uri
-        flash[:notice] = "Please sign in"
-        render :template => 'welcome/must_sign_in', :layout => 'welcome'
-        #redirect_to :controller => 'welcome' , :action => 'not_signed_in'
-      end
-    end
   end
   
-
+  
 end
