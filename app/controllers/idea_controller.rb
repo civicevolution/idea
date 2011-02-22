@@ -927,13 +927,11 @@ class IdeaController < ApplicationController
         return
       end
     end
-
-    if @member.nil?
+    if @member.nil? 
       @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
       @member.id = 0
       @member.email = ''
     end
   end
-  
   
 end

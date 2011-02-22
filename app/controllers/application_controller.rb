@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   before_filter :set_application_personality, :except => [ :logo, :rss ]
   before_filter :add_member_data, :except => [ :logo, :rss ]
-  before_filter :authorize, :except => [ :login, :proposal, :get_templates, :logo, :rss]
+  before_filter :authorize, :except => [ :login, :proposal, :logo, :rss]
 
   
   helper :all # include all helpers, all the time
