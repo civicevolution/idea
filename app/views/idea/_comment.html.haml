@@ -37,7 +37,7 @@
 				
 			- if comment.publish.nil? && comment.status != 'prereview' || mode	== 'templ'
 				%p.not_published
-					Your comment will not be published until you  
+					Your comment will not be visible to others until you  
 					= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
 					your email.
 
@@ -78,7 +78,7 @@
 				
 				-# if comment.publish.nil? && comment.status != 'prereview' || mode	== 'templ'
 					%p.not_published
-						Your comment will not be published until you  
+						Your comment will not be visible to others until you  
 						= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
 						your email.
 

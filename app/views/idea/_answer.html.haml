@@ -31,11 +31,12 @@
 
 	%div{:id=>"ans_#{answer.id}", :class=> is_def_ans ? "answer default" : "answer"}= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
 	%div.ans_comment_links
-		- if is_def_ans
-			%span Default answer
-		- elsif answer.ver.to_i == 0
-			%span Original version
+		- if is_def_ans # leave blank space
+			%span 
 		- else
-			%span Version #{answer.ver}
-			= link_to "History", {:action=>'history', :id=>answer.id}, {:class=>'history'}
-		= link_to "Report", {:action=>'report', :id=>answer['item_id']}, {:class=>'report'}
+			- if answer.ver.to_i == 0
+				%span Original version
+			- else
+				%span Version #{answer.ver}
+				= link_to "History", {:action=>'history', :id=>answer.id}, {:class=>'history'}
+			= link_to "Report", {:action=>'report', :id=>answer['item_id']}, {:class=>'report'}

@@ -694,7 +694,7 @@ form.reset_password_form, form.signin_form, form.register_form {
 form.signin_form td {
   vertical-align: top; }
 form.signin_form p {
-  width: 250px;
+  width: 240px;
   margin: 0 20px 10px 40px; }
 form.signin_form p.signin_warn {
   margin: 0;

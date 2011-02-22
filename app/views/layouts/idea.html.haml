@@ -62,18 +62,6 @@
 			mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
 			mask.style.height = (document.height ? document.height : document.body.clientHeight) + 'px';
 		
-		-#
-			%div#loading_please_wait
-				%div.border
-					%p 
-						Please wait a moment while the page finishes loading...
-						%img{:src=>"/images/rotating_arrow.gif"}
-					%div.slow_msg
-						%p
-							We apologise that this page is loading slow for you. We are working to improve it.
-						%p
-							The next pages you visit should load much more quickly
-		-#				
 		%div#hidden_forms.hide
 			%div#sign_in_form
 				- form_tag('/welcome/signin',{:class=>'signin_form'}) do
@@ -87,7 +75,7 @@
 									-#= link_to 'Join our community', {}, {:class=>'join_our_community'}
 									= link_to 'Register', {:controller=>'welcome'}, {:class=>'join_our_community'}
 									now.
-								
+							
 						%tr		
 							%td
 								= text_field_tag :email, params[:email]
@@ -110,8 +98,6 @@
 								= submit_tag "Sign In"
 								= link_to 'Reset password', {:controller=>'welcome'}, {:class=>'reset_password'}
 								= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
-				
-						
 					
 			%div#reset_password_form
 				- form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
@@ -126,12 +112,6 @@
 							%td
 								= submit_tag "Reset password"
 								= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
-						-#%tr
-						-#	%td
-						-#		= link_to 'Sign in', {}, {:class=>'sign_in'}
-						-#%tr
-						-#	%td
-						-#		= link_to 'Join our community', {}, {:class=>'join_our_community'}
 							
 		:javascript
 			_load_times.page_loaded = new Date()
@@ -145,18 +125,10 @@
 
 		= javascript_include_tag "jquery-1.4.4.min.js", "jquery.rating.js", 'jquery.form.js', 'jquery.MetaData.js', 'jquery-ui-1.8.9.custom.min.js','jquery.scrollTo-min.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "jquery.cookies.2.2.0.min.js", "pure.js", "jquery.timeago.js", "jquery.json-2.2.min.js"
 		
-		= javascript_include_tag "idea/team.js", "idea/activate/idea.js", "idea/gen/forms.js","idea/gen/notifier.js", "idea/gen/dispatch.js", "idea/idea.js", "idea/Ideas.js", "idea/activate/act_welcome_layout.js"
-
-		=	stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.9.custom.css','jquery.rating.css'
+		= javascript_include_tag "idea/activate/idea.js", "idea/gen/forms.js","idea/gen/notifier.js", "idea/gen/dispatch.js", "idea/idea.js", "idea/Ideas.js", "idea/activate/act_welcome_layout.js"
+		= stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.9.custom.css','jquery.rating.css'
+		
 		= yield :script
-
-
-		-#- if params[:action] == 'proposal'	
-		-#	= javascript_include_tag "ce/proposal.js", "ce/gen/dispatch.js", "jquery.timeago.js"
-		-#- elsif params[:action] == 'index'
-		-#	= javascript_include_tag "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
-		-#	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
-		-#= javascript_include_tag "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"
 		
 -#
 	As discussed, hereunder are the meeting dates for the Alliance Governance Group for 2011

@@ -44,68 +44,11 @@ function activate_ux_functions_misc(){
 	
 	$(window).unload( function(){
 		try{
-			member.client.quit_immediately();
+			//member.client.quit_immediately();
+			console.log("quit APE immediately")
 		}catch(e){}
 	});
 
-	//$( "#team_tab" ).bind( "tabsshow", function(event, ui) {
-	//	if(ui.panel.id == "tab_proposal"){
-	//		update_proposal();
-	//	}else if(ui.panel.className.match(/discussion/)){
-	//		ellipsis(ui.panel);
-	//	}
-	//});
-	
-	$( "div.question_tabs" ).bind( "tabsshow", function(event, ui) {
-		//if(ui.panel.className.match(/discussion/)){
-		var tab_window = $('div.tab_window',ui.panel);
-		if(tab_window.hasClass('discussion')){
-			//console.log("tabsshow do ellipsis")
-			ellipsis(tab_window);
-		}
-	});	
-
-	$( "div.team_info_tabs" ).bind( "tabsshow", function(event, ui) {
-		//if(ui.panel.className.match(/discussion/)){
-		var tab_window = $('div.tab_window',ui.panel);
-		if (tab_window.hasClass('tab_proposal')){
-			update_proposal();
-			//console.log("tabsshow do update_proposal")
-		}
-	});	
-
-
-	
-	$('form').die('focus').live('focus',
-	  function(){
-	    setFormFocusFade(this)
-	  }
-	)
-	
-	$('form.add_comment_form').each(
-		function(){
-			var form = $(this);
-			activate_comment_form( form );
-			$('div.add_comment label',form).html('Please comment on this question');
-		}
-	);
-
-	$('form.add_answer_form').each(
-		function(){
-			try{
-				var form = $(this);
-				var par_id = Number(form.closest('.Question').attr('id').match(/\d+/));
-				$("input[name='par_id']",form).val(par_id)
-				activate_answer_form( form );
-			}catch(e){console.log("form.add_answer_form init error: " + e.message)}
-		}
-	);
-	
-	$('div.Question,div.Answer').each( function(){ $('div.coms_inner',this).prepend( $(this).children('div.Comment' )) });
-		
-	
-
-	
 	$('a.sign_out').die('click').live('click', 
 		function(){
 			//console.log("sign_out");
@@ -115,42 +58,6 @@ function activate_ux_functions_misc(){
 		}
 	)
 	
-	$('a.hide_instr').die('click').live('click',
-  	function(){
-  		try{
-				var	a = $(this);
-				if(a.html().match(/Hide/)){
-					var ul = a.closest('ul');
-					ul.hide(500);
-					var new_a = a.clone(true);
-					new_a.html("Show instructions").addClass('show_instructions')
-					ul.prev('p').append(new_a)
-				}else{
-					var ul = a.parent().next('ul');
-					ul.show(500);
-					a.remove();
-				}
-			}catch(e){console.log("close_instr error: " + e)}
-			return false;
-		}
-	);
-  
-	$('table.checklist a').click( function(){var p = $(this).closest('td').find('p.details'); if(p.is(':visible')){p.hide()}else{p.show()}; return false; })
-	
-	$('table.team_roles p a').die('click').live('click',
-	  function(){
-	    var details = $(this).closest('td').find('div');
-	    if(details.is(':visible')){
-	      details.hide();
-	      $(this).html('details');
-	    }else{
-	      details.show();
-	      $(this).html('hide details')
-	    }
-	    return false;
-	  }
-	)
-
 	$('form.request_help button').click(
 		function(){
 			try{ 
@@ -160,28 +67,9 @@ function activate_ux_functions_misc(){
 		}
 	)
 
-	$('div#tab_my_profile a.upload_photo').click(function(){ $(this).closest('div').find('form.upload_member_photo').show(); return false;});
-	//$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
-	//$('table.team_roles td > a').die('click').live('click', team_role_volunteer);
-	
-	//$('div.endorse_proposal').css('opacity',.3).find('input').attr('disabled','disabled').end().find('textarea').attr('disabled','disabled');
-	//$('div.public_endorsements table').css('opacity',.3);
-	//$('div.member_endorsements table').css('opacity',.3);
-	
-	$('a.team_info').die('click').live('click',
-		function(){
-			var dialog = $('div#team_stats').dialog( {title : 'Team information', modal : true, width: 500 }); 
-			
-			
-			return false;
-		}
-	)
-
 	$('a.help').die('click').live('click',
 		function(){
 			var dialog = $('div#team_help').dialog( {title : 'Help', modal : true, width: 600 }); 
-			
-			
 			return false;
 		}
 	)
