@@ -218,15 +218,23 @@ div.gen_discussion {
 div.bs_idea {
   font-size: 120%;
   background-color: #fcf88a; }
+  div.bs_idea p.clear {
+    display: none; }
   div.bs_idea div.bs_idea_inner {
     margin: 0 14px 0 14px;
     padding: 10px 0; }
     div.bs_idea div.bs_idea_inner input.fav_order {
       width: 30px; }
 
+div.list.fav div.bs_idea {
+  position: relative; }
+div.list.fav p.clear {
+  display: block; }
 div.list.fav div.sort_ctl {
-  float: left;
-  margin-left: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 10px;
   padding-top: 14px; }
   div.list.fav div.sort_ctl div.sort {
     width: 21px;
@@ -243,9 +251,8 @@ div.list.fav div.sort_ctl {
     text-align: center;
     font-size: 0.8em; }
 div.list.fav div.bs_idea_inner {
-  float: left;
-  width: 240px;
-  margin: 0 14px 0 14px;
+  width: 236px;
+  margin: 0 14px 0 50px;
   padding: 10px 0; }
   div.list.fav div.bs_idea_inner input.fav_order {
     width: 30px; }
