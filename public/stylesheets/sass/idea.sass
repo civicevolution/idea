@@ -261,8 +261,36 @@ div.bs_idea
 	font-size: 120%
 	background-color: $postit
 	div.bs_idea_inner
-		margin: 16px
-		padding: 16px 0
+		margin: 0 14px 0 14px
+		padding: 10px 0
+		input.fav_order
+			width: 30px
+			
+div.list.fav			
+	div.sort_ctl
+		float: left
+		margin-left: 10px
+		padding-top: 14px
+		div.sort
+			width: 21px
+			height: 20px
+			background: url(/images/sort.gif) no-repeat 0 0
+			cursor: pointer
+		div.sort.down
+			background-position: 0 -20px
+			margin-bottom: 14px
+		input.sort
+			display: block
+			margin: 6px 0
+			width: 16px
+			text-align: center
+			font-size: .8em
+	div.bs_idea_inner
+		float: left
+		width: 240px
+		//border: 1px solid red
+		margin: 0 14px 0 14px
+		padding: 10px 0
 		input.fav_order
 			width: 30px
 
@@ -429,7 +457,7 @@ div.Comment_entry.full_comment_display
 		font-weight: bold
 	div.comment_controls
 		position: relative
-		margin-top: -8px
+		margin-top: 0
 
 div.comment_text, div.answer, div.bs_idea
 	p
@@ -713,7 +741,8 @@ span.star_hover, span.rating_results
 	margin-right: 10px
 div.rating form
 	float: right
-	margin-left: 20px
+	//margin-left: 20px
+	white-space: nowrap
 
 div.rating
 	div.cnt

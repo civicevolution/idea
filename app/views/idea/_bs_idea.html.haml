@@ -1,6 +1,12 @@
 %div.bs_idea{:id=>"bs_idea_#{bs_idea.id}", :item_id=>bs_idea.item_id}
 	%a{:name=>"bsi#{bs_idea.id}"}
 		
+	- if mode == 'fav'	
+		%div.sort_ctl
+			%div.sort.up
+			%input.sort{:value=> bs_idea['cnt'] }
+			%div.sort.down	
+		
 	%div.bs_idea_inner
 		- if bs_idea.publish.nil? || mode	== 'templ'
 			%p.not_published
@@ -83,5 +89,5 @@
 				
 			%p.like_controls.fav
 				Your #1 favorite idea
-			
+	%p.clear
 			

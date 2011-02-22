@@ -83,7 +83,7 @@
 				%div.list.fav.hide
 					-#%h4 My favorite ideas
 					%div.list_inner
-						- @favorite_ideas.slice(0,8).each do |bsi|
+						- @favorite_ideas.each do |bsi| #@favorite_ideas.slice(0,8).each do |bsi|
 							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
 						- if @favorite_ideas.size == 0
 							%p.empty You do not have any favorites yet, please review the new ideas or suggest an idea about this question

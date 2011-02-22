@@ -118,6 +118,84 @@ function idea_list_sort_update(event,ui){
 	send_bs_idea_order_to_server(question_id, ordered_ids)
 }
 
+
+$('div.sort').die('click').live('click',
+	function(){
+		var $this = $(this);
+		var bs_idea = $this.closest('div.bs_idea');
+		if($this.hasClass('up')){
+			var adjacent = bs_idea.prev('div.bs_idea');
+			adjacent.before(bs_idea)
+		}else{
+			var adjacent = bs_idea.next('div.bs_idea');
+				adjacent.after(bs_idea)
+		}
+		if(adjacent.size() > 0 ) renumber_favorites_and_send($this.closest('div.list_inner'));
+	}
+)
+
+
+$('input.sort').die('blur').die('keyup').live('blur keyup',
+	function(event){
+		var $this = $(this);
+		var bs_idea = $this.closest('div.bs_idea');
+		if(!event.keyCode || event.keyCode == 13 ){
+			var new_index_num = Number($this.val());
+			// find the idea with this number
+			var bs_ideas = bs_idea.parent().children('div.bs_idea').not(bs_idea)
+			var before_idea = null;
+			bs_ideas.each( 
+				function(){
+					if(!before_idea){
+						// find the idea with this number or the first one greater than this number
+						var idea = $(this);
+						if(Number(idea.find('input.sort').val()) >= new_index_num ){
+							before_idea = idea
+						}
+					}
+				}
+			)
+			if(before_idea){
+				bs_idea.hide(1000, 
+					function(){
+						before_idea.before(bs_idea);
+						bs_idea.show(1000, 
+							function(){
+								renumber_favorites_and_send($(this).closest('div.list_inner'))
+							}
+						)
+					}
+				)
+			}else{
+				var favs_inner = bs_idea.closest('div.list_inner');
+				bs_idea.hide(1000, 
+					function(){
+						favs_inner.append(bs_idea);
+						bs_idea.show(1000, 
+							function(){
+								renumber_favorites_and_send(favs_inner)
+							}
+						)
+					}
+				)
+			}
+					
+		}
+	}
+)
+
+
+
+function renumber_favorites_and_send(favs){
+	var bs_ideas = favs.children('div.bs_idea');
+	var cnt = 1;
+	bs_ideas.each( function(){ $(this).find('input.sort').val(cnt++);  } )
+	var ordered_ids = $.map(bs_ideas, function(n,i){ return Number(n.id.match(/\d+/)) })
+	var question_id = Number(favs.closest('div.qa').attr('id').match(/\d+/));
+	send_bs_idea_order_to_server(question_id, ordered_ids)
+}
+
+
 function send_bs_idea_order_to_server(question_id, ordered_ids){
 	console.log("send_bs_idea_order_to_server question_id: " + question_id + ", ordered_ids: " + ordered_ids)
 	$.ajax({ 					

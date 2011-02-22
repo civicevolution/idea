@@ -219,10 +219,36 @@ div.bs_idea {
   font-size: 120%;
   background-color: #fcf88a; }
   div.bs_idea div.bs_idea_inner {
-    margin: 16px;
-    padding: 16px 0; }
+    margin: 0 14px 0 14px;
+    padding: 10px 0; }
     div.bs_idea div.bs_idea_inner input.fav_order {
       width: 30px; }
+
+div.list.fav div.sort_ctl {
+  float: left;
+  margin-left: 10px;
+  padding-top: 14px; }
+  div.list.fav div.sort_ctl div.sort {
+    width: 21px;
+    height: 20px;
+    background: url(/images/sort.gif) no-repeat 0 0;
+    cursor: pointer; }
+  div.list.fav div.sort_ctl div.sort.down {
+    background-position: 0 -20px;
+    margin-bottom: 14px; }
+  div.list.fav div.sort_ctl input.sort {
+    display: block;
+    margin: 6px 0;
+    width: 16px;
+    text-align: center;
+    font-size: 0.8em; }
+div.list.fav div.bs_idea_inner {
+  float: left;
+  width: 240px;
+  margin: 0 14px 0 14px;
+  padding: 10px 0; }
+  div.list.fav div.bs_idea_inner input.fav_order {
+    width: 30px; }
 
 p.not_published {
   color: red; }
@@ -380,7 +406,7 @@ div.Comment_entry.full_comment_display span.new {
   font-weight: bold; }
 div.Comment_entry.full_comment_display div.comment_controls {
   position: relative;
-  margin-top: -8px; }
+  margin-top: 0; }
 
 div.comment_text p, div.answer p, div.bs_idea p {
   margin: 0 0 8px 0; }
@@ -645,7 +671,7 @@ span.star_hover, span.rating_results {
 
 div.rating form {
   float: right;
-  margin-left: 20px; }
+  white-space: nowrap; }
 
 div.rating div.cnt {
   float: right;
