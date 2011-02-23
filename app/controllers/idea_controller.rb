@@ -664,30 +664,35 @@ class IdeaController < ApplicationController
     @saved = client_details.save
     
     if @saved
-      help_request = HelpRequest.new params[:request_help]
-      help_request.client_details_id = client_details.id
-      @saved = help_request.save
+      @help_request = HelpRequest.new params[:request_help]
+      @help_request.client_details_id = client_details.id
+      @saved = @help_request.save
     end
     
     if @saved
-      case help_request.category
+      case @help_request.category
       	when 1
-      	  help_request['type'] = 'Report a bug'
+      	  @help_request['type'] = 'Report a bug'
       	when 2
-      	  help_request['type'] = 'I need help to use CivicEvolution'
+      	  @help_request['type'] = 'I need help to use CivicEvolution'
       	when 3
-      	  help_request['type'] = 'I need assistance with my proposal'
+      	  @help_request['type'] = 'I need assistance with my proposal'
       	when 4
-      	  help_request['type'] = 'I need help dealing with my fellow participants'
+      	  @help_request['type'] = 'I need help dealing with my fellow participants'
       	when 5
-      	  help_request['type'] = 'I need technical assistance with my proposal'
+      	  @help_request['type'] = 'I need technical assistance with my proposal'
       	when 6
-      	  help_request['type'] = 'I have a suggestion'
+      	  @help_request['type'] = 'I have a suggestion'
       end
       
       #member = Member.find(session[:member_id])
-      HelpMailer.deliver_help_request_receipt(@member, help_request, client_details )
-      HelpMailer.deliver_help_request_review(@member, help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
+      HelpMailer.deliver_help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
+      begin
+        HelpMailer.deliver_help_request_receipt(@member, @help_request, client_details )
+      rescue
+        @mail_error = true
+      end
+      
     end
     
     respond_to do |format|

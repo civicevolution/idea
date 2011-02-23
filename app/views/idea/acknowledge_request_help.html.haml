@@ -2,5 +2,8 @@
 
 %p We will review your request for assistance and respond as soon as possible. We apologise for any inconvenience this may cause you.
 
+- if !@mail_error.nil?
+	%p
+		%b= %Q| There was a problem with the email address you provided: "#{@help_request.email}". We could not send you a receipt and we will not be able to contact you.|
 
 %p If you do not hear back from us within one business day, please contact us at support@civicevolution.org 

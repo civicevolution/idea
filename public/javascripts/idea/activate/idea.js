@@ -262,7 +262,7 @@ function request_help_submit(form){
 				}catch(e){
 					btn.removeAttr('disabled').next('img').remove()
 					console.log("Chat submit error: " + e)
-					$('<div><p>Sorry, we cannot process your chat message at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+					$('<div><p>Sorry, we cannot process your help request at this time. We have been notified of this error and we will look into it soon.</p><p>Please email us directly support@civicevolution.org</p></div>').dialog( {title : 'Warning', modal : true } )
 				}
 			}
 		});
