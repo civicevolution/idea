@@ -5,9 +5,11 @@ $faint_color: rgb(147, 160, 145)
 $nav_link_bg: rgb(238, 238, 238)
 
 $postit: #fcf88a //#fcf17d //#fff89c
-$bsd_bar: #FDC762
-$bsd_bar_light: #fff4e0
+$bsd_bar: #f3973a //#f3af6b // rgb(254, 204, 55) //#FDC762
+
+$bsd_bar_light: #fee188 // #fed660 // #fff4e0 //#f9de68 //rgb(251, 226, 7) //#fff4e0 // rgb(254, 204, 55)  //
 $navy_blue: #23238E
+$help_tag: #f3973a
 
 //sass mixin for opacity
 =opacity(!opacity)
@@ -51,7 +53,7 @@ a.help_tag
 	position: fixed
 	top: 25%
 	right: 0
-	color: #FEA000
+	color: $help_tag
 	width: 32px
 	height: 102px
 	background: url(/images/help_tag.gif) no-repeat 0 0
@@ -61,7 +63,6 @@ a.help_tag.mouseover
 div.page
 	width: $page_width
 	margin: auto
-
 
 div.logo
 	text-align: left
@@ -78,7 +79,8 @@ iframe.ape
 
 div.member_info
 	float: right
-	margin-top: 19px
+	width: $side_bar_width
+	margin-top: 18px
 	color: $off_black
 	div.member
 		padding: 0 0 4px 42px
@@ -111,8 +113,6 @@ div.join_com
 		font-size: 14px
 		font-weight: bold
 
-
-
 hr.top
 	clear: both
 	margin-bottom: 0
@@ -142,12 +142,23 @@ p.loading
 	font-weight: bold
 	font-size: 1.2em
 
+div.suggest_title
+	position: relative
+	margin-bottom: 0
+	img.i36
+		position: absolute
+		top: 4px
+		left: 0
+		//vertical-align: -25px
+	h3
+		margin-left: 40px
+
 div.idea_page
 	float: left
 	width: $idea_page_width
 	
 h2.home_title
-	margin: 20px 41px 0px 41px
+	margin: 18px 41px 0px 41px
 	a
 		font-size: .6em
 		margin-left: 0px
@@ -687,7 +698,7 @@ form.item_rater
 div.q_cta
 	height: 40px
 	width: 100%
-	background: url(/images/cta_speakup.gif) no-repeat left top
+	background: url(/images/cta_speakup3.gif) no-repeat left top
 	cursor: pointer
 	div
 		height: 38px
@@ -701,7 +712,7 @@ div.q_cta
 			font-size: 20px
 			margin-top: 6px
 div.q_cta.mouseover
-	background: url(/images/cta_speakup_mo2.gif) no-repeat left top
+	background: url(/images/cta_speakup_mo3.gif) no-repeat left top
 
 
 div.answer_controls

@@ -28,7 +28,7 @@ a.help_tag {
   position: fixed;
   top: 25%;
   right: 0;
-  color: #fea000;
+  color: #f3973a;
   width: 32px;
   height: 102px;
   background: url(/images/help_tag.gif) no-repeat 0 0; }
@@ -54,7 +54,8 @@ iframe.ape {
 
 div.member_info {
   float: right;
-  margin-top: 19px;
+  width: 180px;
+  margin-top: 18px;
   color: #2b3e42; }
   div.member_info div.member {
     padding: 0 0 4px 42px;
@@ -111,12 +112,22 @@ p.loading {
   font-weight: bold;
   font-size: 1.2em; }
 
+div.suggest_title {
+  position: relative;
+  margin-bottom: 0; }
+  div.suggest_title img.i36 {
+    position: absolute;
+    top: 4px;
+    left: 0; }
+  div.suggest_title h3 {
+    margin-left: 40px; }
+
 div.idea_page {
   float: left;
   width: 778px; }
 
 h2.home_title {
-  margin: 20px 41px 0px 41px; }
+  margin: 18px 41px 0px 41px; }
   h2.home_title a {
     font-size: 0.6em;
     margin-left: 0px;
@@ -616,7 +627,7 @@ form.item_rater {
 div.q_cta {
   height: 40px;
   width: 100%;
-  background: url(/images/cta_speakup.gif) no-repeat left top;
+  background: url(/images/cta_speakup3.gif) no-repeat left top;
   cursor: pointer; }
   div.q_cta div {
     height: 38px;
@@ -631,7 +642,7 @@ div.q_cta {
       margin-top: 6px; }
 
 div.q_cta.mouseover {
-  background: url(/images/cta_speakup_mo2.gif) no-repeat left top; }
+  background: url(/images/cta_speakup_mo3.gif) no-repeat left top; }
 
 div.answer_controls {
   position: relative;
@@ -660,7 +671,7 @@ div.answer_section {
     display: none; }
 
 div.bsd_bar {
-  background-color: #fdc762;
+  background-color: #f3973a;
   height: 40px;
   width: 100%;
   clear: both;
@@ -681,7 +692,7 @@ div.bsd_bar.bottom {
   margin-top: 20px; }
 
 div.bsd_instr {
-  background-color: #fff4e0;
+  background-color: #fee188;
   padding: 10px 10px 10px 10px; }
   div.bsd_instr a.show_me_how {
     font-style: italic;

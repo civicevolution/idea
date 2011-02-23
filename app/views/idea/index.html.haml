@@ -2,9 +2,9 @@
 
 %div.idea_page
 	- org = @mems.detect{|m| m.id == @team.org_id}
-	%h3
+	%div.suggest_title
 		%img{:src=>org.photo.url('36'),:class=>'i36'}
-		#{org.first_name} #{org.last_name} suggested this idea for change in the community:
+		%h3 #{org.first_name} #{org.last_name} suggested this idea for change in the community:
 	%h2.home_title 
 		%span #{@team.title}
 		- if @member.id == @team.org_id
