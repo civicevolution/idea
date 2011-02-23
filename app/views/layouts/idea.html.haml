@@ -21,7 +21,7 @@
 				})();
 			
 	%body
-	
+		= link_to "Help",{},{:class=>'help_tag request_help'}
 		%div#load_mask
 	
 		%div.page
@@ -112,7 +112,7 @@
 							%td
 								= submit_tag "Reset password"
 								= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
-							
+		
 		:javascript
 			_load_times.page_loaded = new Date()
 			var client;

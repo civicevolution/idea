@@ -10,13 +10,13 @@ class HelpMailer < ActionMailer::Base
   end
 
 
-  def help_request_review(member, help_request, client_details, sent_at = Time.now)
+  def help_request_review(member, help_request, client_details, host, app, sent_at = Time.now)
     subject    "Please review this request for help at CivicEvolution"
     recipients "CivicEvolution Admin <support@civicevolution.org>"
     from       "\"CivicEvolution\" <no-reply@auto.civicevolution.org>"
     sent_on    sent_at
     
-    body       :member => member, :help_request => help_request, :client_details => client_details
+    body       :member => member, :help_request => help_request, :client_details => client_details, :host=> host, :app=> app
   end
   
 

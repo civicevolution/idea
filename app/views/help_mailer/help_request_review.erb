@@ -1,4 +1,10 @@
 <%= @member.first_name%> <%=@member.last_name%> (<%=@member.email%>) has requested help with 2029 and beyond with CivicEvolution.
 
+App: <%=@app%>
+
+Type: <%=@help_request['type']%>
+
 Message:
 <%= @help_request.message%>
+
+Link: <%= "http://#{@host}/admin/view_help_request/#{@help_request.id}"%>

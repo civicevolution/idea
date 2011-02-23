@@ -651,6 +651,56 @@ class IdeaController < ApplicationController
     render :action => "guidelines", :layout => false 
   end
   
+  def request_help
+    render :action => "request_help", :layout => false 
+  end
+  
+  def request_help_post
+    
+    team_id = params[:url] && params[:url].match(/\d+$/) ? params[:url].match(/\d+$/)[0] : nil
+    # create the client_details
+    client_details = ClientDetails.new :ip=> request.remote_ip, :session_id=> request.session_options[:id], :member_id=> session[:member_id], 
+      :team_id=> team_id, :url=> params[:url], :user_agent=> params[:user_agent], :error_log=> params[:error_log]
+    @saved = client_details.save
+    
+    if @saved
+      help_request = HelpRequest.new params[:request_help]
+      help_request.client_details_id = client_details.id
+      @saved = help_request.save
+    end
+    
+    if @saved
+      case help_request.category
+      	when 1
+      	  help_request['type'] = 'Report a bug'
+      	when 2
+      	  help_request['type'] = 'I need help to use CivicEvolution'
+      	when 3
+      	  help_request['type'] = 'I need assistance with my proposal'
+      	when 4
+      	  help_request['type'] = 'I need help dealing with my fellow participants'
+      	when 5
+      	  help_request['type'] = 'I need technical assistance with my proposal'
+      	when 6
+      	  help_request['type'] = 'I have a suggestion'
+      end
+      
+      #member = Member.find(session[:member_id])
+      HelpMailer.deliver_help_request_receipt(@member, help_request, client_details )
+      HelpMailer.deliver_help_request_review(@member, help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
+    end
+    
+    respond_to do |format|
+      if @saved
+        format.html { render :action => "acknowledge_request_help", :layout => false } if request.xhr?
+      else
+        format.json { render :text => [@proposal_idea.errors].to_json, :status => 409 }
+      end
+    end
+    
+  end
+  
+  
   def get_templates
 
     @team = Team.new(:com_criteria=>'4..7', :res_criteria=>'3..8')
@@ -905,7 +955,7 @@ class IdeaController < ApplicationController
     @target
   end  
   
-  IDEA_CONTROLLER_PUBLIC_METHODS = ['index', 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report']
+  IDEA_CONTROLLER_PUBLIC_METHODS = ['index', 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report', 'request_help', 'request_help_post']
   
   def authorize
     unless IDEA_CONTROLLER_PUBLIC_METHODS.include? request[:action]

@@ -46,7 +46,17 @@ h2#load_message
 	display: none
 	border: 2px solid $navy_blue
 	padding: 10px
-	
+
+a.help_tag
+	position: fixed
+	top: 25%
+	right: 0
+	color: #FEA000
+	width: 32px
+	height: 102px
+	background: url(/images/help_tag.gif) no-repeat 0 0
+a.help_tag.mouseover
+	border-right: 2px solid white
 		
 div.page
 	width: $page_width
@@ -157,6 +167,21 @@ div.side_bar
 	margin-left: 20px
 	div.share
 		margin: 20px 0
+	a.request_help
+		display: block
+		font-size: 1.2em
+		font-weight: bold
+
+form.request_help
+	textarea
+		width: 500px
+		font-size: 1.2em
+	label
+		display: block
+		font-weight: bold
+		margin-top: 16px
+	input
+		display: block
 
 div.report
 	max-width: 500px

@@ -166,6 +166,24 @@ $('a.2029_guidelines').live('click',
 	}
 )
 
+$('a.request_help').live('click',
+	function(){
+		$('<div><img src="/images/rotating_arrow.gif"/> Loading...</div>').load("/idea/request_help", function(){
+			$(this).dialog( {title : '2029 and Beyond Help', modal : true, width: 600, maxHeight: 500 } );
+		})
+		return false;
+	}
+)
+
+$('a.help_tag').live('mouseover mouseout', function(event) {
+  if (event.type == 'mouseover') {
+		$(this).addClass('mouseover')
+  } else {
+		$(this).removeClass('mouseover')
+  }
+});
+
+
 
 $('a.update_endorsement').live('click', 
 	function(){

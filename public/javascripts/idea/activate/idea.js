@@ -58,7 +58,7 @@ function activate_ux_functions_misc(){
 		}
 	)
 	
-	$('form.request_help button').click(
+	$('form.request_help button').live('click',
 		function(){
 			try{ 
 				request_help_submit($(this.form))
@@ -229,8 +229,8 @@ function reload_css(){
 }		
 
 function request_help_submit(form){
-	var msg = form[0].message.value;
-	msg = msg.replace(/^\s+/,'').replace(/\s+$/,'')
+	//var msg = form[0].message.value;
+	//msg = msg.replace(/^\s+/,'').replace(/\s+$/,'')
 	
 	var sel = form.find('select')[0];
 	var cat_id = sel.selectedIndex;
@@ -244,17 +244,15 @@ function request_help_submit(form){
 	$(':input',form).removeClass('form_error_border');
 	$('p.form_error_text',form).remove();
 	
-	if(msg!=''){
+	if(form.find('textarea').val()!=''){
 		form.ajaxSubmit({ 					
 		  type: "POST", 
-		  url: "/welcome/request_help", 
-			data: {message : msg, category : cat_id, user_agent : navigator.userAgent, url: document.location.href, name: form[0].sender_name.value, 
-					email : form[0].sender_email.value, error_log : 'no log recorded', load_time: 0  },
+		  url: "/idea/request_help_post", 
+			data: {user_agent : navigator.userAgent, url: document.location.href, error_log : 'no log recorded', load_time: 0  },
 		  success: function(data,status){ 
 				//console.log("chat submit success, call dispatchPageChatMessage");
 				var dialog = $('<div>' + data + '</div>').dialog( {title : 'Thank you', modal : true, width: 500 }); 
-				form[0].message.value = ''
-				btn.removeAttr('disabled').next('img').remove()
+				form.closest('div.ui-dialog').dialog('destroy').remove();
 		  },
 			error : function(xhr,errorString,exceptionObj){
 				console.log("Error, xhr: " + xhr.responseText)
