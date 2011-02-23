@@ -12,7 +12,8 @@ $('p.idea_lists a').die('click').live('click',
 			par.find('div.list').not(show_list).hide();
 			
 			$this.parent().children('a').removeClass('active_list');
-			$this.addClass('active_list')
+			$this.addClass('active_list');
+			show_list.closest('div.brainstorming').children('h3').html( show_list.children('h3').html() );
 			
 		}catch(e){console.log("p.idea_lists click error: " + e.message)}
 		return false; 
@@ -406,10 +407,12 @@ BsIdeas = {
 		bs_idea.find('p.like_controls.rem').hide();
 		bs_idea.find('p.like_controls.fav').html('Added to your favorites');
 		
-		bs_idea.clone().prependTo( par.find('div.list.all') );
-		
+		bs_idea.clone().prependTo( par.find('div.list.all > div') );
+		par.find('div.list.all p.empty').remove();
 		
 		bs_idea = bs_idea.clone().prependTo( par.find('div.list.fav > div') );
+		par.find('div.list.fav p.empty').remove();	
+			
 		//bs_idea.find('p.status').hide();
 		//bs_idea.find('div.rating').remove();
 		bs_idea.find('p.like_controls.rem').show();

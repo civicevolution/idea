@@ -55,33 +55,36 @@
 
 			%p.idea_lists
 				= link_to "Most popular", {:action=>'bs_idea_list', :id=>@question.id, :list=>'pop'}
-				•
 				= link_to "New(#{@unrated_ideas.size})", {:action=>'bs_idea_list', :id=>@question.id, :list=>'new'}
-				•
 				= link_to "My favorites", {:action=>'bs_idea_list', :id=>@question.id, :list=>'fav'}
-				•
 				= link_to "All", {:action=>'bs_idea_list', :id=>@question.id, :list=>'all'}
 				
 
 				%div.list.pop	
-					-#%h4 Most popular ideas	
-					- @popular_ideas.slice(0,10).each do |bsi|
-						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'pop', :coms=>'t'}
-					- if @bs_ideas.size == 0
-						%p No ideas suggested yet, be the first to suggest an idea about this question
-					- elsif @popular_ideas.size == 0 
-						%p.empty There are no popular ideas yet
+					%h3 Most popular ideas
+					%p.list_instr Here are the most popular ideas with the participants. These represent your common ground for finding an answer to this question.
+					%div.list_inner	
+						- @popular_ideas.slice(0,10).each do |bsi|
+							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'pop', :coms=>'t'}
+						- if @bs_ideas.size == 0
+							%p No ideas suggested yet, be the first to suggest an idea about this question
+						- elsif @popular_ideas.size == 0 
+							%p.empty There are no popular ideas yet
 				
 					
 				%div.list.new.hide
-					-#%h4 New ideas
-					- @unrated_ideas.each do |bsi|
-						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'new', :coms=>'t'}
-					- if @unrated_ideas.size == 0
-						%p.empty There are no new ideas right now
+					%h3 New ideas
+					%p.list_instr Please review and discuss these new ideas. Give your favorite ideas a thumbs up, and give a thumbs down to the others.
+					%div.list_inner
+						- @unrated_ideas.each do |bsi|
+							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'new', :coms=>'t'}
+						- if @unrated_ideas.size == 0
+							%p.empty There are no new ideas right now
 					
 				%div.list.fav.hide
-					-#%h4 My favorite ideas
+					%h3 My favorite ideas
+					%p.list_instr Please keep your favorite ideas prioritised and remove old ones you don't support anymore. We compare everyone's favorites to find the most popular ideas.
+					
 					%div.list_inner
 						- @favorite_ideas.each do |bsi| #@favorite_ideas.slice(0,8).each do |bsi|
 							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
@@ -89,11 +92,13 @@
 							%p.empty You do not have any favorites yet, please review the new ideas or suggest an idea about this question
 
 				%div.list.all.hide
-					-#%h4 All of the brainstorming ideas
-					- @bs_ideas.slice(0,25).sort{|a,b| a.id <=> b.id}.each do |bsi|
-						= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'all', :coms=>'t'}
-					- if @bs_ideas.size == 0
-						%p.empty No ideas suggested yet, be the first to suggest an idea about this question
+					%h3 All brainstorming ideas
+					%p.list_instr Here are all of the brainstorming ideas about this question.
+					%div.list_inner
+						- @bs_ideas.slice(0,25).sort{|a,b| a.id <=> b.id}.each do |bsi|
+							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'all', :coms=>'t'}
+						- if @bs_ideas.size == 0
+							%p.empty No ideas suggested yet, be the first to suggest an idea about this question
 						
 			= render :partial=>'add_bs_idea', :locals=> {:question=>@question}
 

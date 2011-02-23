@@ -218,8 +218,6 @@ div.gen_discussion {
 div.bs_idea {
   font-size: 120%;
   background-color: #fcf88a; }
-  div.bs_idea p.clear {
-    display: none; }
   div.bs_idea div.bs_idea_inner {
     margin: 0 14px 0 14px;
     padding: 10px 0; }
@@ -228,8 +226,6 @@ div.bs_idea {
 
 div.list.fav div.bs_idea {
   position: relative; }
-div.list.fav p.clear {
-  display: block; }
 div.list.fav div.sort_ctl {
   position: absolute;
   top: 0;
@@ -257,6 +253,22 @@ div.list.fav div.bs_idea_inner {
   div.list.fav div.bs_idea_inner input.fav_order {
     width: 30px; }
 
+div.list h3 {
+  display: none;
+  margin-bottom: 0; }
+div.list p.list_instr {
+  margin: 4px 0 24px 0;
+  font-style: italic; }
+
+p.idea_lists {
+  margin: -14px 0 0px 0;
+  font-size: 0.9em;
+  font-weight: bold; }
+  p.idea_lists a {
+    margin-right: 14px; }
+  p.idea_lists a.active_list {
+    display: none; }
+
 p.not_published {
   color: red; }
 
@@ -275,14 +287,6 @@ a.com_author {
 h3.disc_title a, h3.question a {
   margin-left: 20px;
   font-size: 80%; }
-
-p.idea_lists {
-  margin: -14px 0 20px 0; }
-  p.idea_lists a.active_list {
-    text-decoration: none;
-    font-weight: bold;
-    color: black;
-    font-size: 0.9em; }
 
 div.close_1com {
   position: absolute;
@@ -540,6 +544,9 @@ form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest
     margin-left: 15px; }
   form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning, form.std_form p.resource_warning {
     margin-top: -12px; }
+
+form.add_bs_idea_form {
+  font-size: 1em; }
 
 form.add_answer_form {
   margin-bottom: 80px; }
