@@ -525,8 +525,8 @@ function get_tooltips(el){
 	try{
 		$('div#clue-tip-source').remove();
 		temp.tooltip = el
-		console.log("get_tooltips NOT cached");
-		$('div#tooltip_source').remove();
+		//console.log("get_tooltips NOT cached");
+		//$('div#tooltip_source').remove();
 		if( $('div#tooltip_source').size() == 0 ){
 			//console.log("get tooltips from server");
 			$.ajax({dataType: 'html', url: '/idea/tooltips', async: false, 
