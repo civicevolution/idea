@@ -202,9 +202,6 @@ function resizeUI(){
 
 function activate_ux_appearance(){
 	
-	document.title = $('h3.team_title:first').text();
-	
-	
 	$('div.coms').addClass('coms_show_one_line');
 	$('div.Comment_entry').addClass('one_line_comment').removeClass('full_comment_display')
 	
