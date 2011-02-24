@@ -46,7 +46,9 @@ class IdeaController < ApplicationController
 
     @mems = Member.all( :conditions=>[%q|id IN (SELECT distinct member_id FROM comments WHERE team_id = ?
       UNION
-      SELECT distinct member_id FROM bs_ideas WHERE team_id = ?)|,@team.id,@team.id]);
+      SELECT distinct member_id FROM bs_ideas WHERE team_id = ?
+      UNION
+      SELECT org_id FROM teams WHERE id = ?)|,@team.id,@team.id, @team.id]);
     
   	@endorsements = Endorsement.all(:conditions=>['team_id=?',@team.id])
   	@endorsers = Member.all(:conditions=> {:id => @endorsements.map{|e| e.member_id }.uniq })
