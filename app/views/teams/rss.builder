@@ -2,8 +2,8 @@
 xml.instruct! :xml, :version => "1.0" 
 xml.rss :version => "2.0", 'xmlns:atom'=>"http://www.w3.org/2005/Atom" do
   xml.channel do
-    xml.title "2029 and beyond Teams"
-    xml.description "2029 and beyond teams committed to developing community solutions"
+    xml.title "2029 and Beyond Teams"
+    xml.description "2029 and Beyond teams committed to developing community solutions"
     xml.link "http://#{@host}/#get_started"
     xml.tag! "atom:link", :href=>"http://#{@host}/teams/rss", :rel=>"self", :type=>"application/rss+xml"
     

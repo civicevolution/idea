@@ -731,7 +731,7 @@ function show_signin_form(action){
 	$('input[name="email"]', dialog).focus();
 	$('a',dialog).attr('pos','center');
 	//var cur_form = $('form.signin_form:visible').size() > 0 ? $('form.signin_form') : $('form.reset_password_form');
-	if(action) dialog.find('td#signin_msg').prepend('<p class="signin_action_warn">You must sign in or register to ' + action + ' and then try again</p>')
+	if(action) dialog.find('td#signin_msg').prepend('<p class="signin_action_warn">You must sign in or register to ' + action + '</p><p class="signin_action_warn">After signing in or registering, please try again</p>')
 	var form = dialog.find('form')
 	$(':input',form).removeClass('form_error_border');
 	$('p.form_error_text',form).remove();

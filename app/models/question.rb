@@ -6,8 +6,8 @@ class Question < ActiveRecord::Base
   validates_presence_of :text
   validates_length_of :text, :in => 5..200, :allow_blank => false
   
-  validate_on_create :check_team_access
-  validate_on_update :check_item_edit_access
+  #validate_on_create :check_team_access
+  #validate_on_update :check_item_edit_access
     
   after_create :create_item_record
   after_destroy :delete_item_record

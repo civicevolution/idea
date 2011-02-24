@@ -159,7 +159,7 @@ $('a.delete_endorsement').live('click',
 $('a.2029_guidelines').live('click',
 	function(){
 		$('<div><img src="/images/rotating_arrow.gif"/> Loading...</div>').load("/idea/guidelines", function(){
-			$(this).dialog( {title : '2029 and beyond Online Groundrules and Guidelines', modal : true, width: 600, maxHeight: 500 } );
+			$(this).dialog( {title : '2029 and Beyond Online Groundrules and Guidelines', modal : true, width: 600, maxHeight: 500 } );
 		})
 		return false;
 	}

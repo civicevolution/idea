@@ -187,7 +187,7 @@ $('a.2029_guidelines').live('click',
 		data = $('<div></div>')
 		data.append( $('div.ground_rules').clone() );
 		data.append( $('div.guidelines').clone() );
-		data.dialog( {title : '2029 and beyond Online Groundrules and Guidelines', modal : true, width: 500, maxHeight: 500 } );
+		data.dialog( {title : '2029 and Beyond Online Groundrules and Guidelines', modal : true, width: 500, maxHeight: 500 } );
 		return false;
 	}
 )
@@ -252,11 +252,7 @@ function signin_submit(form){
 
 $('li.team').die('click').live('click',
 	function(){
-		if(this.getAttribute('launched') == 't'){
-			document.location = '/team?id=' + this.getAttribute('id')
-		}else{
-			document.location = '/team/proposal?id=' + this.getAttribute('id')
-		}
+		document.location = '/idea/' + this.getAttribute('id')
 	}
 );
 
@@ -265,14 +261,6 @@ $('a.team_entry_title').die('click').live('click',
 		try{
 			var id = Number(this.getAttribute('href').match(/\d+$/))
 			document.location = '/idea/' + id
-			//console.log("id: " + id + ", my_team_ids: " + my_team_ids)
-			//if($.inArray(id,my_team_ids) != -1 && this.getAttribute('launched') == 't'){
-			//	// console.log("show workspace")
-			//	document.location = '/team?id=' + id
-			//}else{
-			//	//console.log("show proposal")
-			//	document.location = '/team/proposal?id=' + id
-			//}
 		}catch(e){console.log("team_entry_title error: e: " + e.message)}
 		return false;
 	}

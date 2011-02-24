@@ -130,22 +130,9 @@ class TeamController < ApplicationController
         team_item = Item.new :team_id=>@team.id, :o_id=> @team.id, :o_type=>4, :par_id=>0, :order=>0, :sib_id=>0, :ancestors=>'{0}', :target_id=>0, :target_type=>0
         team_item.save
         
-        # create a public discussion item
-        pub_disc_item = Item.new :team_id=>@team.id, :o_id=> @team.id, :o_type=>11, :par_id=>team_item.id, :order=>0, :sib_id=>0, :ancestors=>"{0,#{team_item.id}}", :target_id=>0, :target_type=>0
-        pub_disc_item.save        
-        
-        logger.debug "team was saved with id: #{@team.id}, create team_registration for member id: #{@team.org_id}"
-        # make the organizer a team member
-        tr = TeamRegistration.new(
-          :team_id=>@team.id, 
-          :member_id=>@team.org_id, 
-          :status=>'confirmed',
-          :accept_groundrules=>true,
-          :host=>request.env["HTTP_HOST"]
-        )
-        tr.save
-        logger.debug "tr.errors: #{tr.errors.inspect}" if tr.errors.size() > 0
-    
+        # create the idea page
+        @team.create_team_idea_page()
+
         @proposal_idea.launched = true
         @proposal_idea.save
         

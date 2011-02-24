@@ -171,6 +171,48 @@ class Team < ActiveRecord::Base
   end
   
   
+  def create_team_idea_page()
+    logger.debug "create_team_idea_page for id: #{self.id}, \"#{self.title}\""
+    yml = YAML.load_file 'config/idea_page_template.yaml'
+  
+    if !self.launched
+      member = Member.find(self.org_id)
+      team_item = Item.find_by_o_id_and_o_type(self.id, 4)
+      yml.each_pair { |key, value|
+        logger.debug "#{key}"
+        rec = value
+        #logger.debug "#{rec['question']}"
+        page = Page.new :page_title=>rec['page_title'], :chat_title=>rec['chat_title'], :nav_title=>rec['nav_title'], :par_id=>team_item.id
+        page.save
+        # set the order according to yaml
+        item = Item.find(page.item_id)
+        item.order = rec['order']
+        item.save
+    
+        # if there is a question, add it
+        if !rec['question'].nil?
+          logger.debug "add_a_question for page: #{page.nav_title}"
+          # create a quesstion record
+          question = Question.new :member_id=>self.org_id, :text=>rec['question'], :par_id=> page.item_id, :target_id=>0, :target_type=>0, :team_id=>self.id,
+            :idea_criteria=>rec['idea_criteria'], :answer_criteria=>rec['answer_criteria'], :num_answers=>rec['num_answers'], :default_answer_id=>rec['default_answer_id']
+          question.save   
+                                                                                                                            
+        end
+
+      }
+      
+      self.launched = true
+      self.save
+
+      #notify the submittor when the idea is approved
+      #logger.debug '####################### member has been defaulted to admin'
+      #member = Member.find(1)
+      #host = self.initiative_id == 1 ? 'cgg.civicevolution.org' : '2029.civicevolution.org'
+      #ProposalMailer.deliver_idea_page_available(member, self, host )
+      
+    end
+  end
+  
   def create_team_workspace(tr)
     logger.debug "create_team_workspace for id: #{self.id}, \"#{self.title}\""
     yml = YAML.load_file 'config/proposal_template.yaml'

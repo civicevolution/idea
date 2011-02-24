@@ -1,0 +1,51 @@
+# this is the data I need to construct a team workspace for the 2029/cgg initiative
+# read the data file
+# create each entry as a page
+# add a question or team_info as shown
+# add the items as appropriate
+
+
+define_page:
+  page_title:   What is the change you want to make?
+  chat_title:   Chat about the change
+  nav_title:    Define the change
+  question:         What is the change you want to make? 
+  default_answer_id: 1
+  idea_criteria:    5..1000
+  answer_criteria:  5..4000
+  num_answers:      1
+  order: 1
+
+community_page:
+  page_title:   Why is this important to your community and who will be affected?
+  chat_title:   Chat about who 
+  nav_title:    Who is affected?
+  question:         Why is this important to your community and who will be affected?
+  default_answer_id: 2
+  idea_criteria:    5..1000
+  answer_criteria:  5..4000
+  num_answers:      1
+  order: 2
+
+recommendation_page:
+  page_title:   What are your recommendations for making this change and what are the tradeoffs to consider?
+  chat_title:   Chat about recommendations
+  nav_title:    Recommendations
+  question:         What are your recommendations for making this change and what are the tradeoffs to consider?
+  default_answer_id: 3
+  idea_criteria:    5..1000
+  answer_criteria:  5..4000
+  num_answers:      1
+  order: 3
+
+
+steps_page:
+  page_title:   What are the next steps for implementing your idea?
+  chat_title:   Chat about next steps
+  nav_title:    Next steps
+  question:         What are the next steps for implementing your idea?
+  default_answer_id: 4
+  idea_criteria:    5..1000
+  answer_criteria:  5..4000
+  num_answers:      1
+  order: 4

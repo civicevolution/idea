@@ -20,7 +20,7 @@ class ProposalMailer < ActionMailer::Base
   end
 
   def approval_notice(member, proposal, team, host, sent_at = Time.now)
-    subject    'Your proposal idea has been approved and published'
+    subject    'Your proposal idea has been approved and a proposal page has been created'
     recipients "#{member.first_name} #{member.last_name} <#{member.email}>"
     from       "\"CivicEvolution\" <no-reply@auto.civicevolution.org>"
     sent_on    sent_at

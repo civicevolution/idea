@@ -61,15 +61,15 @@ class ApplicationController < ActionController::Base
       case request.subdomains.first
         when /^2029-staff$/i, /^cgg$/
           params[:_initiative_id] = 1
-          params[:_app_name] = '2029 and beyond for Staff'
+          params[:_app_name] = '2029 and Beyond for Staff'
           self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
         when /^2029$/	
           params[:_initiative_id] = 2
-          params[:_app_name] = '2029 and beyond'
+          params[:_app_name] = '2029 and Beyond'
           self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
         when 'game'
           params[:_initiative_id] = 1
-          params[:_app_name] = '2029 and beyond Staff GAME'
+          params[:_app_name] = '2029 and Beyond Staff GAME'
           self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
         when /^demo$/i
           params[:_initiative_id] = 3
