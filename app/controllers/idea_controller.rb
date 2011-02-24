@@ -42,7 +42,12 @@ class IdeaController < ApplicationController
     # remove answer_items for testing
     #@items = @items.find_all{|i| i.o_type != 2 }
     
-    @mems = Member.all( :conditions=>['id IN (SELECT distinct member_id FROM comments WHERE team_id = ?)',@team.id]);
+    #@mems = Member.all( :conditions=>['id IN (SELECT distinct member_id FROM comments WHERE team_id = ?)',@team.id]);
+
+    @mems = Member.all( :conditions=>[%q|id IN (SELECT distinct member_id FROM comments WHERE team_id = ?
+      UNION
+      SELECT distinct member_id FROM bs_ideas WHERE team_id = ?)|,@team.id,@team.id]);
+    
   	@endorsements = Endorsement.all(:conditions=>['team_id=?',@team.id])
   	@endorsers = Member.all(:conditions=> {:id => @endorsements.map{|e| e.member_id }.uniq })
     

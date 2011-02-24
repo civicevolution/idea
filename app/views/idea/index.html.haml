@@ -16,30 +16,39 @@
 		- else
 			= simple_format h @team.solution_statement
 
-	%p.intro
-		#{org.first_name}'s idea is just a start&mdash;a real solution needs a plan for action and community support.
-		A plan for action answers 4 questions about this idea for change: What, Why, How, and What are the next steps.
-		The challenge is to find answers to these questions that most community members can accept.
+	- if @mems.detect {|m| m.id == @member.id }.nil?
+		%p.intro
+			#{org.first_name}'s idea is just a start&mdash;a real solution needs a plan for action and community support.
+			A plan for action answers 4 questions about this idea for change: What, Why, How, and What are the next steps.
+			The challenge is to find answers to these questions that most community members can accept.
 		
-	%p.intro
-		Finding these shared answers will take some work, so we've tried to make this fun and interesting for you.
-		You'll need to bring your best ideas, along with your openness, honesty and respect for your neighbors.
+		%p.intro
+			Finding these shared answers will take some work, so we've tried to make this fun and interesting for you.
+			You'll need to bring your best ideas, along with your openness, honesty and respect for your neighbors.
 		
-	%p.intro.cta
-		- if @member.id != 0
+		%p.intro.cta
+			- if @member.id != 0
+				%b
+					#{@member.first_name},
+					will you help?
+				Click the 
+				%b Speak up 
+				button below each question to get started.	
+			- else
+				%b
+					Will you help?
+				Click the 
+				%b Speak up 
+				button below each question to get started.	
+	- else
+		%p.intro
 			%b
-				#{@member.first_name},
-				will you help?
+				Welcome back #{@member.first_name}, we really appreciate your participation!
+		%p.intro.cta
 			Click the 
 			%b Speak up 
-			button below each question to get started.	
-		- else
-			%b
-				Will you help?
-			Click the 
-			%b Speak up 
-			button below each question to get started.	
-			
+			button below each question to continue your contribution to this great idea.
+	
 	-	q_cnt = 0
 	- page_items = @items.find_all {|pi| pi.o_type == 9 } .sort {|a,b| a.order <=> b.order }
 	- page_items.each do |pi|
