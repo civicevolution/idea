@@ -137,6 +137,9 @@ div.idea_page {
   float: left;
   width: 778px; }
 
+div.brainstorming form.add_bs_idea_form textarea {
+  font-size: 1em; }
+
 h2.home_title {
   margin: 18px 41px 0px 41px; }
   h2.home_title a {
