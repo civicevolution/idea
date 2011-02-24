@@ -518,3 +518,43 @@ function activate_idea_form(form,orig_idea){
 		}
 	);
 }
+
+
+
+function get_tooltips(el){
+	try{
+		$('div#clue-tip-source').remove();
+		temp.tooltip = el
+		console.log("get_tooltips NOT cached");
+		$('div#tooltip_source').remove();
+		if( $('div#tooltip_source').size() == 0 ){
+			//console.log("get tooltips from server");
+			$.ajax({dataType: 'html', url: '/idea/tooltips', async: false, 
+				success: function(data){
+					//console.log("request tooltips callback");
+					var div = $(data);
+					div.attr('id','tooltip_source');
+					$('body').append(div);
+				}
+			});
+		}
+		//console.log("get_tooltips source is loaded");
+		var tipcopy = $('div#tooltip_source').clone().attr('id','clue-tip-source')
+		// remove all pieces except the one I want to display based on el
+		var target = String(el.attr('href').match(/\w+$/));
+		//console.log("tooltip target: " + target)
+		if(target=='checklist'){
+			// get the right checklist
+			var def_ans_id = el.closest('div.answer_section').attr('default_answer_id');
+			//console.log("def_ans_id: " + def_ans_id);
+			tipcopy.children('div.checklist').not('div#checklist_' + def_ans_id ).remove();
+		}else{
+			tipcopy.children('div.checklist').remove();
+		}
+		// remove unused show me help
+		tipcopy.children('div.show_me').not('div#show_me_' + target).remove();
+		
+		tipcopy.appendTo('body');
+	}catch(e){console.log("tooltip error: " + e.message)}
+	return true;
+}

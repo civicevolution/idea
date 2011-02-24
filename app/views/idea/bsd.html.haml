@@ -16,23 +16,27 @@
 		%div.bsd_instr
 			%p
 				Your community can find a shared answer to this question by following these steps:
-				= link_to "Tell me more", {:id=>'brainstorm'}, {:class=>'tell_me_more'}
+				= link_to "Tell me more", {:id=>'shared'}, {:class=>'show_me_how'}
 			%ol
 				%li 
-					Brainstorm new ideas and discuss them.
-					= link_to "Show me how", {:id=>'brainstorm'}, {:class=>'show_me_how'}
+					Brainstorm new ideas about this question
+					= link_to "Tell me how", {:id=>'brainstorm'}, {:class=>'show_me_how'}
 				%li 
-					Collect your favorite ideas and prioritise them.
-					= link_to "Show me how", {:id=>'favorites'}, {:class=>'show_me_how'}
+					Discuss the brainstorming ideas
+					= link_to "Tell me how", {:id=>'discuss'}, {:class=>'show_me_how'}
+
 				%li 
-					Explore the ideas that people agree on and use them to answer this question.
-					= link_to "Show me how", {:id=>'explore'}, {:class=>'show_me_how'}
+					Collect your favorite ideas and prioritise them to find out what is popular
+					= link_to "Tell me how", {:id=>'favorites'}, {:class=>'show_me_how'}
+				%li 
+					Explore the popular ideas that expose common ground on and use them to answer this question
+					= link_to "Tell me how", {:id=>'explore'}, {:class=>'show_me_how'}
 		
 			%p.rec_action
 				%b Recommended action: 
 				Review the new brainstorming ideas and add your own
-				= link_to "Show me how", {:id=>'rec_action'}, {:class=>'show_me_how'}
-				= link_to "Next action", {:id=>'rec_action'}, {:class=>'next_action'}
+				-#= link_to "Show me how", {:id=>'rec_action'}, {:class=>'show_me_how'}
+				-#= link_to "Next action", {:id=>'rec_action'}, {:class=>'next_action'}
 		
 		%div.brainstorming 
 			%h3 Brainstorming ideas
@@ -137,6 +141,7 @@
 		-#%a{:href=>"#", :class=>'edit'} Edit answer
 		= link_to "Edit answer", {:action => "edit_answer", :id => ans_id}, {:class => 'edit_answer'}	
 		%a{:href=>"#", :class=>'history'} View answer history
-		%a{:href=>"#", :class=>'checklist'} Answer checklist
+		= link_to "Answer guidelines and checklist", {:id=>'checklist'}, {:class=>'show_me_how'}
+		-#%a{:href=>"#", :class=>'checklist'} Answer checklist
 		%a{:href=>"#", :class=>'bsd_close'} Close
 	

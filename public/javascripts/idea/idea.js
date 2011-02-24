@@ -119,7 +119,6 @@ $(function(){
 		
 		//if( !(typeof member_id != 'undefined' && member_id != 0) ) $('form.mini_thumbs_up :submit').attr('disabled','disabled');
 		
-		
 	}catch(e){console.log("idea/idea.js jquery ready function error: " + e.message)}	
 	
 	console.log("completed idea.js jquery on ready")
@@ -169,11 +168,12 @@ $('a.2029_guidelines').live('click',
 $('a.request_help').live('click',
 	function(){
 		$('<div><img src="/images/rotating_arrow.gif"/> Loading...</div>').load("/idea/request_help", function(){
-			$(this).dialog( {title : '2029 and Beyond Help', modal : true, width: 600, maxHeight: 500 } );
+			$(this).dialog( {title : '2029 and Beyond Help and Feedback', modal : true, width: 600, maxHeight: 500 } );
 		})
 		return false;
 	}
 )
+$('a.request_help').html('');
 
 $('a.help_tag').live('mouseover mouseout', function(event) {
   if (event.type == 'mouseover') {
@@ -238,6 +238,18 @@ $('div.q_cta').live('click',
 				$this.find('p.idea_lists a').eq(0).click();
 				var par = $this.closest('div.qa');
 				par.find('div.answer_section').append( par.find('div.bsd_bar.bottom'));
+				
+				$('a.show_me_how',par).attr({rel: 'div#clue-tip-source'}).cluetip(
+				  {local: true, 
+				  hideLocal: false, 
+					showTitle: false,
+					width: 400,
+					sticky: false,
+				  cursor: 'pointer',
+				  onActivate: get_tooltips,
+					clickThrough: false
+					}
+				);
 				
 				//$('a.edit_answer')
 			}

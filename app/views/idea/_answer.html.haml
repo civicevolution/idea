@@ -1,5 +1,5 @@
 -#%div.answer{:id=>"ans_#{answer.id}"}= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
-%div.answer_section{:criteria=>question.answer_criteria}
+%div.answer_section{:criteria=>question.answer_criteria, :default_answer_id=>question.default_answer_id}
 	%div.rate
 		%p= title
 

@@ -2,6 +2,17 @@ body, p, ol, ul, td, textarea {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px; }
 
+div#tooltip_source {
+  display: none; }
+
+div.show_me li {
+  margin-bottom: 8px; }
+
+body .cluetip-default, body .cluetip-default #cluetip-outer {
+  border-top: #f3973a 12px solid;
+  color: #23238e;
+  background-color: #fecc37; }
+
 img {
   border: none; }
 
@@ -30,8 +41,8 @@ a.help_tag {
   right: 0;
   color: #f3973a;
   width: 32px;
-  height: 102px;
-  background: url(/images/help_tag.gif) no-repeat 0 0; }
+  height: 183px;
+  background: url(/images/help_feedback_tag.gif) no-repeat 0 0; }
 
 a.help_tag.mouseover {
   border-right: 2px solid white; }

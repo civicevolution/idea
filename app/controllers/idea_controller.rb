@@ -651,6 +651,10 @@ class IdeaController < ApplicationController
     render :action => "guidelines", :layout => false 
   end
   
+  def tooltips
+    render :action => "tooltips", :layout => false 
+  end
+  
   def request_help
     render :action => "request_help", :layout => false 
   end
@@ -960,7 +964,7 @@ class IdeaController < ApplicationController
     @target
   end  
   
-  IDEA_CONTROLLER_PUBLIC_METHODS = ['index', 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report', 'request_help', 'request_help_post']
+  IDEA_CONTROLLER_PUBLIC_METHODS = ['index', 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report', 'request_help', 'request_help_post', 'tooltips']
   
   def authorize
     unless IDEA_CONTROLLER_PUBLIC_METHODS.include? request[:action]
