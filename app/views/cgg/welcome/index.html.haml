@@ -111,7 +111,7 @@
 	
 				- @teams_launched.each do |team|
 					%div.team_entry
-						= link_to team.title, {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'team_entry_title',:launched=>'t'}
+						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {:class=>'team_entry_title',:launched=>'t'}
 						%p.desc= team.solution_statement
 						%p.controls
 							-#%span 0 comments
@@ -143,7 +143,7 @@
 	
 				- @team_ideas.each do |team|
 					%div.team_entry
-						= link_to team.title, {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'team_entry_title', :launched=>'f'}
+						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {:class=>'team_entry_title', :launched=>'f'}
 						%p.desc= team.solution_statement
 						%p.controls
 							-#%span 0 comments

@@ -257,13 +257,14 @@ $('a.team_entry_title').die('click').live('click',
 		try{
 			var id = Number(this.getAttribute('href').match(/\d+$/))
 			//console.log("id: " + id + ", my_team_ids: " + my_team_ids)
-			if($.inArray(id,my_team_ids) != -1 && this.getAttribute('launched') == 't'){
-				// console.log("show workspace")
-				document.location = '/team?id=' + id
-			}else{
-				//console.log("show proposal")
-				document.location = '/team/proposal?id=' + id
-			}
+			document.location = '/idea/' + id
+			//if($.inArray(id,my_team_ids) != -1 && this.getAttribute('launched') == 't'){
+			//	// console.log("show workspace")
+			//	document.location = '/team?id=' + id
+			//}else{
+			//	//console.log("show proposal")
+			//	document.location = '/team/proposal?id=' + id
+			//}
 		}catch(e){console.log("team_entry_title error: e: " + e.message)}
 		return false;
 	}
