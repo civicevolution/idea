@@ -60,8 +60,8 @@
 
 					%div.q_cta{:id=>question.id}
 						%div
-							= link_to "Please read and respond to 5 new comments", {:action=>'bsd', :id=>question.id}, {:class=>'show_bsd'}
-						
+							-#= link_to "Please read and respond to 5 new comments", {:action=>'bsd', :id=>question.id}, {:class=>'show_bsd'}
+							= link_to "Please brainstorm some new ideas about this question", {:action=>'bsd', :id=>question.id}, {:class=>'show_bsd'}
 					%div.show_bsd
 			
 					- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }

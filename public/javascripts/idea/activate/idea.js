@@ -119,7 +119,7 @@ function activate_ux_functions_edit(){
 				
 				//console.log("id: " + id)
 				var form = $( jsonFn.add_answer_form({par_id : par_id, mode : mode, id : id, char_cnt: Number( a.closest('div.qa').attr('ans_criteria').match(/\d+$/)) }) );
-				$('label',form).html("Please edit this answer");
+				$('label',form).html("Please edit this answer").css('margin','4px 0 10px 0');
 				//var char_cnt = Number(ans.closest('div.answer_section').attr('criteria').match(/\d+$/))
 				//console.log("change answer form character count to " + char_cnt )
 				//form.find('span.char_ctr').html(char_cnt + ' characters left');
