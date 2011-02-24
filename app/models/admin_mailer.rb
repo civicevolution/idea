@@ -3,7 +3,7 @@ class AdminMailer < ActionMailer::Base
   def email_message(recipient, subject, plain_text_message, html_message, include_bcc, sent_at = Time.now)
     subject    subject
     recipients "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>"
-    from       "\"CivicEvolution\" <support@civicevolution.org>"
+    from       "\"2029 and Beyond @ CivicEvolution\" <support@civicevolution.org>"
     sent_on    sent_at
     bcc       "support@auto.civicevolution.org" if include_bcc
     body      :plain_text_message => plain_text_message, :html_message => html_message
