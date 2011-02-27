@@ -82,7 +82,7 @@
 			-#= link_to 'Ask us now', {}, {:class=>'suggest_new_idea'}
 	
 	-#%h2.com_title 2029 and Beyond: A marketplace of ideas
-	%h2.home_title 2029 and Beyond: Community ideas
+	%h2.home_title 2029 and Beyond: Community Ideas
 	%p.header_desc 
 		These are the ideas your community is working on right now. 
 		Click a title to learn more. If you have a new idea that's not listed, 
@@ -110,7 +110,7 @@
 
 	
 				- @teams_launched.each do |team|
-					%div.team_entry
+					%div.team_entry{:class=> cycle('stripe_bg','')}
 						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {:class=>'team_entry_title',:launched=>'t'}
 						%p.desc= team.solution_statement
 						%p.controls

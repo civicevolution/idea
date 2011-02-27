@@ -3,8 +3,12 @@ $new_item_color: #F2583E
 $off_black: #2b3e42
 $title_bg_color: $off_black
 $title_color: white
+$stripe_bg: #fee188
 
 $alert_color: #F5E876
+
+$bsd_bar: #f3973a //#f3af6b // rgb(254, 204, 55) //#FDC762
+$navy_blue: #23238E
 
 body, p, ol, ul, td, textarea
 	font-family: verdana, arial, helvetica, sans-serif
@@ -235,9 +239,15 @@ p.team_cnt
 	font-style: italic
 
 h2.home_title	
-	background-color: $title_bg_color
-	color: $title_color
+	//background-color: $title_bg_color
+	background-color: $bsd_bar
+	//color: $title_color
+	color: $navy_blue
 	padding: 2px 6px
+	
+div.stripe_bg
+	background-color: $stripe_bg
+	
 	
 div.calls_to_action
 	background-color: $block_bg_color
@@ -264,6 +274,8 @@ p.header_desc
 	margin-left: 0
 
 div.team_entry
+	padding: 10px
+	font-color: $navy_blue
 	margin-left: 0
 
 //form.reset_password_form

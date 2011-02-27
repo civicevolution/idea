@@ -201,9 +201,12 @@ p.team_cnt {
   font-style: italic; }
 
 h2.home_title {
-  background-color: #2b3e42;
-  color: white;
+  background-color: #f3973a;
+  color: #23238e;
   padding: 2px 6px; }
+
+div.stripe_bg {
+  background-color: #fee188; }
 
 div.calls_to_action {
   background-color: #f7f3e8;
@@ -227,6 +230,8 @@ p.header_desc {
   margin-left: 0; }
 
 div.team_entry {
+  padding: 10px;
+  font-color: #23238e;
   margin-left: 0; }
 
 form.reset_password_form, form.signin_form, form.register_form {
