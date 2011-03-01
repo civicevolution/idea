@@ -1,5 +1,6 @@
 class IdeaController < ApplicationController
   include LibCe
+  require 'aws/ses'
   
   def index
     @team_id = params[:id].to_i
