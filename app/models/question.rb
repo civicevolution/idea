@@ -12,7 +12,9 @@ class Question < ActiveRecord::Base
   after_create :create_item_record
   after_destroy :delete_item_record
   before_destroy :check_item_delete_access
-  
+  before_create :set_version
+  after_find :set_team_after_find
+    
   #before_validation :check_team_access, :create_item_record
   
   #debugger
@@ -25,13 +27,14 @@ class Question < ActiveRecord::Base
   attr_accessor :itemDestroyed
   attr_accessor :item_id
   attr_accessor :order
+
   
   # code required to record revision history for this item
-  def before_create 
+  def set_version 
     self.ver = 0
   end
   
-  def after_find
+  def set_team_after_find
     return if self.nil? || self.id.nil?
     item = Item.find_by_o_id_and_o_type(self.id, 1) 
     self.team_id = item.team_id

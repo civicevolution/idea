@@ -52,7 +52,9 @@
 			- # Get the prioritized favs in order of priority
 			- @priority.map!{ |p| @favorite_ideas.detect{|f| f.id == p }}
 			- # show the unprioritized favs then the prioritized favs
-			- @favorite_ideas = (unprioritised + @priority.map).find_all{|f| !f.nil?}
+
+			-# @favorite_ideas = (unprioritised + @priority.map).find_all{|f| !f.nil?}
+			- @favorite_ideas = (unprioritised + @priority).find_all{|f| !f.nil?}
 			- @favorite_ideas.each_with_index{ |i, idx| i['cnt'] = idx + 1 } 
 		
 			

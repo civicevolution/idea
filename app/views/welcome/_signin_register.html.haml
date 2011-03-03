@@ -4,7 +4,7 @@
 	- else
 
 		%div
-			- form_tag('/welcome/signin',{:class=>'signin_form'}) do
+			= form_tag('/welcome/signin',{:class=>'signin_form'}) do
 				%table
 					%tr
 						%td
@@ -39,7 +39,7 @@
 							= submit_tag "Sign In"
 							= link_to 'Reset password', {}, {:class=>'reset_password'}
 
-			- form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
+			= form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
 				%b Reset password
 				%table
 					%tr
@@ -60,7 +60,7 @@
 
 
 			-#- form_tag('/welcome/register',{:class=>'register_form'}) do
-			- form_for(:member, :url => { :action => :register}, :html => {:class=>'register_form'}) do |form|
+			= form_for(:member, :url => { :action => :register}, :html => {:class=>'register_form'}) do |form|
 				%b Please Register
 				- if params[:_initiative_id] == 1	
 					%p Only CGG staff with email addresses ending in 'cgg.wa.gov.au' can join this staff site

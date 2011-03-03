@@ -4,11 +4,11 @@ class ActiveSupport::TimeWithZone
   end
 end
 
-# disable the sql logging
-class ActiveRecord::ConnectionAdapters::AbstractAdapter
-  #def log_info(*args); end
-end
-
+## disable the sql logging
+#class ActiveRecord::ConnectionAdapters::AbstractAdapter
+#  #def log_info(*args); end
+#end
+#
 class ActiveRecord::Base
   
   def create_item_record

@@ -52,7 +52,7 @@
 			
 			- if bs_idea['my_fav'].nil?
 				%div.rating
-					- form_tag( {:controller => 'idea', :action => 'com_rate'}, {:class => 'mini_thumbs_up'}) do
+					= form_tag( {:controller => 'idea', :action => 'com_rate'}, {:class => 'mini_thumbs_up'}) do
 						%span Add to your favorites?
 						%input.vote_up{:type => 'submit', :name => 'thumbsup_favorite', :value => '+1', :title => "Add to my favorites"}
 						%input.vote_down{:type => 'submit', :name => 'thumbsup_favorite', :value => '-1', :title => "Don't add to my favorites"}
@@ -78,7 +78,7 @@
 				\#1 of 1 popular ideas		
 			
 			%div.rating
-				- form_tag( {:controller => 'idea', :action => 'com_rate'}, {:class => 'mini_thumbs_up'}) do
+				= form_tag( {:controller => 'idea', :action => 'com_rate'}, {:class => 'mini_thumbs_up'}) do
 					%span Add to your favorites?
 					%input.vote_up{:type => 'submit', :name => 'thumbsup_favorite', :value => '+1', :title => "Add to my favorites"}
 					%input.vote_down{:type => 'submit', :name => 'thumbsup_favorite', :value => '-1', :title => "Don't add to my favorites"}

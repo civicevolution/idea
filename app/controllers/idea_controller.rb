@@ -36,7 +36,8 @@ class IdeaController < ApplicationController
 
     @questions = @team.questions.reject{|q| q.default_answer_id.nil?}
     def_ans_ids = @questions.map{|q| q.default_answer_id} #.reject{|i| i.nil?}
-    @default_answers = DefaultAnswer.all(def_ans_ids)
+
+    @default_answers = DefaultAnswer.find(def_ans_ids)
     @answers_with_ratings = @team.answers_with_ratings_i( @member.id )
 
     # remove answer_items for testing
@@ -145,7 +146,7 @@ class IdeaController < ApplicationController
   def create_comment
     logger.debug "create_comment mode: #{params[:mode]}"
     logger.debug "Check if the user wants to add a link or upload a file option: #{params[:option]}"
-    
+    #debugger
     # check if user wants to link or upload, if so, call back to add_comment
     if params[:option] 
       params[:id] = params[:par_id]
@@ -718,7 +719,7 @@ class IdeaController < ApplicationController
   
   
   def get_templates
-
+    
     @team = Team.new(:com_criteria=>'4..7', :res_criteria=>'3..8')
     strs = []
     strs.push '<div>'
@@ -744,18 +745,15 @@ class IdeaController < ApplicationController
     @comment[:item_id] = 123
     @comment.member_id = 0
     @resources = [ Resource.new ] 
-    @authors = [Member.new :first_name=>'J', :last_name=>'Public' ]
+    @authors = [Member.new(:first_name=>'J', :last_name=>'Public') ]
     @authors[0].id = 0
     @comments = []
     @new_coms = @coms = 0
     @member = Member.new
     @member.id = 0
     
-    #item = Item.new(:target_id => 1, :target_type => 11)
-    strs.push '<div class="item Comment">'
     strs.push render_to_string( :partial => 'comment', :object => @comment,
       :locals => { :item => Item.new, :down => 0, :up => 0,  :rated => 0, :mode=>'templ'})
-    strs.push '</div>'
 
     strs.push '<hr/><h3>add_comment_combined</h3><hr/>'
     strs.push render_to_string(:partial => 'add_comment_combined', :locals => { :id => 1, :label=>'Please add your comment'})
@@ -778,7 +776,7 @@ class IdeaController < ApplicationController
     #strs.push '<hr/><h3>chat message</h3><hr/>'
     #strs.push render_to_string(:partial => '/team/chat')
     
-    @endorsements = [Endorsement.new :member_id=>1, :updated_at=> old_ts]
+    @endorsements = [Endorsement.new(:member_id=>1, :updated_at=> old_ts)]
     @member = Member.find(1)
   	@endorsers = [ @member ]
     strs.push '<hr/><h3>endorsement</h3><hr/>'
@@ -974,6 +972,7 @@ class IdeaController < ApplicationController
   IDEA_CONTROLLER_PUBLIC_METHODS = ['index', 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report', 'request_help', 'request_help_post', 'tooltips']
   
   def authorize
+    #debugger
     unless IDEA_CONTROLLER_PUBLIC_METHODS.include? request[:action]
       # do this except for public methods
       if (@member.nil? || @member.id == 0 ) && request.xhr?

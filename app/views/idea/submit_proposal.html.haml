@@ -10,7 +10,7 @@
 		%p Congratulations for working on your proposal and submitting it for official review for your idea:
 		%p.title= @team.title
 	
-	- form_for :proposal_submit, :url => { :action => :submit_proposal, :id=>@team.id } do |form| 
+	= form_for :proposal_submit, :url => { :action => :submit_proposal, :id=>@team.id } do |form| 
 		-#
 			= form.label :report_type, "Please select the appropriate category:"
 			%p.cat #{form.radio_button 'report_type', 'off topic'}off topic

@@ -4,14 +4,15 @@ class Comment < ActiveRecord::Base
   
   #validates_length_of :text, :in => 5..1500, :allow_blank => false
   
-  before_validation_on_create :check_team_access  # checks team access and sets the team_id
-  validate_on_update :check_com_edit_access
+  before_validation :check_team_access, :on=>:create  # checks team access and sets the team_id
+  validate :check_com_edit_access, :on=>:update
   
   validate :check_length
       
   after_create :create_item_record
   after_destroy :delete_item_record
   before_destroy :check_item_delete_access
+  after_save :log_team_content
   
   attr_accessor :par_id
   attr_accessor :target_id
@@ -22,7 +23,7 @@ class Comment < ActiveRecord::Base
   attr_accessor :par_member_id
   attr_accessor :member
   
-  def after_save
+  def log_team_content
     # log this item into the team_content_logs
     TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :par_member_id=>self.par_member_id, :processed=>false).save
   end  

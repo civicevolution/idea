@@ -2,7 +2,7 @@
 
 %p If you need to confirm your CivicEvolution registration, we can send you a new email and link. Please enter your email and click the button
 
-- form_tag('/welcome/request_confirmation_email') do
+= form_tag('/welcome/request_confirmation_email') do
 	= hidden_field_tag :code, params[:id]
 	%table
 		%tr

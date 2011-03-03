@@ -6,7 +6,7 @@
 
 %p Please select a category for your question or request for help
 
-- form_for :request_help, :url => { :action => :request_help_post}, :html=> {:class=>'request_help' } do |form| 
+= form_for :request_help, :url => { :action => :request_help_post}, :html=> {:class=>'request_help' } do |form| 
 	%p
 		= form.select( :category,[['Please select the assistance you need',0],['Report a bug',1],['I need help using CivicEvolution',2],['I need assistance with my proposal',3],['I need help dealing with my fellow participants',4],['I need technical assistance with my proposal',5],['I have a suggestion',6]])
 	

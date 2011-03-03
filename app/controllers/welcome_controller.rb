@@ -3,7 +3,7 @@ class WelcomeController < ApplicationController
   include ReCaptcha::AppHelper
   
   def index
-    logger.warn "Welcome controller index APP_NAME: #{APP_NAME}, request.subdomains.first: #{request.subdomains.first}"
+    logger.warn "Welcome controller index request.subdomains.first: #{request.subdomains.first}"
     # if I have a current session, get my teams and insert them into the page instead of the signin form
     # use a partial template and layout to create initiative specific page details
     
@@ -28,12 +28,14 @@ class WelcomeController < ApplicationController
 
   def signin
     logger.debug "signin #{params.inspect}"
+    #debugger
     if request.post?
       @member = Member.authenticate(params[:email], params[:password])
-     
+      
       if request.xhr?
         if @member
           session[:member_id] = @member.id
+
           #@mem_teams = TeamRegistration.find(:all,
           #  :select => 't.id, t.title, t.launched',  
           #  :conditions => ['member_id = ?', @member.id],
@@ -43,8 +45,9 @@ class WelcomeController < ApplicationController
           if params[:stay_signed_in]
            request.session_options = request.session_options.dup
            request.session_options[:expire_after]= 30.days
-           request.session_options.freeze
+           #request.session_options.freeze
           end
+
           if flash[:pre_authorize_uri]
             render :text => "__REDIRECT__=#{flash[:pre_authorize_uri]}"
           else
@@ -156,6 +159,7 @@ class WelcomeController < ApplicationController
     @member.ip = request.remote_ip
     @member.email = @member.email.strip.downcase
     @member.location = 'Australia/Perth'
+    @member.domain = Rails.root.to_s.match(/^\/data\//) ? Rails.root.to_s.match(/\/data\/(\w+)\//)[1] : Rails.root.to_s.match(/\/ce_development\/Rails\/(\w+)/)[1]
     
     
     restrictions_test,message = InitiativeRestriction.allow_action(params[:_initiative_id], 'join_initiative', @member)

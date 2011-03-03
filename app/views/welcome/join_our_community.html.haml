@@ -1,6 +1,6 @@
 %div.join_our_community
 	-#- form_tag('/welcome/register',{:class=>'register_form'}) do
-	- form_for(:member, :url => { :action => :register}, :html => {:class=>'register_form'}) do |form|
+	= form_for(:member, :url => { :action => :register}, :html => {:class=>'register_form'}) do |form|
 		- if params[:_initiative_id] == 1	
 			%p Only CGG staff with email addresses ending in 'cgg.wa.gov.au' can join this staff site
 			%p 

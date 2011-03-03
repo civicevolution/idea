@@ -65,19 +65,20 @@ module LibCe
 
     logger.debug "Team channel: serialized: #{serialized}"  if debug;
 
-    http = Net::HTTP.new('0.ape.civicevolution.org', 80)
-    #http.set_debug_output $stderr  # show lots of debug messages
-    resp, data = http.get('/0/?' + serialized, nil )
-    @resp = resp
-    @data = data
-    
-    data  = JSON.parse @data # => [{"data"=>{"code"=>"400", "value"=>"BAD_PASSWORD"}, "time"=>"1264464788", "raw"=>"ERR"}]
-    
-    if data[0]['raw'] == 'ERR'
-      logger.warn "----- Error transmitting to APE: #{data[0]['data'].inspect}"      
-    else
-      logger.debug "+++++ APE accepted the message #{data[0]['data'].inspect}"
-    end
+    logger.warn "----- Re activate APE notification"
+    #http = Net::HTTP.new('0.ape.civicevolution.org', 80)
+    ##http.set_debug_output $stderr  # show lots of debug messages
+    #resp, data = http.get('/0/?' + serialized, nil )
+    #@resp = resp
+    #@data = data
+    #
+    #data  = JSON.parse @data # => [{"data"=>{"code"=>"400", "value"=>"BAD_PASSWORD"}, "time"=>"1264464788", "raw"=>"ERR"}]
+    #
+    #if data[0]['raw'] == 'ERR'
+    #  logger.warn "----- Error transmitting to APE: #{data[0]['data'].inspect}"      
+    #else
+    #  logger.debug "+++++ APE accepted the message #{data[0]['data'].inspect}"
+    #end
     
     #return serialized
     return serialized.gsub(/%25/,'%')

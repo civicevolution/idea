@@ -63,7 +63,7 @@
 			%div.comment_controls
 				- if comment.publish
 					%div.rating
-						- form_tag( {:controller => 'idea', :action => 'com_rate'}, {:class => 'mini_thumbs_up'}) do
+						= form_tag( {:controller => 'idea', :action => 'com_rate'}, {:class => 'mini_thumbs_up'}) do
 							- comment.my_vote = 0 if comment.my_vote.nil?
 							- if comment.my_vote.to_i == 0	# show the constructive prompt
 								Is this constructive?

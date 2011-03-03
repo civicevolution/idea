@@ -134,7 +134,7 @@
 					%a.reload_captcha{:href=>'#'} reload
 					to see a different text.
 
-				- form_tag('/welcome/confirm_reg_captcha',{:class=>'confirm_reg_captcha'}) do
+				= form_tag('/welcome/confirm_reg_captcha',{:class=>'confirm_reg_captcha'}) do
 					= hidden_field_tag :conf_code, params[:id]
 					%script{:src=>"http://www.google.com/recaptcha/api/challenge?k=#{RCC_PUB}"}
 					%p
@@ -148,7 +148,7 @@
 						%span.default_pic Don't look like this...
 					= image_tag pic_url, {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
 					
-				- form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
+				= form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
 					= file_field_tag :photo, {:value=>"Choose a photo"}
 					%p= submit_tag "Yes! Make this my photo"
 					-#%p
@@ -156,7 +156,7 @@
 
 			%li 
 				Stay in touch with our community
-				- form_tag('/welcome/opt_in_general',{:class=>'opt_in_general'}) do
+				= form_tag('/welcome/opt_in_general',{:class=>'opt_in_general'}) do
 					%p.normal
 						= check_box_tag 'broadcast_email_opt_in', true, false, {:class=>'broadcast_email_opt_in'}
 						Yes! Please tell me about new ideas at CivicEvolution (once a week or less)

@@ -10,7 +10,7 @@
 		-if !@member.confirmed
 			= link_to "Confirm email", {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
 -#				
-	- form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
+	= form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
 		%p
 			%b Upload your profile picture
 		= file_field_tag :photo

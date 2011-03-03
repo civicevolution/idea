@@ -21,7 +21,7 @@
 		%p
 			%b You can also select to receive updates more regularly. These settings can be set for each team you join.
 		
-		- form_for :notification_setting, @notification_setting, :url => { :action => "update_notification_settings" } do |form|
+		= form_for :notification_setting, @notification_setting, :url => { :action => "update_notification_settings" } do |form|
 			= form.hidden_field :team_id, :value=>0
 
 			%p

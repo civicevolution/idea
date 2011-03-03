@@ -1,5 +1,5 @@
 -#%form.add_comment_form
-- form_for( :comment, :url => { :action => :create_comment}, :html => {:class=>'add_comment_form'} ) do |form| 
+= form_for( :comment, :url => { :action => :create_comment}, :html => {:class=>'add_comment_form'} ) do |form| 
 	= form.hidden_field :anonymous, :value => 'false'
 	= form.hidden_field :target_id, :value => '0'
 	= form.hidden_field :target_type, :value => '0'

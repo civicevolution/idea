@@ -14,8 +14,8 @@ class Team < ActiveRecord::Base
 
   attr_accessor :member_id
   
-  validate_on_update :check_team_edit_access
-  
+  #validate_on_update :check_team_edit_access
+  validate :check_team_edit_access, :on=>:update
   
   def check_team_edit_access
     logger.debug "validate_on_update check_team_edit_access"

@@ -43,7 +43,7 @@
 		
 	- if @privileges.include? 'change_member_id'
 		%li
-			- form_tag( {:action=>'change_member_id'} ) do
+			= form_tag( {:action=>'change_member_id'} ) do
 				= text_field_tag :id, nil, {:size=>4}
 				= submit_tag "Change member id"
 	

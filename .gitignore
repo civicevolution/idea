@@ -1,5 +1,9 @@
-# Lines starting with '#' are considered comments.
+# Lines starting  with '#' are considered comments.
 # Ignore these files
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
 *._*
 *development.log
 *.DS_Store

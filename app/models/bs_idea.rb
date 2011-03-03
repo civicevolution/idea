@@ -6,11 +6,13 @@ class BsIdea < ActiveRecord::Base
   #validates_length_of :text, :in => 5..1500, :allow_blank => false
   
   validate :check_length
-  validate_on_create :check_team_access
-  validate_on_update :check_item_edit_access
+  validate :check_team_access, :on=>:create
+  validate :check_item_edit_access, :on=>:update
     
   after_create :create_item_record
   after_destroy :delete_item_record
+  after_save :log_team_content
+  after_find :get_item_id
     
   #before_destroy :check_item_delete_access
   
@@ -21,13 +23,13 @@ class BsIdea < ActiveRecord::Base
   attr_accessor :insert_mode
   attr_accessor :member
     
-  def after_save
+  def log_team_content
     # log this item into the team_content_logs
     TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
   end  
   
 
-  def after_find
+  def get_item_id
     item = Item.find_by_o_id_and_o_type(self.id, 12) 
     self.item_id = item.id if item
   end

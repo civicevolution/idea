@@ -2,7 +2,7 @@
 
 %p Please enter your email and click the button and we will immediately send a valid email so you can continue
 
-- form_tag('/welcome/send_new_access_code') do
+= form_tag('/welcome/send_new_access_code') do
 	= hidden_field_tag :code, params[:id]
 	%table
 		%tr

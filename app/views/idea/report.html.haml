@@ -6,7 +6,7 @@
 	
 	%p= @text
 
-	- form_for :content_report, :url => { :action => :post_content_report } do |form| 
+	= form_for :content_report, :url => { :action => :post_content_report } do |form| 
 
 		= form.label :report_type, "Please select the appropriate category:"
 		%p.cat #{form.radio_button 'report_type', 'off topic'}off topic

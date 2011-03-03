@@ -24,7 +24,7 @@
 		%p Add new admin group for #{mem.first_name} #{mem.last_name}
 		
 		%p
-			- form_tag( {:action=>'create_admins', :member_id=>mem.id, :act=>'add_new_group'} ) do
+			= form_tag( {:action=>'create_admins', :member_id=>mem.id, :act=>'add_new_group'} ) do
 				%select{:name=>'initiative_id'}
 					%option{:value=>-1} Please select initiative
 					- Initiative.all(:select=>'id, title').each do |i|
@@ -50,7 +50,7 @@
 						=link_to "remove", {:action=>'create_admins', :privilege=>ap.title, :admin_group_id=>ag.id, :act=>'remove_admin_group_privilege'}
 		
 		%p
-			- form_tag( {:action=>'create_admins', :id=>ag.id, :act=>'add_new_privilege'} ) do
+			= form_tag( {:action=>'create_admins', :id=>ag.id, :act=>'add_new_privilege'} ) do
 				= text_field_tag :title, nil, {:size=>16}
 				= submit_tag "Add new privilege"
 					

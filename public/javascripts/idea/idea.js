@@ -222,7 +222,7 @@ $('div.q_cta').live('click',
 		//$this.hide();
 		$this.next('div.show_bsd').html('<p class="loading"><img src="/images/rotating_arrow.gif"/> Loading...</p>')
 		//$this.next('div.show_bsd').load('/idea/bsd',{id: $this.attr('href').match(/\d+/)[0]}, 
-		$this.next('div.show_bsd').load('/idea/bsd',{id: $this.attr('id').match(/\d+/)[0]}, 
+		$this.next('div.show_bsd').load('/idea/bsd?id=' + $this.attr('id').match(/\d+/)[0], 
 			function(){
 				var $this = $(this);
 				$this.hide();

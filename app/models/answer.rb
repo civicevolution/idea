@@ -4,13 +4,15 @@ class Answer < ActiveRecord::Base
   has_one :item
   
   validate :check_length
-  validate_on_create :check_team_access
+  validate :check_team_access, :on=>:create
   
-  validate_on_update :check_item_edit_access
+  validate :check_item_edit_access, :on=>:update
   
   after_create :create_item_record
   after_destroy :delete_item_record
   before_destroy :check_item_delete_access
+  before_create :set_version
+  after_save :check_record_saved
 
   attr_accessor :par_id
   attr_accessor :target_id
@@ -23,7 +25,7 @@ class Answer < ActiveRecord::Base
   
   @record_saved = false
   
-  def after_save
+  def check_record_saved
     if !@record_saved
       # log this item into the team_content_logs
       TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :par_member_id=>self.par_member_id, :processed=>false).save 
@@ -43,7 +45,7 @@ class Answer < ActiveRecord::Base
 
 
 # code required to record revision history for this item
-  def before_create 
+  def set_version 
     self.ver = 0
   end
   

@@ -95,7 +95,7 @@
 	
 
 %div
-	- form_tag( { :controller=> :team, :action => :generic_email}, {:class=>'invite_friends'} ) do
+	= form_tag( { :controller=> :team, :action => :generic_email}, {:class=>'invite_friends'} ) do
 		= hidden_field_tag :send_now
 		
 		%div.add_idea

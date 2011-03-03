@@ -9,14 +9,11 @@ class ApplicationController < ActionController::Base
   
   helper :all # include all helpers, all the time
 #  protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  protect_from_forgery # :except => [:upload_member_photo]
-
-  # Scrub sensitive parameters from your log
-  filter_parameter_logging :password, :password_confirmation
+  protect_from_forgery :except => [:load_report] # :except => [:upload_member_photo]
 
   # put most generic exception at the top
 
-  rescue_from Exception, :with => :error_generic unless RAILS_ENV == 'development'
+  rescue_from Exception, :with => :error_generic unless Rails.env == 'development'
   rescue_from ActionController::RoutingError, :with => :render_404
   
   def error_generic(exception)
@@ -52,7 +49,7 @@ class ApplicationController < ActionController::Base
         # ignore monitoring requests
         RAILS_MONITOR_NULL_LOGGER
       else
-        RAILS_DEFAULT_LOGGER
+        Rails.logger
       end
     end
   
@@ -62,23 +59,23 @@ class ApplicationController < ActionController::Base
         when /^2029-staff$/i, /^cgg$/
           params[:_initiative_id] = 1
           params[:_app_name] = '2029 and Beyond for Staff'
-          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
+          self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
         when /^2029$/	
           params[:_initiative_id] = 2
           params[:_app_name] = '2029 and Beyond'
-          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
+          self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
         when 'game'
           params[:_initiative_id] = 1
           params[:_app_name] = '2029 and Beyond Staff GAME'
-          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
+          self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
         when /^demo$/i
           params[:_initiative_id] = 3
           params[:_app_name] = 'CivicEvolution Demo'
-          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/cgg") ])
+          self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
         else	
           params[:_initiative_id] = 5
           params[:_app_name] = 'CivicEvolution'
-          self.prepend_view_path([ ::ActionView::ReloadableTemplate::ReloadablePath.new(Rails::root.to_s + "/app/views/civic") ])
+          self.prepend_view_path([ Rails::root.to_s + "/app/views/civic" ])
       end
     end
   
@@ -114,10 +111,8 @@ class ApplicationController < ActionController::Base
       #    :joins => 'as tr inner join teams t on tr.team_id = t.id' 
       #  )
       end
-      logger.debug "add_member_data member: #{ @member }"
     end
 
-  
     def authorize
       unless Member.find_by_id(session[:member_id])
         if request.xhr? || params[:post_mode] == 'ajax'

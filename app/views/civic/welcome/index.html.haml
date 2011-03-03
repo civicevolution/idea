@@ -209,7 +209,7 @@
 				-#	step of the way.
 				%p If you are committed to your idea, this website can help you form a team and develop your proposal.
 
-				- form_for( :proposal_idea, :url => { :controller=> :team, :action => :submit_proposal_idea}, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
+				= form_for( :proposal_idea, :url => { :controller=> :team, :action => :submit_proposal_idea}, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
 					%div.add_idea
 						= form.label :title, "Idea title"
 						= form.text_field :title, :class=>'title', :alias=>'Title'
@@ -279,7 +279,7 @@
 				- elsif @member.nil?
 					%p.suggest_sign_in You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.
 				
-				- form_for( :proposal_idea, :url => { :controller=> :team, :action => :submit_proposal_idea}, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
+				= form_for( :proposal_idea, :url => { :controller=> :team, :action => :submit_proposal_idea}, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
 					= form.hidden_field :initiative_id, options = {:value=>1}
 					%div.add_idea
 						= form.label :title, "Idea title"

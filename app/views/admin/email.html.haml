@@ -189,7 +189,7 @@
 -#- else
 - logger.debug "@recipients.nil? is false"
 - logger.debug "email: #{@cta_email.inspect}"
-- form_tag( { :action => :email}, {:class=>'std_form'} ) do
+= form_tag( { :action => :email}, {:class=>'std_form'} ) do
 	= hidden_field_tag :act, 'preview', {:class=>'act'}
 
 	%hr

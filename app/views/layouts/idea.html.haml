@@ -64,7 +64,7 @@
 		
 		%div#hidden_forms.hide
 			%div#sign_in_form
-				- form_tag('/welcome/signin',{:class=>'signin_form'}) do
+				= form_tag('/welcome/signin',{:class=>'signin_form'}) do
 					%table
 						%tr
 							%td
@@ -100,7 +100,7 @@
 								= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
 					
 			%div#reset_password_form
-				- form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
+				= form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
 					%table
 						%tr
 							%td

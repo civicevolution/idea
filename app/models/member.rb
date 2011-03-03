@@ -16,10 +16,13 @@ class Member < ActiveRecord::Base
   validates_uniqueness_of :ape_code
   attr_accessor :password_confirmation
   validates_confirmation_of :password
+  attr_accessor :domain
   
   #validate :email_for_cgg_ce
+  before_save :strip_email
+  before_create :reserve_ape_code
   
-  def before_save 
+  def strip_email 
     self.email = self.email.strip.downcase
   end
   
@@ -28,7 +31,7 @@ class Member < ActiveRecord::Base
   has_attached_file :photo, 
     :default_url => "/images/:class_default/:style/m.jpg",
     :storage => :s3,
-    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
+    :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
     :path => "mp/:ape_code/:style/m.jpg",
     :url => "http://assets.civicevolution.org/mp/:ape_code/:style/m.jpg",
     :bucket => 'assets.civicevolution.org',
@@ -74,8 +77,9 @@ class Member < ActiveRecord::Base
   end
   
   
-  def before_create
-    if APP_NAME == 'app_2029' || RAILS_ENV != 'production'
+  def reserve_ape_code
+    #if APP_NAME == 'app_2029' || RAILS_ENV != 'production'
+    if self.domain == 'app_2029' || RAILS_ENV != 'production'
       o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;  
       # I can check to make sure this code isn't already in the table    
       string = ''
