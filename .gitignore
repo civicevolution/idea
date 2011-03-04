@@ -19,5 +19,4 @@ APE.txt
 config/database.yml
 *.log
 *.pid
-Gemfile
-Gemfile.lock
+vendor/bundle
