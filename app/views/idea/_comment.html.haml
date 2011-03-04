@@ -38,7 +38,7 @@
 			- if comment.publish.nil? && comment.status != 'prereview' || mode	== 'templ'
 				%p.not_published
 					Your comment will not be visible to others until you  
-					= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
+					= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email', :rel=>'nofollow'}
 					your email.
 
 			
@@ -79,19 +79,19 @@
 				-# if comment.publish.nil? && comment.status != 'prereview' || mode	== 'templ'
 					%p.not_published
 						Your comment will not be visible to others until you  
-						= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
+						= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email', :rel=>'nofollow'}
 						your email.
 
 				%abbr{:class => comment.my_vote.to_i == 0 ? 'timeago' : 'timeago move_up', :title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'
  
 				%div.comment_links
 					- if comment.publish 
-						= link_to "Reply", {:action=>'reply', :id => comment['item_id']}, {:class=>'reply'}
+						= link_to "Reply", {:action=>'reply', :id => comment['item_id']}, {:class=>'reply', :rel=>'nofollow'}
 				
 						- if comment.member_id == @member.id
-							= link_to "Edit", {:action => "edit_comment", :id => comment.id}, {:class => 'edit_com'}
+							= link_to "Edit", {:action => "edit_comment", :id => comment.id}, {:class => 'edit_com', :rel=>'nofollow'}
 						- else
-							= link_to "Report", {:action=>'report', :id=>comment['item_id']}, {:class=>'report'}
+							= link_to "Report", {:action=>'report', :id=>comment['item_id']}, {:class=>'report', :rel=>'nofollow'}
 
 
 	- child_comments_sorted = @comments.find_all {|c| c['par_id'].to_i == comment['item_id'].to_i && c.sib_id.to_i == 0 }.sort {|a,b| a.order.to_i <=> b.order.to_i }

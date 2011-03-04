@@ -5,10 +5,10 @@
 		%br
 		#{@member.first_name}
 	%p.signout
-		-#= link_to "My teams", {:controller => "welcome", :action=> "my_teams"}, {:class => 'my_teams'}
-		= link_to "Sign out", {:controller => "welcome", :action=> "signout"}, {:class=>'sign_out', :id => 'sign_out'}
+		-#= link_to "My teams", {:controller => "welcome", :action=> "my_teams"}, {:class => 'my_teams', :rel=>'nofollow'}
+		= link_to "Sign out", {:controller => "welcome", :action=> "signout"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow'}
 		-if !@member.confirmed
-			= link_to "Confirm email", {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
+			= link_to "Confirm email", {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email', :rel=>'nofollow'}
 -#				
 	= form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
 		%p
@@ -16,12 +16,14 @@
 		= file_field_tag :photo
 		%p
 			= submit_tag "Upload photo"
-			= link_to 'Cancel', {:controller => "welcome"}, {:class=>'cancel'}
+			= link_to 'Cancel', {:controller => "welcome"}, {:class=>'cancel', :rel=>'nofollow'}
 				
 	%div#my_teams.hide	
 		%h2.home_title.my_teams My teams
 		%div.right_vertical_bar.my_teams
 			%ul.teams_list
 				- @member.team_titles.each do |team|
-					%li{:class=>'team', :id=>team.id, :launched=>team.launched}= team.title
+					-#%li{:class=>'team', :id=>team.id, :launched=>team.launched}= team.title
+					%li{:class=>'team', :id=>team.id, :launched=>team.launched}
+						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {}
 	

@@ -6,37 +6,37 @@
 	- if @mode == 'page'
 		%h3.question
 			= 'Q: ' + @question.text
-			= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal'}
+			= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal', :rel=>'nofollow'}
 		
 
 	%div.bsd
 		%div.bsd_bar
 			%h3 Brainstorm and discuss the answer
-			%a{:href=>"#", :class=>'bsd_close'} Close
+			%a{:href=>"#", :class=>'bsd_close', :rel=>'nofollow'} Close
 		%div.bsd_instr
 			%p
 				Your community can find a shared answer to this question by following these steps:
-				= link_to "Tell me more", {:id=>'shared'}, {:class=>'show_me_how'}
+				= link_to "Tell me more", {:id=>'shared'}, {:class=>'show_me_how', :rel=>'nofollow'}
 			%ol
 				%li 
 					Brainstorm new ideas about this question
-					= link_to "Tell me how", {:id=>'brainstorm'}, {:class=>'show_me_how'}
+					= link_to "Tell me how", {:id=>'brainstorm'}, {:class=>'show_me_how', :rel=>'nofollow'}
 				%li 
 					Discuss the brainstorming ideas
-					= link_to "Tell me how", {:id=>'discuss'}, {:class=>'show_me_how'}
+					= link_to "Tell me how", {:id=>'discuss'}, {:class=>'show_me_how', :rel=>'nofollow'}
 
 				%li 
 					Collect your favorite ideas and prioritise them to find out what is popular
-					= link_to "Tell me how", {:id=>'favorites'}, {:class=>'show_me_how'}
+					= link_to "Tell me how", {:id=>'favorites'}, {:class=>'show_me_how', :rel=>'nofollow'}
 				%li 
 					Explore the popular ideas that expose common ground on and use them to answer this question
-					= link_to "Tell me how", {:id=>'explore'}, {:class=>'show_me_how'}
+					= link_to "Tell me how", {:id=>'explore'}, {:class=>'show_me_how', :rel=>'nofollow'}
 		
 			%p.rec_action
 				%b Recommended action: 
 				Brainstorm ideas about this question and review any new ideas
-				-#= link_to "Show me how", {:id=>'rec_action'}, {:class=>'show_me_how'}
-				-#= link_to "Next action", {:id=>'rec_action'}, {:class=>'next_action'}
+				-#= link_to "Show me how", {:id=>'rec_action'}, {:class=>'show_me_how', :rel=>'nofollow'}
+				-#= link_to "Next action", {:id=>'rec_action'}, {:class=>'next_action', :rel=>'nofollow'}
 		
 		%div.brainstorming 
 			%h3 Brainstorming ideas
@@ -60,10 +60,10 @@
 			
 
 			%p.idea_lists
-				= link_to "Most popular", {:action=>'bs_idea_list', :id=>@question.id, :list=>'pop'}
-				= link_to "New(#{@unrated_ideas.size})", {:action=>'bs_idea_list', :id=>@question.id, :list=>'new'}
-				= link_to "My favorites", {:action=>'bs_idea_list', :id=>@question.id, :list=>'fav'}
-				= link_to "All", {:action=>'bs_idea_list', :id=>@question.id, :list=>'all'}
+				= link_to "Most popular", {:action=>'bs_idea_list', :id=>@question.id, :list=>'pop'}, {:rel=>'nofollow'}
+				= link_to "New(#{@unrated_ideas.size})", {:action=>'bs_idea_list', :id=>@question.id, :list=>'new'}, {:rel=>'nofollow'}
+				= link_to "My favorites", {:action=>'bs_idea_list', :id=>@question.id, :list=>'fav'}, {:rel=>'nofollow'}
+				= link_to "All", {:action=>'bs_idea_list', :id=>@question.id, :list=>'all'}, {:rel=>'nofollow'}
 				
 
 				%div.list.pop	
@@ -135,15 +135,15 @@
 			- else
 				%p No answers have been suggested for this question
 
-			= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal'}
+			= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal', :rel=>'nofollow'}
 
 			
 	- ans_id = !@answers.nil? && @answers.size > 0 ? @answers[0].id : @question.id		
 	%div.bsd_bar.bottom
 		-#%a{:href=>"#", :class=>'edit'} Edit answer
-		= link_to "Edit answer", {:action => "edit_answer", :id => ans_id}, {:class => 'edit_answer'}	
-		%a{:href=>"#", :class=>'history'} View answer history
-		= link_to "Answer guidelines and checklist", {:id=>'checklist'}, {:class=>'show_me_how'}
-		-#%a{:href=>"#", :class=>'checklist'} Answer checklist
-		%a{:href=>"#", :class=>'bsd_close'} Close
+		= link_to "Edit answer", {:action => "edit_answer", :id => ans_id}, {:class => 'edit_answer', :rel=>'nofollow'}	
+		%a{:href=>"#", :class=>'history', :rel=>'nofollow'} View answer history
+		= link_to "Answer guidelines and checklist", {:id=>'checklist'}, {:class=>'show_me_how', :rel=>'nofollow'}
+		-#%a{:href=>"#", :class=>'checklist', :rel=>'nofollow'} Answer checklist
+		%a{:href=>"#", :class=>'bsd_close', :rel=>'nofollow'} Close
 	

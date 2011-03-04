@@ -56,7 +56,7 @@
 		%li 
 			%b Suggest a new idea:
 			Tell us what you would like to change.
-			= link_to 'Suggest idea', {}, {:class=>'suggest_new_idea'}
+			= link_to 'Suggest idea', {}, {:class=>'suggest_new_idea', :rel=>'nofollow'}
 		%li 
 			%b Join a team:
 			Help develop an idea into a proposal for action.
@@ -68,7 +68,7 @@
 		%li 
 			%b Register:
 			Participate and keep in touch.
-			= link_to 'Register now', {}, {:id=>'cta_register'}
+			= link_to 'Register now', {}, {:id=>'cta_register', :rel=>'nofollow'}
 		%li 
 			%b Watch our videos:
 			Learn how you can participate.
@@ -86,7 +86,7 @@
 	%p.header_desc 
 		These are the ideas your community is working on right now. 
 		Click a title to learn more. If you have a new idea that's not listed, 
-		= link_to 'suggest it now.', {}, {:class=>'suggest_new_idea'}
+		= link_to 'suggest it now.', {}, {:class=>'suggest_new_idea', :rel=>'nofollow'}
 	-#There are plenty of ways you can lend a hand.
 
 	%div.ideas_and_teams
@@ -154,7 +154,7 @@
 			%p
 				%b
 					If you have a new idea that's not listed, 
-					= link_to 'suggest it now.', {}, {:class=>'suggest_new_idea'}
+					= link_to 'suggest it now.', {}, {:class=>'suggest_new_idea', :rel=>'nofollow'}
 			%div.tab_window.hide{:id=>"tab_suggest_idea"}
 				%h2 Suggest a new idea
 				%h3 We invite you to suggest an idea to help our city region become more sustainable
@@ -258,7 +258,9 @@
 		%div.right_vertical_bar.my_teams
 			%ul.teams_list
 				- @member.team_titles.each do |team|
-					%li{:class=>'team', :id=>team.id, :launched=>team.launched}= team.title
+					-#%li{:class=>'team', :id=>team.id, :launched=>team.launched}= team.title
+					%li{:class=>'team', :id=>team.id, :launched=>team.launched}
+						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {}
 
 	%h2.home_title Watch our videos
 	%div.right_vertical_bar

@@ -24,7 +24,7 @@
 					characters left
 				%button 
 					Save
-				= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+				= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
 	%p.clear_both
 -#				
 	- fields_for :resource, @resource do |resource|		
@@ -55,7 +55,7 @@
 						= @team.res_criteria.match(/..(\d+)/)[1]
 						characters left
 					%button Save
-					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+					= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
 
 		%div.attach_file
 			%p 
@@ -82,7 +82,7 @@
 						= @team.res_criteria.match(/..(\d+)/)[1]
 						characters left
 					%button Save
-					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+					= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
 	%p.clear_both
 	
 	

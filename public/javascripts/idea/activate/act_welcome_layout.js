@@ -250,21 +250,21 @@ function signin_submit(form){
 		return false;			
 }	
 
-$('li.team').die('click').live('click',
-	function(){
-		document.location = '/idea/' + this.getAttribute('id')
-	}
-);
+//$('li.team').die('click').live('click',
+//	function(){
+//		document.location = '/idea/' + this.getAttribute('id')
+//	}
+//);
 
-$('a.team_entry_title').die('click').live('click',
-	function(){
-		try{
-			var id = Number(this.getAttribute('href').match(/\d+$/))
-			document.location = '/idea/' + id
-		}catch(e){console.log("team_entry_title error: e: " + e.message)}
-		return false;
-	}
-);
+//$('a.team_entry_title').die('click').live('click',
+//	function(){
+//		try{
+//			var id = Number(this.getAttribute('href').match(/\d+$/))
+//			document.location = '/idea/' + id
+//		}catch(e){console.log("team_entry_title error: e: " + e.message)}
+//		return false;
+//	}
+//);
 
 function reset_password_submit(form){
 	console.log("reset_password_submit submit")

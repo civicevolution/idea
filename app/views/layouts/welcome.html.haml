@@ -40,9 +40,9 @@
 			- else
 				%div.join_com
 					-#= link_to 'Join our community', {}, {:class=>'join_our_community', :id=>'join_community_link'}
-					= link_to 'Register now', {:controller=>'welcome'}, {:class=>'join_our_community', :id=>'join_community_link'}
+					= link_to 'Register now', {:controller=>'welcome'}, {:class=>'join_our_community', :id=>'join_community_link', :rel=>'nofollow'}
 					or
-					= link_to 'Sign in', {:controller=>'welcome'}, {:class=>'sign_in', :id=>'sign_in_link'}
+					= link_to 'Sign in', {:controller=>'welcome'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow'}
 					
 			%hr.top
 			= yield
@@ -76,7 +76,7 @@
 									%p
 										If you have not already joined the 2029 and Beyond community at CivicEvolution, please
 										-#= link_to 'Join our community', {}, {:class=>'join_our_community'}
-										= link_to 'Register', {:controller=>'welcome'}, {:class=>'join_our_community'}
+										= link_to 'Register', {:controller=>'welcome'}, {:class=>'join_our_community', :rel=>'nofollow'}
 										now.
 									
 							%tr		
@@ -99,8 +99,8 @@
 							%tr
 								%td
 									= submit_tag "Sign In"
-									= link_to 'Reset password', {:controller=>'welcome'}, {:class=>'reset_password'}
-									= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
+									= link_to 'Reset password', {:controller=>'welcome'}, {:class=>'reset_password', :rel=>'nofollow'}
+									= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow'}
 					
 							
 						
@@ -116,10 +116,10 @@
 							%tr
 								%td
 									= submit_tag "Reset password"
-									= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel'}
+									= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow'}
 							-#%tr
 							-#	%td
-							-#		= link_to 'Sign in', {}, {:class=>'sign_in'}
+							-#		= link_to 'Sign in', {}, {:class=>'sign_in', :rel=>'nofollow'}
 							-#%tr
 							-#	%td
 							-#		= link_to 'Join our community', {}, {:class=>'join_our_community'}

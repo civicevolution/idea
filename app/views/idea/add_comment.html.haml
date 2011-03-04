@@ -18,7 +18,7 @@
 		= hidden_field_tag :mode, params[:mode]
 		
 		= submit_tag
-		= link_to 'Cancel', :action => 'bsd', :id=>@target['question_id']
+		= link_to 'Cancel', {:action => 'bsd', :id=>@target['question_id']}, {:rel=>'nofollow'}
 		
 -#		
 	%h3 Optional

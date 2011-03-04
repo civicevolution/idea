@@ -24,13 +24,13 @@
 				%div.bsd_disc
 					%h3.disc_title 
 						Discuss this Idea
-						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd'}
+						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd', :rel=>'nofollow'}
 	
 					- if top_level_comments_sorted.size > 0
 						- top_level_comments_sorted.each do |c|
 							= render :partial=> 'comment', :object=>c 
 						= render :partial=>'add_comment_combined', :locals=> {:id=>bs_idea.item_id, :label=>'Please add your comment'}
-						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd'}
+						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd', :rel=>'nofollow'}
 					- else
 						= render :partial=>'add_comment_combined', :locals=> {:id=>bs_idea.item_id, :label=>'Please add your comment'}
 
@@ -41,8 +41,8 @@
 				- str = pluralize(@coms, 'reply')
 			- else
 				- str = 'Reply'
-			= link_to str, {:action=>'bs_idea_comment', :id=>bs_idea.id}, {:class=>'bs_idea_discussion'}
-			= link_to "Report", {:action=>'report', :id=>bs_idea.item_id}, {:class=>'report'}
+			= link_to str, {:action=>'bs_idea_comment', :id=>bs_idea.id}, {:class=>'bs_idea_discussion', :rel=>'nofollow'}
+			= link_to "Report", {:action=>'report', :id=>bs_idea.item_id}, {:class=>'report', :rel=>'nofollow'}
 		- if mode	!= 'templ'
 			- if mode == 'fav'
 				- s_id = @popular_ideas.detect{|i| i.id == bs_idea.id}
@@ -58,20 +58,20 @@
 						%input.vote_down{:type => 'submit', :name => 'thumbsup_favorite', :value => '-1', :title => "Don't add to my favorites"}
 						%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{bs_idea.id}" }
 				%p.like_controls.hide
-					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite'}
+					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif mode == 'fav'
 				%p.like_controls
-					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite'}
+					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif (mode =='pop' || mode == 'all') && bs_idea['my_fav'] == 'f'
 				%p.like_controls.add
-					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite'}
+					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 				%p.like_controls.hide
-					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite'}
+					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif (mode =='pop' || mode == 'all')  && bs_idea['my_fav'] == 't'
 				%p.like_controls.fav
 					Your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea.id}['cnt']} favorite idea
 				%p.like_controls.hide
-					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite'}
+					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			
 		- else # include the parts I need for the template
 			%p.status 
@@ -85,7 +85,7 @@
 					%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{bs_idea.id}" }
 					
 			%p.like_controls.rem
-				= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite'}
+				= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 				
 			%p.like_controls.fav
 				Your #1 favorite idea

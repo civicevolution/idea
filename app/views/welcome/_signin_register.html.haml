@@ -37,7 +37,7 @@
 					%tr
 						%td
 							= submit_tag "Sign In"
-							= link_to 'Reset password', {}, {:class=>'reset_password'}
+							= link_to 'Reset password', {}, {:class=>'reset_password', :rel=>'nofollow'}
 
 			= form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
 				%b Reset password
@@ -53,10 +53,10 @@
 							= submit_tag "Reset password"
 					%tr
 						%td
-							= link_to 'Sign in to my account', {}, {:class=>'sign_in'}
+							= link_to 'Sign in to my account', {}, {:class=>'sign_in', :rel=>'nofollow'}
 					%tr
 						%td
-							= link_to 'Register now - free and fast', {}, {:class=>'register'}
+							= link_to 'Register now - free and fast', {}, {:class=>'register', :rel=>'nofollow'}
 
 
 			-#- form_tag('/welcome/register',{:class=>'register_form'}) do

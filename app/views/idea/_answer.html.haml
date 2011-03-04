@@ -38,5 +38,5 @@
 				%span Original version
 			- else
 				%span Version #{answer.ver}
-				= link_to "History", {:action=>'history', :id=>answer.id}, {:class=>'history'}
-			= link_to "Report", {:action=>'report', :id=>answer['item_id']}, {:class=>'report'}
+				= link_to "History", {:action=>'history', :id=>answer.id}, {:class=>'history', :rel=>'nofollow'}
+			= link_to "Report", {:action=>'report', :id=>answer['item_id']}, {:class=>'report', :rel=>'nofollow'}

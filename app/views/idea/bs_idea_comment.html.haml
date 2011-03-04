@@ -5,7 +5,7 @@
 %div.qa_bsd	
 	%h3.question
 		= 'Q: ' + @question.text
-		= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal'}
+		= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal', :rel=>'nofollow'}
 		
 
 	%div.bsd
@@ -19,12 +19,12 @@
 				%div.bsd_disc
 					%h3.disc_title 
 						Discuss this Idea
-						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd'}
+						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd', :rel=>'nofollow'}
 	
 					- if top_level_comments_sorted.size > 0
 						- top_level_comments_sorted.each do |c|
 							= render :partial=> 'comment', :object=>c 
-						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd'}
+						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd', :rel=>'nofollow'}
 	
 
 
@@ -38,4 +38,4 @@
 		- else
 			%p No answers have been suggested for this question
 
-		= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal'}
+		= link_to 'Back to the proposal page', {:action=>'index', :id=>@question.team_id, :anchor=> "q#{@question.id}"}, {:class=>'back_to_proposal', :rel=>'nofollow'}
