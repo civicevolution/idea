@@ -31,16 +31,15 @@ gem 'aws-s3', :require => 'aws/s3'
 #   gem 'webrat'
 # end
 
-gem "aws-ses", ">=0.4.1"
-gem "bluecloth", ">=2.0.11"
-gem "daemons", ">=1.1.0"
-gem "diff-lcs", ">=1.1.2"
-gem "differ", ">=0.1.2"
-gem "haml", ">=3.0.25"
-gem 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git'
-#gem 'paperclip', ">=3.2.8"
-gem "pg", ">=0.10.1"
-gem "ruby-recaptcha",">=1.0.2"
-gem "tzinfo", ">=0.3.24"
-gem "uuidtools", ">=2.1.2"
 
+gem "bluecloth" #, ">=2.0.11"
+gem "daemons" #, ">=1.1.0"
+gem "diff-lcs" #, ">=1.1.2"
+gem "differ" #, ">=0.1.2"
+gem "haml" #, ">=3.0.25"
+gem 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git'
+gem "pg" #, ">=0.10.1"
+gem "ruby-recaptcha" #,">=1.0.2"
+gem "tzinfo" #, ">=0.3.24"
+gem "uuidtools" #, ">=2.1.2"
+gem "json"
