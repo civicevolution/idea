@@ -849,14 +849,15 @@ function activate_text_counters_grow(els){
 }
 
 function show_form_error(form, response) {
-	console.log("show_form_error")
+	//console.log("show_form_error, ce/gen/form")
 	// apply the error messages in the form_errors object
 	// iterate through each input and look for a match against the error object
 	$.each(eval(response)[0],
 		function(key,val){
-			//console.log(key +': ' + val)
+			val = String(val);
+			//console.log(key +': ' + val);
 			if(key == 'Sign in required'){
-				console.log("show the sign in form");
+				//console.log("show the sign in form");
 				show_signin_form(val);
 			}else if(key == 'timeout'){
 				//console.log("there is a base error: " + val)
