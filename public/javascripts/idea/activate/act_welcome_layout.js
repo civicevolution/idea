@@ -182,15 +182,15 @@ $('form.register_form .cancel').die('click').live('click',
 	//$('form.register_form input[name="member[password]"]').val('abc')
 	//$('form.register_form input[name="member[password_confirmation]"]').val('ab')
 	
-$('a.2029_guidelines').live('click',
-	function(){
-		data = $('<div></div>')
-		data.append( $('div.ground_rules').clone() );
-		data.append( $('div.guidelines').clone() );
-		data.dialog( {title : '2029 and Beyond Online Groundrules and Guidelines', modal : true, width: 500, maxHeight: 500 } );
-		return false;
-	}
-)
+//$('a.2029_guidelines').live('click',
+//	function(){
+//		data = $('<div></div>')
+//		data.append( $('div.ground_rules').clone() );
+//		data.append( $('div.guidelines').clone() );
+//		data.dialog( {title : '2029 and Beyond Online Groundrules and Guidelines', modal : true, width: 500, maxHeight: 500 } );
+//		return false;
+//	}
+//)
 
 $('form.upload_member_photo input[type="submit"]').die('click').live( 'click', 
 	function(){

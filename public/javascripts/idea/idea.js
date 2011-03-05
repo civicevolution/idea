@@ -58,13 +58,6 @@ $(function(){
 	var update_css = true;
 	
 	try{ 
-		// this modifies the ajaxSend globally so it will include the auth token with every ajax request
-		$(document).ajaxSend(function(event, request, settings) {
-		  if (typeof(AUTH_TOKEN) == "undefined") return;
-		  // settings.data is a serialized string like "foo=bar&baz=boink" (or null)
-		  settings.data = settings.data || "";
-		  settings.data += (settings.data ? "&" : "") + "authenticity_token=" + encodeURIComponent(AUTH_TOKEN);
-		});
 		// force resize
 		function forceResize(){
 			lastWinWidth = lastWinHeight = 0;
@@ -241,13 +234,14 @@ $('div.q_cta').live('click',
 				
 				$('a.show_me_how',par).attr({rel: 'div#clue-tip-source'}).cluetip(
 				  {local: true, 
-				  hideLocal: false, 
+				  hideLocal: true, 
 					showTitle: false,
 					width: 400,
 					sticky: false,
 				  cursor: 'pointer',
 				  onActivate: get_tooltips,
-					clickThrough: false
+					clickThrough: false,
+					onShow: function(ct, c){ $('body > div#clue-tip-source').remove(); }
 					}
 				);
 				
@@ -406,7 +400,7 @@ function init_rating_stars(obj){
 						console.log("Error on answer rating submit, xhr: " + xhr.responseText)
 						try{
 							var form_errors = eval(xhr.responseText)[0];	
-							if(form_errors[0][0] == 'Sign in required'){
+							if(form_errors['Sign in required']){
 								console.log("show the sign in form");
 								show_signin_form('rate an answer');
 							}else{

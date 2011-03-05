@@ -174,12 +174,14 @@ class WelcomeController < ApplicationController
       begin
         Member.transaction do        
           logger.debug "try to save the member and the InitiativeMember record"
+          
           memSave = @member.save  
           #logger.debug "memSave; #{memSave}"        
     
   #        # update the member id
   #        @im.member_id = @member.id
           @im = InitiativeMembers.new :initiative_id =>params[:_initiative_id], :member_id=>@member.id, :accept_tos=> params[:accept_tos], :member_category=> params[:member_category]
+          
           logger.debug "@im: #{@im.inspect}"
 
           if memSave 

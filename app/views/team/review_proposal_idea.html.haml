@@ -7,8 +7,8 @@
 
 %p 
 	%b Submitted by 
-%p= "#{@member.first_name} #{@member.last_name}"
-%p= @member.email
+%p= "#{@submittor.first_name} #{@submittor.last_name}"
+%p= @submittor.email
 %p= "Submitted #{time_ago_in_words(@proposal.updated_at)} ago"
 
 - form_tag('/team/approve_proposal_idea') do
@@ -18,8 +18,8 @@
 
 
 %p 
-	If you do not want to approve this idea, please email #{@member.first_name} at 
-	%a{:href=>"mailto:#{@member.email}" }= @member.email
+	If you do not want to approve this idea, please email #{@submittor.first_name} at 
+	%a{:href=>"mailto:#{@submittor.email}" }= @submittor.email
 	and explain why this proposal was not approved and what they might do to bring this idea into compliance with the guidelines and ground rules.
 
 

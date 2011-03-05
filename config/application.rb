@@ -42,12 +42,6 @@ module G3
     
     config.action_mailer.register_template_extension('haml')
     
-    
-    #Recaptcha constants global key
-    RCC_PUB='6Lcy0L0SAAAAAHXcETe-lnzty-iUyfYgvVp_br3Z'
-    RCC_PRIV='6Lcy0L0SAAAAABuXgAChhDrX3aDx2Prv8WWAcZH4'
-
-
     #APP_NAME = Rails.root.to_s.match(/^\/data\//) ? Rails.root.to_s.match(/\/data\/(\w+)\//)[1] : Rails.root.to_s.match(/\/ce_development\/Rails\/(\w+)/)[1]
 
     if Rails.env == 'development'

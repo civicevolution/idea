@@ -4,7 +4,8 @@
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
 		%title= @team.title
 		:javascript
-			_load_times = { start: new Date()}	
+			var _load_times = { start: new Date()}	
+			var AUTH_TOKEN = #{protect_against_forgery? ? form_authenticity_token.inspect : ''}
 		=	stylesheet_link_tag 'idea.css'
 		-params[:monitor] = 'true'
 		- if params[:monitor] != 'true'

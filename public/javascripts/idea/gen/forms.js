@@ -687,43 +687,40 @@ function activate_text_counters_grow(els){
 }
 
 function show_form_error(form, response) {
+	console.log("show_form_error")
 	// apply the error messages in the form_errors object
 	// iterate through each input and look for a match against the error object
-	//var js = $(response).find('script').text();
-	//console.log("js: " + js)
-	//console.log("show_form_error v1")
-	var form_errors = eval(response)[0];
-	//console.log("form_errors.length: " + form_errors.length)
-	// form_errors[name] must have come from evaluating the script text
-	for(var i=0,error;(error = form_errors[i]);i++){
-		//console.log("error field: " + error[0] + ", message: " + error[1])
-		if(error[0] == 'Sign in required'){
-			console.log("show the sign in form");
-			show_signin_form(error[1]);
-		}else if(error[0] == 'timeout'){
-			//console.log("there is a base error: " + error[1])
-			$('<div><p>Sorry, your session has expired, you must sign in again to continue.</p></div>').dialog( {title : 'Warning', modal : true } )
-		}else	if(error[0] == 'reload_recaptcha'){			
-			//Recaptcha.reload();
-		}else	if(error[0] == 'base'){
-			if(error[1].match(/Captcha/)){
-				Recaptcha.reload();
+	$.each(eval(response)[0],
+		function(key,val){
+			console.log(key +': ' + val)
+			if(key == 'Sign in required'){
+				console.log("show the sign in form");
+				show_signin_form(val);
+			}else if(key == 'timeout'){
+				//console.log("there is a base error: " + val)
+				$('<div><p>Sorry, your session has expired, you must sign in again to continue.</p></div>').dialog( {title : 'Warning', modal : true } )
+			}else	if(key == 'reload_recaptcha'){			
+				//Recaptcha.reload();
+			}else	if(key == 'base'){
+				if(val.match(/Captcha/)){
+					Recaptcha.reload();
+				}else{
+					//console.log("there is a base error: " + val)
+					var inp = $('input:visible:last', form)
+					if(inp.size() == 0 ) inp = $('textarea:visible:last', form)
+					inp.addClass('form_error_border')
+					inp.before('<p class="form_error_text">' + val + '</p>')
+				}
 			}else{
-				//console.log("there is a base error: " + error[1])
-				var inp = $('input:visible:last', form)
-				if(inp.size() == 0 ) inp = $('textarea:visible:last', form)
+				//console.log("attach error for fields: " + key)
+				var inp = $(":input[name='" + key + "']:visible:first",form);
+				if(inp.size() == 0) inp = $(":input[name*='[" + key + "']:visible:first",form);
+				if(inp.size() == 0) inp = $("." + key + ":visible:first",form);
 				inp.addClass('form_error_border')
-				inp.before('<p class="form_error_text">' + error[1] + '</p>')
+				inp.before('<p class="form_error_text">' + ( inp.attr('alias') || key ) + ' ' + val + '</p>')
 			}
-		}else{
-			//console.log("attach error for fields: " + error[0])
-			var inp = $(":input[name='" + error[0] + "']:visible:first",form);
-			if(inp.size() == 0) inp = $(":input[name*='[" + error[0] + "']:visible:first",form);
-			if(inp.size() == 0) inp = $("." + error[0] + ":visible:first",form);
-			inp.addClass('form_error_border')
-			inp.before('<p class="form_error_text">' + ( inp.attr('alias') || error[0] ) + ' ' + error[1] + '</p>')
 		}
-	}
+	)
 }
 
 function show_signin_form(action){
@@ -805,7 +802,7 @@ function thumbs_up() {
 					btns.removeAttr('disabled')
 					try{
 						var form_errors = eval(xhr.responseText)[0];	
-						if(form_errors[0][0] == 'Sign in required'){
+						if(form_errors['Sign in required']){
 							console.log("show the sign in form");
 							show_signin_form('rate a comment');
 						}else{

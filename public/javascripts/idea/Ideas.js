@@ -215,7 +215,7 @@ function send_bs_idea_order_to_server(question_id, ordered_ids){
 			console.log("v1 Error on set_favorite submit, xhr: " + xhr.responseText)
 			try{
 				var form_errors = eval(xhr.responseText)[0];	
-				if(form_errors[0][0] == 'Sign in required'){
+				if(form_errors['Sign in required']){
 					console.log("show the sign in form");
 					show_signin_form('prioritize favorite ideas');
 				}else{
@@ -280,8 +280,8 @@ function send_favorite_to_server(bs_idea_id,fav){
 			error : function(xhr,errorString,exceptionObj){
 				console.log("Error on send_favorite_to_server submit, xhr: " + xhr.responseText)
 				try{
-					var form_errors = eval(xhr.responseText)[0];	
-					if(form_errors[0][0] == 'Sign in required'){
+					var form_errors = eval(xhr.responseText)[0];
+					if(form_errors['Sign in required']){
 						console.log("show the sign in form");
 						show_signin_form('add a favorite idea');
 					}else{
@@ -558,3 +558,11 @@ function get_tooltips(el){
 	}catch(e){console.log("tooltip error: " + e.message)}
 	return true;
 }
+
+
+$(document).ajaxSend(function(event, request, settings) {
+  if (typeof(AUTH_TOKEN) == "undefined") return;
+  // settings.data is a serialized string like "foo=bar&baz=boink" (or null)
+  settings.data = settings.data || "";
+  settings.data += (settings.data ? "&" : "") + "authenticity_token=" + encodeURIComponent(AUTH_TOKEN);
+});

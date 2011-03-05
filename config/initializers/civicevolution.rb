@@ -13,3 +13,7 @@ end
 Paperclip.interpolates :res_base do |attachment, style|
   RES_BASE
 end
+
+#Recaptcha constants global key
+RCC_PUB='6Lcy0L0SAAAAAHXcETe-lnzty-iUyfYgvVp_br3Z'
+RCC_PRIV='6Lcy0L0SAAAAABuXgAChhDrX3aDx2Prv8WWAcZH4'

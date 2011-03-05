@@ -37,7 +37,8 @@ class IdeaController < ApplicationController
     @questions = @team.questions.reject{|q| q.default_answer_id.nil?}
     def_ans_ids = @questions.map{|q| q.default_answer_id} #.reject{|i| i.nil?}
 
-    @default_answers = DefaultAnswer.find(def_ans_ids)
+    #@default_answers = DefaultAnswer.find(def_ans_ids)
+    @default_answers = DefaultAnswer.where("id IN (?)",def_ans_ids)
     @answers_with_ratings = @team.answers_with_ratings_i( @member.id )
 
     # remove answer_items for testing
@@ -987,7 +988,7 @@ class IdeaController < ApplicationController
             else
               act = 'continue'
           end
-          format.json { render :text => [[['Sign in required',act]]].to_json, :status => 409 }
+          format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
         end
         return
       end
