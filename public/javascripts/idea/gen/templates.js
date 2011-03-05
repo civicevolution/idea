@@ -129,7 +129,7 @@ function simple_com_format(context){
 	var author = '<a href="/idea/author_info/' + context.ape_code + ' class="com_author">' + unescape(context.author) + '</a>'
 
   s = s.replace(/<p>/,'<p>' + author + ' ')
-	console.log("simple_com_format s: " + s)
+	//console.log("simple_com_format s: " + s)
 	return s;
 	
 }

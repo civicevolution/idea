@@ -196,14 +196,15 @@ function dispatchAnswer(item,submit_response){
 }
 
 function dispatchComment(item,submit_response){
-	console.log("dispatchComment, item_id(item.item_id): " + item.item_id + " submit_response: " + submit_response)
+	var debug = false
+	if(debug) console.log("dispatchComment, item_id(item.item_id): " + item.item_id + " submit_response: " + submit_response)
 	//console.log("dispatchItem, comment_text(item.data.comment.text): " + item.data.comment.text)
 
 	//	// get the parent to which this belongs
 	//	var question_id = idea.question_id
 	//	var par = $('#bs_ideas_' + question_id);
 	//
-	console.log("uid: " + item.uid)
+	if(debug) console.log("uid: " + item.uid)
 	var node = $("div[uid='" + item.uid + "']" )	
 	//	
 	
@@ -228,19 +229,19 @@ function dispatchComment(item,submit_response){
 		// this is dispatched from APE broadcast
 		// if this uid has already been used in this parent, return because it was created for submit response
 		if(node.size() > 0){
-			console.log("submit response already inserted comment, ignore this ape broadcast")
+			if(debug) console.log("submit response already inserted comment, ignore this ape broadcast")
 			return;		
 		} 
 	}
 
-	console.log("mode: " + item.mode + ", find par_id: " + item.par_id + ", sib_id: " + item.sib_id + ", target_id: " + item.item.item.target_id)
+	if(debug) console.log("mode: " + item.mode + ", find par_id: " + item.par_id + ", sib_id: " + item.sib_id + ", target_id: " + item.item.item.target_id)
 	//console.log("com text: " + item.data.comment.text)
 	//debugger
 	json_test_data = item;
 	temp.dispatchCommentItem = item
 	
 	for (x in json_test_data.data) var item_type = x;
-	console.log("item_type: " + item_type)
+	//console.log("item_type: " + item_type)
 
 	var html = jsonFn[item_type](item);
 
@@ -267,18 +268,18 @@ function dispatchComment(item,submit_response){
 
 	if(node.size() > 0){
 		// this item was already added by ape before submit_response 
-		console.log("replace ape version with submit response version")
+		if(debug) console.log("replace ape version with submit response version")
 		// give div the sibling class of the node
 		div.addClass( node.hasClass('top_sibling') ? 'top_sibling' : 'sibling');
-		console.log("insert 1 - replace")
-		console.log("Before replace node has size of " + node.size() )
+		if(debug) console.log("insert 1 - replace")
+		if(debug) console.log("Before replace node has size of " + node.size() )
 		
-		console.log("replace ape with submit response in each loop");
+		if(debug) console.log("replace ape with submit response in each loop");
 		node.each( 
 			function(){
 				var com = div.clone(true);
 				new_coms.push(com)
-				console.log("replace node with new com")
+				if(debug) console.log("replace node with new com")
 				$(this).replaceWith(com)
 			} 
 		)
@@ -290,10 +291,14 @@ function dispatchComment(item,submit_response){
 		}else{
 			//var par = $('div#i' + item.par_id + ' div.question_discussion')
 			//var par = $('div#i' + item.par_id);
-			var par = $('div.item[item_id=' + item.par_id + ']')
+			var par = $('div.item[item_id=' + item.par_id + ']');
+			if(par.hasClass('bs_idea')){
+				//if(debug) console.log("find this idea's div.bsd_disc for the discussion")
+				par = $('div.bsd_disc[idea_item_id=' + item.par_id + ']');
+			}
 		}
-		console.log("Before insert par has size of " + par.size() )
-		
+		if(debug) console.log("Before insert par has size of " + par.size() )
+
 		var has_sibling = par.children('.sibling').size() > 0
 		// must have a sibling before it could have a top_sibling
 		if(has_sibling){
@@ -301,29 +306,29 @@ function dispatchComment(item,submit_response){
 			// insert form after the last child of target
 			var last_child = par.children('.top_sibling:last');
 			if (last_child.size() > 0){
-				console.log("has child with top sibling (a new child thread) insert com after last child")
+				if(debug) console.log("has child with top sibling (a new child thread) insert com after last child")
 				// indent this since it is a child
-				console.log("insert 2 - after last child, size: " + last_child.size())
+				if(debug) console.log("insert 2 - after last child, size: " + last_child.size())
 				div.addClass('top_sibling')
 				
 				par.each( 
 					function(){
 						var com = div.clone(true);
 						new_coms.push(com)
-						console.log("replace node with new com")
+						if(debug) console.log("replace node with new com")
 						$(this).children('.top_sibling:last').after(com)
 					} 
 				)
 			}else{
-				console.log("append com to par, no existing  child threads")
+				if(debug) console.log("append com to par, no existing  child threads")
 				div.addClass('top_sibling')
-				console.log("insert 3 - before next sibling, size: " + par.size() )
+				if(debug) console.log("insert 3 - before next sibling, size: " + par.size() )
 				
 				par.each( 
 					function(){
 						var com = div.clone(true);
 						new_coms.push(com)
-						console.log("insert 3 - before first sibling")
+						if(debug) console.log("insert 3 - before first sibling")
 						$(this).children('.sibling:first').before(com)
 					} 
 				)
@@ -331,53 +336,63 @@ function dispatchComment(item,submit_response){
 		}else{
 			div.addClass( item.sib_id ? 'sibling' : 'top_sibling')
 			if(item.item.item.target_id){
-				console.log("4 item has target_id: " + item.item.item.target_id)
+				if(debug) console.log("4 item has target_id: " + item.item.item.target_id)
 				//if(par.hasClass('Question')) par = $('div.inner_question_discussion',par);
 				var com = div.clone(true);
 				new_coms.push(com)
-				console.log("insert com as last child of question")
+				if(debug) console.log("insert com as last child of question")
 				par.find('div.inner_question_discussion:first form.add_comment_form').before( com );
 				
 		  	par = $('#target_discussion_' + item.item.item.target_type + '_' + item.item.item.target_id );
 		  	// now place at end, before form, in parent
-		  	console.log("insert com as last child of idea discussion, par.size(): " + par.size() )
+		  	if(debug) console.log("insert com as last child of idea discussion, par.size(): " + par.size() )
 		  	com = div.clone(true);
 		  	com.find('a.view_target').hide();
 		  	new_coms.push(com)
 		  	par.find('form.add_comment_form').before( com );
 
 			}else if(item.sib_id){
-				console.log("5 item is a sibling to a parent with no siblings - append to parent as 1st sibling");
+				if(debug) console.log("5 item is a sibling to a parent with no siblings - append to parent as 1st sibling");
 				par.each( 
 					function(){
 						var com = div.clone(true);
 						new_coms.push(com)
-						console.log("insert new com as 1st sibling of the parent")
+						if(debug) console.log("insert new com as 1st sibling of the parent")
 						$(this).append( com );
 					} 
 				)
 				
 			}else if(par.hasClass('qa')){
-				console.log("6 parent is a Question- append to parent above the comment form");
+				if(debug) console.log("6 parent is a Question- append to parent's inner discussion div");
 				//if(!par.hasClass('discussion')) par = $('div.inner_question_discussion',par);
 				par = $('div.inner_question_discussion',par);
 				par.each( 
 					function(){
 						var com = div.clone(true);
 						new_coms.push(com);
-						console.log("insert new com as sibling of the last sibling");
+						if(debug) console.log("append to inner discussion");
 						$(this).append(com);
 						//$(this).find('form.add_comment_form:last').before( com );
 					} 
 				)
+			}else if(par.hasClass('bsd_disc')){
+				if(debug) console.log("7 parent is a BsIdea- append to parent above the comment form");
+				par.each( 
+					function(){
+						var com = div.clone(true);
+						new_coms.push(com);
+						if(debug) console.log("insert new com above form");
+						$(this).find('form.add_comment_form:last').before(com);
+					} 
+				)
 			}else{
-					console.log("Default: item doesn't have target_id, and parent doesn't have siblings - append to parent as a sibling");
+					if(debug) console.log("Default: item doesn't have target_id, and parent doesn't have siblings - append to parent as a sibling");
 					if(par.hasClass('Question')) par = $('div.inner_question_discussion',par);
 					par.each( 
 						function(){
 							var com = div.clone(true);
 							new_coms.push(com)
-							console.log("insert new com as sibling of the last sibling")
+							if(debug) console.log("insert new com as sibling of the last sibling")
 							$(this).append( com );
 						} 
 					)
@@ -389,7 +404,7 @@ function dispatchComment(item,submit_response){
 		//	div.effect("highlight", {}, 4000)
 		//})
 	}else{
-		console.log("8 dispatchComment - this else shouldn't be used except for edit")
+		if(debug) console.log("8 dispatchComment - this else shouldn't be used except for edit")
 		//var par = $('div#i' + item.item_id);
 		var par = $('div.item[item_id=' + item.item_id + ']')
 		par.attr('uid',item.uid);
@@ -399,7 +414,7 @@ function dispatchComment(item,submit_response){
 				var com = div.clone(true).children('.Comment_entry');
 				com.hide();
 				new_coms.push(com)
-				console.log("replace existing par with div")
+				if(debug) console.log("replace existing par with div")
 				$(this).hide(1000,
 					function(){
 						$(this).replaceWith(com);
@@ -413,18 +428,18 @@ function dispatchComment(item,submit_response){
 // adjust the thumbs up/down
 	
 	temp.new_coms = new_coms;
-	//console.log("manipulate the coms, length: " + new_coms.length)
+	//if(debug) console.log("manipulate the coms, length: " + new_coms.length)
 	$.each(new_coms, 
 		function() {
-			console.log("process com, item.my_vote: " + item.my_vote)
+			if(debug) console.log("process com, item.my_vote: " + item.my_vote)
 			$('abbr.timeago',this).timeago();
 			//$('div.comment',this).css('width','auto');
-			console.log("check my_vote")
+			if(debug) console.log("check my_vote")
 			if(item.my_vote > 0){
-				console.log("vote > 0")
+				if(debug) console.log("vote > 0")
 				$('input.vote_down',this).addClass('other_selected');
 			}else if(item.my_vote < 0){
-				console.log("vote < 0 ")
+				if(debug) console.log("vote < 0 ")
 				$('input.vote_up',this).addClass('other_selected');				
 			}
 			$('div.comment_links',this).hide();

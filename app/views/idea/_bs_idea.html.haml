@@ -1,4 +1,4 @@
-%div.bs_idea{:id=>"bs_idea_#{bs_idea.id}", :item_id=>bs_idea.item_id}
+%div.bs_idea.item{:id=>"bs_idea_#{bs_idea.id}", :item_id=>bs_idea.item_id}
 	%a{:name=>"bsi#{bs_idea.id}"}
 	
 	- if mode == 'fav'	
@@ -21,7 +21,7 @@
 		- @new_coms = @coms = 0
 		%div.discussion
 			- if coms == 't'
-				%div.bsd_disc
+				%div.bsd_disc{:idea_item_id=>bs_idea.item_id}
 					%h3.disc_title 
 						Discuss this Idea
 						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd', :rel=>'nofollow'}

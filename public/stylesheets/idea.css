@@ -239,17 +239,17 @@ div.bs_idea {
     margin: 0 0 10px 0;
     text-align: right; }
 
-div.discussion h3 {
+div.discussion h3, div.bsd_disc h3 {
   margin-left: 26px; }
 
 div.ans {
   clear: both;
   padding: 40px 0; }
 
-div.discussion {
+div.discussion, div.bsd_disc {
   width: 400px;
   margin-left: -20px; }
-  div.discussion form.add_comment_form {
+  div.discussion form.add_comment_form, div.bsd_disc form.add_comment_form {
     margin-left: 20px;
     margin-top: 20px; }
 
