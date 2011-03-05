@@ -46,6 +46,7 @@ G3::Application.configure do
     :authentication => :plain, 
   }
   
+  Paperclip.options[:command_path] = "/opt/local/bin"
   
   
 end

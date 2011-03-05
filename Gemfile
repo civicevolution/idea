@@ -32,14 +32,14 @@ gem 'aws-s3', :require => 'aws/s3'
 # end
 
 
-gem "bluecloth" #, ">=2.0.11"
-gem "daemons" #, ">=1.1.0"
-gem "diff-lcs" #, ">=1.1.2"
-gem "differ" #, ">=0.1.2"
-gem "haml" #, ">=3.0.25"
-gem 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git'
-gem "pg" #, ">=0.10.1"
-gem "ruby-recaptcha" #,">=1.0.2"
-gem "tzinfo" #, ">=0.3.24"
-gem "uuidtools" #, ">=2.1.2"
+gem "bluecloth" 
+gem "daemons"
+gem "diff-lcs"
+gem "differ"
+gem "haml"
+gem 'paperclip'
+gem "pg"
+gem "ruby-recaptcha"
+gem "tzinfo"
+gem "uuidtools"
 gem "json"
