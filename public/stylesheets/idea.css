@@ -596,6 +596,9 @@ form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest
   form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning, form.std_form p.resource_warning {
     margin-top: -12px; }
 
+form.std_form label {
+  margin-bottom: 8px; }
+
 form.add_bs_idea_form {
   font-size: 1em; }
 
@@ -772,6 +775,19 @@ div#submit_proposal {
 
 div#submit_proposal_acknowledge {
   max-width: 500px; }
+
+div.preview_email {
+  border: 1px solid #666666;
+  padding: 20px;
+  word-wrap: break-word; }
+  div.preview_email div.email_headers p {
+    margin: 0; }
+  div.preview_email div.email_headers p.subject {
+    margin-top: 10px; }
+  div.preview_email div.email_headers p.recipients {
+    margin-left: 20px; }
+  div.preview_email pre.email_body {
+    margin: 10px 0 30px 0; }
 
 form.reset_password_form, form.signin_form, form.register_form {
   max-width: 400px; }

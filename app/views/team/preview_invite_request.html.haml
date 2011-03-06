@@ -7,7 +7,7 @@
 
 %div.preview_email 
 	%div.email_headers		
-		%p #{@email.to_s.match(/From:.*/).to_s.gsub(/</,'&#60;').gsub(/>/,'&#62;')}
+		%p #{@email.to_s.match(/From:.*/)} 
 		%p Recipients:
 		- @invite.recipients.each do |recipient|
 			%p.recipients #{recipient[:first_name]} #{recipient[:last_name]} &#60;#{recipient[:email]}&#62;

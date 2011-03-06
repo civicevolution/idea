@@ -49,7 +49,7 @@ class ProposalMailer < ActionMailer::Base
   def team_send_invite(member, recipient, invite, team, host, sent_at = Time.now)
     subject    "#{member.first_name} #{member.last_name} has invited you to view a proposal for change at CivicEvolution"
     recipients "#{recipient[:first_name]} #{recipient[:last_name]} <#{recipient[:email]}>"
-    from       "\"CivicEvolution\" <no-reply@auto.civicevolution.org>"
+    from       "\"2029 and Beyond @ CivicEvolution\" <no-reply@auto.civicevolution.org>"
     sent_on    sent_at
     
     body       :member => member, :recipient => recipient, :invite => invite, :team => team, :host => host

@@ -232,26 +232,31 @@ $('div.q_cta').live('click',
 				var par = $this.closest('div.qa');
 				par.find('div.answer_section').append( par.find('div.bsd_bar.bottom'));
 				
-				$('a.show_me_how',par).attr({rel: 'div#clue-tip-source'}).cluetip(
-				  {local: true, 
-				  hideLocal: true, 
-					showTitle: false,
-					width: 400,
-					sticky: false,
-				  cursor: 'pointer',
-				  onActivate: get_tooltips,
-					clickThrough: false,
-					onShow: function(ct, c){ $('body > div#clue-tip-source').remove(); }
-					}
-				);
-				
-				//$('a.edit_answer')
+				init_clue_tips( $('a.show_me_how',par) );
+
 			}
 		)
 		$this.hide("blind", { direction: "vertical" }, 600);
 		return false;
 	}
 );
+
+function init_clue_tips(links){
+	links.attr({rel: 'div#clue-tip-source'}).cluetip(
+	  {local: true, 
+	  hideLocal: true, 
+		showTitle: false,
+		width: 400,
+		sticky: false,
+	  cursor: 'pointer',
+	  onActivate: get_tooltips,
+		clickThrough: false,
+		onShow: function(ct, c){ $('body > div#clue-tip-source').remove(); },
+		cluezIndex: 100000
+		}
+	);
+	
+}
 
 $('div.q_cta').live('mouseover mouseout', function(event) {
   if (event.type == 'mouseover') {
@@ -283,6 +288,24 @@ $('a.bsd_close').live('click',
 );
 
 
+
+$('a.invite').live('click',
+	function(){
+		if(typeof show_recaptcha == 'undefined') $.getScript('/javascripts/idea/gen/recaptcha.js');
+		if(typeof Recaptcha == 'undefined') $.getScript('http://www.google.com/recaptcha/api/js/recaptcha_ajax.js');
+		$('<div></div>').load("/idea/invite/" + team_id, 
+			function(){
+				var $this = $(this);
+				$this.dialog({modal:true,	title: 'Invite your friends and neighbors', width: 'auto', height: 'auto'}); 
+				activate_invite_form($this.find('form'));
+				$this.find('textarea#recipient_emails').val('brian@civicevolution.org').focus();
+				$this.find('textarea#message').val('Please look at this great idea');
+				init_clue_tips( $this.find('a.show_me_how') );
+			}
+		)
+		return false;
+	}
+)
 
 
 $('a.report').live('click',
