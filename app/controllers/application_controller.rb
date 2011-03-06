@@ -17,7 +17,8 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::RoutingError, :with => :render_404
   
   def error_generic(exception)
-    log_error(exception)
+    #log_error(exception)
+    logger.warn exception
     begin
       member = Member.find_by_id(session[:member_id])
       render :template=> 'errors/generic_error', :layout=>'welcome', :locals => {:member=>member}
