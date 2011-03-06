@@ -1,0 +1,38 @@
+%div#invite_friends
+	%h2 Please tell your friends about this proposal
+	- if @member.id == 0
+		%p You can email them this link: http://#{@host}/idea/#{params[:id]}
+		%p If you sign in or register, we can send this link directly to your friends for you.
+	- else
+		%p The email addresses you enter here will be used just one time to send this email
+
+		- form_tag( { :controller=> :team, :action => :invite_friends}, {:class=>'invite_friends std_form'} ) do
+			= hidden_field_tag :team_id, params[:id]
+			= hidden_field_tag :send_now
+			= hidden_field_tag :recaptcha_challenge
+			= hidden_field_tag :recaptcha_response
+		
+			%div.add_idea
+				%label 
+					Please enter your friend's names and email addresses
+					= link_to "How", {:id=>'invite_emails'}, {:class=>'show_me_how', :rel=>'nofollow'}
+				= text_area_tag :recipient_emails, nil, :class=>'comment', :size=>"1x2", :alias=>'Recipient emails'
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							1000
+							characters left
+				%p Subject: #{@member.first_name} #{@member.last_name} thinks you should check out this community proposal
+			
+				%label Please enter an encouraging message
+				= text_area_tag :message, nil, :class=>'comment', :size=>"1x2", :alias=>'Email message'
+				%div.control_line
+					%div.controls
+						%span.char_ctr 
+							1000
+							characters left
+
+			%p
+				= submit_tag "Preview and send", :name=>'invite_friends', :alias=>'Please'
+				= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}
+
