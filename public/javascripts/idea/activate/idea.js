@@ -105,7 +105,7 @@ function activate_ux_functions_edit(){
   			var a = $(this);
 				if( a.closest('div.qa').find('form.add_answer_form').size() > 0) return false;
 
-				var ans = a.closest('div.qa').find('div.answer');
+				var ans = a.closest('div.qa').find('div.answer div.answer_body');
 				var ctls = a.closest('p');
   			//console.log("edit this answer")
 				var id = Number(ans.attr('id').match(/\d+$/))

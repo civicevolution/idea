@@ -20,8 +20,8 @@ function create_templates(data){
 	directives = {
 		answer : {
 			'@uid' : 'uid',
-			'div.answer @id+' : 'data.answer.id',
-			'div.answer' : function(arg){return simple_format(unescape(arg.context.data.answer.text))},
+			'div.answer_body @id+' : 'data.answer.id',
+			'div.answer div.answer_body' : function(arg){return simple_format(unescape(arg.context.data.answer.text))},
 			'a.history @href+' : '/#{data.answer.id}',
 			'a.report @href+' : '/#{item_id}',
 			"input[type='radio'] @name+" : 'data.answer.id',

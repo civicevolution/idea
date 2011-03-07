@@ -151,9 +151,6 @@ div.summary {
   margin: -10px 41px 20px 41px;
   font-size: 1.12em; }
 
-div.answer {
-  font-size: 1.12em; }
-
 div.side_bar {
   width: 180px;
   float: left;
@@ -607,19 +604,84 @@ form.add_answer_form {
 
 div.answer_section {
   padding-top: 20px;
-  margin-bottom: 50px; }
+  margin-bottom: 50px;
+  clear: both; }
+  div.answer_section div.answer {
+    font-size: 1.12em;
+    float: left;
+    width: 470px; }
+    div.answer_section div.answer p.title {
+      font-weight: bold; }
+    div.answer_section div.answer div.answer_body p {
+      font-size: 1.12em; }
+  div.answer_section div.answer_details {
+    float: left;
+    width: 278px;
+    margin-left: 20px; }
   div.answer_section td.rating {
     padding-left: 40px; }
-  div.answer_section div.rating {
-    vertical-align: top; }
-  div.answer_section col.my_rating {
-    width: 150px; }
-  div.answer_section p.controls {
-    font-size: 0.9em;
-    margin: 6px 0 40px 0; }
-    div.answer_section p.controls span.new {
+  div.answer_section div.answer_details div.rate div.rating {
+    vertical-align: top;
+    float: left; }
+    div.answer_section div.answer_details div.rate div.rating form {
+      display: none; }
+    div.answer_section div.answer_details div.rate div.rating div.cnt {
+      float: left;
+      margin-left: 10px; }
+    div.answer_section div.answer_details div.rate div.rating div.result_stars {
+      float: left;
+      position: relative; }
+      div.answer_section div.answer_details div.rate div.rating div.result_stars div.bs_rating_red_bg {
+        background: url(/images/red_stars.gif) no-repeat left top;
+        height: 16px;
+        width: 0;
+        position: absolute;
+        top: 0;
+        left: 0; }
+      div.answer_section div.answer_details div.rate div.rating div.result_stars div.bs_rating_grey_bg {
+        background: url(/images/grey_stars.gif) no-repeat left top;
+        height: 16px;
+        width: 85px; }
+  div.answer_section div.answer_details div.checklist {
+    margin-bottom: 16px; }
+    div.answer_section div.answer_details div.checklist p.title {
       font-weight: bold;
-      color: #f2583e; }
+      margin: 4px 0; }
+    div.answer_section div.answer_details div.checklist ul {
+      margin: 0; }
+      div.answer_section div.answer_details div.checklist ul li {
+        margin: 6px 0 0 -20px; }
+    div.answer_section div.answer_details div.checklist div.extended_checklist {
+      display: none; }
+  div.answer_section div.ans_comment_links {
+    clear: both;
+    height: 20px;
+    font-size: 0.9em; }
+    div.answer_section div.ans_comment_links a {
+      margin-right: 16px; }
+
+span.star_hover {
+  white-space: wrap; }
+
+span.stars {
+  display: block;
+  float: left; }
+
+span.star_hover, span.rating_results {
+  display: block;
+  float: left;
+  margin-left: 10px; }
+
+div.rating form {
+  float: left;
+  white-space: nowrap; }
+
+div.rate {
+  height: 20px; }
+  div.rate p {
+    font-weight: bold;
+    float: left;
+    margin: 0; }
 
 form.add_bs_idea_form label {
   color: #23238e;
@@ -661,32 +723,6 @@ div.q_cta {
 div.q_cta.mouseover {
   background: url(/images/cta_speakup_mo3.gif) no-repeat left top; }
 
-div.answer_controls {
-  position: relative;
-  padding-top: 6px; }
-
-div.ans_comment_links {
-  height: 20px; }
-  div.ans_comment_links a {
-    margin-right: 16px; }
-
-div.rate {
-  height: 20px; }
-  div.rate p {
-    font-weight: bold;
-    float: left;
-    margin: 0; }
-  div.rate div.rating {
-    float: right; }
-
-div.answer {
-  clear: both; }
-
-div.answer_section {
-  clear: both; }
-  div.answer_section div.rating form {
-    display: none; }
-
 div.bsd_bar {
   background-color: #f3973a;
   height: 40px;
@@ -724,40 +760,6 @@ p.intro {
 
 p.intro.cta {
   margin-bottom: 50px; }
-
-span.star_hover {
-  white-space: wrap; }
-
-span.stars {
-  display: block;
-  float: right; }
-
-span.star_hover, span.rating_results {
-  display: block;
-  float: right;
-  margin-right: 10px; }
-
-div.rating form {
-  float: right;
-  white-space: nowrap; }
-
-div.rating div.cnt {
-  float: right;
-  margin-right: 10px; }
-div.rating div.result_stars {
-  float: right;
-  position: relative; }
-  div.rating div.result_stars div.bs_rating_red_bg {
-    background: url(/images/red_stars.gif) no-repeat left top;
-    height: 16px;
-    width: 0;
-    position: absolute;
-    top: 0;
-    left: 0; }
-  div.rating div.result_stars div.bs_rating_grey_bg {
-    background: url(/images/grey_stars.gif) no-repeat left top;
-    height: 16px;
-    width: 85px; }
 
 div#submit_proposal {
   max-width: 500px; }

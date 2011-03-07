@@ -77,17 +77,17 @@
 					- if answer_items.size > 0
 						- answer_items.each do |ai|
 							- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
-							= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'Current answer', :is_def_ans=>false}
+							= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'Current answer', :def_ans=>def_ans, :is_def_ans=>false}
 							
 					- elsif !def_ans.nil?
 						- answer = Answer.new :text=>def_ans.text, :ver=>0, :item_id=>0
 						- answer['my_vote'] = answer['average'] = answer['count'] = 0
-						= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'Suggested answer guidelines', :is_def_ans=>true}
+						= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'Suggested answer guidelines', :def_ans=>def_ans, :is_def_ans=>true}
 
 					- else
 						- answer = Answer.new :text=>'No answer has been suggested for this question', :ver=>0, :item_id=>0
 						- answer['my_vote'] = answer['average'] = answer['count'] = 0
-						= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'No answer yet', :is_def_ans=>false}
+						= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'No answer yet', :def_ans=>def_ans, :is_def_ans=>false}
 						
 	
 	= render :partial => 'endorsements'

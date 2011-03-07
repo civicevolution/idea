@@ -184,10 +184,6 @@ div.summary
 	margin: -10px 41px 20px 41px
 	font-size: 1.12em
 	
-
-div.answer
-	font-size: 1.12em
-	
 div.side_bar
 	width: $side_bar_width
 	float: left
@@ -676,20 +672,100 @@ form.add_answer_form
 div.answer_section
 	padding-top: 20px
 	margin-bottom: 50px
+	clear: both
+	//border: 1px dashed black
+
+	div.answer
+		font-size: 1.12em
+		float: left
+		//border: 1px solid red
+		width: 470px
+		p.title
+			font-weight: bold
+		div.answer_body p
+			font-size: 1.12em
+		
+	div.answer_details
+		float: left
+		//border: 1px solid green
+		width: 278px 
+		margin-left: 20px
+		
 	td.rating
 		padding-left: 40px
 
-	div.rating
-		vertical-align: top
+	div.answer_details
+		div.rate
+			div.rating
+				vertical-align: top
+				float: left
+				form
+					display: none
+				div.cnt
+					float: left
+					margin-left: 10px
+				div.result_stars
+					float: left
+					position: relative
+					div.bs_rating_red_bg
+						background: url(/images/red_stars.gif) no-repeat left top
+						height: 16px
+						width: 0
+						position: absolute
+						top: 0
+						left: 0
+					div.bs_rating_grey_bg
+						background: url(/images/grey_stars.gif) no-repeat left top
+						height: 16px
+						width: 85px
+		div.checklist
+			margin-bottom: 16px
+			p.title
+				font-weight: bold
+				margin: 4px 0
+			ul
+				margin: 0
+				//padding-left: 20px
+				li
+					margin: 6px 0 0 -20px
+			div.extended_checklist
+				display: none
 
-	col.my_rating
-		width: 150px
-	p.controls 
+	div.ans_comment_links
+		clear: both
+		height: 20px
 		font-size: .9em
-		margin: 6px 0 40px 0		
-		span.new	
-			font-weight: bold
-			color: $new_item_color
+		a
+			margin-right: 16px
+
+//div.answer_controls
+//	position: relative
+//	padding-top: 6px
+
+span.star_hover
+	white-space: wrap
+		
+span.stars
+	display: block
+	float: left
+span.star_hover, span.rating_results
+	display: block
+	float: left
+	margin-left: 10px
+div.rating form
+	float: left
+	//margin-left: 20px
+	white-space: nowrap
+
+
+div.rate
+	height: 20px
+	p
+		font-weight: bold
+		float: left
+		margin: 0
+
+
 
 form.add_bs_idea_form
 	label
@@ -732,35 +808,6 @@ div.q_cta
 			margin-top: 6px
 div.q_cta.mouseover
 	background: url(/images/cta_speakup_mo3.gif) no-repeat left top
-
-
-div.answer_controls
-	position: relative
-	padding-top: 6px
-
-div.ans_comment_links
-	height: 20px
-	a
-		margin-right: 16px
-	
-
-div.rate
-	height: 20px
-	p
-		font-weight: bold
-		float: left
-		margin: 0
-	div.rating
-		float: right
-		
-div.answer
-	clear: both
-
-div.answer_section
-	clear: both
-	div.rating
-		form
-			display: none
 			
 div.bsd_bar
 	background-color: $bsd_bar
@@ -799,42 +846,6 @@ p.intro
 p.intro.cta
 	margin-bottom: 50px
 	
-		
-span.star_hover
-	white-space: wrap
-		
-span.stars
-	display: block
-	float: right
-span.star_hover, span.rating_results
-	display: block
-	float: right
-	margin-right: 10px
-div.rating form
-	float: right
-	//margin-left: 20px
-	white-space: nowrap
-
-div.rating
-	div.cnt
-		float: right
-		margin-right: 10px
-	div.result_stars
-		float: right
-		position: relative
-		div.bs_rating_red_bg
-			background: url(/images/red_stars.gif) no-repeat left top
-			height: 16px
-			width: 0
-			position: absolute
-			top: 0
-			left: 0
-		div.bs_rating_grey_bg
-			background: url(/images/grey_stars.gif) no-repeat left top
-			height: 16px
-			width: 85px
-		
-		
 
 div#submit_proposal
 	p.title

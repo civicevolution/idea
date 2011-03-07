@@ -152,32 +152,12 @@ function dispatchAnswer(item,submit_response){
 			}
 			
 			temp.ans_par = par;
-			var bsd_bar_bottom = par.find('div.bsd_bar').remove();
+			div.find('div.checklist').replaceWith( par.find('div.checklist') );
+			div.append( par.find('div.bsd_bar') );
 			
-			//$('span.new._answer',div).replaceWith('<span class="new _updated _answer">Updated</span>');
-	//		$('span.mark_new_answer',div).hide();
-	//		icon_elm.prepend('<span class="mark_new_' + item_type + '">Updated</span>');
 			par.replaceWith(div);
-			div.append(bsd_bar_bottom);
 			
 			div.effect("highlight", {}, 2000);
-			//par.prev('form.add_answer_form').hide(1000,
-			//	function(){
-			//		$(this).remove();
-			//		par.show(1000)
-			//	}
-			//);
-			
-			//$('a.view_history',div).cluetip({
-			//  cluetipClass: 'jtip', 
-			//  arrows: true, 
-			//  dropShadow: false, 
-			//  height: '300px', 
-			//  width: '400px',
-			//  sticky: true,
-			//  positionBy: 'bottomTop'
-			//});	
-			
 			
 		}
 	}catch(e){

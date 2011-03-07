@@ -109,6 +109,7 @@ $(function(){
 		$('div#load_mask').remove();
 		$('h2#load_message').remove();
 		
+		init_clue_tips( $('a.show_me_how') );
 		
 		//if( !(typeof member_id != 'undefined' && member_id != 0) ) $('form.mini_thumbs_up :submit').attr('disabled','disabled');
 		
@@ -362,13 +363,13 @@ $('div.comment').live('mouseover mouseout', function(event) {
   }
 });
 
-$('div.answer_section').live('mouseover mouseout', function(event) {
+$('div.answer').live('mouseover mouseout', function(event) {
   if (event.type == 'mouseover') {
     // do something on mouseover
-		$(this).find('div.ans_comment_links').children().show();
+		$(this).closest('div.answer_section').find('div.ans_comment_links').children().show();
   } else {
     // do something on mouseout
-		$(this).find('div.ans_comment_links').children().hide();
+		$(this).closest('div.answer_section').find('div.ans_comment_links').children().hide();
   }
 });
 

@@ -545,11 +545,10 @@ function get_tooltips(el){
 		//console.log("tooltip target: " + target)
 		if(target=='checklist'){
 			// get the right checklist
-			var def_ans_id = el.closest('div.answer_section').attr('default_answer_id');
-			//console.log("def_ans_id: " + def_ans_id);
-			tipcopy.children('div.checklist').not('div#checklist_' + def_ans_id ).remove();
-		}else{
-			tipcopy.children('div.checklist').remove();
+			var extended_checklist = el.closest('div.checklist').find('div.extended_checklist').clone();
+			if(extended_checklist.size() > 0 ){
+				tipcopy.prepend(extended_checklist)
+			}
 		}
 		// remove unused show me help
 		tipcopy.children('div.show_me').not('div#show_me_' + target).remove();

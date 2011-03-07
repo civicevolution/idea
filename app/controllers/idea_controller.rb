@@ -773,7 +773,7 @@ class IdeaController < ApplicationController
     answer = Answer.new :text=>'', :ver=>1, :item_id=>0
 		answer['my_vote'] = answer['average'] = answer['count'] = 3
     strs.push '<hr/><h3>answer</h3><hr/>'
-    strs.push render_to_string( :partial => 'answer', :object=>answer, :locals=> {:question=> @question, :title=>'Current answer', :is_def_ans=>false} )
+    strs.push render_to_string( :partial => 'answer', :object=>answer, :locals=> {:question=> @question, :title=>'Current answer', :def_ans=>nil, :is_def_ans=>false} )
     
 
     #strs.push '<hr/><h3>chat message</h3><hr/>'

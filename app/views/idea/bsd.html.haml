@@ -141,9 +141,9 @@
 	- ans_id = !@answers.nil? && @answers.size > 0 ? @answers[0].id : @question.id		
 	%div.bsd_bar.bottom
 		-#%a{:href=>"#", :class=>'edit'} Edit answer
-		= link_to "Edit answer", {:action => "edit_answer", :id => ans_id}, {:class => 'edit_answer', :rel=>'nofollow'}	
-		%a{:href=>"#", :class=>'history', :rel=>'nofollow'} View answer history
-		= link_to "Answer guidelines and checklist", {:id=>'checklist'}, {:class=>'show_me_how', :rel=>'nofollow'}
-		-#%a{:href=>"#", :class=>'checklist', :rel=>'nofollow'} Answer checklist
+			= link_to "Edit answer", {:action => "edit_answer", :id => ans_id}, {:class => 'edit_answer', :rel=>'nofollow'}	
+			%a{:href=>"#", :class=>'history', :rel=>'nofollow'} View answer history
+			= link_to "Answer guidelines and checklist", {:id=>'checklist'}, {:class=>'show_me_how', :rel=>'nofollow'}
+			-#%a{:href=>"#", :class=>'checklist', :rel=>'nofollow'} Answer checklist
 		%a{:href=>"#", :class=>'bsd_close', :rel=>'nofollow'} Close
 	
