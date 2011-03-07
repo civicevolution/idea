@@ -33,11 +33,9 @@ var new_icon_data = {
 }
 
 function dispatchEndorsement(item,submit_response){
-	console.log("dispatchEndorsement");
-	temp.dispatchEndorsement_item = item;
+	//console.log("dispatchEndorsement");
 	if(item.data.endorsement.created_at == null){
 		// the endorsement was deleted
-		console.log("delete endorsement")
 		var tr = $('div#endorsements').find('tr#' + item.ape_code)
 		tr.remove();
 		if(tr.find('a.delete_endorsement').size()>0){
@@ -45,7 +43,6 @@ function dispatchEndorsement(item,submit_response){
 			$('div#endorsements form').removeClass('hide');
 		}
 	}else{
-		console.log("insert the new endorsement")
 		item.show_delete = submit_response ? 't' : 'f';
 		var html = jsonFn.endorsement(item);
 		var table = $('div#endorsements table');
@@ -59,7 +56,7 @@ function dispatchEndorsement(item,submit_response){
 			tr = tr.replaceWith(html)
 			table.find('tr[id="' + item.ape_code + '"] abbr').timeago();
 		}else{
-			table.append(html);
+			table.find('tr:last').after(html)
 			table.find('tr:last abbr.timeago').timeago();
 		}
 	}

@@ -648,7 +648,8 @@ div.answer_section {
       font-weight: bold;
       margin: 4px 0; }
     div.answer_section div.answer_details div.checklist ul {
-      margin: 0; }
+      margin-top: 0;
+      margin-bottom: 0; }
       div.answer_section div.answer_details div.checklist ul li {
         margin: 6px 0 0 -20px; }
     div.answer_section div.answer_details div.checklist div.extended_checklist {
