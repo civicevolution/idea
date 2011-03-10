@@ -151,6 +151,9 @@ class TeamController < ApplicationController
   end
   
   def proposal
+    redirect_to :controller => 'idea', :action => 'index', :id => params[:id], :status=>301
+    return
+    
     # get the team data, questions, and answers and call render within the welcome layout
     @team_id = params[:id].to_i
     #begin
@@ -543,6 +546,9 @@ class TeamController < ApplicationController
   end
   
   def index
+    redirect_to :controller => 'idea', :action => 'index', :id => params[:id], :status=>301
+    return
+
     @team_id = params[:id].to_i
 
     logger.debug "Check for team id: #{@team_id}"  
