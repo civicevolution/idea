@@ -216,7 +216,8 @@ $('div.q_cta').live('click',
 		//$this.hide();
 		$this.next('div.show_bsd').html('<p class="loading"><img src="/images/rotating_arrow.gif"/> Loading...</p>')
 		//$this.next('div.show_bsd').load('/idea/bsd',{id: $this.attr('href').match(/\d+/)[0]}, 
-		$this.next('div.show_bsd').load('/idea/bsd?id=' + $this.attr('id').match(/\d+/)[0], 
+		var question_id = Number($this.attr('id').match(/\d+/))
+		$this.next('div.show_bsd').load('/idea/bsd?id=' + question_id, 
 			function(){
 				var $this = $(this);
 				$this.hide();
@@ -228,12 +229,11 @@ $('div.q_cta').live('click',
 				$this.find('div.comment_links').hide();
 				activate_comment_form( $('form.add_comment_form', this) );
 				activate_idea_form( $('form.add_bs_idea_form', this) );
-				//$('div.list.fav div.list_inner', this).sortable( { update: idea_list_sort_update });
-				$this.find('p.idea_lists a').eq(0).click();
 				var par = $this.closest('div.qa');
 				par.find('div.answer_section').append( par.find('div.bsd_bar.bottom'));
 				
 				init_clue_tips( $('a.show_me_how',par) );
+				BsIdeas.add_bs_ideas_data(question_id, bs_ideas,bs_ideas_priority);
 
 			}
 		)

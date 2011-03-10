@@ -90,6 +90,7 @@ class IdeaController < ApplicationController
 
       if @mode == 'insert'
         render :action => "bsd", :layout => false
+        return
       else
         @answers = @question.answers_with_ratings(@member.id)  
       end
@@ -352,15 +353,10 @@ class IdeaController < ApplicationController
       if @saved
         BsIdeaFavorite.new( :member_id => @member.id, :bs_idea_id => @bs_idea.id, :favorite => true ).save
         
-        if params[:mode] != 'add'
-          logger.debug "Get the score data for this answer which is being edited"
-          rating = BsIdeaRating.idea_ratings(@bs_idea.id,@member.id)[0]
-          average = rating.nil? ? 0 : rating.average
-          count = rating.nil? ? 0 : rating.count
-          my_vote = rating.nil? ? 0 : rating.my_vote
-        else
-          average = count = my_vote = 0
-        end
+        @bs_idea['coms'] = 0
+        @bs_idea['new_coms'] = 0
+        @bs_idea['num_favs'] = 0
+        @bs_idea['my_fav'] = nil
         
         logger.debug "idea was saved successfully"
         flash[:notice] = 'Idea was successfully created.'
@@ -370,8 +366,7 @@ class IdeaController < ApplicationController
 
         # send JSON data to ape, it will be converted to js
         serialized = sendApeNotification({:type=>'bs_idea', :channel=>"team#{@bs_idea.team_id}", :debug_save_id => item.id,
-          :data => {:mode=>params[:mode], :data => @bs_idea, :item_id=>item.id, :par_id=>item.par_id, :sib_id=>item.sib_id, :item => item, 
-          :average => average, :count => count, :my_vote => my_vote}},session);
+          :data => {:mode=>params[:mode], :data => @bs_idea, :item_id=>item.id, :par_id=>item.par_id, :sib_id=>item.sib_id, :item => item}},session);
           
         format.html { render :text => serialized } if ajaxMode # ajaxmode gets the update via APE
         format.html { redirect_to( :action => 'index' ) }
@@ -767,6 +762,7 @@ class IdeaController < ApplicationController
 
     bs_idea = BsIdea.new(:member_id => @member.id, :created_at => old_ts, :updated_at => newer_ts)
     bs_idea.item_id = 1
+    bs_idea['new_coms']  = bs_idea['coms'] = 0
     strs.push '<hr/><h3>bs_idea</h3><hr/>'
     strs.push render_to_string( :partial=> 'bs_idea', :object=>bs_idea, :locals=>{:mode=>'templ', :coms=>'t'} )
  

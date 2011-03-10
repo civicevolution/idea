@@ -33,8 +33,16 @@ function create_templates(data){
 		{
 		  '@uid' : 'uid',
 			'@id+' : 'data.bs_idea.id',
+			'@item_id' : 'data.bs_idea.item_id',
+			'a.bs_idea_anchor @name+' : 'data.bs_idea.id',
+			//'div.bsd_disc @idea_item_id' : 'data.bs_idea.item_id',
+			//'h3.disc_title a.bsd @href' : '/idea/bsd/#{data.bs_idea.question_id}',
 		  'div.bs_idea_inner div.text' : function(arg){return simple_format(unescape(arg.context.data.bs_idea.text))},
-			'p.not_published @class+' : function(arg){return (arg.context.data.bs_idea.publish != null) ? ' hide' : '' }
+			'p.not_published @class+' : function(arg){return (arg.context.data.bs_idea.publish != null) ? ' hide' : '' },
+			'p.com_controls a.bs_idea_discussion @href' : '/idea/bsd_idea_comment/#{data.bs_idea.id}',
+			'p.com_controls a.report @href' : '/idea/report/#{data.bs_idea.item_id}',
+			'p.like_controls a @href+' : '/#{data.bs_idea.id}',
+			'div.rating input[name="thumbsup_id"] @value' : 'data.bs_idea.id'
 		},
 		comment : {
 			'@id' : 'i#{item_id}',

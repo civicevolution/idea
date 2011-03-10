@@ -236,9 +236,6 @@ div.bs_idea {
     margin: 0 0 10px 0;
     text-align: right; }
 
-div.discussion h3, div.bsd_disc h3 {
-  margin-left: 26px; }
-
 div.ans {
   clear: both;
   padding: 40px 0; }
@@ -247,19 +244,27 @@ div.discussion, div.bsd_disc {
   width: 400px;
   margin-left: -20px; }
   div.discussion form.add_comment_form, div.bsd_disc form.add_comment_form {
-    margin-left: 20px;
+    margin-left: 24px;
     margin-top: 20px; }
+  div.discussion a.close, div.bsd_disc a.close {
+    margin-left: 24px; }
+
+div.discussion h3, div.bsd_disc h3 {
+  margin-left: 26px; }
 
 div.brainstorming {
   width: 300px;
   float: left; }
   div.brainstorming div.bs_idea {
     margin-bottom: 40px; }
+  div.brainstorming div.status {
+    border-top: 1px solid #23238e;
+    padding-top: 10px; }
   div.brainstorming div.discussion {
     display: none; }
 
 div.gen_discussion {
-  width: 430px;
+  width: 428px;
   float: left;
   margin-left: 40px; }
 
@@ -272,33 +277,33 @@ div.bs_idea {
     div.bs_idea div.bs_idea_inner input.fav_order {
       width: 30px; }
 
-div.list.fav div.bs_idea {
+div.list_inner.fav div.bs_idea {
   position: relative; }
-div.list.fav div.sort_ctl {
+div.list_inner.fav div.sort_ctl {
   position: absolute;
   top: 0;
   left: 0;
   padding-left: 10px;
   padding-top: 14px; }
-  div.list.fav div.sort_ctl div.sort {
+  div.list_inner.fav div.sort_ctl div.sort {
     width: 21px;
     height: 20px;
     background: url(/images/sort.gif) no-repeat 0 0;
     cursor: pointer; }
-  div.list.fav div.sort_ctl div.sort.down {
+  div.list_inner.fav div.sort_ctl div.sort.down {
     background-position: 0 -20px;
     margin-bottom: 14px; }
-  div.list.fav div.sort_ctl input.sort {
+  div.list_inner.fav div.sort_ctl input.sort {
     display: block;
     margin: 6px 0;
     width: 16px;
     text-align: center;
     font-size: 0.8em; }
-div.list.fav div.bs_idea_inner {
+div.list_inner.fav div.bs_idea_inner {
   width: 236px;
   margin: 0 14px 0 50px;
   padding: 10px 0; }
-  div.list.fav div.bs_idea_inner input.fav_order {
+  div.list_inner.fav div.bs_idea_inner input.fav_order {
     width: 30px; }
 
 div.list h3 {
@@ -703,6 +708,9 @@ span.please_rate {
 
 form.item_rater {
   width: 300px; }
+
+div.idea_comments {
+  display: none; }
 
 div.q_cta {
   height: 40px;

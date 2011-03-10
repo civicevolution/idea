@@ -38,74 +38,89 @@
 				-#= link_to "Show me how", {:id=>'rec_action'}, {:class=>'show_me_how', :rel=>'nofollow'}
 				-#= link_to "Next action", {:id=>'rec_action'}, {:class=>'next_action', :rel=>'nofollow'}
 		
-		%div.brainstorming 
-			%h3 Brainstorming ideas
-			
-			- @unrated_ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| a['id'].to_i <=> b['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
-			- @popular_ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			-# build all the idea discussions so i can display them if needed
+		%div.idea_comments
+			- @bs_ideas.each do |bsi|
+				- top_level_comments_sorted = @comments.find_all {|c| c['par_id'].to_i == bsi.item_id && c.sib_id.to_i == 0}.sort {|a,b| a.order.to_i <=> b.order.to_i }
+				- @new_coms = @coms = 0
+				%div{:id=>"idea_discussion_#{bsi.id}"}
+					%div.bsd_disc{:id=>bsi.id, :idea_item_id=>bsi.item_id}
+						%h3.disc_title 
+							Discuss this Idea
+							= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd', :rel=>'nofollow'}
 
-			-# - @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
-			- @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }
-			- # get the unprioritized favs (in order by idea.id)
-			- unprioritised = @favorite_ideas.select{ |f| !@priority.include?(f.id) }.sort{ |a,b| a.id <=> b.id }
+						- if top_level_comments_sorted.size > 0
+							- top_level_comments_sorted.each do |c|
+								= render :partial=> 'comment', :object=>c 
+							%div.add_comment
+							= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd close', :rel=>'nofollow'}
+						- else
+							%div.add_comment
+				- bsi['coms'] = @coms
+				- bsi['new_coms'] = @new_coms
+		-# Determine which list I want to build and get the correct set of ideas and data
+		- mode = 'pop' # new|fav|all
 
-			- # Get the prioritized favs in order of priority
-			- @priority.map!{ |p| @favorite_ideas.detect{|f| f.id == p }}
-			- # show the unprioritized favs then the prioritized favs
-
-			-# @favorite_ideas = (unprioritised + @priority.map).find_all{|f| !f.nil?}
-			- @favorite_ideas = (unprioritised + @priority).find_all{|f| !f.nil?}
-			- @favorite_ideas.each_with_index{ |i, idx| i['cnt'] = idx + 1 } 
+		- @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }
+		- # get the unprioritized favs (in order by idea.id)
+		- unprioritized_ideas = @favorite_ideas.select{ |f| !@priority.include?(f.id) }.sort{ |a,b| a.id <=> b.id }
+		- # Get the prioritized favs in order of priority
+		- @prioritized_ideas = @priority.map{ |p| @favorite_ideas.detect{|f| f.id == p }}
+		- # show the unprioritized favs then the prioritized favs
+		- @favorite_ideas = (unprioritized_ideas + @prioritized_ideas).find_all{|f| !f.nil?}
+		- @favorite_ideas.each_with_index{ |i, idx| i['cnt'] = idx + 1 } 
 		
+		- case mode
+			- when 'pop'
+				- ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			- when 'new'
+				- ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| b['id'].to_i <=> a['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			- when 'fav'
+				- ideas = @favorite_ideas
+			- when 'all'
+				- ideas = @bs_ideas.sort{|a,b| b['id'].to_i <=> a['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+				
+		%div.brainstorming 
 			
+			%h3{:class=> mode == 'pop' ? 'list_title pop' : 'list_title pop hide'} Most popular ideas
+			%h3{:class=> mode == 'new' ? 'list_title new' : 'list_title new hide'} New ideas
+			%h3{:class=> mode == 'fav' ? 'list_title fav' : 'list_title fav hide'} My favorite ideas
+			%h3{:class=> mode == 'all' ? 'list_title all' : 'list_title all hide'} All brainstorming ideas
 
 			%p.idea_lists
-				= link_to "Most popular", {:action=>'bs_idea_list', :id=>@question.id, :list=>'pop'}, {:rel=>'nofollow'}
-				= link_to "New(#{@unrated_ideas.size})", {:action=>'bs_idea_list', :id=>@question.id, :list=>'new'}, {:rel=>'nofollow'}
-				= link_to "My favorites", {:action=>'bs_idea_list', :id=>@question.id, :list=>'fav'}, {:rel=>'nofollow'}
-				= link_to "All", {:action=>'bs_idea_list', :id=>@question.id, :list=>'all'}, {:rel=>'nofollow'}
-				
+				= link_to "Most popular", {:action=>'bs_idea_list', :id=>@question.id, :list=>'pop'}, {:rel=>'nofollow', :class=> mode == 'pop' ? 'hide' : ''}
+				= link_to "New(#{ @bs_ideas.select{|i| i['my_fav'].nil? }.size })", {:action=>'bs_idea_list', :id=>@question.id, :list=>'new'}, {:rel=>'nofollow', :class=> mode == 'new' ? 'hide' : ''}
+				= link_to "My favorites", {:action=>'bs_idea_list', :id=>@question.id, :list=>'fav'}, {:rel=>'nofollow', :class=> mode == 'fav' ? 'hide' : ''}
+				= link_to "All", {:action=>'bs_idea_list', :id=>@question.id, :list=>'all'}, {:rel=>'nofollow', :class=> mode == 'all' ? 'hide' : ''}
+			
 
-				%div.list.pop	
-					%h3 Most popular ideas
-					%p.list_instr Here are the most popular ideas with the participants. These represent your common ground for finding an answer to this question.
-					%div.list_inner	
-						- @popular_ideas.slice(0,10).each do |bsi|
-							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'pop', :coms=>'t'}
-						- if @bs_ideas.size == 0
-							%p No ideas suggested yet, be the first to suggest an idea about this question
-						- elsif @popular_ideas.size == 0 
-							%p.empty There are no popular ideas yet
-				
-					
-				%div.list.new.hide
-					%h3 New ideas
-					%p.list_instr Please review and discuss these new ideas. Give your favorite ideas a thumbs up, and give a thumbs down to the others.
-					%div.list_inner
-						- @unrated_ideas.each do |bsi|
-							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'new', :coms=>'t'}
-						- if @unrated_ideas.size == 0
-							%p.empty There are no new ideas right now
-					
-				%div.list.fav.hide
-					%h3 My favorite ideas
-					%p.list_instr Please keep your favorite ideas prioritised and remove old ones you don't support anymore. We compare everyone's favorites to find the most popular ideas.
-					
-					%div.list_inner
-						- @favorite_ideas.each do |bsi| #@favorite_ideas.slice(0,8).each do |bsi|
-							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'fav', :coms=>'t'}
-						- if @favorite_ideas.size == 0
-							%p.empty You do not have any favorites yet, please review the new ideas or suggest an idea about this question
+			%div{:class=> mode == 'pop' ? 'instr pop' : 'instr pop hide'}
+				%p.list_instr Here are the most popular ideas with the participants. These represent your common ground for finding an answer to this question.
 
-				%div.list.all.hide
-					%h3 All brainstorming ideas
-					%p.list_instr Here are all of the brainstorming ideas about this question.
-					%div.list_inner
-						- @bs_ideas.slice(0,25).sort{|a,b| a.id <=> b.id}.each do |bsi|
-							= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>'all', :coms=>'t'}
-						- if @bs_ideas.size == 0
-							%p.empty No ideas suggested yet, be the first to suggest an idea about this question
-						
+			%div{:class=> mode == 'new' ? 'instr new' : 'instr new hide'}
+				%p.list_instr Please review and discuss these new ideas. Give your favorite ideas a thumbs up, and give a thumbs down to the others.
+
+			%div{:class=> mode == 'fav' ? 'instr fav' : 'instr fav hide'}
+				%p.list_instr Please keep your favorite ideas prioritised and remove old ones you don't support anymore. We compare everyone's favorites to find the most popular ideas.
+
+			%div{:class=> mode == 'all' ? 'instr all' : 'instr all hide'}
+				%p.list_instr Here are all of the brainstorming ideas about this question.
+
+
+			%div.list_inner	
+				- ideas.each do |bsi|
+					= render :partial=> 'bs_idea', :object=>bsi, :locals=>{:mode=>mode, :coms=>'t'}
+					
+
+			%div.status
+				%p{:class=> @bs_ideas.size == 0 ? 'empty' : 'empty hide'} No brainstorming ideas have been suggested yet, be the first to suggest an idea about this question
+				%p{:class=> mode == 'pop' && ideas.size == 0 && @bs_ideas.size != 0  ? 'pop' : 'pop hide'} There are no popular ideas yet
+				%p{:class=> mode == 'new' && ideas.size == 0 && @bs_ideas.size != 0  ? 'new' : 'new hide'} There are no new ideas right now
+				%p{:class=> mode == 'fav' && ideas.size == 0 && @bs_ideas.size != 0  ? 'fav' : 'fav hide'} You do not have any favorites yet, please review the new ideas or suggest an idea about this question
+				%p{:class=> mode == 'all' && ideas.size == 0 && @bs_ideas.size != 0  ? 'all' : 'all hide'} 
+
+			%div.insert_new_ideas	
+		
 			= render :partial=>'add_bs_idea', :locals=> {:question=>@question}
 
 		%div.gen_discussion
@@ -146,4 +161,7 @@
 			= link_to "Answer guidelines and checklist", {:id=>'checklist'}, {:class=>'show_me_how', :rel=>'nofollow'}
 			-#%a{:href=>"#", :class=>'checklist', :rel=>'nofollow'} Answer checklist
 		%a{:href=>"#", :class=>'bsd_close', :rel=>'nofollow'} Close
-	
+
+:javascript
+	var bs_ideas = #{@bs_ideas.to_json}
+	var bs_ideas_priority = #{@priority.to_json}

@@ -22,7 +22,7 @@ $page_width: 980px
 $idea_page_width: 778px
 $side_bar_width: 180px
 $brainstorming_width: 300px
-$gen_discussion_width: 430px
+$gen_discussion_width: 428px
 $inner_discussion_width: 400px
 
 body, p, ol, ul, td, textarea
@@ -272,10 +272,6 @@ div.bs_idea
 		margin: 0 0 10px 0
 		text-align: right
 		
-div.discussion h3, div.bsd_disc h3
-	margin-left: 26px
-
-
 div.ans
 	clear: both
 	padding: 40px 0
@@ -284,14 +280,23 @@ div.discussion, div.bsd_disc
 	width: $inner_discussion_width
 	margin-left: -20px
 	form.add_comment_form
-		margin-left: 20px
+		margin-left: 24px
 		margin-top: 20px
+	a.close
+		margin-left: 24px
 
+div.discussion h3, div.bsd_disc h3
+	margin-left: 26px
+		
+		
 div.brainstorming
 	div.bs_idea
 		margin-bottom: 40px
 	div.bs_idea.selected
 		//background-color: #eee
+	div.status
+		border-top: 1px solid !navy_blue
+		padding-top: 10px
 	div.discussion
 		display: none
 	//border: 1px solid blue
@@ -314,7 +319,7 @@ div.bs_idea
 		input.fav_order
 			width: 30px
 			
-div.list.fav
+div.list_inner.fav
 	div.bs_idea
 		position: relative
 	div.sort_ctl
@@ -788,6 +793,9 @@ span.please_rate
 	
 form.item_rater
 	width: 300px
+
+div.idea_comments
+	display: none
 
 
 div.q_cta

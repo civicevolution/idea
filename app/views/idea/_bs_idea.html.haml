@@ -1,7 +1,7 @@
 %div.bs_idea.item{:id=>"bs_idea_#{bs_idea.id}", :item_id=>bs_idea.item_id}
-	%a{:name=>"bsi#{bs_idea.id}"}
+	%a{:class=>'bs_idea_anchor', :name=>"bsi#{bs_idea.id}"}
 	
-	- if mode == 'fav'	
+	- if mode == 'fav' || mode == 'templ'
 		%div.sort_ctl
 			%div.sort.up
 			%input.sort{:value=> bs_idea['cnt'] }
@@ -17,9 +17,9 @@
 		%div.text
 			= simple_format( auto_link( h(bs_idea.text), :all, :target => "_blank" ))
 
-		- top_level_comments_sorted = @comments.find_all {|c| c['par_id'].to_i == bs_idea.item_id && c.sib_id.to_i == 0}.sort {|a,b| a.order.to_i <=> b.order.to_i }
-		- @new_coms = @coms = 0
-		%div.discussion
+		-# top_level_comments_sorted = @comments.find_all {|c| c['par_id'].to_i == bs_idea.item_id && c.sib_id.to_i == 0}.sort {|a,b| a.order.to_i <=> b.order.to_i }
+		-# @new_coms = @coms = 0
+		-#%div.discussion
 			- if coms == 't'
 				%div.bsd_disc{:idea_item_id=>bs_idea.item_id}
 					%h3.disc_title 
@@ -29,20 +29,23 @@
 					- if top_level_comments_sorted.size > 0
 						- top_level_comments_sorted.each do |c|
 							= render :partial=> 'comment', :object=>c 
-						= render :partial=>'add_comment_combined', :locals=> {:id=>bs_idea.item_id, :label=>'Please add your comment'}
+						-#= render :partial=>'add_comment_combined', :locals=> {:id=>bs_idea.item_id, :label=>'Please add your comment'}
+						%div.add_comment
 						= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd', :rel=>'nofollow'}
 					- else
-						= render :partial=>'add_comment_combined', :locals=> {:id=>bs_idea.item_id, :label=>'Please add your comment'}
+						%div.add_comment
+						-#= render :partial=>'add_comment_combined', :locals=> {:id=>bs_idea.item_id, :label=>'Please add your comment'}
 
 		%p.com_controls
-			- if @new_coms > 0
-				- str = pluralize(@new_coms, 'new reply')
-			- elsif @coms > 0
-				- str = pluralize(@coms, 'reply')
+			- if bs_idea['new_coms'] > 0
+				- str = pluralize(bs_idea['new_coms'], 'new reply')
+			- elsif bs_idea['coms'] > 0
+				- str = pluralize(bs_idea['coms'], 'reply')
 			- else
 				- str = 'Reply'
 			= link_to str, {:action=>'bs_idea_comment', :id=>bs_idea.id}, {:class=>'bs_idea_discussion', :rel=>'nofollow'}
 			= link_to "Report", {:action=>'report', :id=>bs_idea.item_id}, {:class=>'report', :rel=>'nofollow'}
+			
 		- if mode	!= 'templ'
 			- if mode == 'fav'
 				- s_id = @popular_ideas.detect{|i| i.id == bs_idea.id}
@@ -57,7 +60,7 @@
 						%input.vote_up{:type => 'submit', :name => 'thumbsup_favorite', :value => '+1', :title => "Add to my favorites"}
 						%input.vote_down{:type => 'submit', :name => 'thumbsup_favorite', :value => '-1', :title => "Don't add to my favorites"}
 						%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{bs_idea.id}" }
-				%p.like_controls.hide
+				-#%p.like_controls.hide
 					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif mode == 'fav'
 				%p.like_controls
@@ -65,15 +68,16 @@
 			- elsif (mode =='pop' || mode == 'all') && bs_idea['my_fav'] == 'f'
 				%p.like_controls.add
 					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
-				%p.like_controls.hide
+				-#%p.like_controls.hide
 					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif (mode =='pop' || mode == 'all')  && bs_idea['my_fav'] == 't'
 				%p.like_controls.fav
 					Your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea.id}['cnt']} favorite idea
-				%p.like_controls.hide
+					-#Your NNN favorite idea
+				-#%p.like_controls.hide
 					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			
-		- else # include the parts I need for the template
+		- else # include all the parts I need for the template
 			%p.status 
 				\#1 of 1 popular ideas		
 			
@@ -82,13 +86,14 @@
 					%span Add to your favorites?
 					%input.vote_up{:type => 'submit', :name => 'thumbsup_favorite', :value => '+1', :title => "Add to my favorites"}
 					%input.vote_down{:type => 'submit', :name => 'thumbsup_favorite', :value => '-1', :title => "Don't add to my favorites"}
-					%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{bs_idea.id}" }
+					%input{:type => 'hidden', :name => 'thumbsup_id' }
 					
 			%p.like_controls.rem
-				= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
+				= link_to "Remove from my favorites", {:action=>'remove_favorite'}, {:class=>'change_favorite', :rel=>'nofollow'}
+			%p.like_controls.add
+				= link_to "Add to my favorites", {:action=>'add_favorite'}, {:class=>'change_favorite', :rel=>'nofollow'}
 				
 			%p.like_controls.fav
 				Your #1 favorite idea
 		
-	-# if mode == 'fav'	
-		%p.clear
+	%p.clear

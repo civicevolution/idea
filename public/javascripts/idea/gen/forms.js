@@ -106,66 +106,65 @@ $('div.comment a.reply').die('click').live('click', show_com_form);
 
 function show_com_form(){
 	try{
-	console.log("show_com_form v1");
-	$this = $(this);
-	var par = $this.closest('.item');
-	// par should only have one open form
-	if(par.find('form.add_comment_form').size()>0){
-		par.find('form.add_comment_form textarea').focus();
-		return false;
-	} 
-	var par_id = Number(par.attr('id').match(/\d+/));
-	var mode = 'add';
-	var id = par_id;
-	var resource_type = 'simple';
-	//console.log("par_id: " + par_id)
-	debugger
-	var form = $( jsonFn.add_comment_form({par_id : par_id, mode : mode, id : id, resource_type : resource_type }) );
-	form.find('div.add_comment span.char_ctr:last').html(com_criteria + ' characters left');
-	form.find('div.add_link span.char_ctr:last').html(res_criteria + ' characters left');
-	form.find('div.attach_file span.char_ctr:last').html(res_criteria + ' characters left');
+		console.log("show_com_form v1");
+		$this = $(this);
+		var par = $this.closest('.item');
+		// par should only have one open form
+		if(par.find('form.add_comment_form').size()>0){
+			par.find('form.add_comment_form textarea').focus();
+			return false;
+		} 
+		var par_id = Number(par.attr('id').match(/\d+/));
+		var mode = 'add';
+		var id = par_id;
+		var resource_type = 'simple';
+		//console.log("par_id: " + par_id)
+		var form = $( jsonFn.add_comment_form({par_id : par_id, mode : mode, id : id, resource_type : resource_type }) );
+		form.find('div.add_comment span.char_ctr:last').html(com_criteria + ' characters left');
+		form.find('div.add_link span.char_ctr:last').html(res_criteria + ' characters left');
+		form.find('div.attach_file span.char_ctr:last').html(res_criteria + ' characters left');
 	
-	// inserted forms have cancel link instead of clear link
-	$('a.clear',form).removeClass('clear').addClass('cancel').html('Cancel');
-	// where do I put the form?
-	// reply is either a sibling or a child
-	// sibling if target doesn't have any siblings
-	// child if target already has a sibling
-	// Does the target have a sibling?
-	// go up to parent item
-	// are there any immediate children that are .sibling
+		// inserted forms have cancel link instead of clear link
+		$('a.clear',form).removeClass('clear').addClass('cancel').html('Cancel');
+		// where do I put the form?
+		// reply is either a sibling or a child
+		// sibling if target doesn't have any siblings
+		// child if target already has a sibling
+		// Does the target have a sibling?
+		// go up to parent item
+		// are there any immediate children that are .sibling
 
-	var has_sibling = par.children('.sibling').size() > 0
-	if(has_sibling){
-		//console.log("has sibling")
-		// insert form after the last child of target
-		var last_child = par.children('.top_sibling:last');
-		if (last_child.size() > 0){
-			//console.log("insert form after last child")
-			// indent this since it is a child
-			last_child.after(form);
-			form.css('margin-left','20px')
+		var has_sibling = par.children('.sibling').size() > 0
+		if(has_sibling){
+			//console.log("has sibling")
+			// insert form after the last child of target
+			var last_child = par.children('.top_sibling:last');
+			if (last_child.size() > 0){
+				//console.log("insert form after last child")
+				// indent this since it is a child
+				last_child.after(form);
+				form.css('margin-left','20px')
+			}else{
+				//console.log("attach form after self, no children")
+				//$this.after( form )
+			 //console.log("****** Has sibling, but not top_sibling child,  I'm not using this: $this.after( form ) in show_com_form");
+				$this.closest('.Comment_entry').after(form)
+				form.css('margin-left','20px')
+			}
+			$('div.add_comment label',form).html('Please reply to this comment');
 		}else{
-			//console.log("attach form after self, no children")
-			//$this.after( form )
-		 //console.log("****** Has sibling, but not top_sibling child,  I'm not using this: $this.after( form ) in show_com_form");
-			$this.closest('.Comment_entry').after(form)
-			form.css('margin-left','20px')
+			//console.log("does't have sibling")
+			// insert form as last child of parent
+			//par.parent().append( form );
+			par.append( form );
+			$('div.add_comment label',form).html('Please continue this conversation');
 		}
-		$('div.add_comment label',form).html('Please reply to this comment');
-	}else{
-		//console.log("does't have sibling")
-		// insert form as last child of parent
-		//par.parent().append( form );
-		par.append( form );
-		$('div.add_comment label',form).html('Please continue this conversation');
-	}
-	activate_comment_form(form);
-	form.find('textarea')[0].focus()
-}catch(e){
-	console.log("error: " + e)
+		activate_comment_form(form);
+		form.find('textarea')[0].focus()
+	}catch(e){
+		console.log("error: " + e)
 	
-}
+	}
 	return false;
 }
 
@@ -401,9 +400,8 @@ function activate_comment_form(form,orig_com){
 						if(form[0]['comment[target_id]'].value){
 							form[0]['comment[text]'].value = '';
 							$('button',form)[0].blur()
-						}else{
+						}else if(form.closest('div.bsd_disc').size()==0){
 							// restore a form that may have been faded
-							form.closest('.tab_window').find('form.add_comment_form:last').fadeTo(1000,1)
 							form.hide(1000,function(){$(this).remove()});
 						}
 						btn.removeAttr('disabled').next('img').remove();

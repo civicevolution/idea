@@ -1,50 +1,56 @@
 $('p.idea_lists a').die('click').live('click',
 	function(){
-		console.log("Show the desired idea list: new, pop, fav, all")
+		//console.log("Show the desired idea list: new, pop, fav, all")
 		try{
-			var $this = $(this);
-			temp.list_link = $this;
-			var list_name = $this.attr('href').match(/list=(\w+)/)[1];
-			console.log("list_name: " + list_name);
-			var par = $this.closest('div.bsd');
-			var show_list = par.find('div.list.' + list_name).show();
-			
-			par.find('div.list').not(show_list).hide();
-			
-			$this.parent().children('a').removeClass('active_list');
-			$this.addClass('active_list');
-			show_list.closest('div.brainstorming').children('h3').html( show_list.children('h3').html() );
-			
-		}catch(e){console.log("p.idea_lists click error: " + e.message)}
+			BsIdeas.build_list($(this));
+		}catch(e){console.log("p.idea_lists a .click error: " + e.message)}
 		return false; 
 	}
 )
-
 
 $('a.bs_idea_discussion').die('click').live('click',
 	function(){
 		console.log("show bs_idea_discussion")
 		try{
 			var $this = $(this);
-			var par = $this.closest('.bs_idea');
 			var qna_disc = $this.closest('div.bsd').find('div.discussion.qna');
 			if(qna_disc.is(':visible')){
-				par.addClass('selected')
-				par.closest('.brainstorming').find('div.bs_idea').not(par).hide()			
-				temp.bs_idea_par = par	
+				var par = $this.closest('.bs_idea');
+				par.addClass('selected');
+				par.closest('div.brainstorming').find('div.bs_idea').not(par).hide();		
 				qna_disc.hide();
-				qna_disc.closest('div.gen_discussion').append(par.find('div.bsd_disc').show())
+				var id = Number(par.attr('id').match(/\d+/));
+				var bsd_disc = par.closest('div.bsd').find('div#idea_discussion_' + id + ' > div.bsd_disc');
+				qna_disc.closest('div.gen_discussion').append(bsd_disc)
 				//$this.hide();
 				// scroll page to the question
 				var question = qna_disc.closest('div.qa').find('.question:first');
 				$('html,body').animate({ scrollTop: question.offset().top }, { duration: 'slow', easing: 'swing'});
+
+				if(bsd_disc.find('form.add_comment_form').size() == 0 ){
+					console.log("bs_idea_discussion insert com form, if not present");
+					var par_id = Number(bsd_disc.attr('idea_item_id').match(/\d+/));
+					var mode = 'add';
+					var id = par_id;
+					var resource_type = 'simple';
+					//console.log("par_id: " + par_id)
+					var form = $( jsonFn.add_comment_form({par_id : par_id, mode : mode, id : id, resource_type : resource_type }) );
+					form.find('div.add_comment span.char_ctr:last').html(com_criteria + ' characters left');
+					form.find('div.add_link span.char_ctr:last').html(res_criteria + ' characters left');
+					form.find('div.attach_file span.char_ctr:last').html(res_criteria + ' characters left');
+
+					form.css('margin-left','24px')
+					bsd_disc.find('div.add_comment').replaceWith( form );
+					activate_comment_form(form);
+				}
 			}else{
-				par.removeClass('selected');
-				var idea = par.closest('.brainstorming').find('div.bs_idea:visible')
-				par.closest('.brainstorming').find('div.bs_idea').show();				
-				temp.idea = idea
+				var idea = $this.closest('.brainstorming').find('div.bs_idea:visible');
+				idea.removeClass('selected');
+				$this.closest('div.brainstorming').find('div.bs_idea').show();				
 				//debugger 
-				par.find('div.discussion').append(qna_disc.closest('div.gen_discussion').find('div.bsd_disc').hide())
+				var bsd_disc = qna_disc.closest('div.gen_discussion').find('div.bsd_disc');
+				var id = bsd_disc.attr('id');
+				$this.closest('div.bsd').find('div#idea_discussion_' + id).append(bsd_disc);
 				qna_disc.show();
 				//$this.show();
 				// scroll page to the idea
@@ -274,7 +280,7 @@ function send_favorite_to_server(bs_idea_id,fav){
 		  success: function(data,status){ 
 				console.log("send_favorite_to_server submit success, call BsIdeas.favorite"); 
 				temp.send_favorite_to_server = data
-				BsIdeas.adjust_favorites(data)
+				//BsIdeas.adjust_favorites(data)
 					
 		  },
 			error : function(xhr,errorString,exceptionObj){
@@ -298,154 +304,232 @@ function send_favorite_to_server(bs_idea_id,fav){
 }
 
 BsIdeas = {
-  adjust_favorites: function(data){
-		// this must adjust the existing idea since it may have embedded comments
-		console.log("BsIdeas.adjust_favorites");
-		var idea_data = data[0].params.data
-		temp.BsIdeas_adjust_favorites_data = idea_data; // .bs_idea_Id, .favorite true|false
-		
-		if(idea_data.favorite){
-			console.log("adjust to a favorite")
-			// show the acknowldgement message	
-
-			var bs = $('div#bs_idea_' + idea_data.bs_idea_id);
-			var bs_clone = bs.clone().eq(0);
-			bs.append('<p class="fav_action_status fav">Added to your favorites</p>');
-			bs.children('div').css('opacity',.1)
-			var par = bs.closest('div.brainstorming');
-
-			// add to top of favorite list
-
-			var fav_list = par.find('div.list.fav div.list_inner');
-			fav_list.find('p.empty').remove(); // if the list is empty
-			bs_clone.hide();
-			bs_clone.find('p.like_controls.add a').html("Remove from my favorites");
-			bs_clone.find('div.rating').remove();
-			bs_clone.find('p.like_controls').removeClass('hide');
-			fav_list.prepend(bs_clone);
-			bs_clone.show("blind", { direction: "vertical" }, 800);
-			
-			// remove from new list (if present)
-			var bs_in_new = par.find('div.list.new div#bs_idea_' + idea_data.bs_idea_id);
-			bs_in_new.fadeTo(600,1,
-				function(){
-					$(this).hide("blind", { direction: "vertical" }, 800,
-						function(){
-							$(this).remove();
-						}
-					);
-				}
-			);
-			
-			// update fav status if in pop list, remove add as fav link and mark as my fav
-			var bs_in_pop = par.find('div.list.pop div#bs_idea_' + idea_data.bs_idea_id);
-			if(bs_in_pop.size() > 0){
-				bs_in_pop.children('p.fav_action_status').remove();
-				bs_in_pop.children('div').fadeTo(500,1);
-				bs_in_pop.find('p.like_controls').html("Added as your favorite");
+	bs_ideas: {},
+	bs_ideas_priority: {},
+	add_bs_ideas_data: function(question_id, bs_ideas,bs_ideas_priority){
+		BsIdeas.bs_ideas_priority[question_id] = bs_ideas_priority;
+		//console.log("add_bs_ideas_data for question_id: " + question_id )
+		// create array of the bs_ideas for this question, and set the fav and pop indexes
+		BsIdeas.bs_ideas[question_id] = [];
+		$.each(bs_ideas, 
+			function(){
+				//console.log("idea with id: " + this.bs_idea.id);
+				// get index of this idea in the priority array
+				//var fav_index = bs_ideas_priority.indexOf(this.bs_idea.id);
+				//if(fav_index != -1){
+				//	this.bs_idea.fav_index = fav_index+1;					
+				//}
+				BsIdeas.bs_ideas[question_id].push(this.bs_idea);
 			}
+		)
+		BsIdeas.process_ideas(question_id);
+	},
+	process_ideas: function(question_id){
+		if(BsIdeas.bs_ideas[question_id].length>0){
+			var bs_ideas_priority = BsIdeas.bs_ideas_priority[question_id];
+			$.each(BsIdeas.bs_ideas[question_id],
+				function(i,o){
+					// get index of this idea in the priority array
+					var fav_index = bs_ideas_priority.indexOf(o.id);
+					if(fav_index != -1){
+						o.fav_index = fav_index+1;					
+					}
+				}
+			)
+			
+			// sort the ideas in descending order of popularity
+			BsIdeas.bs_ideas[question_id].sort( function(a,b){return b.num_favs-a.num_favs;} ) 
+			//Now iterate through and set the popularity index and the num of ideas
+			var num_ideas = BsIdeas.bs_ideas[question_id].length;
+			$.each(BsIdeas.bs_ideas[question_id], function(i,o){o.pop_index = i + 1, o.pop_num = num_ideas;})
+			// now each idea should have its status #s for favorite order and popularity
+		}
+	},
+	build_list: function(link){
+		var list_name = String(link.attr('href').match(/list=(\w+)/)[1]);
+		var question_id = Number(link.attr('href').match(/(\d+)/)[1]);
+		var par = link.closest('div.brainstorming');
+		
+		console.log("build_list " + list_name + " for question: " + question_id );
+		//select the ideas
+		//sort the ideas
+		//build the html
+		//append to list
+		//replace list
+		var list = $('<div class="list_inner"></div>');
 
-			// update fav status if in all list, remove add as fav link and mark as my fav
-			var bs_in_all = par.find('div.list.all div#bs_idea_' + idea_data.bs_idea_id);
-			if(bs_in_all.size() > 0){
-				bs_in_all.fadeTo(600,1, 
+		switch(list_name){
+			case 'pop':
+				$.each(
+					BsIdeas.bs_ideas[question_id].sort( function(a,b){return a.pop_index-b.pop_index;} ),
 					function(){
-						var $this = $(this);
-						$this.children('p.fav_action_status').remove();
-						// replace "Add to my favorites" with your favorite
-						$this.find('p.like_controls.add').html("Added as your favorite");
-						$this.children('div').fadeTo(500,1);
+						if(this.num_favs>0){
+							list.append(BsIdeas.create_idea_html(this, list_name))
+						}
 					}
 				)
-			}
-			
-		}else{
-			console.log("adjust to NOT a favorite")
-			var par = $('div#bs_idea_' + idea_data.bs_idea_id).closest('div.brainstorming');
-			
-			// remove from fav list
-			var bs_in_fav = par.find('div.list.fav div#bs_idea_' + idea_data.bs_idea_id);
-			// show the acknowldgement message
-			bs_in_fav.append('<p class="fav_action_status">Not a favorite</p>')
-			bs_in_fav.children('div').css('opacity',.1)
-			bs_in_fav.fadeTo(600,1,
-				function(){
-					$(this).hide("blind", { direction: "vertical" }, 800,
-						function(){
-							$(this).remove();
+				break;
+			case 'fav':
+				$.each(
+					BsIdeas.bs_ideas[question_id].sort( function(a,b){return a.fav_index-b.fav_index;} ),
+					function(){
+						if(this.my_fav == 't'){
+							list.append(BsIdeas.create_idea_html(this, list_name))
 						}
-					);
-				}
-			);
-			// update fav status if in pop list, remove my fav and add "add as fav link"
-			var bs_in_pop = par.find('div.list.pop div#bs_idea_' + idea_data.bs_idea_id);
-			if(bs_in_pop.size() > 0){
-				bs_in_pop.find('p.like_controls.fav').remove();
-				bs_in_pop.find('p.like_controls').removeClass('hide');
-			}
-			
-			// update fav status if in all list, remove my fav and add "add as fav link"
-			var bs_in_all = par.find('div.list.all div#bs_idea_' + idea_data.bs_idea_id);
-			if(bs_in_all.size() > 0){
-				bs_in_all.find('p.like_controls.fav').remove();
-				bs_in_all.find('p.like_controls').removeClass('hide');
-			}
-			
-			
+					}
+				)
+				list.addClass('fav')
+				break;
+			case 'new':
+				$.each(
+					BsIdeas.bs_ideas[question_id].sort( function(a,b){return b.id-a.id;} ),
+					function(){
+						if(!this.my_fav){
+							list.append(BsIdeas.create_idea_html(this, list_name))
+						}
+					}
+				)
+				break;
+			case 'all':
+				$.each(
+					BsIdeas.bs_ideas[question_id].sort( function(a,b){return b.id-a.id;} ),
+					function(){
+						list.append(BsIdeas.create_idea_html(this, list_name))
+					}
+				)
+				break;
 		}
+		par.find('div.list_inner').replaceWith(list);
+		// adjust the links
+		par.find('p.idea_lists').children('a').show().end().find('a[href$="' + list_name + '"]').hide();
+		// adjust the title
+		par.find('h3.list_title').hide();
+		par.find('h3.list_title.' + list_name).show();
+		// adjust the instructions
+		par.find('div.instr').hide();
+		par.find('div.instr.' + list_name).show();
+		// adjust the status
+		par.find('div.status').children('p').hide().end().find('p.' + list_name).show();
+		
+		// reset the order numbers for favorites
+		if(list_name == 'fav'){
+			var bs_ideas = list.children('div.bs_idea');
+			var cnt = 1;
+			bs_ideas.each( function(){ $(this).find('input.sort').val(cnt++);  } )
+		}
+		// show the appropriate title, instr, and status
+		//$this.parent().children('a').removeClass('active_list');
+		//$this.addClass('active_list');
+		//show_list.closest('div.brainstorming').children('h3').html( show_list.children('h3').html() );
 		
 	},
-	add_idea: function(idea, submit_response){
-		console.log("BsIdea.add_idea")
+	create_idea_html: function(idea, list){
+		//console.log("BsIdea.create_idea_html")
 		// a new idea is added - either my idea or from another user
-		temp.add_idea = idea
-		var html = jsonFn.bs_idea(idea);
-		var par = $('div#q' + idea.data.bs_idea.question_id + ' div.brainstorming')
-		var bs_idea = $(html).prependTo( par.find('div.list.new') );
-		bs_idea.find('p.status').hide();
-		bs_idea.find('div.rating').remove();
-		bs_idea.find('p.like_controls.rem').hide();
-		bs_idea.find('p.like_controls.fav').html('Added to your favorites');
+		var bs_idea = $(jsonFn.bs_idea( { data: {bs_idea: idea}}));
 		
-		bs_idea.clone().prependTo( par.find('div.list.all > div') );
-		par.find('div.list.all p.empty').remove();
-		
-		bs_idea = bs_idea.clone().prependTo( par.find('div.list.fav > div') );
-		par.find('div.list.fav p.empty').remove();	
-			
-		//bs_idea.find('p.status').hide();
-		//bs_idea.find('div.rating').remove();
-		bs_idea.find('p.like_controls.rem').show();
-		bs_idea.find('p.like_controls.fav').hide();
-		
-		// popularity # a of b
-		
-		
-		// Fav state 1, 0, -1
-		
-		
-		
+		switch(list){
+			case 'pop':
+				bs_idea.find('div.sort_ctl').remove();
+				bs_idea.find('p.status').remove();
+				
+				if(idea.my_fav == 't'){
+					bs_idea.find('div.rating').remove();
+					bs_idea.find('p.like_controls.add').remove();
+					bs_idea.find('p.like_controls.fav').html('My #' + idea.fav_index + ' favorite idea');
+				}else if(idea.my_fav == 'f'){
+					bs_idea.find('div.rating').remove();
+					bs_idea.find('p.like_controls.rem').remove();
+					bs_idea.find('p.like_controls.fav').remove();
+				}else{
+					bs_idea.find('p.like_controls.rem').remove();
+					bs_idea.find('p.like_controls.fav').remove();
+					bs_idea.find('p.like_controls.add').remove();
+				}
+				break;
+			case 'fav':
+				bs_idea.find('div.sort_ctl input.sort').val( idea.fav_index )
+				bs_idea.find('p.status').html('#' + idea.pop_index + ' of ' + idea.pop_num + ' popular ideas');
+				bs_idea.find('div.rating').remove();
+				bs_idea.find('p.like_controls.fav').remove();
+				bs_idea.find('p.like_controls.add').remove();
+				break;
+			case 'new':
+				bs_idea.find('div.sort_ctl').remove();
+				bs_idea.find('p.status').remove();
+				bs_idea.find('p.like_controls').remove();
+				break;
+			case 'all':
+				bs_idea.find('div.sort_ctl').remove();
+				bs_idea.find('p.status').html('#' + idea.pop_index + ' of ' + idea.pop_num + ' popular ideas');
+				if(idea.my_fav == 't'){
+					bs_idea.find('div.rating').remove();
+					bs_idea.find('p.like_controls.add').remove();
+					bs_idea.find('p.like_controls.fav').html('My #' + idea.fav_index + ' favorite idea');
+				}else if(idea.my_fav == 'f'){
+					bs_idea.find('div.rating').remove();
+					bs_idea.find('p.like_controls.rem').remove();
+					bs_idea.find('p.like_controls.fav').remove();
+				}else{
+					bs_idea.find('p.like_controls.rem').remove();
+					bs_idea.find('p.like_controls.fav').remove();
+					bs_idea.find('p.like_controls.add').remove();
+				}
+				break;
+		}
+		return bs_idea;
 	},
-	adjust_idea_layout: function(idea, list){
-		// adjust the layout of the idea depending on the idea's fav status and the destination list
-		// convert data into html
-		var div = $( jsonFn['bs_idea']( idea ) );
-	},
-	adjust_idea_list: function(list){
-		
-		
-	},
-	select_idea_list: function(name){
-		
-		
-	},
-	data: { ver: 'BsIdeas data ver 0.1'}
-}
 
-function dispatchBsIdeas(item,submit_response){
-	BsIdeas.add_idea(item,submit_response)
-}
+	add_idea: function(idea, submit_response){
+		console.log("BsIdea.add_idea submit_response: " + submit_response)
+		
+		// save the idea to the stored bs ideas
+		var bs_idea = idea.data.bs_idea
+		var question_id = bs_idea.question_id;
+		//if(typeof bs_idea.my_fav == "undefined") bs_idea.my_fav = null;
+		if(submit_response){
+			bs_idea.my_fav = 't';
+			BsIdeas.bs_ideas_priority[question_id].unshift(bs_idea.id)
+		}else{
+			bs_idea.my_fav = null;
+		}
+		BsIdeas.bs_ideas[question_id].push(bs_idea);
+		
+		// save the new priority
+		send_bs_idea_order_to_server(question_id, BsIdeas.bs_ideas_priority[question_id])
+		
+		// process the ideas
+		BsIdeas.process_ideas(question_id);
+		
+		// determine the current list
+		var par = $('#q' + question_id).find('div.brainstorming');
+		var cur_list_name = String(par.find('p.idea_lists a:hidden').attr('href').match(/\w+$/));
+		
+		// determine which list to add it to
+		
+		var list_name = 'all';
+		
+		// create idea html
+		var idea_div = BsIdeas.create_idea_html(bs_idea, 'all');
+		
+		// add it to div.insert_new_ideas
+		par.find('div.insert_new_ideas').append(idea_div);
+		
+		// if fav is current list, add this idea to the top of fav
+		if(cur_list_name == 'fav'){
+			idea_div = BsIdeas.create_idea_html(bs_idea, 'fav');
+			par.find('div.list_inner').prepend(idea_div);
+		}
+		// update status
+		
+		
+		
+		//
+		
+		
 
+	}	
+}
 
 function activate_idea_form(form,orig_idea){
 	console.log("activate_idea_form")

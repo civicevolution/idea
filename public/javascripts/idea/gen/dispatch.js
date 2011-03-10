@@ -173,7 +173,7 @@ function dispatchAnswer(item,submit_response){
 }
 
 function dispatchComment(item,submit_response){
-	var debug = false
+	var debug = true
 	if(debug) console.log("dispatchComment, item_id(item.item_id): " + item.item_id + " submit_response: " + submit_response)
 	//console.log("dispatchItem, comment_text(item.data.comment.text): " + item.data.comment.text)
 
@@ -425,6 +425,9 @@ function dispatchComment(item,submit_response){
 
 }
 
+function dispatchBsIdeas(item,submit_response){
+	BsIdeas.add_idea(item,submit_response)
+}
 
 function dispatchRating(rating,submit_response){
 	console.log("dispatchRating");
@@ -512,24 +515,6 @@ function dispatchBsIdeaFavorite(rating,submit_response){
 	
 	temp.dispatchBsIdeaFavorite = rating
 	
-	return;
-
-	var form = $('#com_' + rating.data.com_id + ' form.mini_thumbs_up');
-	
-	if(!submit_response &&  $('input.other_selected',form).size() == 0 ) return; // if this has not been rated, only update for the user's own submit
-	$('span.votes_up', form).html( ( rating.data.up > 0 ? rating.data.up : '' ) )
-	$('span.votes_down', form).html( ( rating.data.down > 0 ? rating.data.down : '' ) )
-
-	//$('input.vote_up', form).css('background-position-y', ( rating.data.my_vote < 0 ? '-48px' : '') );
-	//$('input.vote_up', form).addClass('selected');
-	//$('input.vote_down', form).css('background-position-y', ( rating.data.my_vote > 0 ? '-48px' : '') );
-	if(rating.data.my_vote>0){
-		$('input.vote_up', form).removeClass('other_selected');
-		$('input.vote_down', form).addClass('other_selected');
-	}else{
-		$('input.vote_up', form).addClass('other_selected');
-		$('input.vote_down', form).removeClass('other_selected');
-	}
-	
+	return;	
 }	
 
