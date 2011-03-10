@@ -173,11 +173,7 @@ class Team < ActiveRecord::Base
   
   def create_team_idea_page()
     logger.debug "create_team_idea_page for id: #{self.id}, \"#{self.title}\""
-    logger.warn "warn: Dir.pwd: #{Dir.pwd}"
-
-    logger.info "info: Dir.pwd: #{Dir.pwd}"
-
-    yml = YAML.load_file 'config/idea_page_template.yaml'
+    yml = YAML.load_file "#{Rails.root}/config/idea_page_template.yaml"
   
     if !self.launched
       member = Member.find(self.org_id)
