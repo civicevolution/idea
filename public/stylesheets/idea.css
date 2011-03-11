@@ -271,7 +271,8 @@ div.gen_discussion {
 
 div.bs_idea {
   font-size: 120%;
-  background-color: #fcf88a; }
+  background-color: #fcf88a;
+  border: 1px solid #fcf88a; }
   div.bs_idea div.bs_idea_inner {
     margin: 0 14px 0 14px;
     padding: 10px 0; }
