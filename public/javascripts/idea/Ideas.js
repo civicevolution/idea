@@ -324,7 +324,8 @@ BsIdeas = {
 			$.each(BsIdeas.bs_ideas[question_id],
 				function(i,o){
 					// get index of this idea in the priority array
-					var fav_index = bs_ideas_priority.indexOf(o.id);
+					//var fav_index = bs_ideas_priority.indexOf(o.id);
+					var fav_index = $.inArray(o.id,bs_ideas_priority);
 					if(fav_index != -1){
 						o.fav_index = fav_index+1;					
 					}
@@ -355,7 +356,7 @@ BsIdeas = {
 	},
 	build_list: function(link){
 		var list_name = String(link.attr('href').match(/list=(\w+)/)[1]);
-		var question_id = Number(link.attr('href').match(/(\d+)/)[1]);
+		var question_id = Number(link.attr('href').match(/\/(\d+)\?/)[1]);
 		var par = link.closest('div.brainstorming');
 		
 		console.log("build_list " + list_name + " for question: " + question_id );
@@ -575,7 +576,8 @@ BsIdeas = {
 			
 			var bs_idea = BsIdeas.get_idea(question_id, idea_data.bs_idea_id);
 			bs_idea.my_fav = 'f';
-			var index = BsIdeas.bs_ideas_priority[question_id].indexOf(idea_data.bs_idea_id);
+			//var index = BsIdeas.bs_ideas_priority[question_id].indexOf(idea_data.bs_idea_id);
+			var index = $.inArray(idea_data.bs_idea_id,BsIdeas.bs_ideas_priority[question_id]);
 			if(index != -1 )BsIdeas.bs_ideas_priority[question_id].splice(index,1);
 			BsIdeas.process_ideas(question_id);
 			
