@@ -128,19 +128,32 @@ class AdminController < ApplicationController
       mem_id, team_id = params[:recip_ids][0].split('-')
       @recipient = Member.find_by_id( mem_id.to_i )
       begin
-        @team = Team.find_by_id(team_id.to_i)
-        @mcode = '~~SECRET~ACCESS~CODE~~'
+        if message.match(/@team/)
+          @team = Team.find_by_id(team_id.to_i)
+          @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
+        end
+        if message.match(/@init_data/)
+          @init_data = [
+            {},
+            {:sponsor=>'Executive Management Team'},
+            {:sponsor=>'Alliance Governance Group'}        
+          ]
+        end
+        if message.match(/@mcode/)
+          @mcode = '~~SECRET~ACCESS~CODE~~'
+        end
         @init_id = params[:recipient_source] == 'join a team' ? team_id : (@team.nil? ? nil : @team.initiative_id)
         @host = @init_id.nil? ? request.env['HTTP_HOST'] : Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
         @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
-        # just for testing
-        @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
+        if message.match(/@proposals/)
+          @proposals = []
+          Team.select("t.id,title").joins("AS t JOIN team_registrations AS tr ON tr.team_id = t.id").where("t.id > 10017 AND tr.member_id = ?", @recipient.id).each do |idea|
+            mcode = '~~SECRET~ACCESS~CODE~~'
+            @proposals.push %Q|- [#{idea.title}](http://#{@host}/idea/#{idea.id}?_mlc=#{mcode})\n\n|
+          end
+          @proposals = @proposals.join('')
+        end
         
-        @init_data = [
-          {},
-          {:sponsor=>'Executive Management Team'},
-          {:sponsor=>'Alliance Governance Group'}        
-        ]
       rescue 
       end
       
@@ -185,43 +198,58 @@ class AdminController < ApplicationController
           mem_id, team_id = recip_id.split('-')
           @recipient = Member.find_by_id( mem_id.to_i )
           begin
-            @team = Team.find_by_id(team_id.to_i)
-            
-            @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
+            if message.match(/@team/)
+              @team = Team.find_by_id(team_id.to_i)
+              @team = Team.first() if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
+            end
+            if message.match(/@init_data/)
+              @init_data = [
+                {},
+                {:sponsor=>'Executive Management Team'},
+                {:sponsor=>'Alliance Governance Group'}        
+              ]
+            end
+            if message.match(/@mcode/)
+              @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
+            end
             # adjust host first subdomain based on init_id of the team or the team_id if join a team
             @init_id = params[:recipient_source] == 'join a team' ? team_id : (@team.nil? ? nil : @team.initiative_id)
+            
             @host = @init_id.nil? ? request.env['HTTP_HOST'] : Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
             @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
-            if @team.nil? && (mem_id.to_i == 1 || mem_id.to_i == 119)
-              # for testing
-              @team = Team.first()
-              @init_id = params[:recipient_source] == 'join a team' ? team_id : (@team.nil? ? nil : @team.initiative_id)
+            if message.match(/@proposals/)
+              @proposals = []
+              Team.select("t.id,title").joins("AS t JOIN team_registrations AS tr ON tr.team_id = t.id").where("t.id > 10017 AND tr.member_id = ?", @recipient.id).each do |idea|
+                mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>'List all my teams'})
+                @proposals.push %Q|- [#{idea.title}](http://#{@host}/idea/#{idea.id}?_mlc=#{mcode})\n\n|
+              end
+              @proposals = @proposals.join('')
             end
-            @init_data = [
-              {},
-              {:sponsor=>'Executive Management Team'},
-              {:sponsor=>'Alliance Governance Group'}        
-            ]
+            
           rescue
           end
           
           msg = render_to_string :inline=>message
-          AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
-          #AdminMailer.deliver_email_message_with_attachment(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
+          #AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
+          
+          AdminMailer.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc ).deliver
+          
           include_bcc = false
           #set queue sent = true
           ctaq = CallToActionQueue.find_by_member_id_and_team_id( mem_id, team_id )
           ctaq.destroy unless ctaq.nil?
         
-          # record details on each email that is sent
-          ctaes = CallToActionEmailsSent.new(
-            :member_id=> @recipient.id, 
-            :member_lookup_code_id => mcode_id,
-            :scenario=> params[:scenario],
-            :version=> params[:version],
-            :team_id=> team_id
-          )
-          ctaes.save
+          if mcode_id
+            # record details on each email that is sent
+            ctaes = CallToActionEmailsSent.new(
+              :member_id=> @recipient.id, 
+              :member_lookup_code_id => mcode_id,
+              :scenario=> params[:scenario],
+              :version=> params[:version],
+              :team_id=> team_id
+            )
+            ctaes.save
+          end
           #update as most recent email
           cta_email = CallToActionEmail.find(1)
           cta_email.update_attributes(
@@ -392,7 +420,7 @@ class AdminController < ApplicationController
   end
   
   protected
-  
+    
     def get_admin_privileges
       logger.debug "get_admin_privileges"
       @privileges = AdminPrivilege.read_privileges( session[:member_id],params[:_initiative_id])

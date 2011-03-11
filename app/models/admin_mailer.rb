@@ -1,13 +1,29 @@
 class AdminMailer < ActionMailer::Base
 
-  def email_message(recipient, subject, plain_text_message, html_message, include_bcc, sent_at = Time.now)
-    subject    subject
-    recipients "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>"
-    from       "\"2029 and Beyond @ CivicEvolution\" <support@civicevolution.org>"
-    sent_on    sent_at
-    bcc       "support@auto.civicevolution.org" if include_bcc
-    body      :plain_text_message => plain_text_message, :html_message => html_message
+#  def email_message(recipient, subject, plain_text_message, html_message, include_bcc, sent_at = Time.now)
+#    subject    subject
+#    recipients "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>"
+#    from       "\"2029 and Beyond @ CivicEvolution\" <support@civicevolution.org>"
+#    sent_on    sent_at
+#    bcc       "support@auto.civicevolution.org" if include_bcc
+#    body      :plain_text_message => plain_text_message, :html_message => html_message
+#  end
+
+  def email_message(recipient, subject, plain_text_message, html_message, include_bcc)
+    @plain_text_message = plain_text_message
+    @html_message = html_message
+    
+    mail(:to => "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>",
+      :subject => subject,
+      :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
+      :reply_to => "support@civicevolution.org",
+      :bcc => include_bcc ? "support@auto.civicevolution.org" : ''
+    ) do |format|
+      format.text
+      format.html
+    end
   end
+
 
   def email_message_with_attachment(recipient, subject, plain_text_message, html_message, include_bcc, sent_at = Time.now)
     subject    subject
