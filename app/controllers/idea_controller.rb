@@ -486,6 +486,25 @@ class IdeaController < ApplicationController
     saved = bs_idea_favorite.save
 
     if saved
+      # update the priority field
+      question_id = BsIdea.select('question_id').where(:id=>bs_idea_id).first.question_id
+      ideas_priority = BsIdeaFavoritePriority.find_by_member_id_and_question_id(@member.id, question_id ) 
+      if ideas_priority.nil?
+        ideas_priority = BsIdeaFavoritePriority.new :member_id => @member.id, :question_id => params[:question_id], :priority => '{' + bs_idea_id + '}' unless !favorite
+      else
+        ids = ideas_priority.priority.scan(/\d+/)
+        if favorite
+          ids.unshift(bs_idea_id)
+        else
+          ids.delete(bs_idea_id)
+        end
+        ideas_priority.priority = ids = '{' + ids.join(',') + '}'
+      end
+      saved = ideas_priority.save
+    end
+    
+    if saved 
+    
       #calculate new score, count and average
       #@up = BsIdeaFavorite.sum(:up, :conditions => ['comment_id = ?', bs_idea_id ])
       #@down = BsIdeaFavorite.sum(:down, :conditions => ['comment_id = ?', bs_idea_id ])

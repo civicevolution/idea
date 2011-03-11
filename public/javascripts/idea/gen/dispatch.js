@@ -173,7 +173,7 @@ function dispatchAnswer(item,submit_response){
 }
 
 function dispatchComment(item,submit_response){
-	var debug = true
+	var debug = false;
 	if(debug) console.log("dispatchComment, item_id(item.item_id): " + item.item_id + " submit_response: " + submit_response)
 	//console.log("dispatchItem, comment_text(item.data.comment.text): " + item.data.comment.text)
 

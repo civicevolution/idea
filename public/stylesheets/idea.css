@@ -231,9 +231,10 @@ div.bs_idea {
     div.bs_idea p.com_controls a {
       margin-right: 20px; }
   div.bs_idea p.status {
-    margin: 0 0 10px 0; }
+    margin: 0 0 4px 0;
+    text-align: right; }
   div.bs_idea p.like_controls {
-    margin: 0 0 10px 0;
+    margin: 0 0 4px 0;
     text-align: right; }
 
 div.ans {
@@ -276,6 +277,8 @@ div.bs_idea {
     padding: 10px 0; }
     div.bs_idea div.bs_idea_inner input.fav_order {
       width: 30px; }
+    div.bs_idea div.bs_idea_inner div.text p {
+      font-size: 1em; }
 
 div.list_inner.fav div.bs_idea {
   position: relative; }

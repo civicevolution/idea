@@ -40,7 +40,7 @@ $('a.bs_idea_discussion').die('click').live('click',
 					form.find('div.attach_file span.char_ctr:last').html(res_criteria + ' characters left');
 
 					form.css('margin-left','24px')
-					bsd_disc.find('div.add_comment').replaceWith( form );
+					bsd_disc.find('div.add_com_form').replaceWith( form );
 					activate_comment_form(form);
 				}
 			}else{
@@ -257,7 +257,7 @@ $('form.mini_thumbs_up input[name=thumbsup_favorite]').live('click',
 $('a.change_favorite').live('click',
 	function() {
 		try{
-			console.log("set_favorite")
+			console.log("set_favorite v1")
 			var $this = $(this);
 			temp.set_favorite_$this = $this
 			var bs_idea_id = Number($this.closest('div.bs_idea').attr('id').match(/\d+/));
@@ -270,6 +270,7 @@ $('a.change_favorite').live('click',
 
 function send_favorite_to_server(bs_idea_id,fav){
 	try{
+		console.log("send_favorite_to_server")
 		$.ajax({ 					
 		  type: "POST", 
 		  url: "/idea/bs_idea_favorite", 
@@ -280,8 +281,7 @@ function send_favorite_to_server(bs_idea_id,fav){
 		  success: function(data,status){ 
 				console.log("send_favorite_to_server submit success, call BsIdeas.favorite"); 
 				temp.send_favorite_to_server = data
-				//BsIdeas.adjust_favorites(data)
-					
+				BsIdeas.adjust_favorites(data);					
 		  },
 			error : function(xhr,errorString,exceptionObj){
 				console.log("Error on send_favorite_to_server submit, xhr: " + xhr.responseText)
@@ -313,12 +313,6 @@ BsIdeas = {
 		BsIdeas.bs_ideas[question_id] = [];
 		$.each(bs_ideas, 
 			function(){
-				//console.log("idea with id: " + this.bs_idea.id);
-				// get index of this idea in the priority array
-				//var fav_index = bs_ideas_priority.indexOf(this.bs_idea.id);
-				//if(fav_index != -1){
-				//	this.bs_idea.fav_index = fav_index+1;					
-				//}
 				BsIdeas.bs_ideas[question_id].push(this.bs_idea);
 			}
 		)
@@ -340,10 +334,24 @@ BsIdeas = {
 			// sort the ideas in descending order of popularity
 			BsIdeas.bs_ideas[question_id].sort( function(a,b){return b.num_favs-a.num_favs;} ) 
 			//Now iterate through and set the popularity index and the num of ideas
-			var num_ideas = BsIdeas.bs_ideas[question_id].length;
+			var num_ideas = $.map(BsIdeas.bs_ideas[question_id],function(o,i){ if(o.num_favs>0){return 1}else{return null}}).length;
 			$.each(BsIdeas.bs_ideas[question_id], function(i,o){o.pop_index = i + 1, o.pop_num = num_ideas;})
 			// now each idea should have its status #s for favorite order and popularity
 		}
+	},
+	get_idea: function(question_id, bs_idea_id){
+		bs_idea_id = Number(bs_idea_id);
+		var bs_idea;
+		$.each(BsIdeas.bs_ideas[question_id], 
+			function(i,o){
+				//console.log("get_idea id: " + o.id + ", bs_idea_id: " + bs_idea_id)
+				if(o.id == bs_idea_id){
+						bs_idea = o;
+					return false;
+				}
+			}
+		);
+		return bs_idea;
 	},
 	build_list: function(link){
 		var list_name = String(link.attr('href').match(/list=(\w+)/)[1]);
@@ -479,7 +487,6 @@ BsIdeas = {
 		}
 		return bs_idea;
 	},
-
 	add_idea: function(idea, submit_response){
 		console.log("BsIdea.add_idea submit_response: " + submit_response)
 		
@@ -489,7 +496,7 @@ BsIdeas = {
 		//if(typeof bs_idea.my_fav == "undefined") bs_idea.my_fav = null;
 		if(submit_response){
 			bs_idea.my_fav = 't';
-			BsIdeas.bs_ideas_priority[question_id].unshift(bs_idea.id)
+			BsIdeas.bs_ideas_priority[question_id].unshift(bs_idea.id);
 		}else{
 			bs_idea.my_fav = null;
 		}
@@ -521,14 +528,95 @@ BsIdeas = {
 			par.find('div.list_inner').prepend(idea_div);
 		}
 		// update status
+		par.find('div.status').html('')
+		//var msg = $('<p class="confirmation">Your idea has been saved successfully & inserted into your favorites list</p>')
+		//par.find('div.status').append(msg)
+		//msg.effect('highlight',{},3000);
 		
-		
-		
-		//
-		
-		
+	},
+	adjust_favorites:	function(data){
+		console.log("BsIdeas.adjust_favorites");
+		var idea_data = data[0].params.data
+		temp.BsIdeas_adjust_favorites_data = idea_data; 
+		var bs_idea_div = $('div#bs_idea_' + idea_data.bs_idea_id);
+		var par = bs_idea_div.closest('div.brainstorming');
+		var question_id = Number(par.closest('div.qa').attr('id').match(/\d+/));
+		var cur_list_name = String(par.find('p.idea_lists a:hidden').attr('href').match(/\w+$/));
 
-	}	
+		if(idea_data.favorite){
+			console.log("adjust to a favorite")
+			// show the acknowldgement message	
+			
+			var bs_idea = BsIdeas.get_idea(question_id, idea_data.bs_idea_id);
+			bs_idea.my_fav = 't';
+			BsIdeas.bs_ideas_priority[question_id].unshift(bs_idea.id);
+			BsIdeas.process_ideas(question_id);
+			
+			if(cur_list_name == 'new'){ // remove if list is new
+				bs_idea_div.append('<p class="fav_action_status fav">Added to your favorites</p>');
+				bs_idea_div.children('div').css('opacity',.1)
+				bs_idea_div.fadeTo(600,1,
+					function(){
+						$(this).hide("blind", { direction: "vertical" }, 800,
+							function(){
+								$(this).remove();
+							}
+						);
+					}
+				);
+				
+			}else{ // otherwise update the idea
+				var idea_div = BsIdeas.create_idea_html(bs_idea, cur_list_name);
+				bs_idea_div.replaceWith(idea_div);
+			}
+
+		}else{
+			console.log("adjust to NOT a favorite - remove it from favorites list, update in other lists");
+			
+			var bs_idea = BsIdeas.get_idea(question_id, idea_data.bs_idea_id);
+			bs_idea.my_fav = 'f';
+			var index = BsIdeas.bs_ideas_priority[question_id].indexOf(idea_data.bs_idea_id);
+			if(index != -1 )BsIdeas.bs_ideas_priority[question_id].splice(index,1);
+			BsIdeas.process_ideas(question_id);
+			
+			if(cur_list_name == 'fav'){ // if the current list is 'fav', remove the idea from the list
+				// show the acknowldgement message
+				bs_idea_div.append('<p class="fav_action_status">Not a favorite</p>')
+				bs_idea_div.children('div').css('opacity',.1)
+				bs_idea_div.fadeTo(600,1,
+					function(){
+						$(this).hide("blind", { direction: "vertical" }, 800,
+							function(){
+								$(this).remove();
+								// reset the order numbers for favorites
+								var bs_ideas = par.find('div.list_inner').children('div.bs_idea')
+								var cnt = 1;
+								bs_ideas.each( function(){ $(this).find('input.sort').val(cnt++);  } )
+							}
+						);
+					}
+				);
+				
+			}else{
+				// otherwise change my_fav status in BsIdeas.bs_ideas, rebuild item and replace it
+				var idea_div = BsIdeas.create_idea_html(bs_idea, cur_list_name);
+				bs_idea_div.replaceWith(idea_div);
+				//bs_idea_div.fadeTo(1500,.1,
+				//	function(){
+				//		$(this).replaceWith(idea_div);
+				//		idea_div.fadeTo(1500,1);
+				//	}
+				//);
+				
+				
+			}
+
+
+		}
+		
+		
+		
+	}
 }
 
 function activate_idea_form(form,orig_idea){
@@ -582,7 +670,7 @@ function activate_idea_form(form,orig_idea){
 					BsIdeas.add_idea( data[0].params.data, true );
 					var msg = $('<p class="confirmation">Your idea has been saved successfully & inserted into your favorites list</p>')
 					form.prepend(msg)
-					msg.effect('highlight',{},3000, function(){$(this).remove()});					
+					msg.effect('highlight',{},5000, function(){$(this).remove()});					
 					$('textarea',form).val('');
 					btn.removeAttr('disabled').next('img').remove();
 			  },

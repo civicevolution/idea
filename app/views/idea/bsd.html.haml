@@ -52,15 +52,13 @@
 						- if top_level_comments_sorted.size > 0
 							- top_level_comments_sorted.each do |c|
 								= render :partial=> 'comment', :object=>c 
-							%div.add_comment
+							%div.add_com_form
 							= link_to 'Back to Q&A discussion', {:action=>'bsd', :id=>@question.id}, {:class=>'bsd close', :rel=>'nofollow'}
 						- else
-							%div.add_comment
+							%div.add_com_form
 				- bsi['coms'] = @coms
 				- bsi['new_coms'] = @new_coms
-		-# Determine which list I want to build and get the correct set of ideas and data
-		- mode = 'pop' # new|fav|all
-
+				
 		- @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }
 		- # get the unprioritized favs (in order by idea.id)
 		- unprioritized_ideas = @favorite_ideas.select{ |f| !@priority.include?(f.id) }.sort{ |a,b| a.id <=> b.id }
@@ -69,8 +67,19 @@
 		- # show the unprioritized favs then the prioritized favs
 		- @favorite_ideas = (unprioritized_ideas + @prioritized_ideas).find_all{|f| !f.nil?}
 		- @favorite_ideas.each_with_index{ |i, idx| i['cnt'] = idx + 1 } 
+	
+		-# Determine which list I want to build and get the correct set of ideas and data
+		- mode = 'new'
+		- ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| b['id'].to_i <=> a['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+		- if ideas.size == 0
+			- mode = 'pop'
+			- ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			- if ideas.size == 0
+				- mode = 'all'
+				- ideas = @bs_ideas.sort{|a,b| b['id'].to_i <=> a['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
 		
-		- case mode
+		
+		-# case mode
 			- when 'pop'
 				- ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
 			- when 'new'
@@ -113,11 +122,9 @@
 					
 
 			%div.status
-				%p{:class=> @bs_ideas.size == 0 ? 'empty' : 'empty hide'} No brainstorming ideas have been suggested yet, be the first to suggest an idea about this question
-				%p{:class=> mode == 'pop' && ideas.size == 0 && @bs_ideas.size != 0  ? 'pop' : 'pop hide'} There are no popular ideas yet
-				%p{:class=> mode == 'new' && ideas.size == 0 && @bs_ideas.size != 0  ? 'new' : 'new hide'} There are no new ideas right now
-				%p{:class=> mode == 'fav' && ideas.size == 0 && @bs_ideas.size != 0  ? 'fav' : 'fav hide'} You do not have any favorites yet, please review the new ideas or suggest an idea about this question
-				%p{:class=> mode == 'all' && ideas.size == 0 && @bs_ideas.size != 0  ? 'all' : 'all hide'} 
+				- if @bs_ideas.size == 0
+					%p{:class=> 'empty'} No brainstorming ideas have been suggested yet, be the first to suggest an idea about this question
+
 
 			%div.insert_new_ideas	
 		

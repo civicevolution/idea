@@ -60,22 +60,17 @@
 						%input.vote_up{:type => 'submit', :name => 'thumbsup_favorite', :value => '+1', :title => "Add to my favorites"}
 						%input.vote_down{:type => 'submit', :name => 'thumbsup_favorite', :value => '-1', :title => "Don't add to my favorites"}
 						%input{:type => 'hidden', :name => 'thumbsup_id', :value => "#{bs_idea.id}" }
-				-#%p.like_controls.hide
-					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif mode == 'fav'
 				%p.like_controls
 					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif (mode =='pop' || mode == 'all') && bs_idea['my_fav'] == 'f'
 				%p.like_controls.add
 					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
-				-#%p.like_controls.hide
-					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif (mode =='pop' || mode == 'all')  && bs_idea['my_fav'] == 't'
 				%p.like_controls.fav
 					Your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea.id}['cnt']} favorite idea
-					-#Your NNN favorite idea
-				-#%p.like_controls.hide
-					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
+				%p.like_controls.rem
+					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			
 		- else # include all the parts I need for the template
 			%p.status 
@@ -88,12 +83,12 @@
 					%input.vote_down{:type => 'submit', :name => 'thumbsup_favorite', :value => '-1', :title => "Don't add to my favorites"}
 					%input{:type => 'hidden', :name => 'thumbsup_id' }
 					
+			%p.like_controls.fav
+				Your #1 favorite idea
+					
 			%p.like_controls.rem
 				= link_to "Remove from my favorites", {:action=>'remove_favorite'}, {:class=>'change_favorite', :rel=>'nofollow'}
 			%p.like_controls.add
 				= link_to "Add to my favorites", {:action=>'add_favorite'}, {:class=>'change_favorite', :rel=>'nofollow'}
-				
-			%p.like_controls.fav
-				Your #1 favorite idea
 		
 	%p.clear
