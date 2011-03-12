@@ -23,7 +23,7 @@
 					%span.member& #{m.first_name} #{m.last_name}
 				%td.text= simple_format( e.text )
 				%td.time
-					%abbr.timeago= time_ago_in_words(e.created_at) + ' ago'
+					%abbr.timeago= time_ago_in_words(e.updated_at) + ' ago'
 				- if m.id == @member.id
 					- endorsed = true
 					%td.delete
