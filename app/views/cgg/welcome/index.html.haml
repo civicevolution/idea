@@ -113,7 +113,7 @@
 					%div.team_entry{:class=> cycle('stripe_bg','')}
 						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {:class=>'team_entry_title',:launched=>'t'}
 						%p.desc= team.solution_statement
-						%p.controls
+						-#%p.controls
 							-#%span 0 comments
 							%span= pluralize( team['members'], 'member')
 							-#%span active one day ago
