@@ -129,6 +129,7 @@ class TeamController < ApplicationController
         # create a team item record                   
         team_item = Item.new :team_id=>@team.id, :o_id=> @team.id, :o_type=>4, :par_id=>0, :order=>0, :sib_id=>0, :ancestors=>'{0}', :target_id=>0, :target_type=>0
         team_item.save
+        @team.member_id = admin.id # so create team idea page can set the launched status = true
         
         # create the idea page
         @team.create_team_idea_page()

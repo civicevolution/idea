@@ -23,10 +23,10 @@ class Team < ActiveRecord::Base
     # I will need to check if the iteam can still be edited
     
     # are you a still a team member
-    is_team_member = ! (TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.id).nil?)
-    logger.debug "ist_team_member: #{is_team_member}"
+    #is_team_member = ! (TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.id).nil?)
+    #logger.debug "ist_team_member: #{is_team_member}"
     # return as ok if user is a team member
-    return if is_team_member
+    return if member_id == self.org_id || member_id == 1
     
     errors.add_to_base("You must be a member of this team to edit it.")
 
@@ -200,7 +200,7 @@ class Team < ActiveRecord::Base
         end
 
       }
-      
+
       self.launched = true
       self.save
 
