@@ -59,35 +59,17 @@
 				- bsi['coms'] = @coms
 				- bsi['new_coms'] = @new_coms
 				
-		- @favorite_ideas = @bs_ideas.select{|i| i['my_fav'] == 't' }
-		- # get the unprioritized favs (in order by idea.id)
-		- unprioritized_ideas = @favorite_ideas.select{ |f| !@priority.include?(f.id) }.sort{ |a,b| a.id <=> b.id }
-		- # Get the prioritized favs in order of priority
-		- @prioritized_ideas = @priority.map{ |p| @favorite_ideas.detect{|f| f.id == p }}
-		- # show the unprioritized favs then the prioritized favs
-		- @favorite_ideas = (unprioritized_ideas + @prioritized_ideas).find_all{|f| !f.nil?}
-		- @favorite_ideas.each_with_index{ |i, idx| i['cnt'] = idx + 1 } 
-	
+		- @favorite_ideas = @priority.map{ |p| @bs_ideas.detect{|f| f.id == p }}.each_with_index{ |i, idx| i['fav_index'] = idx + 1 }
+
 		-# Determine which list I want to build and get the correct set of ideas and data
 		- mode = 'new'
-		- ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| b['id'].to_i <=> a['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+		- ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| b['id'].to_i <=> a['id'].to_i }
 		- if ideas.size == 0
 			- mode = 'pop'
-			- ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+			- ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['pop_index'] = idx + 1 }
 			- if ideas.size == 0
 				- mode = 'all'
-				- ideas = @bs_ideas.sort{|a,b| b['id'].to_i <=> a['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
-		
-		
-		-# case mode
-			- when 'pop'
-				- ideas = @bs_ideas.select{|i| i['num_favs'].to_i > 0 }.sort{|a,b| b['num_favs'].to_i <=> a['num_favs'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
-			- when 'new'
-				- ideas = @bs_ideas.select{|i| i['my_fav'].nil? }.sort {|a,b| b['id'].to_i <=> a['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
-			- when 'fav'
-				- ideas = @favorite_ideas
-			- when 'all'
-				- ideas = @bs_ideas.sort{|a,b| b['id'].to_i <=> a['id'].to_i }.each_with_index{ |i, idx| i['cnt'] = idx + 1 }
+				- ideas = @bs_ideas.sort{|a,b| b['id'].to_i <=> a['id'].to_i }
 				
 		%div.brainstorming 
 			

@@ -4,7 +4,7 @@
 	- if mode == 'fav' || mode == 'templ'
 		%div.sort_ctl
 			%div.sort.up
-			%input.sort{:value=> bs_idea['cnt'] }
+			%input.sort{:value=> bs_idea['fav_index'] }
 			%div.sort.down	
 	
 	%div.bs_idea_inner
@@ -51,7 +51,7 @@
 				- s_id = @popular_ideas.detect{|i| i.id == bs_idea.id}
 				- if !s_id.nil?
 					%p.status 
-						\##{s_id['cnt']} of #{@popular_ideas.size} popular ideas		
+						\##{s_id['pop_index']} of #{@popular_ideas.size} popular ideas		
 			
 			- if bs_idea['my_fav'].nil?
 				%div.rating
@@ -68,7 +68,7 @@
 					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif (mode =='pop' || mode == 'all')  && bs_idea['my_fav'] == 't'
 				%p.like_controls.fav
-					Your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea.id}['cnt']} favorite idea
+					Your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea.id}['fav_index']} favorite idea
 				%p.like_controls.rem
 					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			

@@ -336,7 +336,7 @@ BsIdeas = {
 			BsIdeas.bs_ideas[question_id].sort( function(a,b){return b.num_favs-a.num_favs;} ) 
 			//Now iterate through and set the popularity index and the num of ideas
 			var num_ideas = $.map(BsIdeas.bs_ideas[question_id],function(o,i){ if(o.num_favs>0){return 1}else{return null}}).length;
-			$.each(BsIdeas.bs_ideas[question_id], function(i,o){o.pop_index = i + 1, o.pop_num = num_ideas;})
+			$.each(BsIdeas.bs_ideas[question_id], function(i,o){ if(Number(o.num_favs) == 0)return false;  o.pop_index = i + 1, o.pop_num = num_ideas;})
 			// now each idea should have its status #s for favorite order and popularity
 		}
 	},
@@ -458,7 +458,11 @@ BsIdeas = {
 				break;
 			case 'fav':
 				bs_idea.find('div.sort_ctl input.sort').val( idea.fav_index )
-				bs_idea.find('p.status').html('#' + idea.pop_index + ' of ' + idea.pop_num + ' popular ideas');
+				if(idea.pop_index){
+					bs_idea.find('p.status').html('#' + idea.pop_index + ' of ' + idea.pop_num + ' popular ideas');
+				}else{
+					bs_idea.find('p.status').remove();
+				}
 				bs_idea.find('div.rating').remove();
 				bs_idea.find('p.like_controls.fav').remove();
 				bs_idea.find('p.like_controls.add').remove();
@@ -470,7 +474,11 @@ BsIdeas = {
 				break;
 			case 'all':
 				bs_idea.find('div.sort_ctl').remove();
-				bs_idea.find('p.status').html('#' + idea.pop_index + ' of ' + idea.pop_num + ' popular ideas');
+				if(idea.pop_index){
+					bs_idea.find('p.status').html('#' + idea.pop_index + ' of ' + idea.pop_num + ' popular ideas');
+				}else{
+					bs_idea.find('p.status').remove();
+				}
 				if(idea.my_fav == 't'){
 					bs_idea.find('div.rating').remove();
 					bs_idea.find('p.like_controls.add').remove();
