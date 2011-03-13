@@ -20,4 +20,4 @@ options = YAML.load(
     
 options[:dir_mode] = options[:dir_mode].to_sym
 
-Daemons.run File.dirname(__FILE__) + "/notification.rb", options
+Daemons.run File.dirname(__FILE__) + "/<%= file_name %>.rb", options
