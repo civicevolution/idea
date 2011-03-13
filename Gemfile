@@ -33,7 +33,7 @@ gem 'aws-s3', :require => 'aws/s3'
 
 
 gem "bluecloth" 
-gem "daemons", '1.0.10'
+gem "daemons"
 gem "diff-lcs"
 gem "differ"
 gem "haml"

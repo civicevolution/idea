@@ -36,7 +36,7 @@ GEM
     bluecloth (2.0.11)
     builder (2.1.2)
     columnize (0.3.2)
-    daemons (1.0.10)
+    daemons (1.1.0)
     diff-lcs (1.1.2)
     differ (0.1.2)
     erubis (2.6.6)
@@ -94,7 +94,7 @@ PLATFORMS
 DEPENDENCIES
   aws-s3
   bluecloth
-  daemons (= 1.0.10)
+  daemons
   diff-lcs
   differ
   haml
