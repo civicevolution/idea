@@ -6,6 +6,13 @@ ENV["RAILS_ENV"] ||= "production"
 require File.dirname(__FILE__) + "/../../config/application"
 Rails.application.require_environment!
 
+last_pending_report_hour_processed = Time.now.utc.hour # start from this hour
+logger = ActiveSupport::BufferedLogger.new( File.dirname(__FILE__) + "/../../log/notification.rb.log" )
+
+@team = Team.find(10013)
+logger.debug "Team title: #{@team.title}"
+
+abort('run complete')
 
 # this is old code for dealing with multipart emails in Rails 2.3.5 - not sure if this is still an issue
 #av = ActionView::Base.new(Rails::Configuration.new.view_path)
@@ -15,11 +22,6 @@ Rails.application.require_environment!
 #
 ##ActiveRecord::Base.logger.info "\n Rails::Configuration.new.view_path: #{Rails::Configuration.new.view_path}\n"
 #
-
-
-
-last_pending_report_hour_processed = Time.now.utc.hour # start from this hour
-logger = ActiveSupport::BufferedLogger.new( File.dirname(__FILE__) + "/../../log/notification.rb.log" )
 
 $running = true
 Signal.trap("TERM") do 
