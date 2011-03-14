@@ -9,11 +9,6 @@ Rails.application.require_environment!
 last_pending_report_hour_processed = Time.now.utc.hour # start from this hour
 logger = ActiveSupport::BufferedLogger.new( File.dirname(__FILE__) + "/../../log/notification.rb.log" )
 
-@team = Team.find(10013)
-logger.debug "Team title: #{@team.title}"
-
-abort('run complete')
-
 # this is old code for dealing with multipart emails in Rails 2.3.5 - not sure if this is still an issue
 #av = ActionView::Base.new(Rails::Configuration.new.view_path)
 #
@@ -72,7 +67,7 @@ while($running) do
     # the current hour is not the same as the hour the reports were last processed
     dow = Time.now.utc.wday
     logger.debug "LOOP queue pending reports for dow: #{dow} and hour: #{hour} at #{Time.now}.\n"
-    NotificationRequest.send_periodic_report(dow,hour)
+    #NotificationRequest.send_periodic_report(dow,hour)
     last_pending_report_hour_processed = hour
   end
   
