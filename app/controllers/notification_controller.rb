@@ -22,10 +22,10 @@ class NotificationController < ApplicationController
 
   def update_notification_settings
     logger.debug "update_notification_settings params: #{params.inspect}"
-    @notification_setting = NotificationRequest.new :member_id=>@member.id, :team_id=>@team_id, :act=>'split_save'
+    @notification_setting = NotificationRequest.new :member_id=>@member.id, :act=>'split_save'
     @notification_setting.attributes = params[:notification_setting]        
     @saved = @notification_setting.split_n_save  
-    
+
     render :action=>'update_notification_settings', :layout=>'welcome'
     #render :action=>'settings', :layout=>'welcome'
   end
@@ -58,6 +58,25 @@ class NotificationController < ApplicationController
     NotificationRequest.send_periodic_report(dow,hour)
   end
   
+  def send_immediate
+    
+    log = TeamContentLog.find(params[:id])
+    log.processed = false
+    log.save
+    
+    NotificationRequest.check_team_content_log(logger)
+    render :text=>'NotificationRequest.check_team_content_log(logger) was called'
+  end
+  
+  def send_periodic
+    
+    req = NotificationRequest.find_by_report_type_and_team_id(2,params[:id])
+    req.match_queue = '{3-823,3-824,3-825,3-826,3-830,3-831,3-832,3-833,3-835}'
+    req.save
+    
+    NotificationRequest.send_periodic_report(0,0,logger)
+    render :text=>'NotificationRequest.send_periodic_report(0,0,logger) was called'
+  end
   
   
   

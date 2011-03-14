@@ -30,7 +30,7 @@ Signal.trap("USR1") do
   # Does this sleep in the trap add overhead?
   sleep 3
   logger.debug "TRAP [USR1] call ImmediateNotificationRequest.check_team_content_log at #{Time.now} in ENV: #{ENV["RAILS_ENV"]}.\n"
-  #NotificationRequest.check_team_content_log(logger)
+  NotificationRequest.check_team_content_log(logger)
 end
 
 Signal.trap("USR2") do 
@@ -41,7 +41,7 @@ Signal.trap("USR2") do
   dow = Time.now.utc.wday
   sleep 8
   logger.debug "TRAP [USR2] LOOP queue pending reports for dow: #{dow} and hour: #{hour} at #{Time.now}.\n"
-  #NotificationRequest.send_periodic_report(dow,hour,logger)
+  NotificationRequest.send_periodic_report(dow,hour,logger)
 
 end
 
@@ -67,7 +67,7 @@ while($running) do
     # the current hour is not the same as the hour the reports were last processed
     dow = Time.now.utc.wday
     logger.debug "LOOP queue pending reports for dow: #{dow} and hour: #{hour} at #{Time.now}.\n"
-    #NotificationRequest.send_periodic_report(dow,hour)
+    NotificationRequest.send_periodic_report(dow,hour)
     last_pending_report_hour_processed = hour
   end
   

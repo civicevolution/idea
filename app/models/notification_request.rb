@@ -6,6 +6,7 @@ class NotificationRequest < ActiveRecord::Base
   attr_accessor :all_format
   attr_accessor :act
   
+  after_initialize :init_settings
   
     
   # save notification settings as notification requests
@@ -15,7 +16,7 @@ class NotificationRequest < ActiveRecord::Base
   # freq: n = never, i = immediate, h = hourly, d = daily (1 entry in hours)
   
   # after_initialize sets the vars I need to adjust settings in browser
-  def after_initialize
+  def init_settings
     if self.act == 'init' && !self.member_id.nil? && !self.team_id.nil?
       logger.debug "after_initialize new notification_request"
       self.reply_freq = 'n'
@@ -70,6 +71,8 @@ class NotificationRequest < ActiveRecord::Base
       case self.reply_freq
         when 'i'
           rec.immediate = true
+          rec.hour_to_run = nil
+          rec.dow_to_run = nil          
         when 'h'
           rec.immediate = false        
           rec.hour_to_run = nil
@@ -91,6 +94,8 @@ class NotificationRequest < ActiveRecord::Base
       case self.all_freq
         when 'i'
           rec.immediate = true
+          rec.hour_to_run = nil
+          rec.dow_to_run = nil          
         when 'h'
           rec.immediate = false        
           rec.hour_to_run = nil
@@ -145,22 +150,23 @@ class NotificationRequest < ActiveRecord::Base
                 # make sure I have the necessary data for a full report
                 case
                   when log_record.o_type ==  2
-                    entry ||= Answer.find(log_record.o_id)
+                    entry = Answer.find(log_record.o_id)
                   when log_record.o_type ==  3
-                    entry ||= Comment.first(
+                    entry = Comment.first(
                       :select => 'c.id, text, c.updated_at, first_name, last_name',
                       :conditions => { 'c.id'=>log_record.o_id},
                       :joins => 'as c inner join members as m on m.id = c.member_id' 
                     )
-                  when log_record.o_type ==  11
-                    entry ||= BsIdea.find(log_record.o_id)
+                  when log_record.o_type ==  12
+                    entry = BsIdea.find(log_record.o_id)
                 end # end case
               end # end if 1 (full)
-              recipient = Member.first(:select=>'first_name, last_name, email', :conditions=>{:id=>request.member_id})
+              #recipient = Member.first(:select=>'first_name, last_name, email', :conditions=>{:id=>request.member_id})
+              recipient = Member.select('first_name, last_name, email').where(:id=>request.member_id).first
               logger.debug "NotificationRequest Send an email for entry #{entry.inspect} to #{recipient.email} at #{Time.now}."
-            
-              NotificationMailer.deliver_immediate_report(recipient, team, request, entry) unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
-            
+
+              NotificationMailer.immediate_report(recipient, team, request, entry).deliver unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
+
               immed_send_mem_id = request.member_id #if request.report_type
             end
           else
@@ -187,17 +193,22 @@ class NotificationRequest < ActiveRecord::Base
   def self.send_periodic_report(dow = 5, hod = 13, logger = logger)
     logger.debug "NotifiationRequest.send_periodic_report"
     
-    reports = NotificationRequest.all(
-      :conditions=>['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',hod, dow ],
-      :order=>"member_id, team_id, report_type"
-    )  
+    #reports = NotificationRequest.all(
+    #  :conditions=>['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',hod, dow ],
+    #  :order=>"member_id, team_id, report_type"
+    #)
+    
+    reports = NotificationRequest.where(
+      ['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',0, 0 ]
+      ).order("member_id, team_id, report_type")  
+      
     return if reports.size == 0
     
     # collect all the item ids I will reference
     team_ids = []
     recip_ids = []
     member_ids = []
-    displayed_objects = {'2'=>[], '3'=>[], '11'=>[]}
+    displayed_objects = {'2'=>[], '3'=>[], '12'=>[]}
     recipient_reports = []
     recipient_requests = []
     # and combine reports for the same member
@@ -253,7 +264,7 @@ class NotificationRequest < ActiveRecord::Base
       locations.each{|id,tz| a[:tz][id] = tz.utc_to_local(a.updated_at) }
     end
 
-    @bs_ideas = displayed_objects['11'].size == 0 ? [] : BsIdea.find_all_by_id(displayed_objects['11'].uniq)
+    @bs_ideas = displayed_objects['12'].size == 0 ? [] : BsIdea.find_all_by_id(displayed_objects['12'].uniq)
     @bs_ideas.each do |b|
       b[:tz] = {}
       locations.each{|id,tz| b[:tz][id] = tz.utc_to_local(b.updated_at) }
@@ -264,7 +275,7 @@ class NotificationRequest < ActiveRecord::Base
       recipient = @recipients.detect{|r| r.id == reports[0].member_id}
       mcode = MemberLookupCode.get_code(recipient.id, {:scenario=>'periodic team report'} )
       
-      NotificationMailer.deliver_periodic_report(recipient, @teams, @comments, @answers, @bs_ideas, reports, mcode) unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
+      NotificationMailer.periodic_report(recipient, @teams, @comments, @answers, @bs_ideas, reports, mcode).deliver unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
       # uncomment update line to clear the queue
       reports.each do |request|
         ActiveRecord::Base::connection().update("update notification_requests set match_queue = null, sent_time = now() at time zone 'UTC' where id = #{request.id}");
