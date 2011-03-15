@@ -70,8 +70,8 @@ class WorkshopController < ApplicationController
     member = Member.find(session[:member_id])
     
     @host = request.env["HTTP_HOST"]
-    FormMailer.deliver_forward_submitted_form(member, @form_data, @host )
-    FormMailer.deliver_submitted_form_receipt(member, @form_data )
+    FormMailer.delay.forward_submitted_form(member, @form_data, @host )
+    FormMailer.delay.submitted_form_receipt(member, @form_data )
     render :action => "submit_workshop_proposal_form", :layout => 'welcome'
     
   end

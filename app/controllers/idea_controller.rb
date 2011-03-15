@@ -713,11 +713,9 @@ class IdeaController < ApplicationController
       	when 6
       	  @help_request['type'] = 'I have a suggestion'
       end
-      
-      #member = Member.find(session[:member_id])
-      HelpMailer.deliver_help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
+      HelpMailer.delay.help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
       begin
-        HelpMailer.deliver_help_request_receipt(@member, @help_request, client_details )
+        HelpMailer.delay.help_request_receipt(@member, @help_request, client_details )
       rescue
         @mail_error = true
       end
@@ -843,7 +841,7 @@ class IdeaController < ApplicationController
           @text = BsIdea.find(item.o_id).text
       end
 
-      AdminReportMailer.deliver_report_content(@report, @text, item, request.env['HTTP_HOST'],params[:_app_name] )
+      AdminReportMailer.delay.report_content(@report, @text, item, request.env['HTTP_HOST'],params[:_app_name] )
     end
 
     respond_to do |format|
@@ -874,7 +872,7 @@ class IdeaController < ApplicationController
       
       respond_to do |format|
         if @saved
-          AdminReportMailer.deliver_submit_proposal(submit_request, @team, @member, request.env['HTTP_HOST'],params[:_app_name] )
+          AdminReportMailer.delay.submit_proposal(submit_request, @team, @member, request.env['HTTP_HOST'],params[:_app_name] )
           format.html { render :action=> 'submit_proposal_acknowledge', :layout=>false } if request.xhr?
         else
           format.json { render :text => [submit_request.errors].to_json, :status => 409 }
@@ -933,7 +931,7 @@ class IdeaController < ApplicationController
           saved = model.save
           if saved
             updated = true
-            ProposalMailer.deliver_review_update(@member, model, params[:field], old_ver, request.env["HTTP_HOST"], params[:_app_name] )
+            ProposalMailer.delay.review_update(@member, model, params[:field], old_ver, request.env["HTTP_HOST"], params[:_app_name] )
           end
         else
           saved = true # no errors to show
@@ -987,7 +985,7 @@ class IdeaController < ApplicationController
         else
           @invite.recipients.each do |recipient|
             logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
-            ProposalMailer.deliver_team_send_invite(@member, recipient, @invite, team, request.env["HTTP_HOST"] )
+            ProposalMailer.delay.team_send_invite(@member, recipient, @invite, team, request.env["HTTP_HOST"] )
           end
           format.html { render :action => "team/acknowledge_invite_request", :layout => false } if request.xhr?
           format.html { render :action => "team/acknowledge_invite_request", :layout => 'welcome' }

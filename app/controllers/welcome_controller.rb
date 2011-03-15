@@ -99,7 +99,7 @@ class WelcomeController < ApplicationController
       # generate an email to the member      
       # generate new url = original url with mlc replaced with mcode
       new_url = flash[:pre_request_access_code_uri].sub(/\b_mlc=.{36}/,'_mlc=' + mcode)
-      MemberMailer.deliver_new_access_code(@member, new_url, request.env["HTTP_HOST"]) 
+      MemberMailer.delay.new_access_code(@member, new_url, request.env["HTTP_HOST"]) 
       @email = @member.email
       @member = nil
     end
@@ -116,7 +116,7 @@ class WelcomeController < ApplicationController
       logger.debug "generate an email to #{member.email} with code: #{mcode}"
       # generate an email to the member
       
-      email = MemberMailer.deliver_reset_password(member,mcode, request.env["HTTP_HOST"]) 
+      email = MemberMailer.delay.reset_password(member,mcode, request.env["HTTP_HOST"]) 
       render :text => 'ok'
     end
   end
@@ -207,7 +207,7 @@ class WelcomeController < ApplicationController
     if @saved
       mcode = MemberLookupCode.get_code(@member.id, {:scenario=>'register confirmation'} )
       begin
-        MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"], params[:_app_name])
+        MemberMailer.delay.confirm_registration(@member,mcode, request.env["HTTP_HOST"], params[:_app_name])
       rescue Net::SMTPFatalError => e
         @member.destroy
         @im.destroy
@@ -242,7 +242,7 @@ class WelcomeController < ApplicationController
     #@mem_teams = []
     # send a new confirmation email
     mcode = MemberLookupCode.get_code(@member.id, {:scenario=>'request confirmation'})
-    MemberMailer.deliver_confirm_registration(@member,mcode, request.env["HTTP_HOST"],params[:_app_name])
+    MemberMailer.delay.confirm_registration(@member,mcode, request.env["HTTP_HOST"],params[:_app_name])
     render :action => "request_confirmation_email", :layout => false if request.xhr?  
   end
   
@@ -328,8 +328,8 @@ class WelcomeController < ApplicationController
     
     if @saved
       #member = Member.find(session[:member_id])
-      HelpMailer.deliver_help_request_receipt(@member, help_request, client_details )
-      HelpMailer.deliver_help_request_review(@member, help_request, client_details)
+      HelpMailer.delay.help_request_receipt(@member, help_request, client_details )
+      HelpMailer.delay.help_request_review(@member, help_request, client_details)
     end
     
     respond_to do |format|

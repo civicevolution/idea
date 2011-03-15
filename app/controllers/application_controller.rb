@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
       member = Member.find_by_id(session[:member_id])
       render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member} if request.xhr?
       render :template=> 'errors/generic_error', :layout=>'welcome', :locals => {:member=>member} if !request.xhr?
-      ErrorMailer.deliver_error_report(member, exception, request.env["HTTP_HOST"], params[:_app_name] )
+      ErrorMailer.delay.error_report(member, exception, request.env["HTTP_HOST"], params[:_app_name] )
     rescue
       log_error("XXXX error_generic Had an error trying to report an error with email and custom error page")
     end

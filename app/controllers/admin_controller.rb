@@ -230,9 +230,8 @@ class AdminController < ApplicationController
           end
           
           msg = render_to_string :inline=>message
-          #AdminMailer.deliver_email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
           
-          AdminMailer.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc ).deliver
+          AdminMailer.delay.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
           
           include_bcc = false
           #set queue sent = true
@@ -401,7 +400,7 @@ class AdminController < ApplicationController
           else
             @invite.recipients.each do |recipient|
               logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
-              GenericMailer.deliver_generic_email(@member, recipient, params[:subject], params[:message] )
+              GenericMailer.delay.generic_email(@member, recipient, params[:subject], params[:message] )
               logger.warn "Email sent to #{recipient[:first_name]} at #{recipient[:email]}"
             end
             format.html { render :action => "acknowledge_invite_request", :layout => false } if request.xhr?

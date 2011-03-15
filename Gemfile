@@ -44,3 +44,4 @@ gem "tzinfo"
 gem "uuidtools"
 gem "json"
 gem "aws-ses"
+gem 'delayed_job'

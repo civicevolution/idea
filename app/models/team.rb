@@ -269,7 +269,7 @@ class Team < ActiveRecord::Base
         )
         
       members.each do |member|
-        ProposalMailer.deliver_team_workspace_available(member, self, tr.host )
+        ProposalMailer.delay.team_workspace_available(member, self, tr.host )
       end
       
     end
@@ -326,7 +326,7 @@ class Team < ActiveRecord::Base
         )
         
       members.each do |member|
-        ProposalMailer.deliver_team_workspace_available(member, self, tr.host )
+        ProposalMailer.delay.team_workspace_available(member, self, tr.host )
       end
       
     end

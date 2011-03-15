@@ -45,6 +45,9 @@ GEM
     builder (2.1.2)
     columnize (0.3.2)
     daemons (1.1.0)
+    delayed_job (2.1.4)
+      activesupport (~> 3.0)
+      daemons
     diff-lcs (1.1.2)
     differ (0.1.2)
     erubis (2.6.6)
@@ -104,6 +107,7 @@ DEPENDENCIES
   aws-ses
   bluecloth
   daemons
+  delayed_job
   diff-lcs
   differ
   haml
