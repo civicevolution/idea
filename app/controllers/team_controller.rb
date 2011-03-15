@@ -75,7 +75,7 @@ class TeamController < ApplicationController
         else
           @invite.recipients.each do |recipient|
             logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
-            ProposalMailer.deliver_team_send_invite(member, recipient, @invite, team, request.env["HTTP_HOST"] )
+            ProposalMailer.delay.team_send_invite(member, recipient, @invite, team, request.env["HTTP_HOST"] )
           end
           format.html { render :action => "team/acknowledge_invite_request", :layout => false } if request.xhr?
           format.html { render :action => "team/acknowledge_invite_request", :layout => 'welcome' }
@@ -139,7 +139,7 @@ class TeamController < ApplicationController
         
         #notify the author
         @host = request.env["HTTP_HOST"]
-        ProposalMailer.deliver_approval_notice(@submittor, @proposal_idea, @team, @host )
+        ProposalMailer.delay.approval_notice(@submittor, @proposal_idea, @team, @host )
 
         render :action => "proposal_idea_published", :layout => 'welcome'
       else
@@ -252,9 +252,9 @@ class TeamController < ApplicationController
         if @tr.team_just_launched
           # an email was sent as the team was launched, don't need another one here to the member
           # but tell the admin
-          ProposalMailer.deliver_team_just_launched(params[:_app_name], @team, @tr, @host )
+          ProposalMailer.delay.team_just_launched(params[:_app_name], @team, @tr, @host )
         else
-          ProposalMailer.deliver_team_join_confirmation(Member.find(@tr.member_id), @team, @tr, @host )
+          ProposalMailer.delay.team_join_confirmation(Member.find(@tr.member_id), @team, @tr, @host )
         end
       else
         format.json { render :text => [@tr.errors].to_json, :status => 409 }
@@ -1836,7 +1836,7 @@ class TeamController < ApplicationController
           saved = model.save
           if saved
             updated = true
-            ProposalMailer.deliver_review_update(member, model, params[:field], old_ver, request.env["HTTP_HOST"], params[:_app_name] )
+            ProposalMailer.delay.review_update(member, model, params[:field], old_ver, request.env["HTTP_HOST"], params[:_app_name] )
           end
         else
           saved = true # no errors to show
@@ -1907,10 +1907,10 @@ class TeamController < ApplicationController
           @recipients.push @recipient
           @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
           #msg = render_to_string :inline=>message
-          TeamMailer.deliver_teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team )
+          TeamMailer.delay.teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team )
         end
         @mcode = '~~SECRET~ACCESS~CODE~~'
-        TeamMailer.deliver_teammate_message_receipt(@member, @recipients, params[:subject], message, @host, @mcode, @team )
+        TeamMailer.delay.teammate_message_receipt(@member, @recipients, params[:subject], message, @host, @mcode, @team )
       
         respond_to do |format|
           format.html { render :text => "sent ok", :layout => false } if request.xhr?
