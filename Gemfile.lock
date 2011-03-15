@@ -33,6 +33,14 @@ GEM
       builder
       mime-types
       xml-simple
+    aws-ses (0.4.2)
+      builder
+      builder
+      mail (~> 2.2.5)
+      mime-types
+      mime-types
+      xml-simple
+      xml-simple
     bluecloth (2.0.11)
     builder (2.1.2)
     columnize (0.3.2)
@@ -93,6 +101,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-s3
+  aws-ses
   bluecloth
   daemons
   diff-lcs
