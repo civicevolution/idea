@@ -165,7 +165,8 @@ class NotificationRequest < ActiveRecord::Base
               recipient = Member.select('first_name, last_name, email').where(:id=>request.member_id).first
               logger.debug "NotificationRequest Send an email for entry #{entry.inspect} to #{recipient.email} at #{Time.now}."
 
-              NotificationMailer.immediate_report(recipient, team, request, entry).deliver unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
+              NotificationMailer.immediate_report(recipient, team, request, entry).deliver
+                #unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
 
               immed_send_mem_id = request.member_id #if request.report_type
             end
@@ -275,7 +276,8 @@ class NotificationRequest < ActiveRecord::Base
       recipient = @recipients.detect{|r| r.id == reports[0].member_id}
       mcode = MemberLookupCode.get_code(recipient.id, {:scenario=>'periodic team report'} )
       
-      NotificationMailer.periodic_report(recipient, @teams, @comments, @answers, @bs_ideas, reports, mcode).deliver unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
+      NotificationMailer.periodic_report(recipient, @teams, @comments, @answers, @bs_ideas, reports, mcode).deliver
+        #unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
       # uncomment update line to clear the queue
       reports.each do |request|
         ActiveRecord::Base::connection().update("update notification_requests set match_queue = null, sent_time = now() at time zone 'UTC' where id = #{request.id}");
