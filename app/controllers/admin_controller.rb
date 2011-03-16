@@ -144,7 +144,7 @@ class AdminController < ApplicationController
         end
         @init_id = params[:recipient_source] == 'join a team' ? team_id : (@team.nil? ? nil : @team.initiative_id)
         @host = @init_id.nil? ? request.env['HTTP_HOST'] : Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
-        @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
+        @host.sub!(/\w+$/,'dev') if Rails.env.development?
         if message.match(/@proposals/)
           @proposals = []
           Team.select("t.id,title").joins("AS t JOIN team_registrations AS tr ON tr.team_id = t.id").where("t.id > 10017 AND tr.member_id = ?", @recipient.id).each do |idea|
@@ -191,8 +191,7 @@ class AdminController < ApplicationController
         text += "Email was saved as #{params[:scenario]}, ver: #{params[:version]}"
       end
       if params[:send] == 'true'
-        logger.debug "send this version"
-        include_bcc = true
+        #logger.debug "send this version"
         #Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
         params[:recip_ids].each do |recip_id|
           mem_id, team_id = recip_id.split('-')
@@ -216,7 +215,7 @@ class AdminController < ApplicationController
             @init_id = params[:recipient_source] == 'join a team' ? team_id : (@team.nil? ? nil : @team.initiative_id)
             
             @host = @init_id.nil? ? request.env['HTTP_HOST'] : Initiative.first(:select=>'domain',:conditions=>"id = #{@init_id}").domain
-            @host.sub!(/\w+$/,'dev') if RAILS_ENV == 'development'
+            @host.sub!(/\w+$/,'dev') if Rails.env.development?
             if message.match(/@proposals/)
               @proposals = []
               Team.select("t.id,title").joins("AS t JOIN team_registrations AS tr ON tr.team_id = t.id").where("t.id > 10017 AND tr.member_id = ?", @recipient.id).each do |idea|
@@ -231,11 +230,8 @@ class AdminController < ApplicationController
           
           msg = render_to_string :inline=>message
 
-          #AdminMailer.delay(:run_at => 5.minutes.from_now).email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
+          #AdminMailer.delay(:run_at => 5.minutes.from_now).email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
           AdminMailer.delay.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
-
-          #AdminMailer.delay.email_message(Member.new( :email=>'support@auto.civicevolution.org', :first_name=>'Audit emails'), 'BCC: ' + params[:subject], msg, BlueCloth.new( msg ).to_html ) if include_bcc
-          include_bcc = false
           
           #set queue sent = true
           ctaq = CallToActionQueue.find_by_member_id_and_team_id( mem_id, team_id )
