@@ -67,7 +67,7 @@ while($running) do
     # the current hour is not the same as the hour the reports were last processed
     dow = Time.now.utc.wday
     logger.debug "LOOP queue pending reports for dow: #{dow} and hour: #{hour} at #{Time.now}.\n"
-    NotificationRequest.send_periodic_report(dow,hour)
+    NotificationRequest.send_periodic_report(dow,hour,logger)
     last_pending_report_hour_processed = hour
   end
   
