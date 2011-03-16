@@ -199,7 +199,7 @@ class NotificationRequest < ActiveRecord::Base
     #)
     
     reports = NotificationRequest.where(
-      ['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',0, 0 ]
+      ['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',hod, dow ]
       ).order("member_id, team_id, report_type")  
       
     return if reports.size == 0
