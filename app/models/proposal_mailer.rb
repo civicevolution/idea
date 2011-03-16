@@ -46,13 +46,27 @@ class ProposalMailer < ActionMailer::Base
     body       :member => member, :host => host, :team => team
   end
 
-  def team_send_invite(member, recipient, invite, team, host, sent_at = Time.now)
-    subject    "#{member.first_name} #{member.last_name} has invited you to view a proposal for change at CivicEvolution"
-    recipients "#{recipient[:first_name]} #{recipient[:last_name]} <#{recipient[:email]}>"
-    from       "\"2029 and Beyond @ CivicEvolution\" <no-reply@auto.civicevolution.org>"
-    sent_on    sent_at
+  #def team_send_invite(member, recipient, invite, team, host, sent_at = Time.now)
+  #  subject    "#{member.first_name} #{member.last_name} has invited you to view a proposal for change at CivicEvolution"
+  #  recipients "#{recipient[:first_name]} #{recipient[:last_name]} <#{recipient[:email]}>"
+  #  from       "\"2029 and Beyond @ CivicEvolution\" <no-reply@auto.civicevolution.org>"
+  #  sent_on    sent_at
+  #  
+  #  body       :member => member, :recipient => recipient, :invite => invite, :team => team, :host => host
+  #end
+
+  def team_send_invite(member, recipient, message, team, host, sent_at = Time.now)
+    @member = member
+    @recipient = recipient
+    @message = message
+    @team = team
+    @host = host
     
-    body       :member => member, :recipient => recipient, :invite => invite, :team => team, :host => host
+    mail(:to => "#{recipient[:first_name]} #{recipient[:last_name]} <#{recipient[:email]}>",
+      :subject => "#{member.first_name} #{member.last_name} has invited you to view a proposal for change at CivicEvolution",
+      :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
+      :reply_to => "support@civicevolution.org"
+    ) 
   end
 
   def review_update(member, team, field, old_ver, host, app_name, sent_at = Time.now)

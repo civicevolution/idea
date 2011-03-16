@@ -116,7 +116,7 @@ class WelcomeController < ApplicationController
       logger.debug "generate an email to #{member.email} with code: #{mcode}"
       # generate an email to the member
       
-      email = MemberMailer.delay.reset_password(member,mcode, request.env["HTTP_HOST"]) 
+      MemberMailer.delay.reset_password(member,mcode, request.env["HTTP_HOST"]) 
       render :text => 'ok'
     end
   end

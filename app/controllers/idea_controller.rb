@@ -965,6 +965,7 @@ class IdeaController < ApplicationController
     
     @invite = InviteEmail.new :sender => @member, :recipient_emails => params[:recipient_emails], :message=> params[:message]
     @invite.valid?
+    @message = @invite.message
 
     if @invite.errors.empty? && params[:send_now] == 'true'
       # invite is valid and to be sent now - check the captcha before sending
@@ -979,21 +980,23 @@ class IdeaController < ApplicationController
         if params[:send_now] != 'true'
           recipient =  @invite.recipients[0]
           logger.debug "Generate a sample email to #{recipient[:first_name]} at #{recipient[:email]}"
-          @email = ProposalMailer.create_team_send_invite(@member, recipient, @invite, team, request.env["HTTP_HOST"] )
-          format.html { render :action => "team/preview_invite_request", :layout => false } if request.xhr?
-          format.html { render :action => "team/preview_invite_request", :layout => 'welcome' }
+          @email = ProposalMailer.team_send_invite(@member, recipient, @message, team, request.env["HTTP_HOST"] )
+          format.html { render :template => "team/preview_invite_request", :layout => false } if request.xhr?
+          format.html { render :template => "team/preview_invite_request", :layout => 'welcome' }
         else
           @invite.recipients.each do |recipient|
-            logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
-            ProposalMailer.delay.team_send_invite(@member, recipient, @invite, team, request.env["HTTP_HOST"] )
+            logger.debug "**** Use delay to Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
+            #ProposalMailer.delay.team_send_invite(@member, recipient, @invite, team, request.env["HTTP_HOST"] )
+            #ProposalMailer.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"] ).deliver
+            ProposalMailer.delay().team_send_invite(@member, recipient, @message, team, request.env["HTTP_HOST"] )
           end
-          format.html { render :action => "team/acknowledge_invite_request", :layout => false } if request.xhr?
-          format.html { render :action => "team/acknowledge_invite_request", :layout => 'welcome' }
+          format.html { render :template => "team/acknowledge_invite_request", :layout => false } if request.xhr?
+          format.html { render :template => "team/acknowledge_invite_request", :layout => 'welcome' }
           
         end
       else
         if !@invite.errors[:recipient_emails].nil? && @invite.errors[:recipient_emails].size() > 0 && request.xhr?
-          format.html { render :action => "team/invite_request_email_errors", :layout => false }
+          format.html { render :template => "team/invite_request_email_errors", :layout => false }
         else
           format.json { render :text => [@invite.errors].to_json, :status => 409 }    
         end
@@ -1033,7 +1036,8 @@ class IdeaController < ApplicationController
     @target
   end  
   
-  IDEA_CONTROLLER_PUBLIC_METHODS = ['index', 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report', 'request_help', 'request_help_post', 'tooltips','invite']
+  IDEA_CONTROLLER_PUBLIC_METHODS = ['index', 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report', 
+    'request_help', 'request_help_post', 'tooltips','invite', 'submit_proposal']
   
   def authorize
     #debugger

@@ -69,7 +69,7 @@ class TeamController < ApplicationController
         if params[:send_now] != 'true'
           recipient =  @invite.recipients[0]
           logger.debug "Generate a sample email to #{recipient[:first_name]} at #{recipient[:email]}"
-          @email = ProposalMailer.create_team_send_invite(member, recipient, @invite, team, request.env["HTTP_HOST"] )
+          @email = ProposalMailer.team_send_invite(member, recipient, @invite, team, request.env["HTTP_HOST"] )
           format.html { render :action => "team/preview_invite_request", :layout => false } if request.xhr?
           format.html { render :action => "team/preview_invite_request", :layout => 'welcome' }
         else
@@ -1881,7 +1881,7 @@ class TeamController < ApplicationController
       respond_to do |format|
         #format.html { render :text => message, :layout => false } if request.xhr?
         #format.html { render :text => html, :layout => false } if request.xhr?
-        email_str = TeamMailer.create_teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team ).encoded.sub(/Mime-Version.*\n/i, '').sub(/Content-Type.*\n/i, '').gsub(/</,'&lt;').gsub(/>/,'&gt;')
+        email_str = TeamMailer.teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team ).encoded.sub(/Mime-Version.*\n/i, '').sub(/Content-Type.*\n/i, '').gsub(/</,'&lt;').gsub(/>/,'&gt;')
         format.html { render :text => "<pre class='wordwrap'>#{email_str}</pre>", :layout => false } if request.xhr?
         #format.html { render :text => "Please set up admin:email for non ajax" } 
       end

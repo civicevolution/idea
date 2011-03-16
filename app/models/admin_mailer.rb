@@ -9,15 +9,14 @@ class AdminMailer < ActionMailer::Base
 #    body      :plain_text_message => plain_text_message, :html_message => html_message
 #  end
 
-  def email_message(recipient, subject, plain_text_message, html_message, include_bcc)
+  def email_message(recipient, subject, plain_text_message, html_message)
     @plain_text_message = plain_text_message
     @html_message = html_message
     
     mail(:to => "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>",
       :subject => subject,
       :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
-      :reply_to => "support@civicevolution.org",
-      :bcc => include_bcc ? "support@auto.civicevolution.org" : ''
+      :reply_to => "support@civicevolution.org"
     ) do |format|
       format.text
       format.html

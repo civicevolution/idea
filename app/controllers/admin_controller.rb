@@ -230,10 +230,13 @@ class AdminController < ApplicationController
           end
           
           msg = render_to_string :inline=>message
-          
-          AdminMailer.delay.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
-          
+
+          #AdminMailer.delay(:run_at => 5.minutes.from_now).email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, include_bcc )
+          AdminMailer.delay.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
+
+          #AdminMailer.delay.email_message(Member.new( :email=>'support@auto.civicevolution.org', :first_name=>'Audit emails'), 'BCC: ' + params[:subject], msg, BlueCloth.new( msg ).to_html ) if include_bcc
           include_bcc = false
+          
           #set queue sent = true
           ctaq = CallToActionQueue.find_by_member_id_and_team_id( mem_id, team_id )
           ctaq.destroy unless ctaq.nil?
@@ -394,7 +397,7 @@ class AdminController < ApplicationController
           if params[:send_now] != 'true'
             recipient =  @invite.recipients[0]
             logger.debug "Generate a sample email to #{recipient[:first_name]} at #{recipient[:email]}"
-            @email = GenericMailer.create_generic_email(@member, recipient, params[:subject], params[:message] )
+            @email = GenericMailer.generic_email(@member, recipient, params[:subject], params[:message] )
             format.html { render :action => "preview_invite_request", :layout => false } if request.xhr?
             format.html { render :action => "preview_invite_request", :layout => 'welcome' }
           else
