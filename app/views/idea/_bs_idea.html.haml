@@ -14,7 +14,7 @@
 				= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email'}
 				your email.
 		
-		%div.text
+		%div.text.wordwrap
 			= simple_format( auto_link( h(bs_idea.text), :all, :target => "_blank" ))
 
 		-# top_level_comments_sorted = @comments.find_all {|c| c['par_id'].to_i == bs_idea.item_id && c.sib_id.to_i == 0}.sort {|a,b| a.order.to_i <=> b.order.to_i }

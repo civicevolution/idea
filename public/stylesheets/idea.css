@@ -1,3 +1,10 @@
+.wordwrap {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word; }
+
 body, p, ol, ul, td, textarea {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px; }

@@ -234,6 +234,7 @@ $('div.q_cta').live('click',
 				
 				init_clue_tips( $('a.show_me_how',par) );
 				BsIdeas.add_bs_ideas_data(question_id, bs_ideas,bs_ideas_priority);
+				$('div.bs_idea_inner a').attr('target','_blank');
 
 			}
 		)
