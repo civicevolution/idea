@@ -1,9 +1,9 @@
-run "echo 'deploy/after_restart.rb release_path: #{release_path}' >> #{shared_path}/logs.log"
+#run "echo 'deploy/after_restart.rb release_path: #{release_path}'"
 
 #sudo "monit restart mongrel -g app_2029"
 
 begin
-  app = release_path.root.to_s.match(/\/data\/(\w+)/)[1]
+  app = release_path.to_s.match(/\/data\/(\w+)/)[1]
   if app == 'app_2029'
     sudo "monit restart notify_d_#{app}"
     sudo "monit restart delayed_job_#{app}"

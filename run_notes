@@ -1,0 +1,15 @@
+Notes to run app in development mode
+
+RAILS_ENV=development script/monit.notify.sh start
+RAILS_ENV=development script/monit.notify.sh stop
+
+RAILS_ENV=development script/delayed_job start		
+RAILS_ENV=development script/delayed_job stop		
+
+
+pg_dump -i -h localhost -p 5432 -U postgres -F c -b -f "g3_development.03.7.11.11.03.pgz" g3_development
+dropdb g3_development
+createdb g3_development
+ls -l /ce_development/backups/2029_db/app_2029_production.*
+
+pg_restore -h localhost -p 5432 -U postgres -d g3_development "/ce_development/backups/2029_db/app_2029_production.03.17.11.07.43.pgz"
