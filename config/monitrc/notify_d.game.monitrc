@@ -1,0 +1,5 @@
+check process notify_d_game
+	with pidfile /data/game/shared/pids/notification.rb.pid
+  start program = "/bin/bash /data/game/current/script/monit.notify.sh start" as uid brian and gid brian
+  stop program = "/bin/bash /data/game/current/script/monit.notify.sh stop" as uid brian and gid brian
+  if totalmem is greater than 60 MB for 2 cycles then restart      # eating up memory?

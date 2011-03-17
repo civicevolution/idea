@@ -1,0 +1,18 @@
+check process mongrel_app_2029_5000
+  with pidfile /var/run/mongrel/app_2029/mongrel.5000.pid
+  start program = "/usr/bin/env PORT=5000 /engineyard/bin/app_app_2029 start" as uid brian and gid brian
+  stop program = "/usr/bin/env PORT=5000 /engineyard/bin/app_app_2029 stop" as uid brian and gid brian
+  if totalmem is greater than 150 MB for 2 cycles then restart      # eating up memory?
+  group app_2029
+check process mongrel_app_2029_5001
+  with pidfile /var/run/mongrel/app_2029/mongrel.5001.pid
+  start program = "/usr/bin/env PORT=5001 /engineyard/bin/app_app_2029 start" as uid brian and gid brian
+  stop program = "/usr/bin/env PORT=5001 /engineyard/bin/app_app_2029 stop" as uid brian and gid brian
+  if totalmem is greater than 150 MB for 2 cycles then restart      # eating up memory?
+  group app_2029
+check process mongrel_app_2029_5002
+  with pidfile /var/run/mongrel/app_2029/mongrel.5002.pid
+  start program = "/usr/bin/env PORT=5002 /engineyard/bin/app_app_2029 start" as uid brian and gid brian
+  stop program = "/usr/bin/env PORT=5002 /engineyard/bin/app_app_2029 stop" as uid brian and gid brian
+  if totalmem is greater than 150 MB for 2 cycles then restart      # eating up memory?
+  group app_2029

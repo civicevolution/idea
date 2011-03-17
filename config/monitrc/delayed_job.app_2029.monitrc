@@ -1,0 +1,5 @@
+check process delayed_job_app_2029
+  with pidfile /data/app_2029/shared/pids/delayed_job.pid
+  start program = "/usr/bin/env RAILS_ENV=production /data/app_2029/current/script/delayed_job start"
+  stop program = "/usr/bin/env RAILS_ENV=production /data/app_2029/current/script/delayed_job stop"
+	if totalmem is greater than 60 MB for 2 cycles then restart      # eating up memory?
