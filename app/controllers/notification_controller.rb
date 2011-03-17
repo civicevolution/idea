@@ -71,7 +71,7 @@ class NotificationController < ApplicationController
   def send_periodic
     
     req = NotificationRequest.find_by_report_type_and_team_id(2,params[:id])
-    req.match_queue = '{3-823,3-824,3-825,3-826,3-830,3-831,3-832,3-833,3-835}'
+    req.match_queue = '{3-836,3-837,12-79}'
     req.save
     
     NotificationRequest.send_periodic_report(0,0,logger)

@@ -59,7 +59,7 @@ while($running) do
   logger.info "This notification.rb is still running at #{Time.now}.\n"
   
   #logger.debug "LOOP call NotificationRequest.check_team_content_log at #{Time.now} in ENV: #{ENV["RAILS_ENV"]}.\n"
-  #NotificationRequest.check_team_content_log(logger)
+  NotificationRequest.check_team_content_log(logger)
   
   # Look at the time and find out if it is a new hour
   hour = Time.now.utc.hour # have the reports for this hour been run?

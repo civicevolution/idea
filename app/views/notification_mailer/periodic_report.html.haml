@@ -32,7 +32,7 @@
 - @reports.each do |report|
 	- team =  @team.detect{|t| t.id == report.team_id}
 	- com = idea = ans = 0
-	- report.match_queue.scan(/(\d+)-(\d+)/).each{|type, id| case type.to_i when 2: ans += 1 when 3: com +=1 when 11: idea += 1 end}
+	- report.match_queue.scan(/(\d+)-(\d+)/).each{|type, id| case type.to_i when 2: ans += 1 when 3: com +=1 when 12: idea += 1 end}
 	
 	%h3.team_title= team.title
 	-host = team.initiative_id == 1 ? 'cgg' : '2029'
@@ -75,7 +75,7 @@
 					-#%p= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
 					-#%p.com #{entry.text}
    
-				- when 11
+				- when 12
 					- entry = @bs_ideas.detect{|b| b.id == id.to_i}
 					%p.entry_title A brainstorming idea was added
 					%p.idea #{entry.text}
