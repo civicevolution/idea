@@ -736,7 +736,8 @@ function activate_invite_form(form){
 }
 
 
-function activate_text_counters_grow(els){
+function activate_text_counters_grow(els, height){
+	height = height? height : 16
 	var focused = false;
 	els.each(
 		function(){
@@ -757,8 +758,8 @@ function activate_text_counters_grow(els){
 			  });
 				if(el[0].nodeName == 'TEXTAREA'){
 					el.autogrow({
-						lineHeight : 16,
-						minHeight  : 32,
+						lineHeight : 18,
+						minHeight  : height,
 						maxHeight : 500
 					});			
 				}
@@ -1060,4 +1061,99 @@ function open_debugger(){
 		}
 	)
 	return false;
+}
+
+
+function activate_email_participants_form(form){
+	console.log("activate_email_participants_form")
+	activate_text_counters_grow( $('textarea',form),100 )
+
+	$('a.cancel',form).click(
+		function(){
+			try{
+				console.log("Cancel email_participants_form");
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			}catch(e){
+				console.log("activate email_participants_form cancel error: "+ e)
+			}
+			return false;
+		}
+	);
+
+	$(':submit', form).click(
+		function(){
+			try{
+		 		console.log("Submit the email_participants form");
+
+				var form = $(this).closest('form');
+				var btn = $(this);
+			
+				//  or 			var btn = $('input[type="submit"]',form);
+			
+				btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+
+				$(':input',form).removeClass('form_error_border');
+				$('p.form_error_text',form).remove();
+			
+				form.ajaxSubmit({ 					
+				  type: "POST", 
+					url: 'http://' + document.location.host + '/idea/email_participants',
+				  success: function(data,status){ 
+						if($('input[name="send_now"]', form).val() == 'true'){
+							// clear preview and acknowledge email was sent
+							$('input[name="send_now"]', form).val('')
+							var dialog = $('<div>' + data + '</div>').dialog( {title : 'Thank you', modal : true, width: 500 }); 
+							// find and remove the preview dialog
+							preview_dialog.dialog('destroy').remove()
+						}else{
+							preview_dialog = $('<div>' + data + '</div>').dialog( {title : 'Please preview your email', modal : true, width: 500,
+									close: function(){ 	$('input[name="send_now"]', form).val('') } }); 
+							preview_dialog.find('a.make_changes').click(
+								function(){
+									preview_dialog.remove();
+									$('input[name="send_now"]', form).val('')
+									return false;
+								}
+							)
+							preview_dialog.find('button').click(
+								function(){
+									console.log("send this email now")
+									//dialog.remove();
+									$('input[name="send_now"]', form).val('true')
+									btn.removeAttr('disabled').next('img').remove();
+									//show_recaptcha( form, false )
+									//invite_friends(form);
+									preview_dialog.dialog('destroy').remove();
+									$('input[name="send_now"]', form).val('true');
+									$('input[name="act"]', form).val('send');
+								 	$('input[type="submit"]',form).click();
+									return false;
+								}
+							)
+						}
+						btn.removeAttr('disabled').next('img').remove();
+				  },
+					error : function(xhr,errorString,exceptionObj){
+						console.log("Error email_participants, xhr: " + xhr.responseText)
+						try{
+							if(xhr.responseText.match(/Captcha failed/) ){
+								//console.log("try recaptcha again")
+								show_recaptcha( form, true )
+								btn.removeAttr('disabled').next('img').remove();
+								return false;
+							}
+							show_form_error(form,xhr.responseText)
+							//$("input[name='first_name']",form).before('<p class="form_error_text">' + xhr.responseText + "</p>")
+							btn.removeAttr('disabled').next('img').remove();
+						}catch(e){
+							console.log("email_participants submit error: " + e)
+							$('<div><p>Sorry, we cannot process your invitation request at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
+							btn.removeAttr('disabled').next('img').remove();
+						}
+					}
+				});
+			}catch(e){console.log("submit email_participants form error: " + e.message)}
+			return false;
+		}
+	);
 }

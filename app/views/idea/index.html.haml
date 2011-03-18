@@ -119,3 +119,7 @@
 	
 	%h3
 		= link_to "Invite friends",{},{:class=>'invite'}
+
+	- if @member.id == @team.org_id
+		%h3
+			= link_to "Email participants",{},{:class=>'email_participants'}

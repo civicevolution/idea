@@ -69,6 +69,21 @@ class ProposalMailer < ActionMailer::Base
     ) 
   end
 
+  def send_participant_message(member, recipient, message, team, host, sent_at = Time.now)
+    @member = member
+    @recipient = recipient
+    @message = message
+    @team = team
+    @host = host
+    
+    mail(:to => "#{recipient[:first_name]} #{recipient[:last_name]} <#{recipient[:email]}>",
+      :subject => "#{member.first_name} #{member.last_name} has sent you a message about a 2029 and Beyond idea proposal",
+      :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
+      :reply_to => "support@civicevolution.org"
+    ) 
+  end
+
+
   def review_update(member, team, field, old_ver, host, app_name, sent_at = Time.now)
     subject    'Please review this proposal idea update'
     recipients 'support@civicevolution.org'

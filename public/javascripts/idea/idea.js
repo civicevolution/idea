@@ -298,11 +298,30 @@ $('a.invite').live('click',
 		$('<div></div>').load("/idea/invite/" + team_id, 
 			function(){
 				var $this = $(this);
-				$this.dialog({modal:true,	title: 'Invite your friends and neighbors', width: 'auto', height: 'auto'}); 
+				$this.dialog({modal:true,	title: 'Invite your friends and neighbors', width: 'auto', height: 'auto', closeOnEscape: false}); 
 				activate_invite_form($this.find('form'));
-				$this.find('textarea#recipient_emails').val('brian@civicevolution.org').focus();
-				$this.find('textarea#message').val('Please look at this great idea');
+				$this.find('textarea#recipient_emails').focus();
 				init_clue_tips( $this.find('a.show_me_how') );
+			}
+		)
+		return false;
+	}
+)
+
+$('a.email_participants').live('click',
+	function(){
+		if(typeof show_recaptcha == 'undefined') $.getScript('/javascripts/idea/gen/recaptcha.js');
+		if(typeof Recaptcha == 'undefined') $.getScript('http://www.google.com/recaptcha/api/js/recaptcha_ajax.js');
+		$('<div></div>').load("/idea/email_participants/" + team_id, 
+			function(){
+				var $this = $(this);
+				$this.dialog({modal:true,	title: 'Send an email to the Idea participants', width: 'auto', height: 'auto', closeOnEscape: false}); 
+				activate_email_participants_form($this.find('form'));
+				$this.find('div#email_participants textarea').focus();
+				//$this.find('textarea#message').val('This is my participant message');
+				//$('div#email_participants').find('input[type="checkbox"]').eq(12).attr('checked','checked')
+				//$this.find('input[type="checkbox"]').eq(11).attr('checked','true');
+				//init_clue_tips( $this.find('a.show_me_how') );
 			}
 		)
 		return false;

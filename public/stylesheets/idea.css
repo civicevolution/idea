@@ -833,3 +833,11 @@ form.signin_form p.signin_warn {
 form.signin_form p.signin_action_warn {
   color: red;
   font-weight: bold; }
+
+div#email_participants {
+  textarea-height: 100px; }
+  div#email_participants th, div#email_participants td {
+    text-align: left;
+    padding-left: 20px; }
+  div#email_participants th.ctr, div#email_participants td.ctr {
+    text-align: center; }
