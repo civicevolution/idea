@@ -1,0 +1,33 @@
+%h3 You are almost done inviting your friend#{@invite.recipients.size>1 ? 's' : ''}
+
+%p
+	You must preview this sample email and click the 
+	%b Send this email now
+	button to send this invitation
+
+%div.preview_email 
+	%div.email_headers		
+		%p #{@email.to_s.match(/From:.*/)} 
+		%p Recipients:
+		- @invite.recipients.each do |recipient|
+			%p.recipients #{recipient[:first_name]} #{recipient[:last_name]}
+	
+
+		%p.subject Subject: #{@email.subject}
+
+	%pre.email_body= @email.body
+
+
+%p 
+	If this is okay, click 
+	%b Send this email now
+	or click 
+	%b Make changes
+
+	%p
+		%button Send this email now
+		= link_to 'Make changes', {:action => 'index'}, {:class=>'make_changes'}
+
+	
+%p
+	You can contact us at support@civicevolution.org if you have any questions.
