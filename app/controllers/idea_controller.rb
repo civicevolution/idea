@@ -1006,9 +1006,8 @@ class IdeaController < ApplicationController
   end
   
   def email_participants
-    
+    @team = Team.find(params[:team_id])
     if params[:act].nil?
-      @team = Team.find(params[:id])
       @endorsers = Member.select('first_name, last_name, ape_code').where(
         [%q|id IN (SELECT distinct member_id FROM endorsements WHERE team_id = ?)|, @team.id]
       )
@@ -1037,7 +1036,6 @@ class IdeaController < ApplicationController
       render :template=> 'idea/email_participants', :layout=>false
       
     elsif params[:act] == 'preview'
-      @team = Team.find(params[:team_id])
       logger.debug "show email preview"
       @recipients = Member.select('first_name, last_name, email').where(:ape_code => params[:recip_ids])
       recipient =  @recipients[0]
@@ -1050,17 +1048,13 @@ class IdeaController < ApplicationController
       
       
     elsif params[:act] == 'send'
-      @team = Team.find(params[:team_id])
       logger.debug "Send the email to participants"
-      @recipients = Member.select('first_name, last_name, email').where(:ape_code => params[:recip_ids])
+      @recipients = Member.select('id, first_name, last_name, email').where(:ape_code => params[:recip_ids])
       @recipients.each do |recipient|
         logger.debug "**** Use delay to Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
-        #ProposalMailer.delay.team_send_invite(@member, recipient, @invite, team, request.env["HTTP_HOST"] )
-        #ProposalMailer.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"] ).deliver
-        
-        #ProposalMailer.delay.send_participant_message(@member, recipient, params[:message], @team, request.env["HTTP_HOST"] )
-        ProposalMailer.send_participant_message(@member, recipient, params[:message], @team, request.env["HTTP_HOST"] ).deliver
+        ProposalMailer.delay.send_participant_message(@member, recipient, params[:message], @team, request.env["HTTP_HOST"] )
       end
+      ProposalMailer.delay.send_participant_message_copy(@member, @recipients, params[:message], @team, request.env["HTTP_HOST"] )
       respond_to do |format|
         format.html { render :template => "idea/acknowledge_participant_message", :layout => false } if request.xhr?
         format.html { render :template => "idea/acknowledge_participant_message", :layout => 'welcome' }

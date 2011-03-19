@@ -124,7 +124,7 @@ hr.bottom, .clear {
   display: none; }
 
 tr.stripe {
-  background-color: #eeeeee; }
+  background-color: #dddddd; }
 
 p.loading {
   font-weight: bold;
@@ -841,3 +841,6 @@ div#email_participants {
     padding-left: 20px; }
   div#email_participants th.ctr, div#email_participants td.ctr {
     text-align: center; }
+
+table.tablesorter th {
+  cursor: pointer; }

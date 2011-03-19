@@ -652,7 +652,7 @@ function activate_idea_form(form,orig_idea){
 	$('div.control_line a.clear',form).click(
 		function(){
 		 //console.log("Clear the idea form");
-			$(this).closest('form').find('textarea').val('');
+			$(this).closest('form').find('textarea').val('').focus();
 			$(':input',form).removeClass('form_error_border');
 			$('p.form_error_text',form).remove();
 			return false;
@@ -681,7 +681,7 @@ function activate_idea_form(form,orig_idea){
 					var msg = $('<p class="confirmation">Your idea has been saved successfully & inserted into your favorites list</p>')
 					form.prepend(msg)
 					msg.effect('highlight',{},5000, function(){$(this).remove()});					
-					$('textarea',form).val('');
+					$('textarea',form).val('').focus();
 					btn.removeAttr('disabled').next('img').remove();
 			  },
 				error : function(xhr,errorString,exceptionObj){

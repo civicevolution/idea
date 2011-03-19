@@ -1,0 +1,24 @@
+Copy of the message you sent to participants of "#{@team.title}"
+~''
+Recipients:
+- @recips.each do |r|
+	#{r.first_name} #{r.last_name}
+~''
+Here is a copy of the message as sent to #{@recips[0][:first_name]}:
+________________________________________________
+~''
+~''	
+Hello #{@recips[0][:first_name]},
+~ ''
+#{@message}
+~''
+~''
+
+The title of the proposal is "#{@team.title}"
+You can visit this proposal online at http://#{@host}/idea/#{@team.id}
+~''
+~''
+#{@member.first_name} #{@member.last_name} requested CivicEvolution send this email to you.
+~''
+
+

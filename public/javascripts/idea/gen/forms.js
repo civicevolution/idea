@@ -192,7 +192,7 @@ function activate_answer_form(form,orig_ans){
 	$('div.control_line a.clear',form).click(
 		function(){
 			//console.log("Clear the comment form");
-			$(this).closest('form').find('textarea').val('');
+			$(this).closest('form').find('textarea').val('').focus();
 			$(':input',form).removeClass('form_error_border');
 			$('p.form_error_text',form).remove();
 			return false;
@@ -230,7 +230,7 @@ function activate_answer_form(form,orig_ans){
 					if( $('a.cancel',form).size() > 0 ){
 						form.hide(1000,function(){$(this).remove()})
 					}else if (data[0].params.data.remaining_ans > 0){
-						$('textarea',form).val('');
+						$('textarea',form).val('').focus();
 					}else{
 						form.hide(1000,function(){$(this).remove()})
 					}
@@ -391,7 +391,7 @@ function activate_comment_form(form,orig_com){
 					  var msg = $('<p class="confirmation">Your comment has been saved successfully</p>')
 						form.before(msg);
 						// reset the form
-						form.find('input[type="text"], textarea, input[type="file"]').removeAttr('disabled').val('')
+						form.find('input[type="text"], textarea, input[type="file"]').removeAttr('disabled').val('').focus();
 						$('div.add_comment button, div.add_comment a, div.add_comment img',form).show();				
 						$('div.add_link, div.attach_file',form).hide()
 						form[0].resource_type.value = 'simple';
@@ -447,7 +447,7 @@ function activate_comment_form(form,orig_com){
 		function(){
 		 //console.log("Clear the comment form");
 			var form = $(this).closest('form');
-			form.find('input[type="text"], textarea, input[type="file"]').removeAttr('disabled').val('')
+			form.find('input[type="text"], textarea, input[type="file"]').removeAttr('disabled').val('').focus();
 			$('div.add_comment button, div.add_comment a, div.add_comment img',form).show();				
 			$('div.add_link, div.attach_file',form).hide()
 			form[0].resource_type.value = 'simple';
@@ -521,21 +521,18 @@ function activate_report_form(form){
 }
 
 
-function activate_endorsement_form(form,orig_idea){
-	form = $('div#endorsements form');
-	activate_text_counters_grow( $('textarea',form) )
+function activate_endorsement_form(){
+	var form = $('div#endorsements form');
+	activate_text_counters_grow( $('textarea',form) );
 
 	$('div.control_line a.cancel',form).click(
 		function(){
 			try{
-				//console.log("Cancel the idea form");
+				console.log("Cancel the update endorsement form v12");
 				var form = $(this).closest('form');
-				form.remove();
-				// restore a form that may have been faded
-				//form.closest('.tab_window').find('form.add_answer_form:last').fadeTo(1000,1)
-				if(orig_idea)orig_idea.show(1000)
+				form.addClass('hide');
 			}catch(e){
-				console.log("answer cancel error: "+ e)
+				console.log("endorsement cancel error: "+ e)
 			}
 			return false;
 		}
@@ -543,10 +540,14 @@ function activate_endorsement_form(form,orig_idea){
 	
 	$('div.control_line a.clear',form).click(
 		function(){
-		 //console.log("Clear the idea form");
-			$(this).closest('form').find('textarea').val('');
-			$(':input',form).removeClass('form_error_border');
-			$('p.form_error_text',form).remove();
+			if( $(this).hasClass('clear') ){
+			 	console.log("Clear the idea form v1");
+				$(this).closest('form').find('textarea').val('').focus();
+				$(':input',form).removeClass('form_error_border');
+				$('p.form_error_text',form).remove();
+			}else{
+				$(this).closest('form').addClass('hide');
+			}
 			return false;
 		}
 	);
@@ -571,7 +572,7 @@ function activate_endorsement_form(form,orig_idea){
 					var msg = $('<p class="confirmation">Your endorsment has been saved successfully & inserted above</p>')
 					form.prepend(msg)
 					msg.effect('highlight',{},3000, function(){$(this).remove()});					
-					$('textarea',form).val('');
+					$('textarea',form).val('').focus();
 					btn.removeAttr('disabled').next('img').remove();
 			  },
 				error : function(xhr,errorString,exceptionObj){
@@ -682,17 +683,17 @@ function activate_invite_form(form){
 				  success: function(data,status){ 
 						if($('input[name="send_now"]', form).val() == 'true'){
 							// clear preview and acknowledge email was sent
-							$('input[name="send_now"]', form).val('')
+							$('input[name="send_now"]', form).val('').focus()
 							var dialog = $('<div>' + data + '</div>').dialog( {title : 'Thank you', modal : true, width: 500 }); 
 							// find and remove the preview dialog
 							preview_dialog.dialog('destroy').remove()
 						}else{
 							preview_dialog = $('<div>' + data + '</div>').dialog( {title : 'Please preview your email', modal : true, width: 500,
-									close: function(){ 	$('input[name="send_now"]', form).val('') } }); 
+									close: function(){ 	$('input[name="send_now"]', form).val('').focus() } }); 
 							preview_dialog.find('a.make_changes').click(
 								function(){
 									preview_dialog.remove();
-									$('input[name="send_now"]', form).val('')
+									$('input[name="send_now"]', form).val('').focus()
 									return false;
 								}
 							)
@@ -737,11 +738,11 @@ function activate_invite_form(form){
 
 
 function activate_text_counters_grow(els, height){
-	height = height? height : 16
+	height = height? height : 30
 	var focused = false;
 	els.each(
 		function(){
-			//console.log("activate text, get span.char_ctr & count");
+			console.log("activate_text_counters_grow with height: " + height);
 			var el = $(this);
 
 			var span = el.next().find('span.char_ctr');
@@ -757,11 +758,20 @@ function activate_text_counters_grow(els, height){
 					status_element: span
 			  });
 				if(el[0].nodeName == 'TEXTAREA'){
-					el.autogrow({
-						lineHeight : 18,
-						minHeight  : height,
-						maxHeight : 500
-					});			
+					
+					// if the el is not displayed, IE gives it a width of 0 and the el cannot be setup to grow
+					if(el[0].offsetWidth > 0){
+						el.autoGrow({
+							minHeight  : height,
+							maxHeight : 500
+						});
+					}
+					// Don't use the old autogrow - it is too jumpy
+					//el.autogrow({
+					//	lineHeight : 18,
+					//	minHeight  : height,
+					//	maxHeight : 500
+					//});			
 				}
 				if(!focused){
 					//el.focus();
@@ -1061,99 +1071,4 @@ function open_debugger(){
 		}
 	)
 	return false;
-}
-
-
-function activate_email_participants_form(form){
-	console.log("activate_email_participants_form")
-	activate_text_counters_grow( $('textarea',form),100 )
-
-	$('a.cancel',form).click(
-		function(){
-			try{
-				console.log("Cancel email_participants_form");
-				$(this).closest('div.ui-dialog').dialog('destroy').remove();
-			}catch(e){
-				console.log("activate email_participants_form cancel error: "+ e)
-			}
-			return false;
-		}
-	);
-
-	$(':submit', form).click(
-		function(){
-			try{
-		 		console.log("Submit the email_participants form");
-
-				var form = $(this).closest('form');
-				var btn = $(this);
-			
-				//  or 			var btn = $('input[type="submit"]',form);
-			
-				btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
-
-				$(':input',form).removeClass('form_error_border');
-				$('p.form_error_text',form).remove();
-			
-				form.ajaxSubmit({ 					
-				  type: "POST", 
-					url: 'http://' + document.location.host + '/idea/email_participants',
-				  success: function(data,status){ 
-						if($('input[name="send_now"]', form).val() == 'true'){
-							// clear preview and acknowledge email was sent
-							$('input[name="send_now"]', form).val('')
-							var dialog = $('<div>' + data + '</div>').dialog( {title : 'Thank you', modal : true, width: 500 }); 
-							// find and remove the preview dialog
-							preview_dialog.dialog('destroy').remove()
-						}else{
-							preview_dialog = $('<div>' + data + '</div>').dialog( {title : 'Please preview your email', modal : true, width: 500,
-									close: function(){ 	$('input[name="send_now"]', form).val('') } }); 
-							preview_dialog.find('a.make_changes').click(
-								function(){
-									preview_dialog.remove();
-									$('input[name="send_now"]', form).val('')
-									return false;
-								}
-							)
-							preview_dialog.find('button').click(
-								function(){
-									console.log("send this email now")
-									//dialog.remove();
-									$('input[name="send_now"]', form).val('true')
-									btn.removeAttr('disabled').next('img').remove();
-									//show_recaptcha( form, false )
-									//invite_friends(form);
-									preview_dialog.dialog('destroy').remove();
-									$('input[name="send_now"]', form).val('true');
-									$('input[name="act"]', form).val('send');
-								 	$('input[type="submit"]',form).click();
-									return false;
-								}
-							)
-						}
-						btn.removeAttr('disabled').next('img').remove();
-				  },
-					error : function(xhr,errorString,exceptionObj){
-						console.log("Error email_participants, xhr: " + xhr.responseText)
-						try{
-							if(xhr.responseText.match(/Captcha failed/) ){
-								//console.log("try recaptcha again")
-								show_recaptcha( form, true )
-								btn.removeAttr('disabled').next('img').remove();
-								return false;
-							}
-							show_form_error(form,xhr.responseText)
-							//$("input[name='first_name']",form).before('<p class="form_error_text">' + xhr.responseText + "</p>")
-							btn.removeAttr('disabled').next('img').remove();
-						}catch(e){
-							console.log("email_participants submit error: " + e)
-							$('<div><p>Sorry, we cannot process your invitation request at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
-							btn.removeAttr('disabled').next('img').remove();
-						}
-					}
-				});
-			}catch(e){console.log("submit email_participants form error: " + e.message)}
-			return false;
-		}
-	);
 }

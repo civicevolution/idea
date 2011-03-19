@@ -186,7 +186,10 @@ $('a.update_endorsement').live('click',
 			var form = $('div#endorsements form');
 			form.removeClass('hide');
 			var t = $(this).closest('tr').find('td.text').html();
-			form.find('textarea').val( strip_white_space(t) )
+			var a_cancel = form.find('a.clear').attr('class','cancel').html('Cancel');
+			form.find('textarea').val( strip_white_space(t) );
+			activate_text_counters_grow( $('textarea',form) );
+			$('textarea',form).focus();
 		}catch(e){console.log("update_endorsement e: " + e.message)}
 		return false;
 	}
@@ -310,24 +313,25 @@ $('a.invite').live('click',
 
 $('a.email_participants').live('click',
 	function(){
-		if(typeof show_recaptcha == 'undefined') $.getScript('/javascripts/idea/gen/recaptcha.js');
-		if(typeof Recaptcha == 'undefined') $.getScript('http://www.google.com/recaptcha/api/js/recaptcha_ajax.js');
-		$('<div></div>').load("/idea/email_participants/" + team_id, 
-			function(){
-				var $this = $(this);
-				$this.dialog({modal:true,	title: 'Send an email to the Idea participants', width: 'auto', height: 'auto', closeOnEscape: false}); 
-				activate_email_participants_form($this.find('form'));
-				$this.find('div#email_participants textarea').focus();
-				//$this.find('textarea#message').val('This is my participant message');
-				//$('div#email_participants').find('input[type="checkbox"]').eq(12).attr('checked','checked')
-				//$this.find('input[type="checkbox"]').eq(11).attr('checked','true');
-				//init_clue_tips( $this.find('a.show_me_how') );
+		// do I need recaptcha?
+		//if(typeof show_recaptcha == 'undefined') $.getScript('/javascripts/idea/gen/recaptcha.js');
+		//if(typeof Recaptcha == 'undefined') $.getScript('http://www.google.com/recaptcha/api/js/recaptcha_ajax.js');
+		if(typeof $.tablesorter == 'undefined') $.getScript('/javascripts/jquery.tablesorter.min.js');
+		$('div#email_participants').remove();
+		$.get('/idea/email_participants?team_id=' + team_id,
+			function(data){
+			  var pcs = data.split(/<script/);
+				var dialog = $(pcs[0]).dialog( {title : 'Send an email to the Idea participants', modal : true, width: 500, closeOnEscape: false } );
+				
+				if(typeof activate_email_participants_form == 'undefined') $('head').append('<script' + pcs[1]);
+				$("div.recipients table#participants").tablesorter( {widgets: ['re_zebra'] });
+				activate_email_participants_form(dialog.find('form'));
+				dialog.find('div#email_participants textarea').focus();
 			}
 		)
 		return false;
 	}
 )
-
 
 $('a.report').live('click',
 	function(){
