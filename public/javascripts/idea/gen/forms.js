@@ -541,7 +541,6 @@ function activate_endorsement_form(){
 	$('div.control_line a.clear',form).click(
 		function(){
 			if( $(this).hasClass('clear') ){
-			 	console.log("Clear the idea form v1");
 				$(this).closest('form').find('textarea').val('').focus();
 				$(':input',form).removeClass('form_error_border');
 				$('p.form_error_text',form).remove();
@@ -742,7 +741,7 @@ function activate_text_counters_grow(els, height){
 	var focused = false;
 	els.each(
 		function(){
-			console.log("activate_text_counters_grow with height: " + height);
+			//console.log("activate_text_counters_grow with height: " + height);
 			var el = $(this);
 
 			var span = el.next().find('span.char_ctr');

@@ -181,7 +181,7 @@ $('a.help_tag').live('mouseover mouseout', function(event) {
 
 $('a.update_endorsement').live('click', 
 	function(){
-		console.log("update_endorsement");
+		//console.log("update_endorsement");
 		try{
 			var form = $('div#endorsements form');
 			form.removeClass('hide');

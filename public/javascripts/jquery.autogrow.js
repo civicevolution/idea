@@ -9,6 +9,7 @@
 jQuery.fn.autoGrow = function(o){
 	
 	return this.each(function(){
+		//console.log("autoGrom this.cols: " + this.cols)
 		//debugger
 		var fixed_width = false;
 		// if cols is not set, or < 5, determine the # cols based on the width
@@ -81,7 +82,11 @@ jQuery.fn.autoGrow = function(o){
 		this.style.height = "auto";
 		this.style.overflow = "hidden";
 		//this.style.width = "auto";
-		if(!fixed_width) this.style.width = ((characterWidth(this) * this.cols) + 6) + "px";
+		if(!fixed_width){
+			//console.log("autoGrow fixed_width is false")
+			this.style.width = "auto";
+			this.style.width = ((characterWidth(this) * this.cols) + 6) + "px";
+		}
 		//debugger
 		this.onkeyup = grow;
 		this.onfocus = grow;
