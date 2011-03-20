@@ -1,3 +1,4 @@
+#delayed_job.app_2029.monitrc
 check process delayed_job_app_2029
   with pidfile /data/app_2029/shared/pids/delayed_job.pid
   start program = "/usr/bin/env RAILS_ENV=production /data/app_2029/current/script/delayed_job start"
