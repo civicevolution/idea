@@ -6,7 +6,8 @@ gem 'rails', '3.0.5'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # Use unicorn as the web server
-# gem 'unicorn'
+gem 'unicorn'
+#gem 'unicorn', '1.1.5'
 
 # Deploy with Capistrano
 # gem 'capistrano'
@@ -46,6 +47,3 @@ gem "json"
 gem "aws-ses"
 gem 'delayed_job'
 
-group :production do
-	gem 'unicorn', '1.1.5'
-end

@@ -55,6 +55,7 @@ GEM
     haml (3.0.25)
     i18n (0.5.0)
     json (1.5.1)
+    kgio (2.3.3)
     linecache (0.43)
     mail (2.2.15)
       activesupport (>= 2.3.6)
@@ -96,6 +97,9 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.24)
+    unicorn (3.5.0)
+      kgio (~> 2.3)
+      rack
     uuidtools (2.1.2)
     xml-simple (1.0.14)
 
@@ -118,4 +122,5 @@ DEPENDENCIES
   ruby-debug
   ruby-recaptcha
   tzinfo
+  unicorn
   uuidtools
