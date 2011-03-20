@@ -45,3 +45,7 @@ gem "uuidtools"
 gem "json"
 gem "aws-ses"
 gem 'delayed_job'
+
+group :production do
+	gem "unicorn"
+end
