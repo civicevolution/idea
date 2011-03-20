@@ -47,5 +47,5 @@ gem "aws-ses"
 gem 'delayed_job'
 
 group :production do
-	gem "unicorn"
+	gem 'unicorn', '1.1.5'
 end
