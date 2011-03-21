@@ -713,9 +713,13 @@ class IdeaController < ApplicationController
       	when 6
       	  @help_request['type'] = 'I have a suggestion'
       end
+      if @member.id == 0
+        @member = { :first_name=>params[:request_help][:name], :email=>params[:request_help][:email]}
+      end
+
       HelpMailer.delay.help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
       begin
-        HelpMailer.delay.help_request_receipt(@member, @help_request, client_details )
+        HelpMailer.delay.help_request_receipt(@member, @help_request, client_details ) unless @member[:email].nil?
       rescue
         @mail_error = true
       end
