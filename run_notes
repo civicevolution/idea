@@ -1,5 +1,8 @@
 Notes to run app in development mode
 
+rvmsudo rails s --debugger --port=80
+
+
 RAILS_ENV=development script/monit.notify.sh start
 RAILS_ENV=development script/monit.notify.sh stop
 
@@ -13,3 +16,4 @@ createdb g3_development
 ls -l /ce_development/backups/2029_db/app_2029_production.*
 
 pg_restore -h localhost -p 5432 -U postgres -d g3_development "/ce_development/backups/2029_db/app_2029_production.03.17.11.07.43.pgz"
+

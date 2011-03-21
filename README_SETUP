@@ -1,0 +1,91 @@
+***********************************************************************************
+
+Mon Mar 21 10:41:46 PDT 2011
+
+***********************************************************************************
+
+I will deploy a new environment to run CE and then switch the IP to it so it becomes the sole environment
+
+From EY site: https://cloud.engineyard.com/
+New environment
+	civic
+	production
+	Unicorn
+	brian
+	auto 
+	Ruby 1.8.7
+	SSH keys
+	Backups 2 hours, keep 30
+	Create environment
+	
+Add app_2029
+	Domain name _
+
+attach chef recipes (they will be run when I boot instances)
+  cd /ce_development/Rails/g3
+  ey recipes upload -e civic
+
+
+Boot instances
+	Custom
+	Add IP address
+	App Server 
+		1
+		Small
+		New volume 5GB
+	Database server
+		Small
+		New volumne 5GB
+	Boot this configuration 10:48 ( 20 minutes to boot)
+
+
+Add new instances to ~/.ssh/config
+
+	Host civic
+	        Hostname ec2-50-17-206-193.compute-1.amazonaws.com
+	        User brian
+
+	Host civic-db
+	        Hostname @ec2-50-16-118-11.compute-1.amazonaws.com
+	        User brian
+
+Backup production database and restore to the new instance
+	On Production db do backup
+		sudo su postgres
+		cd ~
+		pg_dump -i -h localhost -p 5432 -U postgres -F c -b -f "app_2029_production.03.21.11.13.09.pgz" app_2029_production
+		
+	On DEV xfer from production to Dev
+		scp brian@ce-db:/var/lib/postgresql/app_2029_production.03.21.11.13.09.pgz .
+		
+	On Dev xfer from Dev to new environment
+		scp app_2029_production.03.21.11.13.09.pgz brian@civic-db:.
+
+	In civic
+		sudo su postgres
+		cp /home/brian/app_2029_production.03.21.11.13.09.pgz /var/lib/postgresql/.
+
+
+		pg_restore -h localhost -p 5432 -U postgres -d app_2029_production "app_2029_production.03.21.11.13.09.pgz"
+		
+		
+Deploy again, with the correct REF and no migrate because I migrated the db manually with pg_restore
+	ey deploy -e civic -a app_2029 -r g3 --no-migrate
+
+When the new environment is working properly, put the old PROD into maintenance mode, dump and restore the database one more time, then swap the IP address
+
+In order to restore from a new pg_dump, follow these steps:
+	1. Put both versions into maintenance mode: ey web disable -e env_name
+	2. Do pg_dump on master current database
+	3. Copy pg_dump to new master database machine
+	4. Stop all services that use the database: unicorn, notify and delayed_job: sudo monit stop ...
+	5. Drop the db on the new master database
+	6. Create the db on the master database
+	7. pg_restore into database on the new master
+	8. Restart the services on the master: sudo monit start ...
+	9. Take down maintenance page on the new app master
+	10. Test access to the new app master
+	11. Use elasticfox to dissociate the IPs for both old and new master
+	12. Associate desired IP to the new master
+	13. Take a snapshot and terminate the old master
+	14. Update addresses in ~/.ssh/config
