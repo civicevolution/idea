@@ -20,7 +20,7 @@ case node[:instance_role]
         })
       end
 
-      template "/etc/monit.d/dealyed_job.#{app_name}.monitrc" do
+      template "/etc/monit.d/delayed_job.#{app_name}.monitrc" do
         source "delayed_job.monitrc.erb"
         owner "root"
         group "root"
