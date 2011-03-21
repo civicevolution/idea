@@ -1,0 +1,5 @@
+check process <%= @worker_name %>
+  with pidfile /data/<%=@app_name %>/current/log/notification.rb.pid
+  start program = "/bin/bash /data/<%=@app_name %>/current/script/monit.notify.sh start" as uid <%= @user %> and gid <%= @group %>
+  stop program = "/bin/bash /data/<%=@app_name %>/current/script/monit.notify.sh stop" as uid <%= @user %> and gid <%= @group %>
+  if totalmem is greater than 60 MB for 2 cycles then restart      # eating up memory?

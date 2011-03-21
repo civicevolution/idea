@@ -1,0 +1,5 @@
+check process aped
+  with pidfile /var/run/aped.pid
+  start program = "/etc/init.d/aped start"
+  stop program = "/etc/init.d/aped stop"
+  if totalmem is greater than 20 MB for 2 cycles then restart      # eating up memory?
