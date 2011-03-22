@@ -3,6 +3,7 @@
 ~''
 
 Immediate activity report for #{@recip.first_name} #{@recip.last_name}
+= TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')
 ~''
 ~''
 - case

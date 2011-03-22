@@ -162,7 +162,7 @@ class NotificationRequest < ActiveRecord::Base
                 end # end case
               end # end if 1 (full)
               #recipient = Member.first(:select=>'first_name, last_name, email', :conditions=>{:id=>request.member_id})
-              recipient = Member.select('first_name, last_name, email').where(:id=>request.member_id).first
+              recipient = Member.select('first_name, last_name, email, location').where(:id=>request.member_id).first
               logger.debug "NotificationRequest Send an email for entry #{entry.inspect} to #{recipient.email} at #{Time.now}."
 
               NotificationMailer.immediate_report(recipient, team, request, entry).deliver
