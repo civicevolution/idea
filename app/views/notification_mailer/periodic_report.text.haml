@@ -9,7 +9,8 @@
 	-host = team.initiative_id == 1 ? 'cgg' : '2029'
 	~''
 	Please contribute to your team's discussion today!
-	http://#{host}.civicevolution.org/team/#{report.team_id}?_mlc=#{@mcode}&_sc=discuss_change
+	-#http://#{host}.civicevolution.org/idea/#{report.team_id}?_mlc=#{@mcode}&_sc=discuss_change
+	http://#{host}.civicevolution.org/idea/#{report.team_id}
 	~''
 	~''
 	- if report.report_type == 1

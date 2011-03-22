@@ -70,87 +70,12 @@ class NotificationController < ApplicationController
   
   def send_periodic
     
-    req = NotificationRequest.find_by_report_type_and_team_id(2,params[:id])
-    req.match_queue = '{3-836,3-837,12-79}'
+    req = NotificationRequest.find_by_report_type_and_team_id(2,10013)
+    req.match_queue = '{3-854,3-854}'
     req.save
     
     NotificationRequest.send_periodic_report(0,0,logger)
     render :text=>'NotificationRequest.send_periodic_report(0,0,logger) was called'
   end
-  
-  
-  
-  #def periodic_report
-  #  # Queue up a report
-  #  
-  #  begin
-  #    PeriodicNotificationRequest.queue_pending_reports(2,10)
-  #
-  #    # collect the pending reports
-  #    @report_logs, displayed_objects, team_ids, member_ids = PendingReport.collect_pending_reports
-  #    #debugger
-  #
-  #    return if @report_logs.size == 0
-  #
-  #    logger.debug "Process #{@report_logs.size} reports"
-  #    # get all the data needed to complete the notifications
-  #    @teams = Team.find(:all, :select=>'id, title', :conditions=> { :id=>team_ids} )
-  #    @recipients = Member.find(:all, :select=>'id, first_name, last_name, email', :conditions=> { :id=>member_ids} )
-  #    @comments = Comment.all(
-  #    :select => 'c.id, text, c.updated_at, first_name, last_name',
-  #    :conditions => { 'c.id'=>displayed_objects['3'].uniq},
-  #    :joins => 'as c inner join members as m on m.id = c.member_id' 
-  #    )
-  #    @answers = Answer.find_all_by_id(displayed_objects['2'].uniq)
-  #    @bs_ideas = BsIdea.find_all_by_id(displayed_objects['11'].uniq)
-  #
-  #    # generat the emails for each report
-  #    @report_logs.each do |r|
-  #      report = r[:report]
-  #      results = r[:report_results]
-  #      recip = @recipients.detect{|m| m.id == report.member_id}
-  #      NotificationMailer.deliver_periodic_report(recip,report,results)
-  #    end    
-  #  
-  #  
-  #  
-  #    ## generate the notification data
-  #    #@report_logs, displayed_objects, team_ids, member_ids = PendingReport.send_all
-  #    ##debugger
-  #    #if @report_logs.size == 0
-  #    #  render :text=>'No activity to report'
-  #    #  return
-  #    #end
-  #    #
-  #    #
-  #    ## get all the data needed to complete the notifications
-  #    #@teams = Team.find(:all, :select=>'id, title', :conditions=> { :id=>team_ids} )
-  #    #@recipients = Member.find(:all, :select=>'id, first_name, last_name, email', :conditions=> { :id=>member_ids} )
-  #    #@comments = Comment.all(
-  #    #:select => 'c.id, text, c.updated_at, first_name, last_name',
-  #    #:conditions => { 'c.id'=>displayed_objects['3'].uniq},
-  #    #:joins => 'as c inner join members as m on m.id = c.member_id' 
-  #    #)
-  #    #@answers = Answer.find_all_by_id(displayed_objects['2'].uniq)
-  #    #@bs_ideas = BsIdea.find_all_by_id(displayed_objects['11'].uniq)
-  #    #
-  #    ## generat the emails for each report
-  #    #@report_text = []
-  #    #@report_logs.each do |r|
-  #    #
-  #    #  report = r[:report]
-  #    #  results = r[:report_results]
-  #    #  recip = @recipients.detect{|m| m.id == report.member_id}
-  #    #  html = render_to_string :partial=>'periodic_report', :locals=>{:recip=>recip, :report=>report, :results=>results}
-  #    #  NotificationMailer.deliver_periodic_report(recip,html)
-  #    #
-  #    #  @report_text.push html
-  #    #end
-  #    
-  #  #rescue
-  #  #  debugger
-  #  end
-  #      
-  #end
-  
+
 end

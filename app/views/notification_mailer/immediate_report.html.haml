@@ -9,15 +9,15 @@
 		- else
 			%p.entry_title An answer was edited
 		
-		%p.ans #{@entry.text}
+		%div.ans!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
 
 	- when @entry.class.to_s == "Comment" && @report[:report_format] == 1
 		%p.entry_title A comment was added by #{@entry.first_name} #{@entry.last_name}
-		%p.com #{@entry.text}
+		%div.com!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
 
 	- when @entry.class.to_s == "BsIdea" && @report[:report_format] == 1
 		%p.entry_title A brainstorming idea was added
-		%p.idea #{@entry.text}
+		%div.idea!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
 	
 	- when @entry.class.to_s == "Answer"
 		An answer was added or edited

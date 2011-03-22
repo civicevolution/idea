@@ -9,8 +9,10 @@
 			font-weight: bold
 		p.com_date
 			margin-top: 0
+			margin-bottom: 0
 			margin-left: 20px
-		p.com, p.ans
+		div.com, div.ans, div.idea
+			margin-left: 20px
 			margin-bottom: 40px
 		h3.team_title
 			margin: 40px 0 10px 0
@@ -39,7 +41,8 @@
 
 	%p.team_link
 		Please contribute to your 
-		%a{:href=>"http://#{host}.civicevolution.org/team/#{report.team_id}?_mlc=#{@mcode}&_sc=discuss_change"}team's discussion
+		-#%a{:href=>"http://#{host}.civicevolution.org/idea/#{report.team_id}?_mlc=#{@mcode}&_sc=discuss_change"}team's discussion
+		%a{:href=>"http://#{host}.civicevolution.org/idea/#{report.team_id}"}team's discussion
 		today!
 	- if report.report_type == 1
 		%p You have chosen to only see replies to your comments, ideas, and answers
@@ -60,7 +63,7 @@
 					
 					%p.com_date
 						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-					%p.ans #{entry.text}
+					%div.ans!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
    
 				- when 3
 					- entry = @comments.detect{|c| c.id == id.to_i}
@@ -68,17 +71,12 @@
 						#{entry.first_name} #{entry.last_name} posted this comment
 					%p.com_date
 						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-					%p.com #{entry.text}
+					%div.com!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
 				
-					-#- entry = @comments.detect{|c| c.id == id.to_i}
-					-#%p.entry_title #{entry.first_name} #{entry.last_name} says:
-					-#%p= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-					-#%p.com #{entry.text}
-   
 				- when 12
 					- entry = @bs_ideas.detect{|b| b.id == id.to_i}
 					%p.entry_title A brainstorming idea was added
-					%p.idea #{entry.text}
+					%div.idea= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
 
 	- else # show stats
 		-# scan the queue and count the coms, ideas, and answers

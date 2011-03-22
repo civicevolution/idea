@@ -17,3 +17,8 @@ ls -l /ce_development/backups/2029_db/app_2029_production.*
 
 pg_restore -h localhost -p 5432 -U postgres -d g3_development "/ce_development/backups/2029_db/app_2029_production.03.17.11.07.43.pgz"
 
+
+Process.kill("USR1", IO.read(Rails.root + 'log/notification.rb.pid').chomp.to_i )
+Process.kill("USR2", IO.read(Rails.root + 'log/notification.rb.pid').chomp.to_i )
+
+tail -f /var/log/engineyard/apps/app_2029/notification.rb.log
