@@ -859,3 +859,6 @@ table.tablesorter th {
 
 div#invite_friends {
   max-width: 500px; }
+
+ul.teams_list li {
+  margin-bottom: 8px; }

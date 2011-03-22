@@ -254,12 +254,11 @@
 %div.right_col
 	-#= render( :partial => 'welcome/signin_register' )
 	- if !@member.nil?
-		%h2.home_title.my_teams My teams
+		%h2.home_title.my_teams My ideas
 		%div.right_vertical_bar.my_teams
 			%ul.teams_list
 				- @member.team_titles.each do |team|
-					-#%li{:class=>'team', :id=>team.id, :launched=>team.launched}= team.title
-					%li{:class=>'team', :id=>team.id, :launched=>team.launched}
+					%li{:class=>'team', :id=>team.id}
 						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {}
 
 	%h2.home_title Watch our videos

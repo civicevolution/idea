@@ -19,9 +19,9 @@
 			= link_to 'Cancel', {:controller => "welcome"}, {:class=>'cancel'}
 				
 	%div#my_teams.hide	
-		%h2.home_title.my_teams My teams
 		%div.right_vertical_bar.my_teams
 			%ul.teams_list
 				- @member.team_titles.each do |team|
-					%li{:class=>'team', :id=>team.id, :launched=>team.launched}= team.title
+					%li{:class=>'team'}
+						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {}
 	

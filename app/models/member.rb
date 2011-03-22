@@ -101,11 +101,16 @@ class Member < ActiveRecord::Base
   
   def team_titles
     if @team_titles.nil?
-      @team_titles = TeamRegistration.find(:all,
-        :select => 't.id, t.title, t.launched',  
-        :conditions => ['member_id = ?', self.id],
-        :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-      )
+      # any team I participate (comments, bs_ideas), endorse, follow, or joined
+      @team_titles = Team.select('id, title').where( 
+        [%q|id IN (SELECT team_id FROM comments WHERE member_id = ?
+        UNION
+        SELECT team_id FROM bs_ideas WHERE member_id = ?
+        UNION
+        SELECT team_id FROM notification_requests WHERE member_id = ?
+        UNION
+        SELECT team_id FROM endorsements WHERE member_id = ?)|,self.id,self.id, self.id, self.id]
+      ).order('title')
     end
     return @team_titles
   end

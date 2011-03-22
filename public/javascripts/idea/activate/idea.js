@@ -275,3 +275,18 @@ function send_load_report(){
 	}catch(e){console.log("Failed to send load_report with e: " + e.message)}
 }
 
+
+$('a.my_teams').live('click',
+	function(){
+		try{
+			var link = $('a.my_teams')
+			var pos = link.position();
+			var top = pos.top + 20;
+			var left = pos.left - 400 + link.width();
+			var dialog = $('<div id="my_teams_dialog"></div>').dialog( {title : 'My ideas', modal : true, width : '400px', position : [left,top] } ).append(  $('div#my_teams:first').clone().removeClass('hide') )
+			$('form.reset_password_form input[name="email"]').val( $('input[name="email"]', $(this).closest('form')).val() )
+		}catch(e){console.log("my_teams click e: " + e )}
+		return false
+	}
+);
+
