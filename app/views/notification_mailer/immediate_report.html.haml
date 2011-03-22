@@ -1,9 +1,7 @@
 %h3 #{@team.title}
 
-%p
-	Immediate activity report for #{@recip.first_name} #{@recip.last_name}
-	%br
-	= TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')
+%p.report Immediate activity report for #{@recip.first_name} #{@recip.last_name}
+%p.com_date= TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')
 
 
 - case
@@ -38,6 +36,8 @@
 		p.entry_title
 			font-style: italic
 			margin-bottom: -10px
+		p.report
+			margin-bottom: 0
 		.ans
 			font-size: 1.2em
 			color: blue
@@ -45,3 +45,10 @@
 			color: black
 		.idea
 			color: orange
+		div.ans, div.com, div.idea
+			margin-left: 20px
+		p.com_date
+			margin-top: 0
+			margin-bottom: 0
+			margin-left: 20px
+	
