@@ -810,11 +810,12 @@ function process_commands_through_chat(cmd){
 	}catch(e){console.log("error in process_commands_through_chat e: " + e.message)}
 }
 
-function activate_text_counters_grow(els){
+function activate_text_counters_grow(els, height){
+	height = height? height : 30
 	var focused = false;
 	els.each(
 		function(){
-			//console.log("activate text, get span.char_ctr & count");
+			//console.log("ce/gen/form.js activate_text_counters_grow with height: " + height);
 			var el = $(this);
 
 			var span = el.next().find('span.char_ctr');
@@ -830,11 +831,20 @@ function activate_text_counters_grow(els){
 					status_element: span
 			  });
 				if(el[0].nodeName == 'TEXTAREA'){
-					el.autogrow({
-						lineHeight : 16,
-						minHeight  : 32,
-						maxHeight : 500
-					});			
+					
+					// if the el is not displayed, IE gives it a width of 0 and the el cannot be setup to grow
+					if(el[0].offsetWidth > 0){
+						el.autoGrow({
+							minHeight  : height,
+							maxHeight : 500
+						});
+					}
+					// Don't use the old autogrow - it is too jumpy
+					//el.autogrow({
+					//	lineHeight : 18,
+					//	minHeight  : height,
+					//	maxHeight : 500
+					//});			
 				}
 				if(!focused){
 					//el.focus();
@@ -847,6 +857,7 @@ function activate_text_counters_grow(els){
 		}
 	)
 }
+
 
 function show_form_error(form, response) {
 	//console.log("show_form_error, ce/gen/form")

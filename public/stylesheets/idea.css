@@ -169,6 +169,16 @@ div.side_bar {
     font-size: 1.2em;
     font-weight: bold; }
 
+div.help_intro {
+  margin-top: 16px; }
+  div.help_intro img.me {
+    float: left;
+    margin: 4px 10px 10px 0; }
+  div.help_intro h3 {
+    margin: 0 0 6px 0; }
+  div.help_intro p {
+    margin: 0 0 8px 0; }
+
 form.request_help textarea {
   width: 500px;
   font-size: 1.2em; }
@@ -178,6 +188,8 @@ form.request_help label {
   margin-top: 16px; }
 form.request_help input {
   display: block; }
+form.request_help select {
+  font-size: 1.28em; }
 
 div.report {
   max-width: 500px; }
@@ -844,3 +856,6 @@ div#email_participants {
 
 table.tablesorter th {
   cursor: pointer; }
+
+div#invite_friends {
+  max-width: 500px; }

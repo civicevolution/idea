@@ -3,7 +3,7 @@
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
 		%title Welcome to the 2029 and Beyond Sustainable Future City Project
-		= javascript_include_tag "jquery-1.4.2.min.js"
+		= javascript_include_tag "jquery-1.4.4.min.js"
 		=	stylesheet_link_tag 'cgg_welcome.css', 'ce1a.css', 'ce1as.css'
 		:javascript
 			var dontclick=true;
@@ -30,6 +30,8 @@
 				})();
 			
 	%body
+		= link_to "Help",{},{:class=>'help_tag request_help'}
+	
 		%div.page
 			%div.logo
 				%a{ :href=> '/'}
@@ -124,15 +126,10 @@
 							-#	%td
 							-#		= link_to 'Join our community', {}, {:class=>'join_our_community'}
 			
-		-#= javascript_include_tag "jquery-1.4.2.min.js"
 		= javascript_include_tag 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "ce/activate/act_welcome_layout.js", "ce/gen/forms.js"
-		=	stylesheet_link_tag 'jquery-ui-1.8.2.custom.css'
+		= stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.9.custom.css'
 		= yield :script
 		
-		-#= javascript_include_tag "jquery-1.4.2.min.js", 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "ce/gen/forms.js", "ce/activate/act_welcome_layout.js", "pure.js"
-		-#- if params[:action] == 'proposal'	
-		-#	= javascript_include_tag "ce/proposal.js", "ce/gen/dispatch.js", "jquery.timeago.js"
-		-#- elsif params[:action] == 'index'
-		-#	= javascript_include_tag "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
-		-#	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
-		-#= javascript_include_tag "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"
+		-#= javascript_include_tag "jquery.show_char_limit-1.1.1.js", "pure.js"
+		-#= javascript_include_tag "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
+		-#=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'

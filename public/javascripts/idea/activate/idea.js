@@ -58,36 +58,6 @@ function activate_ux_functions_misc(){
 		}
 	)
 	
-	$('form.request_help button').live('click',
-		function(){
-			try{ 
-				request_help_submit($(this.form))
-			}catch(e){console.log("request_help error: " + e.message)}
-			return false;
-		}
-	)
-
-	$('a.help').die('click').live('click',
-		function(){
-			var dialog = $('div#team_help').dialog( {title : 'Help', modal : true, width: 600 }); 
-			return false;
-		}
-	)
-	
-	$('a.send_team_message').die('click').live('click',
-		function(){
-			$.get('/idea/email_teammates?team_id=' + team_id,
-				function(data){
-					temp.data = data
-				  var pcs = data.split(/<script/)
-					$(pcs[0]).dialog( {title : 'Send a message to your teammates', modal : true, width: 500 } )
-					$('head').append('<script' + pcs[1])
-				})
-			return false;
-		}
-	);
-	
-
 } // end activate_ux_functions_misc 
 
 
@@ -224,48 +194,6 @@ function reload_css(){
 	$('head').append('<link href="/stylesheets/ce1as.css?' + Math.round(Math.random() * 10000000000) + '" media="screen" rel="stylesheet" type="text/css" />');
 	$('head').append('<link href="team/get_dev_css?' + Math.round(Math.random() * 10000000000) + '" media="screen" rel="stylesheet" type="text/css" />');
 }		
-
-function request_help_submit(form){
-	//var msg = form[0].message.value;
-	//msg = msg.replace(/^\s+/,'').replace(/\s+$/,'')
-	
-	var sel = form.find('select')[0];
-	var cat_id = sel.selectedIndex;
-	if(cat_id == 0){
-		$(sel).addClass('form_error_border').before('<p class="form_error_text">Please select the assistance you need</p>')
-		return false;
-	}
-	
-	var btn = $('button',form);
-	btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>');
-	$(':input',form).removeClass('form_error_border');
-	$('p.form_error_text',form).remove();
-	
-	if(form.find('textarea').val()!=''){
-		form.ajaxSubmit({ 					
-		  type: "POST", 
-		  url: "/idea/request_help_post", 
-			data: {user_agent : navigator.userAgent, url: document.location.href, error_log : 'no log recorded', load_time: 0  },
-		  success: function(data,status){ 
-				//console.log("chat submit success, call dispatchPageChatMessage");
-				var dialog = $('<div>' + data + '</div>').dialog( {title : 'Thank you', modal : true, width: 500 }); 
-				form.closest('div.ui-dialog').dialog('destroy').remove();
-		  },
-			error : function(xhr,errorString,exceptionObj){
-				console.log("Error, xhr: " + xhr.responseText)
-				try{
-					show_form_error(form, xhr.responseText);
-					btn.removeAttr('disabled').next('img').remove()
-				}catch(e){
-					btn.removeAttr('disabled').next('img').remove()
-					console.log("Chat submit error: " + e)
-					$('<div><p>Sorry, we cannot process your help request at this time. We have been notified of this error and we will look into it soon.</p><p>Please email us directly support@civicevolution.org</p></div>').dialog( {title : 'Warning', modal : true } )
-				}
-			}
-		});
-		return false;			
-	}
-}	
 
 $('form.upload_member_photo input[type="submit"]').die('click').live( 'click', 
 	function(){

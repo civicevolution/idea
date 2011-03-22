@@ -159,26 +159,6 @@ $('a.2029_guidelines').live('click',
 	}
 )
 
-$('a.request_help').live('click',
-	function(){
-		$('<div><img src="/images/rotating_arrow.gif"/> Loading...</div>').load("/idea/request_help", function(){
-			$(this).dialog( {title : '2029 and Beyond Help and Feedback', modal : true, width: 600, maxHeight: 500 } );
-		})
-		return false;
-	}
-)
-$('a.request_help').html('');
-
-$('a.help_tag').live('mouseover mouseout', function(event) {
-  if (event.type == 'mouseover') {
-		$(this).addClass('mouseover')
-  } else {
-		$(this).removeClass('mouseover')
-  }
-});
-
-
-
 $('a.update_endorsement').live('click', 
 	function(){
 		//console.log("update_endorsement");
@@ -332,6 +312,36 @@ $('a.email_participants').live('click',
 		return false;
 	}
 )
+
+$('a.request_help').live('click',
+	function(){
+		if($('div.request_help').size()==0){
+			$.get('/idea/request_help',
+				function(data){
+				  var pcs = data.split(/<script/);
+					var dialog = $(pcs[0]).dialog( {title : '2029 and Beyond Help and Feedback', modal : true, width: 600, closeOnEscape: false } );
+					if(typeof activate_request_help_form == 'undefined') $('head').append('<script' + pcs[1]);
+					activate_request_help_form(dialog.find('form'));
+					dialog.find('select').focus();
+				}
+			)
+			
+		}
+		return false;
+	}
+)
+$('a.request_help').html('');
+
+$('a.help_tag').live('mouseover mouseout', function(event) {
+  if (event.type == 'mouseover') {
+		$(this).addClass('mouseover')
+  } else {
+		$(this).removeClass('mouseover')
+  }
+});
+
+
+
 
 $('a.report').live('click',
 	function(){

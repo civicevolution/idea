@@ -4,8 +4,10 @@
 		%p You can email them this link: http://#{@host}/idea/#{params[:id]}
 		%p If you sign in or register, we can send this link directly to your friends for you.
 	- else
-		%p The email addresses you enter here will be used just one time to send this email
-
+		%p 
+			The email addresses you enter here will be used just one time to send this email.
+			- if @team.initiative_id == 1
+				%i Please note, only City of Geraldton-Greenough staff can access CGG proposals. Please contact us to make an exception.
 		= form_tag( { :controller=> :team, :action => :invite_friends}, {:class=>'invite_friends std_form'} ) do
 			= hidden_field_tag :team_id, params[:id]
 			= hidden_field_tag :send_now

@@ -959,6 +959,7 @@ class IdeaController < ApplicationController
   
   def invite
     @host = request.env["HTTP_HOST"]
+    @team = Team.find(params[:id])
     render :template=> 'idea/invite', :layout=>false
   end
   

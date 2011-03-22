@@ -383,3 +383,37 @@ ul.notification_settings p {
 
 div.notification_settings button {
   margin: 10px 0 40px 20px; }
+
+a.help_tag {
+  position: fixed;
+  top: 25%;
+  right: 0;
+  color: #f3973a;
+  width: 32px;
+  height: 183px;
+  background: url(/images/help_feedback_tag.gif) no-repeat 0 0; }
+
+a.help_tag.mouseover {
+  border-right: 2px solid white; }
+
+div.help_intro {
+  margin-top: 16px; }
+  div.help_intro img.me {
+    float: left;
+    margin: 4px 10px 10px 0; }
+  div.help_intro h3 {
+    margin: 0 0 6px 0; }
+  div.help_intro p {
+    margin: 0 0 8px 0; }
+
+form.request_help textarea {
+  width: 500px;
+  font-size: 1.2em; }
+form.request_help label {
+  display: block;
+  font-weight: bold;
+  margin-top: 16px; }
+form.request_help input {
+  display: block; }
+form.request_help select {
+  font-size: 1.28em; }
