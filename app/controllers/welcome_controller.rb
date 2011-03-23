@@ -4,6 +4,14 @@ class WelcomeController < ApplicationController
   
   def index
     logger.warn "Welcome controller index request.subdomains.first: #{request.subdomains.first}"
+
+    if (request.subdomains.first.nil? || request.subdomains.first.match(/www/i))  && env['PATH_INFO'] == '/'
+      logger.debug "Show the CE home page"
+      render :action=>'home', :layout=>false
+      return
+    end
+    
+    
     # if I have a current session, get my teams and insert them into the page instead of the signin form
     # use a partial template and layout to create initiative specific page details
     
