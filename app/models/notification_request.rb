@@ -5,6 +5,7 @@ class NotificationRequest < ActiveRecord::Base
   attr_accessor :all_freq
   attr_accessor :all_format
   attr_accessor :act
+  attr_accessor :follow
   
   after_initialize :init_settings
   
@@ -19,6 +20,7 @@ class NotificationRequest < ActiveRecord::Base
   def init_settings
     if self.act == 'init' && !self.member_id.nil? && !self.team_id.nil?
       logger.debug "after_initialize new notification_request"
+      self.follow = false
       self.reply_freq = 'n'
       self.reply_format = 'full'
       self.all_freq = 'n'
@@ -28,7 +30,7 @@ class NotificationRequest < ActiveRecord::Base
       recs.each do |req|
         req.hour_to_run = req.hour_to_run.scan(/\d+/).map{|d| d.to_i} unless req.hour_to_run.nil?
         case 
-          when req.report_type == 1 # replies
+          when req.report_type == 1 # replies to my content
             case
               when req.immediate
                 self.reply_freq = 'i'
@@ -38,7 +40,7 @@ class NotificationRequest < ActiveRecord::Base
                 self.reply_freq = 'd'
             end
             self.reply_format = req.report_format == 1 ? 'full' : 'sum'
-          when req.report_type == 2 # all
+          when req.report_type == 2 # all ideas, comments, and answers
             case
               when req.immediate
                 self.all_freq = 'i'
@@ -48,7 +50,10 @@ class NotificationRequest < ActiveRecord::Base
                 self.all_freq = 'd'
             end          
             self.all_format = req.report_format == 1 ? 'full' : 'sum'
-        end # end case type
+          when req.report_type == 3 # follow this idea
+            self.follow = true
+          
+        end # end case type        
       end # end do req
     end # end if member & team_id
   end
@@ -65,6 +70,7 @@ class NotificationRequest < ActiveRecord::Base
       # save first record as reply and second record as all
       
       recs = NotificationRequest.find_all_by_member_id_and_team_id(self.member_id, self.team_id)
+
       # create/adjust reply first
       rec = recs.detect{|r| r.report_type == 1} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>1 )
       rec.report_format = self.reply_format == 'full' ? 1 : 2
@@ -85,8 +91,9 @@ class NotificationRequest < ActiveRecord::Base
           # delete this record
           rec.destroy
           rec = nil
+          save1 = true
       end
-      rec.save unless rec.nil?
+      save1 = rec.save unless rec.nil?
 
       # create/adjust all
       rec = recs.detect{|r| r.report_type == 2} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>2 )
@@ -108,10 +115,20 @@ class NotificationRequest < ActiveRecord::Base
           # delete this record
           rec.destroy
           rec = nil
+          save2 = true
       end
-      rec.save unless rec.nil?
+      save2 = rec.save unless rec.nil?
+
+      # create/adjust follow
+      rec = recs.detect{|r| r.report_type == 3} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>3 )
+      if self.follow.to_i == 1 
+        save3 = rec.save
+      else
+        rec.destroy
+        save3 = true
+      end
       
-      #return false if self.act == 'split_save'
+      return save1 && save2 && save3
     end # end if split_save
   end
   

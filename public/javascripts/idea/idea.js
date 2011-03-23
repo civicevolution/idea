@@ -313,6 +313,30 @@ $('a.email_participants').live('click',
 	}
 )
 
+$('a.follow').live('click',
+	function(){
+		console.log("follow this idea")
+		if($('div.notification_settings:visible').size()==0){
+			$('div.notification_settings').remove();
+			open_team_notification_settings(team_id)
+		}
+		return false;
+	}
+)
+
+function open_team_notification_settings(team_id){
+	$.get('/notification/settings/' + team_id,
+		function(data){
+			$('div.notification_settings').remove();
+		  var pcs = data.split(/<script/);
+			var dialog = $(pcs[0]).dialog( {title : 'Follow this idea on 2029 and Beyond', modal : true, width: 600, closeOnEscape: false } );
+			//if(typeof update_notification_settings_form == 'undefined') 
+			$('head').append('<script' + pcs[1]);
+			init_update_notification_settings_form(dialog.find('form'));
+		}
+	)
+}
+
 $('a.request_help').live('click',
 	function(){
 		if($('div.request_help').size()==0){
@@ -325,7 +349,6 @@ $('a.request_help').live('click',
 					dialog.find('select').focus();
 				}
 			)
-			
 		}
 		return false;
 	}

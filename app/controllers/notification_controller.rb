@@ -3,31 +3,47 @@ class NotificationController < ApplicationController
   
   
   def settings
-    @teams = TeamRegistration.my_teams(@member.id)
-    @notification_setting = nil
-    if @teams.size > 0
-      @team_id = params[:id] 
-      if @team_id.nil? || @teams.detect{|t| t.id == @team_id.to_i}.nil? 
-        @team_id = @teams[0].id
-        # redirect with specified team_id
-        redirect_to :action=>'settings', :id=>@team_id
-        return 
+    @team = Team.select('id,title,initiative_id').where(:id=>params[:id])
+
+    allowed,message = InitiativeRestriction.allow_action(@team[0].initiative_id, 'view_idea_page', @member)
+    if !allowed
+      if request.xhr?
+        render :text => '<p> You are not allowed to access this proposal. ' + message + '</p>', :layout=> false #, :status => 409
+      else
+        render :template => 'idea/private_page', :layout => 'welcome'
       end
-      #@teams = @teams.map{|t| [t.title.slice(0..50), t.id]}
-      @teams = @teams.map{|t| [t.title, t.id]}
-      @notification_setting = NotificationRequest.new :member_id=>@member.id, :team_id=>@team_id, :act=>'init'
+      return
     end
-    render :action=>'settings', :layout=>'welcome'
+
+    @teams = (@team + @member.team_titles).map{|t| [t.title, t.id]}.uniq
+    @team = @team[0]
+    @notification_setting = NotificationRequest.new :member_id=>@member.id, :team_id=>@team.id, :act=>'init'
+    
+    render :action=>'settings', :layout=> request.xhr? ? false : 'welcome', :locals => {:xhr => request.xhr? }
   end
 
   def update_notification_settings
     logger.debug "update_notification_settings params: #{params.inspect}"
+    @team = Team.select('id, title, initiative_id').where(:id=>params[:notification_setting][:team_id])
+    allowed,message = InitiativeRestriction.allow_action(@team[0].initiative_id, 'view_idea_page', @member)
+    if !allowed
+      if request.xhr?
+        render :text => message, :layout=> false, :status => 409
+      else
+        render :template => 'idea/private_page', :layout => 'welcome'
+      end
+      return
+    end
+
     @notification_setting = NotificationRequest.new :member_id=>@member.id, :act=>'split_save'
     @notification_setting.attributes = params[:notification_setting]        
     @saved = @notification_setting.split_n_save  
 
-    render :action=>'update_notification_settings', :layout=>'welcome'
-    #render :action=>'settings', :layout=>'welcome'
+    if request.xhr?
+      render :text => @saved ? 'OK' : 'FAIL'
+    else
+      render :action=>'update_notification_settings', :layout=> 'welcome' 
+    end
   end
   
   def run_test

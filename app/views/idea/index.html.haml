@@ -82,7 +82,7 @@
 					- elsif !def_ans.nil?
 						- answer = Answer.new :text=>def_ans.text, :ver=>0, :item_id=>0
 						- answer['my_vote'] = answer['average'] = answer['count'] = 0
-						= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'Suggested answer guidelines', :def_ans=>def_ans, :is_def_ans=>true}
+						= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>"You'll need to create an answer that...", :def_ans=>def_ans, :is_def_ans=>true}
 
 					- else
 						- answer = Answer.new :text=>'No answer has been suggested for this question', :ver=>0, :item_id=>0
@@ -101,6 +101,18 @@
 	- @mems.each do |member|
 		%img{:src=>member.photo.url('36'),:class=>'i36'}
 
+	%h3
+		= link_to "Follow this idea #{image_tag( "email.gif", :border => 0 )}".html_safe,{},{:class=>'follow'}
+
+	%h3
+		= link_to "Invite friends #{image_tag( "email.gif", :border => 0 )}".html_safe,{},{:class=>'invite'}
+
+
+	- if @member.id == @team.org_id
+		%h3
+			= link_to "Email participants",{},{:class=>'email_participants'}
+
+
 	%div.share
 		<!-- AddThis Button BEGIN -->
 		<div class="addthis_toolbox addthis_default_style">
@@ -116,10 +128,4 @@
 		<script type="text/javascript">var addthis_config = {"data_track_clickback":true};</script>
 		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=civicevolution"></script>
 		<!-- AddThis Button END -->
-	
-	%h3
-		= link_to "Invite friends",{},{:class=>'invite'}
 
-	- if @member.id == @team.org_id
-		%h3
-			= link_to "Email participants",{},{:class=>'email_participants'}

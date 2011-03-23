@@ -10,7 +10,7 @@
 		%div.ans_comment_links
 			- if is_def_ans # leave blank space
 				%span 
-				= link_to "Edit answer", {:action=>'edit_answer', :id=>answer.id}, {:class=>'edit_answer', :rel=>'nofollow'}
+				= link_to "Start writing an answer", {:action=>'edit_answer', :id=>answer.id}, {:class=>'edit_answer', :rel=>'nofollow'}
 			- else
 				- if answer.ver.to_i == 0
 					%span Original version
