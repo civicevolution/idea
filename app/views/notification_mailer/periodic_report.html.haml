@@ -56,27 +56,30 @@
 			- case type.to_i
 				- when 2
 					- entry = @answers.detect{|a| a.id == id.to_i}
-					- if entry.ver == 1
-						%p.ans_title New answer
-					- else
-						%p.ans_title Edited answer
+					-if !entry.nil?
+						- if entry.ver == 1
+							%p.ans_title New answer
+						- else
+							%p.ans_title Edited answer
 					
-					%p.com_date
-						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-					%div.ans!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
+						%p.com_date
+							= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+						%div.ans!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
    
 				- when 3
 					- entry = @comments.detect{|c| c.id == id.to_i}
-					%p.com_author 
-						#{entry.first_name} #{entry.last_name} posted this comment
-					%p.com_date
-						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-					%div.com!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
+					-if !entry.nil?
+						%p.com_author 
+							#{entry.first_name} #{entry.last_name} posted this comment
+						%p.com_date
+							= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+						%div.com!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
 				
 				- when 12
 					- entry = @bs_ideas.detect{|b| b.id == id.to_i}
-					%p.entry_title A brainstorming idea was added
-					%div.idea= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
+					-if !entry.nil?
+						%p.entry_title A brainstorming idea was added
+						%div.idea= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
 
 	- else # show stats
 		-# scan the queue and count the coms, ideas, and answers

@@ -25,27 +25,30 @@
 			- case type.to_i
 				- when 2
 					- entry = @answers.detect{|a| a.id == id.to_i}
-					- if entry.ver == 1
-						New answer
-					- else
-						Edited answer
+					-if !entry.nil?
+						- if entry.ver == 1
+							New answer
+						- else
+							Edited answer
 					
-					= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-					~''
-					= entry.text
+						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+						~''
+						= entry.text
    
 				- when 3
 					- entry = @comments.detect{|c| c.id == id.to_i}
-					#{entry.first_name} #{entry.last_name} posted this comment
-					= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-					~''
-					= entry.text
+					-if !entry.nil?
+						#{entry.first_name} #{entry.last_name} posted this comment
+						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+						~''
+						= entry.text
 				
 				- when 12
 					- entry = @bs_ideas.detect{|b| b.id == id.to_i}
-					A brainstorming idea was added
-					~''
-					= entry.text
+					-if !entry.nil?
+						A brainstorming idea was added
+						~''
+						= entry.text
 			~''
 			~''
 			~''
