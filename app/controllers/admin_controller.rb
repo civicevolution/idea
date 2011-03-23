@@ -232,7 +232,7 @@ class AdminController < ApplicationController
 
           #AdminMailer.delay(:run_at => 5.minutes.from_now).email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
           AdminMailer.delay.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
-          
+          logger.info "Sent email via delayed_job to #{@recipient.first_name} #{@recipient.last_name} <#{@recipient.email}>"
           #set queue sent = true
           ctaq = CallToActionQueue.find_by_member_id_and_team_id( mem_id, team_id )
           ctaq.destroy unless ctaq.nil?
