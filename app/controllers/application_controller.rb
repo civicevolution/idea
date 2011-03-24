@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :add_member_data, :except => [ :logo, :rss ]
   before_filter :authorize, :except => [ :login, :proposal, :logo, :rss]
 
-  
+
   helper :all # include all helpers, all the time
 #  protect_from_forgery # See ActionController::RequestForgeryProtection for details
   protect_from_forgery :except => [:load_report] # :except => [:upload_member_photo]
@@ -46,14 +46,6 @@ class ApplicationController < ActionController::Base
     
   protected
   
-    def logger
-      if params[:monitor] == 'true' && params[:controller] == 'welcome' && params[:action] == 'index'
-        # ignore monitoring requests
-        RAILS_MONITOR_NULL_LOGGER
-      else
-        Rails.logger
-      end
-    end
   
   
     def set_application_personality

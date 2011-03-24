@@ -4,7 +4,7 @@ class WelcomeController < ApplicationController
   
   def index
     logger.warn "Welcome controller index request.subdomains.first: #{request.subdomains.first}"
-
+    
     if (request.subdomains.first.nil? || request.subdomains.first.match(/www/i))  && env['PATH_INFO'] == '/'
       logger.debug "Show the CE home page"
       render :action=>'home', :layout=>false
@@ -366,5 +366,5 @@ class WelcomeController < ApplicationController
 protected
   def authorize
   end  
-
+  
 end
