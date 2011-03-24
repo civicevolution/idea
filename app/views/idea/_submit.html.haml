@@ -1,8 +1,8 @@
 %div#submit
 	%h2 Proposal review and submission
-	- sponsor = @team.initiative_id == 1 ? 'Executive Management Team' : 'Alliance Governing Group';
+	- sponsor = @team.initiative_id == 1 ? 'Executive Management Team' : 'Alliance Governance Group';
 	%p.desc
-		The participants and the idea originator can submit this idea proposal for review by the Alliance Governing Group whenever 
+		The participants and the idea originator can submit this idea proposal for review by the Alliance Governance Group whenever 
 		they think the idea has been developed well enough to meet the 
 		= link_to 'guidelines', {}, {:class=>"2029_guidelines", :init_id=>@team.initiative_id} 
 		for the review eligibility. We strongly recommend that you request a pre-submission review from CivicEvolution before submitting
