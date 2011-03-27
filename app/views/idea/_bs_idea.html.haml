@@ -67,8 +67,8 @@
 				%p.like_controls.add
 					= link_to "Add to my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			- elsif (mode =='pop' || mode == 'all')  && bs_idea['my_fav'] == 't'
-				%p.like_controls.fav
-					Your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea.id}['fav_index']} favorite idea
+				-#%p.like_controls.fav
+					-#Your ##{ @favorite_ideas.detect{|i| i['id']== bs_idea.id}['fav_index']} favorite idea
 				%p.like_controls.rem
 					= link_to "Remove from my favorites", {:action=>'remove_favorite', :id=>bs_idea.id}, {:class=>'change_favorite', :rel=>'nofollow'}
 			
