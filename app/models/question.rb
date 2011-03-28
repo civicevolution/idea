@@ -106,7 +106,7 @@ class Question < ActiveRecord::Base
       LEFT JOIN items AS i ON i.o_id = bsi.id AND i.o_type = 12
       WHERE question_id = ? ORDER BY num_favs|, memberId, self.id ]
     )
-    priorities = BsIdeaFavoritePriority.find_by_member_id_and_question_id(member_id, self.id)
+    priorities = BsIdeaFavoritePriority.find_by_member_id_and_question_id(memberId, self.id)
     return bs_ideas, priorities
   end
   

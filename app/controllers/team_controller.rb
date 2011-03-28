@@ -1970,6 +1970,14 @@ protected
     #logger.debug "target comment is #{@target.text}"
     @target
   end  
+
+  def check_member_team_access(team_id)
+    logger.debug "check_member_team_access for team id #{team_id}"
+    # check that member has access to this team
+    @member = Member.find_by_id(session[:member_id])
+    logger.debug "Member is #{@member.first_name}"
+    @team = @member.teams.find_by_id( team_id )
+  end
   
 
 end

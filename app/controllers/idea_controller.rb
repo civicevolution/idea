@@ -77,7 +77,6 @@ class IdeaController < ApplicationController
       @bs_ideas,priorities = @question.bs_ideas_with_favorites(@member.id)
       @bs_ideas.reject!{|bsi| bsi.publish == false || !bsi.publish && bsi.member_id != @member.id}
       
-      
       @priority = priorities.nil? ? [] : priorities.priority.scan(/\d+/).collect{|p| p.to_i }
       @comments, @resources, @authors = @question.comments_with_ratings(@member.id)
       # get the public discussion node and process the public comments so they are part of the unified discussion
@@ -352,11 +351,20 @@ class IdeaController < ApplicationController
     respond_to do |format|
       if @saved
         BsIdeaFavorite.new( :member_id => @member.id, :bs_idea_id => @bs_idea.id, :favorite => true ).save
+        ideas_priority = BsIdeaFavoritePriority.find_by_member_id_and_question_id(@member.id, @bs_idea.question_id ) 
+        if ideas_priority.nil?
+          ideas_priority = BsIdeaFavoritePriority.new :member_id => @member.id, :question_id => params[:question_id], :priority => '{' + @bs_idea.id.to_s + '}'
+        else
+          ids = ideas_priority.priority.scan(/\d+/)
+          ids.unshift(@bs_idea.id)
+          ideas_priority.priority = ids = '{' + ids.join(',') + '}'
+        end
+        ideas_priority.save
         
         @bs_idea['coms'] = 0
         @bs_idea['new_coms'] = 0
         @bs_idea['num_favs'] = 0
-        @bs_idea['my_fav'] = nil
+        @bs_idea['my_fav'] = 't'
         
         logger.debug "idea was saved successfully"
         flash[:notice] = 'Idea was successfully created.'

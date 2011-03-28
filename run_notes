@@ -22,3 +22,17 @@ Process.kill("USR1", IO.read(Rails.root + 'log/notification.rb.pid').chomp.to_i 
 Process.kill("USR2", IO.read(Rails.root + 'log/notification.rb.pid').chomp.to_i )
 
 tail -f /var/log/engineyard/apps/app_2029/notification.rb.log
+
+
+replace the development db
+
+stop rails server
+stop rails console
+stop psql
+stop notify and delayed daemons
+
+
+dropdb g3_development
+createdb g3:development
+pg_restore -h localhost -p 5432 -U postgres -d g3_development "/ce_development/backups/2029_db/app_2029_production.03.28.11.09.40.pgz"
+

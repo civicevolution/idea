@@ -36,13 +36,6 @@ class ApplicationController < ActionController::Base
   
   
   
-  def check_member_team_access(team_id)
-    logger.debug "check_member_team_access for team id #{team_id}"
-    # check that member has access to this team
-    @member = Member.find_by_id(session[:member_id])
-    logger.debug "Member is #{@member.first_name}"
-    @team = @member.teams.find_by_id( team_id )
-  end
     
   protected
   
@@ -75,50 +68,54 @@ class ApplicationController < ActionController::Base
   
   
     def add_member_data
-      if params[:_mlc]
-        @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.request_uri} )
-        if @member.nil?
-          if session[:_mlc] != params[:_mlc] || session[:member_id].nil?
-            #render :controller=>'welcome', :action=>'request_new_access_code'
-            render :template=>'welcome/request_new_access_code', :layout=>'welcome'
-            flash[:pre_request_access_code_uri] = request.request_uri #.sub(/\?.*/,'')
-            return
+      logger.silence(3) do
+        if params[:_mlc]
+          @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.request_uri} )
+          if @member.nil?
+            if session[:_mlc] != params[:_mlc] || session[:member_id].nil?
+              #render :controller=>'welcome', :action=>'request_new_access_code'
+              render :template=>'welcome/request_new_access_code', :layout=>'welcome'
+              flash[:pre_request_access_code_uri] = request.request_uri #.sub(/\?.*/,'')
+              return
+            else
+              @member = Member.find_by_id(session[:member_id]);
+            end
           else
-            @member = Member.find_by_id(session[:member_id]);
+            session[:member_id] = @member.id
+            session[:_mlc] = params[:_mlc]
           end
-        else
-          session[:member_id] = @member.id
-          session[:_mlc] = params[:_mlc]
-        end
 
-      else
-        @member = Member.find_by_id(session[:member_id]);
-      end
+        else
+          @member = Member.find_by_id(session[:member_id]);
+        end
       
-      if @member.nil?
-        # session is no good
-        session[:member_id] = nil
-      #else
-      #  @mem_teams = TeamRegistration.find(:all,
-      #    :select => 't.id, t.title, t.launched',  
-      #    :conditions => ['member_id = ?', @member.id],
-      #    :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-      #  )
+        if @member.nil?
+          # session is no good
+          session[:member_id] = nil
+        #else
+        #  @mem_teams = TeamRegistration.find(:all,
+        #    :select => 't.id, t.title, t.launched',  
+        #    :conditions => ['member_id = ?', @member.id],
+        #    :joins => 'as tr inner join teams t on tr.team_id = t.id' 
+        #  )
+        end
       end
     end
 
     def authorize
-      unless Member.find_by_id(session[:member_id])
-        if request.xhr? || params[:post_mode] == 'ajax'
-          # send back a simple notice, do not redirect
-          m = Member.new
-          m.errors.add(:base, 'You must sign in to continue')
-          render :text => [m.errors].to_json, :status => 401
-        else
-          flash[:pre_authorize_uri] = request.request_uri
-          flash[:notice] = "Please sign in"
-          render :template => 'welcome/must_sign_in', :layout => 'welcome'
-          #redirect_to :controller => 'welcome' , :action => 'not_signed_in'
+      logger.silence(3) do
+        unless Member.find_by_id(session[:member_id])
+          if request.xhr? || params[:post_mode] == 'ajax'
+            # send back a simple notice, do not redirect
+            m = Member.new
+            m.errors.add(:base, 'You must sign in to continue')
+            render :text => [m.errors].to_json, :status => 401
+          else
+            flash[:pre_authorize_uri] = request.request_uri
+            flash[:notice] = "Please sign in"
+            render :template => 'welcome/must_sign_in', :layout => 'welcome'
+            #redirect_to :controller => 'welcome' , :action => 'not_signed_in'
+          end
         end
       end
     end
