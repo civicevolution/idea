@@ -1,12 +1,26 @@
 class ErrorMailer < ActionMailer::Base
   
-  def error_report(member, exception, host, app, sent_at = Time.now)
-    subject    "Server error on host #{host}"
-    recipients "Brian Sullivan <brian@civicevolution.org>"
-    from       "Server error report <brian@civicevolution.org>"
-    sent_on    sent_at
+  self.default :from => "Errors @ CivicEvolution <support@civicevolution.org>",
+    :reply_to => "support@civicevolution.org"
+
+    def error_report(member, exception, host, app, sent_at = Time.now)
+      @member = member
+      @exception = exception
+      @host = host
+      @app = app
+
+      mail(:to => "Brian Sullivan <brian@civicevolution.org>",
+        :subject => "Server error on host #{host}"
+      )
+    end
+  
+  def delayed_job_error(job,error)
+    @job = job
+    @error = error
     
-    body       :member => member, :exception => exception, :host => host, :app=>app
+    mail(:to => "Brian Sullivan <brian@civicevolution.org>",
+      :subject => "Delayed Job error"
+    )
   end
 
 

@@ -1111,7 +1111,7 @@ class IdeaController < ApplicationController
   end  
   
   IDEA_CONTROLLER_PUBLIC_METHODS = ['index', 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report', 
-    'request_help', 'request_help_post', 'tooltips','invite', 'submit_proposal']
+    'request_help', 'request_help_post', 'tooltips','invite']
   
   def authorize
     #debugger

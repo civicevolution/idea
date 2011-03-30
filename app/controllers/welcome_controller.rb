@@ -247,11 +247,14 @@ class WelcomeController < ApplicationController
     #else 
     #  @member = Member.find(session[:member_id])
     end
-    #@mem_teams = []
-    # send a new confirmation email
-    mcode = MemberLookupCode.get_code(@member.id, {:scenario=>'request confirmation'})
-    MemberMailer.delay.confirm_registration(@member,mcode, request.env["HTTP_HOST"],params[:_app_name])
-    render :action => "request_confirmation_email", :layout => false if request.xhr?  
+    if !@member.nil?
+      # send a new confirmation email
+      mcode = MemberLookupCode.get_code(@member.id, {:scenario=>'request confirmation'})
+      MemberMailer.delay.confirm_registration(@member,mcode, request.env["HTTP_HOST"],params[:_app_name])
+      render :action => "request_confirmation_email", :layout => false if request.xhr?  
+    else
+      render :text => "No member was recognized, confirm email was not sent", :layout => false, :status => 500 if request.xhr?  
+    end
   end
   
   def confirm_reg_captcha

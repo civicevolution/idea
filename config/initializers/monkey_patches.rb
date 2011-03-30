@@ -64,3 +64,55 @@ module ActionView
     alias :render_collection :render_template
   end  
 end  
+
+
+#module Delayed
+#  class Worker
+#    alias_method :original_handle_failed_job, :handle_failed_job
+#
+#    protected
+#    def handle_failed_job(job, error)
+#      #say "Error Intercepted by Hoptoad..."
+#      H#optoadNotifier.notify(error)
+#      
+#      say "error is being emailed"
+#			ErrorMailer.delayed_job_error(job,exception).deliver
+#			say "error has been emailed"
+#      original_handle_failed_job(job,error)
+#    end
+#  end
+#end
+
+#module Delayed
+#  class Worker
+#    alias_method :original_failed, :failed
+#
+#    protected
+#    def failed(job)
+#      #say "Error Intercepted by Hoptoad..."
+#      H#optoadNotifier.notify(error)
+#      
+#      say "error is being emailed (failed)"
+#			ErrorMailer.delayed_job_error(job,{}).deliver
+#			say "error has been emailed"
+#      original_failed(job)
+#    end
+#  end
+#end
+#
+#
+#module Delayed
+#  class PerformableMethod
+#		def error(job, exception)
+#			say "I am emailing this error"
+#			ErrorMailer.delayed_job_error(job, exception).deliver
+#		end
+#	end
+#end
+#
+#class ActionMailer::Base
+#	def error(job, exception)
+#		say "I am emailing this error"
+#		ErrorMailer.delayed_job_error(job, exception).deliver
+#	end
+#end

@@ -384,10 +384,14 @@ $('a.pre_review_proposal:first').live('click',
 	function(){
 		var item_id = Number($(this).attr('href').match(/\d+$/))
 		$('<div></div>').load("/idea/submit_proposal/" + team_id + '?act=pre_review', 
-			function(){
-				var $this = $(this);
-				$this.dialog({modal:true,	title: 'Request pre-submission review', width: 'auto', height: 'auto'}); 
-				activate_submit_form($this.find('form'))
+			function(responseText, textStatus, xhr){
+				if(xhr.status == 409 && responseText.match(/Sign in required/)){
+					show_signin_form("submit this proposal for pre-review");
+				}else{
+					var $this = $(this);
+					$this.dialog({modal:true,	title: 'Request pre-submission review', width: 'auto', height: 'auto'}); 
+					activate_submit_form($this.find('form'))
+				}
 			}
 		)
 		return false;
@@ -398,10 +402,14 @@ $('a.submit_proposal:first').live('click',
 	function(){
 		var item_id = Number($(this).attr('href').match(/\d+$/))
 		$('<div></div>').load("/idea/submit_proposal/" + team_id + '?act=submit', 
-			function(){
-				var $this = $(this);
-				$this.dialog({modal:true,	title: 'Submit for official review', width: 'auto', height: 'auto'}); 
-				activate_submit_form($this.find('form'))
+			function(responseText, textStatus, xhr){
+				if(xhr.status == 409 && responseText.match(/Sign in required/)){
+					show_signin_form("submit this proposal for review");
+				}else{
+					var $this = $(this);
+					$this.dialog({modal:true,	title: 'Submit for official review', width: 'auto', height: 'auto'}); 
+					activate_submit_form($this.find('form'))
+				}
 			}
 		)
 		return false;

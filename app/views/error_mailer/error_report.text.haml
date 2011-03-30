@@ -1,0 +1,12 @@
+-#Hello #{@member.first_name},
+~ ''
+Please review this error in app: #{@app} on #{@host}
+~ ''
+- if @member.nil?
+	Experienced by an anonymous user
+- else
+	Experienced by #{@member.first_name} #{@member.last_name}, #{@member.email}
+
+#{@exception}
+~ ''
+-#= render :partial => 'workshop/proposal_contents_email' 
