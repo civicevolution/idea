@@ -49,7 +49,7 @@ class ProposalMailer < ActionMailer::Base
   #def team_send_invite(member, recipient, invite, team, host, sent_at = Time.now)
   #  subject    "#{member.first_name} #{member.last_name} has invited you to view a proposal for change at CivicEvolution"
   #  recipients "#{recipient[:first_name]} #{recipient[:last_name]} <#{recipient[:email]}>"
-  #  from       "\"2029 and Beyond @ CivicEvolution\" <no-reply@auto.civicevolution.org>"
+  #  from       "\"2029 and Beyond at CivicEvolution\" <no-reply@auto.civicevolution.org>"
   #  sent_on    sent_at
   #  
   #  body       :member => member, :recipient => recipient, :invite => invite, :team => team, :host => host
@@ -64,7 +64,7 @@ class ProposalMailer < ActionMailer::Base
     
     mail(:to => "#{recipient[:first_name]} #{recipient[:last_name]} <#{recipient[:email]}>",
       :subject => "#{member.first_name} #{member.last_name} has invited you to view a proposal for change at CivicEvolution",
-      :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
+      :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
       :reply_to => "support@civicevolution.org"
     ) 
   end
@@ -78,7 +78,7 @@ class ProposalMailer < ActionMailer::Base
     
     mail(:to => "#{recipient[:first_name]} #{recipient[:last_name]} <#{recipient[:email]}>",
       :subject => "#{member.first_name} #{member.last_name} has sent you a message about a 2029 and Beyond idea proposal",
-      :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
+      :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
       :reply_to => "support@civicevolution.org"
     ) 
   end
@@ -92,7 +92,7 @@ class ProposalMailer < ActionMailer::Base
 
     mail(:to => "#{member[:first_name]} #{member[:last_name]} <#{member[:email]}>",
       :subject => "COPY: #{member.first_name} #{member.last_name} has sent you a message about a 2029 and Beyond idea proposal",
-      :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
+      :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
       :reply_to => "support@civicevolution.org"
     ) 
   end

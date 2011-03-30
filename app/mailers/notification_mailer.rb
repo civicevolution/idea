@@ -11,7 +11,7 @@ class NotificationMailer < ActionMailer::Base
     @mcode = mcode
     mail(:to => "#{recip.first_name} #{recip.last_name} <#{recip.email}>",
       :subject => 'Your 2029 CivicEvolution proposal page has been updated',
-      :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
+      :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
       :date => sent_at
     )
   end
@@ -25,7 +25,7 @@ class NotificationMailer < ActionMailer::Base
     @entry=entry
     mail(:to => "#{recip.first_name} #{recip.last_name} <#{recip.email}>",
       :subject => 'Someone just posted in your 2029 CivicEvolution proposal page',
-      :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
+      :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
       :date => sent_at
     )
   end

@@ -79,7 +79,7 @@
 					- entry = @bs_ideas.detect{|b| b.id == id.to_i}
 					-if !entry.nil?
 						%p.entry_title A brainstorming idea was added
-						%div.idea= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
+						%div.idea= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>".html_safe
 
 	- else # show stats
 		-# scan the queue and count the coms, ideas, and answers

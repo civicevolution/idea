@@ -1,6 +1,6 @@
 class MemberMailer < ActionMailer::Base
   
-  self.default :from => "2029 and Beyond @ CivicEvolution <support@civicevolution.org>",
+  self.default :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
     :reply_to => "support@civicevolution.org"
   
 
