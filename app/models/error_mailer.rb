@@ -1,6 +1,6 @@
 class ErrorMailer < ActionMailer::Base
   
-  self.default :from => "Errors @ CivicEvolution <support@civicevolution.org>",
+  self.default :from => "Errors at CivicEvolution <support@civicevolution.org>",
     :reply_to => "support@civicevolution.org"
 
     def error_report(member, exception, host, app, sent_at = Time.now)
@@ -14,7 +14,7 @@ class ErrorMailer < ActionMailer::Base
       )
     end
   
-  def delayed_job_error(job,error)
+  def delayed_job_error(job = {},error = {})
     @job = job
     @error = error
     

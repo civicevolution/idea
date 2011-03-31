@@ -66,53 +66,31 @@ module ActionView
 end  
 
 
-#module Delayed
-#  class Worker
-#    alias_method :original_handle_failed_job, :handle_failed_job
-#
-#    protected
-#    def handle_failed_job(job, error)
-#      #say "Error Intercepted by Hoptoad..."
-#      H#optoadNotifier.notify(error)
-#      
-#      say "error is being emailed"
-#			ErrorMailer.delayed_job_error(job,exception).deliver
-#			say "error has been emailed"
-#      original_handle_failed_job(job,error)
-#    end
-#  end
-#end
 
-#module Delayed
-#  class Worker
-#    alias_method :original_failed, :failed
-#
-#    protected
-#    def failed(job)
-#      #say "Error Intercepted by Hoptoad..."
-#      H#optoadNotifier.notify(error)
-#      
-#      say "error is being emailed (failed)"
-#			ErrorMailer.delayed_job_error(job,{}).deliver
-#			say "error has been emailed"
-#      original_failed(job)
-#    end
-#  end
-#end
-#
-#
-#module Delayed
-#  class PerformableMethod
-#		def error(job, exception)
-#			say "I am emailing this error"
-#			ErrorMailer.delayed_job_error(job, exception).deliver
-#		end
-#	end
-#end
-#
-#class ActionMailer::Base
-#	def error(job, exception)
-#		say "I am emailing this error"
-#		ErrorMailer.delayed_job_error(job, exception).deliver
-#	end
-#end
+module Delayed
+  class Worker
+    def failed(job)
+      say "An email was sent to notify about delayed_job failure in Delayed::Worker::failed"
+      ErrorMailer.delayed_job_error('failed').deliver
+      job.hook(:failure)
+      if job.respond_to?(:on_permanent_failure)
+        warn "[DEPRECATION] The #on_permanent_failure hook has been renamed to #failure."
+      end
+      self.class.destroy_failed_jobs ? job.destroy : job.update_attributes(:failed_at => Delayed::Job.db_time_now)
+    end
+    
+    def handle_failed_job(job, error)
+      job.last_error = "{#{error.message}\n#{error.backtrace.join('\n')}"
+      if job.attempts.to_i == 1
+        say "An email was sent to notify about delayed_job failure in Delayed::Worker::handle_failed_job"
+        ErrorMailer.delayed_job_error('handle_failed_job',error).deliver
+      end
+      say "#{job.name} failed with #{error.class.name}: #{error.message} - #{job.attempts} failed attempts", Logger::ERROR
+      reschedule(job)
+    end
+    
+    
+  end
+end
+
+
