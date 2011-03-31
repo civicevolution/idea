@@ -97,5 +97,34 @@ class NotificationController < ApplicationController
     NotificationRequest.send_periodic_report(0,0,logger)
     render :text=>'NotificationRequest.send_periodic_report(0,0,logger) was called'
   end
+  
+  
+  NOTIFICATION_CONTROLLER_PUBLIC_METHODS = ['settings']
+  
+  def authorize
+    #debugger
+    unless NOTIFICATION_CONTROLLER_PUBLIC_METHODS.include? request[ 'no_op' ]
+      # do this except for public methods
+      if (@member.nil? || @member.id == 0 ) && request.xhr?
+        respond_to do |format|
+          case request[:action]
+            when 'settings'
+              act = 'follow this idea'
+            else
+              act = 'continue'
+          end
+          format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
+        end
+        return
+      end
+    end
+    if @member.nil? 
+      @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
+      @member.id = 0
+      @member.email = ''
+    end
+  end
+
+
 
 end

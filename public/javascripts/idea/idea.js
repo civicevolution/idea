@@ -325,16 +325,27 @@ $('a.follow').live('click',
 )
 
 function open_team_notification_settings(team_id){
-	$.get('/notification/settings/' + team_id,
-		function(data){
+	console.log("load settings")
+	$.ajax	({ 					
+	  type: "GET", 
+		url: '/notification/settings/' + team_id,
+	  success: function(responseText,status){ 
 			$('div.notification_settings').remove();
-		  var pcs = data.split(/<script/);
+		  var pcs = responseText.split(/<script/);
 			var dialog = $(pcs[0]).dialog( {title : 'Follow this idea on 2029 and Beyond', modal : true, width: 600, closeOnEscape: false } );
 			//if(typeof update_notification_settings_form == 'undefined') 
 			$('head').append('<script' + pcs[1]);
 			init_update_notification_settings_form(dialog.find('form'));
+		},
+		error: function(xhr,errorString,exceptionObj){
+			console.log("error notification settings");
+			if(xhr.status == 409 && xhr.responseText.match(/Sign in required/)){
+				show_signin_form("follow this idea proposal");
+			}else{
+				console.log("error notification settings");
+			}
 		}
-	)
+	})
 }
 
 $('a.request_help').live('click',

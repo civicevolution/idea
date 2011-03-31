@@ -19,7 +19,7 @@
 
 	- when @entry.class.to_s == "BsIdea" && @report[:report_format] == 1
 		%p.entry_title A brainstorming idea was added
-		%div.idea!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
+		%div.idea!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>".html_safe
 	
 	- when @entry.class.to_s == "Answer"
 		An answer was added or edited
