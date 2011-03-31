@@ -69,28 +69,33 @@ end
 
 module Delayed
   class Worker
-    def failed(job)
-      say "An email was sent to notify about delayed_job failure in Delayed::Worker::failed"
-      ErrorMailer.delayed_job_error('failed').deliver
-      job.hook(:failure)
-      if job.respond_to?(:on_permanent_failure)
-        warn "[DEPRECATION] The #on_permanent_failure hook has been renamed to #failure."
-      end
-      self.class.destroy_failed_jobs ? job.destroy : job.update_attributes(:failed_at => Delayed::Job.db_time_now)
-    end
+    alias_method :original_handle_failed_job, :handle_failed_job
+    alias_method :original_failed, :failed
     
+    protected
     def handle_failed_job(job, error)
-      job.last_error = "{#{error.message}\n#{error.backtrace.join('\n')}"
-      if job.attempts.to_i == 1
-        say "An email was sent to notify about delayed_job failure in Delayed::Worker::handle_failed_job"
-        ErrorMailer.delayed_job_error('handle_failed_job',error).deliver
+      #say "Error Intercepted by Hoptoad..."
+      #HoptoadNotifier.notify(error)
+      begin
+        if job.attempts.to_i == 1
+          say "An email was sent to notify about delayed_job failure in Delayed::Worker::handle_failed_job"
+          ErrorMailer.delayed_job_error('handle_failed_job',error).deliver
+        end
+      rescue
       end
-      say "#{job.name} failed with #{error.class.name}: #{error.message} - #{job.attempts} failed attempts", Logger::ERROR
-      reschedule(job)
+      original_handle_failed_job(job,error)
     end
-    
-    
+
+    def failed(job)
+      #say "Error Intercepted by Hoptoad..."
+      #HoptoadNotifier.notify(error)
+      begin
+        say "An email was sent to notify about delayed_job failure in Delayed::Worker::failed"
+        ErrorMailer.delayed_job_error('failed').deliver
+      rescue
+      end
+      original_failed(job)
+    end
+
   end
 end
-
-
