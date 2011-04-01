@@ -1120,21 +1120,28 @@ class IdeaController < ApplicationController
     #debugger
     unless IDEA_CONTROLLER_PUBLIC_METHODS.include? request[:action]
       # do this except for public methods
-      if (@member.nil? || @member.id == 0 ) && request.xhr?
-        respond_to do |format|
-          case request[:action]
-            when 'create_answer'
-              act = 'add or edit an answer'
-            when 'create_comment'
-              act = 'add or edit a comment'
-            when 'create_brainstorm_idea'
-              act = 'add a brainstorming idea'
-            else
-              act = 'continue'
+      if (@member.nil? || @member.id == 0 )
+        if request.xhr?
+          respond_to do |format|
+            case request[:action]
+              when 'create_answer'
+                act = 'add or edit an answer'
+              when 'create_comment'
+                act = 'add or edit a comment'
+              when 'create_brainstorm_idea'
+                act = 'add a brainstorming idea'
+              else
+                act = 'continue'
+            end
+            format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
           end
-          format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
+          return
+        else
+          flash[:pre_authorize_uri] = request.request_uri
+          flash[:notice] = "Please sign in"
+          render :template => 'welcome/must_sign_in', :layout => 'welcome'
+          
         end
-        return
       end
     end
     if @member.nil? 
