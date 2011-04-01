@@ -52,7 +52,10 @@ class IdeaController < ApplicationController
       UNION
       SELECT distinct member_id FROM bs_ideas WHERE team_id = ?
       UNION
-      SELECT org_id FROM teams WHERE id = ?)|,@team.id,@team.id, @team.id]);
+      SELECT org_id FROM teams WHERE id = ?
+      UNION 
+      SELECT distinct member_id from item_diffs where o_type = 2 and o_id in (select id from answers where team_id = ?))|,@team.id,@team.id, @team.id, @team.id]
+      );
     
   	@endorsements = Endorsement.all(:conditions=>['team_id=?',@team.id])
   	@endorsers = Member.all(:conditions=> {:id => @endorsements.map{|e| e.member_id }.uniq })
