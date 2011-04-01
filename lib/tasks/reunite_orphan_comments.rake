@@ -91,6 +91,66 @@ namespace :pub_disc_retro do
 
   end
   
+  #Find every question in teams > 10017 where the default_answer_id is 0 or null
+  #iterate through them
+  #	Find the appropriate alternate question
+  #		who is affected > why this is important and who is affected
+  #		option > recommehdations
+  #	find all of the comment items that have the question in its ancestors
+  #	iterate through comments
+  #		change the par_id to the appropriate question
+  #		update the ancestors
+  
+  task :reunite_orphaned_question_comments => :environment do
+    puts 'find orphan question comments'
+
+
+    #These are the questions that have been excluded
+
+    orphan_questions = Question.find_by_sql("SELECT i.id AS q_item_id, q.id, i.team_id, default_answer_id, q.text from items i, questions q where team_id > 10017 and default_answer_id IS NULL AND q.id = i.o_id AND o_type = 1 order by team_id, text")
+
+    puts "There are #{orphan_questions.size} orphan questions"
+
+    orphan_questions.each do |o|
+      puts "\n\nOrphan question: #{o.inspect}"
+      
+      #Find the alternate question
+      #	options > recommendations
+      #	affect > community
+      
+      if o.text.match(/option/)
+        new_question = Item.find_by_sql([%Q|SELECT i.id AS item_id, q.text FROM items i, questions q WHERE q.text ~* 'recommendations' AND team_id = ? AND i.o_id = q.id AND i.o_type = 1|,o['team_id']])[0]
+      elsif o.text.match(/affect/)
+        new_question = Item.find_by_sql([%Q|SELECT i.id AS item_id, q.text FROM items i, questions q WHERE q.text ~* 'community' AND team_id = ? AND i.o_id = q.id AND i.o_type = 1|,o['team_id']])[0]
+      end
+      
+      if !new_question.nil?
+        puts "NEW question: #{new_question.text}"
+      
+        # find all of the comment items that have the question in its ancestors
+        puts "Comments with #{o.q_item_id} in ancestors"
+        comment_items = Item.find_by_sql([%Q|SELECT * FROM items WHERE o_type = 3 AND ? = ANY(ancestors) order by id|,o.q_item_id])
+      
+        comment_items.each do |i|
+          puts "Comment item: #{i.inspect}"
+        
+          #replace par_id
+          i.par_id = new_question.item_id
+          #replace ancestors
+          anc = i.ancestors.sub(','+o.q_item_id,  ',' + new_question.item_id)
+          i.ancestors = anc
+        
+          # save the item record
+          puts "update item record: #{i.inspect}"
+          saved = i.save
+          puts "saved: #{saved}\n"
+        
+        end
+      end
+    end
+
+  end
+  
   
   
   
