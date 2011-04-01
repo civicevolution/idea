@@ -130,4 +130,5 @@
 		<!-- AddThis Button END -->
 
 	%h4
-		= link_to "Print proposal #{image_tag( "print_icon.gif", :border => 0 )}".html_safe,{},{:class=>'invite'}
+		= link_to "Print proposal #{image_tag( "print_icon.gif", :border => 0 )}".html_safe, {:controller => "idea", :action => "index", :id => @team, :print => 'true'}
+		
