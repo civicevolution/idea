@@ -1,0 +1,45 @@
+body, p, ol, ul, td, textarea {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px; }
+
+body {
+  width: 600px; }
+
+div.ce_credit {
+  width: 100%; }
+  div.ce_credit div.powered {
+    float: left; }
+    div.ce_credit div.powered h3 {
+      margin-bottom: 6px; }
+    div.ce_credit div.powered p.tag_line {
+      margin-top: 4px;
+      font-weight: bold; }
+  div.ce_credit div.lottery {
+    float: left;
+    margin-left: 50px;
+    margin-top: 16px; }
+
+div#endorsements {
+  margin: 40px 0; }
+  div#endorsements h2 {
+    margin: 0 0 4px 0; }
+  div#endorsements p {
+    margin: 0 0 12px 0; }
+  div#endorsements table {
+    margin: 8px 0 30px 0; }
+    div#endorsements table th {
+      text-align: left; }
+    div#endorsements table td {
+      text-align: left;
+      vertical-align: top; }
+    div#endorsements table td.pic {
+      width: 36px; }
+    div#endorsements table td.text {
+      padding: 0 10px; }
+
+tr.stripe {
+  background-color: #dddddd; }
+
+p.url {
+  font-weight: bold;
+  margin-top: 50px; }

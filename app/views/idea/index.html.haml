@@ -90,7 +90,7 @@
 						= render :partial => 'answer', :object=>answer, :locals=> {:question=> question, :title=>'No answer yet', :def_ans=>def_ans, :is_def_ans=>false}
 						
 	
-	= render :partial => 'endorsements'
+	= render :partial => 'endorsements', :locals=> {:print=>false}
 	
 	= render :partial => 'submit'
 		
@@ -129,3 +129,5 @@
 		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=civicevolution"></script>
 		<!-- AddThis Button END -->
 
+	%h4
+		= link_to "Print proposal #{image_tag( "print_icon.gif", :border => 0 )}".html_safe,{},{:class=>'invite'}

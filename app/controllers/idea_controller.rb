@@ -60,6 +60,13 @@ class IdeaController < ApplicationController
   	@endorsements = Endorsement.all(:conditions=>['team_id=?',@team.id])
   	@endorsers = Member.all(:conditions=> {:id => @endorsements.map{|e| e.member_id }.uniq })
     
+    if params[:print] != 'true'
+      render :template => 'idea/index', :layout => 'idea'
+    else
+      @host = request.env['HTTP_HOST']
+      render :template => 'idea/print', :layout => 'idea_print'
+    end
+    
     
   end
 
