@@ -26,17 +26,18 @@
 			%h3.question 
 				= "Q#{(q_cnt+=1)}: #{question.text}"
 
-			- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }
-			- if answer_items.size > 0
-				- answer_items.each do |ai|
-					- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
+			%div.answer
+				- answer_items = @items.find_all {|ai| ai.o_type == 2 && ai.par_id == qi.id} .sort {|a,b| a.order <=> b.order }
+				- if answer_items.size > 0
+					- answer_items.each do |ai|
+						- answer = @answers_with_ratings.detect {|a| a.id == ai.o_id}
+						%div
+							= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
+
+				- else
+					- answer = Answer.new :text=>'No answer has been suggested for this question', :ver=>0, :item_id=>0
 					%div
 						= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
-
-			- else
-				- answer = Answer.new :text=>'No answer has been suggested for this question', :ver=>0, :item_id=>0
-				%div
-					= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
 
 
 %p.url You can view and contribute to this proposal at http://#{@host}/idea/#{params[:id]}
