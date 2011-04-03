@@ -420,6 +420,7 @@ function dispatchComment(item,submit_response){
 				$('input.vote_up',this).addClass('other_selected');				
 			}
 			$('div.comment_links',this).hide();
+			$(this).effect("highlight", {}, 5000)
 		}
 	);
 

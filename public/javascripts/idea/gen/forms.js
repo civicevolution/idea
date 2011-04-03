@@ -123,7 +123,7 @@ function show_com_form(){
 		form.find('div.add_comment span.char_ctr:last').html(com_criteria + ' characters left');
 		form.find('div.add_link span.char_ctr:last').html(res_criteria + ' characters left');
 		form.find('div.attach_file span.char_ctr:last').html(res_criteria + ' characters left');
-	
+		form.addClass('remove_form')
 		// inserted forms have cancel link instead of clear link
 		$('a.clear',form).removeClass('clear').addClass('cancel').html('Cancel');
 		// where do I put the form?
@@ -390,12 +390,17 @@ function activate_comment_form(form,orig_com){
 						
 					  var msg = $('<p class="confirmation">Your comment has been saved successfully</p>')
 						form.before(msg);
-						// reset the form
-						form.find('input[type="text"], textarea, input[type="file"]').removeAttr('disabled').val('').focus();
-						$('div.add_comment button, div.add_comment a, div.add_comment img',form).show();				
-						$('div.add_link, div.attach_file',form).hide()
-						form[0].resource_type.value = 'simple';
-
+						// reset the form or remove it
+						if(form.hasClass('remove_form')){
+							form.hide(1000,function(){
+								$(this).remove();
+							})
+						}else{
+							form.find('input[type="text"], textarea, input[type="file"]').removeAttr('disabled').val('').focus();
+							$('div.add_comment button, div.add_comment a, div.add_comment img',form).show();				
+							$('div.add_link, div.attach_file',form).hide()
+							form[0].resource_type.value = 'simple';
+						}
 						msg.effect('highlight',{},3000, function(){$(this).remove()});	
 						if(form[0]['comment[target_id]'].value){
 							form[0]['comment[text]'].value = '';
