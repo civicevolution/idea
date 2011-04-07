@@ -691,7 +691,7 @@ class IdeaController < ApplicationController
   end
   
   def guidelines
-    render :action => "guidelines", :layout => false 
+    render :action => "guidelines", :layout => request.xhr? ? false : 'welcome'
   end
   
   def tooltips
