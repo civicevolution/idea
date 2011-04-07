@@ -25,6 +25,7 @@ $('a.edit_com').die('click').live('click',
 
 			var com_text = com_entry.find('div.comment_text').clone();
 			com_text.find('.one_liner').remove();
+			com_text.find('a.com_author').remove()
 			// can I ignore the <br> ?
 	 		var com_text = com_text.html().replace(/p>\s*<p/g,'p><p').replace(/<p>/gi,'').replace(/<\/p>/gi,'\n\n').replace(/\s*$/,'').replace(/^[ ]*/mg,'')
 			$('textarea.comment',form).html(com_text);
@@ -56,7 +57,14 @@ $('a.edit_com').die('click').live('click',
 				function(){
 					//console.log("now add the idea form idea.size: " + idea.size())
 					com_entry.before( form );
-					form.show(500)
+					form.show(500,
+						function(){
+							$(this).find('textarea').autoGrow({
+                  minHeight  : 30,
+                  maxHeight : 500
+              })
+						}
+					)
 				}
 			);
 			//console.log("activate the form")
