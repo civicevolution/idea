@@ -1,0 +1,84 @@
+- content_for(:script) do
+	= javascript_include_tag "jquery.show_char_limit-1.1.1.js", "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js','jquery.scrollTo-min.js'
+	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
+	
+%style
+	:sass
+		div#intro
+			width: 600px
+		p.fig
+			font-weight: bold
+
+-#%div#intro
+%div.left_col	
+	%h2 Instructions for 2029 and Beyond at CivicEvolution
+	%h3 Make your idea a reality
+
+	%p Do you have an idea to make your community a better place to live? Or make it more sustainable? The Alliance Governance Group wants to hear your proposal.
+
+	%p A proposal is a detailed action plan written and supported by the community. The plan explains how the change can be put into action by answering what, why, who, and how.
+
+	%p This website helps the community answer each of these questions through brainstorming and prioritization to find answers that most of its members can accept. Click the "Speak up" link under each question:
+
+	%p= image_tag "intro/speakup.gif"
+	%p.fig Figure 1: Each question has a link to open the brainstorming section
+
+	%p In community brainstorming anyone can suggest ideas about how to answer each question. Brainstorming is as simple as typing your ideas into this form, but here are a couple of tips:
+
+	%p= image_tag "intro/addidea.gif"
+	%p.fig Figure 2: The brainstorming idea form
+
+	%p The goal of brainstorming is to generate lots of ideas, but please, enter each idea separately. The ideas are displayed anonymously, so don't be shy, and if you think you can improve on an idea, re-post it with your changes.
+
+	%p Participants review and discuss all of the ideas, and collect and prioritize their favorite ones. Evaluate each new idea and decide if it belongs in your favorite ideas list:
+
+ 
+	%p= image_tag "intro/add_fav.gif"
+	%p.fig Figure 3: Brainstorming ideas are displayed anonymously and asks if this is one of your favorite ideas
+ 
+	%p= image_tag "intro/prioritize.gif"
+	%p.fig Figure 4: Your favorite ideas are displayed in a prioritized list 
+
+
+	%p Your favorite ideas reflect your position on each question. It's important that you keep your list of favorite ideas prioritized–the most important ideas should be at the top. Click the up/down arrows to reorder your favorites.
+
+	%p The website examines everyone's favorite ideas and creates a list of the most popular ideas based on the priority assigned by the participants. This list reveals the community's common ground as well as its differences.
+
+	%p= image_tag "intro/popular.gif"
+	%p.fig Figure 5: The website displays the community’s most popular ideas to reveal common ground and differences
+
+	%p The dialogue around the brainstorming ideas can help people understand each other better and allow the community to think together toward more creative and satisfying answers.
+
+	%p Try to encourage constructive dialogue by responding with short, focused comments and asking people what they think. It's okay to disagree, but please be respectful. 
+
+	%p Please rate if you think each comment is constructive, or not. And keep in mind that  a comment can be constructive even if you disagree with it.
+
+	%p= image_tag "intro/constructive.gif"
+	%p.fig Figure 6: Each comment asks you to rate if it is constructive
+
+	%p The community works together through this dialogue to write a shared answer. Anyone with a history of constructive participation can write and edit the answer on behalf of the community and we maintain an edit history to keep track of the changes. The answer should reflect and reconcile the priorities of your community as highlighted in the most popular ideas list. Review and rate the answer each time it is updated:
+
+	%p= image_tag "intro/answer.gif"
+	%p.fig Figure 7: The answer for under each question can be edited by participants and contains an edit history. Every participant should rate their agreement with the answer.
+
+	%p Keep brainstorming, discussing, and refining the answers till you find a version most of the community can accept. Don't forget to endorse the proposal when you're satisfied, and please share it with others
+
+%div.right_col
+	-#= render( :partial => 'welcome/signin_register' )
+	- if !@member.nil?
+		%h2.home_title.my_teams My ideas
+		%div.right_vertical_bar.my_teams
+			%ul.teams_list
+				- @member.team_titles.each do |team|
+					%li{:class=>'team', :id=>team.id}
+						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {}
+
+	%h2.home_title Watch our videos
+	%div.right_vertical_bar
+		%div.videos	
+			-#%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=WS_EzJ0UW00'}
+			%p Introduction to CivicEvolution
+			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/22311078', :title=>'2029 CivicEvolution Demo', :id=>'play_intro_video'} 
+				= image_tag '2029_demo_placeholder.gif', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
+
+%p.clear_both

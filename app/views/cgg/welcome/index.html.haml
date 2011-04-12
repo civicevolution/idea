@@ -266,7 +266,14 @@
 		%div.videos	
 			-#%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=WS_EzJ0UW00'}
 			%p Introduction to CivicEvolution
-			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated', :id=>'play_intro_video'} 
+			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/22311078', :title=>'2029 CivicEvolution Demo', :id=>'play_intro_video'} 
+				= image_tag '2029_demo_placeholder.gif', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
+				
+			%p
+				Or
+				= link_to "read about it", {:controller=> 'welcome', :action=>'intro'}
+			
+			-#%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated', :id=>'play_intro_video'} 
 				= image_tag 'video_placeholder1.jpg', :alt=>'CivicEvolution Illustrated video', :title=> 'Click to play this video'
 		-#
 			%p Getting started

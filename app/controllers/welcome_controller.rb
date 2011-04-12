@@ -365,6 +365,10 @@ class WelcomeController < ApplicationController
     end
     render :text => [{:id=>member.id, :ape_code=> member.ape_code}].to_json
   end
+  
+  def intro
+    
+  end
     
 protected
   def authorize
