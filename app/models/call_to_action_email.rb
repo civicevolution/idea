@@ -54,6 +54,13 @@ class CallToActionEmail < ActiveRecord::Base
             :conditions=>['first_name ~* ? OR last_name ~* ? OR email ~* ?', search_phrase, search_phrase, search_phrase]
           )
 
+        when 'by id'
+          # search for members
+          Member.all(
+            :select=>'first_name, last_name, email, id AS mem_id, 0 AS team_id',
+            :conditions=>['id in(?)', search_phrase.scan(/\d+/).map{|i| i.to_i}]
+          )
+
         when 'team'
           #Registered, no team (49)
           #Member.find_all_by_id([1,119]) #email('brian@civicevolution.org')]
