@@ -581,7 +581,7 @@ BsIdeas = {
 
 		}else{
 			console.log("adjust to NOT a favorite - remove it from favorites list, update in other lists");
-			
+
 			var bs_idea = BsIdeas.get_idea(question_id, idea_data.bs_idea_id);
 			bs_idea.my_fav = 'f';
 			//var index = BsIdeas.bs_ideas_priority[question_id].indexOf(idea_data.bs_idea_id);
@@ -589,7 +589,7 @@ BsIdeas = {
 			if(index != -1 )BsIdeas.bs_ideas_priority[question_id].splice(index,1);
 			BsIdeas.process_ideas(question_id);
 			
-			if(cur_list_name == 'fav'){ // if the current list is 'fav', remove the idea from the list
+			if(cur_list_name == 'fav' || cur_list_name == 'new'){ // if the current list is 'fav', remove the idea from the list
 				// show the acknowldgement message
 				bs_idea_div.append('<p class="fav_action_status">Not a favorite</p>')
 				bs_idea_div.children('div').css('opacity',.1)
