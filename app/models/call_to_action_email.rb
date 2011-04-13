@@ -41,24 +41,25 @@ class CallToActionEmail < ActiveRecord::Base
         when /^team_id/
           team_id = recipient_source.match(/^team_id-(\d+)/)[1]
           Member.find_by_sql(
-          [%q|SELECT distinct first_name, last_name, email, m.id AS mem_id, title, t.id AS team_id
+          [%q|SELECT distinct first_name, last_name, email, m.id AS mem_id, title, t.id AS team_id, email_ok
           FROM members m, team_registrations tr, teams t
           WHERE tr.team_id = ? 
           AND tr.member_id = m.id
+          AND email_ok = true
           AND tr.team_id = t.id|,team_id])
 
         when 'search'
           # search for members
           Member.all(
-            :select=>'first_name, last_name, email, id AS mem_id, 0 AS team_id',
-            :conditions=>['first_name ~* ? OR last_name ~* ? OR email ~* ?', search_phrase, search_phrase, search_phrase]
+            :select=>'first_name, last_name, email, id AS mem_id, 0 AS team_id, email_ok',
+            :conditions=>['first_name ~* ? OR last_name ~* ? OR email ~* ? AND email_ok = true', search_phrase, search_phrase, search_phrase]
           )
 
         when 'by id'
           # search for members
           Member.all(
-            :select=>'first_name, last_name, email, id AS mem_id, 0 AS team_id',
-            :conditions=>['id in(?)', search_phrase.scan(/\d+/).map{|i| i.to_i}]
+            :select=>'first_name, last_name, email, id AS mem_id, 0 AS team_id, email_ok',
+            :conditions=>['id in(?) AND email_ok = true', search_phrase.scan(/\d+/).map{|i| i.to_i}]
           )
 
         when 'team'
@@ -71,59 +72,60 @@ class CallToActionEmail < ActiveRecord::Base
           
         when 'join a team'
           Member.all(
-            :select=>'first_name, last_name, email, m.id AS mem_id, ctaq.team_id',
+            :select=>'first_name, last_name, email, m.id AS mem_id, ctaq.team_id, email_ok',
             :joins=>'as m inner join call_to_action_queues AS ctaq ON ctaq.member_id = m.id',
-            :conditions=>'scenario = \'join a team\' AND sent = false'
+            :conditions=>'scenario = \'join a team\' AND sent = false AND email_ok = true'
           )
 
         when 'joined a team'
           #Joined a team that hasn't launched (31)
           Member.find_by_sql(
-            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id
+            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id, email_ok
             FROM members m, initiative_members im, team_registrations tr, teams t
             WHERE im.initiative_id IN (1,2)
             AND m.id = im.member_id
             AND tr.member_id = m.id
             AND tr.team_id = t.id
             AND t.id > 10018
+            AND email_ok = true
             ORDER BY first_name, last_name|)
             
         when 'commented'
           Member.find_by_sql(
-            %q|SELECT first_name, last_name, email, m.id AS mem_id, 0 AS team_id
+            %q|SELECT first_name, last_name, email, m.id AS mem_id, 0 AS team_id, email_ok
             FROM members m
-            WHERE m.id in (SELECT distinct member_id FROM comments WHERE team_id > 10017)
+            WHERE m.id in (SELECT distinct member_id FROM comments WHERE team_id > 10017) AND email_ok = true
             ORDER BY first_name, last_name|)
 
         when 'all 2029'
           Member.find_by_sql(
-            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id
+            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id, email_ok
             FROM members m, initiative_members im
-            WHERE im.initiative_id in (1,2) and im.member_id = m.id
+            WHERE im.initiative_id in (1,2) and im.member_id = m.id AND email_ok = true
             ORDER BY first_name, last_name|)
           
         when 'all 2029 team'
           Member.find_by_sql(
-            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id
+            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id, email_ok
             FROM members m, initiative_members im
-            WHERE im.initiative_id in (1,2) and im.member_id = m.id
+            WHERE im.initiative_id in (1,2) and im.member_id = m.id AND email_ok = true
             AND m.id IN (SELECT DISTINCT member_id FROM team_registrations WHERE team_id > 10017)
             ORDER BY first_name, last_name|)
 
         when 'all 2029 no team'
           Member.find_by_sql(
-            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id
+            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id, email_ok
             FROM members m, initiative_members im
-            WHERE im.initiative_id in (1,2) and im.member_id = m.id
+            WHERE im.initiative_id in (1,2) and im.member_id = m.id AND email_ok = true
             AND m.id NOT IN (SELECT DISTINCT member_id FROM team_registrations WHERE team_id > 10017)
             ORDER BY first_name, last_name|)
 
 
         else
           Member.all(
-            :select=>'first_name, last_name, email, m.id AS mem_id, t.id AS team_id',
+            :select=>'first_name, last_name, email, m.id AS mem_id, t.id AS team_id, email_ok',
           	:joins=>'as m inner join call_to_action_queues AS ctaq ON ctaq.member_id = m.id INNER JOIN teams AS t ON ctaq.team_id = t.id',
-            :conditions=>['scenario = ? AND sent = false', recipient_source]
+            :conditions=>['scenario = ? AND sent = false AND email_ok = true', recipient_source]
           )
           
           

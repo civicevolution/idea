@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110315071752) do
+ActiveRecord::Schema.define(:version => 20110413172550) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -456,6 +456,7 @@ ActiveRecord::Schema.define(:version => 20110315071752) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.string   "ip",                 :limit => nil
+    t.boolean  "email_ok",                          :default => true
   end
 
   add_index "members", ["ape_code"], :name => "unique_members_ape_code", :unique => true

@@ -87,7 +87,7 @@ class AdminController < ApplicationController
       @email_recipients = CallToActionEmail.get_recipients_by_query(params[:recipient_source], params[:search])
       @email_recipients.concat(
         Member.all(:select=>"first_name, last_name, email, id AS mem_id, #{@email_recipients[0].team_id} AS team_id", :conditions=>'id in (1,119)')
-      ) unless params[:recipient_source] == 'team'
+      ) unless params[:recipient_source] == 'team' || @email_recipients.size == 0
       logger.debug "@email_recipients.size: #{@email_recipients.size}"
       respond_to do |format|
         format.html { render :partial => 'email_recipients' } if request.xhr?
@@ -231,8 +231,13 @@ class AdminController < ApplicationController
           msg = render_to_string :inline=>message
 
           #AdminMailer.delay(:run_at => 5.minutes.from_now).email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
-          AdminMailer.delay.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
-          logger.info "Sent email via delayed_job to #{@recipient.first_name} #{@recipient.last_name} <#{@recipient.email}>"
+
+          if @recipient.email_ok
+            AdminMailer.delay.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
+            logger.info "Sent email via delayed_job to #{@recipient.first_name} #{@recipient.last_name} <#{@recipient.email}>"
+          else
+            logger.info "NO EMAIL SENT - unsubscribed - for #{@recipient.first_name} #{@recipient.last_name} <#{@recipient.email}>"
+          end
           #set queue sent = true
           ctaq = CallToActionQueue.find_by_member_id_and_team_id( mem_id, team_id )
           ctaq.destroy unless ctaq.nil?
