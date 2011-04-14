@@ -24,65 +24,27 @@
 			%p This website will help you take advantage of this important opportunity. Please view these videos for more information
 	- else
 		%div.mission
-			%h2.home_title Help us plan for our sustainable future
-			%p 
-				Our community is jointly creating a sustainable future for our City Region in a project called
-				%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and Beyond
-				overseen by the 
-				%a{:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}Alliance Governance Group 
-				and its chair, Mayor, Cr Ian Carpenter.
+			%h2.home_title Do you have an idea to make your community a better place to live?
 			
-			%p Do you have an idea that could make our City Region an even better place to live or could help make our City Region more sustainable into the future?
-
-			%p This website can help you share your idea, form a team of supporters and develop your idea into a proposal for action.
+			%p 
+				The 
+				= link_to( "Alliance Governance Group", {}, {:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'})
+				wants to hear your proposal. They oversee
+				= link_to( "2029 and Beyond", {}, {:href=>'http://www.2029andbeyond.com.au/', :target=>'_blank', :class=>'mission_link 2029'}) + "&mdash;a".html_safe
+				community wide project to create the kind of healthy, sustainable and creative city region we all desire.
+			%p We need your proposals for change. A proposal is a detailed action plan written and supported by the community. The plan explains how the change can be put into action by answering what, why, who, and how.
+			%p This website helps the community answer each of these questions through brainstorming and prioritisation to find answers that most of its members can accept.			
+			
 			%p
 				The Alliance Governance Group 
-				%span.promise promises to review every proposal
+				%span.promise commits to review every proposal
 				that the community develops through CivicEvolution and meets their 
-				%a{:href=>'#', :class=>'2029_guidelines'}guidelines,
+				=link_to( "guidelines", {}, {:href=>'#', :class=>'2029_guidelines'}) + ","
 				so this is 
 				%span.promise your opportunity to make your idea happen!
 			
-	%h2.home_title How do we create a proposal for action?
+	%h2.home_title Join or start a proposal now!
 	
-	%p A proposal for action explains how your idea can be implemented by answering What, Why, Who and How.
-	%p You will discuss, brainstorm, and answer these questions using this website, but first you'll need to recruit at least 3 other people to work with you. 	
-	%p You'll also need to listen to the community for suggestions and to build support.
-
-	%a{:name=>'get_started'}
-	%h2.home_title Get started today!
-
-	%ul.marketplace
-		%li 
-			%b Suggest a new idea:
-			Tell us what you would like to change.
-			= link_to 'Suggest idea', {}, {:class=>'suggest_new_idea', :rel=>'nofollow'}
-		%li 
-			%b Join a team:
-			Help develop an idea into a proposal for action.
-			-#= link_to 'Show me how', {}, {:class=>'suggest_new_idea'}
-		%li
-			%b Share your insight:
-			Review and discuss community ideas.
-			-#= link_to 'Show me how', {}, {:class=>'suggest_new_idea'}
-		%li 
-			%b Register:
-			Participate and keep in touch.
-			= link_to 'Register now', {}, {:id=>'cta_register', :rel=>'nofollow'}
-		%li 
-			%b Watch our videos:
-			Learn how you can participate.
-			-#= link_to 'Watch now', {}, {:class=>'suggest_new_idea'}
-			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated', :id=>'play_intro_video'} Watch intro
-			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14627369', :title=>'Getting started with CivicEvolution', :id=>'play_getting_started'} Watch demo
-		%li 
-			%b Ask for help:
-			-#We can help with your problem or question.
-			We can help, email support@civicevolution.org
-			-#= link_to 'Ask us now', {}, {:class=>'suggest_new_idea'}
-	
-	-#%h2.com_title 2029 and Beyond: A marketplace of ideas
-	%h2.home_title 2029 and Beyond: Community Ideas
 	%p.header_desc 
 		These are the ideas your community is working on right now. 
 		Click a title to learn more. If you have a new idea that's not listed, 
