@@ -2,6 +2,12 @@ Notes to run app in development mode
 
 rvmsudo rails s --debugger --port=80
 
+PGDATA=/usr/local/pgsql/data
+PATH=$PATH:/usr/local/pgsql/bin
+export PGDATA PATH
+psql
+
+cd /ce_development/Rails/g3
 
 RAILS_ENV=development script/monit.notify.sh start
 RAILS_ENV=development script/monit.notify.sh stop
@@ -10,19 +16,11 @@ RAILS_ENV=development script/delayed_job start
 RAILS_ENV=development script/delayed_job stop		
 
 
-pg_dump -i -h localhost -p 5432 -U postgres -F c -b -f "g3_development.03.7.11.11.03.pgz" g3_development
-dropdb g3_development
-createdb g3_development
-ls -l /ce_development/backups/2029_db/app_2029_production.*
-
-pg_restore -h localhost -p 5432 -U postgres -d g3_development "/ce_development/backups/2029_db/app_2029_production.03.17.11.07.43.pgz"
-
-
 Process.kill("USR1", IO.read(Rails.root + 'log/notification.rb.pid').chomp.to_i )
 Process.kill("USR2", IO.read(Rails.root + 'log/notification.rb.pid').chomp.to_i )
 
 tail -f /var/log/engineyard/apps/app_2029/notification.rb.log
-
+tail -f /var/log/engineyard/apps/app_2029/production.log
 
 replace the development db
 
@@ -31,11 +29,16 @@ stop rails console
 stop psql
 stop notify and delayed daemons
 
+pg_dump -i -h localhost -p 5432 -U postgres -F c -b -f "g3_development.03.7.11.11.03.pgz" g3_development
 
 dropdb g3_development
 createdb g3:development
+ls -l /ce_development/backups/2029_db/app_2029_production.*
 pg_restore -h localhost -p 5432 -U postgres -d g3_development "/ce_development/backups/2029_db/app_2029_production.03.28.11.09.40.pgz"
 
+clear the notification requests before starting the daemons
+	update notification_requests set match_queue = null;
+	select * from team_content_logs where processed = false;
 
 
 

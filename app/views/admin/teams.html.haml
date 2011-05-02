@@ -38,7 +38,7 @@
 			%th
 				Active
 			%th
-				Mems
+				Pars
 			%th
 				Coms
 			%th
@@ -54,7 +54,7 @@
 				%td= link_to t.title, {:controller=>'idea', :action=>'index', :id=>t.id}
 				%td= link_to "Email", {:action=>'email', :team_id=>t.id}
 				%td= t.launched
-				%td= link_to t['members'], {:action=>'team_members', :id=>t.id}
+				%td= t['participants']
 				%td= t['comments']
 				%td= t['bs_ideas']
 				%td= t['answers']

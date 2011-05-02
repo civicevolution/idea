@@ -340,7 +340,13 @@ class Team < ActiveRecord::Base
     #)
     
     Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement, status, min_members, max_members, signup_mode, launched,
-      (SELECT COUNT(*) FROM team_registrations WHERE team_id = t.id) AS members,
+      (SELECT count(member_id) from (SELECT member_id FROM comments WHERE team_id = t.id
+      UNION
+      SELECT member_id FROM bs_ideas WHERE team_id = t.id
+      UNION
+      SELECT org_id as member_id FROM teams WHERE id = t.id
+      UNION 
+      SELECT member_id from item_diffs where o_type = 2 and o_id in (select id from answers where team_id = t.id)) as participants) AS participants,
       (SELECT COUNT(*) FROM comments WHERE team_id = t.id) AS comments,
       (SELECT COUNT(*) FROM bs_ideas WHERE team_id = t.id) AS bs_ideas,
       (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers
