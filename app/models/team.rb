@@ -349,7 +349,8 @@ class Team < ActiveRecord::Base
       SELECT member_id from item_diffs where o_type = 2 and o_id in (select id from answers where team_id = t.id)) as participants) AS participants,
       (SELECT COUNT(*) FROM comments WHERE team_id = t.id) AS comments,
       (SELECT COUNT(*) FROM bs_ideas WHERE team_id = t.id) AS bs_ideas,
-      (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers
+      (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers,
+      (SELECT COUNT(*) FROM endorsements WHERE team_id = t.id) AS endorsements
       FROM teams t 
       WHERE initiative_id = ?
       ORDER BY launched DESC, title|, initiative_id ]

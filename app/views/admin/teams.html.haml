@@ -45,6 +45,8 @@
 				Ideas
 			%th
 				Answers
+			%th
+				End
 				
 	%tbody			
 		- @teams.each do |t|
@@ -58,5 +60,6 @@
 				%td= t['comments']
 				%td= t['bs_ideas']
 				%td= t['answers']
+				%td= t['endorsements']
 
 			
