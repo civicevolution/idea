@@ -7,6 +7,7 @@ class AdminMailer < ActionMailer::Base
     @plain_text_message = plain_text_message
     @html_message = html_message
     
+    #attachments['invite.pdf'] = File.read("#{Rails.root}/public/pdf/EBD community invitation.pdf")
     mail(:to => "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>",
       :subject => subject
     )

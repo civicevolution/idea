@@ -58,19 +58,22 @@ G3::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   #config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.delivery_method = :ses
+  
+  # disable sending through Amazon SES
+  #config.action_mailer.delivery_method = :ses
+  
   config.action_mailer.logger = ActiveSupport::BufferedLogger.new( "#{Rails.root}/log/mail.sent.log" )
   
-  #config.action_mailer.delivery_method = :smtp
-  #config.action_mailer.smtp_settings = {
-  #  :enable_starttls_auto => true,
-  #  :address => "smtp.civicevolution.org",
-  #  :domain => 'civicevolution.org',
-  #  :port => 25,
-  #  :user_name => "ce-prod", 
-  #  :password	=> "cece",
-  #  :authentication => :plain, 
-  #}
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,
+    :address => "smtp.sendgrid.net",
+    :domain => 'civicevolution.org',
+    :port => 587,
+    :user_name => "civicevolution2SFO", 
+    :password	=> "gayjorge2011CANYON",
+    :authentication => :plain, 
+  }
   
   
 end

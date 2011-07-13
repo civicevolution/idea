@@ -1,5 +1,6 @@
 Notes to run app in development mode
 
+cd /ce_development/Rails/tp
 rvmsudo rails s --debugger --port=80
 
 PGDATA=/usr/local/pgsql/data
@@ -7,14 +8,15 @@ PATH=$PATH:/usr/local/pgsql/bin
 export PGDATA PATH
 psql
 
-cd /ce_development/Rails/g3
+cd /ce_development/Rails/tp
 
 RAILS_ENV=development script/monit.notify.sh start
 RAILS_ENV=development script/monit.notify.sh stop
-
+	ps aux | grep notification
+	
 RAILS_ENV=development script/delayed_job start		
 RAILS_ENV=development script/delayed_job stop		
-
+	ps aux | grep delayed_job
 
 Process.kill("USR1", IO.read(Rails.root + 'log/notification.rb.pid').chomp.to_i )
 Process.kill("USR2", IO.read(Rails.root + 'log/notification.rb.pid').chomp.to_i )
@@ -31,10 +33,10 @@ stop notify and delayed daemons
 
 pg_dump -i -h localhost -p 5432 -U postgres -F c -b -f "g3_development.03.7.11.11.03.pgz" g3_development
 
-dropdb g3_development
-createdb g3:development
+dropdb tp_development
+createdb tp_development
 ls -l /ce_development/backups/2029_db/app_2029_production.*
-pg_restore -h localhost -p 5432 -U postgres -d g3_development "/ce_development/backups/2029_db/app_2029_production.03.28.11.09.40.pgz"
+pg_restore -h localhost -p 5432 -U postgres -d tp_development "/ce_development/backups/2029_db/app_2029_production.07.12.11.09.53.pgz"
 
 clear the notification requests before starting the daemons
 	update notification_requests set match_queue = null;
@@ -44,3 +46,10 @@ clear the notification requests before starting the daemons
 
 Run delayed_job in the foreground
 	rake jobs:work
+	
+	
+Run console
+	rails c
+
+	sudo chown briansullivan:admin log/mail.sent.log
+	

@@ -109,7 +109,39 @@
 				return false;
 			}
 		)
-	
+		$('a.select_range').die('click').live('click',
+			function(){
+				var start = $('input#range_start').val();
+				var end = $('input#range_end').val();
+				start = isNaN(start) ? 1 : Number(start);
+				end = isNaN(end) ? 1 : Number(end);
+				if(start>end){
+					var x = end;
+					end = start;
+					start = x;
+				}
+				start = start < 1 ? 1 : start
+				end = end < 1 ? 1 : end
+				console.log("select_range from " + start + " to " + end);
+				$('div#recipients :checkbox').each(
+					function(i){
+						++i;
+						//console.log("checkbox: " + i);
+						if( i>= start && i <= end){
+							$(this).attr('checked','true');
+						}else{
+							$(this).removeAttr('checked');
+						}
+					}
+				)
+				
+				
+				
+				return false;
+			}
+		)
+
+
 		$('select#scenario').die('change').live('change',
 			function(){
 						$('div#compose').load('/admin/email',{act:'fetch_scenario', scenario: $('select#scenario').val()})
@@ -147,8 +179,6 @@
 			}
 		)
 		
-		
-		
 	%style
 		:sass
 			div.email_preview
@@ -166,10 +196,14 @@
 				p.save_scenario
 					clear: both
 					margin:	10px 0 10px 0
+				input.range
+					width: 40px
 			input.search_phrase
 				width: 200px
 			p.search_data
 				display: none
+				
+	
 
 
 %h3 Send email to participants

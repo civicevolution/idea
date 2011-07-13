@@ -1,6 +1,9 @@
 class NotificationController < ApplicationController
 
-  
+  def unsubscribe
+    @member.update_attributes( :email_ok => false)
+    render :layout=> 'welcome'
+  end
   
   def settings
     @team = Team.select('id,title,initiative_id').where(:id=>params[:id])

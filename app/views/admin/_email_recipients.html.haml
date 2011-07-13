@@ -21,12 +21,21 @@
 			-#	#{team.title}
 		- logger.debug "show the table with @recipients: #{@recipients}"
 		%p 
-			#{@email_recipients.size} recipients
+			-#{@email_recipients.size} recipients
 			=link_to 'Select all', {},{:class=>'select_all'}
 			=link_to 'Unselect all', {},{:class=>'unselect_all'}
+
+			=link_to 'Select range from:', {},{:class=>'select_range'}
+			= text_field_tag :range_start, nil, {:class=>'range'}
+			to
+			= text_field_tag :range_end, nil, {:class=>'range'}
+			
 		%table
+			- idx = 0
 			- @email_recipients.each do |m|
+				- idx += 1
 				%tr
+					%td= idx
 					%td
 						= check_box_tag 'recip_ids[]', "#{m.mem_id}-#{m.team_id}", false
 					%td #{m.first_name} #{m.last_name} &lt;#{m.email}&gt;
