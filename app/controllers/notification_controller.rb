@@ -1,6 +1,7 @@
 class NotificationController < ApplicationController
 
   def unsubscribe
+    # one step unsubscribe
     @member.update_attributes( :email_ok => false)
     render :layout=> 'welcome'
   end
