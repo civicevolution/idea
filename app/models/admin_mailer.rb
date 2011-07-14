@@ -3,10 +3,11 @@ class AdminMailer < ActionMailer::Base
   self.default :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
     :reply_to => "support@civicevolution.org"
   
-  def email_message(recipient, subject, plain_text_message, html_message)
+  def email_message(recipient, subject, plain_text_message, html_message, host, mcode)
     @plain_text_message = plain_text_message
     @html_message = html_message
-    
+    @host = host
+    @mcode = mcode
     #attachments['invite.pdf'] = File.read("#{Rails.root}/public/pdf/EBD community invitation.pdf")
     mail(:to => "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>",
       :subject => subject

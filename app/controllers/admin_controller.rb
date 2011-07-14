@@ -208,9 +208,9 @@ class AdminController < ApplicationController
                 {:sponsor=>'Alliance Governance Group'}        
               ]
             end
-            if message.match(/@mcode/)
-              @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
-            end
+            # mcode is always needed for unsubscribe built into the template
+            @mcode,mcode_id = MemberLookupCode.get_code_and_id(@recipient.id, {:scenario=>params[:scenario]})
+
             # adjust host first subdomain based on init_id of the team or the team_id if join a team
             @init_id = params[:recipient_source] == 'join a team' ? team_id : (@team.nil? ? nil : @team.initiative_id)
             
@@ -233,7 +233,7 @@ class AdminController < ApplicationController
           #AdminMailer.delay(:run_at => 5.minutes.from_now).email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
 
           if @recipient.email_ok
-            AdminMailer.delay.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html )
+            AdminMailer.delay.email_message(@recipient, params[:subject], msg, BlueCloth.new( msg ).to_html, @host, @mcode )
             logger.info "Sent email via delayed_job to #{@recipient.first_name} #{@recipient.last_name} <#{@recipient.email}>"
           else
             logger.info "NO EMAIL SENT - unsubscribed - for #{@recipient.first_name} #{@recipient.last_name} <#{@recipient.email}>"
