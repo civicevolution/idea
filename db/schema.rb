@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110413172550) do
+ActiveRecord::Schema.define(:version => 20110718181411) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -44,6 +44,16 @@ ActiveRecord::Schema.define(:version => 20110413172550) do
     t.datetime "updated_at"
   end
 
+  create_table "answer_diffs", :force => true do |t|
+    t.integer  "answer_id"
+    t.integer  "member_id"
+    t.integer  "version"
+    t.binary   "diff"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "answer_ratings", :force => true do |t|
     t.integer  "answer_id",                 :null => false
     t.integer  "member_id",                 :null => false
@@ -53,15 +63,16 @@ ActiveRecord::Schema.define(:version => 20110413172550) do
   end
 
   create_table "answers", :force => true do |t|
-    t.integer  "member_id",                      :null => false
-    t.boolean  "anonymous",   :default => false, :null => false
-    t.string   "status",      :default => "ok",  :null => false
-    t.text     "text",                           :null => false
-    t.integer  "ver",         :default => 0,     :null => false
+    t.integer  "member_id",                         :null => false
+    t.boolean  "anonymous",      :default => false, :null => false
+    t.string   "status",         :default => "ok",  :null => false
+    t.text     "text",                              :null => false
+    t.integer  "ver",            :default => 0,     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "team_id",     :default => 0,     :null => false
-    t.integer  "question_id", :default => 0,     :null => false
+    t.integer  "team_id",        :default => 0,     :null => false
+    t.integer  "question_id",    :default => 0,     :null => false
+    t.integer  "lock_member_id"
   end
 
   create_table "bs_idea_favorite_priorities", :force => true do |t|
@@ -208,14 +219,16 @@ ActiveRecord::Schema.define(:version => 20110413172550) do
   end
 
   create_table "comments", :force => true do |t|
-    t.integer  "member_id",                     :null => false
-    t.boolean  "anonymous",  :default => false, :null => false
-    t.string   "status",     :default => "ok",  :null => false
-    t.text     "text",                          :null => false
+    t.integer  "member_id",                      :null => false
+    t.boolean  "anonymous",   :default => false, :null => false
+    t.string   "status",      :default => "ok",  :null => false
+    t.text     "text",                           :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "team_id"
     t.boolean  "publish"
+    t.integer  "parent_type"
+    t.integer  "parent_id"
   end
 
   create_table "content_reports", :force => true do |t|
@@ -520,17 +533,21 @@ ActiveRecord::Schema.define(:version => 20110413172550) do
   end
 
   create_table "questions", :force => true do |t|
-    t.integer  "member_id",                                :null => false
-    t.string   "status",            :default => "ok",      :null => false
-    t.text     "text",                                     :null => false
-    t.integer  "num_answers",       :default => 1000,      :null => false
+    t.integer  "member_id",                                        :null => false
+    t.string   "status",                    :default => "ok",      :null => false
+    t.text     "text",                                             :null => false
+    t.integer  "num_answers",               :default => 1000,      :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "anonymous",         :default => false,     :null => false
-    t.integer  "ver",               :default => 0,         :null => false
-    t.string   "idea_criteria",     :default => "5..1000"
-    t.string   "answer_criteria",   :default => "5..1500"
+    t.boolean  "anonymous",                 :default => false,     :null => false
+    t.integer  "ver",                       :default => 0,         :null => false
+    t.string   "idea_criteria",             :default => "5..1000"
+    t.string   "answer_criteria",           :default => "5..1500"
     t.integer  "default_answer_id"
+    t.integer  "team_id"
+    t.integer  "order_id"
+    t.string   "talking_point_criteria"
+    t.string   "talking_point_preferences"
   end
 
   create_table "ratings", :force => true do |t|
@@ -565,6 +582,40 @@ ActiveRecord::Schema.define(:version => 20110413172550) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "talking_point_acceptable_ratings", :force => true do |t|
+    t.integer  "talking_point_id"
+    t.integer  "member_id"
+    t.integer  "rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "talking_point_preferences", :force => true do |t|
+    t.integer  "talking_point_id"
+    t.integer  "member_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "talking_point_versions", :force => true do |t|
+    t.integer  "talking_point_id"
+    t.integer  "member_id"
+    t.integer  "version"
+    t.string   "text"
+    t.integer  "lock_member_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "talking_points", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "member_id"
+    t.integer  "version"
+    t.string   "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "team_content_logs", :force => true do |t|
     t.integer  "team_id"

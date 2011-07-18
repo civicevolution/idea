@@ -1,0 +1,2 @@
+module TalkingPointAcceptableRatingsHelper
+end

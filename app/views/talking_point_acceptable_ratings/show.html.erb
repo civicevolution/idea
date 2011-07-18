@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Talking point:</b>
+  <%= @talking_point_acceptable_rating.talking_point_id %>
+</p>
+
+<p>
+  <b>Member:</b>
+  <%= @talking_point_acceptable_rating.member_id %>
+</p>
+
+<p>
+  <b>Rating:</b>
+  <%= @talking_point_acceptable_rating.rating %>
+</p>
+
+
+<%= link_to 'Edit', edit_talking_point_acceptable_rating_path(@talking_point_acceptable_rating) %> |
+<%= link_to 'Back', talking_point_acceptable_ratings_path %>

@@ -1,0 +1,31 @@
+<h1>Listing answer_diffs</h1>
+
+<table>
+  <tr>
+    <th>Answer</th>
+    <th>Member</th>
+    <th>Version</th>
+    <th>Diff</th>
+    <th>Text</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @answer_diffs.each do |answer_diff| %>
+  <tr>
+    <td><%= answer_diff.answer_id %></td>
+    <td><%= answer_diff.member_id %></td>
+    <td><%= answer_diff.version %></td>
+    <td><%= answer_diff.diff %></td>
+    <td><%= answer_diff.text %></td>
+    <td><%= link_to 'Show', answer_diff %></td>
+    <td><%= link_to 'Edit', edit_answer_diff_path(answer_diff) %></td>
+    <td><%= link_to 'Destroy', answer_diff, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Answer diff', new_answer_diff_path %>

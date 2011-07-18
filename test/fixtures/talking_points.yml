@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  question_id: 1
+  member_id: 1
+  version: 1
+  text: MyString
+
+two:
+  question_id: 1
+  member_id: 1
+  version: 1
+  text: MyString

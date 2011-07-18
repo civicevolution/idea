@@ -1,4 +1,14 @@
 G3::Application.routes.draw do |map|
+  resources :answer_diffs
+
+  resources :talking_point_versions
+
+  resources :talking_point_preferences
+
+  resources :talking_point_acceptable_ratings
+
+  resources :talking_points
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

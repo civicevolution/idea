@@ -1,0 +1,2 @@
+module TalkingPointVersionsHelper
+end

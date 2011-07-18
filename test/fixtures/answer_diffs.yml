@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  answer_id: 1
+  member_id: 1
+  version: 1
+  diff: 
+  text: MyText
+
+two:
+  answer_id: 1
+  member_id: 1
+  version: 1
+  diff: 
+  text: MyText

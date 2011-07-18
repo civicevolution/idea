@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  talking_point_id: 1
+  member_id: 1
+  version: 1
+  text: MyString
+  lock_member_id: 1
+
+two:
+  talking_point_id: 1
+  member_id: 1
+  version: 1
+  text: MyString
+  lock_member_id: 1

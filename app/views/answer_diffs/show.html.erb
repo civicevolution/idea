@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Answer:</b>
+  <%= @answer_diff.answer_id %>
+</p>
+
+<p>
+  <b>Member:</b>
+  <%= @answer_diff.member_id %>
+</p>
+
+<p>
+  <b>Version:</b>
+  <%= @answer_diff.version %>
+</p>
+
+<p>
+  <b>Diff:</b>
+  <%= @answer_diff.diff %>
+</p>
+
+<p>
+  <b>Text:</b>
+  <%= @answer_diff.text %>
+</p>
+
+
+<%= link_to 'Edit', edit_answer_diff_path(@answer_diff) %> |
+<%= link_to 'Back', answer_diffs_path %>

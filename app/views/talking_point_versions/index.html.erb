@@ -1,0 +1,31 @@
+<h1>Listing talking_point_versions</h1>
+
+<table>
+  <tr>
+    <th>Talking point</th>
+    <th>Member</th>
+    <th>Version</th>
+    <th>Text</th>
+    <th>Lock member</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @talking_point_versions.each do |talking_point_version| %>
+  <tr>
+    <td><%= talking_point_version.talking_point_id %></td>
+    <td><%= talking_point_version.member_id %></td>
+    <td><%= talking_point_version.version %></td>
+    <td><%= talking_point_version.text %></td>
+    <td><%= talking_point_version.lock_member_id %></td>
+    <td><%= link_to 'Show', talking_point_version %></td>
+    <td><%= link_to 'Edit', edit_talking_point_version_path(talking_point_version) %></td>
+    <td><%= link_to 'Destroy', talking_point_version, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Talking point version', new_talking_point_version_path %>

@@ -1,0 +1,37 @@
+<%= form_for(@talking_point_version) do |f| %>
+  <% if @talking_point_version.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@talking_point_version.errors.count, "error") %> prohibited this talking_point_version from being saved:</h2>
+
+      <ul>
+      <% @talking_point_version.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :talking_point_id %><br />
+    <%= f.text_field :talking_point_id %>
+  </div>
+  <div class="field">
+    <%= f.label :member_id %><br />
+    <%= f.text_field :member_id %>
+  </div>
+  <div class="field">
+    <%= f.label :version %><br />
+    <%= f.text_field :version %>
+  </div>
+  <div class="field">
+    <%= f.label :text %><br />
+    <%= f.text_field :text %>
+  </div>
+  <div class="field">
+    <%= f.label :lock_member_id %><br />
+    <%= f.text_field :lock_member_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

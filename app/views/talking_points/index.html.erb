@@ -1,0 +1,29 @@
+<h1>Listing talking_points</h1>
+
+<table>
+  <tr>
+    <th>Question</th>
+    <th>Member</th>
+    <th>Version</th>
+    <th>Text</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @talking_points.each do |talking_point| %>
+  <tr>
+    <td><%= talking_point.question_id %></td>
+    <td><%= talking_point.member_id %></td>
+    <td><%= talking_point.version %></td>
+    <td><%= talking_point.text %></td>
+    <td><%= link_to 'Show', talking_point %></td>
+    <td><%= link_to 'Edit', edit_talking_point_path(talking_point) %></td>
+    <td><%= link_to 'Destroy', talking_point, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Talking point', new_talking_point_path %>
