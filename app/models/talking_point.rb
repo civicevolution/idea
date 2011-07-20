@@ -14,5 +14,7 @@ class TalkingPoint < ActiveRecord::Base
   attr_accessor :rating_votes 
   attr_accessor :my_preference
   attr_accessor :my_rating
-  
+  attr_accessor :coms
+  attr_accessor :new_coms
+    
 end

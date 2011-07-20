@@ -4,11 +4,13 @@
 - idx = 0
 - @team.questions.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
 	- logger.debug "show question id: #{question.id}"
-	%p.question Q#{idx += 1}: #{question.text}
+	%h2.question Q#{idx += 1} (id: #{question.id}): #{question.text}
+	%p Question has #{question.talking_points.length} talking points
+		
 	
 	- question.talking_points.each do |talking_point|
 		- logger.debug "show talking_point id: #{talking_point.id}"
-		%p.talking_point TP (id:#{talking_point.id}): #{talking_point.text}	
+		%h3.talking_point TP (id:#{talking_point.id}): #{talking_point.text}	
 		- if !talking_point.preference_votes.nil?
 			%p.talking_point_preference #{talking_point.preference_votes} people prefer this
 			- if talking_point.my_preference
@@ -22,7 +24,24 @@
 			%p.talking_point_ratings Please rate this
 		- else
 			%p.talking_point_ratings My rating for this is #{talking_point.my_rating}
+		%p
+			Talking point has  
+			- if talking_point.new_coms > 0
+				#{talking_point.new_coms} new comments
+			- elsif talking_point.coms > 0
+				#{talking_point.coms} comments
+			- else
+				no comments
 		
+		
+	%p
+		Question has 
+		- if question.new_coms > 0
+			#{question.new_coms} new comments
+		- elsif question.coms > 0
+			#{question.coms} comments
+		- else
+			no comments
 	- question.comments.each do |comment|
 		- logger.debug "show comment id: #{comment.id}"
 		%p.comment C: #{comment.text}

@@ -23,6 +23,7 @@ class Team < ActiveRecord::Base
   
   def get_talking_point_ratings(member_id)
     self.member_id = member_id
+    question_ids = self.questions.map{|q| q.id}
     talking_point_ids = []
     self.questions.each{|q| q.talking_points.each{ |tp| talking_point_ids << tp.id }}
     tpp = TalkingPointPreference.sums(talking_point_ids)
@@ -30,7 +31,25 @@ class Team < ActiveRecord::Base
     my_preferences = TalkingPointPreference.my_votes(talking_point_ids, self.member_id)
     my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, self.member_id)
 
+    question_coms = ActiveRecord::Base.connection.select_all(
+    %Q|select question_id,
+    (select count(id) from comments where parent_type=1 and parent_id = question_id) AS coms,
+    (SELECT count(id) from comments where parent_type=1 and parent_id = question_id AND created_at > '2011-02-23 18:56:00') AS new_coms
+    FROM ( VALUES #{ question_ids.map{ |id| "(#{id})" }.join(',')	 } ) AS q (question_id)|)
+    
+    talking_point_coms = ActiveRecord::Base.connection.select_all(
+    %Q|select talking_point_id,
+    (select count(id) from comments where parent_type=13 and parent_id = talking_point_id) AS coms,
+    (SELECT count(id) from comments where parent_type=13 and parent_id = talking_point_id AND created_at > '2011-02-23 18:56:00') AS new_coms
+    FROM ( VALUES #{ talking_point_ids.map{ |id| "(#{id})" }.join(',') } ) AS t (talking_point_id)|)
+
     self.questions.each do |q| 
+      qcom = question_coms.detect{|qc| qc['question_id'].to_i == q.id}
+      if !qcom.nil?
+        q.coms = qcom['coms'].to_i
+        q.new_coms = qcom['new_coms'].to_i
+      end
+      
       q.talking_points.each do |tp| 
         pref = tpp.detect{|p| p.talking_point_id == tp.id}
         tp.preference_votes = pref.count.to_i unless pref.nil? 
@@ -45,9 +64,15 @@ class Team < ActiveRecord::Base
         
         my_rating = my_ratings.detect{|r| r.talking_point_id == tp.id}
         tp.my_rating = my_rating.rating unless my_rating.nil?
-        
+
+        tpcom = talking_point_coms.detect{|tpc| tpc['talking_point_id'].to_i == tp.id}
+        if !tpcom.nil?
+          tp.coms = tpcom['coms'].to_i
+          tp.new_coms = tpcom['new_coms'].to_i
+        end
         
       end
+
     end
     
     

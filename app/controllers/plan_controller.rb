@@ -8,6 +8,7 @@ class PlanController < ApplicationController
     begin
       @team = Team.includes(:questions => [:talking_points, :comments]).find(params[:id])
       @team.get_talking_point_ratings(@member.id)
+      #debugger
     rescue
       render :template => 'team/proposal_not_found', :layout=>'welcome'
       return

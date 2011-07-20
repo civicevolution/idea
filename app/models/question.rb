@@ -28,6 +28,8 @@ class Question < ActiveRecord::Base
   attr_accessor :itemDestroyed
   attr_accessor :item_id
   attr_accessor :order
+  attr_accessor :coms
+  attr_accessor :new_coms
 
   
   # code required to record revision history for this item
