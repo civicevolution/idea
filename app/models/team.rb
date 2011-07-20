@@ -3,19 +3,57 @@ class Team < ActiveRecord::Base
   has_many :team_registrations
   has_many :members, :through => :team_registrations
   
-  has_many :items
-  has_many :pages, :through => :items
-  has_many :questions, :through => :items
-  has_many :answers, :through => :items
-  has_many :comments, :through => :items
-  has_many :ratings, :through => :items
-  has_many :thumbs_ratings, :through => :items
-  has_many :lists, :through => :items  
+  has_many :questions
+  
+  
+  
+  #has_many :items
+  #has_many :pages, :through => :items
+  #has_many :questions, :through => :items
+  #has_many :answers, :through => :items
+  #has_many :comments, :through => :items
+  #has_many :ratings, :through => :items
+  #has_many :thumbs_ratings, :through => :items
+  #has_many :lists, :through => :items  
 
   attr_accessor :member_id
   
   #validate_on_update :check_team_edit_access
   validate :check_team_edit_access, :on=>:update
+  
+  def get_talking_point_ratings(member_id)
+    self.member_id = member_id
+    talking_point_ids = []
+    self.questions.each{|q| q.talking_points.each{ |tp| talking_point_ids << tp.id }}
+    tpp = TalkingPointPreference.sums(talking_point_ids)
+    tpr = TalkingPointAcceptableRating.sums(talking_point_ids)
+    my_preferences = TalkingPointPreference.my_votes(talking_point_ids, self.member_id)
+    my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, self.member_id)
+
+    self.questions.each do |q| 
+      q.talking_points.each do |tp| 
+        pref = tpp.detect{|p| p.talking_point_id == tp.id}
+        tp.preference_votes = pref.count.to_i unless pref.nil? 
+        
+        tp.rating_votes = [0,0,0,0,0]
+        tpr.select{|rec| rec.talking_point_id == tp.id}.each do |r|
+          tp.rating_votes[r.rating-1] = r.count
+        end
+        
+        my_pref = my_preferences.detect{|p| p.talking_point_id == tp.id}
+        tp.my_preference = my_pref.nil? ? false : true 
+        
+        my_rating = my_ratings.detect{|r| r.talking_point_id == tp.id}
+        tp.my_rating = my_rating.rating unless my_rating.nil?
+        
+        
+      end
+    end
+    
+    
+    
+    true
+  end
   
   def check_team_edit_access
     logger.debug "validate_on_update check_team_edit_access"

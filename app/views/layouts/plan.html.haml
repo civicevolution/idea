@@ -1,0 +1,140 @@
+!!!
+%html{html_attrs('en-en')}
+	%head
+		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
+		%title Plan: #{@team.title}
+		-#:javascript
+			var _load_times = { start: new Date()}	
+			var AUTH_TOKEN = #{protect_against_forgery? ? form_authenticity_token.inspect : ''}
+			var RCC_PUB_KEY = "#{RCC_PUB}"
+		=	stylesheet_link_tag 'idea.css'
+		-params[:monitor] = 'true'
+		- if params[:monitor] != 'true'
+			-#logger.debug "add google analytics code"
+			-#:javascript
+				var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
+				_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);
+				_gaq.push(['_trackPageview']);
+				(function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				})();
+			
+	%body
+		= link_to "Help",{},{:class=>'help_tag request_help'}
+		%div#load_mask
+	
+		%div.page
+			%div.logo
+				%a{ :href=> '/'}
+					= image_tag("2029_logo_tag.gif")
+
+			- if !@member.nil? && @member.id != 0	
+				= render :partial => 'idea/member_info'		
+			- else
+				%div.join_com
+					= link_to 'Register now', {:controller=>'welcome'}, {:class=>'join_our_community', :id=>'join_community_link', :rel=>'nofollow'}
+					or
+					= link_to 'Sign in', {:controller=>'welcome'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow'}
+					
+			%hr.top
+			%h2#load_message
+				%img{:src=>"/images/rotating_arrow.gif"}
+				Please wait while the page finishes loading
+
+			-#:javascript
+				var mask = document.getElementById('load_mask');
+				mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
+				mask.style.display = 'block';
+				document.getElementById('load_message').style.display = 'block';
+			
+			= yield
+			
+			%hr.bottom
+
+			%div.ce_credit
+				%div.powered
+					%h3 Powered by
+					= image_tag("ce_logo_20c.gif")
+					%p.tag_line Transform your ideas into solutions
+				%div.lottery
+					= image_tag("Lottwest_sup_col_pos.gif")
+				
+		-#:javascript
+			var mask = document.getElementById('load_mask');
+			mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
+			mask.style.height = (document.height ? document.height : document.body.clientHeight) + 'px';
+		
+		%div#hidden_forms.hide
+			%div#sign_in_form
+				= form_tag('/welcome/signin',{:class=>'signin_form'}) do
+					%table
+						%tr
+							%td
+								%label{:for=>"email"} Email:
+							%td#signin_msg{:rowspan=>6}
+								%p
+									If you have not already joined the 2029 and Beyond community at CivicEvolution, please
+									-#= link_to 'Join our community', {}, {:class=>'join_our_community'}
+									= link_to 'Register', {:controller=>'welcome'}, {:class=>'join_our_community', :rel=>'nofollow'}
+									now.
+							
+						%tr		
+							%td
+								= text_field_tag :email, params[:email]
+						%tr
+							%td
+								%label{:for=>"password"} Password:
+						%tr		
+							%td
+								= password_field_tag :password, params[:password_field_tag]
+						%tr
+							%td
+								= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)'
+								Stay signed in 
+								%p.signin_warn.hide
+									We'll keep you signed in
+									%br
+									Don't use this on a public computer
+						%tr
+							%td
+								= submit_tag "Sign In"
+								= link_to 'Reset password', {:controller=>'welcome'}, {:class=>'reset_password', :rel=>'nofollow'}
+								= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow'}
+					
+			%div#reset_password_form
+				= form_tag('/welcome/reset_password',{:class=>'reset_password_form'}) do
+					%table
+						%tr
+							%td
+								%label{:for=>"email"} Enter your email:
+						%tr		
+							%td
+								= text_field_tag :email, params[:email]
+						%tr
+							%td
+								= submit_tag "Reset password"
+								= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow'}
+		
+		-#:javascript
+			_load_times.page_loaded = new Date()
+			var client;
+			var team_id = #{@team.id};
+			var member = {first_name: "#{@member.first_name}", last_name: "#{@member.last_name}", ape_code: "#{@member.ape_code}" }
+			var page_channel = '#{@page_channel}';
+			var com_criteria = Number('#{@team.com_criteria}'.match(/\d+$/));
+			var res_criteria = Number('#{@team.res_criteria}'.match(/\d+$/));
+			
+	-#
+		= javascript_include_tag "jquery-1.4.4.min.js", "jquery.rating.js", 'jquery.form.js', 'jquery.MetaData.js', 'jquery-ui-1.8.9.custom.min.js','jquery.scrollTo-min.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "jquery.cookies.2.2.0.min.js", "pure.js", "jquery.timeago.js", "jquery.json-2.2.min.js"
+		
+		= javascript_include_tag "idea/activate/idea.js", "idea/gen/forms.js","idea/gen/notifier.js", "idea/gen/dispatch.js", "idea/idea.js", "idea/Ideas.js", "idea/activate/act_welcome_layout.js"
+		= stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.9.custom.css','jquery.rating.css'
+		
+		= yield :script
+
+		= javascript_include_tag '../plugins/jquery.hoverIntent.minified.js','../plugins/cluetip-1.0.6/jquery.cluetip.js', '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
+		=	stylesheet_link_tag '../plugins/cluetip-1.0.6/jquery.cluetip.css', '../plugins/prettyPhoto/css/prettyPhoto.css'
+	

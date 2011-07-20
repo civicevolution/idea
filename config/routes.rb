@@ -1,4 +1,6 @@
 G3::Application.routes.draw do |map|
+  get "plan/index"
+
   resources :answer_diffs
 
   resources :talking_point_versions
@@ -93,6 +95,8 @@ G3::Application.routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
+
+  map.connect 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
 
   map.connect 'idea/:id', :controller => 'idea', :action => 'index', :requirements => { :id => /\d+/ }
 

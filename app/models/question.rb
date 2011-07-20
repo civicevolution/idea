@@ -1,7 +1,10 @@
 class Question < ActiveRecord::Base
   
-  has_many :item_diffs, :foreign_key => 'o_id',  :dependent => :destroy
-  has_one :item
+  belongs_to :team
+  has_many :talking_points, :dependent => :destroy
+  has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 1'
+  
+  has_one :answer
   
   validates_presence_of :text
   validates_length_of :text, :in => 5..200, :allow_blank => false
@@ -13,7 +16,6 @@ class Question < ActiveRecord::Base
   after_destroy :delete_item_record
   before_destroy :check_item_delete_access
   before_create :set_version
-  after_find :set_team_after_find
     
   #before_validation :check_team_access, :create_item_record
   
@@ -22,7 +24,6 @@ class Question < ActiveRecord::Base
   attr_accessor :par_id
   attr_accessor :target_id
   attr_accessor :target_type
-  attr_accessor :team_id  
   attr_accessor :insert_mode
   attr_accessor :itemDestroyed
   attr_accessor :item_id
@@ -34,15 +35,6 @@ class Question < ActiveRecord::Base
     self.ver = 0
   end
   
-  def set_team_after_find
-    return if self.nil? || self.id.nil?
-    item = Item.find_by_o_id_and_o_type(self.id, 1) 
-    self.team_id = item.team_id
-    self.item_id = item.id
-    
-  end
-  
-
   after_save :create_history_record
 
   def store_initial_values

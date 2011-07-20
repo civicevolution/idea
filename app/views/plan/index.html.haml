@@ -1,0 +1,28 @@
+%h3 Show page for team: 
+%h3= @team.title
+
+- idx = 0
+- @team.questions.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
+	- logger.debug "show question id: #{question.id}"
+	%p.question Q#{idx += 1}: #{question.text}
+	
+	- question.talking_points.each do |talking_point|
+		- logger.debug "show talking_point id: #{talking_point.id}"
+		%p.talking_point TP (id:#{talking_point.id}): #{talking_point.text}	
+		- if !talking_point.preference_votes.nil?
+			%p.talking_point_preference #{talking_point.preference_votes} people prefer this
+			- if talking_point.my_preference
+				%p.talking_point_preference I prefer this
+			
+		- else
+			%p.talking_point_preference No one prefers this
+		
+		%p.talking_point_ratings= talking_point.rating_votes
+		- if talking_point.my_rating.nil?
+			%p.talking_point_ratings Please rate this
+		- else
+			%p.talking_point_ratings My rating for this is #{talking_point.my_rating}
+		
+	- question.comments.each do |comment|
+		- logger.debug "show comment id: #{comment.id}"
+		%p.comment C: #{comment.text}
