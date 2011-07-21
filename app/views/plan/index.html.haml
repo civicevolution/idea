@@ -5,10 +5,16 @@
 - @team.questions.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
 	- logger.debug "show question id: #{question.id}"
 	%h2.question Q#{idx += 1} (id: #{question.id}): #{question.text}
-	%p Question has #{question.talking_points.length} talking points
-		
+	%p 
+		Question has 
+		- if question.num_new_talking_points > 0
+			#{question.num_new_talking_points} new talking points
+		- elsif question.num_talking_points > 0
+			#{question.num_talking_points} talking points
+		- else
+			no talking points
 	
-	- question.talking_points.each do |talking_point|
+	- question.top_talking_points.each do |talking_point|
 		- logger.debug "show talking_point id: #{talking_point.id}"
 		%h3.talking_point TP (id:#{talking_point.id}): #{talking_point.text}	
 		- if !talking_point.preference_votes.nil?
@@ -42,6 +48,6 @@
 			#{question.coms} comments
 		- else
 			no comments
-	- question.comments.each do |comment|
+	- question.recent_comments.each do |comment|
 		- logger.debug "show comment id: #{comment.id}"
 		%p.comment C: #{comment.text}

@@ -17,40 +17,47 @@ class Team < ActiveRecord::Base
   #has_many :lists, :through => :items  
 
   attr_accessor :member_id
+  attr_accessor :last_visit_ts
   
   #validate_on_update :check_team_edit_access
   validate :check_team_edit_access, :on=>:update
   
   def get_talking_point_ratings(member_id)
     self.member_id = member_id
+    self.last_visit_ts = Time.local(2012,2,23)
+    
     question_ids = self.questions.map{|q| q.id}
     talking_point_ids = []
-    self.questions.each{|q| q.talking_points.each{ |tp| talking_point_ids << tp.id }}
+    self.questions.each{|q| q.top_talking_points.each{ |tp| talking_point_ids << tp.id }}
     tpp = TalkingPointPreference.sums(talking_point_ids)
     tpr = TalkingPointAcceptableRating.sums(talking_point_ids)
     my_preferences = TalkingPointPreference.my_votes(talking_point_ids, self.member_id)
     my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, self.member_id)
 
     question_coms = ActiveRecord::Base.connection.select_all(
-    %Q|select question_id,
-    (select count(id) from comments where parent_type=1 and parent_id = question_id) AS coms,
-    (SELECT count(id) from comments where parent_type=1 and parent_id = question_id AND created_at > '2011-02-23 18:56:00') AS new_coms
-    FROM ( VALUES #{ question_ids.map{ |id| "(#{id})" }.join(',')	 } ) AS q (question_id)|)
+    %Q|select ques_id,
+    (select count(id) from comments where parent_type=1 and parent_id = ques_id) AS coms,
+    (SELECT count(id) from comments where parent_type=1 and parent_id = ques_id AND created_at > '#{last_visit_ts}') AS new_coms,
+    (select count(id) from talking_points where question_id = ques_id) AS num_talking_points,
+    (SELECT count(id) from talking_points where question_id = ques_id AND created_at > '#{last_visit_ts}') AS num_new_talking_points
+    FROM ( VALUES #{ question_ids.map{ |id| "(#{id})" }.join(',')	 } ) AS q (ques_id)|)
     
     talking_point_coms = ActiveRecord::Base.connection.select_all(
     %Q|select talking_point_id,
     (select count(id) from comments where parent_type=13 and parent_id = talking_point_id) AS coms,
-    (SELECT count(id) from comments where parent_type=13 and parent_id = talking_point_id AND created_at > '2011-02-23 18:56:00') AS new_coms
+    (SELECT count(id) from comments where parent_type=13 and parent_id = talking_point_id AND created_at > '#{last_visit_ts}') AS new_coms
     FROM ( VALUES #{ talking_point_ids.map{ |id| "(#{id})" }.join(',') } ) AS t (talking_point_id)|)
 
     self.questions.each do |q| 
-      qcom = question_coms.detect{|qc| qc['question_id'].to_i == q.id}
+      qcom = question_coms.detect{|qc| qc['ques_id'].to_i == q.id}
       if !qcom.nil?
         q.coms = qcom['coms'].to_i
         q.new_coms = qcom['new_coms'].to_i
+        q.num_talking_points = qcom['num_talking_points'].to_i
+        q.num_new_talking_points = qcom['num_new_talking_points'].to_i
       end
-      
-      q.talking_points.each do |tp| 
+
+      q.top_talking_points.each do |tp| 
         pref = tpp.detect{|p| p.talking_point_id == tp.id}
         tp.preference_votes = pref.count.to_i unless pref.nil? 
         
@@ -69,8 +76,10 @@ class Team < ActiveRecord::Base
         if !tpcom.nil?
           tp.coms = tpcom['coms'].to_i
           tp.new_coms = tpcom['new_coms'].to_i
+        else
+          tp.coms = 0
+          tp.new_coms = 0
         end
-        
       end
 
     end

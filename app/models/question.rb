@@ -2,7 +2,22 @@ class Question < ActiveRecord::Base
   
   belongs_to :team
   has_many :talking_points, :dependent => :destroy
+ 
+has_many :top_talking_points, :class_name => 'TalkingPoint', :finder_sql => 
+  proc { %Q|SELECT tp.id, tp.version, tp.text, tp.updated_at, count(tpar.member_id) 
+  FROM talking_points tp 
+  LEFT OUTER JOIN talking_point_acceptable_ratings tpar ON tp.id = tpar.talking_point_id
+  WHERE tp.question_id = #{id}
+  GROUP BY tp.id, tp.version, tp.text, tp.updated_at
+  --HAVING count(tpar.member_id) > 0
+  ORDER BY count(tpar.member_id) DESC, id DESC
+  LIMIT 5| }
+
+  
   has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 1'
+  has_many :recent_comments, :class_name => 'Comment', :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :limit => 3, :order => "id DESC"
+  
+  
   
   has_one :answer
   
@@ -30,7 +45,8 @@ class Question < ActiveRecord::Base
   attr_accessor :order
   attr_accessor :coms
   attr_accessor :new_coms
-
+  attr_accessor :num_talking_points
+  attr_accessor :num_new_talking_points
   
   # code required to record revision history for this item
   def set_version 
