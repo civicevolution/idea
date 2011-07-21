@@ -12,11 +12,43 @@
 				no comments
 
 	%div.talking_point_acceptable
-		%p.talking_point_ratings= talking_point.rating_votes
-		- if talking_point.my_rating.nil?
-			%p.talking_point_ratings Please rate this
-		- else
-			%p.talking_point_ratings My rating for this is #{talking_point.my_rating}
+		%div.my_rating
+			= form_tag( {:controller => 'idea', :action => 'answer_rating'}, {:class => 'item_rater'} ) do
+				%span.stars
+					- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|	
+						- if value.to_i == talking_point.my_rating
+							%input.star{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+						- else
+							%input.star{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+				%p.clear_both
+				- if talking_point.my_rating.nil?
+					%p.talking_point_ratings Please rate this
+				- else
+					%p.talking_point_ratings= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]
+				
+				%p My rating
+
+		- talking_point.rating_votes = [5,3,1,4,2]
+		- vote_max = 0
+		- num_votes = 0
+		-if talking_point.id == 2
+			- debugger
+
+		- talking_point.rating_votes.each{ |v| num_votes += v; vote_max = v unless vote_max > v }
+		- barw = 16
+		%div.community_rating
+			%div.graph 
+				- talking_point.rating_votes.each_index do |i|
+					- if talking_point.rating_votes[i] == 0
+						%div.bar.zero{:style=>"left: #{barw * i}px; height: 100%"}
+					- else
+						%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
+					
+			-#%p.talking_point_ratings= talking_point.rating_votes				
+			%p.talking_point_ratings= "+ #{num_votes} ratings -"
+
+
+
 
 	
 	
@@ -24,9 +56,15 @@
 
 		- if !talking_point.preference_votes.nil?
 			%p.talking_point_preference #{talking_point.preference_votes} people prefer this
-			- if talking_point.my_preference
-				%p.talking_point_preference I prefer this
+			%p.talking_point_preference
+				- if talking_point.my_preference
+					%input{:type=>'checkbox', :checked => true}
+				- else
+					%input{:type=>'checkbox'}
+				I prefer this
 
 		- else
 			%p.talking_point_preference No one prefers this
-
+			%p.talking_point_preference 
+				%input{:type=>'checkbox'}
+				I prefer this

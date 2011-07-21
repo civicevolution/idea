@@ -74,14 +74,14 @@ class Team < ActiveRecord::Base
         
         tp.rating_votes = [0,0,0,0,0]
         tpr.select{|rec| rec.talking_point_id == tp.id}.each do |r|
-          tp.rating_votes[r.rating-1] = r.count
+          tp.rating_votes[r.rating-1] = r.count.to_i
         end
         
         my_pref = my_preferences.detect{|p| p.talking_point_id == tp.id}
         tp.my_preference = my_pref.nil? ? false : true 
         
         my_rating = my_ratings.detect{|r| r.talking_point_id == tp.id}
-        tp.my_rating = my_rating.rating unless my_rating.nil?
+        tp.my_rating = my_rating.rating.to_i unless my_rating.nil?
 
         tpcom = talking_point_coms.detect{|tpc| tpc['talking_point_id'].to_i == tp.id}
         if !tpcom.nil?

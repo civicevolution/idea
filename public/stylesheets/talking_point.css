@@ -32,20 +32,51 @@ div.talking_points_list {
   border: 1px solid green; }
 
 div.what_you_think {
-  border: 1px solid black; }
+  border: 1px solid black;
+  clear: both; }
 
 div.ques_discussion {
   border: 1px solid red; }
+
+/* CSS FOR Talking Points */
+div.talking_point_entry {
+  clear: both; }
 
 div.talking_point_body {
   background-color: #c0e49a; }
 
 div.talking_point_preferable {
-  background-color: #dedeec; }
+  background-color: #dedeec;
+  float: left; }
 
 div.talking_point_acceptable {
-  background-color: #e8edee; }
+  background-color: #e8edee;
+  float: left; }
 
+div.my_rating {
+  width: 150px;
+  float: left; }
+
+div.community_rating {
+  width: 150px;
+  float: left; }
+  div.community_rating div.graph {
+    height: 60px;
+    width: 120px;
+    position: relative; }
+  div.community_rating div.bar {
+    width: 12px;
+    bottom: 0;
+    position: absolute;
+    background-color: green; }
+  div.community_rating div.bar.neutral {
+    background-color: yellow; }
+  div.community_rating div.bar.bad {
+    background-color: red; }
+  div.community_rating div.bar.zero {
+    background-color: #dddddd; }
+
+/* End CSS FOR Talking Points */
 /* CSS For Comments */
 div.full_comment_display div.comment {
   margin-top: -50px;

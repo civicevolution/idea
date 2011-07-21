@@ -48,20 +48,57 @@ div.talking_points_list
 	
 div.what_you_think
 	border: 1px solid black
+	clear: both
 	
 div.ques_discussion
 	border: 1px solid red
 
-div.talking_point_entry		
 
+	
+/* CSS FOR Talking Points */
+
+div.talking_point_entry		
+	clear: both
+	
 div.talking_point_body
 	background-color: $talking_point_bg
+
 div.talking_point_preferable	
 	background-color: $prefence_bg
+	float: left
+	
 div.talking_point_acceptable	
 	background-color: $acceptable_bg
+	float: left
+
+div.my_rating
+	width: 150px
+	float: left
+	
+div.community_rating
+	width: 150px
+	float: left
+	div.graph
+		height: 60px
+		width: 120px
+		//border: 1px solid black
+		position: relative
+	div.bar
+		width: 12px
+		bottom: 0
+		position: absolute
+		background-color: green
+		
+	div.bar.neutral
+		background-color: yellow
+	div.bar.bad
+		background-color: red
+	div.bar.zero
+		background-color: #ddd
 	
 	
+
+/* End CSS FOR Talking Points */
 	
 	
 	
