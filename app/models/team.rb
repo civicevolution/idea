@@ -18,6 +18,7 @@ class Team < ActiveRecord::Base
 
   attr_accessor :member_id
   attr_accessor :last_visit_ts
+  attr_accessor :commenting_members
   
   #validate_on_update :check_team_edit_access
   validate :check_team_edit_access, :on=>:update
@@ -28,7 +29,17 @@ class Team < ActiveRecord::Base
     
     question_ids = self.questions.map{|q| q.id}
     talking_point_ids = []
-    self.questions.each{|q| q.top_talking_points.each{ |tp| talking_point_ids << tp.id }}
+    comment_member_ids = []
+    self.questions.each do |q|
+      q.top_talking_points.each do |tp| 
+        talking_point_ids << tp.id
+      end
+      q.recent_comments.each do |c|
+        comment_member_ids << c.member_id
+      end
+    end
+    self.commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => comment_member_ids.uniq!)
+
     tpp = TalkingPointPreference.sums(talking_point_ids)
     tpr = TalkingPointAcceptableRating.sums(talking_point_ids)
     my_preferences = TalkingPointPreference.my_votes(talking_point_ids, self.member_id)

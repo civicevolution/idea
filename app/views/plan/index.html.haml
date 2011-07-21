@@ -51,3 +51,19 @@
 	- question.recent_comments.each do |comment|
 		- logger.debug "show comment id: #{comment.id}"
 		%p.comment C: #{comment.text}
+		- member = @team.commenting_members.detect {|cm| cm[:id] == comment.member_id }
+		- if member
+			- name = member[:first_name] + ' ' + member[:last_name]
+			- pic_src = member.photo.url('36')
+			- ape_code = member.ape_code
+		- else
+			- name = 'Author placeholder'
+			- pic_src = ''
+			-ape_code = ''
+		
+		%p
+			%img{:src=>pic_src,:class=>'i36'}
+			= link_to name, {:action=>'author_info', :id=>ape_code}, {:class=>'com_author'}
+			
+		
+		
