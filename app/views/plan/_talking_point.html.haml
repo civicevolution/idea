@@ -1,0 +1,32 @@
+%div.talking_point_entry
+	- logger.debug "show talking_point id: #{talking_point.id}"
+	%div.talking_point_body
+		%h3.talking_point= talking_point.text
+		%p
+			Talking point has  
+			- if talking_point.new_coms > 0
+				#{talking_point.new_coms} new comments
+			- elsif talking_point.coms > 0
+				#{talking_point.coms} comments
+			- else
+				no comments
+
+	%div.talking_point_acceptable
+		%p.talking_point_ratings= talking_point.rating_votes
+		- if talking_point.my_rating.nil?
+			%p.talking_point_ratings Please rate this
+		- else
+			%p.talking_point_ratings My rating for this is #{talking_point.my_rating}
+
+	
+	
+	%div.talking_point_preferable
+
+		- if !talking_point.preference_votes.nil?
+			%p.talking_point_preference #{talking_point.preference_votes} people prefer this
+			- if talking_point.my_preference
+				%p.talking_point_preference I prefer this
+
+		- else
+			%p.talking_point_preference No one prefers this
+

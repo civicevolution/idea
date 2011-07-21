@@ -1,0 +1,306 @@
+.wordwrap {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word; }
+
+body, p, ol, ul, td, textarea {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px; }
+
+div#tooltip_source {
+  display: none; }
+
+img {
+  border: none; }
+
+div#load_mask {
+  background-color: #23238e;
+  filter: alpha(opacity=10);
+  -moz-opacity: 0.1;
+  -khtml-opacity: 0.1;
+  opacity: 0.1;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  height: 1000px; }
+
+h2#load_message {
+  color: #23238e;
+  display: none;
+  border: 2px solid #23238e;
+  padding: 10px; }
+
+a.help_tag {
+  position: fixed;
+  top: 25%;
+  right: 0;
+  color: #f3973a;
+  width: 32px;
+  height: 183px;
+  background: url(/images/help_feedback_tag.gif) no-repeat 0 0; }
+
+a.help_tag.mouseover {
+  border-right: 2px solid white; }
+
+div.page {
+  width: 980px;
+  margin: auto; }
+
+div.logo {
+  text-align: left;
+  float: left; }
+  div.logo img {
+    margin-bottom: 8px; }
+
+iframe.ape {
+  display: none;
+  position: absolute;
+  left: -300px;
+  top: -300px; }
+
+div.member_info {
+  float: right;
+  width: 180px;
+  margin-top: 18px;
+  color: #2b3e42; }
+  div.member_info div.member {
+    padding: 0 0 4px 42px;
+    margin: 0;
+    text-align: left;
+    font-weight: bold;
+    position: relative; }
+    div.member_info div.member img {
+      display: block;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0; }
+  div.member_info p.signout {
+    margin: 0; }
+    div.member_info p.signout a.my_teams {
+      margin-right: 10px; }
+  div.member_info form.upload_member_photo {
+    display: none; }
+
+div.join_com {
+  float: right;
+  margin-top: 55px; }
+  div.join_com a {
+    font-size: 14px;
+    font-weight: bold; }
+
+hr.top {
+  clear: both;
+  margin-bottom: 0; }
+
+div.footer_logo {
+  margin: 20px;
+  width: 100%; }
+
+div.ce_credit {
+  width: 100%; }
+  div.ce_credit div.powered {
+    float: left; }
+    div.ce_credit div.powered h3 {
+      margin-bottom: 6px; }
+    div.ce_credit div.powered p.tag_line {
+      margin-top: 4px;
+      font-weight: bold; }
+  div.ce_credit div.lottery {
+    float: left;
+    margin-left: 50px;
+    margin-top: 16px; }
+
+hr.bottom, .clear {
+  clear: both; }
+
+.hide {
+  display: none; }
+
+tr.stripe {
+  background-color: #dddddd; }
+
+p.loading {
+  font-weight: bold;
+  font-size: 1.2em; }
+
+div.side_bar {
+  width: 180px;
+  float: left;
+  margin-left: 20px; }
+  div.side_bar div.share {
+    margin: 20px 0; }
+  div.side_bar a.request_help {
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold; }
+
+div.help_intro {
+  margin-top: 16px; }
+  div.help_intro img.me {
+    float: left;
+    margin: 4px 10px 10px 0; }
+  div.help_intro h3 {
+    margin: 0 0 6px 0; }
+  div.help_intro p {
+    margin: 0 0 8px 0; }
+
+form.request_help textarea {
+  width: 500px;
+  font-size: 1.2em; }
+form.request_help label {
+  display: block;
+  font-weight: bold;
+  margin-top: 16px; }
+form.request_help input {
+  display: block; }
+form.request_help select {
+  font-size: 1.28em; }
+
+div.report {
+  max-width: 500px; }
+  div.report p.cat {
+    margin: 0 0 4px 0; }
+  div.report label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px; }
+  div.report a.cancel {
+    font-size: 80%; }
+
+img.i36 {
+  width: 36px;
+  height: 36px; }
+
+.form_error_border {
+  border: 1px solid #f2583e; }
+
+.form_error_text, .error {
+  color: #f2583e;
+  font-weight: bold; }
+
+form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest_idea_form, form.std_form {
+  margin-bottom: 40px;
+  margin-right: 0px;
+  width: 100%;
+  max-width: 500px;
+  clear: both; }
+  form.add_comment_form label, form.add_answer_form label, form.add_bs_idea_form label, form.suggest_idea_form label, form.std_form label {
+    display: block;
+    clear: both;
+    margin-top: 0px;
+    font-weight: bold;
+    font-style: italic;
+    color: #888888; }
+  form.add_comment_form img, form.add_answer_form img, form.add_bs_idea_form img, form.suggest_idea_form img, form.std_form img {
+    display: block;
+    float: left;
+    margin: 6px 10px 0 0; }
+  form.add_comment_form textarea, form.add_comment_form input[type=text], form.add_answer_form textarea, form.add_answer_form input[type=text], form.add_bs_idea_form textarea, form.add_bs_idea_form input[type=text], form.suggest_idea_form textarea, form.suggest_idea_form input[type=text], form.std_form textarea, form.std_form input[type=text] {
+    width: 100%;
+    font-size: 1.2em; }
+  form.add_comment_form input[type=submit], form.add_answer_form input[type=submit], form.add_bs_idea_form input[type=submit], form.suggest_idea_form input[type=submit], form.std_form input[type=submit] {
+    margin: 0 10px 0 10px; }
+  form.add_comment_form input[type=file], form.add_answer_form input[type=file], form.add_bs_idea_form input[type=file], form.suggest_idea_form input[type=file], form.std_form input[type=file] {
+    margin: 12px 0 16px 0; }
+  form.add_comment_form div.controls, form.add_answer_form div.controls, form.add_bs_idea_form div.controls, form.suggest_idea_form div.controls, form.std_form div.controls {
+    position: absolute;
+    right: 0; }
+  form.add_comment_form div.control_line, form.add_answer_form div.control_line, form.add_bs_idea_form div.control_line, form.suggest_idea_form div.control_line, form.std_form div.control_line {
+    position: relative;
+    margin-bottom: 10px; }
+    form.add_comment_form div.control_line img, form.add_answer_form div.control_line img, form.add_bs_idea_form div.control_line img, form.suggest_idea_form div.control_line img, form.std_form div.control_line img {
+      cursor: pointer; }
+  form.add_comment_form div.add_comment, form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_comment, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_comment, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_comment, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file, form.std_form div.add_comment, form.std_form div.add_link, form.std_form div.attach_file {
+    clear: both;
+    margin-right: 20px;
+    border: 0px solid #dddddd; }
+    form.add_comment_form div.add_comment p img, form.add_comment_form div.add_link p img, form.add_comment_form div.attach_file p img, form.add_answer_form div.add_comment p img, form.add_answer_form div.add_link p img, form.add_answer_form div.attach_file p img, form.add_bs_idea_form div.add_comment p img, form.add_bs_idea_form div.add_link p img, form.add_bs_idea_form div.attach_file p img, form.suggest_idea_form div.add_comment p img, form.suggest_idea_form div.add_link p img, form.suggest_idea_form div.attach_file p img, form.std_form div.add_comment p img, form.std_form div.add_link p img, form.std_form div.attach_file p img {
+      display: block;
+      margin-top: -2px; }
+  form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file, form.std_form div.add_link, form.std_form div.attach_file {
+    display: none; }
+  form.add_comment_form button, form.add_answer_form button, form.add_bs_idea_form button, form.suggest_idea_form button, form.std_form button {
+    margin-left: 15px; }
+  form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning, form.std_form p.resource_warning {
+    margin-top: -12px; }
+
+form.std_form label {
+  margin-bottom: 8px; }
+
+form.add_bs_idea_form {
+  font-size: 1em; }
+
+div#submit_proposal {
+  max-width: 500px; }
+  div#submit_proposal p.title {
+    font-style: italic;
+    margin: 0 20px; }
+  div#submit_proposal p.cat {
+    margin: 0 0 4px 0; }
+  div#submit_proposal label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px; }
+  div#submit_proposal a.cancel {
+    font-size: 80%; }
+
+div#submit_proposal_acknowledge {
+  max-width: 500px; }
+
+div.preview_email {
+  border: 1px solid #666666;
+  padding: 20px;
+  word-wrap: break-word; }
+  div.preview_email div.email_headers p {
+    margin: 0; }
+  div.preview_email div.email_headers p.subject {
+    margin-top: 10px; }
+  div.preview_email div.email_headers p.recipients {
+    margin-left: 20px; }
+  div.preview_email pre.email_body {
+    margin: 10px 0 30px 0; }
+
+form.reset_password_form, form.signin_form, form.register_form {
+  max-width: 400px; }
+  form.reset_password_form label, form.signin_form label, form.register_form label {
+    font-weight: bold; }
+  form.reset_password_form input[type='text'], form.reset_password_form input[type='password'], form.signin_form input[type='text'], form.signin_form input[type='password'], form.register_form input[type='text'], form.register_form input[type='password'] {
+    width: 250px; }
+  form.reset_password_form input[type='submit'], form.signin_form input[type='submit'], form.register_form input[type='submit'] {
+    margin: 20px 0; }
+
+form.signin_form td {
+  vertical-align: top; }
+form.signin_form p {
+  width: 240px;
+  margin: 0 20px 10px 40px; }
+form.signin_form p.signin_warn {
+  margin: 0;
+  padding: 4px;
+  border: 1px solid #f2583e;
+  width: 240px; }
+form.signin_form p.signin_action_warn {
+  color: red;
+  font-weight: bold; }
+
+div#email_participants {
+  textarea-height: 100px; }
+  div#email_participants th, div#email_participants td {
+    text-align: left;
+    padding-left: 20px; }
+  div#email_participants th.ctr, div#email_participants td.ctr {
+    text-align: center; }
+
+table.tablesorter th {
+  cursor: pointer; }
+
+div#invite_friends {
+  max-width: 500px; }
+
+ul.teams_list li {
+  margin-bottom: 8px; }

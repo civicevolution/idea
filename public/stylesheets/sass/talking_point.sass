@@ -1,0 +1,204 @@
+$question_bg: rgb(245,230,190)
+$talking_point_bg: rgb(192,228,154)
+$acceptable_bg: rgb(232,237,238)
+$prefence_bg: rgb(222,222,236)
+$input_bg: rgb(251,248,237)
+$pale_input: rgb(51, 51, 51)
+$new_item_color: #F2583E
+
+$idea_page_width: 778px
+
+div.suggest_title
+	position: relative
+	margin-bottom: 0
+	img.i36
+		position: absolute
+		top: 4px
+		left: 0
+		//vertical-align: -25px
+	h3
+		margin-left: 40px
+
+div.idea_page
+	float: left
+	width: $idea_page_width
+
+
+h2.home_title
+	margin: 18px 41px 0px 41px
+	a
+		font-size: .6em
+		margin-left: 0px
+		font-weight: normal
+		
+div.summary
+	margin: -10px 41px 60px 41px
+	font-size: 1.12em
+
+
+div.question_page
+	clear: both
+	border: 1px solid yellow
+	background-color: $question_bg
+	
+h3.ques_sub_hdg
+	
+div.talking_points_list	
+	border: 1px solid green
+	
+div.what_you_think
+	border: 1px solid black
+	
+div.ques_discussion
+	border: 1px solid red
+
+div.talking_point_entry		
+
+div.talking_point_body
+	background-color: $talking_point_bg
+div.talking_point_preferable	
+	background-color: $prefence_bg
+div.talking_point_acceptable	
+	background-color: $acceptable_bg
+	
+	
+	
+	
+	
+/* CSS For Comments */
+div.full_comment_display div.comment
+	margin-top: -50px
+	padding-left: 46px
+	width: 100%
+	background: transparent
+
+div.one_line_comment div.comment
+	margin-top: -20px
+	padding-left: 46px
+	width: 100%
+	background: transparent
+
+div.Comment.top_sibling
+	padding-left: 6px
+	//border-left: 2px solid #68b100
+	margin-left: 20px
+
+div.Comment
+	margin-top: 20px
+	max-width: 600px
+	p.clear_both
+		padding-bottom: 4px
+		margin: 0
+
+div.comment
+	width: auto
+	background: transparent
+	
+div.Comment
+	margin-top: 16px
+
+div.Comment_entry.one_line_comment.new_com
+	font-weight: bold
+		
+div.Comment_entry.one_line_comment
+	margin-bottom: 0px
+	height: auto
+	div.close_1com
+		background-position: 0 0
+	img
+		width: 20px
+		height: 20px
+		display: block
+		margin: 0px 10px 0px 0px
+		cursor: pointer
+	div.comment
+		position: relative
+		margin-top: -20px
+		padding-left: 46px
+	span.author
+		display: none
+	abbr
+		display: none
+	div.comment_text
+		height: 20px
+		overflow: hidden
+		margin-left: -20px
+		p
+			display: none
+		div.one_liner
+			display: block
+			position: relative
+			height: 20px
+			cursor: pointer
+			span.txt
+				white-space: nowrap
+			img
+				position: absolute
+				top: 0
+				right: 0
+				width: 12px
+				height: 12px
+	div.resource
+		display: none
+	span.new
+		display: none
+	div.comment_controls
+		display: none
+
+div.coms_show_one_line
+	.hidden
+		display: none
+	form.open_form
+		clear: both
+		margin-bottom: 10px
+		padding-right: 20px
+		input
+			color: $pale_input
+			width: 100%
+
+
+div.Comment_entry.full_comment_display	
+	img
+		display: block
+		margin: 4px 10px 0 0
+	div.comment
+		position: relative
+		margin-top: -50px
+		padding-left: 46px
+	span.author
+		display: inline
+		font-size: 88%
+	abbr
+		display: block
+		font-size: 80%
+		margin-top: -4px
+		//font-style: italic
+		border: none
+	abbr.move_up
+		margin-top: -16px
+	div.comment_text
+		height: auto
+		display: inline
+		p
+			margin: 8px 0
+		div.one_liner
+			display: none
+	span.new
+		//display: block
+		color: $new_item_color
+		font-weight: bold
+	div.comment_controls
+		position: relative
+		margin-top: 0
+
+div.comment_text, div.answer, div.bs_idea
+	p
+		margin: 0 0 8px 0
+
+div.comment_controls
+	height: 50px
+	div.comment_links
+		a
+			margin-right: 16px
+
+/* end Comment CSS */	
