@@ -40,29 +40,78 @@ div.ques_discussion {
 
 /* CSS FOR Talking Points */
 div.talking_point_entry {
-  clear: both; }
+  clear: both;
+  margin-bottom: 15px;
+  margin-top: 25px; }
 
 div.talking_point_body {
-  background-color: #c0e49a; }
+  background-color: #c0e49a;
+  float: left;
+  width: 535px;
+  padding: 0 10px; }
+  div.talking_point_body p.talking_point {
+    font-size: 1.28em; }
+  div.talking_point_body div.talking_point_controls p.coms {
+    float: left; }
+  div.talking_point_body div.talking_point_controls p.other {
+    float: right; }
 
 div.talking_point_preferable {
   background-color: #dedeec;
-  float: left; }
+  float: left;
+  padding: 10px 10px 10px 10px;
+  margin-right: 15px; }
+  div.talking_point_preferable p.total_preference {
+    margin-top: 0; }
+  div.talking_point_preferable p.my_preference input {
+    margin-left: 0;
+    margin-bottom: 0; }
 
 div.talking_point_acceptable {
   background-color: #e8edee;
-  float: left; }
-
-div.my_rating {
-  width: 150px;
-  float: left; }
+  float: left;
+  margin: 0 15px;
+  padding: 10px 10px 10px 0; }
+  div.talking_point_acceptable div.my_rating {
+    width: 132px;
+    float: left; }
+    div.talking_point_acceptable div.my_rating p.title {
+      width: 100%;
+      text-align: center;
+      margin: 0 0 7px 0; }
+    div.talking_point_acceptable div.my_rating input.rating {
+      margin: 2px; }
+    div.talking_point_acceptable div.my_rating form div.radios {
+      margin: 0 15px; }
+      div.talking_point_acceptable div.my_rating form div.radios div {
+        height: 20px;
+        width: 20px;
+        float: left;
+        text-align: center;
+        padding-top: 2px; }
+      div.talking_point_acceptable div.my_rating form div.radios div.good {
+        background-color: green; }
+      div.talking_point_acceptable div.my_rating form div.radios div.neutral {
+        background-color: yellow; }
+      div.talking_point_acceptable div.my_rating form div.radios div.bad {
+        background-color: red; }
+    div.talking_point_acceptable div.my_rating p.option {
+      margin: 20px 0 0 0px;
+      font-size: 75%;
+      clear: both;
+      text-align: center; }
+    div.talking_point_acceptable div.my_rating p.please_rate {
+      margin: 20px 0 0 20px;
+      font-size: 1.12em;
+      color: red;
+      font-weight: bold;
+      clear: both; }
 
 div.community_rating {
-  width: 150px;
-  float: left; }
+  float: left;
+  margin-right: 15px; }
   div.community_rating div.graph {
-    height: 60px;
-    width: 120px;
+    height: 37px;
     position: relative; }
   div.community_rating div.bar {
     width: 12px;
@@ -75,6 +124,8 @@ div.community_rating {
     background-color: red; }
   div.community_rating div.bar.zero {
     background-color: #dddddd; }
+  div.community_rating p.talking_point_ratings {
+    margin: 0 0 8px 0; }
 
 /* End CSS FOR Talking Points */
 /* CSS For Comments */

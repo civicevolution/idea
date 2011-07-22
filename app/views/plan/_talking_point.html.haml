@@ -1,62 +1,64 @@
 %div.talking_point_entry
 	- logger.debug "show talking_point id: #{talking_point.id}"
 	%div.talking_point_body
-		%h3.talking_point= talking_point.text
-		%p
-			Talking point has  
-			- if talking_point.new_coms > 0
-				#{talking_point.new_coms} new comments
-			- elsif talking_point.coms > 0
-				#{talking_point.coms} comments
-			- else
-				no comments
+		%p.talking_point= talking_point.text
+
+		%div.talking_point_controls
+			%p.coms
+				- if talking_point.new_coms > 0
+					= link_to "Show #{talking_point.new_coms} new comments"
+				- elsif talking_point.coms > 0
+					= link_to "Show #{talking_point.coms} comments"
+				- else
+					= link_to "Reply"
+			%p.other
+				= link_to "Edit"
+				- if talking_point.version == 2
+					= link_to "View old version"
+				- elsif talking_point.version > 2
+					= link_to "View #{talking_point.version - 1} old versions"
+				= link_to "Report"
 
 	%div.talking_point_acceptable
 		%div.my_rating
+			%p.title My rating
 			= form_tag( {:controller => 'idea', :action => 'answer_rating'}, {:class => 'item_rater'} ) do
-				%span.stars
-					- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|	
-						- if value.to_i == talking_point.my_rating
-							%input.star{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
-						- else
-							%input.star{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
-				%p.clear_both
-				- if talking_point.my_rating.nil?
-					%p.talking_point_ratings Please rate this
-				- else
-					%p.talking_point_ratings= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]
+				%div.radios
+					- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
+						%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
+							- if value.to_i == talking_point.my_rating
+								%input.rating{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+							- else
+								%input.rating{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+			%p.clear_both
+			- if talking_point.my_rating.nil?
+				%p.please_rate Please rate
+			- else
+				%p.option= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]
 				
-				%p My rating
 
 		- talking_point.rating_votes = [5,3,1,4,2]
 		- vote_max = 0
 		- num_votes = 0
-		-if talking_point.id == 2
-			- debugger
 
 		- talking_point.rating_votes.each{ |v| num_votes += v; vote_max = v unless vote_max > v }
 		- barw = 16
 		%div.community_rating
+			%p.talking_point_ratings= "#{num_votes} ratings"
 			%div.graph 
 				- talking_point.rating_votes.each_index do |i|
-					- if talking_point.rating_votes[i] == 0
-						%div.bar.zero{:style=>"left: #{barw * i}px; height: 100%"}
-					- else
+					%div.bar.zero{:style=>"left: #{barw * i}px; height: 100%"}
+					- if talking_point.rating_votes[i] > 0
 						%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
 					
 			-#%p.talking_point_ratings= talking_point.rating_votes				
-			%p.talking_point_ratings= "+ #{num_votes} ratings -"
-
-
-
-
 	
 	
 	%div.talking_point_preferable
 
 		- if !talking_point.preference_votes.nil?
-			%p.talking_point_preference #{talking_point.preference_votes} people prefer this
-			%p.talking_point_preference
+			%p.total_preference #{talking_point.preference_votes} people prefer this
+			%p.my_preference
 				- if talking_point.my_preference
 					%input{:type=>'checkbox', :checked => true}
 				- else
@@ -64,7 +66,8 @@
 				I prefer this
 
 		- else
-			%p.talking_point_preference No one prefers this
-			%p.talking_point_preference 
+			%p.total_preference No one prefers this
+			%p.my_preference 
 				%input{:type=>'checkbox'}
 				I prefer this
+	%p.clear_both
