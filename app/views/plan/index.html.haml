@@ -23,7 +23,7 @@
 	
 	%div.question_page
 		%h2.question Q#{idx += 1}: #{question.text}
-		%div.talking_point_sec
+		-#%div.talking_point_sec
 			%h3.ques_sub_hdg Talking points suggested and rated by your community
 			%div.talking_points_list
 				%p.instr
@@ -41,11 +41,10 @@
 						
 
 
-		%div.what_you_think
-			%h3.ques_sub_hdg What do you think?
+		= render :partial => 'what_do_you_think'
 
 		
-		%div.ques_discussion
+		-#%div.ques_discussion
 			%h3.ques_sub_hdg Comments posted by your community
 		
 			%p

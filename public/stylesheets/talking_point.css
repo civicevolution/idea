@@ -128,6 +128,36 @@ div.community_rating {
     margin: 0 0 8px 0; }
 
 /* End CSS FOR Talking Points */
+/* CSS FOR What do you think form */
+div.what_do_you_think h3.ques_sub_hdg {
+  margin-bottom: 0; }
+div.what_do_you_think td ul {
+  margin-top: 0;
+  margin-bottom: 10px; }
+div.what_do_you_think td.icon label p {
+  float: left;
+  margin: 6px 15px 0 0;
+  font-weight: bold; }
+div.what_do_you_think td.icon label div.icon {
+  background-color: #c0e49a;
+  width: 30px;
+  height: 30px;
+  float: left;
+  margin: 0 15px 0 10px; }
+  div.what_do_you_think td.icon label div.icon img {
+    margin: 2px 0 0 2px;
+    width: 24px;
+    height: 24px; }
+div.what_do_you_think td.icon label div.icon.talking_point {
+  background-color: #c0e49a; }
+div.what_do_you_think td.icon label div.icon.comment {
+  border: 1px solid black; }
+div.what_do_you_think textarea {
+  width: 550px;
+  height: 60px;
+  margin-top: 6px; }
+
+/* End CSS FOR What do you think form */
 /* CSS For Comments */
 div.full_comment_display div.comment {
   margin-top: -50px;

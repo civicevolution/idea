@@ -1,0 +1,55 @@
+%div.what_do_you_think
+	%h3.ques_sub_hdg What do you think?
+	
+	- @comment = Comment.new
+	= form_for(@comment) do |f|
+
+		%table
+			%tbody
+				%tr
+					%td
+						= radio_button_tag :input_type, 'talking_point'
+					%td.icon
+						= label_tag :input_type_talking_point do
+							%div.talking_point.icon
+								= image_tag('white_bulb.gif')						
+							%p Add a talking point
+					%td
+						%ul
+							%li Clearly state a single idea to be rated
+							%li This will appear in a green box above
+							%li Must be less than 200 characters long
+
+				%tr
+					%td
+						= radio_button_tag :input_type, "comment" 
+					%td.icon
+						= label_tag :input_type_comment do
+							%div.comment.icon
+								= image_tag('user.gif')						
+							%p Add a comment
+					%td
+						%ul
+							%li Discuss this question and talking points
+							%li This will appear as a comment below
+							%li Must be less than 1500 characters long
+
+
+		= text_area_tag :text
+
+		%div.control_line
+			-#
+				= image_tag('icon_linkc.gif',{:class=>'show_add_link',:title=>'Add a link'})
+				= image_tag('icon_upload.gif',{:class=>'show_attach_file',:title=>'Attach a file'})
+			%div.controls
+				%button 
+					Share
+				
+				%span.char_ctr
+					-#= @team.com_criteria.match(/..(\d+)/)[1]
+					200
+					characters left
+				= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
+	%p.clear_both
+
+
