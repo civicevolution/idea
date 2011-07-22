@@ -8,7 +8,7 @@ div.suggest_title {
   div.suggest_title h3 {
     margin-left: 40px; }
 
-div.idea_page {
+div.talking_points_page {
   float: left;
   width: 778px; }
 
@@ -25,18 +25,36 @@ div.summary {
 
 div.question_page {
   clear: both;
-  border: 1px solid yellow;
-  background-color: #f5e6be; }
+  background-color: #f5e6be;
+  padding: 20px 0 20px 20px;
+  margin-bottom: 40px; }
+
+div.talking_point_sec {
+  margin-left: 20px; }
+  div.talking_point_sec div.instr {
+    width: 475px; }
+    div.talking_point_sec div.instr img {
+      display: block;
+      float: left;
+      margin: 4px 8px 0 0; }
+    div.talking_point_sec div.instr p.instr {
+      margin: 0;
+      font-size: 1em; }
 
 div.talking_points_list {
-  border: 1px solid green; }
+  margin-left: 20px; }
 
-div.what_you_think {
-  border: 1px solid black;
+div.what_do_you_think {
+  margin-left: 20px;
   clear: both; }
 
 div.ques_discussion {
-  border: 1px solid red; }
+  margin-top: 50px;
+  margin-left: 20px; }
+  div.ques_discussion div.Comment {
+    margin-left: 20px; }
+  div.ques_discussion p.count_link {
+    margin-left: 20px; }
 
 /* CSS FOR Talking Points */
 div.talking_point_entry {
@@ -45,10 +63,12 @@ div.talking_point_entry {
   margin-top: 25px; }
 
 div.talking_point_body {
-  background-color: #c0e49a;
+  background: #c0e49a url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
   float: left;
-  width: 535px;
+  width: 475px;
   padding: 0 10px; }
+  div.talking_point_body > * {
+    margin-left: 40px; }
   div.talking_point_body p.talking_point {
     font-size: 1.28em; }
   div.talking_point_body div.talking_point_controls p.coms {
@@ -127,35 +147,66 @@ div.community_rating {
   div.community_rating p.talking_point_ratings {
     margin: 0 0 8px 0; }
 
+div.talking_point_entry.header {
+  margin-bottom: 30px; }
+  div.talking_point_entry.header div.talking_point_body {
+    background: none; }
+    div.talking_point_entry.header div.talking_point_body div.instr {
+      margin: 0;
+      font-size: 0.94em; }
+  div.talking_point_entry.header p.title {
+    margin: 0; }
+  div.talking_point_entry.header div.talking_point_acceptable {
+    width: 214px;
+    text-align: center;
+    font-weight: bold; }
+  div.talking_point_entry.header div.talking_point_preferable {
+    width: 132px;
+    text-align: center;
+    font-weight: bold; }
+
 /* End CSS FOR Talking Points */
 /* CSS FOR What do you think form */
-div.what_do_you_think h3.ques_sub_hdg {
-  margin-bottom: 0; }
-div.what_do_you_think td ul {
-  margin-top: 0;
-  margin-bottom: 10px; }
-div.what_do_you_think td.icon label p {
-  float: left;
-  margin: 6px 15px 0 0;
-  font-weight: bold; }
-div.what_do_you_think td.icon label div.icon {
-  background-color: #c0e49a;
-  width: 30px;
-  height: 30px;
-  float: left;
-  margin: 0 15px 0 10px; }
-  div.what_do_you_think td.icon label div.icon img {
-    margin: 2px 0 0 2px;
-    width: 24px;
-    height: 24px; }
-div.what_do_you_think td.icon label div.icon.talking_point {
-  background-color: #c0e49a; }
-div.what_do_you_think td.icon label div.icon.comment {
-  border: 1px solid black; }
-div.what_do_you_think textarea {
-  width: 550px;
-  height: 60px;
-  margin-top: 6px; }
+div.what_do_you_think {
+  position: relative;
+  margin-top: 50px; }
+  div.what_do_you_think form {
+    margin-left: 20px; }
+  div.what_do_you_think h3.ques_sub_hdg {
+    margin-bottom: 0; }
+  div.what_do_you_think td ul {
+    margin-top: 0;
+    margin-bottom: 10px; }
+  div.what_do_you_think td.icon label p {
+    float: left;
+    margin: 6px 15px 0 0;
+    font-weight: bold; }
+  div.what_do_you_think td.icon label div.icon {
+    background-color: #c0e49a;
+    width: 30px;
+    height: 30px;
+    float: left;
+    margin: 0 15px 0 10px; }
+    div.what_do_you_think td.icon label div.icon img {
+      margin: 2px 0 0 2px;
+      width: 24px;
+      height: 24px; }
+  div.what_do_you_think td.icon label div.icon.talking_point {
+    background-color: #c0e49a; }
+  div.what_do_you_think td.icon label div.icon.comment {
+    border: 1px solid black; }
+  div.what_do_you_think textarea {
+    width: 550px;
+    height: 60px;
+    margin-top: 6px; }
+  div.what_do_you_think div.instr {
+    position: absolute;
+    top: 0;
+    left: 600px;
+    width: 300px;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding-top: 9px; }
 
 /* End CSS FOR What do you think form */
 /* CSS For Comments */
@@ -177,7 +228,7 @@ div.Comment.top_sibling {
 
 div.Comment {
   margin-top: 20px;
-  max-width: 600px; }
+  max-width: 510px; }
   div.Comment p.clear_both {
     padding-bottom: 4px;
     margin: 0; }
@@ -253,14 +304,14 @@ div.Comment_entry.full_comment_display img {
 div.Comment_entry.full_comment_display div.comment {
   position: relative;
   margin-top: -50px;
-  padding-left: 46px; }
+  padding-left: 54px; }
 div.Comment_entry.full_comment_display span.author {
   display: inline;
   font-size: 88%; }
 div.Comment_entry.full_comment_display abbr {
   display: block;
   font-size: 80%;
-  margin-top: -4px;
+  margin-top: 2px;
   border: none; }
 div.Comment_entry.full_comment_display abbr.move_up {
   margin-top: -16px; }
@@ -283,7 +334,11 @@ div.comment_text p, div.answer p, div.bs_idea p {
 
 div.comment_controls {
   height: 50px; }
-  div.comment_controls div.comment_links a {
-    margin-right: 16px; }
+  div.comment_controls abbr {
+    float: left; }
+  div.comment_controls div.comment_links {
+    float: right; }
+    div.comment_controls div.comment_links a {
+      margin-right: 16px; }
 
 /* end Comment CSS */

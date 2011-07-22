@@ -3,6 +3,7 @@
 	
 	- @comment = Comment.new
 	= form_for(@comment) do |f|
+		-#form_for(@comment,:html=>{:class=>'what_do_you_think'}) do |f|
 
 		%table
 			%tbody
@@ -51,5 +52,9 @@
 					characters left
 				= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
 	%p.clear_both
-
+	
+	%div.instr
+		%p 
+			Pick the way you want to share with your community.
+			= link_to "Help me"
 

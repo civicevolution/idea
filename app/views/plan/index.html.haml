@@ -1,5 +1,5 @@
 - logger.debug "\n\n*************** Begin to render the plan page\n\n"
-%div.idea_page
+%div.talking_points_page
 	- org = @team['org_member']
 	%div.suggest_title
 		%img{:src=>org.photo.url('36'),:class=>'i36'}
@@ -23,12 +23,27 @@
 	
 	%div.question_page
 		%h2.question Q#{idx += 1}: #{question.text}
-		-#%div.talking_point_sec
+		%div.talking_point_sec
 			%h3.ques_sub_hdg Talking points suggested and rated by your community
 			%div.talking_points_list
-				%p.instr
-					The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
-					= link_to "Learn more"
+			
+			
+				%div.talking_point_entry.header
+					%div.talking_point_body
+						%div.instr
+							= image_tag('red_arrow.gif', :class=>'red_arrow')		
+							%p.instr
+								The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
+								= link_to "Learn more"
+
+					%div.talking_point_acceptable
+						%p.title Acceptable
+
+					%div.talking_point_preferable
+						%p.title Preferable
+				
+					%p.clear_both
+						
 
 				= render :partial=> 'talking_point', :collection => question.top_talking_points
 			
@@ -44,19 +59,20 @@
 		= render :partial => 'what_do_you_think'
 
 		
-		-#%div.ques_discussion
+		%div.ques_discussion
 			%h3.ques_sub_hdg Comments posted by your community
 		
-			%p
-				Question has 
-				- if question.new_coms > 0
-					#{question.new_coms} new comments
-				- elsif question.coms > 0
-					#{question.coms} comments
-				- else
-					no comments
 					
 			= render :partial=> 'comment', :collection => question.recent_comments
 
-		%p.clear_both
+			%p.clear_both
+		
+			%p.count_link
+				- if question.new_coms > 0
+					Question has #{question.new_coms} new comments
+				- elsif question.coms > question.recent_comments.length
+					= link_to "Show #{question.coms - question.recent_comments.length} more comments"
+				- elsif question.coms == 0
+					Question has no comments
+		
 		

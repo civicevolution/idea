@@ -6,7 +6,9 @@ $input_bg: rgb(251,248,237)
 $pale_input: rgb(51, 51, 51)
 $new_item_color: #F2583E
 
-$idea_page_width: 778px
+$talking_points_page_width: 778px
+$page_indent: 20px
+$talking_point_width: 475px
 
 div.suggest_title
 	position: relative
@@ -19,9 +21,9 @@ div.suggest_title
 	h3
 		margin-left: 40px
 
-div.idea_page
+div.talking_points_page
 	float: left
-	width: $idea_page_width
+	width: $talking_points_page_width
 
 
 h2.home_title
@@ -38,35 +40,60 @@ div.summary
 
 div.question_page
 	clear: both
-	border: 1px solid yellow
+	//border: 1px solid yellow
 	background-color: $question_bg
+	padding: 20px 0 20px 20px
+	margin-bottom: 40px
 	
 h3.ques_sub_hdg
+
+div.talking_point_sec
+	margin-left: $page_indent
+	div.instr
+		width: $talking_point_width
+		img
+			display: block
+			float: left
+			margin: 4px 8px 0 0
+		p.instr
+			float:left
+			margin: 0
+			font-size: 1em
+		
 	
 div.talking_points_list	
-	border: 1px solid green
+	//border: 1px solid green
+	margin-left: $page_indent
 	
-div.what_you_think
-	border: 1px solid black
+div.what_do_you_think
+	//border: 1px solid black
+	margin-left: $page_indent
 	clear: both
 	
 div.ques_discussion
-	border: 1px solid red
-
-
-	
+	//border: 1px solid red
+	margin-top: 50px
+	margin-left: $page_indent
+	div.Comment
+		margin-left: $page_indent
+	p.count_link
+		margin-left: $page_indent
+		
 /* CSS FOR Talking Points */
 
 div.talking_point_entry		
 	clear: both
 	margin-bottom: 15px
 	margin-top: 25px
-	
+
 div.talking_point_body
-	background-color: $talking_point_bg
+	//background-color: $talking_point_bg
+	background: $talking_point_bg url(/images/white_bulb_sm.gif) no-repeat 8px 20px
 	float: left
-	width: 535px
+	width: $talking_point_width
 	padding: 0 10px
+	> *
+		margin-left: 40px
 	p.talking_point
 		font-size: 1.28em
 	div.talking_point_controls
@@ -154,13 +181,34 @@ div.community_rating
 	p.talking_point_ratings
 		margin: 0 0 8px 0
 	
-
+div.talking_point_entry.header
+	margin-bottom: 30px
+	div.talking_point_body
+		background: none
+		div.instr 
+			margin: 0
+			font-size: .94em
+	p.title
+		margin: 0
+	div.talking_point_acceptable
+		width: 214px
+		text-align: center
+		font-weight: bold
+	div.talking_point_preferable	
+		width: 132px
+		text-align: center
+		font-weight: bold
+				
 /* End CSS FOR Talking Points */
 	
 	
 	
 /* CSS FOR What do you think form */	
 div.what_do_you_think
+	position: relative
+	margin-top: 50px
+	form
+		margin-left: $page_indent
 	h3.ques_sub_hdg
 		margin-bottom: 0
 	td ul
@@ -191,6 +239,14 @@ div.what_do_you_think
 		width: 550px
 		height: 60px
 		margin-top: 6px
+	div.instr
+		position: absolute
+		top: 0
+		left: 600px
+		width: 300px
+		font-weight: bold
+		font-size: 1.2em
+		padding-top: 9px
 	
 /* End CSS FOR What do you think form */	
 	
@@ -216,7 +272,7 @@ div.Comment.top_sibling
 
 div.Comment
 	margin-top: 20px
-	max-width: 600px
+	max-width: 510px
 	p.clear_both
 		padding-bottom: 4px
 		margin: 0
@@ -295,14 +351,14 @@ div.Comment_entry.full_comment_display
 	div.comment
 		position: relative
 		margin-top: -50px
-		padding-left: 46px
+		padding-left: 54px
 	span.author
 		display: inline
 		font-size: 88%
 	abbr
 		display: block
 		font-size: 80%
-		margin-top: -4px
+		margin-top: 2px
 		//font-style: italic
 		border: none
 	abbr.move_up
@@ -328,7 +384,10 @@ div.comment_text, div.answer, div.bs_idea
 
 div.comment_controls
 	height: 50px
+	abbr
+		float: left
 	div.comment_links
+		float: right
 		a
 			margin-right: 16px
 
