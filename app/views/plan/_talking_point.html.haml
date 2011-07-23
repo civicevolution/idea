@@ -6,11 +6,11 @@
 		%div.talking_point_controls
 			%p.coms
 				- if talking_point.new_coms > 0
-					= link_to "Show #{talking_point.new_coms} new comments"
+					= link_to "Show #{talking_point.new_coms} new comments", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
 				- elsif talking_point.coms > 0
-					= link_to "Show #{talking_point.coms} comments"
+					= link_to "Show #{talking_point.coms} comments", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
 				- else
-					= link_to "Reply"
+					= link_to "Reply", {}, { :class=> 'tp_reply', :id=>talking_point.id}
 			%p.other
 				= link_to "Edit"
 				- if talking_point.version == 2

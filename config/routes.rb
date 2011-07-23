@@ -11,6 +11,33 @@ G3::Application.routes.draw do |map|
 
   resources :talking_points
 
+  resources :talking_points do
+		resources :comments
+	end
+
+  resources :questions do
+		resources :comments
+	end
+
+  map.resources :resources
+
+  map.resources :comments
+
+  map.resources :answers
+
+  map.resources :questions
+
+  map.resources :members
+
+  map.resources :teams
+
+  map.resources :initiatives
+
+  map.connect 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
+
+  map.root :controller => "welcome", :action=>'index'
+  
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -96,7 +123,6 @@ G3::Application.routes.draw do |map|
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
 
-  map.connect 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
 
   map.connect 'idea/:id', :controller => 'idea', :action => 'index', :requirements => { :id => /\d+/ }
 
@@ -109,26 +135,8 @@ G3::Application.routes.draw do |map|
   map.connect 'team/:action/:id', :controller => 'team', :action => 'welcome'
   map.connect 'team/:action/:id.:format', :controller => 'team', :action => 'welcome'
   
-  map.connect 'mob/:action.:format', :controller => 'mob', :action => 'index'
-  map.connect 'ape/:action.:format', :controller => 'ape', :action => 'chat', :format => 'html'
-  
-  
-  
-  map.resources :pages
+#  map.resources :pages
 
-  map.resources :resources
-
-  map.resources :comments
-
-  map.resources :answers
-
-  map.resources :questions
-
-  map.resources :members
-
-  map.resources :teams
-
-  map.resources :initiatives
  
   
   

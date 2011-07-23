@@ -2,12 +2,46 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.xml
   def index
-    @comments = Comment.all
+    
+    if !params[:talking_point_id].nil?
+      logger.debug "GET comments for talking point id: #{params[:talking_point_id]}"
+      talking_point = TalkingPoint.find(params[:talking_point_id])
+      @comments = talking_point.comments
+      @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq!)
+      
+      if !request.xhr?
+        @team = talking_point.question.team
+      end
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @comments }
+      respond_to do |format|
+        format.html { render :talking_point_comments, :layout => false} unless !request.xhr?
+        format.html { render :talking_point_comments, :layout => 'plan'}
+        format.xml  { render :xml => @comments }
+      end
+    elsif !params[:question_id].nil?
+        logger.debug "GET comments for question id: #{params[:question_id]}"
+        question = Question.find(params[:question_id])
+        @comments = question.comments
+        @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq!)
+
+        if !request.xhr?
+          @team = question.team
+        end
+
+        respond_to do |format|
+          format.html { render :question_comments, :layout => false} unless !request.xhr?
+          format.html { render :question_comments, :layout => 'plan'}
+          format.xml  { render :xml => @comments }
+        end
+      
+    else
+      @comments = Comment.all
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @comments }
+      end
     end
+    
   end
 
   # GET /comments/1

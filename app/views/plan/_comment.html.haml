@@ -1,8 +1,8 @@
 - logger.debug "show comment id: #{comment.id}"
-
 -#
 	%p.comment= comment.text
-	- member = @team.commenting_members.detect {|cm| cm[:id] == comment.member_id }
+	- member = members.detect {|cm| cm[:id] == comment.member_id }
+
 	- if member
 		- name = member[:first_name] + ' ' + member[:last_name]
 		- pic_src = member.photo.url('36')
@@ -23,7 +23,7 @@
 	- name = 'Anonymous'
 	- pic_src = '/images/members_default/36/m.jpg'
 - else
-	- member = @team.commenting_members.detect {|cm| cm[:id] == comment.member_id }
+	- member = members.detect {|cm| cm[:id] == comment.member_id }
 	- if member
 		- name = member[:first_name] + ' ' + member[:last_name]
 		- pic_src = member.photo.url('36')
