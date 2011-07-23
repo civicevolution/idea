@@ -22,7 +22,7 @@
 	- logger.debug "\n\n*************** Begin to render a question\n\n"
 	
 	%div.question_page
-		%h2.question Q#{idx += 1}: #{question.text}
+		%h2.question{:id=>question.id} Q#{idx += 1}: #{question.text}
 		%div.talking_point_sec
 			%h3.ques_sub_hdg Talking points suggested and rated by your community
 			%div.talking_points_list
@@ -61,9 +61,8 @@
 		
 		%div.ques_discussion
 			%h3.ques_sub_hdg Comments posted by your community
-		
-					
-			= render :partial=> 'comment', :collection => question.recent_comments
+
+			= render :partial=> 'comment', :collection => question.recent_comments, :locals => {:members => @team.commenting_members}
 
 			%p.clear_both
 		
@@ -71,7 +70,7 @@
 				- if question.new_coms > 0
 					Question has #{question.new_coms} new comments
 				- elsif question.coms > question.recent_comments.length
-					= link_to "Show #{question.coms - question.recent_comments.length} more comments"
+					= link_to "Show #{question.coms - question.recent_comments.length} more comments", {}, { :class=> 'question_show_coms', :id=>question.id }
 				- elsif question.coms == 0
 					Question has no comments
 		
