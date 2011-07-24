@@ -16,16 +16,14 @@ class Team < ActiveRecord::Base
   #has_many :thumbs_ratings, :through => :items
   #has_many :lists, :through => :items  
 
-  attr_accessor :member_id
-  attr_accessor :last_visit_ts
+  attr_accessor :member
   attr_accessor :commenting_members
   
   #validate_on_update :check_team_edit_access
   validate :check_team_edit_access, :on=>:update
   
-  def get_talking_point_ratings(member_id)
-    self.member_id = member_id
-    self.last_visit_ts = Time.local(2012,2,23)
+  def get_talking_point_ratings(member)
+    self.member = member
     
     question_ids = self.questions.map{|q| q.id}
     talking_point_ids = []
@@ -43,11 +41,11 @@ class Team < ActiveRecord::Base
 
     tpp = TalkingPointPreference.sums(talking_point_ids)
     tpr = TalkingPointAcceptableRating.sums(talking_point_ids)
-    my_preferences = TalkingPointPreference.my_votes(talking_point_ids, self.member_id)
-    my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, self.member_id)
+    my_preferences = TalkingPointPreference.my_votes(talking_point_ids, self.member.id)
+    my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, self.member.id)
 
-    question_coms = Question.com_counts(question_ids, self.last_visit_ts)
-    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, self.last_visit_ts)
+    question_coms = Question.com_counts(question_ids, self.member.last_visit_ts)
+    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, self.member.last_visit_ts)
 
     Team.assign_stats( 
       :questions => self.questions,

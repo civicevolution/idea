@@ -7,7 +7,7 @@ class PlanController < ApplicationController
       render :template => 'team/proposal_not_found', :layout=> 'welcome'
       return
     end
-    @team.get_talking_point_ratings(@member.id)
+    @team.get_talking_point_ratings(@member)
     @team['org_member'] = Member.find_by_id(@team.org_id)
     
     render :index#, :layout=> false

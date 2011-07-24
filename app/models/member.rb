@@ -18,6 +18,8 @@ class Member < ActiveRecord::Base
   validates_confirmation_of :password
   attr_accessor :domain
   
+  attr_accessor :last_visit_ts
+  
   #validate :email_for_cgg_ce
   before_save :strip_email
   before_create :reserve_ape_code

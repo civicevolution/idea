@@ -8,7 +8,7 @@ class TalkingPointsController < ApplicationController
 
       @question = Question.find(params[:question_id])
       last_visit_ts = Time.local(2012,2,23) 
-      TalkingPoint.get_and_assign_stats( @question, @member.id, last_visit_ts )
+      TalkingPoint.get_and_assign_stats( @question, @member )
       
       if !request.xhr?
         @team = @question.team

@@ -27,7 +27,7 @@ class TalkingPoint < ActiveRecord::Base
     )
   end
 
-  def self.get_and_assign_stats( question, member_id, last_visit_ts )
+  def self.get_and_assign_stats( question, member )
     
     question.talking_points_to_display = question.talking_points
     talking_point_ids = []
@@ -38,9 +38,9 @@ class TalkingPoint < ActiveRecord::Base
     
     tpp = TalkingPointPreference.sums(talking_point_ids)
     tpr = TalkingPointAcceptableRating.sums(talking_point_ids)
-    my_preferences = TalkingPointPreference.my_votes(talking_point_ids, member_id)
-    my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, member_id)
-    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, last_visit_ts)
+    my_preferences = TalkingPointPreference.my_votes(talking_point_ids, member.id)
+    my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, member.id)
+    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, member.last_visit_ts)
 
     Team.assign_stats( 
       :questions => [question],

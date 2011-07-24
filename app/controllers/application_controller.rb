@@ -92,13 +92,12 @@ class ApplicationController < ActionController::Base
         if @member.nil?
           # session is no good
           session[:member_id] = nil
-        #else
-        #  @mem_teams = TeamRegistration.find(:all,
-        #    :select => 't.id, t.title, t.launched',  
-        #    :conditions => ['member_id = ?', @member.id],
-        #    :joins => 'as tr inner join teams t on tr.team_id = t.id' 
-        #  )
+        else
+          session[:last_visit_ts] ||= Time.local(2012,2,23)
+          @member.last_visit_ts = session[:last_visit_ts]
+          
         end
+        
       end
     end
 
