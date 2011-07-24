@@ -16,6 +16,10 @@ G3::Application.routes.draw do |map|
 	end
 
   resources :questions do
+		resources :talking_points
+	end
+
+  resources :questions do
 		resources :comments
 	end
 

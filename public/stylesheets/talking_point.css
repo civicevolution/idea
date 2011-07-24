@@ -40,7 +40,7 @@ div.talking_point_sec {
     div.talking_point_sec div.instr p.instr {
       margin: 0;
       font-size: 1em; }
-  div.talking_point_sec p.show_more_link {
+  div.talking_point_sec p.question_show_talking_points {
     margin-top: 30px; }
 
 div.talking_points_list {

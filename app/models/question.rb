@@ -47,6 +47,8 @@ has_many :top_talking_points, :class_name => 'TalkingPoint', :finder_sql =>
   attr_accessor :new_coms
   attr_accessor :num_talking_points
   attr_accessor :num_new_talking_points
+  attr_accessor :talking_points_to_display
+  
   
   # code required to record revision history for this item
   def set_version 
@@ -143,6 +145,18 @@ has_many :top_talking_points, :class_name => 'TalkingPoint', :finder_sql =>
   #    GROUP BY a.id, a.question_id, a.member_id,a.text, a.ver, a.created_at, a.updated_at|, memberId, self.id ]
   #  )
   #end
+  
+  
+  def self.com_counts(question_ids, last_visit_ts)
+    ActiveRecord::Base.connection.select_all(
+      %Q|select ques_id,
+      (select count(id) from comments where parent_type=1 and parent_id = ques_id) AS coms,
+      (SELECT count(id) from comments where parent_type=1 and parent_id = ques_id AND created_at > '#{last_visit_ts}') AS new_coms,
+      (select count(id) from talking_points where question_id = ques_id) AS num_talking_points,
+      (SELECT count(id) from talking_points where question_id = ques_id AND created_at > '#{last_visit_ts}') AS num_new_talking_points
+      FROM ( VALUES #{ question_ids.map{ |id| "(#{id})" }.join(',')	 } ) AS q (ques_id)|
+    )
+  end
   
   
 end

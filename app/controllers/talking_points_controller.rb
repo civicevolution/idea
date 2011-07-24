@@ -2,11 +2,29 @@ class TalkingPointsController < ApplicationController
   # GET /talking_points
   # GET /talking_points.xml
   def index
-    @talking_points = TalkingPoint.all
+    
+    if !params[:question_id].nil?
+      logger.debug "GET talking points for question id: #{params[:question_id]}"
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @talking_points }
+      @question = Question.find(params[:question_id])
+      last_visit_ts = Time.local(2012,2,23) 
+      TalkingPoint.get_and_assign_stats( @question, @member.id, last_visit_ts )
+      
+      if !request.xhr?
+        @team = @question.team
+      end
+
+      respond_to do |format|
+        format.html { render :question_talking_points, :layout => false} unless !request.xhr?
+        format.html { render :question_talking_points, :layout => 'plan'}
+        format.xml  { render :xml => @talking_points }
+      end
+    else
+      @talking_points = TalkingPoint.all
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @talking_points }
+      end
     end
   end
 
