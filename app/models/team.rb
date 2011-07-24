@@ -31,7 +31,8 @@ class Team < ActiveRecord::Base
     talking_point_ids = []
     comment_member_ids = []
     self.questions.each do |q|
-      q.top_talking_points.each do |tp| 
+      q.talking_points_to_display = q.top_talking_points
+      q.talking_points_to_display.each do |tp| 
         talking_point_ids << tp.id
       end
       q.recent_comments.each do |c|
@@ -45,22 +46,29 @@ class Team < ActiveRecord::Base
     my_preferences = TalkingPointPreference.my_votes(talking_point_ids, self.member_id)
     my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, self.member_id)
 
-    question_coms = ActiveRecord::Base.connection.select_all(
-    %Q|select ques_id,
-    (select count(id) from comments where parent_type=1 and parent_id = ques_id) AS coms,
-    (SELECT count(id) from comments where parent_type=1 and parent_id = ques_id AND created_at > '#{last_visit_ts}') AS new_coms,
-    (select count(id) from talking_points where question_id = ques_id) AS num_talking_points,
-    (SELECT count(id) from talking_points where question_id = ques_id AND created_at > '#{last_visit_ts}') AS num_new_talking_points
-    FROM ( VALUES #{ question_ids.map{ |id| "(#{id})" }.join(',')	 } ) AS q (ques_id)|)
-    
-    talking_point_coms = ActiveRecord::Base.connection.select_all(
-    %Q|select talking_point_id,
-    (select count(id) from comments where parent_type=13 and parent_id = talking_point_id) AS coms,
-    (SELECT count(id) from comments where parent_type=13 and parent_id = talking_point_id AND created_at > '#{last_visit_ts}') AS new_coms
-    FROM ( VALUES #{ talking_point_ids.map{ |id| "(#{id})" }.join(',') } ) AS t (talking_point_id)|)
+    question_coms = Question.com_counts(question_ids, self.last_visit_ts)
+    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, self.last_visit_ts)
 
-    self.questions.each do |q| 
-      qcom = question_coms.detect{|qc| qc['ques_id'].to_i == q.id}
+    Team.assign_stats( 
+      :questions => self.questions,
+      :question_coms => question_coms, 
+      :talking_point_coms => talking_point_coms,
+      :tpp => tpp,
+      :tpr => tpr, 
+      :my_preferences => my_preferences,
+      :my_ratings => my_ratings
+    )
+    
+    true
+  end
+  
+
+  def self.assign_stats stats
+    
+    stats[:question_coms] ||= []
+
+    stats[:questions].each do |q| 
+      qcom = stats[:question_coms].detect{|qc| qc['ques_id'].to_i == q.id}
       if !qcom.nil?
         q.coms = qcom['coms'].to_i
         q.new_coms = qcom['new_coms'].to_i
@@ -68,22 +76,22 @@ class Team < ActiveRecord::Base
         q.num_new_talking_points = qcom['num_new_talking_points'].to_i
       end
 
-      q.top_talking_points.each do |tp| 
-        pref = tpp.detect{|p| p.talking_point_id == tp.id}
+      q.talking_points_to_display.each do |tp| 
+        pref = stats[:tpp].detect{|p| p.talking_point_id == tp.id}
         tp.preference_votes = pref.count.to_i unless pref.nil? 
         
         tp.rating_votes = [0,0,0,0,0]
-        tpr.select{|rec| rec.talking_point_id == tp.id}.each do |r|
+        stats[:tpr].select{|rec| rec.talking_point_id == tp.id}.each do |r|
           tp.rating_votes[r.rating-1] = r.count.to_i
         end
         
-        my_pref = my_preferences.detect{|p| p.talking_point_id == tp.id}
+        my_pref = stats[:my_preferences].detect{|p| p.talking_point_id == tp.id}
         tp.my_preference = my_pref.nil? ? false : true 
         
-        my_rating = my_ratings.detect{|r| r.talking_point_id == tp.id}
+        my_rating = stats[:my_ratings].detect{|r| r.talking_point_id == tp.id}
         tp.my_rating = my_rating.rating.to_i unless my_rating.nil?
 
-        tpcom = talking_point_coms.detect{|tpc| tpc['talking_point_id'].to_i == tp.id}
+        tpcom = stats[:talking_point_coms].detect{|tpc| tpc['talking_point_id'].to_i == tp.id}
         if !tpcom.nil?
           tp.coms = tpcom['coms'].to_i
           tp.new_coms = tpcom['new_coms'].to_i
@@ -94,10 +102,8 @@ class Team < ActiveRecord::Base
       end
 
     end
+
     
-    
-    
-    true
   end
   
   def check_team_edit_access
