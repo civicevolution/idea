@@ -27,9 +27,9 @@ class TalkingPoint < ActiveRecord::Base
     )
   end
 
-  def self.get_and_assign_stats( question, member )
+  def self.get_and_assign_stats( question, talking_points_to_display, member )
     
-    question.talking_points_to_display = question.talking_points
+    question.talking_points_to_display = talking_points_to_display
     talking_point_ids = []
     comment_member_ids = []
     question.talking_points_to_display.each do |tp| 

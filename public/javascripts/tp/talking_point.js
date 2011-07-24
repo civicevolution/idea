@@ -28,13 +28,16 @@ $('a.question_show_coms').die('click').live('click',
 
 $('a.question_show_talking_points').die('click').live('click',
 	function(){
-		var el = this
-		$('<div class="question_comments"></div').load( '/questions/' + this.id + '/talking_points', 
-			function(text,stat, xhr){ 
-				$(el).closest('div.talking_points_list').find('div.talking_point_entry:last').after(this);
-				$(el).hide();
-				//console.log(this.innerHTML)
-			}
+		var el = $(this)
+		var talking_point_ids = $.map(el.closest('div.talking_points_list').find('div.talking_point_entry'), function(tp){ if(tp.id) return Number(tp.id); else return null;})
+		$.get('/questions/' + this.id + '/talking_points', {'talking_point_ids': talking_point_ids},
+			function(data){ 
+				var div = $(data)
+				var talking_points_sec = el.closest('div.talking_points_list')
+				el.closest('p.show_more_link').remove();
+				div.find('div.talking_point_entry').each( function(){ talking_points_sec.append(this) })
+			},
+			"html"
 		)
 		return false;
 	}

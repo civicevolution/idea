@@ -1,4 +1,4 @@
-%div.talking_point_entry
+%div.talking_point_entry{:id=>talking_point.id}
 	- logger.debug "show talking_point id: #{talking_point.id}"
 	%div.talking_point_body
 		%p.talking_point= talking_point.text
