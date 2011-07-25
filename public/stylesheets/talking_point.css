@@ -86,6 +86,8 @@ div.talking_point_body {
     margin-left: 40px; }
   div.talking_point_body p.talking_point {
     font-size: 1.28em; }
+  div.talking_point_body div.talking_point_controls p {
+    margin-top: -4px; }
   div.talking_point_body div.talking_point_controls p.coms {
     float: left; }
   div.talking_point_body div.talking_point_controls p.other {

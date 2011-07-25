@@ -1,7 +1,7 @@
 temp = {}
 
 $(function(){
-		expand_proposal_view()
+		//expand_proposal_view()
 	
 	
 	
@@ -25,7 +25,7 @@ $('a.collapse_proposal_view').die('click').live('click',
 function collapse_proposal_view(){
 	$('div.what_do_you_think').hide();
 	$('div.ques_discussion').hide();
-	$('div.my_rating').hide();
+	//$('div.my_rating').hide();
 	$('div.talking_point_preferable').hide();
 	$('h3.ques_sub_hdg').hide();
 	$('div.talking_point_entry.header').hide();
@@ -37,15 +37,14 @@ function collapse_proposal_view(){
 	$('div.talking_point_entry').each( 
 		function(){
 			var el = $(this)
-			var b = el.children('div.talking_point_body');
-			var cr = el.find('div.talking_point_acceptable > div.community_rating');
-			//var p = el.children('div.talking_point_preferable');
-			//var max = Math.max.apply( Math, [b.height(),a.height(),p.height()] );
-			var max = Math.max.apply( Math, [b.height(), (cr.height() + 20)] );
+			var b = el.children('div.talking_point_body').height('auto');
+			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
+			var mr = el.find('div.talking_point_acceptable > div.my_rating').height('auto');
+			var max = Math.max.apply( Math, [b.height(), (cr.height() + 20), (mr.height() + 20)] );
 			console.log("max height: " + max)
 			b.height(max);
 			cr.height(max-20);
-			//p.height(max);
+			mr.height(max-20);
 		}
 	)	
 }
@@ -65,9 +64,9 @@ function expand_proposal_view(){
 	$('div.talking_point_entry').each( 
 		function(){
 			var el = $(this)
-			var b = el.children('div.talking_point_body');
-			var cr = el.find('div.talking_point_acceptable > div.community_rating');
-			var p = el.children('div.talking_point_preferable');
+			var b = el.children('div.talking_point_body').height('auto');
+			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
+			var p = el.children('div.talking_point_preferable').height('auto');
 			var max = Math.max.apply( Math, [b.height(), (cr.height() + 20), p.height()] );
 			console.log("max height: " + max)
 			b.height(max);
