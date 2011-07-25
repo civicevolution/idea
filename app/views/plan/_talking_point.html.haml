@@ -25,11 +25,13 @@
 			= form_tag( {:controller => 'idea', :action => 'answer_rating'}, {:class => 'item_rater'} ) do
 				%div.radios
 					- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
-						%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
-							- if value.to_i == talking_point.my_rating
-								%input.rating{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
-							- else
-								%input.rating{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+					
+						= label_tag "tp_rating_#{talking_point.id}_#{value}" do
+							%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
+								- if value.to_i == talking_point.my_rating
+									%input.rating{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+								- else
+									%input.rating{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
 			%p.clear_both
 			- if talking_point.my_rating.nil?
 				%p.please_rate Please rate
@@ -59,15 +61,17 @@
 		- if !talking_point.preference_votes.nil?
 			%p.total_preference #{talking_point.preference_votes} people prefer this
 			%p.my_preference
-				- if talking_point.my_preference
-					%input{:type=>'checkbox', :checked => true}
-				- else
-					%input{:type=>'checkbox'}
-				I prefer this
+				= label_tag "preference{talking_point.id}" do
+					- if talking_point.my_preference
+						%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox', :checked => true}
+					- else
+						%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
+					I prefer this
 
 		- else
 			%p.total_preference No one prefers this
 			%p.my_preference 
-				%input{:type=>'checkbox'}
-				I prefer this
+				= label_tag "preference_#{talking_point.id}" do
+					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
+					I prefer this
 	%p.clear_both
