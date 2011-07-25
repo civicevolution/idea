@@ -23,11 +23,24 @@ div.summary {
   margin: -10px 41px 60px 41px;
   font-size: 1.12em; }
 
+div.proposal.inview {
+  background-color: #f5e6be; }
+  div.proposal.inview h2.question {
+    font-size: 1.2em; }
+
 div.question_page {
   clear: both;
   background-color: #f5e6be;
   padding: 20px 0 20px 20px;
   margin-bottom: 40px; }
+
+div.question_page.noview {
+  background-color: none;
+  margin: 0; }
+  div.question_page.noview div.talking_point_sec {
+    margin-left: 0; }
+  div.question_page.noview div.talking_points_list p.show_more_link {
+    display: none; }
 
 div.talking_point_sec {
   margin-left: 20px; }

@@ -14,64 +14,68 @@
 			= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{selector: '.closest(\\\\'div.summary\\\\')', chr_cnt: 1000, label: 'Please edit the summary', url: '/team/inline_edit?model=team&field=solution_statement&id=#{@team_id}' }]"} ) + '</p>')
 		- else
 			= simple_format h @team.solution_statement
+	%p.clear_both
+%p.clear_both
+	= link_to "Expand", {}, {:class=>'expand_proposal_view'}
+	= link_to "Collapse", {}, {:class=>'collapse_proposal_view'}
 
 
-
-- idx = 0
-- @team.questions.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
-	- logger.debug "\n\n*************** Begin to render a question\n\n"
+%div.proposal
+	- idx = 0
+	- @team.questions.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
+		- logger.debug "\n\n*************** Begin to render a question\n\n"
 	
-	%div.question_page
-		%h2.question{:id=>question.id} Q#{idx += 1}: #{question.text}
-		%div.talking_point_sec
-			%h3.ques_sub_hdg Talking points suggested and rated by your community
-			%div.talking_points_list
+		%div.question_page
+			%h2.question{:id=>question.id} Q#{idx += 1}: #{question.text}
+			%div.talking_point_sec
+				%h3.ques_sub_hdg Talking points suggested and rated by your community
+				%div.talking_points_list
 			
 			
-				%div.talking_point_entry.header
-					%div.talking_point_body
-						%div.instr
-							= image_tag('red_arrow.gif', :class=>'red_arrow')		
-							%p.instr
-								The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
-								= link_to "Learn more"
+					%div.talking_point_entry.header
+						%div.talking_point_body
+							%div.instr
+								= image_tag('red_arrow.gif', :class=>'red_arrow')		
+								%p.instr
+									The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
+									= link_to "Learn more"
 
-					%div.talking_point_acceptable
-						%p.title Acceptable
+						%div.talking_point_acceptable
+							%p.title Acceptable
 
-					%div.talking_point_preferable
-						%p.title Preferable
+						%div.talking_point_preferable
+							%p.title Preferable
 				
-					%p.clear_both
+						%p.clear_both
 						
 
-				= render :partial=> 'talking_point', :collection => question.top_talking_points
+					= render :partial=> 'talking_point', :collection => question.top_talking_points
 			
-				- if question.num_new_talking_points > 0
-					%p #{question.num_new_talking_points} new talking points
-				- elsif question.num_talking_points > question.top_talking_points.length
-					%p.show_more_link= link_to "Show #{question.num_talking_points - question.top_talking_points.length} more talking points", {}, { :class=> 'question_show_talking_points', :id=>question.id }
-				- elsif question.num_talking_points == 0
-					%p There are no talking points for this question, please add one with the form below.
+					- if question.num_new_talking_points > 0
+						%p #{question.num_new_talking_points} new talking points
+					- elsif question.num_talking_points > question.top_talking_points.length
+						%p.show_more_link= link_to "Show #{question.num_talking_points - question.top_talking_points.length} more talking points", {}, { :class=> 'question_show_talking_points', :id=>question.id }
+					- elsif question.num_talking_points == 0
+						%p There are no talking points for this question, please add one with the form below.
 						
 
 
-		= render :partial => 'what_do_you_think'
+			= render :partial => 'what_do_you_think'
 
 		
-		%div.ques_discussion
-			%h3.ques_sub_hdg Comments posted by your community
+			%div.ques_discussion
+				%h3.ques_sub_hdg Comments posted by your community
 
-			= render :partial=> 'comment', :collection => question.recent_comments, :locals => {:members => @team.commenting_members}
+				= render :partial=> 'comment', :collection => question.recent_comments, :locals => {:members => @team.commenting_members}
 
-			%p.clear_both
+				%p.clear_both
 		
-			%p.count_link
-				- if question.new_coms > 0
-					Question has #{question.new_coms} new comments
-				- elsif question.coms > question.recent_comments.length
-					= link_to "Show #{question.coms - question.recent_comments.length} more comments", {}, { :class=> 'question_show_coms', :id=>question.id }
-				- elsif question.coms == 0
-					Question has no comments
+				%p.count_link
+					- if question.new_coms > 0
+						Question has #{question.new_coms} new comments
+					- elsif question.coms > question.recent_comments.length
+						= link_to "Show #{question.coms - question.recent_comments.length} more comments", {}, { :class=> 'question_show_coms', :id=>question.id }
+					- elsif question.coms == 0
+						Question has no comments
 		
 		

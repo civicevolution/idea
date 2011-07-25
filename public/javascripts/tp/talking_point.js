@@ -1,4 +1,83 @@
 temp = {}
+
+$(function(){
+		expand_proposal_view()
+	
+	
+	
+	}
+);
+
+$('a.expand_proposal_view').die('click').live('click',
+	function(){
+		expand_proposal_view();
+		return false;
+	}
+);
+
+$('a.collapse_proposal_view').die('click').live('click',
+	function(){
+		collapse_proposal_view();
+		return false;
+	}
+);
+
+function collapse_proposal_view(){
+	$('div.what_do_you_think').hide();
+	$('div.ques_discussion').hide();
+	$('div.my_rating').hide();
+	$('div.talking_point_preferable').hide();
+	$('h3.ques_sub_hdg').hide();
+	$('div.talking_point_entry.header').hide();
+	$('div.talking_point_controls').hide();
+	
+	$('div.proposal').addClass('inview');
+	$('div.question_page').addClass('noview');
+
+	$('div.talking_point_entry').each( 
+		function(){
+			var el = $(this)
+			var b = el.children('div.talking_point_body');
+			var cr = el.find('div.talking_point_acceptable > div.community_rating');
+			//var p = el.children('div.talking_point_preferable');
+			//var max = Math.max.apply( Math, [b.height(),a.height(),p.height()] );
+			var max = Math.max.apply( Math, [b.height(), (cr.height() + 20)] );
+			console.log("max height: " + max)
+			b.height(max);
+			cr.height(max-20);
+			//p.height(max);
+		}
+	)	
+}
+
+function expand_proposal_view(){
+	$('div.what_do_you_think').show();
+	$('div.ques_discussion').show();
+	$('div.my_rating').show();
+	$('div.talking_point_preferable').show();
+	$('h3.ques_sub_hdg').show();
+	$('div.talking_point_entry.header').show();
+	$('div.talking_point_controls').show();
+	
+	$('div.proposal').removeClass('inview');
+	$('div.question_page').removeClass('noview');
+
+	$('div.talking_point_entry').each( 
+		function(){
+			var el = $(this)
+			var b = el.children('div.talking_point_body');
+			var cr = el.find('div.talking_point_acceptable > div.community_rating');
+			var p = el.children('div.talking_point_preferable');
+			var max = Math.max.apply( Math, [b.height(), (cr.height() + 20), p.height()] );
+			console.log("max height: " + max)
+			b.height(max);
+			cr.height(max-20);
+			p.height(max-20);
+		}
+	)	
+}
+
+
 $('a.tp_show_coms').die('click').live('click',
 	function(){
 		var el = this

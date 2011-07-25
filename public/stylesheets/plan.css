@@ -116,7 +116,8 @@ div.ce_credit {
     margin-top: 16px; }
 
 hr.bottom, .clear {
-  clear: both; }
+  clear: both;
+  margin-top: 40px; }
 
 .hide {
   display: none; }
