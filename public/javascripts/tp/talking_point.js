@@ -22,7 +22,7 @@ $('a.collapse_proposal_view').die('click').live('click',
 	}
 );
 
-$('a.open_worksheet').die('click').live('click',
+$('a.open_worksheet, div.proposal.inview h2.question').die('click').live('click',
 	function(){
 		question_worksheet = $(this).closest('div.question_worksheet');
 		show_question_worksheet(question_worksheet)
@@ -59,7 +59,7 @@ function collapse_proposal_view(){
 			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
 			var mr = el.find('div.talking_point_acceptable > div.my_rating').height('auto');
 			var max = Math.max.apply( Math, [b.height(), (cr.height() + 20), (mr.height() + 20)] );
-			console.log("max height: " + max)
+			//console.log("max height: " + max)
 			b.height(max);
 			cr.height(max-20);
 			mr.height(max-20);

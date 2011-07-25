@@ -54,6 +54,8 @@ div.question_worksheet.noview {
     display: none; }
   div.question_worksheet.noview a.open_worksheet {
     display: block; }
+  div.question_worksheet.noview h2.question {
+    cursor: pointer; }
 
 div.talking_point_sec {
   margin-left: 20px; }

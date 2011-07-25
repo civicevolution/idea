@@ -1,0 +1,53 @@
+%div.question_worksheet
+	%h2.question{:id=>question.id} Q#{question_counter += 1}: #{question.text}
+	%div.talking_point_sec
+		%h3.ques_sub_hdg Talking points suggested and rated by your community
+		%div.talking_points_list
+	
+	
+			%div.talking_point_entry.header
+				%div.talking_point_body
+					%div.instr
+						= image_tag('red_arrow.gif', :class=>'red_arrow')		
+						%p.instr
+							The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
+							= link_to "Learn more"
+
+				%div.talking_point_acceptable
+					%p.title Acceptable
+
+				%div.talking_point_preferable
+					%p.title Preferable
+		
+				%p.clear_both
+				
+
+			= render :partial=> 'talking_point', :collection => question.top_talking_points
+	
+			- if question.num_new_talking_points > 0
+				%p #{question.num_new_talking_points} new talking points
+			- elsif question.num_talking_points > question.top_talking_points.length
+				%p.show_more_link= link_to "Show #{question.num_talking_points - question.top_talking_points.length} more talking points", {}, { :class=> 'question_show_talking_points', :id=>question.id }
+			- elsif question.num_talking_points == 0
+				%p There are no talking points for this question, please add one with the form below.
+				
+
+	= link_to "Tell us what you think and learn more", {}, {:class=> 'open_worksheet'}
+	= render :partial => 'what_do_you_think'
+
+
+	%div.ques_discussion
+		%h3.ques_sub_hdg Comments posted by your community
+
+		= render :partial=> 'comment', :collection => question.recent_comments, :locals => {:members => @team.commenting_members}
+
+		%p.clear_both
+
+		%p.count_link
+			- if question.new_coms > 0
+				Question has #{question.new_coms} new comments
+			- elsif question.coms > question.recent_comments.length
+				= link_to "Show #{question.coms - question.recent_comments.length} more comments", {}, { :class=> 'question_show_coms', :id=>question.id }
+			- elsif question.coms == 0
+				Question has no comments
+
