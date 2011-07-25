@@ -25,7 +25,7 @@
 	- @team.questions.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
 		- logger.debug "\n\n*************** Begin to render a question\n\n"
 	
-		%div.question_page
+		%div.question_worksheet
 			%h2.question{:id=>question.id} Q#{idx += 1}: #{question.text}
 			%div.talking_point_sec
 				%h3.ques_sub_hdg Talking points suggested and rated by your community
@@ -59,7 +59,7 @@
 						%p There are no talking points for this question, please add one with the form below.
 						
 
-
+			= link_to "Tell us what you think and learn more", {}, {:class=> 'open_worksheet'}
 			= render :partial => 'what_do_you_think'
 
 		

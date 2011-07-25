@@ -1,7 +1,7 @@
 temp = {}
 
 $(function(){
-		//expand_proposal_view()
+		collapse_proposal_view()
 	
 	
 	
@@ -22,7 +22,24 @@ $('a.collapse_proposal_view').die('click').live('click',
 	}
 );
 
+$('a.open_worksheet').die('click').live('click',
+	function(){
+		question_worksheet = $(this).closest('div.question_worksheet');
+		show_question_worksheet(question_worksheet)
+		return false;
+	}
+);
+
+function show_question_worksheet(question_worksheet){
+	expand_proposal_view();
+	$('div.question_worksheet').hide();
+	question_worksheet.show();
+	$.scrollTo(question_worksheet,1000);
+}
+
+
 function collapse_proposal_view(){
+	$('div.question_worksheet').show();
 	$('div.what_do_you_think').hide();
 	$('div.ques_discussion').hide();
 	//$('div.my_rating').hide();
@@ -32,7 +49,8 @@ function collapse_proposal_view(){
 	$('div.talking_point_controls').hide();
 	
 	$('div.proposal').addClass('inview');
-	$('div.question_page').addClass('noview');
+	$('div.question_worksheet').addClass('noview');
+	$('div.summary').addClass('collapse');
 
 	$('div.talking_point_entry').each( 
 		function(){
@@ -52,14 +70,15 @@ function collapse_proposal_view(){
 function expand_proposal_view(){
 	$('div.what_do_you_think').show();
 	$('div.ques_discussion').show();
-	$('div.my_rating').show();
+	//$('div.my_rating').show();
 	$('div.talking_point_preferable').show();
 	$('h3.ques_sub_hdg').show();
 	$('div.talking_point_entry.header').show();
 	$('div.talking_point_controls').show();
 	
 	$('div.proposal').removeClass('inview');
-	$('div.question_page').removeClass('noview');
+	$('div.question_worksheet').removeClass('noview');
+	$('div.summary').removeClass('collapse');
 
 	$('div.talking_point_entry').each( 
 		function(){

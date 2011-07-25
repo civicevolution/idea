@@ -36,27 +36,40 @@ h2.home_title
 div.summary
 	margin: -10px 41px 60px 41px
 	font-size: 1.12em
+div.summary.collapse
+	margin-bottom: 20px
+
 
 div.proposal.inview
 	background-color: $question_bg
 	h2.question
 		font-size: 1.2em
+	padding: 20px 0
 
-div.question_page
+div.question_worksheet
 	clear: both
 	//border: 1px solid yellow
 	background-color: $question_bg
 	padding: 20px 0 20px 20px
 	margin-bottom: 40px
+	a.open_worksheet
+		display: none
+		margin: 20px 0 20px $page_indent
+		font-size: 1.2em
+		font-weight: bold
 
-div.question_page.noview
+
+div.question_worksheet.noview
 	background-color: none
 	margin: 0
+	padding-top: 0
+	padding-bottom: 10px
 	div.talking_point_sec
 		margin-left: 0
 	div.talking_points_list p.show_more_link
 		display: none
-	
+	a.open_worksheet
+		display: block
 	
 h3.ques_sub_hdg
 

@@ -23,24 +23,37 @@ div.summary {
   margin: -10px 41px 60px 41px;
   font-size: 1.12em; }
 
+div.summary.collapse {
+  margin-bottom: 20px; }
+
 div.proposal.inview {
-  background-color: #f5e6be; }
+  background-color: #f5e6be;
+  padding: 20px 0; }
   div.proposal.inview h2.question {
     font-size: 1.2em; }
 
-div.question_page {
+div.question_worksheet {
   clear: both;
   background-color: #f5e6be;
   padding: 20px 0 20px 20px;
   margin-bottom: 40px; }
+  div.question_worksheet a.open_worksheet {
+    display: none;
+    margin: 20px 0 20px 20px;
+    font-size: 1.2em;
+    font-weight: bold; }
 
-div.question_page.noview {
+div.question_worksheet.noview {
   background-color: none;
-  margin: 0; }
-  div.question_page.noview div.talking_point_sec {
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 10px; }
+  div.question_worksheet.noview div.talking_point_sec {
     margin-left: 0; }
-  div.question_page.noview div.talking_points_list p.show_more_link {
+  div.question_worksheet.noview div.talking_points_list p.show_more_link {
     display: none; }
+  div.question_worksheet.noview a.open_worksheet {
+    display: block; }
 
 div.talking_point_sec {
   margin-left: 20px; }
