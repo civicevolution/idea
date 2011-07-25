@@ -42,6 +42,20 @@ div.question_worksheet {
     margin: 20px 0 20px 20px;
     font-size: 1.2em;
     font-weight: bold; }
+  div.question_worksheet div.navigation {
+    position: relative;
+    text-align: center; }
+    div.question_worksheet div.navigation a.prev {
+      left: 0;
+      display: block;
+      position: absolute;
+      top: 0; }
+    div.question_worksheet div.navigation a.next {
+      right: 0;
+      display: block;
+      position: absolute;
+      top: 0;
+      margin-right: 20px; }
 
 div.question_worksheet.noview {
   background-color: none;
@@ -56,6 +70,8 @@ div.question_worksheet.noview {
     display: block; }
   div.question_worksheet.noview h2.question {
     cursor: pointer; }
+  div.question_worksheet.noview .navigation {
+    display: none; }
 
 div.talking_point_sec {
   margin-left: 20px; }

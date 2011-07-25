@@ -1,5 +1,7 @@
-%div.question_worksheet
-	%h2.question{:id=>question.id} Q#{question_counter += 1}: #{question.text}
+%div.question_worksheet{:id=>question.id}
+	= render :partial => 'question_navigation', :locals=>{:questions=>questions, :counter => question_counter}
+
+	%h2.question{:id=>question.id} Q#{question_counter + 1}: #{question.text}
 	%div.talking_point_sec
 		%h3.ques_sub_hdg Talking points suggested and rated by your community
 		%div.talking_points_list
@@ -51,3 +53,4 @@
 			- elsif question.coms == 0
 				Question has no comments
 
+	= render :partial => 'question_navigation', :locals=>{:questions=>questions, :counter => question_counter}

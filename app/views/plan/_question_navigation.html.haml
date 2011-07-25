@@ -1,0 +1,6 @@
+%div.navigation
+	- if counter > 0
+		= link_to "< Q#{counter}: #{questions[counter-1].text}", {}, {:id=> questions[counter-1].id, :class=>'goto prev'}
+	= link_to "Summary", {}, {:class=>'summary'}
+	- if counter < questions.size - 1
+		= link_to "Q#{counter+2}: #{questions[counter + 1].text} >", {}, {:id=> questions[counter+1].id, :class=>'goto next'}

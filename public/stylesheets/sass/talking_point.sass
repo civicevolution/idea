@@ -57,8 +57,22 @@ div.question_worksheet
 		margin: 20px 0 20px $page_indent
 		font-size: 1.2em
 		font-weight: bold
-
-
+	div.navigation
+		position: relative
+		text-align: center
+		a.prev
+			left: 0
+			display: block
+			position: absolute
+			top: 0
+		a.next
+			right: 0
+			display: block
+			position: absolute
+			top: 0
+			margin-right: $page_indent
+			
+			
 div.question_worksheet.noview
 	background-color: none
 	margin: 0
@@ -72,6 +86,8 @@ div.question_worksheet.noview
 		display: block
 	h2.question
 		cursor: pointer
+	.navigation
+		display: none
 	
 h3.ques_sub_hdg
 

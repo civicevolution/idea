@@ -16,10 +16,11 @@
 			= simple_format h @team.solution_statement
 	%p.clear_both
 %p.clear_both
+-#
 	= link_to "Expand", {}, {:class=>'expand_proposal_view'}
 	= link_to "Collapse", {}, {:class=>'collapse_proposal_view'}
 
-
+- questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 %div.proposal
-	= render :partial=> 'question', :collection => @team.questions.sort {|a,b| a.order_id <=> b.order_id }
+	= render :partial=> 'question', :collection => questions, :locals => {:questions => questions}
 	
