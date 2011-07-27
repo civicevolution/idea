@@ -2,15 +2,23 @@ class Comment < ActiveRecord::Base
 
   has_one :resource, :dependent => :destroy
   
+  # I'm not sure if I want to use this association. It works, but it is less efficient
+  # I will eager load members for each set of comments instead of all comments
+  #belongs_to :member
+  
+  
   #validates_length_of :text, :in => 5..1500, :allow_blank => false
   
-  before_validation :check_team_access, :on=>:create  # checks team access and sets the team_id
+  #before_validation :check_team_access, :on=>:create  # checks team access and sets the team_id
+  
+  before_validation :check_initiative_restrictions, :on=>:create
+  
   validate :check_com_edit_access, :on=>:update
   
   validate :check_length
       
-  after_create :create_item_record
-  after_destroy :delete_item_record
+  #after_create :create_item_record
+  #after_destroy :delete_item_record
   before_destroy :check_item_delete_access
   after_save :log_team_content
   
@@ -34,6 +42,21 @@ class Comment < ActiveRecord::Base
     errors.add(:text, "must be at least #{range[1]} characters") unless text && text.length >= range[1].to_i
     errors.add(:text, "must be no longer than #{range[2]} characters") unless text && text.length <= range[2].to_i
   end
+  
+  def check_initiative_restrictions
+    self.publish = true unless !self.member.confirmed
+    logger.debug "Comment.check_initiative_restrictions"
+    self.member_id ||= self.member.id
+    allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.parent_id, :parent_type => self.parent_type}, 'contribute_to_proposal', self.member)
+    if !allowed
+      errors.add_to_base("Sorry, you do not have permission to add a comment.") 
+      return false
+    end
+    true
+  end
+  
+  
+  
   
   def check_team_access
     self.publish = true unless !self.member.confirmed

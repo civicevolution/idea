@@ -97,7 +97,7 @@ function expand_proposal_view(){
 			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
 			var p = el.children('div.talking_point_preferable').height('auto');
 			var max = Math.max.apply( Math, [b.height(), (cr.height() + 20), p.height()] );
-			console.log("max height: " + max)
+			//console.log("max height: " + max)
 			b.height(max);
 			cr.height(max-20);
 			p.height(max-20);
@@ -108,30 +108,40 @@ function expand_proposal_view(){
 
 $('a.tp_show_coms').die('click').live('click',
 	function(){
-		var el = this
-		$('<div class="talking_point_comments"></div').load( '/talking_points/' + this.id + '/comments', 
-			function(text,stat, xhr){ 
-				$(el).closest('div.talking_point_entry').after(this);
-				//console.log(this.innerHTML)
+		var el = $(this);
+		$.get( '/talking_points/' + this.id + '/comments', {}, 
+			function(data){ 
+				el.closest('div.talking_point_entry').after(data);
 			}
 		)
+		
+		//$('<div class="talking_point_comments"></div').load( '/talking_points/' + this.id + '/comments', 
+		//	function(text,stat, xhr){ 
+		//		$(el).closest('div.talking_point_entry').after(this);
+		//		//console.log(this.innerHTML)
+		//	}
+		//)
 		return false;
 	}
 );
 
 $('a.question_show_coms').die('click').live('click',
 	function(){
-		var el = this
-		$('<div class="question_comments"></div').load( '/questions/' + this.id + '/comments', 
-			function(text,stat, xhr){ 
-				$(el).closest('div.ques_discussion').find('div.Comment:last').after(this);
-				$(el).hide();
-				//console.log(this.innerHTML)
-			}
+		var el = $(this)
+		var comment_ids = $.map(el.closest('div.ques_discussion').find('div.Comment'), function(c){ if(c.id) return Number(c.id); else return null;})
+		$.get('/questions/' + this.id + '/comments', {'comment_ids': comment_ids},
+			function(data){ 
+				var div = $(data)
+				var comments_sec = el.closest('div.ques_discussion')
+				el.closest('p.count_link').remove();
+				div.find('div.Comment').each( function(){ comments_sec.find('div.Comment:first').before(this) })
+			},
+			"html"
 		)
 		return false;
 	}
 );
+
 
 $('a.question_show_talking_points').die('click').live('click',
 	function(){

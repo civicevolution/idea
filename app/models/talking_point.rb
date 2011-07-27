@@ -2,20 +2,40 @@ class TalkingPoint < ActiveRecord::Base
 
   belongs_to :question
 	has_many :talking_point_acceptable_ratings
-	#has_many :talking_point_preferences
-	#has_many :talking_point_preferences, :finder_sql =>
-  #          proc { "SELECT COUNT(member_id) AS cnt FROM talking_point_preferences where talking_point_id = #{id}" }	
-  has_many :talking_point_preferences, :finder_sql => proc {"SELECT COUNT(member_id) AS cnt FROM talking_point_preferences where talking_point_id = #{id}"}
-  
+  has_many :talking_point_preferences
 	has_many :talking_point_versions          
-	has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 13'
+	has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 13', :order => 'id asc'
   
-  attr_accessor :preference_votes
-  attr_accessor :rating_votes 
+  attr_accessor_with_default :preference_votes, 0
+  attr_accessor_with_default :rating_votes, [0,0,0,0,0]
   attr_accessor :my_preference
   attr_accessor :my_rating
-  attr_accessor :coms
-  attr_accessor :new_coms
+  attr_accessor_with_default :coms, 0
+  attr_accessor_with_default :new_coms, 0
+  
+  attr_accessor :member
+  attr_accessor :team_id
+   
+  before_validation :check_initiative_restrictions, :on=>:create
+  after_save :log_team_content
+  
+  def check_initiative_restrictions
+    logger.debug "TalkingPoint.check_initiative_restrictions"
+    self.member_id ||= self.member.id
+    self.version ||= 1
+    allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:question_id=>self.question_id}, 'contribute_to_proposal', self.member)
+    if !allowed
+      errors.add_to_base("Sorry, you do not have permission to add a talking point.") 
+      return false
+    end
+    true
+  end
+  
+  def log_team_content
+    # log this item into the team_content_logs
+    TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
+  end  
+  
   
 
   def self.com_counts(talking_point_ids, last_visit_ts)
@@ -50,6 +70,14 @@ class TalkingPoint < ActiveRecord::Base
       :my_preferences => my_preferences,
       :my_ratings => my_ratings
     )
+  end
+  
+  def o_type
+    13 #type for talking point
+  end
+  
+  def type_text
+    'talking point' #type for talking point
   end
   
     

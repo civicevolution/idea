@@ -1,1 +1,2 @@
-= render :partial=> 'plan/comment', :collection => @comments, :locals => {:members => @commenting_members}
+%div.talking_point_comments{:id=>params[:talking_point_id]}
+	= render :partial=> 'plan/comment', :collection => @comments, :locals => {:members => @commenting_members}

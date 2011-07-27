@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   helper :all # include all helpers, all the time
 #  protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  protect_from_forgery :except => [:load_report] # :except => [:upload_member_photo]
+  protect_from_forgery :except => [:load_report, :create, :create_talking_point_comment, :create_question_comment] # :except => [:upload_member_photo]
 
   # put most generic exception at the top
 

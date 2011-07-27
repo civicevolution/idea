@@ -12,7 +12,7 @@ class Question < ActiveRecord::Base
     ORDER BY count(tpp.member_id) DESC, id DESC
     LIMIT 5| }
   
-  has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 1'
+  has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :order => 'id asc'
   has_many :recent_comments, :class_name => 'Comment', :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :limit => 3, :order => "id DESC"
   
   
@@ -61,6 +61,20 @@ class Question < ActiveRecord::Base
       ORDER BY count(tpar.member_id) DESC, id DESC
       LIMIT 5|,self.id])
   end
+
+
+  def remaining_comments(ids)
+    # process ids to make sure they are just numbers
+    ids = ids.map{|i| i.to_i }
+    Comment.find_by_sql([
+      %Q|SELECT id, member_id, anonymous, status, text, created_at, updated_at, publish, parent_type, parent_id 
+      FROM comments
+      WHERE parent_type = 1 
+      AND parent_id = ?
+      AND id NOT IN ( #{ ids.join(',') } )
+      ORDER BY id ASC|,self.id])
+  end
+
 
   
   # code required to record revision history for this item

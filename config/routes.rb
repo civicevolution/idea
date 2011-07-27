@@ -11,16 +11,26 @@ G3::Application.routes.draw do |map|
 
   resources :talking_points
 
-  resources :talking_points do
-		resources :comments
-	end
-
   resources :questions do
 		resources :talking_points
 	end
+	
+  resources :talking_points do
+		resources :comments do
+		  collection do
+		    get :index, :action => 'talking_point_comments'
+	      post :create, :action => 'create_talking_point_comment'
+	    end
+		end  
+	end
 
   resources :questions do
-		resources :comments
+		resources :comments do
+		  collection do		  
+	      get :index, :action => 'question_comments'
+	      post :create, :action => 'create_question_comment'
+	    end
+	  end
 	end
 
   map.resources :resources

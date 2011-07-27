@@ -2,47 +2,51 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.xml
   def index
+    @comments = Comment.all
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @comments }
+    end
+  end
+  
+  def talking_point_comments
+    logger.debug "GET comments for talking point id: #{params[:talking_point_id]} (talking_point_comments)"
+    talking_point = TalkingPoint.find(params[:talking_point_id])
+    @comments = talking_point.comments
+    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq!)
     
-    if !params[:talking_point_id].nil?
-      logger.debug "GET comments for talking point id: #{params[:talking_point_id]}"
-      talking_point = TalkingPoint.find(params[:talking_point_id])
-      @comments = talking_point.comments
-      @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq!)
-      
-      if !request.xhr?
-        @team = talking_point.question.team
-      end
+    if !request.xhr?
+      @team = talking_point.question.team
+    end
 
-      respond_to do |format|
-        format.html { render :talking_point_comments, :layout => false} unless !request.xhr?
-        format.html { render :talking_point_comments, :layout => 'plan'}
-        format.xml  { render :xml => @comments }
-      end
-    elsif !params[:question_id].nil?
-        logger.debug "GET comments for question id: #{params[:question_id]}"
-        question = Question.find(params[:question_id])
-        @comments = question.comments
-        @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq!)
+    respond_to do |format|
+      format.html { render :talking_point_comments, :layout => false} unless !request.xhr?
+      format.html { render :talking_point_comments, :layout => 'plan'}
+      format.xml  { render :xml => @comments }
+    end
+  end    
+  
+  def question_comments
+    logger.debug "GET comments for question id: #{params[:question_id]} (question_comments)"
+    question = Question.find(params[:question_id])
+    #@comments = question.comments
+    @comments = question.remaining_comments(params[:comment_ids])
+    @resources = []
+    
+    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq!)
 
-        if !request.xhr?
-          @team = question.team
-        end
+    if !request.xhr?
+      @team = question.team
+    end
 
-        respond_to do |format|
-          format.html { render :question_comments, :layout => false} unless !request.xhr?
-          format.html { render :question_comments, :layout => 'plan'}
-          format.xml  { render :xml => @comments }
-        end
-      
-    else
-      @comments = Comment.all
-      respond_to do |format|
-        format.html # index.html.erb
-        format.xml  { render :xml => @comments }
-      end
+    respond_to do |format|
+      format.html { render :question_comments, :layout => false} unless !request.xhr?
+      format.html { render :question_comments, :layout => 'plan'}
+      format.xml  { render :xml => @comments }
     end
     
   end
+  
 
   # GET /comments/1
   # GET /comments/1.xml
@@ -71,15 +75,15 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
   end
 
+
   # POST /comments
   # POST /comments.xml
   def create
     @comment = Comment.new(params[:comment])
-
+    
     respond_to do |format|
       if @comment.save
-        flash[:notice] = 'Comment was successfully created.'
-        format.html { redirect_to(@comment) }
+        format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
         format.html { render :action => "new" }
@@ -87,6 +91,42 @@ class CommentsController < ApplicationController
       end
     end
   end
+  
+  def create_talking_point_comment
+    logger.debug "Comment.create_talking_point_comment"
+    @comment = TalkingPoint.find(params[:talking_point_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => params[:parent_type], :parent_id => params[:parent_id])
+    
+    respond_to do |format|
+      if @comment.save
+        format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
+        format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
+        format.xml  { render :xml => @comment, :status => :created, :location => @comment }
+      else
+        format.html { render :text => 'comment save failed' } if request.xhr?
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+  
+  def create_question_comment
+    logger.debug "Comment.create_question_comment"
+    @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => params[:parent_type], :parent_id => params[:parent_id])
+    
+    respond_to do |format|
+      if @comment.save
+        format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
+        format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
+        format.xml  { render :xml => @comment, :status => :created, :location => @comment }
+      else
+        format.html { render :text => 'comment save failed' } if request.xhr?
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
+      end
+    end
+    
+  end
+  
 
   # PUT /comments/1
   # PUT /comments/1.xml

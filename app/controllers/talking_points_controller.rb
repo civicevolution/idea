@@ -60,13 +60,17 @@ class TalkingPointsController < ApplicationController
   # POST /talking_points
   # POST /talking_points.xml
   def create
-    @talking_point = TalkingPoint.new(params[:talking_point])
+    logger.debug "TalkingPoint.create"
+  	@talking_point = Question.find(params[:question_id]).talking_points.create(:member=> @member, :text => params[:text])
+    #@talking_point = TalkingPoint.new(params[:talking_point])
 
     respond_to do |format|
       if @talking_point.save
+        format.html { render :partial=> 'plan/talking_point', :locals=>{:talking_point=>@talking_point} } if request.xhr?
         format.html { redirect_to(@talking_point, :notice => 'Talking point was successfully created.') }
         format.xml  { render :xml => @talking_point, :status => :created, :location => @talking_point }
       else
+        format.html { render :text => 'talking_point save failed' } if request.xhr?
         format.html { render :action => "new" }
         format.xml  { render :xml => @talking_point.errors, :status => :unprocessable_entity }
       end
