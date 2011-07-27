@@ -47,3 +47,4 @@ gem "json"
 gem "aws-ses"
 gem 'delayed_job'
 
+gem 'jquery-rails', '>= 1.0.12'

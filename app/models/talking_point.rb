@@ -19,6 +19,9 @@ class TalkingPoint < ActiveRecord::Base
   before_validation :check_initiative_restrictions, :on=>:create
   after_save :log_team_content
   
+  # temporary validation to prevent posting
+  validates_length_of :text, :in => 500..1500, :allow_blank => false
+  
   def check_initiative_restrictions
     logger.debug "TalkingPoint.check_initiative_restrictions"
     self.member_id ||= self.member.id

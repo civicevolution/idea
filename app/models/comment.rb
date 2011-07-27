@@ -15,6 +15,8 @@ class Comment < ActiveRecord::Base
   
   validate :check_com_edit_access, :on=>:update
   
+  # temporary validation to prevent posting
+  validates_length_of :text, :in => 500..1500, :allow_blank => false
   validate :check_length
       
   #after_create :create_item_record

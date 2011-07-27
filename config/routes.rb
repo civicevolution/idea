@@ -12,7 +12,11 @@ G3::Application.routes.draw do |map|
   resources :talking_points
 
   resources :questions do
-		resources :talking_points
+		resources :talking_points do
+		  collection do
+	      post :create, :action => 'create'  # this is the default action anyway
+	    end
+		end
 	end
 	
   resources :talking_points do
