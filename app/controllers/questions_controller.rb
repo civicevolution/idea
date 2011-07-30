@@ -82,4 +82,18 @@ class QuestionsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def what_do_you_think
+    logger.debug "Question#what_do_you_think because user did not select a radio button"
+    
+    respond_to do |format|
+      format.js { render 'what_do_you_think_must_select' }
+      #format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
+      #format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
+      #format.xml  { render :xml => @comment, :status => :created, :location => @comment }
+    end
+    
+  end
+  
+  
 end

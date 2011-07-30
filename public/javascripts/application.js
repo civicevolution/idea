@@ -170,3 +170,12 @@ $('a.question_show_talking_points').die('click').live('click',
 		return false;
 	}
 );
+
+$('form#what_do_you_think_form').bind('ajax:before', 
+	function(){
+		if( $(this).find('input:radio:checked').size() == 0 ){
+			alert("Please select Add a comment, or Add a talking point")
+			return false
+		}
+	}
+);

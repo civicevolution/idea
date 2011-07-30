@@ -43,6 +43,7 @@ G3::Application.routes.draw do |map|
 
   post "questions/:question_id/what_do_you_think", :to => "talking_points#create_question_talking_point", :constraints => lambda { |params| params[:input_type] ==  'talking_point'}
   post "questions/:question_id/what_do_you_think", :to => "comments#create_question_comment", :constraints => lambda { |params| params[:input_type] == 'comment'}
+  post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :constraints => lambda { |params| params[:input_type].nil?}
   
 
   map.resources :resources
