@@ -75,6 +75,9 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
   end
 
+  def reply
+    
+  end
 
   # POST /comments
   # POST /comments.xml
@@ -93,11 +96,15 @@ class CommentsController < ApplicationController
   end
   
   def create_talking_point_comment
+    debugger
     logger.debug "Comment.create_talking_point_comment"
-    @comment = TalkingPoint.find(params[:talking_point_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => params[:parent_type], :parent_id => params[:parent_id])
+    #@comment = TalkingPoint.find(params[:talking_point_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => params[:parent_type], :parent_id => params[:parent_id])
+
+    @comment = Comment.find(1034)
     
     respond_to do |format|
-      if @comment.save
+      if @comment#.save
+        format.js { render 'comment_for_talking_point', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.talking_point.question_id} }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
         format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
@@ -111,14 +118,16 @@ class CommentsController < ApplicationController
   
   def create_question_comment
     logger.debug "Comment.create_question_comment"
-    @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => params[:parent_type], :parent_id => params[:parent_id])
-    
+    @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id])
+
     respond_to do |format|
       if @comment.save
+        format.js { render 'comment_for_question', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.parent_id} }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
         format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
+        format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
         format.html { render :text => 'comment save failed' } if request.xhr?
         format.html { render :action => "new" }
         format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }

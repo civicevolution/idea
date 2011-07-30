@@ -3,7 +3,7 @@
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
 		%title Welcome to the 2029 and Beyond Sustainable Future City Project
-		= javascript_include_tag "jquery-1.4.4.min.js"
+		-#= javascript_include_tag "jquery-1.4.4.min.js"
 		=	stylesheet_link_tag 'cgg_welcome.css', 'ce1a.css', 'ce1as.css'
 		:javascript
 			var dontclick=true;
@@ -129,10 +129,13 @@
 							-#%tr
 							-#	%td
 							-#		= link_to 'Join our community', {}, {:class=>'join_our_community'}
+		= javascript_include_tag :defaults
+		= javascript_include_tag 'jquery.scrollTo-min.js'
 			
-		= javascript_include_tag 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "ce/activate/act_welcome_layout.js", "ce/gen/forms.js"
-		= stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.9.custom.css'
-		= yield :script
+			
+		-#= javascript_include_tag 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "ce/activate/act_welcome_layout.js", "ce/gen/forms.js"
+		-#= stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.9.custom.css'
+		-#= yield :script
 		
 		-#= javascript_include_tag "jquery.show_char_limit-1.1.1.js", "pure.js"
 		-#= javascript_include_tag "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'

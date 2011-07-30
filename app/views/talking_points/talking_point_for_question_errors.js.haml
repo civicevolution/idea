@@ -1,0 +1,4 @@
+- err_str = "#{pluralize(talking_point.errors.count, "error")} prohibited this talking point from being saved:"
+- err_str += '\n\n' + talking_point.errors.full_messages.join('\n')
+:plain
+	alert('#{err_str}')

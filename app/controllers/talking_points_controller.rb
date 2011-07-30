@@ -76,6 +76,29 @@ class TalkingPointsController < ApplicationController
       end
     end
   end
+  
+  
+  def create_question_talking_point
+    logger.debug "TalkingPoint.create_question_talking_point"
+    @talking_point = Question.find(params[:question_id]).talking_points.create(:member=> @member, :text => params[:text])
+
+    respond_to do |format|
+      if @talking_point.save
+        format.js { render 'talking_point_for_question', :locals=>{:talking_point=>@talking_point, :question_id => @talking_point.question_id} }
+        format.html { render :partial=> 'plan/talking_point', :locals=>{:comment=>@talking_point} } if request.xhr?
+        format.html { redirect_to(@talking_point, :notice => 'Comment was successfully created.') }
+        format.xml  { render :xml => @talking_point, :status => :created, :location => @comment }
+      else
+        format.js { render 'talking_point_for_question_errors', :locals=>{:talking_point=>@talking_point} }
+        format.html { render :text => 'talking_point save failed' } if request.xhr?
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @talking_point.errors, :status => :unprocessable_entity }
+      end
+    end
+    
+  end
+  
+  
 
   # PUT /talking_points/1
   # PUT /talking_points/1.xml

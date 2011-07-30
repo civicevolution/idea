@@ -1,4 +1,5 @@
 G3::Application.routes.draw do |map|
+
   get "plan/index"
 
   resources :answer_diffs
@@ -14,7 +15,8 @@ G3::Application.routes.draw do |map|
   resources :questions do
 		resources :talking_points do
 		  collection do
-	      post :create, :action => 'create'  # this is the default action anyway
+	      post :create, :action => 'create_question_talking_point'  # this is the default action anyway
+	      
 	    end
 		end
 	end
@@ -33,9 +35,15 @@ G3::Application.routes.draw do |map|
 		  collection do		  
 	      get :index, :action => 'question_comments'
 	      post :create, :action => 'create_question_comment'
+	      #post :what_do_you_think, :controller => 'comments', :action => 'create_question_comment', :constraints => lambda {request.parameters[:input_type] == 'comment'}
+	      #post :what_do_you_think, :controller => 'points', :action => 'create_question_talking_point', :constraints => lambda {request.parameters[:input_type] ==  'talking_point'}
 	    end
 	  end
 	end
+
+  post "questions/:question_id/what_do_you_think", :to => "talking_points#create_question_talking_point", :constraints => lambda { |params| params[:input_type] ==  'talking_point'}
+  post "questions/:question_id/what_do_you_think", :to => "comments#create_question_comment", :constraints => lambda { |params| params[:input_type] == 'comment'}
+  
 
   map.resources :resources
 
@@ -51,10 +59,12 @@ G3::Application.routes.draw do |map|
 
   map.resources :initiatives
 
-  map.connect 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
-
-  map.root :controller => "welcome", :action=>'index'
+  match 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
   
+  root :to => 'welcome#index'
+
+  map.connect ':controller/:action/:id'
+  map.connect ':controller/:action/:id.:format'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -132,7 +142,7 @@ G3::Application.routes.draw do |map|
   #if APP_NAME == 'civic'
   #  map.root :controller => "welcome", :action=>'home'
   #else
-    map.root :controller => "welcome", :action=>'index'
+  #  map.root :controller => "welcome", :action=>'index'
   #end
   
   # See how all your routes lay out with "rake routes"
@@ -140,18 +150,6 @@ G3::Application.routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
-
-
-  map.connect 'idea/:id', :controller => 'idea', :action => 'index', :requirements => { :id => /\d+/ }
-
-  map.connect 'team/:id', :controller => 'team', :action => 'index', :requirements => { :id => /\d+/ }
-  
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
-  
-
-  map.connect 'team/:action/:id', :controller => 'team', :action => 'welcome'
-  map.connect 'team/:action/:id.:format', :controller => 'team', :action => 'welcome'
   
 #  map.resources :pages
 

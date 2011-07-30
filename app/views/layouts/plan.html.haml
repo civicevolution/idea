@@ -2,6 +2,7 @@
 %html{html_attrs('en-en')}
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
+		= csrf_meta_tag
 		%title Plan: #{@team.title}
 		-#:javascript
 			var _load_times = { start: new Date()}	

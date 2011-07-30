@@ -1,4 +1,3 @@
-- logger.debug "show comment id: #{comment.id}"
 -#
 	%p.comment= comment.text
 	- member = members.detect {|cm| cm[:id] == comment.member_id }
@@ -74,8 +73,6 @@
 								= image_tag resource.resource.url(:small)
 							= link_to resource.resource_file_name, resource.resource.url	, {:target => '_blank', :class => 'resource_upload' }
 					%div.resource_description= simple_format h resource.description
-			-#%div.close_1com
-			
 			
 			%div.comment_controls
 
@@ -83,9 +80,9 @@
  
 				%div.comment_links
 					- if comment.publish 
-						= link_to "Reply", {:action=>'reply', :id => comment['item_id']}, {:class=>'reply', :rel=>'nofollow'}
+						= link_to "Reply", {:controller => 'comments', :action=>'reply', :id => comment.id}, {:class=>'reply', :rel=>'nofollow'}
 				
 						- if comment.member_id == @member.id
-							= link_to "Edit", {:action => "edit_comment", :id => comment.id}, {:class => 'edit_com', :rel=>'nofollow'}
+							= link_to "Edit", {:controller => 'comment', :action => "edit", :id => comment.id}, {:class => 'edit_com', :rel=>'nofollow'}
 						- else
-							= link_to "Report", {:action=>'report', :id=>comment['item_id']}, {:class=>'report', :rel=>'nofollow'}
+							= link_to "Report", {:controller => 'comment', :action=>'report', :id=>comment.id}, {:class=>'report', :rel=>'nofollow'}

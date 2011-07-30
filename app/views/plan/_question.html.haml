@@ -35,7 +35,7 @@
 				
 
 	= link_to "Tell us what you think and learn more", {}, {:class=> 'open_worksheet'}
-	= render :partial => 'what_do_you_think'
+	= render :partial => 'what_do_you_think', :locals => {:question_id=>question.id}
 
 
 	%div.ques_discussion

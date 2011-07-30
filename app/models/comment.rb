@@ -2,6 +2,9 @@ class Comment < ActiveRecord::Base
 
   has_one :resource, :dependent => :destroy
   
+  belongs_to :talking_point, :foreign_key => 'parent_id'
+  belongs_to :question, :foreign_key => 'parent_id'
+  
   # I'm not sure if I want to use this association. It works, but it is less efficient
   # I will eager load members for each set of comments instead of all comments
   #belongs_to :member
@@ -16,7 +19,7 @@ class Comment < ActiveRecord::Base
   validate :check_com_edit_access, :on=>:update
   
   # temporary validation to prevent posting
-  validates_length_of :text, :in => 500..1500, :allow_blank => false
+  #validates_length_of :text, :in => 500..1500, :allow_blank => false
   validate :check_length
       
   #after_create :create_item_record

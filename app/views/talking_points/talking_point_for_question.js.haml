@@ -1,0 +1,5 @@
+:plain
+	var tp = $("#{escape_javascript(render(  :partial=> 'plan/talking_point', :locals=>{:talking_point=>talking_point}, :content_type => 'html'  ))}");
+	$('div.question_worksheet[id=#{question_id}] div.talking_point_entry:last').after(tp)
+	$('div.question_worksheet[id=#{question_id}] form.what_do_you_think textarea').val('');
+	$('div.question_worksheet[id=#{question_id}] form.what_do_you_think input[type="radio"]').attr('checked',false)

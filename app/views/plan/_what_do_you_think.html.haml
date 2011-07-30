@@ -1,10 +1,7 @@
 %div.what_do_you_think
 	%h3.ques_sub_hdg What do you think?
-	
-	- @comment = Comment.new
-	= form_for(@comment) do |f|
-		-#form_for(@comment,:html=>{:class=>'what_do_you_think'}) do |f|
-
+	= form_tag("/questions/#{question_id}/what_do_you_think", :remote=>true, :id=>'what_do_you_think_form', :class=>'what_do_you_think') do
+		
 		%table
 			%tbody
 				%tr
@@ -34,7 +31,6 @@
 							%li Discuss this question and talking points
 							%li This will appear as a comment below
 							%li Must be less than 1500 characters long
-
 
 		= text_area_tag :text
 
