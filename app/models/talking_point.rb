@@ -23,7 +23,7 @@ class TalkingPoint < ActiveRecord::Base
   #validates_length_of :text, :in => 500..1500, :allow_blank => false
   
   def check_initiative_restrictions
-    logger.debug "TalkingPoint.check_initiative_restrictions"
+    #logger.debug "TalkingPoint.check_initiative_restrictions"
     self.member_id ||= self.member.id
     self.version ||= 1
     allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:question_id=>self.question_id}, 'contribute_to_proposal', self.member)

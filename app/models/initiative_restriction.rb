@@ -11,6 +11,8 @@ class InitiativeRestriction < ActiveRecord::Base
           rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, team_id FROM teams t, questions q, talking_points tp WHERE tp.id = #{initiative_id[:parent_id]} AND t.id = q.team_id AND tp.question_id = q.id")
         when initiative_id.key?(:question_id) # this is a question
           rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, team_id FROM teams t, questions q WHERE t.id = q.team_id AND q.id = #{initiative_id[:question_id]}")
+        when initiative_id.key?(:talking_point_id) # this is a talking_point
+          rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, team_id FROM teams t, questions q, talking_points tp WHERE t.id = q.team_id AND q.id = tp.question_id AND tp.id = #{initiative_id[:talking_point_id]}")
 
         #when initiative_id.key?(:team_id)
         #  initiative_id = ActiveRecord::Base.connection.select_value( "SELECT initiative_id FROM teams WHERE id = #{initiative_id.values[0].to_i}" )

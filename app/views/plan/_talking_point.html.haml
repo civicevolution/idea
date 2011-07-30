@@ -21,16 +21,16 @@
 	%div.talking_point_acceptable
 		%div.my_rating
 			%p.title My rating
-			= form_tag( {:controller => 'idea', :action => 'answer_rating'}, {:class => 'item_rater'} ) do
+			= form_tag( {:controller => 'idea', :action => 'answer_rating'} ) do
 				%div.radios
 					- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
 					
 						= label_tag "tp_rating_#{talking_point.id}_#{value}" do
 							%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
 								- if value.to_i == talking_point.my_rating
-									%input.rating{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+									%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
 								- else
-									%input.rating{:class => 'item_rater', :name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+									%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
 			%p.clear_both
 			- if talking_point.my_rating.nil?
 				%p.please_rate Please rate

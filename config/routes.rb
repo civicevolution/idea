@@ -27,7 +27,7 @@ G3::Application.routes.draw do |map|
 		    get :index, :action => 'talking_point_comments'
 	      post :create, :action => 'create_talking_point_comment'
 	    end
-		end  
+	  end
 	end
 
   resources :questions do
@@ -44,6 +44,9 @@ G3::Application.routes.draw do |map|
   post "questions/:question_id/what_do_you_think", :to => "talking_points#create_question_talking_point", :constraints => lambda { |params| params[:input_type] ==  'talking_point'}
   post "questions/:question_id/what_do_you_think", :to => "comments#create_question_comment", :constraints => lambda { |params| params[:input_type] == 'comment'}
   post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :constraints => lambda { |params| params[:input_type].nil?}
+
+  post "talking_points/:talking_point_id/rate", :to => 'talking_point_acceptable_ratings#rate_talking_point'
+  post "talking_points/:talking_point_id/prefer", :to => 'talking_point_preferences#prefer_talking_point'
   
 
   map.resources :resources

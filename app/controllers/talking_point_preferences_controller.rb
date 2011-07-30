@@ -80,4 +80,20 @@ class TalkingPointPreferencesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def prefer_talking_point
+    logger.debug "prefer_talking_point #{params[:talking_point_id]} with the prefer #{params[:prefer]}"
+
+    if( params[:prefer] == 'true' )
+      @preference = TalkingPointPreference.create( :member_id=> @member.id, :talking_point_id=>params[:talking_point_id])
+    else
+      TalkingPointPreference.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id]).destroy
+    end
+        
+    respond_to do |format|
+      format.js { render 'preference_update', :locals=>{:member => @member} }
+    end
+  end
+  
+  
 end

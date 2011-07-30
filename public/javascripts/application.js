@@ -12,7 +12,11 @@ temp = {};
 
 $(function(){
 		collapse_proposal_view()
-	
+		
+		$(document).ajaxSend(function(e, xhr, options) {
+		  var token = $("meta[name='csrf-token']").attr("content");
+		  xhr.setRequestHeader("X-CSRF-Token", token);
+		});	
 	
 	
 	}
@@ -177,5 +181,19 @@ $('form#what_do_you_think_form').bind('ajax:before',
 			alert("Please select Add a comment, or Add a talking point")
 			return false
 		}
+	}
+);
+
+
+$('div.my_rating :radio').die('change').live('change',
+	function(){
+		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/rate', {rating: this.value})
+	}
+);
+
+
+$('p.my_preference :checkbox').die('change').live('change',
+	function(){
+		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/prefer', {prefer: this.checked})
 	}
 );

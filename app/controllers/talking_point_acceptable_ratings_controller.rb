@@ -80,4 +80,20 @@ class TalkingPointAcceptableRatingsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def rate_talking_point
+    logger.debug "rate_talking_point #{params[:talking_point_id]} with the rating #{params[:rating]}"
+
+    @rating = TalkingPointAcceptableRating.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id])
+    if @rating.nil?
+      @rating = TalkingPointAcceptableRating.new( :member_id=> @member.id, :talking_point_id=>params[:talking_point_id])
+    end
+    @rating.rating = params[:rating]
+    @rating.save
+    
+    respond_to do |format|
+      format.js { render 'rating_update', :locals=>{:member => @member} }
+    end
+  end
+  
 end
