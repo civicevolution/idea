@@ -7,6 +7,7 @@ namespace :update_for_talking_points do
     puts "Make sure I disable the Comment.after_save :log_team_content when I do the updates!!!!"
     exit
  
+    Comment.record_timestamps = false
     comments = Comment.all()
     puts "There are #{comments.size} comments"
   
@@ -28,6 +29,7 @@ namespace :update_for_talking_points do
         puts comment.inspect
       end
     end
+    Comment.record_timestamps = true
   end
   
     
@@ -66,6 +68,7 @@ namespace :update_for_talking_points do
   task :create_answer_diffs => :environment do
     puts "Move item_diffs and item_versions into answer_diffs"
     
+    AnswerDiff.record_timestamps = false
     item_diffs = ItemDiff.where('o_type = 2')
     puts "There are #{item_diffs.size} item_diffs"
   
@@ -84,6 +87,7 @@ namespace :update_for_talking_points do
       answer_diff.save
 
     end
+    AnswerDiff.record_timestamps = true
   end
 
   desc "Create talking_point item_type"
