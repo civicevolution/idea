@@ -42,6 +42,7 @@ class TalkingPoint < ActiveRecord::Base
   
 
   def self.com_counts(talking_point_ids, last_visit_ts)
+    return [] if talking_point_ids.size == 0
     ActiveRecord::Base.connection.select_all(
     %Q|select talking_point_id,
     (select count(id) from comments where parent_type=13 and parent_id = talking_point_id) AS coms,
