@@ -1,5 +1,19 @@
 G3::Application.routes.draw do |map|
 
+  get "sign_in/sign_in"
+
+  get "sign_in/sign_out"
+
+  get "sign_in/reset_password"
+
+  get "sign_in/change_password"
+
+  get "registration/register"
+
+  get "registration/request_confirmation_email"
+
+  get "registration/confirm_registration"
+
   get "plan/index"
 
   resources :answer_diffs

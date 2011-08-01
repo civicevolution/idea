@@ -1,0 +1,10 @@
+:plain
+	var link = $('a#sign_in_link')
+	var pos = link.position();
+	var top = pos.top + 20;
+	var left = pos.left - 600 + link.width();
+	pos = [left,top]
+	var dialog = $('<div id="sign_in_dialog"></div>').dialog( {title : 'Please sign in', modal : true, width: '600px', position : pos } ).
+		append( "#{escape_javascript(render(  :template => 'sign_in/index.html'))}" );
+	dialog.find(':text:first').focus()
+	

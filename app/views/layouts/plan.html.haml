@@ -38,7 +38,7 @@
 				%div.join_com
 					= link_to 'Register now', {:controller=>'welcome'}, {:class=>'join_our_community', :id=>'join_community_link', :rel=>'nofollow'}
 					or
-					= link_to 'Sign in', {:controller=>'welcome'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow'}
+					= link_to 'Sign in', {:controller=>'sign_in'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
 					
 			%hr.top
 			%h2#load_message
@@ -132,6 +132,8 @@
 		= javascript_include_tag :defaults
 		
 		= javascript_include_tag 'jquery.scrollTo-min.js'
+		
+		= stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.9.custom.css'
 		
 		-#= javascript_include_tag "jquery-1.6.2.min.js", "jquery.rating.js", 'jquery.form.js', 'jquery.MetaData.js', 'jquery-ui-1.8.14.custom.min.js','jquery.scrollTo-min.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "jquery.cookies.2.2.0.min.js", "pure.js", "jquery.timeago.js", "jquery.json-2.2.min.js"
 		
