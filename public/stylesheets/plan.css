@@ -309,3 +309,7 @@ ul.teams_list li {
 
 .clear_both {
   clear: both; }
+
+.warn {
+  color: red;
+  font-weight: bold; }

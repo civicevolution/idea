@@ -1,0 +1,101 @@
+%div{:id=>"tab_suggest_idea"}
+
+	- if proposal_idea.errors.size > 0
+		%div.warn
+			%p Errors were reported
+			%ul
+				- proposal_idea.errors.full_messages.each do |msg| 
+					%li= msg
+
+	%h3 We invite you to suggest an idea to help our city region become more sustainable
+
+	%div.ground_rules
+		%p 
+			All ideas need to meet these 
+			%b ground rules 
+			to be accepted and published:
+		%ul
+			- if params[:_initiative_id] == 1
+				%li Be legal
+				%li Be consistent with the City of Geraldton-Greenough Organisational Values
+				%li Focus on organisational processes in order to help the City work better with the community
+				%li Demonstrate effective use of rate payer funds, if appropriate
+			- else
+				%li Be legal
+				%li Not be insulting of any individuals or groups
+				%li Help create a more sustainable future for our city region in terms of our environment, economic development, social, and cultural affairs.
+				%li Demonstrate effective use of rate payer funds, if appropriate
+
+	- if params[:_initiative_id] == 1			
+		%p
+			The Executive Management Team promises to review and respond to all actionable proposals that meet their guidelines
+			for relevance, completeness, evidence, and community support.
+		%p 
+			In short, anyone can suggest an idea, but the Executive Management Team
+			will only review ideas that have been developed into a proposal for action.
+			
+	- else
+		%p 
+			%a{:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}The Alliance Governance Group 
+			promises to review and respond to all actionable proposals that meet their guidelines
+			for relevance, completeness, evidence, and community support.
+		%p 
+			In short, anyone can suggest an idea, but the Alliance Governance Group 
+			will only review ideas that have been developed into a proposal for action.
+
+	%div.guidelines
+		%p 
+			Proposals must meet these 
+			%b guidelines 
+			to earn official review:	
+
+		%ul
+			- if params[:_initiative_id] == 1
+				%li Comply with the general ground rules
+				%li Answer all questions in the proposal outline
+				%li Work in a team with at least 4 staff members of the City of Geraldton-Greenough
+				%li Maintain an open and inclusive team
+				%li Ensure a respectful team environment
+				%li Engage in adequate discussion, collaboration and consensus on each question
+				%li Openly communicate with the other staff via online public access as well as community outreach, and demonstrate appropriate consideration of feedback				
+			- else
+				%li Comply with the general ground rules
+				%li Answer all questions in the proposal outline
+				%li Work in a team with at least 4 active residents of the city region
+				%li Maintain an open and inclusive team
+				%li Ensure a respectful team environment
+				%li Engage in adequate discussion, collaboration and consensus on each question
+				%li Openly communicate with the community via online public access as well as community outreach, and demonstrate appropriate consideration of feedback				
+
+	%p If you are committed to your idea, this website can help you form a team and develop your proposal.
+
+	- if @member && !@member.confirmed
+		%p.suggest_sign_in You must confirm your CivicEvolution account by email before you can suggest an idea. You can request a confirmation email on the right.
+	- elsif @member.nil?
+		%p.suggest_sign_in You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.
+
+	= form_for( :proposal_idea, :url => { :controller=> :plan, :action => :submit_proposal_idea}, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
+		= form.hidden_field :initiative_id, options = {:value=>1}
+		%div.add_idea
+			= form.label :title, "Idea title"
+			= form.text_field :title, :class=>'title', :alias=>'Title'
+			%div.control_line.title
+				%div.controls
+					%span.char_ctr 255 characters left
+
+
+			= form.label :text, "Please summarise your idea to improve our sustainability"
+			= form.text_area :text, :class=>'comment', :size=>"1x2", :alias=>'Proposal idea'
+			%div.control_line
+				%div.controls
+					%span.char_ctr 
+						1000
+						characters left
+						= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+
+			%p.acknowledge
+				= form.check_box :accept_guidelines, {:value=>'true', :alias=>'You'}
+				I agree to the ground rules and guidelines above. I understand my idea will be reviewed for relevance before it is published.
+			%div#recaptcha_suggest_idea
+			%p
+				= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'

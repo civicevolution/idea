@@ -1,4 +1,6 @@
 class PlanController < ApplicationController
+  layout "welcome", :only => [:suggest_new_idea]
+  
   def index
     logger.debug "\n\n******************************************\nStart plan/index\n"
     begin
@@ -32,6 +34,56 @@ class PlanController < ApplicationController
     logger.flush
     #logger.auto_flushing = 1
   end
+  
+  def suggest_new_idea
+    logger.debug "show form for suggest_new_idea"
+    @proposal_idea = ProposalIdea.new params[:proposal_idea] unless @proposal_idea
+    respond_to do |format|
+      format.html { render :template => "plan/suggest_new_idea", :layout=> 'welcome', :locals=>{:proposal_idea=>@proposal_idea} }
+      format.js
+    end
+    
+  end
+  
+  def submit_proposal_idea
+    logger.debug "plan#submit_proposal_idea, params: #{params.inspect}"
+    
+    restrictions_test,message = InitiativeRestriction.allow_action(params[:_initiative_id], 'suggest_idea', @member)
+
+    @proposal_idea = ProposalIdea.new params[:proposal_idea]
+    if !restrictions_test
+      logger.warn "failed restrictons test with message: #{message}"
+      @saved = false
+      @proposal_idea.errors.add(:base, message)
+    else
+      @proposal_idea.member_id = @member.id
+      @proposal_idea.initiative_id = params[:_initiative_id]
+      @saved = @proposal_idea.save
+      #@saved = true
+      #@proposal_idea.id = 1234
+    end
+    
+    if @saved
+      #@proposal_idea = ProposalIdea.find(1)
+      ProposalMailer.delay.submit_receipt(@member, @proposal_idea, params[:_app_name] )
+      ProposalMailer.delay.review_request(@member, @proposal_idea, request.env["HTTP_HOST"], params[:_app_name] )
+    end
+    
+    respond_to do |format|
+      if @saved
+        format.html { render :template => "plan/acknowledge_proposal_idea", :layout => 'welcome' }
+        format.js
+        
+      else
+        format.html do
+          suggest_new_idea
+          logger.debug "back from suggest_new_idea in submit_proposal_idea"
+        end
+        format.json { render :text => [@proposal_idea.errors].to_json, :status => 409 }
+      end
+    end
+  end
+  
 
   protected
   

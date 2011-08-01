@@ -21,6 +21,10 @@ G3::Application.routes.draw do |map|
   get "registration/confirm_registration"
 
   get "plan/index"
+  
+  get "plan/suggest_new_idea"
+  
+  post "plan/submit_proposal_idea"
 
   resources :answer_diffs
 

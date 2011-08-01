@@ -421,3 +421,7 @@ form.request_help input {
   display: block; }
 form.request_help select {
   font-size: 1.28em; }
+
+.warn {
+  color: red;
+  font-weight: bold; }
