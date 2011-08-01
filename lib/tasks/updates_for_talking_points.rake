@@ -4,8 +4,8 @@ namespace :update_for_talking_points do
   task :update_comments => :environment do
     puts 'Update comments with parent_type and parent_id, mostly for questions'
  
-    puts "Make sure I disable the Comment.after_save :log_team_content when I do the updates!!!!"
-    exit
+    #puts "Exiting: Make sure I disable the Comment.after_save :log_team_content when I do the updates OR disable notify and then clear the !!!!"
+    #exit
  
     Comment.record_timestamps = false
     comments = Comment.all()

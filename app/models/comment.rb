@@ -25,7 +25,7 @@ class Comment < ActiveRecord::Base
   #after_create :create_item_record
   #after_destroy :delete_item_record
   before_destroy :check_item_delete_access
-  after_save :log_team_content
+  after_create :log_team_content
   
   attr_accessor :par_id
   attr_accessor :target_id
