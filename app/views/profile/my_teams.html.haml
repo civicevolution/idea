@@ -1,0 +1,9 @@
+%h2.home_title.my_teams My ideas
+%div.right_vertical_bar.my_teams
+	- if @member.team_titles.size > 0
+		%ul.teams_list
+			- @member.team_titles.each do |team|
+				%li{:class=>'team', :id=>team.id}
+					= link_to team.title, {:controller=>'plan',:action => 'index', :id=>team.id}, {}
+	- else 
+		%p You have not participated in, endorsed, or followed any of the proposal ideas yet.

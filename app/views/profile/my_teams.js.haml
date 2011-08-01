@@ -1,0 +1,7 @@
+:plain
+	var link = $('a.my_teams')
+	var pos = link.position();
+	var top = pos.top + 20;
+	var left = pos.left - 400 + link.width();
+	var dialog = $('<div id="my_teams_dialog"></div>').dialog( {title : 'My ideas', modal : true, width : '400px', position : [left,top] } )
+		.append( "#{escape_javascript(render(  :template => 'profile/my_teams.html'))}" )

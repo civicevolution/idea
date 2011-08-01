@@ -5,18 +5,19 @@
 		%br
 		#{@member.first_name}
 	%p.signout
-		= link_to "My ideas", {:controller => "welcome", :action=> "my_teams"}, {:class => 'my_teams', :rel=>'nofollow'}
-		= link_to "Sign out", {:controller => "welcome", :action=> "signout"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow'}
+		= link_to "My ideas", {:controller => "profile", :action=> "my_teams"}, {:class => 'my_teams', :rel=>'nofollow', :remote=>true}
+		= link_to "Sign out", {:controller => "sign_in", :action=> "signout"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow'}
 		-if !@member.confirmed
 			= link_to "Confirm email", {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email', :rel=>'nofollow'}
 			
 	%div#my_teams.hide	
+		%h2.home_title.my_teams My ideas
 		%div.right_vertical_bar.my_teams
 			- if @member.team_titles.size > 0
 				%ul.teams_list
 					- @member.team_titles.each do |team|
 						%li{:class=>'team', :id=>team.id}
-							= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {}
+							= link_to team.title, {:controller=>'plan',:action => 'index', :id=>team.id}, {}
 			- else 
 				%p You have not participated in, endorsed, or followed any of the proposal ideas yet.
 -#				
@@ -27,4 +28,3 @@
 		%p
 			= submit_tag "Upload photo"
 			= link_to 'Cancel', {:controller => "welcome"}, {:class=>'cancel', :rel=>'nofollow'}
-				

@@ -221,7 +221,7 @@
 			%ul.teams_list
 				- @member.team_titles.each do |team|
 					%li{:class=>'team', :id=>team.id}
-						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {}
+						= link_to team.title, {:controller=>'plan',:action => 'index', :id=>team.id}, {}
 
 	%h2.home_title Watch our videos
 	%div.right_vertical_bar

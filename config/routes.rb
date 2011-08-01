@@ -1,5 +1,11 @@
 G3::Application.routes.draw do |map|
 
+  get "profile/index"
+
+  get "profile/upload_photo"
+
+  get "profile/my_teams"
+
   get "sign_in/sign_in"
 
   get "sign_in/sign_out"

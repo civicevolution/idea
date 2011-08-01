@@ -2,4 +2,3 @@
 	$('div.join_com').replaceWith( "#{escape_javascript(render(  :partial => 'sign_in/member_info'))}" );
 	$('div.right_col').prepend($('div#my_teams').children());
 	$('form.signin_form').closest('div.ui-dialog').dialog('destroy').remove();
-	
