@@ -38,7 +38,7 @@
 					= image_tag("2029_logo_tag.gif")
 					
 			- if !@member.nil? && @member.id != 0	
-				= render :partial => 'welcome/member_info'		
+				= render :partial => 'sign_in/member_info'		
 			- else
 				%div.join_com
 					-#= link_to 'Join our community', {}, {:class=>'join_our_community', :id=>'join_community_link'}
