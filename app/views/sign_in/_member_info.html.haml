@@ -6,7 +6,7 @@
 		#{@member.first_name}
 	%p.signout
 		= link_to "My ideas", {:controller => "profile", :action=> "my_teams"}, {:class => 'my_teams', :rel=>'nofollow', :remote=>true}
-		= link_to "Sign out", {:controller => "sign_in", :action=> "signout"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow'}
+		= link_to "Sign out", {:controller => "sign_in", :action=> "sign_out"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow'}
 		-if !@member.confirmed
 			= link_to "Confirm email", {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email', :rel=>'nofollow'}
 			
