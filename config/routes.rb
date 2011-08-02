@@ -1,5 +1,5 @@
 G3::Application.routes.draw do |map|
-
+  
   get "profile/index"
 
   get "profile/upload_photo"
@@ -25,6 +25,12 @@ G3::Application.routes.draw do |map|
   get "plan/suggest_new_idea"
   
   post "plan/submit_proposal_idea"
+  
+  get 'plan/review_proposal_idea/:id', :controller => 'plan', :action => 'review_proposal_idea', :requirements => { :id => /\d+/ }
+  
+  post "plan/approve_proposal_idea", :controller => 'plan', :action => 'approve_proposal_idea'
+
+  match 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
 
   resources :answer_diffs
 
@@ -86,8 +92,6 @@ G3::Application.routes.draw do |map|
   map.resources :teams
 
   map.resources :initiatives
-
-  match 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
   
   root :to => 'welcome#index'
 

@@ -1,5 +1,5 @@
 class PlanController < ApplicationController
-  layout "welcome", :only => [:suggest_new_idea]
+  layout "welcome", :only => [:suggest_new_idea, :review_proposal_idea]
   
   def index
     logger.debug "\n\n******************************************\nStart plan/index\n"
@@ -28,7 +28,7 @@ class PlanController < ApplicationController
     @team.get_talking_point_ratings(@member)
     @team['org_member'] = Member.find_by_id(@team.org_id)
     
-    render :index#, :layout=> false
+    render :index, :layout => 'plan'
     
     logger.debug "\n\nEnd plan/index\n******************************************\n"
     logger.flush
@@ -84,6 +84,62 @@ class PlanController < ApplicationController
     end
   end
   
+  def review_proposal_idea
+    logger.debug "review_proposal_idea for id: #{params[:id]}"
+    @proposal = ProposalIdea.find(params[:id])
+    @submittor = Member.find_by_id(@proposal.member_id)
+    respond_to do |format|
+      if @submittor.nil? 
+        format.html { render :text => "Please ignore this suggested idea -- the person that submitted this proposal is no longer a member", :layout => 'welcome' } 
+      else
+        format.html { render :action => "review_proposal_idea", :layout => 'welcome' } 
+      end
+    end
+  end
+
+  def approve_proposal_idea
+    # publish this idea and notify the person that submitted the idea
+    @proposal_idea = ProposalIdea.find(params[:id])
+    @submittor = Member.find(@proposal_idea.member_id)
+    
+    # convert the idea into a team
+    
+    admin = Member.find_by_id(session[:member_id]);
+    if !admin.nil? && admin.email == 'brian@civicevolution.org'
+    
+      logger.debug "create_team_from_proposal_idea for id: #{params[:id]}"
+      #id refers to the proposal
+      @proposal_idea = ProposalIdea.find(params[:id])
+
+      if !@proposal_idea.launched
+    
+        # create a team record
+        @team = Team.new :initiative_id => @proposal_idea.initiative_id, :org_id=>@proposal_idea.member_id, :title=>@proposal_idea.title, 
+          :problem_statement=>'', :solution_statement=>@proposal_idea.text, :min_members=>4, :max_members=>25
+        @team.save
+        
+        @team.member = admin # so create team idea page can set the launched status = true
+        
+        # create the plan page
+        @team.create_team_plan_page()
+
+        @proposal_idea.update_attribute('launched',true)
+        
+        #notify the author
+        @host = request.env["HTTP_HOST"]
+        ProposalMailer.delay.approval_notice(@submittor, @proposal_idea, @team, @host )
+
+        render :action => "proposal_idea_published", :layout => 'welcome'
+      else
+        logger.debug "This proposal: #{@proposal_idea} has already been converted into a team"
+        render :text=> "This proposal: #{@proposal_idea} has already been converted into a team", :layout => 'welcome'
+      end
+    else
+      render :action => "must_be_admin", :layout => 'welcome'
+    end
+  end
+
+
 
   protected
   

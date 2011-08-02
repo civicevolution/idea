@@ -1,0 +1,25 @@
+%h3 Please review this proposal idea for 2029 and Beyond with CivicEvolution.
+
+%p
+	%b= "Title:  #{@proposal.title}"
+%p Description:
+%div.description= simple_format h @proposal.text
+
+%p 
+	%b Submitted by 
+%p= "#{@submittor.first_name} #{@submittor.last_name}"
+%p= @submittor.email
+%p= "Submitted #{time_ago_in_words(@proposal.updated_at)} ago"
+
+= form_tag('/plan/approve_proposal_idea') do
+	= hidden_field_tag :id, @proposal.id
+	= submit_tag "Approve & publish"
+
+
+
+%p 
+	If you do not want to approve this idea, please email #{@submittor.first_name} at 
+	%a{:href=>"mailto:#{@submittor.email}" }= @submittor.email
+	and explain why this proposal was not approved and what they might do to bring this idea into compliance with the guidelines and ground rules.
+
+

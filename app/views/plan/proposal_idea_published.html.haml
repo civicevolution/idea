@@ -1,0 +1,20 @@
+%h3 This proposal idea has been published
+
+%p
+	%b= "Title:  #{@proposal_idea.title}"
+%p Description:
+%div.description= simple_format h @proposal_idea.text
+
+%p 
+	%a{:href=>"http://#{@host}/plan/#{@team.id}"} http://#{@host}/plan/#{@team.id}
+
+%p 
+	%b Submitted by 
+%p= "#{@submittor.first_name} #{@submittor.last_name}"
+%p= @submittor.email
+%p= "Published #{time_ago_in_words(@proposal_idea.updated_at)} ago"
+
+
+
+
+

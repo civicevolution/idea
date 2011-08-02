@@ -113,7 +113,7 @@ class Team < ActiveRecord::Base
     #is_team_member = ! (TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.id).nil?)
     #logger.debug "ist_team_member: #{is_team_member}"
     # return as ok if user is a team member
-    return if member_id == self.org_id || member_id == 1
+    return if self.member.id == self.org_id || self.member.id == 1
     
     errors.add_to_base("You must be a member of this team to edit it.")
 
@@ -257,6 +257,28 @@ class Team < ActiveRecord::Base
     return pub_disc_items.concat( pub_disc_descendent_items ), comments_with_ratings, resources, pub_authors
   end
   
+  def create_team_plan_page()
+    logger.debug "create_team_plan_page for id: #{self.id}, \"#{self.title}\""
+    yml = YAML.load_file "#{Rails.root}/config/plan_page_template.yaml"
+  
+    if !self.launched
+      member = Member.find(self.org_id)
+      team_item = Item.find_by_o_id_and_o_type(self.id, 4)
+      yml.each_pair { |key, value|
+        rec = value
+        # create a quesstion record
+        question = Question.new :member_id=>self.org_id, :text=>rec['question'], :team_id=>self.id,
+          :answer_criteria=>rec['answer_criteria'], :num_answers=>rec['num_answers'], :default_answer_id=>rec['default_answer_id'],
+          :talking_point_criteria=>rec['idea_criteria'], :order_id=>rec['order_id'], :talking_point_preferences=>rec['talking_point_preferences']
+        question.save   
+      }
+
+      self.launched = true
+      self.save
+      
+    end
+  end
+
   
   def create_team_idea_page()
     logger.debug "create_team_idea_page for id: #{self.id}, \"#{self.title}\""

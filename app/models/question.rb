@@ -25,15 +25,30 @@ class Question < ActiveRecord::Base
   #validate_on_create :check_team_access
   #validate_on_update :check_item_edit_access
     
-  after_create :create_item_record
-  after_destroy :delete_item_record
-  before_destroy :check_item_delete_access
+  #after_create :create_item_record
+  #after_destroy :delete_item_record
+  #before_destroy :check_item_delete_access
   before_create :set_version
     
   #before_validation :check_team_access, :create_item_record
   
-  #debugger
-
+  #before_validation :check_initiative_restrictions, :on=>:create
+  #def check_initiative_restrictions
+  #  self.publish = true unless !self.member.confirmed
+  #  #logger.debug "Comment.check_initiative_restrictions"
+  #  self.member_id ||= self.member.id
+  #  allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.parent_id, :parent_type => self.parent_type}, 'contribute_to_proposal', self.member)
+  #  if !allowed
+  #    errors.add_to_base("Sorry, you do not have permission to add a question.") 
+  #    return false
+  #  end
+  #  true
+  #end
+  
+  
+  
+  
+  
   attr_accessor :par_id
   attr_accessor :target_id
   attr_accessor :target_type

@@ -1,0 +1,39 @@
+# this is the data I need to construct a proposal plan for the 2029/cgg initiative
+# read the data file
+# add each question as shown
+
+what_page:
+  question:         What is the change you want to make? 
+  order_id: 1
+  default_answer_id: 1
+  num_answers:      1
+  answer_criteria:  5..4000
+  talking_point_criteria: 20..200
+  talking_point_preferences:  5
+
+why_page:
+  question:         Why is this important to your community?
+  order_id: 2
+  default_answer_id: 2
+  num_answers:      1
+  answer_criteria:  5..4000
+  talking_point_criteria: 20..200  
+  talking_point_preferences:  5
+
+how_page:
+  question:         How can this change be made?
+  order_id: 3
+  default_answer_id: 3
+  num_answers:      1
+  answer_criteria:  5..4000
+  talking_point_criteria: 20..200
+  talking_point_preferences:  5
+
+where_page:
+  question:         Where do we start?
+  order_id: 4
+  default_answer_id: 4
+  num_answers:      1
+  answer_criteria:  5..4000
+  talking_point_criteria: 20..200
+  talking_point_preferences:  5
