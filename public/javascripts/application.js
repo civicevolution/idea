@@ -22,21 +22,6 @@ $(function(){
 	}
 );
 
-//$('a.expand_proposal_view').die('click').live('click',
-//	function(){
-//		expand_proposal_view();
-//		return false;
-//	}
-//);
-
-//$('a.collapse_proposal_view, div.navigation a.summary').die('click').live('click',
-//$('div.navigation a.summary').die('click').live('click',
-//	function(){
-//		collapse_proposal_view();
-//		return false;
-//	}
-//);
-
 $('a.open_worksheet, div.proposal.inview h2.question').die('click').live('click',
 	function(){
 		var question_worksheet = $(this).closest('div.question_worksheet');
@@ -44,16 +29,6 @@ $('a.open_worksheet, div.proposal.inview h2.question').die('click').live('click'
 		return false;
 	}
 );
-
-//$('div.navigation a.goto').die('click').live('click',
-//	function(){
-//		var question_worksheet = $('div.question_worksheet[id=' + this.id + ']');
-//		$('div.question_worksheet').hide();
-//		question_worksheet.show();
-//		$.scrollTo(question_worksheet,1000);	
-//		return false;
-//	}
-//);
 
 function show_question_worksheet(question_worksheet){
 	expand_proposal_view();

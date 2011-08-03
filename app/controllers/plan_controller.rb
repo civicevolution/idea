@@ -28,13 +28,47 @@ class PlanController < ApplicationController
     @team.get_talking_point_ratings(@member)
     @team['org_member'] = Member.find_by_id(@team.org_id)
     
-    #render :index, :layout => 'plan'
-    render :summary, :layout => 'plan'
+    render :index, :layout => 'plan'
     
     logger.debug "\n\nEnd plan/index\n******************************************\n"
     logger.flush
     #logger.auto_flushing = 1
   end
+
+  def summary
+    logger.debug "\n\n******************************************\nStart plan/summary\n"
+    begin
+      @team = Team.includes(:questions).find(params[:id])
+    rescue
+      render :template => 'team/proposal_not_found', :layout=> 'welcome'
+      return
+    end
+    
+    # verify acccess to this team
+    allowed,message = InitiativeRestriction.allow_action(@team.initiative_id, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        flash[:pre_authorize_uri] = request.request_uri
+        flash[:notice] = "Please sign in"
+        render :template => 'welcome/must_sign_in', :layout => 'welcome'
+        return
+      else
+        render :template => 'idea/private_page'
+        return
+      end
+    end
+    
+    
+    @team.get_talking_point_ratings(@member)
+    @team['org_member'] = Member.find_by_id(@team.org_id)
+    
+    render :summary, :layout => 'plan'
+    
+    logger.debug "\n\nEnd plan/summary\n******************************************\n"
+    logger.flush
+    #logger.auto_flushing = 1
+  end
+
   
   def suggest_new_idea
     logger.debug "show form for suggest_new_idea"

@@ -1,3 +1,39 @@
+- content_for (:script) do
+	:javascript
+		$(function(){
+				collapse_proposal_view()
+			}
+		);
+		
+		$('a.expand_proposal_view').die('click').live('click',
+			function(){
+				expand_proposal_view();
+				return false;
+			}
+		);
+    
+		$('div.navigation a.summary').die('click').live('click',
+			function(){
+				collapse_proposal_view();
+				return false;
+			}
+		);
+    
+		$('div.navigation a.goto').die('click').live('click',
+			function(){
+				var question_worksheet = $('div.question_worksheet[id=' + this.id + ']');
+				$('div.question_worksheet').hide();
+				question_worksheet.show();
+				$.scrollTo(question_worksheet,1000);	
+				return false;
+			}
+		);
+		
+		
+	%style
+		:sass
+
+
 - logger.debug "\n\n*************** Begin to render the plan page\n\n"
 %div.talking_points_page
 	- org = @team['org_member']
@@ -23,4 +59,3 @@
 - questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 %div.proposal
 	= render :partial=> 'question', :collection => questions, :locals => {:questions => questions,:commenting_members => @team.commenting_members}
-	
