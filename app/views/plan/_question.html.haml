@@ -1,7 +1,7 @@
 %div.question_worksheet{:id=>question.id}
-	= render :partial => 'question_navigation', :locals=>{:questions=>questions, :counter => question_counter}
+	= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
 
-	%h2.question{:id=>question.id} Q#{question_counter + 1}: #{question.text}
+	%h2.question{:id=>question.id} Q#{question.order_id}: #{question.text}
 	%div.talking_point_sec
 		%h3.ques_sub_hdg Talking points suggested and rated by your community
 		%div.talking_points_list
@@ -24,7 +24,7 @@
 				%p.clear_both
 				
 
-			= render :partial=> 'talking_point', :collection => question.top_talking_points
+			= render :partial=> 'plan/talking_point', :collection => question.top_talking_points
 	
 			- if question.num_new_talking_points > 0
 				%p #{question.num_new_talking_points} new talking points
@@ -35,13 +35,13 @@
 				
 
 	= link_to "Tell us what you think and learn more", {}, {:class=> 'open_worksheet'}
-	= render :partial => 'what_do_you_think', :locals => {:question_id=>question.id}
+	= render :partial => 'plan/what_do_you_think', :locals => {:question_id=>question.id}
 
 
 	%div.ques_discussion
 		%h3.ques_sub_hdg Comments posted by your community
 
-		= render :partial=> 'comment', :collection => question.recent_comments, :locals => {:members => @team.commenting_members}
+		= render :partial=> 'plan/comment', :collection => question.recent_comments, :locals => {:members => commenting_members}
 
 		%p.clear_both
 
@@ -53,4 +53,4 @@
 			- elsif question.coms == 0
 				Question has no comments
 
-	= render :partial => 'question_navigation', :locals=>{:questions=>questions, :counter => question_counter}
+	= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}

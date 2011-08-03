@@ -1,3 +1,14 @@
+- content_for (:script) do
+	:javascript
+	%style
+		:sass
+			div.proposal
+				margin-left: 20px
+			p.question
+				font-weight: bold
+				margin-left: 20px
+				cursor: pointer
+
 - logger.debug "\n\n*************** Begin to render the plan page\n\n"
 %div.talking_points_page
 	- org = @team['org_member']
@@ -8,7 +19,7 @@
 		%span #{@team.title}
 		- if @member.id == @team.org_id
 			= link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{form_tgt_selector: '.closest(\\'h2\\')', selector: '.parent().find(\\'span\\')', chr_cnt: 255, label: 'Please edit the title', url: '/idea/inline_edit?model=team&field=title&id=#{@team_id}' }]"}
-			
+
 	%div.summary
 		- if @member.id == @team.org_id
 			= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{selector: '.closest(\\\\'div.summary\\\\')', chr_cnt: 1000, label: 'Please edit the summary', url: '/team/inline_edit?model=team&field=solution_statement&id=#{@team_id}' }]"} ) + '</p>')
@@ -16,11 +27,8 @@
 			= simple_format h @team.solution_statement
 	%p.clear_both
 %p.clear_both
--#
-	= link_to "Expand", {}, {:class=>'expand_proposal_view'}
-	= link_to "Collapse", {}, {:class=>'collapse_proposal_view'}
 
 - questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 %div.proposal
-	= render :partial=> 'question', :collection => questions, :locals => {:questions => questions,:commenting_members => @team.commenting_members}
+	= render :partial=> 'question_summary', :collection => questions, :as => :question, :locals => {:questions => questions}
 	

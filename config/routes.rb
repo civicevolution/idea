@@ -75,6 +75,9 @@ G3::Application.routes.draw do |map|
   post "questions/:question_id/what_do_you_think", :to => "comments#create_question_comment", :constraints => lambda { |params| params[:input_type] == 'comment'}
   post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :constraints => lambda { |params| params[:input_type].nil?}
 
+  get "questions/:question_id/worksheet" => "questions#worksheet", :as => :question_worksheet
+  
+  
   post "talking_points/:talking_point_id/rate", :to => 'talking_point_acceptable_ratings#rate_talking_point'
   post "talking_points/:talking_point_id/prefer", :to => 'talking_point_preferences#prefer_talking_point'
   

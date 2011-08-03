@@ -1,5 +1,6 @@
 class Question < ActiveRecord::Base
-  
+  include LibGetTalkingPointsRatings
+    
   belongs_to :team
   has_many :talking_points, :dependent => :destroy
  
@@ -61,6 +62,8 @@ class Question < ActiveRecord::Base
   attr_accessor :num_talking_points
   attr_accessor :num_new_talking_points
   attr_accessor :talking_points_to_display
+  attr_accessor :member
+  attr_accessor :commenting_members
   
 
   def remaining_talking_points(ids)

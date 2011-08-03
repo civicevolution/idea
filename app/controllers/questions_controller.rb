@@ -95,5 +95,33 @@ class QuestionsController < ApplicationController
     
   end
   
+  def worksheet
+    logger.debug "Question#worksheet"
+    
+    @question = Question.find(params[:question_id])
+    @team = @question.team
+    
+    allowed,message = InitiativeRestriction.allow_action(@team.initiative_id, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        flash[:pre_authorize_uri] = request.request_uri
+        flash[:notice] = "Please sign in"
+        render :template => 'welcome/must_sign_in', :layout => 'welcome'
+        return
+      else
+        render :template => 'idea/private_page'
+        return
+      end
+    end
+    
+    @question.get_talking_point_ratings(@member)
+
+    render :template=> 'questions/worksheet', :locals => {:question => @question, :questions => @team.questions.sort{|a,b| a.order_id <=> b.order_id}, }, :layout => 'plan'
+    
+    #:locals => {:question => @question, :questions => @team.questions, :question_counter => @question.order_id, :commenting_members => @question.commenting_members},
+    #render :partial=> 'question', :collection => questions, :locals => {:questions => questions}
+    #render :text => 'render the question partial'
+  end
+  
   
 end
