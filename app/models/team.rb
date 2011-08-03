@@ -6,17 +6,8 @@ class Team < ActiveRecord::Base
   
   has_many :questions
   
+  has_one :organizer, :class_name => 'Member', :foreign_key => 'id', :primary_key => 'org_id'
   
-  
-  #has_many :items
-  #has_many :pages, :through => :items
-  #has_many :questions, :through => :items
-  #has_many :answers, :through => :items
-  #has_many :comments, :through => :items
-  #has_many :ratings, :through => :items
-  #has_many :thumbs_ratings, :through => :items
-  #has_many :lists, :through => :items  
-
   attr_accessor :member
   attr_accessor :commenting_members
   
@@ -38,6 +29,22 @@ class Team < ActiveRecord::Base
     errors.add_to_base("You must be a member of this team to edit it.")
 
   end  
+  
+  def participants
+    q_ids = self.questions.map(&:id).join(',')
+    tp_ids = TalkingPoint.find_by_sql("SELECT id FROM talking_points WHERE question_id IN (#{q_ids})").map(&:id).join(',')
+    a_ids = TalkingPoint.find_by_sql("SELECT id FROM answers WHERE question_id IN (#{q_ids})").map(&:id).join(',')
+
+    p_ids = ActiveRecord::Base.connection.select_rows(
+    %Q|SELECT distinct member_id FROM comments WHERE (parent_type = 1 AND parent_id IN (#{q_ids})) OR (parent_type = 13 AND parent_id IN (#{tp_ids}))
+    UNION
+    SELECT distinct member_id FROM talking_points WHERE id IN (#{tp_ids})
+    UNION
+    SELECT distinct member_id FROM answer_diffs WHERE answer_id IN (#{a_ids})|).flatten.map{|i| i.to_i}
+    p_ids << self.org_id
+
+    Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => p_ids.uniq)
+  end
   
   
   

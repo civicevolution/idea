@@ -8,27 +8,51 @@
 				font-weight: bold
 				margin-left: 20px
 				cursor: pointer
+			div.intro
+				float: left
+				width: 500px
+			div.stats
+				float:left
 
 - logger.debug "\n\n*************** Begin to render the plan page\n\n"
 %div.talking_points_page
-	- org = @team['org_member']
-	%div.suggest_title
-		%img{:src=>org.photo.url('36'),:class=>'i36'}
-		%h3 #{org.first_name} #{org.last_name} suggested this idea for change in the community:
-	%h2.home_title 
-		%span #{@team.title}
-		- if @member.id == @team.org_id
-			= link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{form_tgt_selector: '.closest(\\'h2\\')', selector: '.parent().find(\\'span\\')', chr_cnt: 255, label: 'Please edit the title', url: '/idea/inline_edit?model=team&field=title&id=#{@team_id}' }]"}
+	%div.intro
+		%div.suggest_title
+			%img{:src=>@team.organizer.photo.url('36'),:class=>'i36'}
+			%h3 #{@team.organizer.first_name} #{@team.organizer.last_name} suggested this idea for change in the community:
+		%h2.home_title 
+			%span #{@team.title}
+			- if @member.id == @team.org_id
+				= link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{form_tgt_selector: '.closest(\\'h2\\')', selector: '.parent().find(\\'span\\')', chr_cnt: 255, label: 'Please edit the title', url: '/idea/inline_edit?model=team&field=title&id=#{@team_id}' }]"}
 
-	%div.summary
-		- if @member.id == @team.org_id
-			= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{selector: '.closest(\\\\'div.summary\\\\')', chr_cnt: 1000, label: 'Please edit the summary', url: '/team/inline_edit?model=team&field=solution_statement&id=#{@team_id}' }]"} ) + '</p>')
-		- else
-			= simple_format h @team.solution_statement
-	%p.clear_both
+		%div.summary
+			- if @member.id == @team.org_id
+				= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{selector: '.closest(\\\\'div.summary\\\\')', chr_cnt: 1000, label: 'Please edit the summary', url: '/team/inline_edit?model=team&field=solution_statement&id=#{@team_id}' }]"} ) + '</p>')
+			- else
+				= simple_format h @team.solution_statement
+		
+%div.stats
+	%h3 Participants
+	
+	- @team.participants.each do |participant|
+		%img{:src=>participant.photo.url('36'),:class=>'i36'}
+
+	%h3
+		= link_to "Follow this idea #{image_tag( "email.gif", :border => 0 )}".html_safe,{},{:class=>'follow'}
+
+	%h3
+		= link_to "Invite friends #{image_tag( "email.gif", :border => 0 )}".html_safe,{},{:class=>'invite'}
+
+	- if @member.id == @team.org_id || @mems.detect{|m| m.id == @member.id}
+		%h3
+			= link_to "Email participants",{},{:class=>'email_participants'}
+
 %p.clear_both
 
 - questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 %div.proposal
 	= render :partial=> 'question_summary', :collection => questions, :as => :question, :locals => {:questions => questions}
 	
+= render :partial => 'endorsements', :locals=> {:print=>false}
+
+= render :partial => 'submit'

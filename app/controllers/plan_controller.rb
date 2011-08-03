@@ -58,10 +58,10 @@ class PlanController < ApplicationController
       end
     end
     
-    
     @team.get_talking_point_ratings(@member)
-    @team['org_member'] = Member.find_by_id(@team.org_id)
-    
+
+  	@endorsements = Endorsement.includes(:member).all(:conditions=>['team_id=?',@team.id])
+
     render :summary, :layout => 'plan'
     
     logger.debug "\n\nEnd plan/summary\n******************************************\n"
