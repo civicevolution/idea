@@ -42,8 +42,8 @@
 
 	%h3
 		= link_to "Invite friends #{image_tag( "email.gif", :border => 0 )}".html_safe,{},{:class=>'invite'}
-
-	- if @member.id == @team.org_id || @mems.detect{|m| m.id == @member.id}
+	-debugger	
+	- if @member.id == @team.org_id || @team.participants.detect{|m| m.id == @member.id}
 		%h3
 			= link_to "Email participants",{},{:class=>'email_participants'}
 
