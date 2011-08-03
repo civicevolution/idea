@@ -33,7 +33,9 @@ class Team < ActiveRecord::Base
   def participants
     q_ids = self.questions.map(&:id).join(',')
     tp_ids = TalkingPoint.find_by_sql("SELECT id FROM talking_points WHERE question_id IN (#{q_ids})").map(&:id).join(',')
+    tp_ids = '0' unless tp_ids != ''
     a_ids = TalkingPoint.find_by_sql("SELECT id FROM answers WHERE question_id IN (#{q_ids})").map(&:id).join(',')
+    a_ids = '0' unless a_ids != ''
 
     p_ids = ActiveRecord::Base.connection.select_rows(
     %Q|SELECT distinct member_id FROM comments WHERE (parent_type = 1 AND parent_id IN (#{q_ids})) OR (parent_type = 13 AND parent_id IN (#{tp_ids}))
