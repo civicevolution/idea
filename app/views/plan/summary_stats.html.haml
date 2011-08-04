@@ -31,29 +31,17 @@
 %h3 They need your help	
 -#Stage/momentum/trend
 
-%p Here are ways you can participate
-	
-%h3
-	= link_to "Follow this idea #{image_tag( "email.gif", :border => 0 )}".html_safe,{},{:class=>'follow'}
+-#%p Here are ways you can participate
+%ul
+	%li= link_to "Follow this idea",{},{:class=>'follow'}
+	%li= link_to "Invite friends",{},{:class=>'invite'}
+	%li= link_to "Read this proposal",{},{:class=>'invite'}
+	%li= link_to "Tell us what you think",{},{:class=>'invite'}
+	%li= link_to "Help write this proposal",{},{:class=>'invite'}
+	%li= link_to "Endorse this proposal",{},{:class=>'invite'}
+	- if @member.id == @team.org_id || @team.participants.detect{|m| m.id == @member.id}
+		%li= link_to "Email participants",{},{:class=>'email_participants'}
 
-%h3
-	= link_to "Invite friends #{image_tag( "email.gif", :border => 0 )}".html_safe,{},{:class=>'invite'}
-
-- if @member.id == @team.org_id || @team.participants.detect{|m| m.id == @member.id}
-	%h3
-		= link_to "Email participants",{},{:class=>'email_participants'}
-			
-%h3 Watch our video to learn more
-%div.videos	
-	%p Introduction to CivicEvolution
-	%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/22311078', :title=>'2029 CivicEvolution Demo', :id=>'play_intro_video'} 
-		= image_tag '2029_demo_placeholder.gif', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
-
-	%p
-		Or
-		= link_to "read about it", {:controller=> 'welcome', :action=>'intro'}
-
-
-
-	
-= render :partial => 'endorsements', :locals=> {:print=>false}
+	%li
+		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/22311078', :title=>'2029 CivicEvolution Demo', :id=>'play_intro_video'} 
+			Watch our 60 second intro video
