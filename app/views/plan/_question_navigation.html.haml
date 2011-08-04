@@ -2,7 +2,7 @@
 	- prev_question = questions.detect{|q| q.order_id == question.order_id - 1}
 	- if prev_question
 		= link_to "< Q#{prev_question.order_id}: #{prev_question.text}", question_worksheet_path(prev_question), {:id=> prev_question.id, :class=>'goto prev'}
-	= link_to "Summary", {:controller=>:plan, :action=>:index, :id=>question.team_id}, {:class=>'summary'}
+	= link_to "Full proposal", proposal_path(question.team_id), {:class=>'summary'}
 	- next_question = questions.detect{|q| q.order_id == question.order_id + 1}
 	- if next_question
 		= link_to "Q#{next_question.order_id}: #{next_question.text} >", question_worksheet_path(next_question), {:id=> next_question.id, :class=>'goto next'}

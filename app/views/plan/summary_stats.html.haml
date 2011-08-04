@@ -1,0 +1,59 @@
+%h3.tagline Think together to act together
+
+%ul
+	%li The purpose of this page is to develop a community written and supported plan for putting this idea into action
+	%li A community written and supported plan for putting this change idea into action
+	%li The answers to these 4 questions show how the idea can be put into action
+	%li the answers to these questions form a concrete plan that can be shared with the community and its decision makers
+
+%p 
+	How can we make this idea better and put it into action?
+	We need a community written and supported action plan,
+	Creating consensus answers to these four questions will get you off to a strong start that will allow you to build more community support and negotiate with the decision makers.
+	You can contribute to this change by reading the proposal, rating the ideas, endorsing it, and most important–help write it,
+
+%h3 Participants
+	
+%p These people are already involved in creating this proposal
+
+- @team.participants.each do |participant|
+	%img{:src=>participant.photo.url('36'),:class=>'i36'}
+
+%h3 They've made great progress
+%ul
+	%li 17 talking points
+	%li 8 preferred talking points
+	%li 37 comments
+	%li 53 ratings
+	%li 153 views
+	%li 9 endorsements
+	
+%h3 They need your help	
+-#Stage/momentum/trend
+
+%p Here are ways you can participate
+	
+%h3
+	= link_to "Follow this idea #{image_tag( "email.gif", :border => 0 )}".html_safe,{},{:class=>'follow'}
+
+%h3
+	= link_to "Invite friends #{image_tag( "email.gif", :border => 0 )}".html_safe,{},{:class=>'invite'}
+
+- if @member.id == @team.org_id || @team.participants.detect{|m| m.id == @member.id}
+	%h3
+		= link_to "Email participants",{},{:class=>'email_participants'}
+			
+%h3 Watch our video to learn more
+%div.videos	
+	%p Introduction to CivicEvolution
+	%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/22311078', :title=>'2029 CivicEvolution Demo', :id=>'play_intro_video'} 
+		= image_tag '2029_demo_placeholder.gif', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
+
+	%p
+		Or
+		= link_to "read about it", {:controller=> 'welcome', :action=>'intro'}
+
+
+
+	
+= render :partial => 'endorsements', :locals=> {:print=>false}

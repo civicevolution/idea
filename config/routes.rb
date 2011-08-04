@@ -31,7 +31,7 @@ G3::Application.routes.draw do |map|
   post "plan/approve_proposal_idea", :controller => 'plan', :action => 'approve_proposal_idea'
 
   match 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
-  match 'proposal/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }
+  match 'proposal/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }, :as=> 'proposal'
 
   resources :answer_diffs
 

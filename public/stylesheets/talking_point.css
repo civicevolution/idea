@@ -8,10 +8,6 @@ div.suggest_title {
   div.suggest_title h3 {
     margin-left: 40px; }
 
-div.talking_points_page {
-  float: left;
-  width: 778px; }
-
 h2.home_title {
   margin: 18px 41px 0px 41px; }
   h2.home_title a {
@@ -20,7 +16,7 @@ h2.home_title {
     font-weight: normal; }
 
 div.summary {
-  margin: -10px 41px 60px 41px;
+  margin: -10px 41px 20px 41px;
   font-size: 1.12em; }
 
 div.summary.collapse {
@@ -396,3 +392,11 @@ div.comment_controls {
       margin-right: 16px; }
 
 /* end Comment CSS */
+div.endorsements td {
+  vertical-align: top;
+  padding: 6px; }
+  div.endorsements td p {
+    margin-top: 0; }
+
+div.left_side {
+  background-color: #f5e6be; }

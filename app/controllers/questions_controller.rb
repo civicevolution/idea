@@ -122,6 +122,46 @@ class QuestionsController < ApplicationController
     #render :partial=> 'question', :collection => questions, :locals => {:questions => questions}
     #render :text => 'render the question partial'
   end
+
+  protected
+  
+  QUESTIONS_CONTROLLER_PUBLIC_METHODS = ['worksheet']
+  
+  def authorize
+    #debugger
+    unless QUESTIONS_CONTROLLER_PUBLIC_METHODS.include? request[:action]
+      # do this except for public methods
+      if (@member.nil? || @member.id == 0 )
+        if request.xhr?
+          respond_to do |format|
+            case request[:action]
+              when 'create_answer'
+                act = 'add or edit an answer'
+              when 'create_comment'
+                act = 'add or edit a comment'
+              when 'create_brainstorm_idea'
+                act = 'add a brainstorming idea'
+              else
+                act = 'continue'
+            end
+            format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
+          end
+          return
+        else
+          flash[:pre_authorize_uri] = request.request_uri
+          flash[:notice] = "Please sign in"
+          render :template => 'welcome/must_sign_in', :layout => 'welcome'
+          
+        end
+      end
+    end
+    if @member.nil? 
+      @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
+      @member.id = 0
+      @member.email = ''
+      @member.last_visit_ts = Time.local(2012,2,23)
+    end
+  end
   
   
 end

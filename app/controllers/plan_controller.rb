@@ -60,7 +60,7 @@ class PlanController < ApplicationController
     
     @team.get_talking_point_ratings(@member)
 
-  	@endorsements = Endorsement.includes(:member).all(:conditions=>['team_id=?',@team.id])
+  	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
 
     render :summary, :layout => 'plan'
     
@@ -178,8 +178,7 @@ class PlanController < ApplicationController
 
   protected
   
-  PLAN_CONTROLLER_PUBLIC_METHODS = ['index']
-  #, 'bsd', 'guidelines', 'get_templates', 'report', 'post_content_report', 'request_help', 'request_help_post', 'tooltips','invite']
+  PLAN_CONTROLLER_PUBLIC_METHODS = ['index', 'summary']
   
   def authorize
     #debugger

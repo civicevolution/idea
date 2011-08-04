@@ -37,7 +37,7 @@ h2#load_message {
 a.help_tag {
   position: fixed;
   top: 25%;
-  right: 0;
+  left: 0;
   color: #f3973a;
   width: 32px;
   height: 183px;
@@ -184,51 +184,50 @@ img.i36 {
   color: #f2583e;
   font-weight: bold; }
 
-form.what_do_you_think {
-  margin-left: 16px;
+form.what_do_you_think, form.std_form {
   margin-bottom: 40px;
   margin-right: 0px;
   width: 100%;
   max-width: 500px;
   clear: both; }
-  form.what_do_you_think label {
+  form.what_do_you_think label, form.std_form label {
     display: block;
     clear: both;
     margin-top: 0px;
     font-weight: bold;
     font-style: italic;
     color: #888888; }
-  form.what_do_you_think img {
+  form.what_do_you_think img, form.std_form img {
     display: block;
     float: left;
     margin: 6px 10px 0 0; }
-  form.what_do_you_think textarea, form.what_do_you_think input[type=text] {
+  form.what_do_you_think textarea, form.what_do_you_think input[type=text], form.std_form textarea, form.std_form input[type=text] {
     width: 100%;
     font-size: 1.2em; }
-  form.what_do_you_think input[type=submit] {
+  form.what_do_you_think input[type=submit], form.std_form input[type=submit] {
     margin: 0 10px 0 10px; }
-  form.what_do_you_think input[type=file] {
+  form.what_do_you_think input[type=file], form.std_form input[type=file] {
     margin: 12px 0 16px 0; }
-  form.what_do_you_think div.controls {
+  form.what_do_you_think div.controls, form.std_form div.controls {
     position: absolute;
     right: 0; }
-  form.what_do_you_think div.control_line {
+  form.what_do_you_think div.control_line, form.std_form div.control_line {
     position: relative;
     margin-bottom: 10px; }
-    form.what_do_you_think div.control_line img {
+    form.what_do_you_think div.control_line img, form.std_form div.control_line img {
       cursor: pointer; }
-  form.what_do_you_think div.add_comment, form.what_do_you_think div.add_link, form.what_do_you_think div.attach_file {
+  form.what_do_you_think div.add_comment, form.what_do_you_think div.add_link, form.what_do_you_think div.attach_file, form.std_form div.add_comment, form.std_form div.add_link, form.std_form div.attach_file {
     clear: both;
     margin-right: 20px;
     border: 0px solid #dddddd; }
-    form.what_do_you_think div.add_comment p img, form.what_do_you_think div.add_link p img, form.what_do_you_think div.attach_file p img {
+    form.what_do_you_think div.add_comment p img, form.what_do_you_think div.add_link p img, form.what_do_you_think div.attach_file p img, form.std_form div.add_comment p img, form.std_form div.add_link p img, form.std_form div.attach_file p img {
       display: block;
       margin-top: -2px; }
-  form.what_do_you_think div.add_link, form.what_do_you_think div.attach_file {
+  form.what_do_you_think div.add_link, form.what_do_you_think div.attach_file, form.std_form div.add_link, form.std_form div.attach_file {
     display: none; }
-  form.what_do_you_think button {
+  form.what_do_you_think button, form.std_form button {
     margin-left: 15px; }
-  form.what_do_you_think p.resource_warning {
+  form.what_do_you_think p.resource_warning, form.std_form p.resource_warning {
     margin-top: -12px; }
 
 form.std_form label {
