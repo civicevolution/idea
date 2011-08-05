@@ -1,11 +1,35 @@
-%h3.tagline Think together to act together
-
-%p We're co-creating a community written and supported plan to put this idea into action.
-%p The answers to the questions on the left outline a concrete action plan that can be shared with the community and its decision makers.
-
+%div.cta_block
+	%div.num 1
+	%div.text
+		%h3.tagline Think together to act together
+		%p We're creating a community written and supported plan to put this idea into action.
+	%p.clear_both
+	
+%div.cta_block
+	%div.num 2
+	%div.text
+		%h3 How it works
+		%p 
+			-#We discuss each question on the left to find acceptable, common ground based answers. Click a question to see more detail and participate or click here to
+			We discuss each question on the left to find answers acceptable to most of the community. 
+		%p	
+			Click a question to see more detail and participate. Click here to
+			= link_to "learn more"
+	%p.clear_both
+	
+%div.cta_block
+	%div.num 3
+	%div.text
+		%h3 Get involved
+		%p.cta
+			= link_to "Follow this idea"
+		%p.cta
+			= link_to "Tell us what your think"
+	%p.clear_both					
+					
 %div.progress
 	%div.leaderboard	
-		%h3 Leaderboard
+		%h3 Top participants
 		%table
 			%tbody
 				- @team.participants.each do |participant|
@@ -20,7 +44,7 @@
 							7 contributions
 
 	%div.participants
-		%h3 Thinking together
+		%h3 All participants
 	
 		-#%p These community members are already involved in creating this proposal
 
@@ -28,30 +52,48 @@
 			%img{:src=>participant.photo.url('36'),:class=>'i36'}
 
 		-#%h3 They've made great progress
-		%ul
-			%li 153 views
-			%li 53 ratings
-			%li 37 comments
-			%li 17 talking points
-			%li 8 preferred talking points
-			%li 9 endorsements
+		%table
+			%tbody
+				%tr.stripe
+					%td  153 page views
+				%tr
+					%td 53 ratings
+				%tr.stripe
+					%td 37 comments
+				%tr
+					%td 17 talking points
+				%tr.stripe
+					%td 8 preferred talking points
+				%tr
+					%td 9 endorsements
 	
 	%p.clear_both	
-	
-%h3 We need your help	
--#Stage/momentum/trend
 
--#%p Here are ways you can participate
-%ul
-	%li= link_to "Follow this idea",{},{:class=>'follow'}
-	%li= link_to "Invite friends",{},{:class=>'invite'}
-	%li= link_to "Read this proposal",{},{:class=>'invite'}
-	%li= link_to "Tell us what you think",{},{:class=>'invite'}
-	%li= link_to "Help write this proposal",{},{:class=>'invite'}
-	%li= link_to "Endorse this proposal",{},{:class=>'invite'}
-	- if @member.id == @team.org_id || @team.participants.detect{|m| m.id == @member.id}
-		%li= link_to "Email participants",{},{:class=>'email_participants'}
+%div.tools_info
+	%div.tools	
+		/AddThis Button BEGIN
+		%div.addthis_toolbox.addthis_default_style
+			%a.addthis_button_compact{:href=>"http://addthis.com/bookmark.php?v=250"}Share
+			%span.addthis_separator
+			%a.addthis_button_facebook
+			%a.addthis_button_twitter
+			%a.addthis_button_googlebuzz
+			%a.addthis_button_email
+			%span.addthis_separator
+			%a.addthis_button_facebook_like
+		= javascript_tag %Q|var addthis_config = {"data_track_clickback":true};|
+		= javascript_include_tag 'http://s7.addthis.com/js/250/addthis_widget.js#username=civicevolution'
+		/AddThis Button END
+		%p= link_to "Follow this idea",{},{:class=>'follow'}
+		%p= link_to "Invite friends",{},{:class=>'invite'}
+		-#- if @member.id == @team.org_id || @team.participants.detect{|m| m.id == @member.id}
+		%p= link_to "Email participants",{},{:class=>'email_participants'}
+		%p= link_to "Print proposal",{},{:class=>'invite'}
 
-	%li
+	%div.videos	
+		-#%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=WS_EzJ0UW00'}
+		-#%p Watch our 60 second intro video
 		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/22311078', :title=>'2029 CivicEvolution Demo', :id=>'play_intro_video'} 
-			Watch our 60 second intro video
+			= image_tag '2029_demo_placeholder.gif', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
+	%p.clear_both
+
