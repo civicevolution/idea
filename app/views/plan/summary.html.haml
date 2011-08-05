@@ -6,9 +6,15 @@
 			$stats_background: #BCC3D0
 			$stat_cta_background: #C8BCD1
 			$tools_info_bg: #B4BED0
-			$stats_stripe: #C8BCD1
+			$stats_stripe: #B4BED0
 			$endorsements_bg: #F9F2D4
-			
+
+
+			=radius
+				-webkit-border-radius: 10px
+				-moz-border-radius: 10px
+				border-radius: 1-0px
+
 			div.talking_points_page
 				position: relative
 				padding-top: 30px
@@ -51,6 +57,10 @@
 					padding-left: 30px
 					padding-top: 20px
 					padding-bottom: 20px
+					-webkit-border-radius: 10px
+					-moz-border-radius: 10px
+					border-radius: 1-0px
+					
 				
 			div.talking_points_list
 				li
@@ -74,12 +84,14 @@
 				padding: 1em
 				margin-top: 80px
 				width: 600px
+				+radius
 				h3
 					margin-top: 0
 			//h3.tagline
 			//	margin-top: 0
 			div.progress
-				border: 1px solid #ccc
+				+radius
+				//border: 1px solid #ccc
 				padding: 1em
 				margin: 40px 0
 				background-color: $stats_background
@@ -100,6 +112,7 @@
 					td
 						font-size: .8em
 			div.tools_info
+				+radius
 				background-color: $tools_info_bg
 				//width: 100%
 				padding: 1em
@@ -122,6 +135,7 @@
 					p
 						font-weight: bold
 			div.cta_block
+				+radius
 				background-color: $stat_cta_background
 				//height: 100px
 				width: 100%
