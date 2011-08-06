@@ -1,14 +1,19 @@
 $question_bg: rgb(245,230,190)
-$talking_point_bg: rgb(192,228,154)
-$acceptable_bg: rgb(232,237,238)
-$prefence_bg: rgb(222,222,236)
+$talking_point_bg: #BCC3D0 //rgb(192,228,154)
+$acceptable_bg: #C8BCD1 //rgb(232,237,238)
+$prefence_bg: #B4BED0 //rgb(222,222,236)
 $input_bg: rgb(251,248,237)
 $pale_input: rgb(51, 51, 51)
 $new_item_color: #F2583E
 
 $talking_points_page_width: 778px
 $page_indent: 20px
-$talking_point_width: 475px
+$talking_point_width: 440px
+
+=radius
+	-webkit-border-radius: 10px
+	-moz-border-radius: 10px
+	border-radius: 1-0px
 
 div.suggest_title
 	position: relative
@@ -49,7 +54,7 @@ div.proposal.inview
 div.question_worksheet
 	clear: both
 	//border: 1px solid yellow
-	background-color: $question_bg
+	//background-color: $question_bg
 	padding: 20px 0 20px 20px
 	margin-bottom: 40px
 	a.open_worksheet
@@ -132,6 +137,7 @@ div.talking_point_entry
 	margin-top: 25px
 
 div.talking_point_body
+	+radius
 	//background-color: $talking_point_bg
 	background: $talking_point_bg url(/images/white_bulb_sm.gif) no-repeat 8px 20px
 	float: left
@@ -150,7 +156,8 @@ div.talking_point_body
 			float: right
 	
 
-div.talking_point_preferable	
+div.talking_point_preferable
+	+radius
 	background-color: $prefence_bg
 	float: left
 	padding: 10px 10px 10px 10px
@@ -165,6 +172,7 @@ div.talking_point_preferable
 			margin-bottom: 0
 		
 div.talking_point_acceptable	
+	+radius
 	background-color: $acceptable_bg
 	float: left
 	margin: 0 15px
@@ -274,6 +282,7 @@ div.what_do_you_think
 				margin: 6px 15px 0 0
 				font-weight: bold
 			div.icon
+				+radius
 				background-color: $talking_point_bg
 				width: 30px
 				height: 30px
@@ -287,7 +296,7 @@ div.what_do_you_think
 			div.icon.talking_point
 				background-color: $talking_point_bg
 			div.icon.comment
-				border: 1px solid black
+				//border: 1px solid black
 	textarea
 		width: 550px
 		height: 60px
@@ -453,3 +462,30 @@ div.endorsements
 		p
 			margin-top: 0
 	
+/* notebook and spiral CSS */
+div.spiral
+	background: url(/images/notebook_paper_spiral.gif) repeat-y
+	//border: 1px solid orange
+	position: absolute
+	top: 0
+	left: 0
+	width: 33px
+	height: 100%
+	//margin: 20px 0
+div.notebook
+	//border: 1px solid green
+	//border: 1px solid #CCC
+	margin-left: 12px
+	background: url(/images/parchment_tile.jpg)
+	padding-left: 30px
+	padding-top: 20px
+	padding-bottom: 20px
+	-webkit-border-radius: 10px
+	-moz-border-radius: 10px
+	border-radius: 1-0px
+	
+div.worksheet
+	position: relative
+	margin-top: 30px
+	
+/* End notebook and spiral CSS */	

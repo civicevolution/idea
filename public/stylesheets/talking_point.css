@@ -30,7 +30,6 @@ div.proposal.inview {
 
 div.question_worksheet {
   clear: both;
-  background-color: #f5e6be;
   padding: 20px 0 20px 20px;
   margin-bottom: 40px; }
   div.question_worksheet a.open_worksheet {
@@ -72,7 +71,7 @@ div.question_worksheet.noview {
 div.talking_point_sec {
   margin-left: 20px; }
   div.talking_point_sec div.instr {
-    width: 475px; }
+    width: 440px; }
     div.talking_point_sec div.instr img {
       display: block;
       float: left;
@@ -105,9 +104,12 @@ div.talking_point_entry {
   margin-top: 25px; }
 
 div.talking_point_body {
-  background: #c0e49a url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 1 0px;
+  background: #bcc3d0 url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
   float: left;
-  width: 475px;
+  width: 440px;
   padding: 0 10px; }
   div.talking_point_body > * {
     margin-left: 40px; }
@@ -121,7 +123,10 @@ div.talking_point_body {
     float: right; }
 
 div.talking_point_preferable {
-  background-color: #dedeec;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 1 0px;
+  background-color: #b4bed0;
   float: left;
   padding: 10px 10px 10px 10px;
   margin-right: 15px; }
@@ -134,7 +139,10 @@ div.talking_point_preferable {
     margin-bottom: 0; }
 
 div.talking_point_acceptable {
-  background-color: #e8edee;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 1 0px;
+  background-color: #c8bcd1;
   float: left;
   margin: 0 15px;
   padding: 10px 10px 10px 0; }
@@ -232,7 +240,10 @@ div.what_do_you_think {
     margin: 6px 15px 0 0;
     font-weight: bold; }
   div.what_do_you_think td.icon label div.icon {
-    background-color: #c0e49a;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 1 0px;
+    background-color: #bcc3d0;
     width: 30px;
     height: 30px;
     float: left;
@@ -242,9 +253,7 @@ div.what_do_you_think {
       width: 24px;
       height: 24px; }
   div.what_do_you_think td.icon label div.icon.talking_point {
-    background-color: #c0e49a; }
-  div.what_do_you_think td.icon label div.icon.comment {
-    border: 1px solid black; }
+    background-color: #bcc3d0; }
   div.what_do_you_think textarea {
     width: 550px;
     height: 60px;
@@ -397,3 +406,28 @@ div.endorsements td {
   padding: 6px; }
   div.endorsements td p {
     margin-top: 0; }
+
+/* notebook and spiral CSS */
+div.spiral {
+  background: url(/images/notebook_paper_spiral.gif) repeat-y;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 33px;
+  height: 100%; }
+
+div.notebook {
+  margin-left: 12px;
+  background: url(/images/parchment_tile.jpg);
+  padding-left: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 1 0px; }
+
+div.worksheet {
+  position: relative;
+  margin-top: 30px; }
+
+/* End notebook and spiral CSS */

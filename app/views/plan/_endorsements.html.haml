@@ -1,8 +1,9 @@
 %div.endorsements	
-	%h3 Endorsements
-	
 	- if @endorsements.size == 0
-		%p.desc No one has endorsed this proposal yet.
+		%h3.desc No one has endorsed this proposal yet.
+	- else
+		%h3= pluralize(@endorsements.size, 'Endorsement')
+	
 
 	%table
 		%tr

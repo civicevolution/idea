@@ -12,7 +12,7 @@ temp = {};
 
 $(function(){
 		//collapse_proposal_view()
-		
+		size_talking_point_entries();
 		$(document).ajaxSend(function(e, xhr, options) {
 		  var token = $("meta[name='csrf-token']").attr("content");
 		  xhr.setRequestHeader("X-CSRF-Token", token);
@@ -51,7 +51,6 @@ function collapse_proposal_view(){
 	$('div.proposal').addClass('inview');
 	$('div.question_worksheet').addClass('noview');
 	$('div.summary').addClass('collapse');
-
 	$('div.talking_point_entry').each( 
 		function(){
 			var el = $(this)
@@ -63,6 +62,22 @@ function collapse_proposal_view(){
 			b.height(max);
 			cr.height(max-20);
 			mr.height(max-20);
+		}
+	)	
+}
+
+function size_talking_point_entries(){
+	$('div.talking_point_entry').each( 
+		function(){
+			var el = $(this)
+			var b = el.children('div.talking_point_body').height('auto');
+			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
+			var p = el.children('div.talking_point_preferable').height('auto');
+			var max = Math.max.apply( Math, [b.height(), (cr.height() + 26), p.height()] );
+			//console.log("max height: " + max)
+			b.height(max);
+			cr.height(max-20);
+			p.height(max-20);
 		}
 	)	
 }
@@ -80,19 +95,7 @@ function expand_proposal_view(){
 	$('div.question_worksheet').removeClass('noview');
 	$('div.summary').removeClass('collapse');
 
-	$('div.talking_point_entry').each( 
-		function(){
-			var el = $(this)
-			var b = el.children('div.talking_point_body').height('auto');
-			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
-			var p = el.children('div.talking_point_preferable').height('auto');
-			var max = Math.max.apply( Math, [b.height(), (cr.height() + 20), p.height()] );
-			//console.log("max height: " + max)
-			b.height(max);
-			cr.height(max-20);
-			p.height(max-20);
-		}
-	)	
+	size_talking_point_entries();
 }
 
 
