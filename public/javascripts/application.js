@@ -67,7 +67,7 @@ function collapse_proposal_view(){
 }
 
 function size_talking_point_entries(){
-	$('div.talking_point_entry').each( 
+	$('div.talking_point_entry').not('.header').each( 
 		function(){
 			var el = $(this)
 			var b = el.children('div.talking_point_body').height('auto');
@@ -146,6 +146,7 @@ $('a.question_show_talking_points').die('click').live('click',
 				var talking_points_sec = el.closest('div.talking_points_list')
 				el.closest('p.show_more_link').remove();
 				div.find('div.talking_point_entry').each( function(){ talking_points_sec.append(this) })
+				size_talking_point_entries();
 			},
 			"html"
 		)

@@ -257,7 +257,8 @@ div.what_do_you_think {
   div.what_do_you_think textarea {
     width: 550px;
     height: 60px;
-    margin-top: 6px; }
+    margin-top: 6px;
+    background-color: #f9f3de; }
   div.what_do_you_think div.instr {
     position: absolute;
     top: 0;
@@ -407,6 +408,12 @@ div.endorsements td {
   div.endorsements td p {
     margin-top: 0; }
 
+/* comments block CSS */
+div.talking_point_comments {
+  margin: 40px 0 0 50px;
+  width: 580px; }
+
+/* END comments block CSS */
 /* notebook and spiral CSS */
 div.spiral {
   background: url(/images/notebook_paper_spiral.gif) repeat-y;
