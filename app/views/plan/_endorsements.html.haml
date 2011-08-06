@@ -1,46 +1,48 @@
-%div.endorsements	
-	- if @endorsements.size == 0
-		%h3.desc No one has endorsed this proposal yet.
-	- else
-		%h3= pluralize(@endorsements.size, 'Endorsement')
+%div.endorsements
+	%div.spiral
+	%div.notebook
+		- if @endorsements.size == 0
+			%h3.desc No one has endorsed this proposal yet.
+		- else
+			%h3= pluralize(@endorsements.size, 'Community endorsement')
 	
 
-	%table
-		%tr
-			%th{:colspan=>'2'} Name
-			%th Comment
-			%th When
-		- endorsed = false	
-		- @endorsements.each do |e|
-			%tr{:class=> cycle('','stripe'), :id=>e.member.ape_code}
-				%td.pic
-					- if !e.id.nil?
-						%img{:src=> e.member.photo.url('36')} 
-				%td.name
-					%span.member& #{e.member.first_name} #{e.member.last_name}
-				%td.text= simple_format( e.text )
-				%td.time
-					%abbr.timeago{:title=>e.updated_at}= time_ago_in_words(e.updated_at) + ' ago'
-				- if e.member.id == @member.id && !print
-					- endorsed = true
-					%td.delete
-						= link_to 'Update', {:action => 'index'}, {:class=>'update_endorsement'}
-						%br
-						= link_to 'Delete', {:action => 'index'}, {:class=>'delete_endorsement'}
+		%table
+			%tr
+				%th{:colspan=>'2'} Name
+				%th Comment
+				%th When
+			- endorsed = false	
+			- @endorsements.each do |e|
+				%tr{:class=> cycle('','stripe'), :id=>e.member.ape_code}
+					%td.pic
+						- if !e.id.nil?
+							%img{:src=> e.member.photo.url('36')} 
+					%td.name
+						%span.member& #{e.member.first_name} #{e.member.last_name}
+					%td.text= simple_format( e.text )
+					%td.time
+						%abbr.timeago{:title=>e.updated_at}= time_ago_in_words(e.updated_at) + ' ago'
+					- if e.member.id == @member.id && !print
+						- endorsed = true
+						%td.delete
+							= link_to 'Update', {:action => 'index'}, {:class=>'update_endorsement'}
+							%br
+							= link_to 'Delete', {:action => 'index'}, {:class=>'delete_endorsement'}
 			
-	- if !print			
-		= form_for( :endorse, :url => { :action => :create_answer}, :html => {:class=>'std_form' + ( endorsed ? ' hide' : '' )} ) do |form| 
-			%p Show your support for this proposal by adding a short statement in this form and clicking the button			
-			= hidden_field_tag :team_id, @team_id
-			%div.add_answer
-				%p
-				= form.label :text, "My statement in support of this proposal"
-				= form.text_area :text, :class=>'answer', :size=>"1x2", :alias=>'Answer'
-				%div.control_line
-					%div.controls
-						%span.char_ctr 500 characters left
-						%button I endorse this proposal
-						= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
-			%p.clear
-%p.clear
+		- if !print			
+			= form_for( :endorse, :url => { :action => :create_answer}, :html => {:class=>'std_form' + ( endorsed ? ' hide' : '' )} ) do |form| 
+				%p Show your support for this proposal by adding a short statement in this form and clicking the button			
+				= hidden_field_tag :team_id, @team_id
+				%div.add_answer
+					%p
+					= form.label :text, "My statement in support of this proposal"
+					= form.text_area :text, :class=>'answer', :size=>"1x2", :alias=>'Answer'
+					%div.control_line
+						%div.controls
+							%span.char_ctr 500 characters left
+							%button I endorse this proposal
+							= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
+				%p.clear
+	%p.clear
 
