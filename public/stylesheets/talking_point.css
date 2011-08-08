@@ -97,6 +97,11 @@ div.ques_discussion {
   div.ques_discussion p.count_link {
     margin-left: 20px; }
 
+div.comment_comments {
+  margin-left: 20px; }
+  div.comment_comments form.comment_form {
+    margin-left: 20px; }
+
 /* CSS FOR Talking Points */
 div.talking_point_entry {
   clear: both;
@@ -126,7 +131,7 @@ div.talking_point_preferable {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 1 0px;
-  background-color: #b4bed0;
+  background-color: #c8bcd1;
   float: left;
   padding: 10px 10px 10px 10px;
   margin-right: 15px; }
@@ -235,30 +240,31 @@ div.what_do_you_think {
   div.what_do_you_think td ul {
     margin-top: 0;
     margin-bottom: 10px; }
-  div.what_do_you_think td.icon label p {
-    float: left;
-    margin: 6px 15px 0 0;
-    font-weight: bold; }
-  div.what_do_you_think td.icon label div.icon {
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 1 0px;
-    background-color: #bcc3d0;
-    width: 30px;
-    height: 30px;
-    float: left;
-    margin: 0 15px 0 10px; }
-    div.what_do_you_think td.icon label div.icon img {
-      margin: 2px 0 0 2px;
-      width: 24px;
-      height: 24px; }
-  div.what_do_you_think td.icon label div.icon.talking_point {
-    background-color: #bcc3d0; }
+  div.what_do_you_think td.icon {
+    white-space: nowrap; }
+    div.what_do_you_think td.icon label p {
+      float: left;
+      margin: 6px 15px 0 0;
+      font-weight: bold; }
+    div.what_do_you_think td.icon label div.icon {
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 1 0px;
+      background-color: #bcc3d0;
+      width: 30px;
+      height: 30px;
+      float: left;
+      margin: 0 15px 0 10px; }
+      div.what_do_you_think td.icon label div.icon img {
+        margin: 2px 0 0 2px;
+        width: 24px;
+        height: 24px; }
+    div.what_do_you_think td.icon label div.icon.talking_point {
+      background-color: #bcc3d0; }
   div.what_do_you_think textarea {
     width: 550px;
     height: 60px;
-    margin-top: 6px;
-    background-color: #f9f3de; }
+    margin-top: 6px; }
   div.what_do_you_think div.instr {
     position: absolute;
     top: 0;

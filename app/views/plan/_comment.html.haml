@@ -80,7 +80,7 @@
  
 				%div.comment_links
 					- if comment.publish 
-						= link_to "Reply", {:controller => 'comments', :action=>'reply', :id => comment.id}, {:class=>'reply', :rel=>'nofollow'}
+						= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, {:class=>'reply', :rel=>'nofollow', :id=>comment.id}
 				
 						- if comment.member_id == @member.id
 							= link_to "Edit", {:controller => 'comment', :action => "edit", :id => comment.id}, {:class => 'edit_com', :rel=>'nofollow'}

@@ -1,20 +1,18 @@
-%p.question{:id=>question.id}
-	= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question)
-%div.talking_point_sec
-	%div.talking_points_list
+%div.question_summary
+	%p.question{:id=>question.id}
+		= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'open_worksheet'}
+	%div.talking_point_sec
+		%div.talking_points_list
 
-		%ul.talking_points
-		- question.top_talking_points.each do |talking_point|
-			%li.talking_point= talking_point.text
+			%ul.talking_points
+			- question.top_talking_points.each do |talking_point|
+				%li.talking_point= talking_point.text
+			%li= link_to 'Rate these talking points and tell us what you think', question_worksheet_path(question), {:class=> 'open_worksheet'}
 		
-		
-		-#
-			- if question.num_new_talking_points > 0
-				%p #{question.num_new_talking_points} new talking points
-			- elsif question.num_talking_points > question.top_talking_points.length
-				%p.show_more_link= link_to "Show #{question.num_talking_points - question.top_talking_points.length} more talking points", {}, { :class=> 'question_show_talking_points', :id=>question.id }
-			- elsif question.num_talking_points == 0
-				%p There are no talking points for this question, please add one with the form below.
-			
-
--#= link_to "Tell us what you think and learn more", {}, {:class=> 'open_worksheet'}
+			-#
+				- if question.num_new_talking_points > 0
+					%p #{question.num_new_talking_points} new talking points
+				- elsif question.num_talking_points > question.top_talking_points.length
+					%p.show_more_link= link_to "Show #{question.num_talking_points - question.top_talking_points.length} more talking points", {}, { :class=> 'question_show_talking_points', :id=>question.id }
+				- elsif question.num_talking_points == 0
+					%p There are no talking points for this question, please add one with the form below.

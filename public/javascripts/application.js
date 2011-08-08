@@ -102,21 +102,63 @@ function expand_proposal_view(){
 $('a.tp_show_coms').die('click').live('click',
 	function(){
 		var el = $(this);
-		$.get( '/talking_points/' + this.id + '/comments', {}, 
-			function(data){ 
-				el.closest('div.talking_point_entry').after(data);
+		if(el.html().match(/hide/i)){
+			var disc = el.closest('div.talking_point_entry').next('div.talking_point_comments');
+			var com_cnt = disc.find('div.Comment').size();
+			switch(com_cnt){
+				case 0:
+					el.html('Reply');
+					break;
+				case 1:
+					el.html('Show 1 comment');
+					break;
+				default:
+					el.html('Show ' + com_cnt + ' comments' );
+					break;
 			}
-		)
-		
-		//$('<div class="talking_point_comments"></div').load( '/talking_points/' + this.id + '/comments', 
-		//	function(text,stat, xhr){ 
-		//		$(el).closest('div.talking_point_entry').after(this);
-		//		//console.log(this.innerHTML)
-		//	}
-		//)
+			disc.remove();
+		}else{
+			$.get( '/talking_points/' + this.id + '/comments', {}, 
+				function(data){ 
+					el.closest('div.talking_point_entry').after(data);
+					el.html('Hide discussion');
+				}
+			)
+		}
 		return false;
 	}
 );
+
+$('a.reply').die('click').live('click',
+	function(){
+		var el = $(this);
+		if(el.html().match(/hide/i)){
+			var disc = el.closest('div.Comment').next('div.comment_comments');
+			var com_cnt = disc.find('div.Comment').size();
+			switch(com_cnt){
+				case 0:
+					el.html('Reply');
+					break;
+				case 1:
+					el.html('Show 1 comment');
+					break;
+				default:
+					el.html('Show ' + com_cnt + ' comments' );
+					break;
+			}
+			disc.remove();
+		}else{
+			$.get( '/comments/' + this.id + '/comments', {}, 
+				function(data){ 
+					el.closest('div.Comment').after(data);
+					el.html('Hide discussion');
+				}
+			)
+		}
+		return false;
+	}
+);
+
 
 $('a.question_show_coms').die('click').live('click',
 	function(){

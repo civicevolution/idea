@@ -43,8 +43,11 @@
 		%div.ques_discussion
 			%h3.ques_sub_hdg Comments posted by your community
 
-			= render :partial=> 'plan/comment', :collection => question.recent_comments, :locals => {:members => commenting_members}
-
+			- if question.recent_comments.size > 0
+				= render :partial=> 'plan/comment', :collection => question.recent_comments, :locals => {:members => commenting_members}
+			- else
+				%div.Comment.hide
+				
 			%p.clear_both
 
 			%p.count_link

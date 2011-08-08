@@ -56,7 +56,7 @@ G3::Application.routes.draw do |map|
 		resources :comments do
 		  collection do
 		    get :index, :action => 'talking_point_comments'
-	      post :create, :action => 'create_talking_point_comment'
+	      post :add_comment, :action => 'create_talking_point_comment'
 	    end
 	  end
 	end
@@ -78,10 +78,14 @@ G3::Application.routes.draw do |map|
 
   get "questions/:question_id/worksheet" => "questions#worksheet", :as => :question_worksheet
   
+  post "talking_points/:talking_point_id/create", :to => 'comments#create_talking_point_comment'
   
   post "talking_points/:talking_point_id/rate", :to => 'talking_point_acceptable_ratings#rate_talking_point'
   post "talking_points/:talking_point_id/prefer", :to => 'talking_point_preferences#prefer_talking_point'
-  
+
+  get "comments/:comment_id/comments", :to => 'comments#comment_comments'
+  post "comments/:comment_id/add_comment", :to => 'comments#create_comment_comment'
+  post "talking_points/:talking_point_id/add_comment", :to => 'comments#create_talking_point_comment'
 
   map.resources :resources
 

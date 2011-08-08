@@ -2,8 +2,11 @@ class Comment < ActiveRecord::Base
 
   has_one :resource, :dependent => :destroy
   
+  has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 3', :order => 'id asc'
+  
   belongs_to :talking_point, :foreign_key => 'parent_id'
   belongs_to :question, :foreign_key => 'parent_id'
+  belongs_to :comment, :foreign_key => 'parent_id'
   
   # I'm not sure if I want to use this association. It works, but it is less efficient
   # I will eager load members for each set of comments instead of all comments

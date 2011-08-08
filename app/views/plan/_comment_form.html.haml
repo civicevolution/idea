@@ -1,0 +1,25 @@
+-#%div.comment_form
+= form_tag("/#{type}/#{id}/add_comment", :remote=>true, :id=>'comment_form', :class=>'comment_form') do
+	
+	- if type == 'comments'
+		%h3 Reply to this comment
+	- elsif type == 'talking_points'
+		%h3 Tell us what you think about this talking point
+		
+	= text_area_tag :text
+
+	%div.control_line
+		-#
+			= image_tag('icon_linkc.gif',{:class=>'show_add_link',:title=>'Add a link'})
+			= image_tag('icon_upload.gif',{:class=>'show_attach_file',:title=>'Attach a file'})
+		%div.controls
+			%button 
+				Share
+			
+			%span.char_ctr
+				-#= @team.com_criteria.match(/..(\d+)/)[1]
+				200
+				characters left
+			= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
+%p.clear_both
+

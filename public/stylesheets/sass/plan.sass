@@ -3,6 +3,7 @@ $new_item_color: #F2583E
 $navy_blue: #23238E
 $help_tag: #f3973a
 $light_stripe: rgb(242,233,195) 
+$lightest_bg: #F9F3DE
 
 //sass mixin for opacity
 =opacity(!opacity)
@@ -209,7 +210,7 @@ img.i36
 
 
 
-form.what_do_you_think, form.std_form //add_comment_form,form.add_answer_form, form.std_form
+form.what_do_you_think, form.std_form, form.comment_form //add_comment_form,form.add_answer_form, form.std_form
 	//margin-left: $page_indent
 	margin-bottom: 40px
 	margin-right: 0px
@@ -230,6 +231,7 @@ form.what_do_you_think, form.std_form //add_comment_form,form.add_answer_form, f
 	textarea, input[type=text]
 		width: 100%
 		font-size: 1.2em
+		background-color: $lightest_bg		
 	input[type=submit]
 		margin: 0 10px 0 10px
 

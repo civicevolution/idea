@@ -11,12 +11,12 @@ class CommentsController < ApplicationController
   
   def talking_point_comments
     logger.debug "GET comments for talking point id: #{params[:talking_point_id]} (talking_point_comments)"
-    talking_point = TalkingPoint.find(params[:talking_point_id])
-    @comments = talking_point.comments
-    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq!)
+    @talking_point = TalkingPoint.find(params[:talking_point_id])
+    @comments = @talking_point.comments
+    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq)
     
     if !request.xhr?
-      @team = talking_point.question.team
+      @team = @talking_point.question.team
     end
 
     respond_to do |format|
@@ -33,7 +33,7 @@ class CommentsController < ApplicationController
     @comments = question.remaining_comments(params[:comment_ids])
     @resources = []
     
-    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq!)
+    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq)
 
     if !request.xhr?
       @team = question.team
@@ -46,6 +46,24 @@ class CommentsController < ApplicationController
     end
     
   end
+
+  def comment_comments
+    logger.debug "GET comments for comment id: #{params[:comment_id]} (comment_comments)"
+    @comment = Comment.find(params[:comment_id])
+    @comments = @comment.comments
+
+    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq)
+    
+    if !request.xhr?
+      @team = @comment.question.team
+    end
+
+    respond_to do |format|
+      format.html { render :comment_comments, :layout => false} unless !request.xhr?
+      format.html { render :comment_comments, :layout => 'plan'}
+      format.xml  { render :xml => @comments }
+    end
+  end    
   
 
   # GET /comments/1
@@ -96,19 +114,17 @@ class CommentsController < ApplicationController
   end
   
   def create_talking_point_comment
-    debugger
     logger.debug "Comment.create_talking_point_comment"
-    #@comment = TalkingPoint.find(params[:talking_point_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => params[:parent_type], :parent_id => params[:parent_id])
-
-    @comment = Comment.find(1034)
+    @comment = TalkingPoint.find(params[:talking_point_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 13, :parent_id => params[:talking_point_id])
     
     respond_to do |format|
-      if @comment#.save
+      if @comment.save
         format.js { render 'comment_for_talking_point', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.talking_point.question_id} }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
         format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
+        format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
         format.html { render :text => 'comment save failed' } if request.xhr?
         format.html { render :action => "new" }
         format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
@@ -128,6 +144,26 @@ class CommentsController < ApplicationController
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
         format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
+        format.html { render :text => 'comment save failed' } if request.xhr?
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
+      end
+    end
+    
+  end
+  
+  def create_comment_comment
+    logger.debug "Comment.create_comment_comment"
+    @comment = Comment.find(params[:comment_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 3, :parent_id => params[:comment_id])
+
+    respond_to do |format|
+      if @comment.save
+        format.js { render 'comment_for_comment', :locals=>{:comment=>@comment, :members => [@member], :comment_id => @comment.parent_id} }
+        format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
+        format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
+        format.xml  { render :xml => @comment, :status => :created, :location => @comment }
+      else
+        format.js { render 'comment_for_comment_errors', :locals=>{:comment=>@comment} }
         format.html { render :text => 'comment save failed' } if request.xhr?
         format.html { render :action => "new" }
         format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
