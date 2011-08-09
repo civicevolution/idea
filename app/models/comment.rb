@@ -39,6 +39,10 @@ class Comment < ActiveRecord::Base
   attr_accessor :par_member_id
   attr_accessor :member
   
+  attr_accessor_with_default :coms, 0
+  attr_accessor_with_default :new_coms, 0
+  
+  
   def log_team_content
     # log this item into the team_content_logs
     TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :par_member_id=>self.par_member_id, :processed=>false).save
@@ -63,6 +67,15 @@ class Comment < ActiveRecord::Base
     true
   end
   
+  def self.com_counts(comment_ids, last_visit_ts)
+    return [] if comment_ids.size == 0
+    ActiveRecord::Base.connection.select_all(
+    %Q|select comment_id,
+    (select count(id) from comments where parent_type=3 and parent_id = comment_id) AS coms,
+    (SELECT count(id) from comments where parent_type=3 and parent_id = comment_id AND created_at > '#{last_visit_ts}') AS new_coms
+    FROM ( VALUES #{ comment_ids.map{ |id| "(#{id})" }.join(',') } ) AS t (comment_id)|
+    )
+  end
   
   
   

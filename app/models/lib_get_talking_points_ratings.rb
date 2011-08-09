@@ -12,6 +12,7 @@ module LibGetTalkingPointsRatings
     
     question_ids = questions.map{|q| q.id}
     talking_point_ids = []
+    comment_ids = []
     comment_member_ids = []
     questions.each do |q|
       q.talking_points_to_display = q.top_talking_points
@@ -20,6 +21,7 @@ module LibGetTalkingPointsRatings
       end
       q.recent_comments.each do |c|
         comment_member_ids << c.member_id
+        comment_ids << c.id
       end
     end
     self.commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => comment_member_ids.uniq)
@@ -31,11 +33,13 @@ module LibGetTalkingPointsRatings
 
     question_coms = Question.com_counts(question_ids, self.member.last_visit_ts)
     talking_point_coms = TalkingPoint.com_counts(talking_point_ids, self.member.last_visit_ts)
+    comment_coms = Comment.com_counts(comment_ids, self.member.last_visit_ts)
 
     assign_stats( 
       :questions => questions,
       :question_coms => question_coms, 
       :talking_point_coms => talking_point_coms,
+      :comment_coms => comment_coms,
       :tpp => tpp,
       :tpr => tpr, 
       :my_preferences => my_preferences,
@@ -47,9 +51,9 @@ module LibGetTalkingPointsRatings
   
 
   def assign_stats stats
-    
     stats[:question_coms] ||= []
-
+    stats[:comment_coms] ||= []
+    
     stats[:questions].each do |q| 
       qcom = stats[:question_coms].detect{|qc| qc['ques_id'].to_i == q.id}
       if !qcom.nil?
@@ -83,6 +87,13 @@ module LibGetTalkingPointsRatings
           tp.new_coms = 0
         end
       end
+      
+      q.recent_comments.each do |c|
+        ccom = stats[:comment_coms].detect{|cc| cc['comment_id'].to_i == c.id}
+        c.coms = ccom['coms'].to_i
+        c.new_coms = ccom['new_coms'].to_i
+      end
+      
     end
   end
   

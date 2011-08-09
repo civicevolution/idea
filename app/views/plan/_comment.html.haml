@@ -80,7 +80,14 @@
  
 				%div.comment_links
 					- if comment.publish 
-						= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, {:class=>'reply', :rel=>'nofollow', :id=>comment.id}
+						- if comment.new_coms > 0
+							= link_to "Show #{comment.new_coms} new comments", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
+						- elsif comment.coms > 0
+							= link_to "Show #{comment.coms} comments", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
+						- else
+							= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'tp_show_coms', :rel=>'nofollow', :id=>comment.id}
+						
+						-#= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, {:class=>'reply', :rel=>'nofollow', :id=>comment.id}
 				
 						- if comment.member_id == @member.id
 							= link_to "Edit", {:controller => 'comment', :action => "edit", :id => comment.id}, {:class => 'edit_com', :rel=>'nofollow'}
