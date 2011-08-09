@@ -161,9 +161,9 @@ function reply_to_comment_comment(el){
 	new_form.find('h3').html("Reply to this comment");
 	new_form.find('a.clear').html("Cancel").addClass('cancel_form');
 	var com = el.closest('div.Comment').find('div.comment_text').clone();
-	com.find('a.com_author').remove();
+	var author = com.find('a.com_author').remove().html();
 	var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
-	new_form.find('textarea').val('[QUOTE]' + text + '[\\QUOTE]\n\n');
+	new_form.find('textarea').val('[quote="' + author + '"]' + text + '[/quote]\n\n');
 	new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 });
 	new_form.append('<input type="hidden" name="form_id" value="' + Math.round(Math.random()*1e16) + '"/>');
 }
@@ -209,36 +209,12 @@ function reply_to_talking_point_comment(el){
 	new_form.find('h3').html("Reply to this comment");
 	new_form.find('a.clear').html("Cancel").addClass('cancel_form');
 	var com = el.closest('div.Comment').find('div.comment_text').clone();
-	com.find('a.com_author').remove();
+	var author = com.find('a.com_author').remove().html();
 	var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
-	new_form.find('textarea').val('[QUOTE]' + text + '[\\QUOTE]\n\n');
+	new_form.find('textarea').val('[quote="' + author + '"]' + text + '[/quote]\n\n');
 	new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 });
 	new_form.append('<input type="hidden" name="form_id" value="' + Math.round(Math.random()*1e16) + '"/>');
 }
-
-
-
-$('a.reply_to_com').die('click').live('click',
-	function(){
-		var el = $(this);
-		var form = el.closest('div.talking_point_comments').find('form.comment_form.orig');
-		form.hide();
-		var new_form = form.clone(true);
-		new_form.removeClass('orig');
-		new_form.show();
-		//el.closest('div.Comment').after(new_form);
-		form.after(new_form);
-		new_form.find('h3').html("Reply to this comment");
-		new_form.find('a.clear').html("Cancel").addClass('cancel_form');
-		var com = el.closest('div.Comment').find('div.comment_text').clone();
-		com.find('a.com_author').remove();
-		var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
-		new_form.find('textarea').val('[QUOTE]' + text + '[\\QUOTE]\n\n');
-		new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 })
-		
-		return false;
-	}
-);
 
 
 $('a.cancel_form').die('click').live('click',

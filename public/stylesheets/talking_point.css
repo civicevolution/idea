@@ -407,6 +407,15 @@ div.comment_controls {
     div.comment_controls div.comment_links a {
       margin-right: 16px; }
 
+div.quote {
+  background: #f9f3de;
+  padding: 1em; }
+  div.quote p {
+    margin-left: 1em; }
+  div.quote p.quote {
+    margin-left: 0;
+    font-style: italic; }
+
 /* end Comment CSS */
 div.endorsements td {
   vertical-align: top;
