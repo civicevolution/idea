@@ -40,7 +40,7 @@
 		= render :partial => 'plan/what_do_you_think', :locals => {:question_id=>question.id}
 
 
-		%div.ques_discussion
+		%div.ques_discussion.discussion
 			%h3.ques_sub_hdg Comments posted by your community
 
 			- if question.recent_comments.size > 0

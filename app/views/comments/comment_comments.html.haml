@@ -1,4 +1,4 @@
-%div.comment_comments{:id=>params[:comment_id]}
+%div.comment_comments.discussion{:id=>params[:comment_id]}
 	= render :partial=> 'plan/comment', :collection => @comments, :locals => {:members => @commenting_members}
 	
 	= render :partial => 'plan/comment_form', :locals => {:id=>@comment.id, :type=>'comments'}

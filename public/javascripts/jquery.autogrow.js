@@ -13,7 +13,8 @@ jQuery.fn.autoGrow = function(o){
 		//debugger
 		var fixed_width = false;
 		// if cols is not set, or < 5, determine the # cols based on the width
-		if(this.cols < 5 ){
+		//if(this.cols < 5 ){
+		if(this.className.match(/autosize/) ){
 			//console.log("autogrow - determine the # cols based on the width");
 			
 			//var w = this.offsetWidth
@@ -28,12 +29,18 @@ jQuery.fn.autoGrow = function(o){
 		}
 
 		if(o && o.minHeight){
-			//console.log("set the # of rows")
-			this.rows = 1;
-			var h1 = this.offsetHeight;
-			this.rows = 2;
-			var h2 = this.offsetHeight;
-			var rows = Math.floor(o.minHeight/(h2-h1));
+			//temp.ta = this;
+			//console.log("set the # of rows for minHeight: " + o.minHeight)
+			//this.rows = 1;
+			//var h1 = this.offsetHeight;
+			//this.rows = 2;
+			//console.log("h1: " + h1)
+			//var h2 = this.offsetHeight;
+			//console.log("h2: " + h2)
+			//temp.h1 = h1
+			//temp.h2 = h2
+			//var rows = Math.floor(o.minHeight/(h2-h1));
+			var rows = Math.floor(o.minHeight/(25));
 			this.rows = rows > 2 ? rows : 2;
 			//console.log("rows: " + this.rows)
 		} 

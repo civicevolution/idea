@@ -1,12 +1,12 @@
 -#%div.comment_form
-= form_tag("/#{type}/#{id}/add_comment", :remote=>true, :id=>'comment_form', :class=>'comment_form') do
+= form_tag("/#{type}/#{id}/add_comment", :remote=>true, :id=>'comment_form', :class=>'comment_form orig') do
 	
 	- if type == 'comments'
 		%h3 Reply to this comment
 	- elsif type == 'talking_points'
 		%h3 Tell us what you think about this talking point
 		
-	= text_area_tag :text
+	= text_area_tag :text, '', {:class=>'autosize'}
 
 	%div.control_line
 		-#

@@ -1,5 +1,6 @@
 :plain
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
-	var form = $('div.comment_comments[id=#{comment_id}] form.comment_form');
-	form.find('textarea').val('');
-	form.before(com);
+	$('div.comment_comments[id=#{comment_id}] form.comment_form:first').before(com);
+	var form = $('div.comment_comments[id=#{comment_id}] form.comment_form input[value=#{form_id}]').closest('form');
+	if(form.size() == 0 ) form = $('div.comment_comments[id=#{comment_id}] form.comment_form:first');
+	form.find('a.clear').click();

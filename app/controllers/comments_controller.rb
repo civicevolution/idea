@@ -158,7 +158,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        format.js { render 'comment_for_comment', :locals=>{:comment=>@comment, :members => [@member], :comment_id => @comment.parent_id} }
+        format.js { render 'comment_for_comment', :locals=>{:comment=>@comment, :members => [@member], :comment_id => @comment.parent_id, :form_id=> params[:form_id]} }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
         format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }

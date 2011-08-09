@@ -17,7 +17,7 @@ $(function(){
 		  var token = $("meta[name='csrf-token']").attr("content");
 		  xhr.setRequestHeader("X-CSRF-Token", token);
 		});	
-	
+		$('textarea').autoGrow({ minHeight  : 120, maxHeight : 500 })
 	
 	}
 );
@@ -120,8 +120,9 @@ $('a.tp_show_coms').die('click').live('click',
 		}else{
 			$.get( '/talking_points/' + this.id + '/comments', {}, 
 				function(data){ 
-					el.closest('div.talking_point_entry').after(data);
+					var newNode = el.closest('div.talking_point_entry').after(data);
 					el.html('Hide discussion');
+					newNode.next().find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 })
 				}
 			)
 		}
@@ -132,32 +133,135 @@ $('a.tp_show_coms').die('click').live('click',
 $('a.reply').die('click').live('click',
 	function(){
 		var el = $(this);
-		if(el.html().match(/hide/i)){
-			var disc = el.closest('div.Comment').next('div.comment_comments');
-			var com_cnt = disc.find('div.Comment').size();
-			switch(com_cnt){
-				case 0:
-					el.html('Reply');
-					break;
-				case 1:
-					el.html('Show 1 comment');
-					break;
-				default:
-					el.html('Show ' + com_cnt + ' comments' );
-					break;
-			}
-			disc.remove();
-		}else{
-			$.get( '/comments/' + this.id + '/comments', {}, 
-				function(data){ 
-					el.closest('div.Comment').after(data);
-					el.html('Hide discussion');
-				}
-			)
+		//There are three possible cases:
+		// reply to talking point comments
+		// reply to a question top level comment
+		// reply to a question lower level comment
+		
+		var par = el.closest('div.discussion');
+		if(par.hasClass('talking_point_comments')){
+			reply_to_talking_point_comment(el);
+		}else if(par.hasClass('ques_discussion')){
+			reply_to_question_comment(el);			
+		}else if(par.hasClass('comment_comments')){
+			reply_to_comment_comment(el);			
 		}
 		return false;
 	}
 );
+	
+function reply_to_comment_comment(el){
+	var form = el.closest('div.comment_comments').find('form.comment_form.orig');
+	form.hide();
+	var new_form = form.clone(true);
+	new_form.removeClass('orig');
+	new_form.show();
+	//el.closest('div.Comment').after(new_form);
+	form.after(new_form);
+	new_form.find('h3').html("Reply to this comment");
+	new_form.find('a.clear').html("Cancel").addClass('cancel_form');
+	var com = el.closest('div.Comment').find('div.comment_text').clone();
+	com.find('a.com_author').remove();
+	var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
+	new_form.find('textarea').val('[QUOTE]' + text + '[\\QUOTE]\n\n');
+	new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 });
+	new_form.append('<input type="hidden" name="form_id" value="' + Math.round(Math.random()*1e16) + '"/>');
+}
+		
+		
+function reply_to_question_comment(el){	
+	if(el.html().match(/hide/i)){
+		var disc = el.closest('div.Comment').next('div.comment_comments');
+		var com_cnt = disc.find('div.Comment').size();
+		switch(com_cnt){
+			case 0:
+				el.html('Reply');
+				break;
+			case 1:
+				el.html('Show 1 comment');
+				break;
+			default:
+				el.html('Show ' + com_cnt + ' comments' );
+				break;
+		}
+		disc.remove();
+	}else{
+		$.get( '/comments/' + el.attr('id') + '/comments', {}, 
+			function(data){ 
+				var newNode = el.closest('div.Comment').after(data);
+				el.html('Hide discussion');
+				newNode.next().find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 })
+			}
+		)
+	}
+}
+
+
+
+function reply_to_talking_point_comment(el){
+	var form = el.closest('div.talking_point_comments').find('form.comment_form.orig');
+	form.hide();
+	var new_form = form.clone(true);
+	new_form.removeClass('orig');
+	new_form.show();
+	//el.closest('div.Comment').after(new_form);
+	form.after(new_form);
+	new_form.find('h3').html("Reply to this comment");
+	new_form.find('a.clear').html("Cancel").addClass('cancel_form');
+	var com = el.closest('div.Comment').find('div.comment_text').clone();
+	com.find('a.com_author').remove();
+	var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
+	new_form.find('textarea').val('[QUOTE]' + text + '[\\QUOTE]\n\n');
+	new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 });
+	new_form.append('<input type="hidden" name="form_id" value="' + Math.round(Math.random()*1e16) + '"/>');
+}
+
+
+
+$('a.reply_to_com').die('click').live('click',
+	function(){
+		var el = $(this);
+		var form = el.closest('div.talking_point_comments').find('form.comment_form.orig');
+		form.hide();
+		var new_form = form.clone(true);
+		new_form.removeClass('orig');
+		new_form.show();
+		//el.closest('div.Comment').after(new_form);
+		form.after(new_form);
+		new_form.find('h3').html("Reply to this comment");
+		new_form.find('a.clear').html("Cancel").addClass('cancel_form');
+		var com = el.closest('div.Comment').find('div.comment_text').clone();
+		com.find('a.com_author').remove();
+		var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
+		new_form.find('textarea').val('[QUOTE]' + text + '[\\QUOTE]\n\n');
+		new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 })
+		
+		return false;
+	}
+);
+
+
+$('a.cancel_form').die('click').live('click',
+	function(){
+		var el = $(this);
+		var par = el.closest('div.discussion');
+		var orig_form = par.find('form.comment_form.orig');
+		el.closest('form.comment_form').remove();
+		var forms = par.find('form.comment_form:visible');
+		if(forms.size() == 0){
+			orig_form.show(); 
+		}
+		return false;
+	}
+);
+
+$('a.clear').die('click').live('click',
+	function(){
+		$(this).closest('div.discussion').find('form.comment_form.orig textarea').val('');
+		return false;
+	}
+);
+
 
 
 $('a.question_show_coms').die('click').live('click',
