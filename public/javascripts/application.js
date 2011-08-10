@@ -151,21 +151,31 @@ $('a.reply').die('click').live('click',
 );
 	
 function reply_to_comment_comment(el){
-	var form = el.closest('div.comment_comments').find('form.comment_form.orig');
-	form.hide();
-	var new_form = form.clone(true);
-	new_form.removeClass('orig');
-	new_form.show();
-	//el.closest('div.Comment').after(new_form);
-	form.after(new_form);
-	new_form.find('h3').html("Reply to this comment");
-	new_form.find('a.clear').html("Cancel").addClass('cancel_form');
-	var com = el.closest('div.Comment').find('div.comment_text').clone();
-	var author = com.find('a.com_author').remove().html();
-	var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
-	new_form.find('textarea').val('[quote="' + author + '"]' + text + '[/quote]\n\n');
-	new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 });
-	new_form.append('<input type="hidden" name="form_id" value="' + Math.round(Math.random()*1e16) + '"/>');
+	var com = el.closest('div.Comment');
+	var com_id = com.attr('id');
+	var par = el.closest('div.comment_comments');
+	// if there is a form open for this already just return now
+	var new_form = par.find('form.comment_form[id="'  + com_id + '"]');
+	if(new_form.size() == 0 ){
+		var form = par.find('form.comment_form.orig');
+		form.hide();
+		var new_form = form.clone(true);
+		new_form.attr('id',com_id);
+		new_form.removeClass('orig');
+		new_form.show();
+		form.after(new_form);
+		new_form.find('h3').html("Reply to this comment");
+		new_form.find('a.clear').html("Cancel").addClass('cancel_form');
+		com = com.find('div.comment_text').clone();
+		var author = com.find('a.com_author').remove().html();
+		var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
+		new_form.find('textarea').val('[quote="' + author + '"]' + text + '[/quote]\n\n');
+		new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 });
+		new_form.append('<input type="hidden" name="form_id" value="' + Math.round(Math.random()*1e16) + '"/>');
+	}
+	if(!new_form.isOnScreen()){
+		$.scrollTo(new_form,700);
+	}
 }
 		
 		
@@ -199,21 +209,31 @@ function reply_to_question_comment(el){
 
 
 function reply_to_talking_point_comment(el){
-	var form = el.closest('div.talking_point_comments').find('form.comment_form.orig');
-	form.hide();
-	var new_form = form.clone(true);
-	new_form.removeClass('orig');
-	new_form.show();
-	//el.closest('div.Comment').after(new_form);
-	form.after(new_form);
-	new_form.find('h3').html("Reply to this comment");
-	new_form.find('a.clear').html("Cancel").addClass('cancel_form');
-	var com = el.closest('div.Comment').find('div.comment_text').clone();
-	var author = com.find('a.com_author').remove().html();
-	var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
-	new_form.find('textarea').val('[quote="' + author + '"]' + text + '[/quote]\n\n');
-	new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 });
-	new_form.append('<input type="hidden" name="form_id" value="' + Math.round(Math.random()*1e16) + '"/>');
+	var com = el.closest('div.Comment');
+	var com_id = com.attr('id');
+	var par = el.closest('div.talking_point_comments');
+	// if there is a form open for this already just return now
+	var new_form = par.find('form.comment_form[id="'  + com_id + '"]');
+	if(new_form.size() == 0 ){
+		var form = par.find('form.comment_form.orig');
+		form.hide();
+		var new_form = form.clone(true);
+		new_form.attr('id',com_id);
+		new_form.removeClass('orig');
+		new_form.show();
+		form.after(new_form);
+		new_form.find('h3').html("Reply to this comment");
+		new_form.find('a.clear').html("Cancel").addClass('cancel_form');
+		com = com.find('div.comment_text').clone();
+		var author = com.find('a.com_author').remove().html();
+		var text = com.html().replace(/<p>/i,'').replace(/<\/p>/i,'\n\n').replace(/^\s*/,'').replace(/\s*$/,'');
+		new_form.find('textarea').val('[quote="' + author + '"]' + text + '[/quote]\n\n');
+		new_form.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 });
+		new_form.append('<input type="hidden" name="form_id" value="' + Math.round(Math.random()*1e16) + '"/>');
+	}
+	if(!new_form.isOnScreen()){
+		$.scrollTo(new_form,700);
+	}
 }
 
 

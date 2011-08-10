@@ -98,7 +98,7 @@ div.ques_discussion {
     margin-left: 20px; }
 
 div.comment_comments {
-  margin-left: 20px; }
+  margin-left: 40px; }
   div.comment_comments form.comment_form {
     margin-left: 20px; }
 
@@ -408,7 +408,7 @@ div.comment_controls {
       margin-right: 16px; }
 
 div.quote {
-  background: #f9f3de;
+  background: #bcc3d0;
   padding: 1em; }
   div.quote p {
     margin-left: 1em; }

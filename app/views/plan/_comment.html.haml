@@ -85,7 +85,7 @@
 						- elsif comment.coms > 0
 							= link_to "Show #{comment.coms} comments", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
 						- else
-							= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'tp_show_coms', :rel=>'nofollow', :id=>comment.id}
+							= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
 						
 						-#= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, {:class=>'reply', :rel=>'nofollow', :id=>comment.id}
 				

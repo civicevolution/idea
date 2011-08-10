@@ -1,4 +1,3 @@
--#%div.comment_form
 = form_tag("/#{type}/#{id}/add_comment", :remote=>true, :id=>'comment_form', :class=>'comment_form orig') do
 	
 	- if type == 'comments'
