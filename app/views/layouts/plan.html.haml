@@ -119,8 +119,8 @@
 								= submit_tag "Reset password"
 								= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow'}
 		
-		-#:javascript
-			_load_times.page_loaded = new Date()
+		:javascript
+			//_load_times.page_loaded = new Date()
 			var client;
 			var team_id = #{@team.id};
 			var member = {first_name: "#{@member.first_name}", last_name: "#{@member.last_name}", ape_code: "#{@member.ape_code}" }

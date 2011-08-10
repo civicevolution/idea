@@ -11,6 +11,14 @@ class CommentsController < ApplicationController
   
   def talking_point_comments
     logger.debug "GET comments for talking point id: #{params[:talking_point_id]} (talking_point_comments)"
+    
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:talking_point_id=>params[:talking_point_id]}, 'view_idea_page', @member)
+    if !allowed
+      render :text=>"Sorry, you do not have access to this"
+      return
+    end
+    @team = Team.find(team_id)
+    
     @talking_point = TalkingPoint.find(params[:talking_point_id])
     @comments = @talking_point.comments
     @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq)
@@ -28,12 +36,28 @@ class CommentsController < ApplicationController
   
   def question_comments
     logger.debug "GET comments for question id: #{params[:question_id]} (question_comments)"
+    
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id=>params[:question_id]}, 'view_idea_page', @member)
+    if !allowed
+      render :text=>"Sorry, you do not have access to this"
+      return
+    end
+    @team = Team.find(team_id)
+    
     question = Question.find(params[:question_id])
     #@comments = question.comments
     @comments = question.remaining_comments(params[:comment_ids])
     @resources = []
     
     @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq)
+    
+    comment_coms = Comment.com_counts(@comments.map(&:id), @member.last_visit_ts)
+    @comments.each do |c|
+      ccom = comment_coms.detect{|cc| cc['comment_id'].to_i == c.id}
+      c.coms = ccom['coms'].to_i
+      c.new_coms = ccom['new_coms'].to_i
+    end
+
 
     if !request.xhr?
       @team = question.team
@@ -49,7 +73,16 @@ class CommentsController < ApplicationController
 
   def comment_comments
     logger.debug "GET comments for comment id: #{params[:comment_id]} (comment_comments)"
+    
+    # comment_comments only exist under the question comments, so use the com's parent_id as question_id
     @comment = Comment.find(params[:comment_id])
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id=>@comment.parent_id}, 'view_idea_page', @member)
+    if !allowed
+      render :text=>"Sorry, you do not have access to this"
+      return
+    end
+    @team = Team.find(team_id)
+    
     @comments = @comment.comments
 
     @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq)

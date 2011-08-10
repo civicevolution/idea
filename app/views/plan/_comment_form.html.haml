@@ -16,8 +16,7 @@
 				Share
 			
 			%span.char_ctr
-				-#= @team.com_criteria.match(/..(\d+)/)[1]
-				200
+				= @team.com_criteria.match(/..(\d+)/)[1]
 				characters left
 			= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
 %p.clear_both

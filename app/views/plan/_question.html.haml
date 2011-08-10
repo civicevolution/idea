@@ -1,6 +1,7 @@
 %div.worksheet
 	%div.spiral
-	%div.question_worksheet.notebook{:id=>question.id}
+	%div.question_worksheet.notebook{:id=>question.id, :ans_criteria=>question.answer_criteria, :talking_point_criteria=>question.talking_point_criteria}
+	
 		= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
 
 		%h2.question{:id=>question.id} Q#{question.order_id}: #{question.text}
@@ -44,7 +45,7 @@
 			%h3.ques_sub_hdg Comments posted by your community
 
 			- if question.recent_comments.size > 0
-				= render :partial=> 'plan/comment', :collection => question.recent_comments, :locals => {:members => commenting_members}
+				= render :partial=> 'plan/comment', :collection => question.recent_comments.sort{|a,b| a.id<=>b.id}, :locals => {:members => commenting_members}
 			- else
 				%div.Comment.hide
 				
