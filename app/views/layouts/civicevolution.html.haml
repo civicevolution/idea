@@ -1,0 +1,49 @@
+!!!
+%html{html_attrs('en-en')}
+	%head
+		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
+		%title CivicEvolution - Think together to act together
+		=	stylesheet_link_tag 'civic_home.css'
+		- if params[:monitor] != 'true'
+			-#logger.debug "add google analytics code"
+			:javascript
+				var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
+				_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);
+				_gaq.push(['_trackPageview']);
+				(function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				})();
+			
+	-#%body
+		= link_to image_tag("logo47.gif", :class=>'logo'), :action=>'home'
+		= link_to image_tag("ce_tm.gif", :class=>'ceNameTag'), :action=>'home'
+		%div.tagLine Think together to act together
+	
+	%body
+		-#= link_to "Help",{},{:class=>'help_tag request_help'}
+
+		%div.page
+			%div.logo
+				= link_to image_tag("logo47.gif", :class=>'logo'), :action=>'home'
+				= link_to image_tag("ce_tm.gif", :class=>'ceNameTag'), :action=>'home'
+				%div.tagLine Think together to act together
+				
+				-#%a{ :href=> '/'}
+					= image_tag("2029_logo_tag.gif")
+
+			-# if !@member.nil? && @member.id != 0	
+				= render :partial => 'welcome/member_info'		
+			-# else
+				%div.join_com
+					-#= link_to 'Join our community', {}, {:class=>'join_our_community', :id=>'join_community_link'}
+					= link_to 'Register now', {:controller=>'welcome'}, {:class=>'join_our_community', :id=>'join_community_link', :rel=>'nofollow'}
+					or
+					= link_to 'Sign in', {:controller=>'welcome'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow'}
+
+			%hr.top
+			= yield
+
+			%hr

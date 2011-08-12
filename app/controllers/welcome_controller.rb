@@ -35,7 +35,7 @@ class WelcomeController < ApplicationController
   end
   
   def about
-    render :action=>'about', :layout=>false
+    render :action=>'about', :layout=>'civicevolution'
   end
 
   def signin
