@@ -12,15 +12,15 @@
 				%tbody
 					%tr
 						%td= label_tag :name, 'Your name'
-						%td= text_field_tag :name, 'Brian'
+						%td= text_field_tag :name
 					%tr
 						%td= label_tag :email, 'Your email'
-						%td= text_field_tag :email, 'brian@civicevolution.org'
-
+						%td= text_field_tag :email
+						
 					%tr
 						%td{:colspan=>2}= label_tag :msg, 'How can we assist you?'
 					%tr
-						%td{:colspan=>2}= text_area_tag :msg, 'My msg'
+						%td{:colspan=>2}= text_area_tag :msg
 
 					%tr
 						%td= submit_tag "Subscribe"
