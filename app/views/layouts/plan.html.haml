@@ -57,9 +57,10 @@
 
 			%div.ce_credit
 				%div.powered
-					%h3 Powered by
-					= image_tag("ce_logo_20c.gif")
-					%p.tag_line Think together to act together
+					= link_to :ce_home do
+						%h3 Powered by
+						= image_tag("ce_logo_20c.gif")
+						%p.tag_line Think together to act together
 				%div.lottery
 					= image_tag("Lottwest_sup_col_pos.gif")
 				

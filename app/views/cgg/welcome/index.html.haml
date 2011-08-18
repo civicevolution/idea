@@ -72,7 +72,7 @@
 	
 				- @teams_launched.each do |team|
 					%div.team_entry{:class=> cycle('stripe_bg','')}
-						= link_to team.title, {:controller=>'plan',:action => 'index', :id=>team.id}, {:class=>'team_entry_title',:launched=>'t'}
+						= link_to team.title, proposal_path(team.id), {:class=>'team_entry_title',:launched=>'t'}
 						%p.desc= team.solution_statement
 						-#%p.controls
 							-#%span 0 comments

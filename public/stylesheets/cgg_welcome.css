@@ -71,6 +71,9 @@ div.footer_logo {
 
 div.ce_credit {
   width: 100%; }
+  div.ce_credit a {
+    text-decoration: none;
+    color: black; }
   div.ce_credit div.powered {
     float: left; }
     div.ce_credit div.powered h3 {
