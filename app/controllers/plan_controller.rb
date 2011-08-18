@@ -74,7 +74,7 @@ class PlanController < ApplicationController
     logger.debug "show form for suggest_new_idea"
     @proposal_idea = ProposalIdea.new params[:proposal_idea] unless @proposal_idea
     respond_to do |format|
-      format.html { render :template => "plan/suggest_new_idea", :layout=> 'welcome', :locals=>{:proposal_idea=>@proposal_idea} }
+      format.html { render :template => "plan/suggest_new_idea", :layout=> 'civicevolution', :locals=>{:proposal_idea=>@proposal_idea} }
       format.js
     end
     
