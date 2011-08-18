@@ -33,6 +33,10 @@ class WelcomeController < ApplicationController
     logger.debug "Show the CE home page"
     render :action=>'home', :layout=>false
   end
+  
+  def about
+    render :action=>'about', :layout=>false
+  end
 
   def signin
     logger.debug "signin #{params.inspect}"

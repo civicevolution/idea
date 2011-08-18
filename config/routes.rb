@@ -103,7 +103,7 @@ G3::Application.routes.draw do |map|
   map.resources :initiatives
   
   root :to => 'welcome#index'
-  match 'about' => 'welcome#home'
+  match 'about' => 'welcome#about'
 
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
