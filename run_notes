@@ -10,6 +10,11 @@ psql
 
 cd /ce_development/Rails/tp
 
+Run console
+       rails c
+       
+       sudo chown briansullivan:admin log/mail.sent.log
+
 RAILS_ENV=development script/monit.notify.sh start
 RAILS_ENV=development script/monit.notify.sh stop
 	ps aux | grep notification

@@ -240,27 +240,27 @@ div.what_do_you_think {
   div.what_do_you_think td ul {
     margin-top: 0;
     margin-bottom: 10px; }
-  div.what_do_you_think td.icon {
+  div.what_do_you_think td {
     white-space: nowrap; }
-    div.what_do_you_think td.icon label p {
-      float: left;
-      margin: 6px 15px 0 0;
-      font-weight: bold; }
-    div.what_do_you_think td.icon label div.icon {
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
-      border-radius: 1 0px;
-      background-color: #bcc3d0;
-      width: 30px;
-      height: 30px;
-      float: left;
-      margin: 0 15px 0 10px; }
-      div.what_do_you_think td.icon label div.icon img {
-        margin: 2px 0 0 2px;
-        width: 24px;
-        height: 24px; }
-    div.what_do_you_think td.icon label div.icon.talking_point {
-      background-color: #bcc3d0; }
+  div.what_do_you_think td.icon label p {
+    float: left;
+    margin: 6px 15px 0 0;
+    font-weight: bold; }
+  div.what_do_you_think td.icon label div.icon {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 1 0px;
+    background-color: #bcc3d0;
+    width: 30px;
+    height: 30px;
+    float: left;
+    margin: 0 15px 0 10px; }
+    div.what_do_you_think td.icon label div.icon img {
+      margin: 2px 0 0 2px;
+      width: 24px;
+      height: 24px; }
+  div.what_do_you_think td.icon label div.icon.talking_point {
+    background-color: #bcc3d0; }
   div.what_do_you_think textarea {
     width: 550px;
     height: 60px;
