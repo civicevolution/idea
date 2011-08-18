@@ -103,7 +103,17 @@ G3::Application.routes.draw do |map|
   map.resources :initiatives
   
   root :to => 'welcome#index'
-  match 'about' => 'welcome#about'
+  match 'about' => 'welcome#about', :as=>'ce_about'
+  match 'home' => 'welcome#home', :as=>'ce_home'
+  get 'contact_us' => 'welcome#contact_us', :as=>'ce_contact_us'
+  post 'contact_us' => 'welcome#contact_us_post', :as=>'ce_contact_us_post'
+
+  match 'subscribe' => 'welcome#subscribe'
+  get 'get_started' => 'welcome#get_started'
+  post 'get_started' => 'welcome#get_started_post'
+
+
+
 
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'

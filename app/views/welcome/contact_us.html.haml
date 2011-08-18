@@ -1,0 +1,26 @@
+%div.contact_us.home_forms.home_pages
+	%div.spiral
+	%div.notebook
+
+		= render :partial=>'logo_links', :locals=>{:active=>'contact_us'}
+
+		%h3 Contact us
+		%p If you have any questions about CivicEvolution or need any assistance, please let us know.
+
+		= form_tag(:ce_contact_us, :remote=>false, :id=>'contact_us_form', :class=>'orig') do
+			%table
+				%tbody
+					%tr
+						%td= label_tag :name, 'Your name'
+						%td= text_field_tag :name, 'Brian'
+					%tr
+						%td= label_tag :email, 'Your email'
+						%td= text_field_tag :email, 'brian@civicevolution.org'
+
+					%tr
+						%td{:colspan=>2}= label_tag :msg, 'How can we assist you?'
+					%tr
+						%td{:colspan=>2}= text_area_tag :msg, 'My msg'
+
+					%tr
+						%td= submit_tag "Subscribe"

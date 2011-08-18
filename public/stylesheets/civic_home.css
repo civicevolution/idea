@@ -3,10 +3,12 @@ body, p, ol, ul, td, textarea {
   font-size: 13px; }
 
 .tagLine {
-  margin: -16px 0 16px 73px; }
+  margin: -16px 0 16px 64px; }
 
-.ceNameTag {
-  margin: 0 0 16px 8px; }
+img.ceNameTag {
+  margin: 0 0 16px 8px;
+  width: 200px;
+  height: 23px; }
 
 div.join_com {
   float: right;
@@ -18,13 +20,16 @@ div.join_com {
 div.logo {
   text-align: left;
   float: left; }
+  div.logo img.logo {
+    width: 50px;
+    height: 40px; }
 
 hr.top {
   clear: both;
   margin-bottom: 0; }
 
 div.page {
-  width: 800px;
+  width: 980px;
   margin: auto; }
   div.page p.tall {
     height: 0px; }
@@ -40,3 +45,189 @@ div.about {
       margin: 0 0 1em 1em; }
     div.about td p.title {
       font-weight: bold; }
+
+/* notebook and spiral CSS */
+div.spiral {
+  background: url(/images/notebook_paper_spiral.gif) repeat-y;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 33px;
+  height: 100%; }
+
+div.notebook {
+  margin-left: 12px;
+  background: url(/images/parchment_tile.jpg);
+  padding-left: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 1 0px;
+  min-height: 400px; }
+
+div.home div.notebook {
+  height: 540px; }
+
+div.home, div.get_started, div.home_pages {
+  position: relative;
+  margin-top: 30px; }
+
+/* End notebook and spiral CSS */
+/* home page above fold */
+img.logo {
+  display: block;
+  margin-bottom: 30px;
+  float: left; }
+
+div.mission {
+  float: left;
+  width: 420px; }
+  div.mission h2 {
+    font-size: 48px;
+    margin: 0;
+    text-shadow: white 0 2px 0; }
+  div.mission p {
+    font-size: 1.5em;
+    margin-top: 16px; }
+
+div.video {
+  float: right;
+  margin: 24px 40px 0 0; }
+  div.video img {
+    display: block; }
+  div.video a {
+    text-decoration: none; }
+  div.video p {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: black;
+    margin-top: 8px; }
+    div.video p span.bright {
+      color: #ec5424; }
+
+div.call_to_action_div {
+  float: left;
+  width: 420px;
+  text-shadow: white 0 1px 0; }
+  div.call_to_action_div a {
+    text-decoration: none; }
+
+div.subscribe {
+  font-weight: bold;
+  float: right;
+  width: 400px;
+  text-align: left;
+  margin: 22px 40px 0 0; }
+  div.subscribe p {
+    margin: 0 0 6px 0; }
+  div.subscribe input[type=text] {
+    width: 200px; }
+
+div.call_to_action {
+  width: 200px;
+  background-color: #ec5424;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 1 0px;
+  color: #1e6a96;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  padding: 1em 2em;
+  cursor: pointer; }
+
+/* END home page above fold */
+/* home page nav links */
+div.home_links {
+  float: right; }
+  div.home_links ul {
+    margin: 14px 30px 0 0;
+    padding-left: 0px; }
+    div.home_links ul li {
+      font-size: 1.1em;
+      list-style-type: disc;
+      display: inline;
+      padding: 0 1em 0 0;
+      margin: 0 1em 0 0;
+      border-right: 1px solid #6699cc; }
+    div.home_links ul li:last-child {
+      list-style-type: disc;
+      display: inline;
+      padding: 0;
+      border-right: 0px; }
+  div.home_links ul > li:first-child {
+    padding-left: 0; }
+  div.home_links li.active {
+    font-weight: bold; }
+    div.home_links li.active a {
+      text-decoration: none;
+      color: black;
+      cursor: default; }
+
+/* END home page nav links */
+p.clear_both {
+  clear: both; }
+
+div.social_proof_logos {
+  height: 120px;
+  margin-top: 50px;
+  margin-left: 60px; }
+  div.social_proof_logos img {
+    margin-right: 55px; }
+  div.social_proof_logos a {
+    text-decoration: none; }
+
+div.how_it_works {
+  height: 200px;
+  margin-top: 50px; }
+  div.how_it_works div.screenshot {
+    border: 1px solid blue;
+    width: 280px;
+    height: 280px;
+    float: left;
+    margin-right: 50px; }
+  div.how_it_works div.screenshot.last {
+    margin-right: 0; }
+
+div.quote {
+  padding: 20px 0;
+  margin-top: 50px; }
+  div.quote p {
+    font-size: 1.2em;
+    margin-left: 20px;
+    width: 600px; }
+
+div.featured_projects {
+  border: 1px solid #cccccc;
+  height: 200px;
+  margin-top: 50px; }
+
+div.call_to_action.lower {
+  margin: 50px 0; }
+
+/* get_started form */
+div.home_forms table {
+  width: 420px; }
+div.home_forms label {
+  font-weight: bold; }
+div.home_forms input[type=text] {
+  width: 200px;
+  margin-bottom: 20px; }
+div.home_forms textarea {
+  width: 400px;
+  height: 100px;
+  margin-bottom: 20px; }
+div.home_forms td {
+  vertical-align: top; }
+div.home_forms div.get_started form {
+  margin-top: 40px; }
+div.home_forms div.get_started p {
+  width: 600px; }
+div.home_forms div.get_started p.em {
+  font-weight: bold; }
+div.home_forms div.get_started li {
+  width: 580px;
+  margin-bottom: 1em; }
+
+/* END get_started form */

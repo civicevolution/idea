@@ -1,0 +1,22 @@
+- active ||= ''
+- if active != 'home'
+	= link_to :ce_home do
+		= image_tag "ce-on-parchmentB.gif", :class=>'logo'
+- else
+	= image_tag "ce-on-parchmentB.gif", :class=>'logo'
+
+%div.home_links
+	%ul
+		%li{:class=> active=='home' ? 'active' : ''}
+			=link_to 'Home', :ce_home
+		%li{:class=> active=='about' ? 'active' : ''} 
+			= link_to 'About', :ce_about
+			%li{:class=> active=='get_started' ? 'active' : ''} 
+				= link_to 'Get Started', :get_started
+		%li{:class=> active=='contact_us' ? 'active' : ''} 
+			= link_to 'Contact Us', :ce_contact_us
+		-#%li Live chat
+		-#%li 
+			= link_to 'Sign in', {:controller=>'sign_in'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false	}
+			
+%p.clear_both

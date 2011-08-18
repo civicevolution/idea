@@ -14,6 +14,27 @@ class AdminMailer < ActionMailer::Base
     )
   end
 
+  def subscribe_to_follow(email)
+      @email = email
+      mail(:to => "Info at CivicEvolution <info@civicevolution.org>",
+        :subject => 'Subscribe to follow request')
+
+    end
+
+  def get_started(params)
+    @params = params
+    mail(:to => "Info at CivicEvolution <info@civicevolution.org>",
+      :subject => 'Get started request')
+
+  end
+
+  def contact_us(params)
+    @params = params
+    mail(:to => "Info at CivicEvolution <info@civicevolution.org>",
+      :subject => 'Contact us message from CivicEvolution')
+
+  end
+  
 
   #def email_message_with_attachment(recipient, subject, plain_text_message, html_message, include_bcc, sent_at = Time.now)
   #  subject    subject

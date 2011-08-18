@@ -1,0 +1,80 @@
+%div.get_started.home_forms.home_pages
+	%div.spiral
+	%div.notebook
+
+		= render :partial=>'logo_links', :locals=>{:active=>'get_started'}
+		
+		%div.get_started
+			%h3 Get started
+			
+			
+			%h4 We are currently recruiting public engagements to partner with CivicEvolution
+			%p 
+				We subscribe to the 
+				= link_to 'Promise, bargain, tool philosophy', "http://en.wikipedia.org/wiki/Here_Comes_Everybody"
+				expressed by 
+				= link_to 'Clay Shirky', "http://www.shirky.com/weblog/"
+				in his book 
+				= link_to "Here come's everybody", "http://www.amazon.com/Here-Comes-Everybody-Organizing-Organizations/dp/1594201536"
+				which explores the use of online social tools. This philosophy highlights the essential equation behind successful public engagement, online as well as in the real world.
+			%p Shirky suggests, and we believe, that success can only occur if
+			%ol
+				%li We can articulate a plausible, concrete, and worthwhile promise that can actually motivate people to participate. 
+				%li We can construct an attractive bargain: what must a participant do in order to claim the promise? 
+			
+			%p Only after we can construct a desirable promise and a bargain that allows us to deliver on the promise, should we select our tools. You see, as soon as you select a tool and draw people to it, you are making a promise. If you haven't done your homework, you are likely to imply a promise you cannot keep. If you ask people to participate, they will assume you are listening. If you haven't structured a proper bargain, participants will expect you to respond to every idea they post. 
+			
+			%p Of course you can't respond to every post. Participants will interpret unresponsiveness as reneging on your implied promise to listen. This typically leads to two simultaneous phenomena: people stop participating or they start acting out for attention.
+			
+			%p CivicEvolution is designed and tested to create productive and safe online engagements that deliver quality public collaboration and input. Before you can expect meaningful success using CivicEvolution, you will need to be able to answer the three questions below about your goals, product, and promise. We realize this is a different approach to creating an online engagement and we understand you may not have these answers yet.  
+			
+			%p.em Share what you can now and we can work with you to design a successful engagement.
+			
+			%p Our experience designing engagements around this philosophy can help you think through your own promises and bargains so you can achieve your goals.			
+			
+			
+			= form_tag(:get_started, :remote=>false, :id=>'get_started_form', :class=>'orig') do
+				%table
+					%tbody
+						%tr
+							%td= label_tag :name, 'Your name'
+							%td= text_field_tag :name
+						%tr
+							%td= label_tag :email, 'Your email'
+							%td= text_field_tag :email
+						%tr
+							%td= label_tag :organization, 'Your organization'
+							%td= text_field_tag :organization
+						%tr
+							%td= label_tag :phone, 'Your phone (optional)'
+							%td= text_field_tag :phone
+
+						%tr
+							%td{:colspan=>2}= label_tag :goal, 'Q1: What is the #1 thing you hope to accomplish through CivicEvolution?'
+						%tr
+							%td{:colspan=>2}= text_area_tag :goal
+
+						%tr
+							%td{:colspan=>2}= label_tag :product, 'Q2: What do you want the participants to produce?'
+						%tr
+							%td{:colspan=>2}= text_area_tag :product
+
+						%tr
+							%td{:colspan=>2}= label_tag :promise, 'Q3: What is the plausible, concrete promise you or the engagement sponsor is willing to make to incentivise the participants?'
+						%tr
+							%td{:colspan=>2}= text_area_tag :promise
+
+						%tr
+							%td{:colspan=>2}= label_tag :promise, 'Any other comments or questions'
+						%tr
+							%td{:colspan=>2}= text_area_tag :comments
+
+
+
+
+
+
+
+							%tr
+								%td= submit_tag "Subscribe"
+			

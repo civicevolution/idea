@@ -7,7 +7,8 @@ class WelcomeController < ApplicationController
     
     if (request.subdomains.first.nil? || request.subdomains.first.match(/www/i))  && env['PATH_INFO'] == '/'
       logger.debug "Show the CE home page"
-      render :action=>'home', :layout=>false
+      #render :action=>'home', :layout=>false
+      home
       return
     end
     
@@ -31,12 +32,55 @@ class WelcomeController < ApplicationController
   
   def home
     logger.debug "Show the CE home page"
-    render :action=>'home', :layout=>false
+    render :action=>'home1', :layout=>'civicevolution'
   end
   
   def about
     render :action=>'about', :layout=>'civicevolution'
   end
+  
+  def contact_us
+    render :action=>'contact_us', :layout=>'civicevolution'
+  end
+
+  def contact_us_post
+    AdminMailer.delay.contact_us(params)
+    
+    respond_to do |format|
+      format.html { redirect_to( :action=>'contact_us_message_sent' ) }
+    end
+  end
+  
+  def contact_us_message_sent
+    render :action=>'contact_us_message_sent', :layout=>'civicevolution'
+  end
+  
+  
+  def subscribe
+    AdminMailer.delay.subscribe_to_follow(params[:email]) 
+    
+    respond_to do |format|
+      format.js { render 'general_subscribe' }
+      format.html { redirect_to({:action=>:home}, :flash => { :subscribed => 'Thank you for subscribing to CivicEvoution updates.'}) }
+    end
+  end
+
+  def get_started
+    render :action=>'get_started', :layout=>'civicevolution'
+  end
+
+  def get_started_post
+    AdminMailer.delay.get_started(params)
+    
+    respond_to do |format|
+      format.html { redirect_to( :action=>'get_started_accepted' ) }
+    end
+  end
+  
+  def get_started_accepted
+    render :action=>'get_started_accepted', :layout=>'civicevolution'
+  end
+
 
   def signin
     logger.debug "signin #{params.inspect}"

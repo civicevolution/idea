@@ -1,0 +1,85 @@
+%div.home
+	%div.spiral
+	%div.notebook
+
+		= render :partial=>'logo_links', :locals=>{:active=>'home'}
+		
+		%div.mission
+			%h2 Think together 
+			%h2 to act together
+			
+			- if params[:v] == 'a' || params[:v].nil?
+				%p Maximize meaningful citizen participation in focused and creative community problem solving with our user-friendly, productive and cost-effective solution
+			- elsif params[:v] == 'b'
+				%p Your user-friendly, productive and cost-effective solution to maximizing meaningful citizen participation in focused and creative community problem solving. 
+
+			- elsif params[:v] == 'c'
+				%p CivicEvolution's user-friendly, productive and cost-effective solution maximizes meaningful citizen participation in focused and creative community problem solving
+
+			- elsif params[:v] == 'd'
+				%p Boost meaningful citizen participation in focused and creative community problem solving with our user-friendly, productive and cost-effective solution
+				
+			- elsif params[:v] == 'e'
+				%p Maximize meaningful citizen participation in focused and creative community problem solving with our user-friendly, productive and cost-effective application
+			
+		%div.video
+			<iframe src="http://player.vimeo.com/video/22453947?title=0&amp;byline=0&amp;portrait=0" width="400" height="310" frameborder="0"></iframe>
+			%p 
+				%span.bright Watch video 
+				How CivicEvolution works
+			
+			-#= link_to do
+				= image_tag "happy_idea_400.gif"
+				%p 
+					%span.bright Watch video 
+					How CivicEvolution works
+					
+		%p.clear_both			
+
+		%div.call_to_action_div
+			= link_to :get_started do
+				%div.call_to_action
+					Get started
+				
+		%div.subscribe
+			- if ! flash[:subscribed].nil?
+				%p= flash[:subscribed]
+			- else 
+				= form_tag("/subscribe", :remote=>false, :id=>'subscribe_form', :class=>'orig') do
+					%p Keep me updated
+					%p
+						Email: 
+						= text_field_tag :email
+						= submit_tag "Subscribe"
+			
+%div.social_proof_logos
+	= link_to 'http://2029.civicevolution.org', {:target=>'_blank'} do
+		= image_tag 'mktg/2029_logo_tag_6.gif'
+	= link_to 'http://newdemocracy.com.au/docs/newDemocracy_Citizens_Parliament_Handbook.pdf', {:target=>'_blank'} do
+		= image_tag 'mktg/citizens_parliament_8.jpg'
+	= link_to 'http://communityforums.org/', {:target=>'_blank'} do
+		= image_tag 'mktg/CCF_logo_6.gif'
+	= image_tag 'mktg/usyd_6.gif'
+
+-#		
+	%div.how_it_works
+		%div.screenshot
+			%p Screenshot 1
+		%div.screenshot
+			%p Screenshot 2
+		%div.screenshot.last
+			%p Screenshot 3
+	%p.clear_both
+
+	%div.quote
+		%h3 Our vision drives us
+		%p "Ultimately citizens experience themselves as authentic participants in the creative co-governance of their communities"
+	
+	%div.featured_projects
+		%p 2029 and Beyond is the featured project
+
+	%div.call_to_action_div
+		= link_to :get_started do
+			%div.call_to_action.lower
+				Get started
+	

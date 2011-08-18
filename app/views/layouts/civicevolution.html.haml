@@ -17,16 +17,11 @@
 					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 				})();
 			
-	-#%body
-		= link_to image_tag("logo47.gif", :class=>'logo'), :action=>'home'
-		= link_to image_tag("ce_tm.gif", :class=>'ceNameTag'), :action=>'home'
-		%div.tagLine Think together to act together
-	
 	%body
 		-#= link_to "Help",{},{:class=>'help_tag request_help'}
 
 		%div.page
-			%div.logo
+			-#%div.logo
 				= link_to image_tag("logo47.gif", :class=>'logo'), :action=>'home'
 				= link_to image_tag("ce_tm.gif", :class=>'ceNameTag'), :action=>'home'
 				%div.tagLine Think together to act together
@@ -43,7 +38,7 @@
 					or
 					= link_to 'Sign in', {:controller=>'welcome'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow'}
 
-			%hr.top
+			-#%hr.top
 			= yield
 
-			%hr
+			-#%hr

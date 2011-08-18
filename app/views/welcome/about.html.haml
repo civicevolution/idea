@@ -1,64 +1,73 @@
-%div.about
+%div.home_forms.home_pages
+	%div.spiral
+	%div.notebook
 
-	%h3 About CivicEvolution
+		= render :partial=>'logo_links', :locals=>{:active=>'about'}
 
-	%p CivicEvolution is produced by Practical Evolution, LLC based in San Francisco, California.
+		%div.about
 
-	%h3 Think together to act together
-	%p We believe that meaningful change comes from the grassroots in the form of community written and supported plans to solve community problems.
+			%h3 About CivicEvolution
+
+			%p CivicEvolution is produced by Practical Evolution, LLC based in San Francisco, California.
+
+			%h3 Think together to act together
+			%p We believe that meaningful change comes from the grassroots in the form of community written and supported plans to solve community problems.
 
 
-	%h3 How we do it
+			%h3 How we do it
 	
-	%p We complement traditional face-to-face citizen engagement with the scalability and access of social media and collaborative production. Our goal is to maximize everyone's ability to participate in creative community problem solving by giving them a platform where they can "Think together to act together."
+			%p We complement traditional face-to-face citizen engagement with the scalability and access of social media and collaborative production. Our goal is to maximize everyone's ability to participate in creative community problem solving by giving them a platform where they can "Think together to act together."
 
-	%p Anyone can float ideas and aggregate clicks–meaningful change comes from a community written and supported plan to put an idea into action.
+			%p Anyone can float ideas and aggregate clicks–meaningful change comes from a community written and supported plan to put an idea into action.
 
-	%p We solve the pain points experienced by both citizens and decision-makers. Citizens can't commit to full-time activism and decision makers often don't have access to quality and cost-effective public input.
+			%p We solve the pain points experienced by both citizens and decision-makers. Citizens can't commit to full-time activism and decision makers often don't have access to quality and cost-effective public input.
 
-	%p We empower leaders to make an explicit promise to listen to and collaborate with their constituents by creating a safe, engaging, and productive way for decision makers to gather quality community input. 
+			%p We empower leaders to make an explicit promise to listen to and collaborate with their constituents by creating a safe, engaging, and productive way for decision makers to gather quality community input. 
 
-	%p Our solution outsources democracy back to the citizens in the form of community plan writing. They elicit community feedback, filter it, and synthesize it into an actionable proposal that decision-makers can review and negotiate.
+			%p Our solution outsources democracy back to the citizens in the form of community plan writing. They elicit community feedback, filter it, and synthesize it into an actionable proposal that decision-makers can review and negotiate.
 
-	%p Ultimately, citizens experience themselves as authentic participants in the creative co-governance of their communities
+			%p Ultimately, citizens experience themselves as authentic participants in the creative co-governance of their communities
 
 
-	%h3 Our people
+			%h3 Our people
 	
-	%table
-		%tbody
-			%tr
-				%td 
-					=image_tag('bio/brian_100.jpg', :width=>'100px', :height=>'100px')
-				%td
-					%p.title Brian Sullivan, Founder and CEO
-					%p Brian is a programmer and consultant with 25 years experience. For the last 10 years he has focused his efforts on developing online dialogue and deliberation tools that can complement real world practice by harnessing the often fragmented and reactionary online participation into constructive community problem solving. 
+			%table
+				%tbody
+					%tr
+						%td 
+							=image_tag('bio/brian_100.jpg', :width=>'100px', :height=>'100px')
+						%td
+							%p.title Brian Sullivan, Founder and CEO
+							%p Brian is a programmer and consultant with 25 years experience. For the last 10 years he has focused his efforts on developing online dialogue and deliberation tools that can complement real world practice by harnessing the often fragmented and reactionary online participation into constructive community problem solving. 
 
-			%tr
-				%td 
-					=image_tag('bio/jhk_100.jpg', :width=>'100px', :height=>'100px')
-				%td
-					%p.title Prof Janette Hartz-Karp, International Public Engagement Advisor
-					%p Janette is renowned nationally and internationally for her innovative work in deliberative democracy. Janette is currently involved in a number of action research initiatives including a pilot for a global dialogue on climate change in Alberta Canada; preventative health deliberations across Australia; creating a deliberative community/collaborative governance in regional WA - one of the finalists in the international Reinhard-Mohn Prize 2011 for ‘vitalizing democracy’
+					%tr
+						%td 
+							=image_tag('bio/jhk_100.jpg', :width=>'100px', :height=>'100px')
+						%td
+							%p.title Prof Janette Hartz-Karp, International Public Engagement Advisor
+							%p Janette is renowned nationally and internationally for her innovative work in deliberative democracy. Janette is currently involved in a number of action research initiatives including a pilot for a global dialogue on climate change in Alberta Canada; preventative health deliberations across Australia; creating a deliberative community/collaborative governance in regional WA - one of the finalists in the international Reinhard-Mohn Prize 2011 for ‘vitalizing democracy’
 					
-			%tr
-				%td 
-					=image_tag('bio/laurie_100.jpg', :width=>'100px', :height=>'100px')
-				%td
-					%p.title Laurie McCann, United States Public Engagement Advisor
-					%p Laurie works with organizations and communities committed to creating a more peaceful, just and sustainable world. She recently retired as Campus Ombuds at UCSC where she served for 11 years. Laurie has extensive experience in designing and facilitating organizational change initiatives. She has initiated and managed social change projects as well as facilitating negotiation of public policy and natural resource management plans.
+					%tr
+						%td 
+							=image_tag('bio/laurie_100.jpg', :width=>'100px', :height=>'100px')
+						%td
+							%p.title Laurie McCann, United States Public Engagement Advisor
+							%p Laurie works with organizations and communities committed to creating a more peaceful, just and sustainable world. She recently retired as Campus Ombuds at UCSC where she served for 11 years. Laurie has extensive experience in designing and facilitating organizational change initiatives. She has initiated and managed social change projects as well as facilitating negotiation of public policy and natural resource management plans.
 					
-	%h3 Here are a few of our recent projects
+			%h3 Here are a few of our recent projects
 
-	%h4 2029 and Beyond: Sustainable Future City Project
-	%p CivicEvolution has partnered with the City of Geraldton-Greenough in Western Australia for their Sustainable Future City Project. Their mission is to develop a sustainable future city and region plan by and for the community. CivicEvolution is providing tools and processes for engaging citizen participants in deliberative collaboration to develop ideas and proposals for the sustainable community planning project.
-	%p The 2029 project including CivicEvolution was a finalist in the international Reinhard-Mohn Prize 2011 for ‘vitalizing democracy’
+			%h4 2029 and Beyond: Sustainable Future City Project
+			%p CivicEvolution has partnered with the City of Geraldton-Greenough in Western Australia for their Sustainable Future City Project. Their mission is to develop a sustainable future city and region plan by and for the community. CivicEvolution is providing tools and processes for engaging citizen participants in deliberative collaboration to develop ideas and proposals for the sustainable community planning project.
+			%p The 2029 project including CivicEvolution was a finalist in the international Reinhard-Mohn Prize 2011 for ‘vitalizing democracy’
 
 
-	%h4 Citizens Parliament
-	%p The first ever Australian Citizens' Parliament brought 150 randomly selected Australians together for 3 days to answer the question: "How can Australia's political system be strengthened to serve us better?"
-	%p CivicEvolution provided an Online Parliament for 2600 randomly selected Australian citizens. Hundreds of these citizens used CivicEvolution to develop and support proposals that became the starting point for the face-to-face assembly in Canberra. The Citizens' Parliament deliberated, improved and endorsed 11 of the proposals that were developed in the Online Parliament. The final recommendations of the Citizens' parliament were presented to the Prime Minister, Parliament, and the media.
+			%h4 Citizens Parliament
+			%p The first ever Australian Citizens' Parliament brought 150 randomly selected Australians together for 3 days to answer the question: "How can Australia's political system be strengthened to serve us better?"
+			%p CivicEvolution provided an Online Parliament for 2600 randomly selected Australian citizens. Hundreds of these citizens used CivicEvolution to develop and support proposals that became the starting point for the face-to-face assembly in Canberra. The Citizens' Parliament deliberated, improved and endorsed 11 of the proposals that were developed in the Online Parliament. The final recommendations of the Citizens' parliament were presented to the Prime Minister, Parliament, and the media.
 	
 	
-	%h4 Countywide Community Forums in Seattle, WA
-	%p Countywide Community Forums is designed to make democracy more user-friendly and to bring the public forum to your kitchen table, neighborhood, and workplace. Over 1800 Citizen Councilors are registered and making their opinion count while building stronger connections to their community. CivicEvolution was tasked to give the citizen participants greater say in the development of the forums and help increase citizen participation in the program. 
+			%h4 Countywide Community Forums in Seattle, WA
+			%p Countywide Community Forums is designed to make democracy more user-friendly and to bring the public forum to your kitchen table, neighborhood, and workplace. Over 1800 Citizen Councilors are registered and making their opinion count while building stronger connections to their community. CivicEvolution was tasked to give the citizen participants greater say in the development of the forums and help increase citizen participation in the program. 
+
+			%h3 Contact us
+			%p If you would like to learn more about CivicEvolution, please contact us at info@civicevolution.org
