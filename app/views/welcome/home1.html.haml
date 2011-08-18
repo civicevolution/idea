@@ -49,25 +49,19 @@
 		= image_tag 'mktg/CCF_logo_6gs.gif'
 	= image_tag 'mktg/usyd_6gs.gif'
 
--#		
-	%div.how_it_works
-		%div.screenshot
-			%p Screenshot 1
-		%div.screenshot
-			%p Screenshot 2
-		%div.screenshot.last
-			%p Screenshot 3
-	%p.clear_both
+= render :template=>'welcome/how_it_works' 
 
-	%div.quote
-		%h3 Our vision drives us
-		%p "Ultimately citizens experience themselves as authentic participants in the creative co-governance of their communities"
-	
-	%div.featured_projects
-		%p 2029 and Beyond is the featured project
+%div.quote
+	%h3 Our vision drives us
+	%p "Ultimately, citizens experience themselves as authentic participants in the creative co-governance of their communities"
 
-	%div.call_to_action_div
-		= link_to :get_started do
-			%div.call_to_action.lower
-				Get started
+%h3 Featured project
+%div.featured_projects
+	= image_tag 'mktg/2029beyondtaghor_xpb.gif'
+	%p 2029 and Beyond is the featured project
+
+%div.call_to_action_div
+	= link_to :get_started do
+		%div.call_to_action.lower
+			Get started
 	

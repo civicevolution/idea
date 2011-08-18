@@ -73,7 +73,7 @@ div.notebook
 	padding-bottom: 20px
 	-webkit-border-radius: 10px
 	-moz-border-radius: 10px
-	border-radius: 1-0px
+	border-radius: 10px
 	min-height: 400px
 div.home
 	div.notebook
@@ -144,7 +144,7 @@ div.call_to_action
 	background-color: $logo_orange
 	-webkit-border-radius: 10px
 	-moz-border-radius: 10px
-	border-radius: 1-0px
+	border-radius: 10px
 	color: $blue_logo_complement
 	font-size: 2em
 	font-weight: bold
@@ -201,21 +201,47 @@ div.social_proof_logos
 		text-decoration: none
 
 div.how_it_works
-	height: 200px
-	margin-top: 50px
+	height: 580px
+	margin-top: 0px
+	-webkit-border-radius: 10px
+	-moz-border-radius: 10px
+	border-radius: 10px
+	//border: 1px solid #ccc
+	padding: 2em 3em
+	background: url(/images/parchment_tile.jpg)
+	> p 
+		font-size: 1.2em
 	div.screenshot
-		border: 1px solid blue
-		width: 280px
-		height: 280px
+		//border: 1px solid blue
+		width: 260px
+		height: 260px
 		float: left
 		margin-right: 50px
+		margin-bottom: 50px
+	
+		img
+			width: 256px
+			height: 140px
+			border: 2px solid #BCC3D0
+			display: block
+			background-color: #F9F3DE
+			
+		h3
+			margin-bottom: 4px
+			color: #2B4268
+		p	
+			line-height: 1.3em
+			margin: 0
+		a
+			display: block
+			margin-top: 4px
 	div.screenshot.last
 		margin-right: 0
 		
 div.quote
 	//border: 1px solid #ccc
-	padding: 20px 0
-	margin-top: 50px
+	//padding: 20px 0
+	margin: 50px 0
 	p
 		font-size: 1.2em
 		margin-left: 20px
@@ -224,7 +250,12 @@ div.quote
 div.featured_projects
 	border: 1px solid #ccc
 	height: 200px	
-	margin-top: 50px
+	-webkit-border-radius: 10px
+	-moz-border-radius: 10px
+	border-radius: 10px
+	padding: 1em 2em
+	background: url(/images/parchment_tile.jpg)
+	
 		
 div.call_to_action.lower	
 	margin: 50px 0

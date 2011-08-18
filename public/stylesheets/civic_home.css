@@ -63,7 +63,7 @@ div.notebook {
   padding-bottom: 20px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  border-radius: 1 0px;
+  border-radius: 10px;
   min-height: 400px; }
 
 div.home div.notebook {
@@ -129,7 +129,7 @@ div.call_to_action {
   background-color: #ec5424;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  border-radius: 1 0px;
+  border-radius: 10px;
   color: #1e6a96;
   font-size: 2em;
   font-weight: bold;
@@ -179,20 +179,41 @@ div.social_proof_logos {
     text-decoration: none; }
 
 div.how_it_works {
-  height: 200px;
-  margin-top: 50px; }
+  height: 580px;
+  margin-top: 0px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  padding: 2em 3em;
+  background: url(/images/parchment_tile.jpg); }
+  div.how_it_works > p {
+    font-size: 1.2em; }
   div.how_it_works div.screenshot {
-    border: 1px solid blue;
-    width: 280px;
-    height: 280px;
+    width: 260px;
+    height: 260px;
     float: left;
-    margin-right: 50px; }
+    margin-right: 50px;
+    margin-bottom: 50px; }
+    div.how_it_works div.screenshot img {
+      width: 256px;
+      height: 140px;
+      border: 2px solid #bcc3d0;
+      display: block;
+      background-color: #f9f3de; }
+    div.how_it_works div.screenshot h3 {
+      margin-bottom: 4px;
+      color: #2b4268; }
+    div.how_it_works div.screenshot p {
+      line-height: 1.3em;
+      margin: 0; }
+    div.how_it_works div.screenshot a {
+      display: block;
+      margin-top: 4px; }
   div.how_it_works div.screenshot.last {
     margin-right: 0; }
 
 div.quote {
-  padding: 20px 0;
-  margin-top: 50px; }
+  margin: 50px 0; }
   div.quote p {
     font-size: 1.2em;
     margin-left: 20px;
@@ -201,7 +222,11 @@ div.quote {
 div.featured_projects {
   border: 1px solid #cccccc;
   height: 200px;
-  margin-top: 50px; }
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  padding: 1em 2em;
+  background: url(/images/parchment_tile.jpg); }
 
 div.call_to_action.lower {
   margin: 50px 0; }
