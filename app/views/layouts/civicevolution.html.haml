@@ -38,7 +38,13 @@
 					or
 					= link_to 'Sign in', {:controller=>'welcome'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow'}
 
-			-#%hr.top
 			= yield
 
-			-#%hr
+		= javascript_include_tag '../plugins/prettyPhoto/js/jquery-1.6.1.min.js', '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
+		=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
+		:javascript
+			console.log("do prettyPhoto")
+			try{
+				$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded', social_tools: '', show_title: false});
+			}catch(e){console.log("error with prettyPhoto e: " + e.message)}
+		

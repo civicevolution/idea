@@ -53,12 +53,14 @@
 
 %div.quote
 	%h3 Our vision drives us
-	%p "Ultimately, citizens experience themselves as authentic participants in the creative co-governance of their communities"
-
-%h3 Featured project
-%div.featured_projects
-	= image_tag 'mktg/2029beyondtaghor_xpb.gif'
-	%p 2029 and Beyond is the featured project
+	%p 
+		= image_tag 'mktg/left_dbl_quote_20.gif'
+		Ultimately, citizens experience themselves as authentic participants in the creative co-governance of their communities
+		= image_tag 'mktg/right_dbl_quote_20.gif'
+		
+		
+		
+= render:template=>'welcome/featured_projects'
 
 %div.call_to_action_div
 	= link_to :get_started do
