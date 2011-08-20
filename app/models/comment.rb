@@ -77,8 +77,17 @@ class Comment < ActiveRecord::Base
     )
   end
   
-  
-  
+  def self.set_question_id_child_comments(comments)
+  	child_coms = comments.select{ |c| c.parent_type == 3 }
+  	return [] if child_coms.size == 0
+    com_pars = ActiveRecord::Base.connection.select_all(
+      %Q|SELECT id, parent_id FROM comments where id in ( #{ (child_coms.map(&:parent_id).uniq - comments.map(&:id)).join(',') } )|
+    )
+    com_lookup = []
+    com_pars.each{|c| com_lookup[ c['id'].to_i ] = c['parent_id'].to_i}
+    child_coms.each{|c| c['question_id'] = com_lookup[c.parent_id]}
+  end
+    
   def check_team_access
     self.publish = true unless !self.member.confirmed
     logger.debug "validate check_team_access, @par_id: #{@par_id}"

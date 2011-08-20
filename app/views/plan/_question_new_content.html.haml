@@ -1,0 +1,43 @@
+%div.question
+	%p{:id=>question.id}
+		= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'open_worksheet'}
+	%div.question_content
+		- talking_points = @talking_points.find_all{|tp| tp.question_id == question.id}.sort{|a,b| a.id<=>b.id}
+		- talking_points.each do |talking_point|
+			%div.talking_point
+				%p.talking_point
+					-#(#{talking_point.id})
+					- if talking_point['new']
+						[New]
+					= talking_point.text
+					%abbr.timeago{:title=>talking_point.created_at}= time_ago_in_words(talking_point.created_at) + ' ago'
+			
+				- comments = @comments.find_all{|c| c.parent_id == talking_point.id && c.parent_type == 13}.sort{|a,b| a.id<=>b.id}.each do |comment|
+					%div.talking_point_comment
+						-#New talking point comment: 
+						-#%div.comment_text!= show_new_comment(name, member.ape_code, comment.text, comment.id)
+						%div.comment_text!= show_new_comment('Brian', '', comment.text, comment.id, 'tp com')
+						%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'
+			
+		- question_coms = @comments.find_all{|c| c['question_id'] == question.id}
+		- @comments.find_all{|c| c.parent_id == question.id && c.parent_type == 1}.sort{|a,b| a.id<=>b.id}.each do |comment|
+			%div.question_comment
+				-#%div.comment_text!= show_new_comment(name, member.ape_code, comment.text, comment.id)
+				%div.comment_text!= show_new_comment('Brian', '', comment.text, comment.id, 'q com')
+				%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'
+		
+			- children_to_delete = []
+			- question_coms.find_all{|c| c.parent_id == comment.id && c.parent_type == 3}.sort{|a,b| a.id<=>b.id}.each do |child_comment|
+				%div.question_comment
+					-#%div.comment_text!= show_new_comment(name, member.ape_code, child_comment.text, child_comment.id)
+					%div.comment_text!= show_new_comment('Brian', '', child_comment.text, child_comment.id, 'child com')
+					%abbr.timeago{:title=>child_comment.created_at}= time_ago_in_words(child_comment.created_at) + ' ago'
+				- children_to_delete.push(child_comment)
+			- children_to_delete.each{|c| question_coms.delete(c) }	
+			
+		-# debugger
+		- question_coms.sort{|a,b| a.id<=>b.id}.each do |comment|
+			%div.question_comment
+				-#%div.comment_text!= show_new_comment(name, member.ape_code, comment.text, comment.id)
+				%div.comment_text!= show_new_comment('Brian', '', comment.text, comment.id, 'orphan com')
+				%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'		

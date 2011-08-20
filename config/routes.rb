@@ -29,6 +29,8 @@ G3::Application.routes.draw do |map|
   get 'plan/review_proposal_idea/:id', :controller => 'plan', :action => 'review_proposal_idea', :requirements => { :id => /\d+/ }
   
   post "plan/approve_proposal_idea", :controller => 'plan', :action => 'approve_proposal_idea'
+  
+  get 'plan/:team_id/new_content/:time_stamp' => 'plan#new_content'
 
   #match 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
   match 'plan/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }

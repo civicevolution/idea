@@ -68,7 +68,28 @@ class PlanController < ApplicationController
     logger.flush
     #logger.auto_flushing = 1
   end
+  
+  def new_content
+    time_stamp = params[:time_stamp] || '110819'
+    time_stamp = time_stamp.scan(/\d\d/)
+    @last_visit = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
 
+    @questions = Question.where("team_id = :team_id", :team_id => params[:team_id])
+    
+    @talking_points = TalkingPoint.where("question_id IN (:question_ids) AND updated_at >= :last_visit", :question_ids => @questions.map(&:id), :last_visit => @last_visit )
+    @talking_points.each{|tp| tp['new'] = true }
+    
+    @comments = Comment.where("team_id = :team_id AND created_at >= :last_visit", :team_id => params[:team_id], :last_visit => @last_visit)
+    
+    tps_i_need = @comments.map{ |c| c.parent_type == 13 ? c.parent_id : nil}.compact.uniq - @talking_points.map(&:id)
+
+    if tps_i_need.size > 0
+      @talking_points  = @talking_points + TalkingPoint.find(tps_i_need)
+    end
+    
+    Comment.set_question_id_child_comments(@comments)
+    
+  end
   
   def suggest_new_idea
     logger.debug "show form for suggest_new_idea"

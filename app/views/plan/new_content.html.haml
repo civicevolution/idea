@@ -1,0 +1,22 @@
+%style
+	:sass
+		div.talking_point_comment
+			margin-left: 20px
+		div.talking_point
+			//margin-left: 20px
+			p.talking_point
+				font-weight: bold
+		div.question, div.question_content
+			margin-left: 20px
+			
+
+%h3 Show new content since #{@last_visit.strftime('%A %b %d, %Y')}
+
+%p
+	(#{pluralize( @talking_points.select{|tp| tp['new']}.size, 'new talking point')},
+	#{pluralize( @comments.size, 'new comment')})
+	
+
+
+- @questions.sort! {|a,b| a.order_id <=> b.order_id }
+= render :partial=> 'question_new_content', :collection => @questions, :as => :question, :locals => {:questions => @questions}
