@@ -1,9 +1,11 @@
 class Comment < ActiveRecord::Base
 
   has_one :resource, :dependent => :destroy
-  
+
+  has_one :author, :class_name => 'Member', :foreign_key => 'id',  :primary_key => 'member_id', :select => 'id, first_name, last_name, ape_code, photo_file_name'
+
   has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 3', :order => 'id asc'
-  
+   
   belongs_to :talking_point, :foreign_key => 'parent_id'
   belongs_to :question, :foreign_key => 'parent_id'
   belongs_to :comment, :foreign_key => 'parent_id'
@@ -80,8 +82,10 @@ class Comment < ActiveRecord::Base
   def self.set_question_id_child_comments(comments)
   	child_coms = comments.select{ |c| c.parent_type == 3 }
   	return [] if child_coms.size == 0
+  	needed_ids = child_coms.map(&:parent_id).uniq - comments.map(&:id)
+  	return [] if needed_ids.size == 0
     com_pars = ActiveRecord::Base.connection.select_all(
-      %Q|SELECT id, parent_id FROM comments where id in ( #{ (child_coms.map(&:parent_id).uniq - comments.map(&:id)).join(',') } )|
+      %Q|SELECT id, parent_id FROM comments where id in ( #{ needed_ids.join(',') } )|
     )
     com_lookup = []
     com_pars.each{|c| com_lookup[ c['id'].to_i ] = c['parent_id'].to_i}
