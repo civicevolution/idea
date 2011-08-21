@@ -1,15 +1,69 @@
 %style
 	:sass
+		$talking_point_bg: #BCC3D0 //rgb(192,228,154)
 		div.talking_point_comment
 			margin-left: 20px
 		div.talking_point
 			//margin-left: 20px
-			p.talking_point
+			span.talking_point_text
+				font-size: 1.2em
+			p.talking_point.new
 				font-weight: bold
 		div.question, div.question_content
 			margin-left: 20px
-			
+		abbr.timeago, span.author, span.tp_reference
+			font-size: .8em
+			color: #888
+			white-space: nowrap
+		abbr.timeago
+			margin-left: 10px
+		span.author
+			margin-right: 10px
+		span.com_quote
+			font-style: italic
+		table
+			width: 800px
+			td
+				border-bottom: 2px solid white
+			tr.question
+				background-color: #F2E9C3
+				font-size: 1.4em
+				td
+					border-bottom: 4px solid white
+					border-top: 4px solid white
+			tr.talking_point
+				background-color: $talking_point_bg
+				font-size: 1.2em
+			tr.comment.stripe
+				background-color: #F9F3DE
+			td
+				vertical-align: top
+				padding-bottom: 1em
+				padding-top: 4px
+			td.level1
+				padding-left: 20px
+			td.level2
+				padding-left: 40px
+		p.talking_point 
+			margin-bottom: 1em
+			padding-left: 30px
+			img
+				background-color: $talking_point_bg
+				width: 20px
+				height: 20px
+				margin-left: -30px
+				margin-right: 4px
+		td
+			a
+				text-decoration: none
+				color: black
+			a:hover
+				//text-decoration: underline
+				font-weight: bold
+			a:visited
+				color: #444
 
+%h3= @team.title
 %h3 Show new content since #{@last_visit.strftime('%A %b %d, %Y')}
 
 %p
@@ -17,6 +71,7 @@
 	#{pluralize( @comments.size, 'new comment')})
 	
 
-
-- @questions.sort! {|a,b| a.order_id <=> b.order_id }
-= render :partial=> 'question_new_content', :collection => @questions, :as => :question, :locals => {:questions => @questions}
+%table{:cellspacing=> 0}
+	%tbody
+		- @team.questions.sort! {|a,b| a.order_id <=> b.order_id }
+		= render :partial=> 'question_new_content', :collection => @team.questions, :as => :question

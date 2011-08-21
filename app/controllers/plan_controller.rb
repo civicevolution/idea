@@ -74,9 +74,10 @@ class PlanController < ApplicationController
     time_stamp = time_stamp.scan(/\d\d/)
     @last_visit = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
 
-    @questions = Question.where("team_id = :team_id", :team_id => params[:team_id])
+    @team = Team.includes(:questions).find(params[:team_id])
+    #@questions = Question.where("team_id = :team_id", :team_id => params[:team_id])
     
-    @talking_points = TalkingPoint.where("question_id IN (:question_ids) AND updated_at >= :last_visit", :question_ids => @questions.map(&:id), :last_visit => @last_visit )
+    @talking_points = TalkingPoint.where("question_id IN (:question_ids) AND updated_at >= :last_visit", :question_ids => @team.questions.map(&:id), :last_visit => @last_visit )
     @talking_points.each{|tp| tp['new'] = true }
     
     @comments = Comment.includes(:author).where("team_id = :team_id AND created_at >= :last_visit", :team_id => params[:team_id], :last_visit => @last_visit)

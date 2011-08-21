@@ -1,0 +1,26 @@
+%tr.comment{:class => stripe ? 'stripe' : '' }
+	%td{:class=>'level'+indent.to_s}
+		%span.author 
+			-#(#{comment.id}) 
+			#{comment.author.first_name} #{comment.author.last_name}
+		
+	- quote = comment.text.match(/\[quote=(.*)\](.*)\[\/quote\]/i)
+	- fields = comment.text.match(/\[quote="(.*)"\](.*)\[\/quote\]/i)
+	%td
+		= link_to do
+			- if fields
+				- name = fields[1]
+				- quote = fields[2]
+				- text = comment.text.sub(/\[quote.*quote\]/i,'').sub(/^\s*/,'').sub(/\s$/,'')
+				%span.com_quote
+					= truncate("#{name} said: #{quote}" , :length => 80)
+				%br
+				%span.com_text
+					-#= text
+					= truncate(text, :length => 240)
+			- else
+				%span.com_text
+					-#= comment.text
+					= truncate(comment.text, :length => 240)
+	%td
+		%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'

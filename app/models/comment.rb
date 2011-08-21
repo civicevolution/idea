@@ -82,8 +82,8 @@ class Comment < ActiveRecord::Base
   def self.set_question_id_child_comments(comments)
   	child_coms = comments.select{ |c| c.parent_type == 3 }
   	return [] if child_coms.size == 0
-  	needed_ids = child_coms.map(&:parent_id).uniq - comments.map(&:id)
-  	return [] if needed_ids.size == 0
+  	needed_ids = child_coms.map(&:parent_id).uniq #- comments.map(&:id)
+  	#return [] if needed_ids.size == 0
     com_pars = ActiveRecord::Base.connection.select_all(
       %Q|SELECT id, parent_id FROM comments where id in ( #{ needed_ids.join(',') } )|
     )
