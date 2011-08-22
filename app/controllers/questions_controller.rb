@@ -97,7 +97,7 @@ class QuestionsController < ApplicationController
   
   def worksheet
     logger.debug "Question#worksheet"
-    
+
     @question = Question.find(params[:question_id])
     @team = @question.team
     
@@ -132,7 +132,9 @@ class QuestionsController < ApplicationController
       ind+=1
     end  
 
-    render :template=> 'questions/worksheet', :locals => {:question => @question, :questions => @team.questions.sort{|a,b| a.order_id <=> b.order_id}, }, :layout => 'plan'
+    render :template=> 'questions/worksheet', 
+      :locals => {:question => @question, :questions => @team.questions.sort{|a,b| a.order_id <=> b.order_id}, }, 
+      :layout => request.xhr? ? false : 'plan'
     
     #:locals => {:question => @question, :questions => @team.questions, :question_counter => @question.order_id, :commenting_members => @question.commenting_members},
     #render :partial=> 'question', :collection => questions, :locals => {:questions => questions}

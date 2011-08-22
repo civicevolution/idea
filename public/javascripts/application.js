@@ -6,7 +6,7 @@
 // //= require jquery
 // //= require jquery_ujs
 
-console.log("Loading application.js");
+//console.log("Loading application.js");
 
 temp = {};
 
@@ -319,3 +319,96 @@ $('p.my_preference :checkbox').die('change').live('change',
 		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/prefer', {prefer: this.checked})
 	}
 );
+
+$('a.request_help').live('click',
+	function(){
+		console.log("a.request_help");
+		if($('div.request_help').size()==0){
+			$.get('/idea/request_help',
+				function(data){
+				  var pcs = data.split(/<script/);
+					var dialog = $(pcs[0]).dialog( {title : '2029 and Beyond Help and Feedback', modal : true, width: 600, closeOnEscape: false } );
+					if(typeof activate_request_help_form == 'undefined') $('head').append('<script' + pcs[1]);
+					activate_request_help_form(dialog.find('form'));
+					dialog.find('select').focus();
+				}
+			)
+		}
+		return false;
+	}
+)
+$('a.request_help').html('');
+
+$('a.help_tag').live('mouseover mouseout', function(event) {
+  if (event.type == 'mouseover') {
+		$(this).addClass('mouseover')
+  } else {
+		$(this).removeClass('mouseover')
+  }
+});
+
+$('a.request_new').live('click',
+	function(){
+		//console.log("Show the new content");
+		var help = $('div.new_content');
+		if(help.size()==0){
+			$.get('/plan/' + team_id + '/new_content/110729',
+				function(data){
+				  var pcs = data.split(/<script/);
+					var dialog = $(pcs[0]).dialog( {title : 'New content', modal : false, width: 'auto', closeOnEscape: true } );
+					//if(typeof activate_request_help_form == 'undefined') $('head').append('<script' + pcs[1]);
+					//activate_request_help_form(dialog.find('form'));
+					//dialog.find('select').focus();
+				}
+			)
+		}else{
+			var help_dlg = help.closest('div.ui-dialog');
+			if(help_dlg.is(":visible")){
+				help_dlg.hide();
+			}else{
+				help_dlg.show();
+			}
+			
+			
+		}
+		return false;
+	}
+)
+$('a.request_help').html('');
+
+$('a.new_tag').live('mouseover mouseout', function(event) {
+  if (event.type == 'mouseover') {
+		$(this).addClass('mouseover')
+  } else {
+		$(this).removeClass('mouseover')
+  }
+});
+
+$('div.new_content a.display_worksheet').die('click').live('click',
+	function(){
+		var question_id = Number(this.href.match(/questions\/(\d+)/)[1]);
+		console.log("Display the worksheet for " + question_id );
+		//debugger
+		console.log("this.href: " + this.href);
+		// http://2029.civicevolution.dev/questions/350/worksheet
+		$.get(this.href,
+			function(data){
+				//debugger
+
+				$('div.new_content').closest('div.ui-dialog').hide();
+				var body_div = $('div.page_content_div');
+				body_div.hide();
+				$(data).insertAfter(body_div.eq(0)).attr('id',question_id);
+			}
+		)
+		
+		Number('http://2029.civicevolution.dev/questions/350/worksheet'.match(/questions\/(\d+)/)[1])
+		
+		//$('div.talking_points_content_page').hide()
+		
+		//temp.ws_link = this
+		//console.log("show worksheet");
+		//console.log("href: " + this.href);
+		return false;
+	}
+)

@@ -37,7 +37,7 @@ h2#load_message {
 a.help_tag {
   position: fixed;
   top: 25%;
-  left: 0;
+  right: 0;
   color: #f3973a;
   width: 32px;
   height: 183px;
@@ -45,6 +45,18 @@ a.help_tag {
 
 a.help_tag.mouseover {
   border-right: 2px solid white; }
+
+a.new_tag {
+  position: fixed;
+  top: 25%;
+  left: 0;
+  color: #f3973a;
+  width: 32px;
+  height: 183px;
+  background: url(/images/new_content_tag.gif) no-repeat 0 0; }
+
+a.new_tag.mouseover {
+  border-left: 2px solid white; }
 
 div.page {
   width: 980px;

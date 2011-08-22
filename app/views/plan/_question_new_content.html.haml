@@ -1,13 +1,13 @@
 %tr.question
 	%td{:colspan=>3}
 		%p{:id=>question.id}
-			= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'open_worksheet'}
+			= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'display_worksheet'}
 
 - talking_points = @talking_points.find_all{|tp| tp.question_id == question.id}.sort{|a,b| a.id<=>b.id}
 - talking_points.each do |talking_point|
 	%tr.talking_point
 		%td.level1{:colspan=>2}
-			= link_to do
+			= link_to url_for('/'), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id do
 				%p.talking_point{:class => talking_point['new'] ? 'new' : 'ref'}
 					-#(#{talking_point.id})
 					-#%div.talking_point.icon
@@ -21,18 +21,18 @@
 	- stripe = false
 	- comments = @comments.find_all{|c| c.parent_id == talking_point.id && c.parent_type == 13}.sort{|a,b| a.id<=>b.id}.each do |comment|
 		- stripe = !stripe
-		= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>2, :stripe => stripe }
+		= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>2, :stripe => stripe, :q_id=>question.id }
 
 - question_coms = @comments.find_all{|c| c['question_id'] == question.id}
 - children_to_delete = []
 - stripe = false
 - @comments.find_all{|c| c.parent_id == question.id && c.parent_type == 1}.sort{|a,b| a.id<=>b.id}.each do |comment|
 	- stripe = !stripe
-	= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>1, :stripe => stripe }
+	= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>1, :stripe => stripe, :q_id=>question.id }
 
 	- question_coms.find_all{|c| c.parent_id == comment.id && c.parent_type == 3}.sort{|a,b| a.id<=>b.id}.each do |child_comment|
 		- stripe = !stripe
-		= render :partial=>'plan/comment_compressed', :locals=>{:comment=>child_comment, :indent=>2, :stripe => stripe }
+		= render :partial=>'plan/comment_compressed', :locals=>{:comment=>child_comment, :indent=>2, :stripe => stripe, :q_id=>question.id }
 		- children_to_delete.push(child_comment)
 		
 - children_to_delete.each{|c| question_coms.delete(c) }	
@@ -40,4 +40,4 @@
 - stripe = false
 - question_coms.sort{|a,b| a.id<=>b.id}.each do |comment|
 	- stripe = !stripe
-	= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>1, :stripe => stripe}
+	= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>1, :stripe => stripe, :q_id=>question.id }
