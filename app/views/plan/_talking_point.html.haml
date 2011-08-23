@@ -1,4 +1,4 @@
-%div.talking_point_entry{:id=>talking_point.id}
+%div.talking_point_entry{:id=>talking_point.id, :class => talking_point['highlight'] ? 'highlight' : ''}
 	%div.talking_point_body
 		%p.talking_point= talking_point.text
 
@@ -74,3 +74,5 @@
 					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
 					I prefer this
 	%p.clear_both
+	- if talking_point['comments']
+		= render :partial => 'comments/talking_point_comments', :locals => { :talking_point => talking_point, :comments => talking_point['comments'], :com_criteria => @team.com_criteria }

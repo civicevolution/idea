@@ -21,15 +21,10 @@ class CommentsController < ApplicationController
     
     @talking_point = TalkingPoint.find(params[:talking_point_id])
     @comments = @talking_point.comments
-    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq)
     
-    if !request.xhr?
-      @team = @talking_point.question.team
-    end
-
     respond_to do |format|
-      format.html { render :talking_point_comments, :layout => false} unless !request.xhr?
-      format.html { render :talking_point_comments, :layout => 'plan'}
+      format.html { render :partial => 'talking_point_comments', :locals=> {:talking_point => @talking_point, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => false} unless !request.xhr?
+      format.html { render :partial => 'talking_point_comments', :locals=> {:talking_point => @talking_point, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => 'plan'}
       format.xml  { render :xml => @comments }
     end
   end    
@@ -48,8 +43,6 @@ class CommentsController < ApplicationController
     #@comments = question.comments
     @comments = question.remaining_comments(params[:comment_ids])
     @resources = []
-    
-    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq)
     
     comment_coms = Comment.com_counts(@comments.map(&:id), @member.last_visit_ts)
     @comments.each do |c|
@@ -85,15 +78,9 @@ class CommentsController < ApplicationController
     
     @comments = @comment.comments
 
-    @commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => @comments.map{|c| c.member_id}.uniq)
-    
-    if !request.xhr?
-      @team = @comment.question.team
-    end
-
     respond_to do |format|
-      format.html { render :comment_comments, :layout => false} unless !request.xhr?
-      format.html { render :comment_comments, :layout => 'plan'}
+      format.html { render :partial => 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria}, :layout => false} unless !request.xhr?
+      format.html { render :partial => 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => 'plan'}
       format.xml  { render :xml => @comments }
     end
   end    

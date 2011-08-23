@@ -1,0 +1,5 @@
+%div.comment_comments.discussion{:id=>comment.id}
+	= render :partial=> 'plan/comment', :collection => comments
+	
+	= render :partial => 'plan/comment_form', :locals => {:id=>comment.id, :type=>'comments', :criteria => com_criteria}
+	

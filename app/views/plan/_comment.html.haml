@@ -1,34 +1,11 @@
--#
-	%p.comment= comment.text
-	- member = members.detect {|cm| cm[:id] == comment.member_id }
-
-	- if member
-		- name = member[:first_name] + ' ' + member[:last_name]
-		- pic_src = member.photo.url('36')
-		- ape_code = member.ape_code
-	- else
-		- name = 'Author placeholder'
-		- pic_src = ''
-		-ape_code = ''
-
-	%p
-		%img{:src=>pic_src,:class=>'i36'}
-		= link_to name, {:action=>'author_info', :id=>ape_code}, {:class=>'com_author'}
-
-
 - mode = '' unless !mode.nil?
 - resource = nil # @resources.detect { |r| r.comment_id == comment.id }
 - if comment.anonymous == 't'
 	- name = 'Anonymous'
 	- pic_src = '/images/members_default/36/m.jpg'
 - else
-	- member = members.detect {|cm| cm[:id] == comment.member_id }
-	- if member
-		- name = member[:first_name] + ' ' + member[:last_name]
-		- pic_src = member.photo.url('36')
-	- else
-		- name = 'Author placeholder'
-		- pic_src = ''
+	- name = comment.author.first_name + ' ' + comment.author.last_name
+	- pic_src = comment.author.photo.url('36')
 
 - @last_ts = Time.local(2010,1,20)
 - if comment.created_at > @last_ts
@@ -42,7 +19,7 @@
 	- new_str = 0
 
 
-%div.Comment{:id => comment.id}
+%div.Comment{:id => comment.id, :class => comment['highlight'] ? 'highlight' : '' }
 	%div{:class=>class_str, :id => "com_#{comment.id}" }
 		%img{:src=>pic_src,:class=>'i36'}
 		%div.comment
@@ -61,7 +38,7 @@
 			- comment.text = "... Hidden by author" if comment.publish == false
 			- comment.text = "... Waiting for author's release" if comment.publish.nil? && comment.status == 'prereview'
 			
-			%div.comment_text!= show_author_comment(name, member.ape_code, comment.text)
+			%div.comment_text!= show_author_comment(name, comment.author.ape_code, comment.text)
 			- if !resource.nil?
 				%div{:class => "resource #{resource.link_url ? 'link' : 'upload'}"}
 					%h3.resource_title&= resource.title
@@ -93,3 +70,6 @@
 							= link_to "Edit", {:controller => 'comment', :action => "edit", :id => comment.id}, {:class => 'edit_com', :rel=>'nofollow'}
 						- else
 							= link_to "Report", {:controller => 'comment', :action=>'report', :id=>comment.id}, {:class=>'report', :rel=>'nofollow'}
+
+- if comment['comments']
+	= render :partial => 'comments/comment_comments', :locals=> {:comment => comment, :comments => comment['comments'], :com_criteria => @team.com_criteria}

@@ -2,7 +2,7 @@ module LibGetTalkingPointsRatings
   
   def get_talking_point_ratings(member)
     self.member = member
-    
+#debugger    
     case self.type_text
       when 'team'
         questions = self.questions
@@ -13,18 +13,15 @@ module LibGetTalkingPointsRatings
     question_ids = questions.map{|q| q.id}
     talking_point_ids = []
     comment_ids = []
-    comment_member_ids = []
     questions.each do |q|
-      q.talking_points_to_display = q.top_talking_points
+      q.talking_points_to_display = q['talking_points_to_display'] || q.top_talking_points
       q.talking_points_to_display.each do |tp| 
         talking_point_ids << tp.id
       end
-      q.recent_comments.each do |c|
-        comment_member_ids << c.member_id
+      q['comments_to_display'].each do |c|
         comment_ids << c.id
       end
     end
-    self.commenting_members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => comment_member_ids.uniq)
 
     tpp = TalkingPointPreference.sums(talking_point_ids)
     tpr = TalkingPointAcceptableRating.sums(talking_point_ids)
@@ -88,7 +85,7 @@ module LibGetTalkingPointsRatings
         end
       end
       
-      q.recent_comments.each do |c|
+      q['comments_to_display'].each do |c|
         ccom = stats[:comment_coms].detect{|cc| cc['comment_id'].to_i == c.id}
         c.coms = ccom['coms'].to_i
         c.new_coms = ccom['new_coms'].to_i

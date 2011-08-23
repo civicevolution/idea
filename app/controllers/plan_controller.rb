@@ -70,10 +70,14 @@ class PlanController < ApplicationController
   end
   
   def new_content
-    time_stamp = params[:time_stamp] || '110819'
-    time_stamp = time_stamp.scan(/\d\d/)
-    @last_visit = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
-
+    time_stamp = params[:time_stamp] 
+    if time_stamp
+      time_stamp = time_stamp.scan(/\d\d/)
+      @last_visit = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
+    else
+      @last_visit = @member.last_visit_ts      
+    end
+    
     @team = Team.includes(:questions).find(params[:team_id])
     #@questions = Question.where("team_id = :team_id", :team_id => params[:team_id])
     

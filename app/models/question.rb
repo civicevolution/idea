@@ -13,8 +13,8 @@ class Question < ActiveRecord::Base
     ORDER BY count(tpp.member_id) DESC, id DESC
     LIMIT 5| }
   
-  has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :order => 'id asc'
-  has_many :recent_comments, :class_name => 'Comment', :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :limit => 3, :order => "id DESC"
+  has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :order => 'id asc', :include => :author
+  has_many :recent_comments, :class_name => 'Comment', :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :limit => 3, :order => "id DESC", :include => :author
   
   
   
@@ -63,7 +63,6 @@ class Question < ActiveRecord::Base
   attr_accessor :num_new_talking_points
   attr_accessor :talking_points_to_display
   attr_accessor :member
-  attr_accessor :commenting_members
   
 
   def remaining_talking_points(ids)

@@ -27,12 +27,12 @@
 					%p.clear_both
 				
 
-				= render :partial=> 'plan/talking_point', :collection => question.top_talking_points
+				= render :partial=> 'plan/talking_point', :collection => question['talking_points_to_display']
 	
 				- if question.num_new_talking_points > 0
-					%p #{question.num_new_talking_points} new talking points
-				- elsif question.num_talking_points > question.top_talking_points.length
-					%p.show_more_link= link_to "Show #{question.num_talking_points - question.top_talking_points.length} more talking points", {}, { :class=> 'question_show_talking_points', :id=>question.id }
+					%p= pluralize(question.num_new_talking_points, 'new talking point')
+				- elsif question.num_talking_points > question['talking_points_to_display'].length
+					%p.show_more_link= link_to "Show #{question.num_talking_points - question['talking_points_to_display'].length} more talking points", {}, { :class=> 'question_show_talking_points', :id=>question.id }
 				- elsif question.num_talking_points == 0
 					%p There are no talking points for this question, please add one with the form below.
 				
@@ -44,8 +44,8 @@
 		%div.ques_discussion.discussion
 			%h3.ques_sub_hdg Comments posted by your community
 
-			- if question.recent_comments.size > 0
-				= render :partial=> 'plan/comment', :collection => question.recent_comments.sort{|a,b| a.id<=>b.id}, :locals => {:members => commenting_members}
+			- if question['comments_to_display'].size > 0
+				= render :partial=> 'plan/comment', :collection => question['comments_to_display'].sort{|a,b| a.id<=>b.id}
 			- else
 				%div.Comment.hide
 				
@@ -54,8 +54,8 @@
 			%p.count_link
 				- if question.new_coms > 0
 					Question has #{question.new_coms} new comments
-				- elsif question.coms > question.recent_comments.length
-					= link_to "Show #{question.coms - question.recent_comments.length} more comments", {}, { :class=> 'question_show_coms', :id=>question.id }
+				- elsif question.coms > question['comments_to_display'].length
+					= link_to "Show #{question.coms - question['comments_to_display'].length} more comments", {}, { :class=> 'question_show_coms', :id=>question.id }
 				- elsif question.coms == 0
 					Question has no comments
 

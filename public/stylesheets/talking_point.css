@@ -208,6 +208,12 @@ div.community_rating {
   div.community_rating p.talking_point_ratings {
     margin: 0 0 8px 0; }
 
+div.Comment.highlight {
+  border: 2px solid red; }
+
+div.talking_point_entry.highlight {
+  border: 2px solid red; }
+
 div.talking_point_entry.header {
   margin-bottom: 30px; }
   div.talking_point_entry.header div.talking_point_body {

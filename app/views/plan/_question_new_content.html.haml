@@ -7,7 +7,7 @@
 - talking_points.each do |talking_point|
 	%tr.talking_point
 		%td.level1{:colspan=>2}
-			= link_to url_for('/'), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id do
+			= link_to question_worksheet_path(question, :t=>'tp', :id=>talking_point.id), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id do
 				%p.talking_point{:class => talking_point['new'] ? 'new' : 'ref'}
 					-#(#{talking_point.id})
 					-#%div.talking_point.icon

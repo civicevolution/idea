@@ -11,16 +11,28 @@
 temp = {};
 
 $(function(){
-		//collapse_proposal_view()
+		
 		size_talking_point_entries();
 		$(document).ajaxSend(function(e, xhr, options) {
 		  var token = $("meta[name='csrf-token']").attr("content");
 		  xhr.setRequestHeader("X-CSRF-Token", token);
 		});	
 		$('textarea').autoGrow({ minHeight  : 120, maxHeight : 500 })
+		
+		if(params['t'] == 'c'){
+			console.log("hightlight comment id: " + params['id'])
+		}else if(params['t'] == 'tp'){
+			console.log("hightlight talking point id: " + params['id'])
+		}
+		
+		var highlight = $('.highlight');
+		if(highlight.size()>0){
+			$.scrollTo(highlight,600);	
+		}
 	
-	}
-);
+	
+	
+});
 
 $('a.open_worksheet, div.proposal.inview h2.question').die('click').live('click',
 	function(){
@@ -35,35 +47,6 @@ function show_question_worksheet(question_worksheet){
 	$('div.question_worksheet').hide();
 	question_worksheet.show();
 	$.scrollTo(question_worksheet,1000);	
-}
-
-
-function collapse_proposal_view(){
-	$('div.question_worksheet').show();
-	$('div.what_do_you_think').hide();
-	$('div.ques_discussion').hide();
-	//$('div.my_rating').hide();
-	$('div.talking_point_preferable').hide();
-	$('h3.ques_sub_hdg').hide();
-	$('div.talking_point_entry.header').hide();
-	$('div.talking_point_controls').hide();
-	
-	$('div.proposal').addClass('inview');
-	$('div.question_worksheet').addClass('noview');
-	$('div.summary').addClass('collapse');
-	$('div.talking_point_entry').each( 
-		function(){
-			var el = $(this)
-			var b = el.children('div.talking_point_body').height('auto');
-			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
-			var mr = el.find('div.talking_point_acceptable > div.my_rating').height('auto');
-			var max = Math.max.apply( Math, [b.height(), (cr.height() + 20), (mr.height() + 20)] );
-			//console.log("max height: " + max)
-			b.height(max);
-			cr.height(max-20);
-			mr.height(max-20);
-		}
-	)	
 }
 
 function size_talking_point_entries(){
@@ -81,23 +64,6 @@ function size_talking_point_entries(){
 		}
 	)	
 }
-
-function expand_proposal_view(){
-	$('div.what_do_you_think').show();
-	$('div.ques_discussion').show();
-	//$('div.my_rating').show();
-	$('div.talking_point_preferable').show();
-	$('h3.ques_sub_hdg').show();
-	$('div.talking_point_entry.header').show();
-	$('div.talking_point_controls').show();
-	
-	$('div.proposal').removeClass('inview');
-	$('div.question_worksheet').removeClass('noview');
-	$('div.summary').removeClass('collapse');
-
-	size_talking_point_entries();
-}
-
 
 $('a.tp_show_coms').die('click').live('click',
 	function(){
@@ -412,3 +378,18 @@ $('div.new_content a.display_worksheet').die('click').live('click',
 		return false;
 	}
 )
+
+
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+var params = getUrlVars();

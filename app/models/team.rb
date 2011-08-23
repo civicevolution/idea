@@ -9,7 +9,6 @@ class Team < ActiveRecord::Base
   has_one :organizer, :class_name => 'Member', :foreign_key => 'id', :primary_key => 'org_id'
   
   attr_accessor :member
-  attr_accessor :commenting_members
   
   #validate_on_update :check_team_edit_access
   validate :check_team_edit_access, :on=>:update

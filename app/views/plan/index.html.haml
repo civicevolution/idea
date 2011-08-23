@@ -58,4 +58,4 @@
 
 - questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 %div.proposal
-	= render :partial=> 'question', :collection => questions, :locals => {:questions => questions,:commenting_members => @team.commenting_members}
+	= render :partial=> 'question', :collection => questions, :locals => {:questions => questions}

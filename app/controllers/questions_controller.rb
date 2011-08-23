@@ -114,6 +114,87 @@ class QuestionsController < ApplicationController
       end
     end
     
+    @question['talking_points_to_display'] = @question.top_talking_points
+    @question['comments_to_display'] = @question.recent_comments
+    
+    # is this a request to highlight a specific item? If so, make sure it is present or add it
+    #debugger
+    if params[:t] == 'tp'
+      tp_ids = @question['talking_points_to_display'].map(&:id)
+      if !tp_ids.include?(params[:id].to_i)
+        #logger.debug "********* Include talking_point #{params[:id]} and its new siblings"
+        @new_talking_points = TalkingPoint.where("question_id = :question_id AND id NOT IN (:current_tp_ids) AND updated_at >= :last_visit", 
+          :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.last_visit_ts )
+        @question['talking_points_to_display'] += @new_talking_points
+      #else
+        #logger.debug "********* Talking point #{params[:id]} is already in the default data"
+      end
+      @question['talking_points_to_display'].detect{|tp| tp.id == params[:id].to_i}['highlight'] = true
+    elsif params[:t] == 'c'
+      c_ids = @question['comments_to_display'].map(&:id)
+      if !c_ids.include?(params[:id].to_i)
+        new_comment = Comment.includes(:author).find(params[:id])
+        #c_ids << new_comment.id
+        #@question['comments_to_display'] += [new_comment]
+
+        #logger.debug "new_comment: #{new_comment.inspect}"
+        case new_comment.parent_type 
+          when 1 # question comment
+            @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND id NOT IN (:current_c_ids) AND updated_at >= :last_visit", 
+              :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.last_visit_ts )
+            @question['comments_to_display'] += @new_comments
+            @question['comments_to_display'].detect{|c| c.id == params[:id].to_i}['highlight'] = true
+            
+          when 3 # comment on a comment under a question
+            # make sure the parent comment exists, and if not, load it
+            if !c_ids.include?(new_comment.parent_id)
+              par_comment = Comment.includes(:author).find( new_comment.parent_id )
+              c_ids << par_comment.id
+              @question['comments_to_display'] += [par_comment]
+            end
+
+            # load the new_comment sibling comments
+            @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND id NOT IN (:current_c_ids) AND updated_at >= :last_visit", 
+              :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.last_visit_ts )
+
+            @new_comments.detect{|c| c.id == params[:id].to_i}['highlight'] = true
+            
+            # attach the comments to the comment 
+            @question['comments_to_display'].detect{|c| c.id == new_comment.parent_id}['comments'] = @new_comments
+            
+            
+          when 13 # comment on a talking point
+            # load siblings and attach to the talking point
+            # make sure the talking point is laoded
+            # Do I want one new tp, or all of them?
+            tp_ids = @question['talking_points_to_display'].map(&:id)
+
+            if !tp_ids.include?( new_comment.parent_id )
+              #logger.debug "********* Include talking_point #{params[:id]} and its new siblings"
+              @new_talking_points = TalkingPoint.where("question_id = :question_id AND id NOT IN (:current_tp_ids) AND updated_at >= :last_visit", 
+                :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.last_visit_ts )
+              @question['talking_points_to_display'] += @new_talking_points
+            else
+              #logger.debug "********* Talking point #{new_comment.parent_id} is already in the default data"
+            end
+
+            # get the comments
+            @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND updated_at >= :last_visit", 
+              :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :last_visit => @member.last_visit_ts )
+
+            @new_comments.detect{|c| c.id == params[:id].to_i}['highlight'] = true
+            
+            # attach the comments to the talking point 
+            @question['talking_points_to_display'].detect{|tp| tp.id == new_comment.parent_id}['comments'] = @new_comments
+        end
+        
+      else
+        #logger.debug "********* Comment #{params[:id]} is already in the default data"
+        @question['comments_to_display'].detect{|c| c.id == params[:id].to_i}['highlight'] = true
+      end
+      
+    end
+
     @question.get_talking_point_ratings(@member)
     
     # I need to fake the talking point data like this: talking_point.rating_votes = [5,3,1,4,2]
@@ -124,21 +205,20 @@ class QuestionsController < ApplicationController
     fake_my_preference = [true, true, false, true, false]
     ind = 0
 
-    @question.top_talking_points.each do |tp| 
-      tp.rating_votes = fake_ratings[ind]
-      tp.preference_votes = fake_preference_votes[ind]
-      tp.my_rating = fake_my_ratings[ind]
-      tp.my_preference = fake_my_preference[ind]
-      ind+=1
+    @question['talking_points_to_display'].each do |tp| 
+      if ind < 5
+        tp.rating_votes = fake_ratings[ind]
+        tp.preference_votes = fake_preference_votes[ind]
+        tp.my_rating = fake_my_ratings[ind]
+        tp.my_preference = fake_my_preference[ind]
+        ind+=1
+      end
     end  
 
     render :template=> 'questions/worksheet', 
       :locals => {:question => @question, :questions => @team.questions.sort{|a,b| a.order_id <=> b.order_id}, }, 
       :layout => request.xhr? ? false : 'plan'
     
-    #:locals => {:question => @question, :questions => @team.questions, :question_counter => @question.order_id, :commenting_members => @question.commenting_members},
-    #render :partial=> 'question', :collection => questions, :locals => {:questions => questions}
-    #render :text => 'render the question partial'
   end
 
   protected
