@@ -211,6 +211,11 @@ div.community_rating {
 div.Comment.highlight {
   border: 2px solid red; }
 
+p.show_more_link {
+  margin-top: 2em; }
+  p.show_more_link a {
+    margin-right: 1em; }
+
 div.talking_point_entry.highlight {
   border: 2px solid red; }
 

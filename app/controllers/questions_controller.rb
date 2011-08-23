@@ -126,9 +126,12 @@ class QuestionsController < ApplicationController
         @new_talking_points = TalkingPoint.where("question_id = :question_id AND id NOT IN (:current_tp_ids) AND updated_at >= :last_visit", 
           :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.last_visit_ts )
         @question['talking_points_to_display'] += @new_talking_points
-      #else
-        #logger.debug "********* Talking point #{params[:id]} is already in the default data"
+        # make sure I have the target now, if not, add it explicitly
+        if !@question['talking_points_to_display'].map(&:id).include?(params[:id].to_i)
+          @question['talking_points_to_display'] += [ TalkingPoint.find(params[:id]) ]
+        end
       end
+
       @question['talking_points_to_display'].detect{|tp| tp.id == params[:id].to_i}['highlight'] = true
     elsif params[:t] == 'c'
       c_ids = @question['comments_to_display'].map(&:id)
@@ -143,6 +146,10 @@ class QuestionsController < ApplicationController
             @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND id NOT IN (:current_c_ids) AND updated_at >= :last_visit", 
               :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.last_visit_ts )
             @question['comments_to_display'] += @new_comments
+            # make sure I have the target now, if not, add it explicitly
+            if !@question['comments_to_display'].map(&:id).include?(params[:id].to_i)
+              @question['comments_to_display'] += [ Comment.find(params[:id]) ]
+            end
             @question['comments_to_display'].detect{|c| c.id == params[:id].to_i}['highlight'] = true
             
           when 3 # comment on a comment under a question
@@ -156,6 +163,10 @@ class QuestionsController < ApplicationController
             # load the new_comment sibling comments
             @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND id NOT IN (:current_c_ids) AND updated_at >= :last_visit", 
               :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.last_visit_ts )
+            # make sure I have the target now, if not, add it explicitly
+            if !@new_comments.map(&:id).include?(params[:id].to_i)
+              @new_comments += [ Comment.find(params[:id]) ]
+            end
 
             @new_comments.detect{|c| c.id == params[:id].to_i}['highlight'] = true
             
@@ -174,6 +185,10 @@ class QuestionsController < ApplicationController
               @new_talking_points = TalkingPoint.where("question_id = :question_id AND id NOT IN (:current_tp_ids) AND updated_at >= :last_visit", 
                 :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.last_visit_ts )
               @question['talking_points_to_display'] += @new_talking_points
+              # make sure I have the target now, if not, add it explicitly
+              if !@question['talking_points_to_display'].map(&:id).include?(params[:id].to_i)
+                @question['talking_points_to_display'] += [ TalkingPoint.find(params[:id]) ]
+              end
             else
               #logger.debug "********* Talking point #{new_comment.parent_id} is already in the default data"
             end
@@ -181,6 +196,10 @@ class QuestionsController < ApplicationController
             # get the comments
             @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND updated_at >= :last_visit", 
               :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :last_visit => @member.last_visit_ts )
+            # make sure I have the target now, if not, add it explicitly
+            if !@new_comments.map(&:id).include?(params[:id].to_i)
+              @new_comments += [ Comment.find(params[:id]) ]
+            end
 
             @new_comments.detect{|c| c.id == params[:id].to_i}['highlight'] = true
             
@@ -257,7 +276,7 @@ class QuestionsController < ApplicationController
       @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
       @member.id = 0
       @member.email = ''
-      @member.last_visit_ts = Time.local(2012,2,23)
+      @member.last_visit_ts = Time.now #local(2012,2,23)
     end
   end
   

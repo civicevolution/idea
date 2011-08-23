@@ -318,7 +318,7 @@ $('a.request_new').live('click',
 		//console.log("Show the new content");
 		var help = $('div.new_content');
 		if(help.size()==0){
-			$.get('/plan/' + team_id + '/new_content/110729',
+			$.get('/plan/' + team_id + '/new_content',
 				function(data){
 				  var pcs = data.split(/<script/);
 					var dialog = $(pcs[0]).dialog( {title : 'New content', modal : false, width: 'auto', closeOnEscape: true } );

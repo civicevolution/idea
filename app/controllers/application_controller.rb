@@ -93,11 +93,13 @@ class ApplicationController < ActionController::Base
           # session is no good
           session[:member_id] = nil
         else
-          session[:last_visit_ts] ||= Time.local(2011,7,29)
+          if params[:date]
+            time_stamp = params[:date].scan(/\d\d/)
+            session[:last_visit_ts] = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
+          end
+          session[:last_visit_ts] ||= Time.now #.local(2012,7,29)
           @member.last_visit_ts = session[:last_visit_ts]
-          
         end
-        
       end
     end
 

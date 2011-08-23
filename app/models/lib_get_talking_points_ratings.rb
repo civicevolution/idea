@@ -18,6 +18,7 @@ module LibGetTalkingPointsRatings
       q.talking_points_to_display.each do |tp| 
         talking_point_ids << tp.id
       end
+      q['comments_to_display'] ||= []
       q['comments_to_display'].each do |c|
         comment_ids << c.id
       end

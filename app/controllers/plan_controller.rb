@@ -77,7 +77,7 @@ class PlanController < ApplicationController
     else
       @last_visit = @member.last_visit_ts      
     end
-    
+
     @team = Team.includes(:questions).find(params[:team_id])
     #@questions = Question.where("team_id = :team_id", :team_id => params[:team_id])
     
@@ -238,7 +238,7 @@ class PlanController < ApplicationController
       @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
       @member.id = 0
       @member.email = ''
-      @member.last_visit_ts = Time.local(2012,2,23)
+      @member.last_visit_ts = Time.now #.local(2012,2,23)
     end
   end
 

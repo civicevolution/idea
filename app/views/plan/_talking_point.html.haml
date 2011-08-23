@@ -4,10 +4,12 @@
 
 		%div.talking_point_controls
 			%p.coms
-				- if talking_point.new_coms > 0
-					= link_to "Show #{talking_point.new_coms} new comments", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
+				- if talking_point['comments']
+					= link_to "Hide discussion", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
+				- elsif talking_point.new_coms > 0
+					= link_to "Show #{pluralize(talking_point.new_coms, 'new comment')}", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
 				- elsif talking_point.coms > 0
-					= link_to "Show #{talking_point.coms} comments", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
+					= link_to "Show #{pluralize(talking_point.coms, 'comment')}", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
 				- else
 					= link_to "Reply", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
 			%p.other
@@ -15,7 +17,7 @@
 				- if talking_point.version == 2
 					= link_to "View old version"
 				- elsif talking_point.version > 2
-					= link_to "View #{talking_point.version - 1} old versions"
+					= link_to "View #{pluralize(talking_point.version - 1, 'old version')}"
 				= link_to "Report"
 
 	%div.talking_point_acceptable
@@ -74,5 +76,5 @@
 					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
 					I prefer this
 	%p.clear_both
-	- if talking_point['comments']
-		= render :partial => 'comments/talking_point_comments', :locals => { :talking_point => talking_point, :comments => talking_point['comments'], :com_criteria => @team.com_criteria }
+- if talking_point['comments']
+	= render :partial => 'comments/talking_point_comments', :locals => { :talking_point => talking_point, :comments => talking_point['comments'], :com_criteria => @team.com_criteria }

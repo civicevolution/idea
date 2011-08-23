@@ -58,9 +58,9 @@
 				%div.comment_links
 					- if comment.publish 
 						- if comment.new_coms > 0
-							= link_to "Show #{comment.new_coms} new comments", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
+							= link_to "Show #{ pluralize(comment.new_coms, 'new comment')}", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
 						- elsif comment.coms > 0
-							= link_to "Show #{comment.coms} comments", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
+							= link_to "Show #{ pluralize(comment.coms, 'comment')}", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
 						- else
 							= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
 						

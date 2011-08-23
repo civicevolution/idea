@@ -258,7 +258,7 @@ class CommentsController < ApplicationController
       @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
       @member.id = 0
       @member.email = ''
-      @member.last_visit_ts = Time.local(2012,2,23)
+      @member.last_visit_ts = Time.new #local(2012,2,23)
     end
   end
   

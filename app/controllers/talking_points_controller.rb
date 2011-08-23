@@ -7,7 +7,6 @@ class TalkingPointsController < ApplicationController
       logger.debug "GET talking points for question id: #{params[:question_id]}"
 
       @question = Question.find(params[:question_id])
-      last_visit_ts = Time.local(2012,2,23) 
       
       talking_points_to_display = @question.remaining_talking_points(params[:talking_point_ids])
       TalkingPoint.get_and_assign_stats( @question, talking_points_to_display, @member )
@@ -164,7 +163,7 @@ class TalkingPointsController < ApplicationController
       @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
       @member.id = 0
       @member.email = ''
-      @member.last_visit_ts = Time.local(2012,2,23)
+      @member.last_visit_ts = Time.now #.local(2012,2,23)
     end
   end
   
