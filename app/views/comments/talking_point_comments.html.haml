@@ -1,5 +1,0 @@
-%div.talking_point_comments.discussion{:id=>params[:talking_point_id]}
-	= render :partial=> 'plan/comment', :collection => @comments, :locals => {:members => @commenting_members}
-	
-	= render :partial => 'plan/comment_form', :locals => {:id=>@talking_point.id, :type=>'talking_points'}
-	
