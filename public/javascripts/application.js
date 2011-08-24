@@ -19,19 +19,6 @@ $(function(){
 		});	
 		$('textarea').autoGrow({ minHeight  : 120, maxHeight : 500 })
 		
-		if(params['t'] == 'c'){
-			console.log("hightlight comment id: " + params['id'])
-		}else if(params['t'] == 'tp'){
-			console.log("hightlight talking point id: " + params['id'])
-		}
-		
-		var highlight = $('.highlight');
-		if(highlight.size()>0){
-			$.scrollTo(highlight,600);	
-		}
-	
-	
-	
 });
 
 $('a.open_worksheet, div.proposal.inview h2.question').die('click').live('click',
@@ -349,35 +336,6 @@ $('a.new_tag').live('mouseover mouseout', function(event) {
 		$(this).removeClass('mouseover')
   }
 });
-
-$('div.new_content a.display_worksheet').die('click').live('click',
-	function(){
-		var question_id = Number(this.href.match(/questions\/(\d+)/)[1]);
-		console.log("Display the worksheet for " + question_id );
-		//debugger
-		console.log("this.href: " + this.href);
-		// http://2029.civicevolution.dev/questions/350/worksheet
-		$.get(this.href,
-			function(data){
-				//debugger
-
-				$('div.new_content').closest('div.ui-dialog').hide();
-				var body_div = $('div.page_content_div');
-				body_div.hide();
-				$(data).insertAfter(body_div.eq(0)).attr('id',question_id);
-			}
-		)
-		
-		Number('http://2029.civicevolution.dev/questions/350/worksheet'.match(/questions\/(\d+)/)[1])
-		
-		//$('div.talking_points_content_page').hide()
-		
-		//temp.ws_link = this
-		//console.log("show worksheet");
-		//console.log("href: " + this.href);
-		return false;
-	}
-)
 
 
 function getUrlVars()

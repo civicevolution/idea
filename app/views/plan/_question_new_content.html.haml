@@ -1,13 +1,13 @@
 %tr.question
 	%td{:colspan=>3}
 		%p{:id=>question.id}
-			= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'display_worksheet'}
+			= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}
 
 - talking_points = @talking_points.find_all{|tp| tp.question_id == question.id}.sort{|a,b| a.id<=>b.id}
 - talking_points.each do |talking_point|
 	%tr.talking_point
 		%td.level1{:colspan=>2}
-			= link_to question_worksheet_path(question, :t=>'tp', :id=>talking_point.id), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id do
+			= link_to question_worksheet_path(question, :t=>'tp', :id=>talking_point.id), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id, :remote => true do
 				%p.talking_point{:class => talking_point['new'] ? 'new' : 'ref'}
 					-#(#{talking_point.id})
 					-#%div.talking_point.icon

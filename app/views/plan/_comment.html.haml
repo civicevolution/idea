@@ -57,15 +57,15 @@
  
 				%div.comment_links
 					- if comment.publish 
-						- if comment.new_coms > 0
+						- if comment['comments']
+							= link_to "Hide discussion", {}, { :class=> 'reply', :id=>comment.id}
+						- elsif comment.new_coms > 0
 							= link_to "Show #{ pluralize(comment.new_coms, 'new comment')}", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
 						- elsif comment.coms > 0
 							= link_to "Show #{ pluralize(comment.coms, 'comment')}", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
 						- else
 							= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
 						
-						-#= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, {:class=>'reply', :rel=>'nofollow', :id=>comment.id}
-				
 						- if comment.member_id == @member.id
 							= link_to "Edit", {:controller => 'comment', :action => "edit", :id => comment.id}, {:class => 'edit_com', :rel=>'nofollow'}
 						- else
