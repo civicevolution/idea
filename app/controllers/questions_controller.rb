@@ -95,10 +95,42 @@ class QuestionsController < ApplicationController
     
   end
   
+  
+  def new_talking_points
+    @question = Question.find(params[:question_id])
+    if !request.xhr?
+      @question['talking_points_to_display'] = @question.top_talking_points
+      @question['talking_points_to_display'] += @question.remaining_new_talking_points( @question['talking_points_to_display'].map(&:id), @member.last_visit_ts)
+      worksheet
+    else
+      ids = params[:ids].split('-')
+      talking_points_to_display = @question.remaining_new_talking_points(ids, @member.last_visit_ts)
+      TalkingPoint.get_and_assign_stats( @question, talking_points_to_display, @member )
+      
+      render :question_talking_points, :layout => false
+      
+    end
+  end
+  
+  def all_talking_points
+    @question = Question.find(params[:question_id])
+    if !request.xhr?
+      @question['talking_points_to_display'] = @question.talking_points
+      worksheet
+    else
+      ids = params[:ids].split('-')
+      talking_points_to_display = @question.remaining_talking_points(ids)
+      TalkingPoint.get_and_assign_stats( @question, talking_points_to_display, @member )
+      
+      render :question_talking_points, :layout => false
+    end
+  end
+
+  
   def worksheet
     logger.debug "Question#worksheet"
 
-    @question = Question.find(params[:question_id])
+    @question ||= Question.find(params[:question_id])
     @team = @question.team
     
     allowed,message = InitiativeRestriction.allow_action(@team.initiative_id, 'view_idea_page', @member)
@@ -114,8 +146,8 @@ class QuestionsController < ApplicationController
       end
     end
     
-    @question['talking_points_to_display'] = @question.top_talking_points
-    @question['comments_to_display'] = @question.recent_comments
+    @question['talking_points_to_display'] ||= @question.top_talking_points
+    @question['comments_to_display'] ||= @question.recent_comments
     
     # is this a request to highlight a specific item? If so, make sure it is present or add it
     #debugger
@@ -215,6 +247,9 @@ class QuestionsController < ApplicationController
     end
 
     @question.get_talking_point_ratings(@member)
+
+    new_talking_point_ids = TalkingPoint.select('id').where("question_id = :question_id AND updated_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
+    @question.num_new_talking_points = (new_talking_point_ids.map(&:id) - @question['talking_points_to_display'].map(&:id)).size
     
     # I need to fake the talking point data like this: talking_point.rating_votes = [5,3,1,4,2]
     fake_ratings = [ [12,4,1,1,2], [9,3,3,4,2], [9,0,2,4,6], [7,3,5,3,8], [3,3,1,0,1] ]

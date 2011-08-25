@@ -58,14 +58,18 @@
 				%div.comment_links
 					- if comment.publish 
 						- if comment['comments']
-							= link_to "Hide discussion", {}, { :class=> 'reply', :id=>comment.id}
+							- link_text = "Hide discussion"
 						- elsif comment.new_coms > 0
-							= link_to "Show #{ pluralize(comment.new_coms, 'new comment')}", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
+							- link_text = "Show #{ pluralize(comment.new_coms, 'new comment')}"
 						- elsif comment.coms > 0
-							= link_to "Show #{ pluralize(comment.coms, 'comment')}", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
+							- link_text = "Show #{ pluralize(comment.coms, 'comment')}"
 						- else
-							= link_to "Reply", {:controller => 'comments', :action=>'comment_comments', :id => comment.id}, { :class=> 'reply', :rel=>'nofollow', :id=>comment.id}
-						
+							- link_text = "Reply"
+						- if comment.parent_type == 1
+							= link_to link_text, comment_comments_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
+						- else 
+							= link_to link_text, comment_reply_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
+							
 						- if comment.member_id == @member.id
 							= link_to "Edit", {:controller => 'comment', :action => "edit", :id => comment.id}, {:class => 'edit_com', :rel=>'nofollow'}
 						- else

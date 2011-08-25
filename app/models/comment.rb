@@ -7,7 +7,7 @@ class Comment < ActiveRecord::Base
   has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 3', :order => 'id asc'
    
   belongs_to :talking_point, :foreign_key => 'parent_id'
-  belongs_to :question, :foreign_key => 'parent_id'
+  #belongs_to :question, :foreign_key => 'parent_id', :conditions => "parent_type = 1"
   belongs_to :comment, :foreign_key => 'parent_id'
   
   # I'm not sure if I want to use this association. It works, but it is less efficient
@@ -44,6 +44,17 @@ class Comment < ActiveRecord::Base
   attr_accessor_with_default :coms, 0
   attr_accessor_with_default :new_coms, 0
   
+  
+  def question
+    case self.parent_type
+      when 1
+        Question.find(self.parent_id)
+      when 3
+        Comment.find(self.parent_id).question
+      when 13
+        TalkingPoint.find(self.parent_id).question
+      end
+  end
   
   def log_team_content
     # log this item into the team_content_logs

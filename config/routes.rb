@@ -80,13 +80,21 @@ G3::Application.routes.draw do |map|
   post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :constraints => lambda { |params| params[:input_type].nil?}
 
   get "questions/:question_id/worksheet" => "questions#worksheet", :as => :question_worksheet
+  get "questions/:question_id/new_talking_points" => "questions#new_talking_points", :as => :question_new_talking_points
+  get "questions/:question_id/all_talking_points" => "questions#all_talking_points", :as => :question_all_talking_points
+
+  get "questions/:question_id/new_comments" => "questions#new_comments", :as => :question_new_comments
+  get "questions/:question_id/all_comments" => "questions#all_comments", :as => :question_all_comments
   
   post "talking_points/:talking_point_id/create", :to => 'comments#create_talking_point_comment'
   
   post "talking_points/:talking_point_id/rate", :to => 'talking_point_acceptable_ratings#rate_talking_point'
   post "talking_points/:talking_point_id/prefer", :to => 'talking_point_preferences#prefer_talking_point'
+  get "talking_points/:talking_point_id/comments", :to => 'comments#comment_comments', :as => 'talking_point_comments'
 
-  get "comments/:comment_id/comments", :to => 'comments#comment_comments'
+  get "comments/:comment_id/comments", :to => 'comments#comment_comments', :as => 'comment_comments'
+  get "comments/:comment_id/reply", :to => 'comments#comment_reply', :as => 'comment_reply'
+
   post "comments/:comment_id/add_comment", :to => 'comments#create_comment_comment'
   post "talking_points/:talking_point_id/add_comment", :to => 'comments#create_talking_point_comment'
 

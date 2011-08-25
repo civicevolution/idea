@@ -1,0 +1,34 @@
+:plain
+	var com_coms = $("#{escape_javascript(
+		render( :partial=> 'comments/comment_comments.html', :locals=> {:comment => comment, :comments => comments, :com_criteria => com_criteria } )
+	)}");
+	var com = $('div.Comment[id=#{comment.id}]')
+	$('div.comment_comments.discussion[id=#{comment.id}]').remove()
+	var link = com.find('a.reply').html('Hide discussion');	
+	var newNode = $(com_coms).insertAfter(com);
+	newNode.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 })	
+	// activate the link to hide the discussion
+	link.live('ajax:beforeSend', 
+		function(){
+			return false;
+		}).die('click').live('click', 
+		function(){
+			var el = $(this);
+			var disc = el.closest('div.Comment').next('div.comment_comments');
+			var com_cnt = disc.find('div.Comment').size();
+			switch(com_cnt){
+				case 0:
+					el.html('Reply');
+					break;
+				case 1:
+					el.html('Show 1 comment');
+					break;
+				default:
+					el.html('Show ' + com_cnt + ' comments' );
+					break;
+			}
+			disc.remove();
+			link.die('ajax:beforeSend').die('click');
+			return false;
+		}
+	)

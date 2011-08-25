@@ -75,8 +75,21 @@ class Question < ActiveRecord::Base
       WHERE tp.question_id = ?
       AND tp.id NOT IN ( #{ ids.join(',') } )
       GROUP BY tp.id, tp.version, tp.text, tp.updated_at
-      ORDER BY count(tpar.member_id) DESC, id DESC
-      LIMIT 5|,self.id])
+      ORDER BY count(tpar.member_id) DESC, id DESC|,self.id])
+  end
+
+  def remaining_new_talking_points(ids, last_visit_ts)
+    # process ids to make sure they are just numbers
+    ids = ids.map{|i| i.to_i }
+    TalkingPoint.find_by_sql([
+      %Q|SELECT tp.id, tp.version, tp.text, tp.updated_at, count(tpar.member_id) 
+      FROM talking_points tp 
+      LEFT OUTER JOIN talking_point_acceptable_ratings tpar ON tp.id = tpar.talking_point_id
+      WHERE tp.question_id = ?
+      AND tp.id NOT IN ( #{ ids.join(',') } )
+      AND tp.updated_at >= '#{last_visit_ts}'
+      GROUP BY tp.id, tp.version, tp.text, tp.updated_at
+      ORDER BY count(tpar.member_id) DESC, id DESC|,self.id])
   end
 
 
@@ -197,7 +210,7 @@ class Question < ActiveRecord::Base
       (select count(id) from comments where parent_type=1 and parent_id = ques_id) AS coms,
       (SELECT count(id) from comments where parent_type=1 and parent_id = ques_id AND created_at > '#{last_visit_ts}') AS new_coms,
       (select count(id) from talking_points where question_id = ques_id) AS num_talking_points,
-      (SELECT count(id) from talking_points where question_id = ques_id AND created_at > '#{last_visit_ts}') AS num_new_talking_points
+      (SELECT count(id) from talking_points where question_id = ques_id AND updated_at > '#{last_visit_ts}') AS num_new_talking_points
       FROM ( VALUES #{ question_ids.map{ |id| "(#{id})" }.join(',')	 } ) AS q (ques_id)|
     )
   end

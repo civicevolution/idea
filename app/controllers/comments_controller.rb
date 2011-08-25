@@ -23,8 +23,9 @@ class CommentsController < ApplicationController
     @comments = @talking_point.comments
     
     respond_to do |format|
+      format.js { render :partial => 'talking_point_comments', :locals=> {:talking_point => @talking_point, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => false}
       format.html { render :partial => 'talking_point_comments', :locals=> {:talking_point => @talking_point, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => false} unless !request.xhr?
-      format.html { render :partial => 'talking_point_comments', :locals=> {:talking_point => @talking_point, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => 'plan'}
+      format.html { render 'talking_point_comments', :locals=> {:talking_point => @talking_point, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => 'plan'}
       format.xml  { render :xml => @comments }
     end
   end    
@@ -79,12 +80,43 @@ class CommentsController < ApplicationController
     @comments = @comment.comments
 
     respond_to do |format|
+      format.js { render :partial => 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => false}
       format.html { render :partial => 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria}, :layout => false} unless !request.xhr?
-      format.html { render :partial => 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => 'plan'}
+      format.html { render 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => 'plan'}
       format.xml  { render :xml => @comments }
     end
   end    
   
+  def comment_reply
+    logger.debug "GET comments for comment id: #{params[:comment_id]} (comment_comments)"
+  
+    # comment_comments only exist under the question comments, so use the com's parent_id as question_id
+    @comment = Comment.find(params[:comment_id])
+
+    case @comment.parent_type
+      when 3
+        #@comment.class.name == 'Comment'
+        @parent = Comment.find(@comment.parent_id)
+      when 13
+        @parent = TalkingPoint.find(@comment.parent_id)        
+    end
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:team_id=>@comment.team_id}, 'view_idea_page', @member)
+    if !allowed
+      render :text=>"Sorry, you do not have access to this"
+      return
+    end
+    @team = Team.find(team_id)
+    
+    text = %Q|[quote="#{@comment.author.first_name} #{@comment.author.last_name}"]#{@comment.text}[/quote]|
+    
+    respond_to do |format|
+      format.js { render :partial => 'comment_reply', :locals=> {:comment => @comment, :comments => [@comment], :parent => @parent, :text => text, :com_criteria => @team.com_criteria }, :layout => false}
+      format.html { render :partial => 'comment_reply', :locals=> {:comment => @comment, :comments =>[@comment], :parent => @parent, :text => text, :com_criteria => @team.com_criteria}, :layout => false} unless !request.xhr?
+      format.html { render 'comment_reply', :locals=> {:comment => @comment, :comments =>[@comment], :parent => @parent, :text => text, :com_criteria => @team.com_criteria }, :layout => 'plan'}
+      format.xml  { render :xml => @comments }
+    end
+  end    
+
 
   # GET /comments/1
   # GET /comments/1.xml

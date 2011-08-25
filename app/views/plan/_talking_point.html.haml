@@ -3,15 +3,16 @@
 		%p.talking_point= talking_point.text
 
 		%div.talking_point_controls
+			- if talking_point['comments']
+				- link_text = "Hide discussion"
+			- elsif talking_point.new_coms > 0
+				- link_text = "Show #{pluralize(talking_point.new_coms, 'new comment')}"
+			- elsif talking_point.coms > 0
+				- link_text = "Show #{pluralize(talking_point.coms, 'comment')}"
+			- else
+				- link_text = "Reply"
 			%p.coms
-				- if talking_point['comments']
-					= link_to "Hide discussion", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
-				- elsif talking_point.new_coms > 0
-					= link_to "Show #{pluralize(talking_point.new_coms, 'new comment')}", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
-				- elsif talking_point.coms > 0
-					= link_to "Show #{pluralize(talking_point.coms, 'comment')}", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
-				- else
-					= link_to "Reply", {}, { :class=> 'tp_show_coms', :id=>talking_point.id}
+				= link_to link_text, talking_point_comments_path(talking_point), { :class=> 'tp_show_coms', :id=>talking_point.id, :remote=>true}
 			%p.other
 				= link_to "Edit"
 				- if talking_point.version == 2

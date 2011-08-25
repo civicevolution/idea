@@ -1,0 +1,6 @@
+%h3= @team.title
+%h4 Q: #{@talking_point.question.text} 
+%h4= @talking_point.text
+
+= render :partial=> 'talking_point_comments', :locals=> {:talking_point => talking_point, :comments => comments, :com_criteria => com_criteria }
+	

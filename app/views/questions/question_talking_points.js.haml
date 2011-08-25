@@ -1,0 +1,27 @@
+:plain
+	//console.log("processing question talking points")
+	var talking_points = $("#{escape_javascript(
+		'<div>' + render( :partial=> 'plan/talking_point', :collection => @question.talking_points_to_display ) + '</div>'
+	)}");
+	//console.log("insert talking points for q: #{@question.id}");
+	temp.talking_points = talking_points;
+	var tp_list = $('div.talking_points_list[id=#{@question.id}]');
+	var last_tp = tp_list.find('div.talking_point_entry:last');
+	var new_tp_ids = [];
+	talking_points.find('div.talking_point_entry').each( function(){ new_tp_ids.push(this.id); last_tp = $(this).insertAfter(last_tp) });
+	tp_list.find('a.show_new_talking_points').remove();
+	if(#{params[:action] == "all_talking_points" ? 'true' : 'false'}){
+		tp_list.find('a.show_all_talking_points').remove();
+	}else{
+		var link = tp_list.find('a.show_all_talking_points');
+		var href = link.attr('href');
+		var text = link.html();
+		var cnt = Number(text.match(/\d+/));
+		$.map(new_tp_ids, function(i){href += '-' + i; --cnt});
+		link.attr('href',href);
+		text = text.replace(/\d+/,cnt);
+		if(cnt == 1)text = text.replace(/s$/,'')
+		link.html(text)
+	} 
+	size_talking_point_entries();
+
