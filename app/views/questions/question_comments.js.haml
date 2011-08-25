@@ -1,0 +1,26 @@
+:plain
+	//console.log("processing question talking points")
+	var comments = $("#{escape_javascript(
+		'<div>' + render( :partial=> 'plan/comment', :collection => @question['comments_to_display'] ) + '</div>'
+	)}");
+	console.log("load comments");
+	temp.comments = comments
+	var ques_disc = $('div.ques_discussion[id=#{@question.id}]');
+	var comment_insert_point = ques_disc.find('div.Comment:first');
+	var new_com_ids = [];
+	comments.find('div.Comment').each( function(){ new_com_ids.push(this.id); comment_insert_point.before(this) });
+	ques_disc.find('a.show_new_comments').remove();
+	if(#{params[:action] == "all_comments" ? 'true' : 'false'}){
+		ques_disc.find('a.show_all_comments').remove();
+	}else{
+		var link = ques_disc.find('a.show_all_comments');
+		var href = link.attr('href');
+		var text = link.html();
+		var cnt = Number(text.match(/\d+/));
+		$.map(new_com_ids, function(i){href += '-' + i; --cnt});
+		link.attr('href',href);
+		text = text.replace(/\d+/,cnt);
+		if(cnt == 1)text = text.replace(/s$/,'')
+		link.html(text)
+	} 
+

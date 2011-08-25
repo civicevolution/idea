@@ -103,8 +103,7 @@ class QuestionsController < ApplicationController
       @question['talking_points_to_display'] += @question.remaining_new_talking_points( @question['talking_points_to_display'].map(&:id), @member.last_visit_ts)
       worksheet
     else
-      ids = params[:ids].split('-')
-      talking_points_to_display = @question.remaining_new_talking_points(ids, @member.last_visit_ts)
+      talking_points_to_display = @question.remaining_new_talking_points( params[:ids].split('-'), @member.last_visit_ts)
       TalkingPoint.get_and_assign_stats( @question, talking_points_to_display, @member )
       
       render :question_talking_points, :layout => false
@@ -118,11 +117,35 @@ class QuestionsController < ApplicationController
       @question['talking_points_to_display'] = @question.talking_points
       worksheet
     else
-      ids = params[:ids].split('-')
-      talking_points_to_display = @question.remaining_talking_points(ids)
+      talking_points_to_display = @question.remaining_talking_points( params[:ids].split('-') )
       TalkingPoint.get_and_assign_stats( @question, talking_points_to_display, @member )
       
       render :question_talking_points, :layout => false
+    end
+  end
+
+  def new_comments
+    @question = Question.find(params[:question_id])
+    if !request.xhr?
+      @question['comments_to_display'] = 
+        Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
+      worksheet
+    else
+      @question['comments_to_display'] = @question.remaining_new_comments( params[:ids].split('-'), @member.last_visit_ts)
+      @question.get_talking_point_ratings(@member)
+      render :question_comments, :layout => false
+    end
+  end
+  
+  def all_comments
+    @question = Question.find(params[:question_id])
+    if !request.xhr?
+      @question['comments_to_display'] = @question.comments
+      worksheet
+    else
+      @question['comments_to_display'] = @question.remaining_comments( params[:ids].split('-') )
+      @question.get_talking_point_ratings(@member)
+      render :question_comments, :layout => false
     end
   end
 
@@ -250,6 +273,10 @@ class QuestionsController < ApplicationController
 
     new_talking_point_ids = TalkingPoint.select('id').where("question_id = :question_id AND updated_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
     @question.num_new_talking_points = (new_talking_point_ids.map(&:id) - @question['talking_points_to_display'].map(&:id)).size
+
+    new_comment_ids = Comment.select('id').where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
+    @question.new_coms = (new_comment_ids.map(&:id) - @question['comments_to_display'].map(&:id)).size
+
     
     # I need to fake the talking point data like this: talking_point.rating_votes = [5,3,1,4,2]
     fake_ratings = [ [12,4,1,1,2], [9,3,3,4,2], [9,0,2,4,6], [7,3,5,3,8], [3,3,1,0,1] ]

@@ -214,23 +214,23 @@ function size_talking_point_entries(){
 
 
 
-$('a.question_show_coms').die('click').live('click',
-	function(){
-		var el = $(this)
-		var comment_ids = $.map(el.closest('div.ques_discussion').find('div.Comment'), function(c){ if(c.id) return Number(c.id); else return null;})
-		$.get('/questions/' + this.id + '/comments', {'comment_ids': comment_ids},
-			function(data){ 
-				var div = $(data);
-				var comment_insert_point = el.closest('div.ques_discussion').find('div.Comment:first');
-				el.closest('p.count_link').remove();
-				//div.find('div.Comment').each( function(){ comments_sec.find('div.Comment:first').before(this) });
-				div.find('div.Comment').each( function(){ comment_insert_point.before(this) });
-			},
-			"html"
-		)
-		return false;
-	}
-);
+//$('a.question_show_coms').die('click').live('click',
+//	function(){
+//		var el = $(this)
+//		var comment_ids = $.map(el.closest('div.ques_discussion').find('div.Comment'), function(c){ if(c.id) return Number(c.id); else return null;})
+//		$.get('/questions/' + this.id + '/comments', {'comment_ids': comment_ids},
+//			function(data){ 
+//				var div = $(data);
+//				var comment_insert_point = el.closest('div.ques_discussion').find('div.Comment:first');
+//				el.closest('p.count_link').remove();
+//				//div.find('div.Comment').each( function(){ comments_sec.find('div.Comment:first').before(this) });
+//				div.find('div.Comment').each( function(){ comment_insert_point.before(this) });
+//			},
+//			"html"
+//		)
+//		return false;
+//	}
+//);
 
 
 //$('a.question_show_talking_points').die('click').live('click',

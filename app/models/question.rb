@@ -68,6 +68,7 @@ class Question < ActiveRecord::Base
   def remaining_talking_points(ids)
     # process ids to make sure they are just numbers
     ids = ids.map{|i| i.to_i }
+    ids = [0] if ids.size == 0
     TalkingPoint.find_by_sql([
       %Q|SELECT tp.id, tp.version, tp.text, tp.updated_at, count(tpar.member_id) 
       FROM talking_points tp 
@@ -81,6 +82,7 @@ class Question < ActiveRecord::Base
   def remaining_new_talking_points(ids, last_visit_ts)
     # process ids to make sure they are just numbers
     ids = ids.map{|i| i.to_i }
+    ids = [0] if ids.size == 0
     TalkingPoint.find_by_sql([
       %Q|SELECT tp.id, tp.version, tp.text, tp.updated_at, count(tpar.member_id) 
       FROM talking_points tp 
@@ -92,17 +94,22 @@ class Question < ActiveRecord::Base
       ORDER BY count(tpar.member_id) DESC, id DESC|,self.id])
   end
 
+  def new_comments(last_visit_ts)
+    Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
+  end
+
+  def remaining_new_comments(ids, last_visit_ts)
+    # process ids to make sure they are just integers
+    ids = ids.map{|i| i.to_i }
+    ids = [0] if ids.size == 0
+    Comment.includes(:author).where("parent_id = :question_id AND parent_type = 1 AND comments.id NOT IN (:current_com_ids) AND comments.created_at >= :last_visit", :question_id => self.id, :current_com_ids => ids, :last_visit => last_visit_ts ).order('id ASC')
+  end
 
   def remaining_comments(ids)
-    # process ids to make sure they are just numbers
+    # process ids to make sure they are just integers
     ids = ids.map{|i| i.to_i }
-    Comment.find_by_sql([
-      %Q|SELECT id, member_id, anonymous, status, text, created_at, updated_at, publish, parent_type, parent_id 
-      FROM comments
-      WHERE parent_type = 1 
-      AND parent_id = ?
-      AND id NOT IN ( #{ ids.join(',') } )
-      ORDER BY id ASC|,self.id])
+    ids = [0] if ids.size == 0
+    Comment.includes(:author).where("parent_id = :question_id AND parent_type = 1 AND comments.id NOT IN (:current_com_ids)", :question_id => self.id, :current_com_ids => ids).order('id ASC')
   end
 
 
