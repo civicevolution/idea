@@ -1,5 +1,6 @@
 :plain
-	var msg = 'Thank you for reporting this content. We will review it soon.';
-	$('<p>' + msg + '</p>').dialog({title : 'Thank you', modal : true, width : '300px', closeOnEscape: true })
+	var response = $("#{escape_javascript(
+		render( :template => 'client_debug/report_acknowledgement.html' )
+	)}");
+	response.dialog({title : 'Thank you', modal : true, width : '300px', closeOnEscape: true })
 	$('form.report_content[id=#{@target.id}]').closest('div.ui-dialog').dialog('destroy').remove();
-	
