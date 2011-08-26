@@ -3,11 +3,11 @@ class AdminReportMailer < ActionMailer::Base
   self.default :to => "Brian Sullivan <brian@civicevolution.org>"
 
   
-  def report_content(report, item_text, item, host, app)
+  def report_content(report, target, host, app)
     @report = report
-    @item_text = item_text
-    @item = item
+    @target = target
     @host = host
+    @app = app
     
     mail(:subject => "Content report from host #{host}",
       :from => "Content report <brian@civicevolution.org>")

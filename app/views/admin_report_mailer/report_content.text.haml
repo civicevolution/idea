@@ -5,9 +5,12 @@ Report type: #{@report.report_type}
 Message: 
 #{@report.text}
 ~''
-Item text:
-#{@item_text}
+Text:
+#{@target.text}
 ~''
-Team: http://#{@host}/idea/#{@item.team_id}?item=#{@item.id}
+Report id: #{@report.id}
+Type: #{@report.content_type}
+Id:   #{@report.content_id}
+-#Team: http://#{@host}/idea/#{@item.team_id}?item=#{@item.id}
 ~''
 Sender: #{@report.sender_name}, #{@report.sender_email}

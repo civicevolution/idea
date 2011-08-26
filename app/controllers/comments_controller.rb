@@ -142,7 +142,13 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params[:comment_id])
+    respond_to do |format|
+      format.js { render 'edit' }
+      format.html # new.html.erb
+      format.xml  { render :xml => @comment }
+    end
+
   end
 
   def reply

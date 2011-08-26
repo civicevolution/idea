@@ -43,6 +43,10 @@ class Answer < ActiveRecord::Base
     errors.add(:text, "must be no longer than #{range[2]} characters") unless text && text.length <= range[2].to_i
   end
 
+  def team
+    Team.first.joins(:questions).where('questions.id = ?', self.question_id).first
+  end
+
 
 # code required to record revision history for this item
   def set_version 

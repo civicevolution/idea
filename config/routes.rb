@@ -98,6 +98,22 @@ G3::Application.routes.draw do |map|
   post "comments/:comment_id/add_comment", :to => 'comments#create_comment_comment'
   post "talking_points/:talking_point_id/add_comment", :to => 'comments#create_talking_point_comment'
 
+  get "comments/:comment_id/report", :to => 'client_debug#report', :as => 'report_comment'
+  get "talking_points/:talking_point_id/report", :to => 'client_debug#report', :as => 'report_talking_point'
+  get "answer/:answer_id/report", :to => 'client_debug#report', :as => 'report_answer'
+  post "comments/:comment_id/report", :to => 'client_debug#post_content_report', :as => 'report_comment'
+  post "talking_points/:talking_point_id/report", :to => 'client_debug#post_content_report', :as => 'report_talking_point'
+  post "answer/:answer_id/report", :to => 'client_debug#report', :as => 'report_answer'
+
+  get "comments/:comment_id/edit", :to => 'comments#edit', :as => 'edit_comment'
+  get "talking_points/:talking_point_id/edit", :to => 'talking_points#edit', :as => 'edit_talking_point'
+  get "answer/:answer_id/edit", :to => 'answers#edit', :as => 'edit_answer'
+  post "comments/:comment_id/edit", :to => 'comments#update', :as => 'edit_comment'
+  post "talking_points/:talking_point_id/edit", :to => 'talking_point#update', :as => 'edit_talking_point'
+  post "answer/:answer_id/edit", :to => 'answer#update', :as => 'answer_edit'
+
+
+  
   map.resources :resources
 
   map.resources :comments

@@ -56,6 +56,10 @@ class Comment < ActiveRecord::Base
       end
   end
   
+  def team
+    Team.find(self.team_id)
+  end
+  
   def log_team_content
     # log this item into the team_content_logs
     TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :par_member_id=>self.par_member_id, :processed=>false).save

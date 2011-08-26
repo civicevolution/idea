@@ -40,6 +40,9 @@ class TalkingPoint < ActiveRecord::Base
     TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
   end  
   
+  def team
+    Team.joins(:questions).where('questions.id = ?', self.question_id).first
+  end
   
 
   def self.com_counts(talking_point_ids, last_visit_ts)

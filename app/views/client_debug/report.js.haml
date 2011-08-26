@@ -1,0 +1,13 @@
+:plain
+	console.log("show report form")
+	var report_form = $("#{escape_javascript(
+		render( :template => 'client_debug/report.html' )
+	)}");
+	
+	var dialog = report_form.dialog( {title : 'Report content', modal : true, width : '500px', closeOnEscape: false });
+	$('form.report_content[id=#{@target.id}] a.cancel').die('click').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);

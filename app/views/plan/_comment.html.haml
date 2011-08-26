@@ -71,9 +71,9 @@
 							= link_to link_text, comment_reply_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
 							
 						- if comment.member_id == @member.id
-							= link_to "Edit", {:controller => 'comment', :action => "edit", :id => comment.id}, {:class => 'edit_com', :rel=>'nofollow'}
+							= link_to "Edit", edit_comment_path(comment), {:class => 'edit', :rel=>'nofollow', :remote=>true}
 						- else
-							= link_to "Report", {:controller => 'comment', :action=>'report', :id=>comment.id}, {:class=>'report', :rel=>'nofollow'}
+							= link_to "Report", report_comment_path(comment), {:class=>'report', :rel=>'nofollow', :remote=>true}
 
 - if comment['comments']
 	= render :partial => 'comments/comment_comments.html', :locals=> {:comment => comment, :comments => comment['comments'], :com_criteria => @team.com_criteria}

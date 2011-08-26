@@ -1,0 +1,41 @@
+%div.report
+	-#= error_messages_for :content_report
+	
+	%p
+		%b For the content:
+	
+	%p= @text
+
+	= form_for :content_report, :url => { :action => :post_content_report }, :html=> {:remote=>true, :class=>'report_content', :id=>@target.id} do |form| 
+
+		= form.label :report_type, "Please select the appropriate category:"
+		%p.cat 
+			= label_tag :report_type do
+				#{form.radio_button 'report_type', 'off topic'}off topic
+		%p.cat 
+			= label_tag :report_type do
+				#{form.radio_button 'report_type', 'offensive'}offensive
+		%p.cat
+			= label_tag :report_type_personal do
+				#{form.radio_button 'report_type', 'personal'}personal attack
+		%p.cat
+			= label_tag :report_type_spam do
+				#{form.radio_button 'report_type', 'spam'}spam/commercial
+		
+		= form.label :text, "Please provide details about why you are reporting this content:"
+		= form.text_area :text, :cols => 50, :rows => 8
+		= form.hidden_field :content_type, :value => @target.class.name
+		= form.hidden_field :content_id, :value => @target.id
+			
+		- if @member.nil?
+			= form.label :sender_name, "Name:"
+			= form.text_field :sender_name
+
+			= form.label :sender_email, "Email:"
+			= form.text_field :sender_email
+
+		%p
+			= submit_tag 'Send report'
+			= link_to 'Cancel', {},{:class=>'cancel', :rel=>'nofollow'}
+			
+			
