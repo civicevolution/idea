@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
     #debugger
     #log_error(exception)
     logger.warn "EEEEEEEEEEEEEE: #{exception.message}"
+    notify_hoptoad(exception)
     begin
       member = Member.find_by_id(session[:member_id])
       respond_to do |format|
