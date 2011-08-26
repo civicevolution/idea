@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
     #debugger
     #log_error(exception)
     logger.warn "EEEEEEEEEEEEEE: #{exception.message}"
-    notify_hoptoad(exception)
     begin
       member = Member.find_by_id(session[:member_id])
       respond_to do |format|
@@ -28,6 +27,9 @@ class ApplicationController < ActionController::Base
         format.html {render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member, :exception => exception} } if request.xhr?
         format.html {render :template=> 'errors/generic_error', :layout=>'plan', :locals => {:member=>member, :exception => exception} }
       end
+      logger.warn "notify hoptoad"
+      notify_hoptoad(exception)
+      logger.warn "Hoptoad was notified"
       #ErrorMailer.delay.error_report(member, exception, request.env["HTTP_HOST"], params[:_app_name] )
     rescue Exception => e
       #log_error("XXXX error_generic Had an error trying to report an error with email and custom error page\nError: #{e.message}")
