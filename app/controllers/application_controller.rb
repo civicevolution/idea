@@ -13,17 +13,21 @@ class ApplicationController < ActionController::Base
 
   # put most generic exception at the top
 
-  rescue_from Exception, :with => :error_generic unless Rails.env == 'development'
+  rescue_from Exception, :with => :error_generic #unless Rails.env == 'development'
   rescue_from ActionController::RoutingError, :with => :render_404
   
   def error_generic(exception)
+    #debugger
     #log_error(exception)
-    logger.warn exception
+    logger.warn "EEEEEEEEEEEEEE: #{exception.message}"
     begin
       member = Member.find_by_id(session[:member_id])
-      render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member} if request.xhr?
-      render :template=> 'errors/generic_error', :layout=>'welcome', :locals => {:member=>member} if !request.xhr?
-      ErrorMailer.delay.error_report(member, exception, request.env["HTTP_HOST"], params[:_app_name] )
+      respond_to do |format|
+        format.js { render :template => "errors/generic_error", :locals => {:member=>member, :exception => exception } }
+        format.html {render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member, :exception => exception} } if request.xhr?
+        format.html {render :template=> 'errors/generic_error', :layout=>'plan', :locals => {:member=>member, :exception => exception} }
+      end
+      #ErrorMailer.delay.error_report(member, exception, request.env["HTTP_HOST"], params[:_app_name] )
     rescue Exception => e
       #log_error("XXXX error_generic Had an error trying to report an error with email and custom error page\nError: #{e.message}")
     end

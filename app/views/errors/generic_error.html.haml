@@ -1,5 +1,8 @@
-- if member.nil?
-	%h2 We apologize for the error v1
-- else
-	%h2 Hello #{member.first_name}, We apologize for this error
-%p We have been notified and will look into this very soon. We will contact you via email if appropriate
+%div
+	- if member.nil?
+		%h2 We apologize for the error v1
+	- else
+		%h2 Hello #{member.first_name}, We apologize for this error
+	%p We have been notified and will look into this very soon. We will contact you via email if appropriate
+	
+	%p.app_error_msg Error reference: #{exception.message}

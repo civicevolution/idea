@@ -116,7 +116,7 @@ class ClientDebugController < ApplicationController
         @member = { :first_name=>params[:request_help][:name], :email=>params[:request_help][:email]}
       end
 
-      HelpMailer.delay.help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
+      H elpMailer.delay.help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
       begin
         HelpMailer.delay.help_request_receipt(@member, @help_request, client_details ) unless @member[:email].nil?
       rescue

@@ -28,6 +28,9 @@ GEM
       activemodel (= 3.0.5)
       activesupport (= 3.0.5)
     activesupport (3.0.5)
+    airbrake (3.0)
+      activesupport
+      builder
     arel (2.0.9)
     aws-s3 (0.6.2)
       builder
@@ -110,6 +113,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   aws-s3
   aws-ses
   bluecloth
