@@ -10,7 +10,15 @@ class InitiativeRestriction < ActiveRecord::Base
         when initiative_id[:parent_type] == 13 # this is a talking point comment
           rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, team_id FROM teams t, questions q, talking_points tp WHERE tp.id = #{initiative_id[:parent_id]} AND t.id = q.team_id AND tp.question_id = q.id")
         when initiative_id[:parent_type] == 3 # this is a comment comment
-          rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q, comments c WHERE c.id = #{initiative_id[:parent_id]} AND t.id = q.team_id AND c.parent_id = q.id")
+          # I have to look at the parent
+          com = Comment.find(initiative_id[:parent_id])
+          if com.parent_type == 1 # the parent is a question
+            rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q WHERE q.id = #{com.parent_id} AND t.id = q.team_id")
+          elsif com.parent_type == 3 # the parent is a comment
+            rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q, talking_points tp WHERE tp.id = #{com.parent_id} AND tp.question_id = q.id AND q.team_id = t.id")
+          elsif com.parent_type == 13 # the parent is a talking_point
+            rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q, talking_points tp WHERE tp.id = #{com.parent_id} AND tp.question_id = q.id AND q.team_id = t.id")
+          end
         when initiative_id.key?(:question_id) # this is a question
           rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, team_id FROM teams t, questions q WHERE t.id = q.team_id AND q.id = #{initiative_id[:question_id]}")
         when initiative_id.key?(:talking_point_id) # this is a talking_point

@@ -5,8 +5,8 @@
 		%h3 Reply to this comment
 	- elsif type == 'talking_points'
 		%h3 Tell us what you think about this talking point
-		
-	= text_area_tag :text, "#{text}", {:class=>'autosize'}
+
+	= text_area_tag :text, "#{text}", {:class=>'autosize', :rows => 8}
 
 	%div.control_line
 		-#

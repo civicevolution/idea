@@ -1,5 +1,8 @@
+- text ||= ''
+- type ||= 'comments'
 %div.comment_comments.discussion{:id=>comment.id}
 	= render :partial=> 'plan/comment', :collection => comments
-	
-	= render :partial => 'plan/comment_form', :locals => {:id=>comment.id, :type=>'comments', :criteria => com_criteria}
+	- if comment.parent_type == 3 || comment.parent_type == 13
+		- comment.id = @parent.id
+	= render :partial => 'plan/comment_form', :locals => {:id=>comment.id, :type => type, :criteria => com_criteria, :text => text}
 	

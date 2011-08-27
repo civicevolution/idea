@@ -1,14 +1,18 @@
+-# text ||= ''
 %h3 Comment reply
 %h3= link_to @team.title, proposal_path(@team.id) 
 %h4= link_to "Q#{comment.question.order_id}: #{comment.question.text}", question_worksheet_path(comment.question), {:class=> 'open_worksheet'}
 
 - if @parent.class.name == 'Comment'
+	- type = 'comments'
 	= render :partial=> 'plan/comment', :object => parent
+	
 - elsif @parent.class.name == 'TalkingPoint'
+	- type = 'talking_points'
 	%h4
 		-#= image_tag('white_bulb.gif')
 		Talking point: 
 		= @parent.text
 	
-= render :partial=> 'comment_comments', :locals=> {:comment => comment, :comments => comments, :com_criteria => com_criteria }
+= render :partial=> 'comment_comments', :locals=> {:comment => comment, :comments => comments, :com_criteria => com_criteria, :type => type, :text => text }
 	

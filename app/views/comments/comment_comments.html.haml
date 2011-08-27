@@ -1,4 +1,5 @@
 %h3= link_to @team.title, proposal_path(@team.id)
 %h4= link_to "Q#{comment.question.order_id}: #{comment.question.text}", question_worksheet_path(comment.question), {:class=> 'open_worksheet'}
+%p= render :partial=> 'plan/comment', :object=>comment, :locals => {:show_reply => false}
 = render :partial=> 'comment_comments', :locals=> {:comment => comment, :comments => comments, :com_criteria => com_criteria }
 	

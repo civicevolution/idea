@@ -67,7 +67,7 @@ class CommentsController < ApplicationController
 
   def comment_comments
     logger.debug "GET comments for comment id: #{params[:comment_id]} (comment_comments)"
-    
+
     # comment_comments only exist under the question comments, so use the com's parent_id as question_id
     @comment = Comment.find(params[:comment_id])
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id=>@comment.parent_id}, 'view_idea_page', @member)
@@ -81,17 +81,20 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       format.js { render :partial => 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => false}
-      format.html { render :partial => 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria}, :layout => false} unless !request.xhr?
+      #format.html { render :partial => 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria}, :layout => false} unless !request.xhr?
       format.html { render 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => 'plan'}
       format.xml  { render :xml => @comments }
     end
   end    
   
   def comment_reply
-    logger.debug "GET comments for comment id: #{params[:comment_id]} (comment_comments)"
+    logger.debug "GET comments for comment_reply id: #{params[:comment_id]} (comment_comments)"
   
     # comment_comments only exist under the question comments, so use the com's parent_id as question_id
     @comment = Comment.find(params[:comment_id])
+    #debugger
+    ## If this comment's parent is a comment, parent_type==3, then use its parent as the target - comments only go one deep
+    #@comment = Comment.find(@comment.parent_id) if @comment.parent_type == 3
 
     case @comment.parent_type
       when 3
@@ -105,13 +108,15 @@ class CommentsController < ApplicationController
       render :text=>"Sorry, you do not have access to this"
       return
     end
+    
+    
     @team = Team.find(team_id)
     
     text = %Q|[quote="#{@comment.author.first_name} #{@comment.author.last_name}"]#{@comment.text}[/quote]|
-    
+
     respond_to do |format|
       format.js { render :partial => 'comment_reply', :locals=> {:comment => @comment, :comments => [@comment], :parent => @parent, :text => text, :com_criteria => @team.com_criteria }, :layout => false}
-      format.html { render :partial => 'comment_reply', :locals=> {:comment => @comment, :comments =>[@comment], :parent => @parent, :text => text, :com_criteria => @team.com_criteria}, :layout => false} unless !request.xhr?
+      #format.html { render :partial => 'comment_reply', :locals=> {:comment => @comment, :comments =>[@comment], :parent => @parent, :text => text, :com_criteria => @team.com_criteria}, :layout => false} unless !request.xhr?
       format.html { render 'comment_reply', :locals=> {:comment => @comment, :comments =>[@comment], :parent => @parent, :text => text, :com_criteria => @team.com_criteria }, :layout => 'plan'}
       format.xml  { render :xml => @comments }
     end
@@ -192,6 +197,7 @@ class CommentsController < ApplicationController
   
   def create_question_comment
     logger.debug "Comment.create_question_comment"
+
     @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id])
 
     respond_to do |format|
@@ -212,6 +218,7 @@ class CommentsController < ApplicationController
   
   def create_comment_comment
     logger.debug "Comment.create_comment_comment"
+
     @comment = Comment.find(params[:comment_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 3, :parent_id => params[:comment_id])
 
     respond_to do |format|
