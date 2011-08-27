@@ -6,7 +6,7 @@
 	var com = $('div.Comment[id=#{comment.id}]')
 	com.after(com_form);
 	com.closest('div.discussion').find('form.comment_form.orig').hide();
-	com_form.find('textarea').autoGrow({ minHeight  : 120, maxHeight : 500 });
+	activate_text_counters_grow( com_form.find('textarea'), 120 );
 	var link = com_form.find('a.clear');
 	link.html("Cancel").removeClass('clear').addClass('cancel').attr('id',#{comment.id});
 	

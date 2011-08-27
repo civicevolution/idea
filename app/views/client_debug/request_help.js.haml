@@ -7,7 +7,7 @@
 	var dialog = report_form.dialog( {title : '2029 and Beyond Help and Feedback', modal : true, width : '500px', closeOnEscape: false });
 	var form = $('form.request_help');
 	temp.form = form;
-	form.find('textarea').autoGrow({ minHeight  : 120, maxHeight : 500 })
+	activate_text_counters_grow( form.find('textarea'), 120 )
 	form.find(' a.cancel').die('click').live('click',
 		function(){
 			$(this).closest('div.ui-dialog').dialog('destroy').remove();

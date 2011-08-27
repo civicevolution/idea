@@ -6,7 +6,7 @@
 	$('div.talking_point_comments.discussion[id=#{talking_point.id}]').remove()
 	var link = tp.find('a.tp_show_coms').html('Hide discussion');	
 	var newNode = $(tp_coms).insertAfter(tp);
-	newNode.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 })	
+	activate_text_counters_grow( newNode.find('textarea'), 30 );
 	// activate the link to hide the discussion
 	link.live('ajax:beforeSend', 
 		function(){

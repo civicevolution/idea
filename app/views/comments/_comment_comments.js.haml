@@ -6,7 +6,7 @@
 	$('div.comment_comments.discussion[id=#{comment.id}]').remove()
 	var link = com.find('a.reply').html('Hide discussion');	
 	var newNode = $(com_coms).insertAfter(com);
-	newNode.find('textarea').autoGrow({ minHeight  : 30, maxHeight : 500 })	
+	activate_text_counters_grow( newNode.find('textarea'), 30 );
 	// activate the link to hide the discussion
 	link.live('ajax:beforeSend', 
 		function(){
