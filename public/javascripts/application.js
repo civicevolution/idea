@@ -77,34 +77,6 @@ $('a.help_tag').live('mouseover mouseout', function(event) {
   }
 });
 
-$('a.request_new').live('click',
-	function(){
-		//console.log("Show the new content");
-		var help = $('div.new_content');
-		if(help.size()==0){
-			$.get('/plan/' + team_id + '/new_content',
-				function(data){
-				  var pcs = data.split(/<script/);
-					var dialog = $(pcs[0]).dialog( {title : 'New content', modal : false, width: 'auto', closeOnEscape: true } );
-					//if(typeof activate_request_help_form == 'undefined') $('head').append('<script' + pcs[1]);
-					//activate_request_help_form(dialog.find('form'));
-					//dialog.find('select').focus();
-				}
-			)
-		}else{
-			var help_dlg = help.closest('div.ui-dialog');
-			if(help_dlg.is(":visible")){
-				help_dlg.hide();
-			}else{
-				help_dlg.show();
-			}
-			
-			
-		}
-		return false;
-	}
-)
-
 $('a.new_tag').live('mouseover mouseout', function(event) {
   if (event.type == 'mouseover') {
 		$(this).addClass('mouseover')
