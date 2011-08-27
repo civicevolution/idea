@@ -43,7 +43,7 @@ a.help_tag {
   height: 183px;
   background: url(/images/help_feedback_tag.gif) no-repeat 0 0; }
 
-a.help_tag.mouseover {
+a.help_tag:hover {
   border-right: 2px solid white; }
 
 a.new_tag {
@@ -55,7 +55,7 @@ a.new_tag {
   height: 183px;
   background: url(/images/new_content_tag.gif) no-repeat 0 0; }
 
-a.new_tag.mouseover {
+a.new_tag:hover {
   border-left: 2px solid white; }
 
 div.page {

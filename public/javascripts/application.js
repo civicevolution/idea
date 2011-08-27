@@ -45,7 +45,6 @@ $('form.what_do_you_think a.clear').die('click').live('click',
 	}
 );
 
-
 $('form#what_do_you_think_form').bind('ajax:before', 
 	function(){
 		if( $(this).find('input:radio:checked').size() == 0 ){
@@ -55,36 +54,17 @@ $('form#what_do_you_think_form').bind('ajax:before',
 	}
 );
 
-
 $('div.my_rating :radio').die('change').live('change',
 	function(){
 		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/rate', {rating: this.value})
 	}
 );
 
-
 $('p.my_preference :checkbox').die('change').live('change',
 	function(){
 		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/prefer', {prefer: this.checked})
 	}
 );
-
-$('a.help_tag').live('mouseover mouseout', function(event) {
-  if (event.type == 'mouseover') {
-		$(this).addClass('mouseover')
-  } else {
-		$(this).removeClass('mouseover')
-  }
-});
-
-$('a.new_tag').live('mouseover mouseout', function(event) {
-  if (event.type == 'mouseover') {
-		$(this).addClass('mouseover')
-  } else {
-		$(this).removeClass('mouseover')
-  }
-});
-
 
 function getUrlVars()
 {
