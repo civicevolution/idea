@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
         format.html {render :template=> 'errors/generic_error', :layout=>'plan', :locals => {:member=>member, :exception => exception} }
       end
       logger.warn "notify hoptoad"
-      notify_hoptoad(exception)
+      notify_airbrake(exception)
       logger.warn "Hoptoad was notified"
       #ErrorMailer.delay.error_report(member, exception, request.env["HTTP_HOST"], params[:_app_name] )
     rescue Exception => e
