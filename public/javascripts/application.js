@@ -17,7 +17,7 @@ $(function(){
 		  var token = $("meta[name='csrf-token']").attr("content");
 		  xhr.setRequestHeader("X-CSRF-Token", token);
 		});	
-		$('textarea').autoGrow({ minHeight  : 120, maxHeight : 500 })
+		activate_text_counters_grow($('textarea'), 120)
 		
 });
 

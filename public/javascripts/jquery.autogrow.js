@@ -47,6 +47,7 @@ jQuery.fn.autoGrow = function(o){
 		// Variables
 		var colsDefault = this.cols;
 		var rowsDefault = this.rows;
+		var rowsMax = Math.floor(o.maxHeight/(25));
 		
 
 		//Functions
@@ -63,7 +64,9 @@ jQuery.fn.autoGrow = function(o){
 				linesCount += Math.floor((lines[i].length / colsDefault) + 1);
 			}
 
-			if (linesCount >= rowsDefault)
+			if (linesCount >= rowsMax){
+				obj.style.overflow = "auto";
+			}else if (linesCount >= rowsDefault)
 				obj.rows = linesCount + 1;
 			else
 				obj.rows = rowsDefault;
