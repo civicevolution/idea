@@ -63,8 +63,7 @@ class ClientDebugController < ApplicationController
           @target = TalkingPoint.find(@report.content_id )
       end
 
-      #AdminReportMailer.delay.report_content(@report, @target, request.env['HTTP_HOST'],params[:_app_name] )
-      AdminReportMailer.report_content(@report, @target, request.env['HTTP_HOST'],params[:_app_name] ).deliver
+      AdminReportMailer.delay.report_content(@report, @target, request.env['HTTP_HOST'],params[:_app_name] )
     
     end
     
@@ -117,11 +116,9 @@ class ClientDebugController < ApplicationController
         @member = { :first_name=>params[:request_help][:name], :email=>params[:request_help][:email]}
       end
 
-      #HelpMailer.delay.help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
-      HelpMailer.help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name]).deliver
+      HelpMailer.delay.help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
       begin
-        #HelpMailer.delay.help_request_receipt(@member, @help_request, client_details ) unless @member[:email].nil?
-        HelpMailer.help_request_receipt(@member, @help_request, client_details ).deliver unless @member[:email].nil?
+        HelpMailer.delay.help_request_receipt(@member, @help_request, client_details ) unless @member[:email].nil?
       rescue
         @mail_error = true
       end
