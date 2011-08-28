@@ -14,8 +14,15 @@ class InitiativeRestriction < ActiveRecord::Base
           com = Comment.find(initiative_id[:parent_id])
           if com.parent_type == 1 # the parent is a question
             rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q WHERE q.id = #{com.parent_id} AND t.id = q.team_id")
-          elsif com.parent_type == 3 # the parent is a comment
-            rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q, talking_points tp WHERE tp.id = #{com.parent_id} AND tp.question_id = q.id AND q.team_id = t.id")
+          elsif com.parent_type == 3 # the parent is a comment whose parent could be a comment or a talking point
+            par_com = Comment.find(com.parent_id)
+            case par_com.parent_type
+              when 1
+                rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q WHERE q.id = #{par_com.parent_id} AND q.team_id = t.id")
+              when 13
+                rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q, talking_points tp WHERE tp.id = #{par_com.parent_id} AND tp.question_id = q.id AND q.team_id = t.id")
+            end
+                
           elsif com.parent_type == 13 # the parent is a talking_point
             rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q, talking_points tp WHERE tp.id = #{com.parent_id} AND tp.question_id = q.id AND q.team_id = t.id")
           end

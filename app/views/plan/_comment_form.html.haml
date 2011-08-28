@@ -1,5 +1,5 @@
 - text ||= ''
-= form_tag("/#{type}/#{id}/add_comment", :remote=>true, :id=>'comment_form', :class=>'comment_form orig') do
+= form_tag("/#{type}/#{id}/add_comment", :remote=>true, :id=> id, :class=>'comment_form orig') do
 	
 	- if type == 'comments'
 		%h3 Reply to this comment
@@ -20,7 +20,6 @@
 				= criteria.match(/..(\d+)/)[1]
 				characters left
 			= link_to 'Cancel',  cancel_comment_form_path(:t=>type,:id=>id, :act=>params[:action]), {:class=>'clear', :rel=>'nofollow'}
-%p #{params[:action]} #{type} #{id}
 
 %p.clear_both
 

@@ -235,10 +235,10 @@ class CommentsController < ApplicationController
     logger.debug "Comment.create_comment_comment"
 
     @comment = Comment.find(params[:comment_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 3, :parent_id => params[:comment_id])
-
+    
     respond_to do |format|
       if @comment.save
-        format.js { render 'comment_for_comment', :locals=>{:comment=>@comment, :members => [@member], :comment_id => @comment.parent_id, :form_id=> params[:form_id]} }
+        format.js { render 'comment_for_comment', :locals=>{:comment=>@comment, :members => [@member], :comment_id => @comment.parent_id } }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
         format.html { 
           par_com = Comment.find(@comment.id)

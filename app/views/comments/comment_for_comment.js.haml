@@ -1,6 +1,7 @@
 :plain
+	console.log("comment_for_comment.js.haml");
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
-	$('div.comment_comments[id=#{comment_id}] form.comment_form:first').before(com);
-	var form = $('div.comment_comments[id=#{comment_id}] form.comment_form input[value=#{form_id}]').closest('form');
-	if(form.size() == 0 ) form = $('div.comment_comments[id=#{comment_id}] form.comment_form:first');
-	form.find('a.clear').click();
+	var cur_form = $('form.comment_form[id=#{params[:comment_id]}]');
+	cur_form.before(com);
+	cur_form.closest('div.discussion').find('form.orig').show();
+	cur_form.remove();
