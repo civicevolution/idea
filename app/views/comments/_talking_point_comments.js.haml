@@ -32,3 +32,9 @@
 			return false;
 		}
 	)
+	$('div.talking_point_comments.discussion[id=#{talking_point.id}]').find('a.clear').html('Clear').die('click').live('click',
+		function(){
+			$(this).closest('form').find('textarea').val('');
+			return false;
+		}
+	);

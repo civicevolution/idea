@@ -32,3 +32,9 @@
 			return false;
 		}
 	)
+	$('div.comment_comments.discussion[id=#{comment.id}]').find('a.clear').html('Clear').die('click').live('click',
+		function(){
+			$(this).closest('form').find('textarea').val('');
+			return false;
+		}
+	);
