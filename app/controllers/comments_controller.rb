@@ -176,6 +176,21 @@ class CommentsController < ApplicationController
     end
   end
   
+  def cancel_comment_form
+    case 
+      when params[:act] == 'comment_comments'
+        com = Comment.find(params[:id])
+        redirect_to( question_worksheet_path(com.parent_id))
+      when params[:act] == 'talking_point_comments'
+        tp = TalkingPoint.find(params[:id])
+        redirect_to( question_worksheet_path(tp.question_id))
+      when params[:t] == 'comments'
+        redirect_to( comment_comments_path(params[:id]))
+      when params[:t] == 'talking_points'
+        redirect_to( talking_point_comments_path(params[:id]))
+    end
+  end
+  
   def create_talking_point_comment
     logger.debug "Comment.create_talking_point_comment"
     @comment = TalkingPoint.find(params[:talking_point_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 13, :parent_id => params[:talking_point_id])
@@ -184,7 +199,7 @@ class CommentsController < ApplicationController
       if @comment.save
         format.js { render 'comment_for_talking_point', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.talking_point.question_id} }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
-        format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
+        format.html { redirect_to( talking_point_comments_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
         format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
@@ -199,12 +214,12 @@ class CommentsController < ApplicationController
     logger.debug "Comment.create_question_comment"
 
     @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id])
-
+    
     respond_to do |format|
       if @comment.save
         format.js { render 'comment_for_question', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.parent_id} }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
-        format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
+        format.html { redirect_to( question_worksheet_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
         format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
@@ -225,7 +240,15 @@ class CommentsController < ApplicationController
       if @comment.save
         format.js { render 'comment_for_comment', :locals=>{:comment=>@comment, :members => [@member], :comment_id => @comment.parent_id, :form_id=> params[:form_id]} }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
-        format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
+        format.html { 
+          par_com = Comment.find(@comment.id)
+          if par_com.parent_type == 3 # a comment under a question
+            redirect_to( comment_comments_path(par_com.parent_id), :notice => 'Comment was successfully created.') 
+          elsif par_com.parent_type == 13 # a comment under a talking_point          
+            redirect_to( talking_point_comments_path(par_com.parent_id), :notice => 'Comment was successfully created.') 
+          end
+        }
+
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
         format.js { render 'comment_for_comment_errors', :locals=>{:comment=>@comment} }

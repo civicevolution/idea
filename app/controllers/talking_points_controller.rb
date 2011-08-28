@@ -85,7 +85,7 @@ class TalkingPointsController < ApplicationController
       if @talking_point.save
         format.js { render 'talking_point_for_question', :locals=>{:talking_point=>@talking_point, :question_id => @talking_point.question_id} }
         format.html { render :partial=> 'plan/talking_point', :locals=>{:comment=>@talking_point} } if request.xhr?
-        format.html { redirect_to(@talking_point, :notice => 'Talking point was successfully created.') }
+        format.html { redirect_to( question_worksheet_path(@talking_point.question_id), :notice => 'Talking point was successfully created.') }
         format.xml  { render :xml => @talking_point, :status => :created, :location => @comment }
       else
         format.js { render 'talking_point_for_question_errors', :locals=>{:talking_point=>@talking_point} }

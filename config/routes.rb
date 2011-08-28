@@ -112,6 +112,9 @@ G3::Application.routes.draw do |map|
   post "talking_points/:talking_point_id/edit", :to => 'talking_point#update', :as => 'edit_talking_point'
   post "answer/:answer_id/edit", :to => 'answer#update', :as => 'answer_edit'
 
+
+  get "cancel_comment_form", :to => 'comments#cancel_comment_form', :as => 'cancel_comment_form'
+
   get "request_help", :to => 'client_debug#request_help'
   post "request_help", :to => 'client_debug#request_help_post'
   

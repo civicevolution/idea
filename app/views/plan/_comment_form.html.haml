@@ -19,6 +19,8 @@
 			%span.char_ctr
 				= criteria.match(/..(\d+)/)[1]
 				characters left
-			= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
+			= link_to 'Cancel',  cancel_comment_form_path(:t=>type,:id=>id, :act=>params[:action]), {:class=>'clear', :rel=>'nofollow'}
+%p #{params[:action]} #{type} #{id}
+
 %p.clear_both
 
