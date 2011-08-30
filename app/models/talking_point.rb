@@ -4,7 +4,7 @@ class TalkingPoint < ActiveRecord::Base
   belongs_to :question
 	has_many :talking_point_acceptable_ratings
   has_many :talking_point_preferences
-	has_many :talking_point_versions          
+	has_many :versions, :class_name => 'TalkingPointVersion', :order => 'version DESC'
 	has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 13', :order => 'id asc'
   
   attr_accessor_with_default :preference_votes, 0
@@ -17,16 +17,23 @@ class TalkingPoint < ActiveRecord::Base
   attr_accessor :member
   attr_accessor :team_id
    
-  before_validation :check_initiative_restrictions, :on=>:create
+  before_validation :check_initiative_restrictions#, :on=>:create
   after_save :log_team_content
+  around_update :update_version
+
+  def update_version
+    old_tp = TalkingPoint.find(self.id)
+    yield
+    TalkingPointVersion.create( :talking_point_id => self.id, :member_id => old_tp.member_id, :version => old_tp.version, :text => old_tp.text )
+  end
   
   # temporary validation to prevent posting
   #validates_length_of :text, :in => 500..1500, :allow_blank => false
   
   def check_initiative_restrictions
     #logger.debug "TalkingPoint.check_initiative_restrictions"
-    self.member_id ||= self.member.id
-    self.version ||= 1
+    self.member_id = self.member.id
+    self.version = self.version.nil? ? 1 : self.version + 1
     allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:question_id=>self.question_id}, 'contribute_to_proposal', self.member)
     if !allowed
       errors.add(:base, "Sorry, you do not have permission to add a talking point.") 
@@ -130,5 +137,4 @@ class TalkingPoint < ActiveRecord::Base
     'talking point' #type for talking point
   end
   
-    
 end

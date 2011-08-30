@@ -464,3 +464,13 @@ div.worksheet {
   margin-top: 30px; }
 
 /* End notebook and spiral CSS */
+/* talking point history */
+table.talking_point_history td {
+  vertical-align: top;
+  padding: 4px 12px 4px 4px; }
+  table.talking_point_history td abbr {
+    white-space: nowrap; }
+table.talking_point_history td.ver {
+  white-space: nowrap; }
+
+/* END talking point history */

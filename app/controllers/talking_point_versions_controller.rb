@@ -1,4 +1,17 @@
 class TalkingPointVersionsController < ApplicationController
+  
+  def history
+    talking_point = TalkingPoint.find(params[:talking_point_id])
+    logger.debug "versions.size: #{talking_point.versions.size}"
+    #debugger
+    respond_to do |format|
+      format.html { render 'history', :locals => {:talking_point => talking_point}, :layout => 'plan' }
+      format.js { render 'history', :locals => {:talking_point => talking_point} }
+    end
+    
+  end
+  
+  
   # GET /talking_point_versions
   # GET /talking_point_versions.xml
   def index

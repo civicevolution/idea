@@ -74,6 +74,8 @@ G3::Application.routes.draw do |map|
   put "comments/:comment_id/update", :to => 'comments#update', :as => 'comment_update'
   put "talking_points/:talking_point_id/update", :to => 'talking_points#update', :as => 'talking_point_update'
 
+  get "talking_points/:talking_point_id/versions", :to => 'talking_point_versions#history', :as => 'talking_point_versions'
+  
   post "answer/:answer_id/edit", :to => 'answer#update', :as => 'answer_edit'
 
 
@@ -94,7 +96,7 @@ G3::Application.routes.draw do |map|
 
   resources :answer_diffs
 
-  resources :talking_point_versions
+  #resources :talking_point_versions
 
   resources :talking_point_preferences
 

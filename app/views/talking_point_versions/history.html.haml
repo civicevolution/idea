@@ -1,0 +1,29 @@
+%div
+	- if !request.xhr?
+		%h3= link_to talking_point.team.title, proposal_path(talking_point.team.id)
+		%h4= link_to "Q#{talking_point.question.order_id}: #{talking_point.question.text}", question_worksheet_path(talking_point.question), {:class=> 'open_worksheet'}
+		%h3 Edit history for this talking point:
+	
+	%table.talking_point_history
+		%tbody
+			%tr
+				%td
+					Version #{talking_point.version}
+					%b (Current)
+				%td= talking_point.text
+				%td 
+					%abbr.timeago{:title=>talking_point.created_at}= time_ago_in_words(talking_point.created_at) + ' ago'
+				
+		
+		- talking_point.versions.each do |v|
+			%tr
+				%td.ver Version #{v.version}
+				%td= v.text
+				%td 
+					%abbr.timeago{:title=>v.created_at}= time_ago_in_words(v.created_at) + ' ago'
+		
+		
+
+	- if !request.xhr?
+		%h4= link_to "Back", question_worksheet_path(talking_point.question), {:class=> 'open_worksheet'}
+		

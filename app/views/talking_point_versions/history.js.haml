@@ -1,0 +1,7 @@
+:plain
+	var history_form = $("#{escape_javascript(
+		render( :template => 'talking_point_versions/history.html', :locals => {:talking_point => talking_point} )
+	)}");
+	
+	var dialog = history_form.dialog( {title : 'Edit history for this talking point', modal : true, width : '600px', closeOnEscape: true });
+		

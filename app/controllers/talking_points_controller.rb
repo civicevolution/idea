@@ -108,6 +108,7 @@ class TalkingPointsController < ApplicationController
   # PUT /talking_points/1.xml
   def update
     talking_point = TalkingPoint.find(params[:talking_point_id])
+    talking_point.member = @member
     respond_to do |format|
       if talking_point.update_attributes(params[:talking_point])
         format.html { redirect_to( question_worksheet_path(talking_point.question), :notice => 'Talking point was successfully updated.') }
