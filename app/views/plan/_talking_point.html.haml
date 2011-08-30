@@ -15,10 +15,8 @@
 				= link_to link_text, talking_point_comments_path(talking_point), { :class=> 'tp_show_coms', :id=>talking_point.id, :remote=>true}
 			%p.other
 				= link_to "Edit", edit_talking_point_path(talking_point), {:class => 'edit', :rel=>'nofollow', :remote=>true}
-				- if talking_point.version == 2
-					= link_to "View old version"
-				- elsif talking_point.version > 2
-					= link_to "View #{pluralize(talking_point.version - 1, 'old version')}"
+				- if talking_point.version > 1
+					= link_to "View #{pluralize(talking_point.version - 1, 'old version')}", talking_point_versions_path(talking_point), {:class => 'versions', :rel=>'nofollow', :remote=>true}
 				= link_to "Report", report_talking_point_path(talking_point), {:class=>'report', :rel=>'nofollow', :remote=>true}
 
 	%div.talking_point_acceptable
