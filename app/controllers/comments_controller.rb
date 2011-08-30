@@ -297,6 +297,7 @@ class CommentsController < ApplicationController
               redirect_to( talking_point_comments_path(comment.parent_id), :notice => 'Comment was successfully updated.' )
           end
         }  
+        format.js { render :partial => 'update_comment', :locals => {:comment => comment} }
         format.xml  { head :ok }
       else
         format.html { redirect_to edit_comment_path(comment), :flash => { :errors => comment.errors} }

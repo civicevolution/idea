@@ -4,10 +4,9 @@
 		%h3= link_to comment.team.title, proposal_path(comment.team.id)
 		%h4= link_to "Q#{comment.question.order_id}: #{comment.question.text}", question_worksheet_path(comment.question), {:class=> 'open_worksheet'}
 
+		%h3.ques_sub_hdg Edit this comment
+		
 	= render :partial => 'shared/error_messages', :locals => {:target => comment}
-
-
-	%h3.ques_sub_hdg Edit this comment
 
 	= form_for(comment, :url => comment_update_path(comment), :html => {:remote=>true, :id=>comment.id, :class=>'comment_edit_form std_form'} ) do |f|
 		%p= flash[:notice]
@@ -21,5 +20,5 @@
 					-#= @team.com_criteria.match(/..(\d+)/)[1]
 					1500
 					characters left
-				= link_to 'Cancel',  cancel_comment_form_path(:t=> type, :id=>comment.parent_id, :act=>params[:action]), {:class=>'clear', :rel=>'nofollow'}
+				= link_to 'Cancel',  cancel_comment_form_path(:t=> type, :id=>comment.parent_id, :act=>params[:action]), {:class=>'cancel', :rel=>'nofollow'}
 

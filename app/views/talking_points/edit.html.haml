@@ -1,27 +1,30 @@
-%h3= link_to talking_point.team.title, proposal_path(talking_point.team.id)
-%h4= link_to "Q#{talking_point.question.order_id}: #{talking_point.question.text}", question_worksheet_path(talking_point.question), {:class=> 'open_worksheet'}
+%div
+	- if !request.xhr?
+		%h3= link_to talking_point.team.title, proposal_path(talking_point.team.id)
+		%h4= link_to "Q#{talking_point.question.order_id}: #{talking_point.question.text}", question_worksheet_path(talking_point.question), {:class=> 'open_worksheet'}
+		%h3.ques_sub_hdg Edit this talking point
 
-= render :partial => 'shared/error_messages', :locals => {:target => talking_point}
+	= render :partial => 'shared/error_messages', :locals => {:target => talking_point}
 
-%h3.ques_sub_hdg Edit this talking point
-= form_for(talking_point, :url => talking_point_update_path(talking_point), :html => {:remote=>true, :id=>talking_point.id, :class=>'talking_point_edit_form std_form'} ) do |f|
+
+	= form_for(talking_point, :url => talking_point_update_path(talking_point), :html => {:remote=>true, :id=>talking_point.id, :class=>'talking_point_edit_form std_form'} ) do |f|
 	
-	%ul
-		%li A talking point should clearly state a single idea to be rated
-		%li 
-			Your edit should improve the talking point 
-			%b without changing its meaning
-		%li If you want to change the meaning, please add a new talking point of your own
-		%li Must be less than 200 characters long
+		%ul
+			%li A talking point should clearly state a single idea to be rated
+			%li 
+				Your edit should improve the talking point 
+				%b without changing its meaning
+			%li If you want to change the meaning, please add a new talking point of your own
+			%li Must be less than 200 characters long
 
-	= f.text_area( :text, {:class=>'autosize', :rows => 6} )
+		= f.text_area( :text, {:class=>'autosize', :rows => 6} )
 
-	%div.control_line
-		%div.controls
-			= f.submit 'Update'
+		%div.control_line
+			%div.controls
+				= f.submit 'Update'
 			
-			%span.char_ctr
-				-#= @team.com_criteria.match(/..(\d+)/)[1]
-				200
-				characters left
-			= link_to 'Cancel', question_worksheet_path(talking_point.question), {:class=>'clear', :rel=>'nofollow'}
+				%span.char_ctr
+					-#= @team.com_criteria.match(/..(\d+)/)[1]
+					200
+					characters left
+				= link_to 'Cancel', question_worksheet_path(talking_point.question), {:class=>'clear', :rel=>'nofollow'}

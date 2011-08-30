@@ -1,14 +1,18 @@
 :plain
-	var report_form = $("#{escape_javascript(
-		render( :template => 'talking_points/edit.html', :locals => ':talking_point => talking_point} )
+	var edit_form = $("#{escape_javascript(
+		render( :template => 'talking_points/edit.html', :locals => {:talking_point => talking_point} )
 	)}");
 	
-	var dialog = report_form.dialog( {title : 'Edit', modal : true, width : '500px', closeOnEscape: false });
--#	
-	//$('form.report_content[id=#{@target.id}] a.cancel').die('click').live('click',
-	//	function(){
-	//		$(this).closest('div.ui-dialog').dialog('destroy').remove();
-	//		return false;
-	//	}
-	//);
+	var dialog = edit_form.dialog( {title : 'Edit this talking point', modal : true, width : '500px', closeOnEscape: false });
+	
+	var form = $('form.talking_point_edit_form[id=#{talking_point.id}]');
+	temp.form = form;
+	activate_text_counters_grow( form.find('textarea'), 120 )
+	form.find(' a.cancel').die('click').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);
+
 	

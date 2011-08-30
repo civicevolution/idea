@@ -111,6 +111,7 @@ class TalkingPointsController < ApplicationController
     respond_to do |format|
       if talking_point.update_attributes(params[:talking_point])
         format.html { redirect_to( question_worksheet_path(talking_point.question), :notice => 'Talking point was successfully updated.') }
+        format.js { render :partial => 'update_talking_point', :locals => {:talking_point => talking_point} }
         format.xml  { head :ok }
       else
         format.html { redirect_to edit_talking_point_path(talking_point), :flash => { :errors => talking_point.errors} }
