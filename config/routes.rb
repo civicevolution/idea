@@ -36,6 +36,62 @@ G3::Application.routes.draw do |map|
   match 'plan/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }
   match 'proposal/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }, :as=> 'proposal'
 
+
+  post "questions/:question_id/what_do_you_think", :to => "talking_points#create_question_talking_point", :constraints => lambda { |params| params[:input_type] ==  'talking_point'}
+  post "questions/:question_id/what_do_you_think", :to => "comments#create_question_comment", :constraints => lambda { |params| params[:input_type] == 'comment'}
+  post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :constraints => lambda { |params| params[:input_type].nil?}
+
+  get "questions/:question_id/worksheet" => "questions#worksheet", :as => :question_worksheet
+  get "questions/:question_id/new_talking_points" => "questions#new_talking_points", :as => :question_new_talking_points
+  get "questions/:question_id/all_talking_points" => "questions#all_talking_points", :as => :question_all_talking_points
+
+  get "questions/:question_id/new_comments" => "questions#new_comments", :as => :question_new_comments
+  get "questions/:question_id/all_comments" => "questions#all_comments", :as => :question_all_comments
+  
+  post "talking_points/:talking_point_id/create", :to => 'comments#create_talking_point_comment'
+  
+  post "talking_points/:talking_point_id/rate", :to => 'talking_point_acceptable_ratings#rate_talking_point'
+  post "talking_points/:talking_point_id/prefer", :to => 'talking_point_preferences#prefer_talking_point'
+  get "talking_points/:talking_point_id/comments", :to => 'comments#talking_point_comments', :as => 'talking_point_comments'
+
+  get "comments/:comment_id/comments", :to => 'comments#comment_comments', :as => 'comment_comments'
+  get "comments/:comment_id/reply", :to => 'comments#comment_reply', :as => 'comment_reply'
+
+  post "comments/:comment_id/add_comment", :to => 'comments#create_comment_comment'
+  post "talking_points/:talking_point_id/add_comment", :to => 'comments#create_talking_point_comment'
+
+  get "comments/:comment_id/report", :to => 'client_debug#report', :as => 'report_comment'
+  get "talking_points/:talking_point_id/report", :to => 'client_debug#report', :as => 'report_talking_point'
+  get "answer/:answer_id/report", :to => 'client_debug#report', :as => 'report_answer'
+  post "comments/:comment_id/report", :to => 'client_debug#post_content_report', :as => 'report_comment'
+  post "talking_points/:talking_point_id/report", :to => 'client_debug#post_content_report', :as => 'report_talking_point'
+  post "answer/:answer_id/report", :to => 'client_debug#report', :as => 'report_answer'
+
+  get "comments/:comment_id/edit", :to => 'comments#edit', :as => 'edit_comment'
+  get "talking_points/:talking_point_id/edit", :to => 'talking_points#edit', :as => 'edit_talking_point'
+  get "answer/:answer_id/edit", :to => 'answers#edit', :as => 'edit_answer'
+  
+  put "comments/:comment_id/update", :to => 'comments#update', :as => 'comment_update'
+  put "talking_points/:talking_point_id/update", :to => 'talking_points#update', :as => 'talking_point_update'
+
+  post "answer/:answer_id/edit", :to => 'answer#update', :as => 'answer_edit'
+
+
+  get "cancel_comment_form", :to => 'comments#cancel_comment_form', :as => 'cancel_comment_form'
+
+  get "request_help", :to => 'client_debug#request_help'
+  post "request_help", :to => 'client_debug#request_help_post'
+  
+  root :to => 'welcome#index'
+  match 'about' => 'welcome#about', :as=>'ce_about'
+  match 'home' => 'welcome#home', :as=>'ce_home'
+  get 'contact_us' => 'welcome#contact_us', :as=>'ce_contact_us'
+  post 'contact_us' => 'welcome#contact_us_post', :as=>'ce_contact_us_post'
+
+  match 'subscribe' => 'welcome#subscribe'
+  get 'get_started' => 'welcome#get_started'
+  post 'get_started' => 'welcome#get_started_post'
+
   resources :answer_diffs
 
   resources :talking_point_versions
@@ -45,6 +101,15 @@ G3::Application.routes.draw do |map|
   resources :talking_point_acceptable_ratings
 
   resources :talking_points
+  
+  resources :resources
+  resources :answers
+  resources :comments
+  resources :questions
+  resources :members
+  resources :teams
+  resources :initiatives
+
 
   resources :questions do
 		resources :talking_points do
@@ -75,79 +140,12 @@ G3::Application.routes.draw do |map|
 	  end
 	end
 
-  post "questions/:question_id/what_do_you_think", :to => "talking_points#create_question_talking_point", :constraints => lambda { |params| params[:input_type] ==  'talking_point'}
-  post "questions/:question_id/what_do_you_think", :to => "comments#create_question_comment", :constraints => lambda { |params| params[:input_type] == 'comment'}
-  post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :constraints => lambda { |params| params[:input_type].nil?}
-
-  get "questions/:question_id/worksheet" => "questions#worksheet", :as => :question_worksheet
-  get "questions/:question_id/new_talking_points" => "questions#new_talking_points", :as => :question_new_talking_points
-  get "questions/:question_id/all_talking_points" => "questions#all_talking_points", :as => :question_all_talking_points
-
-  get "questions/:question_id/new_comments" => "questions#new_comments", :as => :question_new_comments
-  get "questions/:question_id/all_comments" => "questions#all_comments", :as => :question_all_comments
-  
-  post "talking_points/:talking_point_id/create", :to => 'comments#create_talking_point_comment'
-  
-  post "talking_points/:talking_point_id/rate", :to => 'talking_point_acceptable_ratings#rate_talking_point'
-  post "talking_points/:talking_point_id/prefer", :to => 'talking_point_preferences#prefer_talking_point'
-  get "talking_points/:talking_point_id/comments", :to => 'comments#comment_comments', :as => 'talking_point_comments'
-
-  get "comments/:comment_id/comments", :to => 'comments#comment_comments', :as => 'comment_comments'
-  get "comments/:comment_id/reply", :to => 'comments#comment_reply', :as => 'comment_reply'
-
-  post "comments/:comment_id/add_comment", :to => 'comments#create_comment_comment'
-  post "talking_points/:talking_point_id/add_comment", :to => 'comments#create_talking_point_comment'
-
-  get "comments/:comment_id/report", :to => 'client_debug#report', :as => 'report_comment'
-  get "talking_points/:talking_point_id/report", :to => 'client_debug#report', :as => 'report_talking_point'
-  get "answer/:answer_id/report", :to => 'client_debug#report', :as => 'report_answer'
-  post "comments/:comment_id/report", :to => 'client_debug#post_content_report', :as => 'report_comment'
-  post "talking_points/:talking_point_id/report", :to => 'client_debug#post_content_report', :as => 'report_talking_point'
-  post "answer/:answer_id/report", :to => 'client_debug#report', :as => 'report_answer'
-
-  get "comments/:comment_id/edit", :to => 'comments#edit', :as => 'edit_comment'
-  get "talking_points/:talking_point_id/edit", :to => 'talking_points#edit', :as => 'edit_talking_point'
-  get "answer/:answer_id/edit", :to => 'answers#edit', :as => 'edit_answer'
-  post "comments/:comment_id/edit", :to => 'comments#update', :as => 'edit_comment'
-  post "talking_points/:talking_point_id/edit", :to => 'talking_point#update', :as => 'edit_talking_point'
-  post "answer/:answer_id/edit", :to => 'answer#update', :as => 'answer_edit'
-
-
-  get "cancel_comment_form", :to => 'comments#cancel_comment_form', :as => 'cancel_comment_form'
-
-  get "request_help", :to => 'client_debug#request_help'
-  post "request_help", :to => 'client_debug#request_help_post'
-  
-  map.resources :resources
-
-  map.resources :comments
-
-  map.resources :answers
-
-  map.resources :questions
-
-  map.resources :members
-
-  map.resources :teams
-
-  map.resources :initiatives
-  
-  root :to => 'welcome#index'
-  match 'about' => 'welcome#about', :as=>'ce_about'
-  match 'home' => 'welcome#home', :as=>'ce_home'
-  get 'contact_us' => 'welcome#contact_us', :as=>'ce_contact_us'
-  post 'contact_us' => 'welcome#contact_us_post', :as=>'ce_contact_us_post'
-
-  match 'subscribe' => 'welcome#subscribe'
-  get 'get_started' => 'welcome#get_started'
-  post 'get_started' => 'welcome#get_started_post'
-
-
-
-
+  #match ':controller/:action/:id'
+  #match ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
   
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -205,37 +203,10 @@ G3::Application.routes.draw do |map|
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
   
- 
-  # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  #if APP_NAME == 'civic'
-  #  map.root :controller => "welcome", :action=>'home'
-  #else
-  #  map.root :controller => "welcome", :action=>'index'
-  #end
-  
-  # See how all your routes lay out with "rake routes"
+   # See how all your routes lay out with "rake routes"
 
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
-
-
-
-  #if APP_NAME == 'civic'
-  #  map.root :controller => "welcome", :action=>'home'
-  #else
-  #  map.root :controller => "welcome", :action=>'index'
-  #end
-  
-  # See how all your routes lay out with "rake routes"
-
-  # Install the default routes as the lowest priority.
-  # Note: These default routes make all actions in every controller accessible via GET requests. You should
-  # consider removing or commenting them out if you're using named routes and resources.
-  
-#  map.resources :pages
-
  
-  
-  
 end

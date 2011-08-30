@@ -28,7 +28,7 @@ class AnswerRating < ActiveRecord::Base
       # this is access check for the idea page version
       allowed,message = InitiativeRestriction.allow_action({:answer_id=>self.answer_id}, 'contribute_to_proposal', self.member)
       if !allowed
-        errors.add_to_base("Sorry, you do not have permission to rate this answer.") 
+        errors.add(:base, "Sorry, you do not have permission to rate this answer.") 
         return false
       end
       return

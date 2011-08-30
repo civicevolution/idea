@@ -75,10 +75,18 @@ class Comment < ActiveRecord::Base
   def check_initiative_restrictions
     self.publish = true unless !self.member.confirmed
     #logger.debug "Comment.check_initiative_restrictions"
-    self.member_id ||= self.member.id
+    if self.id.nil?
+      # new comment
+      self.member_id ||= self.member.id
+    else
+      if self.member_id != self.member.id
+        errors.add(:base, "Sorry, only the author can edit this comment.") 
+        return false
+      end
+    end    
     allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.parent_id, :parent_type => self.parent_type}, 'contribute_to_proposal', self.member)
     if !allowed
-      errors.add_to_base("Sorry, you do not have permission to add a comment.") 
+      errors.add(:base, "Sorry, you do not have permission to add a comment.") 
       return false
     end
     true
@@ -117,7 +125,7 @@ class Comment < ActiveRecord::Base
       # this is access check for the idea page version
       allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
       if !allowed
-        errors.add_to_base("Sorry, you do not have permission to add a comment.") 
+        errors.add(:base, "Sorry, you do not have permission to add a comment.") 
         return false
       end
       return
@@ -137,10 +145,10 @@ class Comment < ActiveRecord::Base
     #logger.debug "pub_par_item.size: #{pub_par_item.size}"
 
     if pub_par_item.size == 0
-      errors.add_to_base("This discussion is private and you must be a team member to participate.") 
+      errors.add(:base, "This discussion is private and you must be a team member to participate.") 
       return false
     end
-    # errors.add_to_base("You must sign in to continue")
+    # errors.add(:base, "You must sign in to continue")
   end  
   
   def check_com_edit_access
@@ -153,11 +161,11 @@ class Comment < ActiveRecord::Base
       # this is access check for the idea page version
       allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
       if !allowed
-        errors.add_to_base("Sorry, you do not have permission to edit a comment.") 
+        errors.add(:base, "Sorry, you do not have permission to edit a comment.") 
         return false
       end
       if self.member_id != self.member.id
-        errors.add_to_base("Sorry, only the author can edit this comment.") 
+        errors.add(:base, "Sorry, only the author can edit this comment.") 
         return false
       end
       return
@@ -178,7 +186,7 @@ class Comment < ActiveRecord::Base
     )
     #logger.debug "pub_par_item.size: #{pub_par_item.size}"
     if pub_par_item.size == 0
-      errors.add_to_base("This discussion is private and you must be a team member to participate.") 
+      errors.add(:base, "This discussion is private and you must be a team member to participate.") 
       return false
     end
   end  

@@ -10,7 +10,7 @@ class ProposalSubmit < ActiveRecord::Base
     #@team = Team.find(self.team_id)
     #allowed = @team.org_id == self.member.id ? true : false
     #if !allowed
-    #  errors.add_to_base("Sorry, only the idea originator can submit this proposal.") 
+    #  errors.add(:base, "Sorry, only the idea originator can submit this proposal.") 
     #  return false
     #end
     

@@ -25,7 +25,7 @@ class Team < ActiveRecord::Base
     # return as ok if user is a team member
     return if self.member.id == self.org_id || self.member.id == 1
     
-    errors.add_to_base("You must be a member of this team to edit it.")
+    errors.add(:base, "You must be a member of this team to edit it.")
 
   end  
   

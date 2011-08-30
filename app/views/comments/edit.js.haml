@@ -1,4 +1,13 @@
 :plain
-	var msg = 'The edit comment feature is not available yet';
-	$('<p>' + msg + '</p>').dialog({title : "We're sorry...", modal : true, width : '300px', closeOnEscape: true })
+	var edit_form = $("#{escape_javascript(
+		render( :template => 'comments/edit.html', :locals => {:comment => comment, :type => type} )
+	)}");
 	
+	var dialog = edit_form.dialog( {title : 'Edit', modal : true, width : '500px', closeOnEscape: false });
+-#	
+	//$('form.report_content[id=#{@target.id}] a.cancel').die('click').live('click',
+	//	function(){
+	//		$(this).closest('div.ui-dialog').dialog('destroy').remove();
+	//		return false;
+	//	}
+	//);

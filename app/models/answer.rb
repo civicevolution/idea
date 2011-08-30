@@ -63,7 +63,7 @@ class Answer < ActiveRecord::Base
       # this is access check for the idea page version
       allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
       if !allowed
-        errors.add_to_base("Sorry, you do not have permission to add an answer.") 
+        errors.add(:base, "Sorry, you do not have permission to add an answer.") 
         return false
       end
       return
@@ -76,7 +76,7 @@ class Answer < ActiveRecord::Base
     end
     #raise TeamAccessDeniedError, "In check_team_access for par_id: #{@par_id}" if @team.nil?
     if @team.nil?
-      errors.add_to_base("You must sign in to continue") 
+      errors.add(:base, "You must sign in to continue") 
     else
       self.team_id = @team.id # this will be used to construct the item record
       self.question_id = par_item.o_id
@@ -90,7 +90,7 @@ class Answer < ActiveRecord::Base
       # this is access check for the idea page version
       allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
       if !allowed
-        errors.add_to_base("Sorry, you do not have permission to edit this answer.") 
+        errors.add(:base, "Sorry, you do not have permission to edit this answer.") 
         return false
       end
       return
@@ -102,7 +102,7 @@ class Answer < ActiveRecord::Base
     rescue
     end
     if @team.nil?
-      errors.add_to_base("You must sign in to continue") 
+      errors.add(:base, "You must sign in to continue") 
     end
   end  
   

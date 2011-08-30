@@ -12,7 +12,7 @@ class TalkingPointAcceptableRating < ActiveRecord::Base
     #logger.debug "TalkingPointAcceptableRating.check_initiative_restrictions"
     allowed,message = InitiativeRestriction.allow_actionX({:talking_point_id=>self.talking_point_id}, 'contribute_to_proposal', self.member)
     if !allowed
-      errors.add_to_base("Sorry, you do not have permission to rate this talking point.") 
+      errors.add(:base, "Sorry, you do not have permission to rate this talking point.") 
       return false
     end
     true

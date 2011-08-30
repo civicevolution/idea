@@ -29,7 +29,7 @@ class TalkingPoint < ActiveRecord::Base
     self.version ||= 1
     allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:question_id=>self.question_id}, 'contribute_to_proposal', self.member)
     if !allowed
-      errors.add_to_base("Sorry, you do not have permission to add a talking point.") 
+      errors.add(:base, "Sorry, you do not have permission to add a talking point.") 
       return false
     end
     true

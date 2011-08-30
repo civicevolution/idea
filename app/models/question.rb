@@ -40,7 +40,7 @@ class Question < ActiveRecord::Base
   #  self.member_id ||= self.member.id
   #  allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.parent_id, :parent_type => self.parent_type}, 'contribute_to_proposal', self.member)
   #  if !allowed
-  #    errors.add_to_base("Sorry, you do not have permission to add a question.") 
+  #    errors.add(:base, "Sorry, you do not have permission to add a question.") 
   #    return false
   #  end
   #  true

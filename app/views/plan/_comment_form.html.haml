@@ -5,6 +5,8 @@
 		%h3 Reply to this comment
 	- elsif type == 'talking_points'
 		%h3 Tell us what you think about this talking point
+	- else
+		type = 'comments'
 
 	= text_area_tag :text, "#{text}", {:class=>'autosize', :rows => 8}
 
@@ -13,13 +15,13 @@
 			= image_tag('icon_linkc.gif',{:class=>'show_add_link',:title=>'Add a link'})
 			= image_tag('icon_upload.gif',{:class=>'show_attach_file',:title=>'Attach a file'})
 		%div.controls
-			%button 
+			%button   
 				Share
 			
 			%span.char_ctr
 				= criteria.match(/..(\d+)/)[1]
 				characters left
-			= link_to 'Cancel',  cancel_comment_form_path(:t=>type,:id=>id, :act=>params[:action]), {:class=>'clear', :rel=>'nofollow'}
+			= link_to 'Cancel',  cancel_comment_form_path(:t=>type, :id=>id, :act=>params[:action]), {:class=>'clear', :rel=>'nofollow'}
 
 %p.clear_both
 

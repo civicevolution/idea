@@ -53,7 +53,12 @@ class TalkingPointsController < ApplicationController
 
   # GET /talking_points/1/edit
   def edit
-    @talking_point = TalkingPoint.find(params[:id])
+    talking_point = TalkingPoint.find(params[:talking_point_id])
+    flash[:errors].each() {|attr, msg| talking_point.errors.add(attr, msg)} unless flash[:errors].nil?
+    respond_to do |format|
+      format.js {render :action=> 'edit', :locals => {:talking_point => talking_point}, :layout=>false}
+      format.html {render :action=> 'edit', :locals => {:talking_point => talking_point}, :layout=>'plan'}
+    end
   end
 
   # POST /talking_points
@@ -102,15 +107,14 @@ class TalkingPointsController < ApplicationController
   # PUT /talking_points/1
   # PUT /talking_points/1.xml
   def update
-    @talking_point = TalkingPoint.find(params[:id])
-
+    talking_point = TalkingPoint.find(params[:talking_point_id])
     respond_to do |format|
-      if @talking_point.update_attributes(params[:talking_point])
-        format.html { redirect_to(@talking_point, :notice => 'Talking point was successfully updated.') }
+      if talking_point.update_attributes(params[:talking_point])
+        format.html { redirect_to( question_worksheet_path(talking_point.question), :notice => 'Talking point was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @talking_point.errors, :status => :unprocessable_entity }
+        format.html { redirect_to edit_talking_point_path(talking_point), :flash => { :errors => talking_point.errors} }
+        format.xml  { render :xml => talking_point.errors, :status => :unprocessable_entity }
       end
     end
   end

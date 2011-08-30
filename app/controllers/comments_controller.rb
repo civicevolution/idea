@@ -92,7 +92,6 @@ class CommentsController < ApplicationController
   
     # comment_comments only exist under the question comments, so use the com's parent_id as question_id
     @comment = Comment.find(params[:comment_id])
-    #debugger
     ## If this comment's parent is a comment, parent_type==3, then use its parent as the target - comments only go one deep
     #@comment = Comment.find(@comment.parent_id) if @comment.parent_type == 3
 
@@ -147,13 +146,20 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
-    @comment = Comment.find(params[:comment_id])
-    respond_to do |format|
-      format.js { render 'edit' }
-      format.html # new.html.erb
-      format.xml  { render :xml => @comment }
+    comment = Comment.find(params[:comment_id])
+    case comment.parent_type
+      when 1
+        type = 'question'
+      when 3 
+    	  type = 'comments'
+     	when 13 
+    		type = 'talking_points'
     end
-
+    flash[:errors].each() {|attr, msg| comment.errors.add(attr, msg)} unless flash[:errors].nil?
+    respond_to do |format|
+      format.js { render :action => 'edit', :locals => {:comment => comment, :type => type }, :layout=>false}
+      format.html { render :action => 'edit', :locals => {:comment => comment, :type => type }, :layout=>'plan'}
+    end
   end
 
   def reply
@@ -184,6 +190,8 @@ class CommentsController < ApplicationController
       when params[:act] == 'talking_point_comments'
         tp = TalkingPoint.find(params[:id])
         redirect_to( question_worksheet_path(tp.question_id))
+      when params[:t] == 'question'
+        redirect_to( question_worksheet_path(params[:id]))
       when params[:t] == 'comments'
         redirect_to( comment_comments_path(params[:id]))
       when params[:t] == 'talking_points'
@@ -264,19 +272,39 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   # PUT /comments/1.xml
   def update
-    @comment = Comment.find(params[:id])
-
+    comment = Comment.find(params[:comment_id])
+    comment.member = @member
     respond_to do |format|
-      if @comment.update_attributes(params[:comment])
-        flash[:notice] = 'Comment was successfully updated.'
-        format.html { redirect_to(@comment) }
+      if comment.update_attributes(params[:comment])
+        format.html { 
+          # look at parent to determine where to redirect to
+          # options
+          # question_worksheet_path(comment.question)
+          # comment_comments_path(params[:id]))
+          # talking_point_comments_path(params[:id]))
+          case
+            when comment.parent_type == 1 
+              redirect_to( question_worksheet_path(comment.parent_id), :notice => 'Comment was successfully updated.') 
+            when comment.parent_type == 3
+              comment = Comment.find(comment.parent_id)
+              case
+                when comment.parent_type == 1 
+                  redirect_to( comment_comments_path(comment.id), :notice => 'Comment was successfully updated.' )
+                when comment.parent_type == 13 
+                  redirect_to( talking_point_comments_path(comment.parent_id), :notice => 'Comment was successfully updated.' )
+              end  
+            when comment.parent_type == 13
+              redirect_to( talking_point_comments_path(comment.parent_id), :notice => 'Comment was successfully updated.' )
+          end
+        }  
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
+        format.html { redirect_to edit_comment_path(comment), :flash => { :errors => comment.errors} }
+        format.xml  { render :xml => comment.errors, :status => :unprocessable_entity }
       end
     end
   end
+
 
   # DELETE /comments/1
   # DELETE /comments/1.xml
@@ -295,7 +323,6 @@ class CommentsController < ApplicationController
   COMMENTS_CONTROLLER_PUBLIC_METHODS = ['talking_point_comments', 'question_comments']
   
   def authorize
-    #debugger
     unless COMMENTS_CONTROLLER_PUBLIC_METHODS.include? request[:action]
       # do this except for public methods
       if (@member.nil? || @member.id == 0 )

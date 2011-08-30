@@ -23,7 +23,7 @@ class ComRating < ActiveRecord::Base
       # this is access check for the idea page version
       allowed,message = InitiativeRestriction.allow_action({:comment_id=>self.comment_id}, 'contribute_to_proposal', self.member)
       if !allowed
-        errors.add_to_base("Sorry, you do not have permission to rate this comment.") 
+        errors.add(:base, "Sorry, you do not have permission to rate this comment.") 
         return false
       end
       return
@@ -47,7 +47,7 @@ class ComRating < ActiveRecord::Base
     #logger.debug "pub_par_item.size: #{pub_par_item.size}"
     
     if pub_par_item.size == 0
-      errors.add_to_base("This discussion is private and you must be a team member to rate it.") 
+      errors.add(:base, "This discussion is private and you must be a team member to rate it.") 
       return false
     end
     

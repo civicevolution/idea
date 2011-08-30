@@ -197,6 +197,9 @@ img.i36 {
   color: #f2583e;
   font-weight: bold; }
 
+div#errorExplanation {
+  color: red; }
+
 form.what_do_you_think, form.std_form, form.comment_form {
   margin-bottom: 40px;
   margin-right: 0px;
