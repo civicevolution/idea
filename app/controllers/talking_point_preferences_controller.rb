@@ -89,9 +89,16 @@ class TalkingPointPreferencesController < ApplicationController
     else
       TalkingPointPreference.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id]).destroy
     end
-        
+
+    talking_point = TalkingPoint.find( params[:talking_point_id] )
+
+    tpp = TalkingPointPreference.sums(talking_point.id)
+    talking_point.preference_votes = tpp[0]['count']
+    
+    talking_point.my_preference = params[:prefer] == 'true' ? true : false
+
     respond_to do |format|
-      format.js { render 'preference_update', :locals=>{:member => @member} }
+      format.js { render 'preference_update', :locals=>{:talking_point => talking_point} }
     end
   end
   

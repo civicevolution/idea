@@ -1,0 +1,18 @@
+%div.talking_point_preferable
+
+	- if !talking_point.preference_votes.nil?
+		%p.total_preference #{talking_point.preference_votes} people prefer this
+		%p.my_preference
+			= label_tag "preference{talking_point.id}" do
+				- if talking_point.my_preference
+					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox', :checked => true}
+				- else
+					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
+				I prefer this
+
+	- else
+		%p.total_preference No one prefers this
+		%p.my_preference 
+			= label_tag "preference_#{talking_point.id}" do
+				%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
+				I prefer this
