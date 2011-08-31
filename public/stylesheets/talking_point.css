@@ -317,64 +317,6 @@ div.comment {
 div.Comment {
   margin-top: 16px; }
 
-div.Comment_entry.one_line_comment.new_com {
-  font-weight: bold; }
-
-div.Comment_entry.one_line_comment {
-  margin-bottom: 0px;
-  height: auto; }
-  div.Comment_entry.one_line_comment div.close_1com {
-    background-position: 0 0; }
-  div.Comment_entry.one_line_comment img {
-    width: 20px;
-    height: 20px;
-    display: block;
-    margin: 0px 10px 0px 0px;
-    cursor: pointer; }
-  div.Comment_entry.one_line_comment div.comment {
-    position: relative;
-    margin-top: -20px;
-    padding-left: 46px; }
-  div.Comment_entry.one_line_comment span.author {
-    display: none; }
-  div.Comment_entry.one_line_comment abbr {
-    display: none; }
-  div.Comment_entry.one_line_comment div.comment_text {
-    height: 20px;
-    overflow: hidden;
-    margin-left: -20px; }
-    div.Comment_entry.one_line_comment div.comment_text p {
-      display: none; }
-    div.Comment_entry.one_line_comment div.comment_text div.one_liner {
-      display: block;
-      position: relative;
-      height: 20px;
-      cursor: pointer; }
-      div.Comment_entry.one_line_comment div.comment_text div.one_liner span.txt {
-        white-space: nowrap; }
-      div.Comment_entry.one_line_comment div.comment_text div.one_liner img {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 12px;
-        height: 12px; }
-  div.Comment_entry.one_line_comment div.resource {
-    display: none; }
-  div.Comment_entry.one_line_comment span.new {
-    display: none; }
-  div.Comment_entry.one_line_comment div.comment_controls {
-    display: none; }
-
-div.coms_show_one_line .hidden {
-  display: none; }
-div.coms_show_one_line form.open_form {
-  clear: both;
-  margin-bottom: 10px;
-  padding-right: 20px; }
-  div.coms_show_one_line form.open_form input {
-    color: #333333;
-    width: 100%; }
-
 div.Comment_entry.full_comment_display img {
   display: block;
   margin: 4px 10px 0 0; }
@@ -382,16 +324,8 @@ div.Comment_entry.full_comment_display div.comment {
   position: relative;
   margin-top: -50px;
   padding-left: 54px; }
-div.Comment_entry.full_comment_display span.author {
-  display: inline;
-  font-size: 88%; }
-div.Comment_entry.full_comment_display abbr {
-  display: block;
-  font-size: 80%;
-  margin-top: 2px;
-  border: none; }
-div.Comment_entry.full_comment_display abbr.move_up {
-  margin-top: -16px; }
+  div.Comment_entry.full_comment_display div.comment a.com_author {
+    color: black; }
 div.Comment_entry.full_comment_display div.comment_text {
   height: auto;
   display: inline; }
@@ -411,12 +345,14 @@ div.comment_text p, div.answer p, div.bs_idea p {
 
 div.comment_controls {
   height: 50px; }
-  div.comment_controls abbr {
+  div.comment_controls p.coms {
     float: left; }
-  div.comment_controls div.comment_links {
+  div.comment_controls p.other {
     float: right; }
-    div.comment_controls div.comment_links a {
-      margin-right: 16px; }
+    div.comment_controls p.other abbr {
+      margin-right: 12px;
+      font-size: 80%;
+      margin-top: 2px; }
 
 div.quote {
   background: #bcc3d0;

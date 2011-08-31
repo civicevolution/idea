@@ -368,64 +368,64 @@ div.comment
 div.Comment
 	margin-top: 16px
 
-div.Comment_entry.one_line_comment.new_com
-	font-weight: bold
+//div.Comment_entry.one_line_comment.new_com
+//	font-weight: bold
 		
-div.Comment_entry.one_line_comment
-	margin-bottom: 0px
-	height: auto
-	div.close_1com
-		background-position: 0 0
-	img
-		width: 20px
-		height: 20px
-		display: block
-		margin: 0px 10px 0px 0px
-		cursor: pointer
-	div.comment
-		position: relative
-		margin-top: -20px
-		padding-left: 46px
-	span.author
-		display: none
-	abbr
-		display: none
-	div.comment_text
-		height: 20px
-		overflow: hidden
-		margin-left: -20px
-		p
-			display: none
-		div.one_liner
-			display: block
-			position: relative
-			height: 20px
-			cursor: pointer
-			span.txt
-				white-space: nowrap
-			img
-				position: absolute
-				top: 0
-				right: 0
-				width: 12px
-				height: 12px
-	div.resource
-		display: none
-	span.new
-		display: none
-	div.comment_controls
-		display: none
-
-div.coms_show_one_line
-	.hidden
-		display: none
-	form.open_form
-		clear: both
-		margin-bottom: 10px
-		padding-right: 20px
-		input
-			color: $pale_input
-			width: 100%
+//div.Comment_entry.one_line_comment
+//	margin-bottom: 0px
+//	height: auto
+//	div.close_1com
+//		background-position: 0 0
+//	img
+//		width: 20px
+//		height: 20px
+//		display: block
+//		margin: 0px 10px 0px 0px
+//		cursor: pointer
+//	div.comment
+//		position: relative
+//		margin-top: -20px
+//		padding-left: 46px
+//	span.author
+//		display: none
+//	abbr
+//		display: none
+//	div.comment_text
+//		height: 20px
+//		overflow: hidden
+//		margin-left: -20px
+//		p
+//			display: none
+//		div.one_liner
+//			display: block
+//			position: relative
+//			height: 20px
+//			cursor: pointer
+//			span.txt
+//				white-space: nowrap
+//			img
+//				position: absolute
+//				top: 0
+//				right: 0
+//				width: 12px
+//				height: 12px
+//	div.resource
+//		display: none
+//	span.new
+//		display: none
+//	div.comment_controls
+//		display: none
+//
+//div.coms_show_one_line
+//	.hidden
+//		display: none
+//	form.open_form
+//		clear: both
+//		margin-bottom: 10px
+//		padding-right: 20px
+//		input
+//			color: $pale_input
+//			width: 100%
 
 
 div.Comment_entry.full_comment_display	
@@ -436,17 +436,19 @@ div.Comment_entry.full_comment_display
 		position: relative
 		margin-top: -50px
 		padding-left: 54px
-	span.author
-		display: inline
-		font-size: 88%
-	abbr
-		display: block
-		font-size: 80%
-		margin-top: 2px
-		//font-style: italic
-		border: none
-	abbr.move_up
-		margin-top: -16px
+		a.com_author
+			color: black
+	//span.author
+	//	display: inline
+	//	font-size: 88%
+	//abbr
+	//	display: block
+	//	font-size: 80%
+	//	margin-top: 2px
+	//	//font-style: italic
+	//	border: none
+	//abbr.move_up
+	//	margin-top: -16px
 	div.comment_text
 		height: auto
 		display: inline
@@ -468,12 +470,15 @@ div.comment_text, div.answer, div.bs_idea
 
 div.comment_controls
 	height: 50px
-	abbr
+	p.coms
 		float: left
-	div.comment_links
+	p.other
 		float: right
-		a
-			margin-right: 16px
+		abbr
+			margin-right: 12px
+			font-size: 80%
+			margin-top: 2px
+		
 
 div.quote
 	background: $com_quote_bg
