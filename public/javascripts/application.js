@@ -60,6 +60,26 @@ $('div.my_rating :radio').die('change').live('change',
 	}
 );
 
+$('div.radios label').live('mouseover mouseout', function(event) {
+	var el = $(this);
+	var p = el.closest('div.my_rating').find('p.option');
+  if (event.type == 'mouseover') {
+		var title = el.find('input').attr('title');
+		p.html(title)
+  } else {
+		p.html(p.attr('title'))
+  }
+});
+
+$('div.radios label').live('click', function() {
+	var el = $(this);
+	var p = el.closest('div.my_rating').find('p.option');
+	var title = el.find('input').attr('title');
+	p.html(title);
+	p.attr('title',title);
+});
+
+
 $('p.my_preference :checkbox').die('change').live('change',
 	function(){
 		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/prefer', {prefer: this.checked})
@@ -110,4 +130,3 @@ function activate_text_counters_grow(els, height){
 		}
 	)
 }
-

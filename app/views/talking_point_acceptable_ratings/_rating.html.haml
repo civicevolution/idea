@@ -1,0 +1,32 @@
+%div.talking_point_acceptable
+	%div.my_rating
+		%p.title My rating
+		= form_tag( {:controller => 'idea', :action => 'answer_rating'} ) do
+			%div.radios
+				- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
+				
+					= label_tag "tp_rating_#{talking_point.id}_#{value}" do
+						%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
+							- if value.to_i == talking_point.my_rating
+								%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+							- else
+								%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+		%p.clear_both
+		- if talking_point.my_rating.nil?
+			%p.please_rate Please rate
+		- else
+			%p.option{:title=>"#{TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]}"}= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]
+
+	- vote_max = 0
+	- num_votes = 0
+	- talking_point.rating_votes.each{ |v| num_votes += v; vote_max = v unless vote_max > v }
+	- barw = 16
+	%div.community_rating
+		%p.talking_point_ratings= "#{num_votes} ratings"
+		%div.graph 
+			- talking_point.rating_votes.each_index do |i|
+				%div.bar.zero{:style=>"left: #{barw * i}px; height: 100%"}
+				- if talking_point.rating_votes[i] > 0
+					%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
+				
+		-#%p.talking_point_ratings= talking_point.rating_votes				

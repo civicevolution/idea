@@ -278,23 +278,23 @@ class QuestionsController < ApplicationController
     @question.new_coms = (new_comment_ids.map(&:id) - @question['comments_to_display'].map(&:id)).size
 
     
-    # I need to fake the talking point data like this: talking_point.rating_votes = [5,3,1,4,2]
-    fake_ratings = [ [12,4,1,1,2], [9,3,3,4,2], [9,0,2,4,6], [7,3,5,3,8], [3,3,1,0,1] ]
-
-    fake_preference_votes = [7,5,4,2,1]
-    fake_my_ratings = [1,2,3,1,2]
-    fake_my_preference = [true, true, false, true, false]
-    ind = 0
-
-    @question['talking_points_to_display'].each do |tp| 
-      if ind < 5
-        tp.rating_votes = fake_ratings[ind]
-        tp.preference_votes = fake_preference_votes[ind]
-        tp.my_rating = fake_my_ratings[ind]
-        tp.my_preference = fake_my_preference[ind]
-        ind+=1
-      end
-    end  
+    ## I need to fake the talking point data like this: talking_point.rating_votes = [5,3,1,4,2]
+    #fake_ratings = [ [12,4,1,1,2], [9,3,3,4,2], [9,0,2,4,6], [7,3,5,3,8], [3,3,1,0,1] ]
+    #
+    #fake_preference_votes = [7,5,4,2,1]
+    ##fake_my_ratings = [1,2,3,1,2]
+    #fake_my_preference = [true, true, false, true, false]
+    #ind = 0
+    #
+    #@question['talking_points_to_display'].each do |tp| 
+    #  if ind < 5
+    #    tp.rating_votes = fake_ratings[ind]
+    #    tp.preference_votes = fake_preference_votes[ind]
+    #   # tp.my_rating = fake_my_ratings[ind]
+    #    tp.my_preference = fake_my_preference[ind]
+    #    ind+=1
+    #  end
+    #end  
 
     render :template=> 'questions/worksheet', 
       :locals => {:question => @question, :questions => @team.questions.sort{|a,b| a.order_id <=> b.order_id}, }, 

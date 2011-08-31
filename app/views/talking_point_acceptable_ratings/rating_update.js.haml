@@ -1,3 +1,8 @@
-- logger.debug "Update the rating"
 :plain
-	alert('Update the rating')
+	var new_rating = $("#{escape_javascript(
+		render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point}
+	)}");
+
+	var old_rating = $('div.talking_point_entry[id=#{talking_point.id}] div.talking_point_acceptable')
+	new_rating.height( old_rating.height());
+	old_rating.replaceWith(new_rating);

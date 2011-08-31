@@ -90,9 +90,15 @@ class TalkingPointAcceptableRatingsController < ApplicationController
     end
     @rating.rating = params[:rating]
     @rating.save
-    
+    talking_point = TalkingPoint.find( params[:talking_point_id] )
+
+    tpr = TalkingPointAcceptableRating.sums(talking_point.id)
+    talking_point.rating_votes = [0,0,0,0,0]
+    tpr.select{|rec| rec.talking_point_id == talking_point.id}.each{|r| talking_point.rating_votes[r.rating-1] = r.count.to_i }
+    talking_point.my_rating = params[:rating].to_i
+
     respond_to do |format|
-      format.js { render 'rating_update', :locals=>{:member => @member} }
+      format.js { render 'rating_update', :locals=>{:talking_point => talking_point} }
     end
   end
   

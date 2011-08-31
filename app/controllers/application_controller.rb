@@ -94,6 +94,10 @@ class ApplicationController < ActionController::Base
         if @member.nil?
           # session is no good
           session[:member_id] = nil
+          @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
+          @member.id = 0
+          @member.email = ''
+          @member.last_visit_ts = Time.now #.local(2012,2,23)
         else
           if params[:date]
             time_stamp = params[:date].scan(/\d\d/)
