@@ -173,7 +173,6 @@ class QuestionsController < ApplicationController
     @question['comments_to_display'] ||= @question.recent_comments
     
     # is this a request to highlight a specific item? If so, make sure it is present or add it
-    #debugger
     if params[:t] == 'tp'
       tp_ids = @question['talking_points_to_display'].map(&:id)
       if !tp_ids.include?(params[:id].to_i)
@@ -270,7 +269,14 @@ class QuestionsController < ApplicationController
     end
 
     @question.get_talking_point_ratings(@member)
-
+    
+    if flash[:unrecorded_talking_point_preferences]
+      # if flash unrecorded_talking_point_preferences, show the check marks the user tried to save and reinforce message to only select 5
+      flash[:unrecorded_talking_point_preferences].each do |id|
+        @question['talking_points_to_display'].detect{ |tp| tp.id == id}.my_preference = true
+      end
+    end
+    
     new_talking_point_ids = TalkingPoint.select('id').where("question_id = :question_id AND updated_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
     @question.num_new_talking_points = (new_talking_point_ids.map(&:id) - @question['talking_points_to_display'].map(&:id)).size
 
@@ -301,13 +307,48 @@ class QuestionsController < ApplicationController
       :layout => request.xhr? ? false : 'plan'
     
   end
+  
+  def update_worksheet_ratings
+    
+
+    # iterate through all of the parameters
+    selected_ids = []
+    params.each_pair do |key,val|
+      case key
+        when /tp_rating/
+          #logger.debug "Record the rating for #{key.match(/\d+/)[0]}"
+          TalkingPointAcceptableRating.record( @member.id, key.match(/\d+/)[0], val )
+        when /preference_/
+          #logger.debug "Record a preference for #{key.match(/\d+/)[0]}"
+          selected_ids << key.match(/\d+/)[0]
+      end 
+    end
+    tp_ids = params[:tp_ids].split(',')
+
+    unrecorded_talking_point_preferences = TalkingPointPreference.update_preferred_talking_points( params[:question_id], selected_ids, tp_ids, @member )
+    
+    respond_to do |format|
+      if true #@question.save
+        format.html { 
+          if unrecorded_talking_point_preferences.size == 0
+            redirect_to( question_worksheet_path( params[:question_id] ), :flash => {:notice => 'Question worksheet ratings were successfully recorded'} )
+          else
+            redirect_to( question_all_talking_points_path( params[:question_id] ), :flash => {:unrecorded_talking_point_preferences => unrecorded_talking_point_preferences } ) 
+          end
+        }
+      else
+        format.html { render :action => "new" }
+      end
+    end
+    
+    
+  end
 
   protected
   
   QUESTIONS_CONTROLLER_PUBLIC_METHODS = ['worksheet']
   
   def authorize
-    #debugger
     unless QUESTIONS_CONTROLLER_PUBLIC_METHODS.include? request[:action]
       # do this except for public methods
       if (@member.nil? || @member.id == 0 )
@@ -327,10 +368,14 @@ class QuestionsController < ApplicationController
           end
           return
         else
-          flash[:pre_authorize_uri] = request.request_uri
-          flash[:notice] = "Please sign in"
-          render :template => 'welcome/must_sign_in', :layout => 'welcome'
-          
+          respond_to do |format|
+            format.html { 
+              flash[:pre_authorize_uri] = request.fullpath # "/questions/349/update_worksheet_ratings"
+              flash[:notice] = "Please sign in"
+              redirect_to( sign_in_path() ) 
+            }
+            format.js {render :template => 'welcome/must_sign_in', :layout => 'welcome'}
+          end
         end
       end
     end

@@ -5,41 +5,52 @@
 		= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
 
 		%h2.question{:id=>question.id} Q#{question.order_id}: #{question.text}
-		%div.talking_point_sec
-			%h3.ques_sub_hdg Talking points suggested and rated by your community
-			%div.talking_points_list{:id=>question.id}
+
+		= form_tag update_worksheet_ratings_path(question) do
+			= hidden_field_tag :tp_ids, "#{ question['talking_points_to_display'].map(&:id).join(',') }"
+			%div.talking_point_sec
+				%h3.ques_sub_hdg Talking points suggested and rated by your community
+				
+				- if flash[:unrecorded_talking_point_preferences]
+					%p.warn You checked "I prefer this" on more than 5 talking points
+					%p.warn Each participant is limited to 5 preferences per question
+					%p.warn Please review your preferences and try again
+				
+				
+				%div.talking_points_list{:id=>question.id}
 	
 	
-				%div.talking_point_entry.header
-					%div.talking_point_body
-						%div.instr
-							= image_tag('red_arrow.gif', :class=>'red_arrow')		
-							%p.instr
-								The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
-								= link_to "Learn more"
+					%div.talking_point_entry.header
+						%div.talking_point_body
+							%div.instr
+								= image_tag('red_arrow.gif', :class=>'red_arrow')		
+								%p.instr
+									The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
+									= link_to "Learn more"
 
-					%div.talking_point_acceptable
-						%p.title Acceptable
+						%div.talking_point_acceptable
+							%p.title Acceptable
 
-					%div.talking_point_preferable
-						%p.title Preferable
+						%div.talking_point_preferable
+							%p.title Preferable
 		
+						%p.clear_both
+				
+
+					= render :partial=> 'plan/talking_point', :collection => question['talking_points_to_display']
+				
 					%p.clear_both
+					%p.show_more_link
+						- if question.num_new_talking_points > 0
+							= link_to "Show #{ pluralize(question.num_new_talking_points, 'more new talking point')}", question_new_talking_points_path(question, :ids => question['talking_points_to_display'].map(&:id).join('-') ), { :class=> 'show_new_talking_points', :id=>question.id, :remote => true }
+						- if question.num_talking_points > question['talking_points_to_display'].length
+							= link_to "Show #{ pluralize(question.num_talking_points - question['talking_points_to_display'].length, 'more talking point')}", question_all_talking_points_path(question, :ids => question['talking_points_to_display'].map(&:id).join('-') ), { :class=> 'show_all_talking_points', :id=>question.id, :remote => true }
+						- if question.num_talking_points == 0
+							There are no talking points for this question, please add one with the form below.
 				
+			= submit_tag "Save your ratings and preferences", :class=>'submit_ratings'
+			%p.clear_both
 
-				= render :partial=> 'plan/talking_point', :collection => question['talking_points_to_display']
-				
-				%p.clear_both
-				%p.show_more_link
-					- if question.num_new_talking_points > 0
-						= link_to "Show #{ pluralize(question.num_new_talking_points, 'more new talking point')}", question_new_talking_points_path(question, :ids => question['talking_points_to_display'].map(&:id).join('-') ), { :class=> 'show_new_talking_points', :id=>question.id, :remote => true }
-					- if question.num_talking_points > question['talking_points_to_display'].length
-						= link_to "Show #{ pluralize(question.num_talking_points - question['talking_points_to_display'].length, 'more talking point')}", question_all_talking_points_path(question, :ids => question['talking_points_to_display'].map(&:id).join('-') ), { :class=> 'show_all_talking_points', :id=>question.id, :remote => true }
-					- if question.num_talking_points == 0
-						There are no talking points for this question, please add one with the form below.
-				
-
-		= link_to "Tell us what you think and learn more", {}, {:class=> 'open_worksheet'}
 		= render :partial => 'plan/what_do_you_think', :locals => {:question_id=>question.id}
 
 

@@ -33,28 +33,59 @@ class TalkingPointPreference < ActiveRecord::Base
     #AND tpp.member_id = #{member_id}
     #order by tpp.id DESC|)
   end
-
-  def self.update_preferred_talking_points( question_id, talking_point_ids, member_id )
+  
+  def self.update_question_preferred_talking_points( question_id, talking_point_ids, member )
     # I get the list of ids I want to retain as favorites and I need to delete the rest for this question
     current_ids = TalkingPoint.select('talking_points.id').
       joins(:talking_point_preferences).
-      where('talking_point_preferences.member_id = ? AND question_id = ?', member_id, question_id).map(&:id)
+      where('talking_point_preferences.member_id = ? AND question_id = ?', member.id, question_id).map(&:id)
 
     talking_point_ids.map!{|i| i.to_i}
     
     ids_to_add = talking_point_ids - current_ids
 
     if ids_to_add.size > 0
-      logger.debug "ids_to_add.inspect: #{ids_to_add.inspect}"
-      ids_to_add.each{ |id| TalkingPointPreference.create( :member_id=> member_id, :talking_point_id => id)  }
+      #logger.debug "ids_to_add.inspect: #{ids_to_add.inspect}"
+      ids_to_add.each{ |id| TalkingPointPreference.find_or_create_by_member_id_and_talking_point_id(member.id, id) }
     end
     
     ids_to_remove = current_ids - talking_point_ids
     logger.debug "ids_to_remove.inspect: #{ids_to_remove.inspect}"
     logger.debug("remove these ids: #{ids_to_remove.inspect}")
     if ids_to_remove.size > 0
-      TalkingPointPreference.delete_all(:talking_point_id=> ids_to_remove, :member_id => 1)
+      TalkingPointPreference.delete_all(:talking_point_id=> ids_to_remove, :member_id => member.id)
     end
+    
+    question = Question.find( question_id )
+    TalkingPoint.get_and_assign_stats( question, question.talking_points, member )
+    return question
+    
+  end
+
+  def self.update_preferred_talking_points( question_id, selected_ids, tp_ids, member )
+    selected_ids.map!{|i| i.to_i}
+    deselected_ids = tp_ids.map!{|i| i.to_i} - selected_ids
+
+    if deselected_ids.size > 0
+      TalkingPointPreference.delete_all(:talking_point_id=> deselected_ids, :member_id => member.id)
+    end
+
+    # I need to check if the user will be adding too many preferred items and not save them if this is the case
+    current_ids = TalkingPoint.select('talking_points.id').
+      joins(:talking_point_preferences).
+      where('talking_point_preferences.member_id = ? AND question_id = ?', member.id, question_id).map(&:id)
+
+    if (selected_ids + current_ids).uniq.size <= 5
+      if selected_ids.size > 0
+        #logger.debug "selected_ids.inspect: #{selected_ids.inspect}"
+        selected_ids.each{ |id| TalkingPointPreference.find_or_create_by_member_id_and_talking_point_id(member.id, id)  }
+      end
+      return []
+    else
+      logger.debug "User is selecting too many talking point preferences"
+      return selected_ids - current_ids
+    end
+    
   end
 
 

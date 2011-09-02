@@ -152,36 +152,51 @@ div.talking_point_acceptable {
   margin: 0 15px;
   padding: 10px 10px 10px 0; }
   div.talking_point_acceptable div.my_rating {
-    width: 132px;
+    width: 160px;
     float: left; }
+    div.talking_point_acceptable div.my_rating p.option {
+      display: none; }
     div.talking_point_acceptable div.my_rating p.title {
       width: 100%;
       text-align: center;
       margin: 0 0 7px 0; }
     div.talking_point_acceptable div.my_rating input.rating {
       margin: 2px; }
-    div.talking_point_acceptable div.my_rating form div.radios {
-      margin: 0 15px; }
-      div.talking_point_acceptable div.my_rating form div.radios label {
+    div.talking_point_acceptable div.my_rating div.radios {
+      margin: 0 15px;
+      font-size: 75%;
+      white-space: nowrap; }
+      div.talking_point_acceptable div.my_rating div.radios span {
+        margin-left: 0px; }
+      div.talking_point_acceptable div.my_rating div.radios label {
         cursor: pointer; }
-      div.talking_point_acceptable div.my_rating form div.radios div {
+      div.talking_point_acceptable div.my_rating div.radios input {
+        cursor: pointer; }
+      div.talking_point_acceptable div.my_rating div.radios div.good {
+        background-color: green; }
+      div.talking_point_acceptable div.my_rating div.radios div.neutral {
+        background-color: yellow; }
+      div.talking_point_acceptable div.my_rating div.radios div.bad {
+        background-color: red; }
+      div.talking_point_acceptable div.my_rating div.radios div {
         height: 20px;
-        width: 20px;
-        float: left;
+        width: 16px;
         text-align: center;
         padding-top: 2px; }
-      div.talking_point_acceptable div.my_rating form div.radios div.good {
-        background-color: green; }
-      div.talking_point_acceptable div.my_rating form div.radios div.neutral {
-        background-color: yellow; }
-      div.talking_point_acceptable div.my_rating form div.radios div.bad {
-        background-color: red; }
-    div.talking_point_acceptable div.my_rating p.option {
+  div.talking_point_acceptable div.my_rating.js {
+    width: 132px; }
+    div.talking_point_acceptable div.my_rating.js div.radios div {
+      float: left;
+      width: 20px; }
+    div.talking_point_acceptable div.my_rating.js div.radios span {
+      display: none; }
+    div.talking_point_acceptable div.my_rating.js p.option {
       margin: 20px 0 0 0px;
       font-size: 75%;
       clear: both;
-      text-align: center; }
-    div.talking_point_acceptable div.my_rating p.please_rate {
+      text-align: center;
+      display: block; }
+    div.talking_point_acceptable div.my_rating.js p.please_rate {
       margin: 20px 0 0 20px;
       font-size: 1.12em;
       color: red;
@@ -192,8 +207,11 @@ div.community_rating {
   float: left;
   margin-right: 15px; }
   div.community_rating div.graph {
-    height: 37px;
-    position: relative; }
+    position: relative;
+    margin-left: 6px; }
+  div.community_rating div.graph.js {
+    margin-left: 0px;
+    height: 37px; }
   div.community_rating div.bar {
     width: 12px;
     bottom: 0;

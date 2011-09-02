@@ -6,6 +6,8 @@ G3::Application.routes.draw do |map|
 
   get "profile/my_teams"
 
+  get "sign_in/index", :as => 'sign_in'
+  
   get "sign_in/sign_in"
 
   get "sign_in/sign_out"
@@ -44,6 +46,9 @@ G3::Application.routes.draw do |map|
   get "questions/:question_id/worksheet" => "questions#worksheet", :as => :question_worksheet
   get "questions/:question_id/new_talking_points" => "questions#new_talking_points", :as => :question_new_talking_points
   get "questions/:question_id/all_talking_points" => "questions#all_talking_points", :as => :question_all_talking_points
+
+  post "questions/:question_id/update_worksheet_ratings" => "questions#update_worksheet_ratings", :as => :update_worksheet_ratings
+
 
   get "questions/:question_id/new_comments" => "questions#new_comments", :as => :question_new_comments
   get "questions/:question_id/all_comments" => "questions#all_comments", :as => :question_all_comments

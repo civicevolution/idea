@@ -84,18 +84,7 @@ class TalkingPointAcceptableRatingsController < ApplicationController
   def rate_talking_point
     logger.debug "rate_talking_point #{params[:talking_point_id]} with the rating #{params[:rating]}"
 
-    @rating = TalkingPointAcceptableRating.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id])
-    if @rating.nil?
-      @rating = TalkingPointAcceptableRating.new( :member_id=> @member.id, :talking_point_id=>params[:talking_point_id])
-    end
-    @rating.rating = params[:rating]
-    @rating.save
-    talking_point = TalkingPoint.find( params[:talking_point_id] )
-
-    tpr = TalkingPointAcceptableRating.sums(talking_point.id)
-    talking_point.rating_votes = [0,0,0,0,0]
-    tpr.select{|rec| rec.talking_point_id == talking_point.id}.each{|r| talking_point.rating_votes[r.rating-1] = r.count.to_i }
-    talking_point.my_rating = params[:rating].to_i
+    talking_point = TalkingPointAcceptableRating.record( @member.id, params[:talking_point_id], params[:rating] )
 
     respond_to do |format|
       format.js { render 'rating_update', :locals=>{:talking_point => talking_point} }

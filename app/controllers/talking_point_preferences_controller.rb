@@ -119,10 +119,7 @@ class TalkingPointPreferencesController < ApplicationController
     
     params[:ids] ||= []
     
-    TalkingPointPreference.update_preferred_talking_points( params[:question_id], params[:ids], @member.id )
-
-    question = Question.find(params[:question_id])
-    TalkingPoint.get_and_assign_stats( question, question.talking_points, @member )
+    question = TalkingPointPreference.update_question_preferred_talking_points( params[:question_id], params[:ids], @member )
 
     respond_to do |format|
       format.js { render 'update_reviewed_preferences', :locals=>{:question => question } }

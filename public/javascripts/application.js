@@ -11,7 +11,7 @@
 temp = {};
 
 $(function(){
-		
+		$('input.submit_ratings').remove();
 		size_talking_point_entries();
 		$(document).ajaxSend(function(e, xhr, options) {
 		  var token = $("meta[name='csrf-token']").attr("content");
@@ -23,6 +23,9 @@ $(function(){
 
 
 function size_talking_point_entries(){
+	$('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
+	$('div.graph.no_js').addClass('hide');
+	$('div.graph.js').removeClass('hide');
 	$('div.talking_point_entry').not('.header').each( 
 		function(){
 			var el = $(this)

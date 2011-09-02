@@ -2,7 +2,11 @@
 	var new_rating = $("#{escape_javascript(
 		render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point}
 	)}");
-
-	var old_rating = $('div.talking_point_entry[id=#{talking_point.id}] div.talking_point_acceptable')
+	
+	new_rating.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
+	new_rating.find('div.graph.no_js').addClass('hide');
+	new_rating.find('div.graph.js').removeClass('hide');
+	
+	var old_rating = $('div.talking_point_entry[id=#{talking_point.id}] div.talking_point_acceptable');
 	new_rating.height( old_rating.height());
 	old_rating.replaceWith(new_rating);

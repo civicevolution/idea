@@ -13,11 +13,20 @@ class ApplicationController < ActionController::Base
 
   # put most generic exception at the top
 
-  rescue_from Exception, :with => :error_generic #unless Rails.env == 'development'
+  rescue_from Exception, :with => :error_generic
   rescue_from ActionController::RoutingError, :with => :render_404
   
   def error_generic(exception)
-    logger.warn "Error detected: #{exception.message}"
+    logger.error "Error detected: #{exception.message}"
+    gems_line_ctr = 0
+    exception.backtrace.each do |line|
+      if line.match(/\/gems\//)
+        gems_line_ctr += 1
+        break if gems_line_ctr > 5
+      else
+        logger.error "#{line}\n"
+      end
+    end
     begin
       member = Member.find_by_id(session[:member_id])
       respond_to do |format|
@@ -25,9 +34,10 @@ class ApplicationController < ActionController::Base
         format.html {render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member, :exception => exception} } if request.xhr?
         format.html {render :template=> 'errors/generic_error', :layout=>'plan', :locals => {:member=>member, :exception => exception} }
       end
-      notify_airbrake(exception)
-    rescue Exception => e
-      #log_error("XXXX error_generic Had an error trying to report an error with email and custom error page\nError: #{e.message}")
+      notify_airbrake(exception) unless Rails.env == 'development'
+    rescue Exception => exception
+      logger.error "Error detected during error handling: #{exception.message}"
+      exception.backtrace[0].split(/:in\s/).each{ |line| puts logger.error ":in #{line}"}
     end
   end
 
