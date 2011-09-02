@@ -6,6 +6,9 @@ class TalkingPoint < ActiveRecord::Base
   has_many :talking_point_preferences
 	has_many :versions, :class_name => 'TalkingPointVersion', :order => 'version DESC'
 	has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 13', :order => 'id asc'
+
+  scope :sibling_talking_points, lambda { |id| select('id, text').where("question_id = (SELECT question_id FROM talking_points WHERE id = ?)", id) }
+  
   
   attr_accessor_with_default :preference_votes, 0
   attr_accessor_with_default :rating_votes, [0,0,0,0,0]

@@ -83,24 +83,51 @@ class TalkingPointPreferencesController < ApplicationController
   
   def prefer_talking_point
     logger.debug "prefer_talking_point #{params[:talking_point_id]} with the prefer #{params[:prefer]}"
-
-    if( params[:prefer] == 'true' )
-      @preference = TalkingPointPreference.create( :member_id=> @member.id, :talking_point_id=>params[:talking_point_id])
-    else
-      TalkingPointPreference.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id]).destroy
-    end
-
+    
     talking_point = TalkingPoint.find( params[:talking_point_id] )
 
-    tpp = TalkingPointPreference.sums(talking_point.id)
-    talking_point.preference_votes = tpp[0]['count']
-    
-    talking_point.my_preference = params[:prefer] == 'true' ? true : false
-
+    if( params[:prefer] == 'false' )
+      tp = TalkingPointPreference.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id])
+      tp.destroy unless tp.nil?
+      render_select = false
+    else
+      pref_count = TalkingPoint.joins(:talking_point_preferences).where('talking_point_preferences.member_id = ? AND question_id = ?', @member.id, talking_point.question_id).count()
+      if pref_count < 5
+        @preference = TalkingPointPreference.create( :member_id=> @member.id, :talking_point_id=>params[:talking_point_id])
+        render_select = false
+      else
+        render_select = true
+      end
+    end
     respond_to do |format|
-      format.js { render 'preference_update', :locals=>{:talking_point => talking_point} }
+      if render_select
+        talking_points = [talking_point] + TalkingPointPreference.preferred_talking_points( talking_point.question_id, @member.id )
+        format.js { render 'preference_review_select', :locals=>{:talking_point => talking_point, :talking_points => talking_points, :question_id => talking_point.question_id } }
+      else
+        tpp = TalkingPointPreference.sums(talking_point.id)
+        # Warning - this logger.debug statement is necessary so tpp.size > 0 will evaluate correctly
+        logger.debug "tpp.inspect #{tpp.inspect}"
+        talking_point.preference_votes = tpp.size > 0 ? tpp[0]['count'] : 0
+        talking_point.my_preference = params[:prefer] == 'true' ? true : false
+        format.js { render 'preference_update', :locals=>{:talking_point => talking_point } }  
+      end
     end
   end
   
+  def update_preferences
+    #2011-08-31 15:30:20 [INFO ] Parameters: {"question_id"=>"350", "ids"=>["31", "8", "29", "28", "2"]} (pid:278)
+    
+    params[:ids] ||= []
+    
+    TalkingPointPreference.update_preferred_talking_points( params[:question_id], params[:ids], @member.id )
+
+    question = Question.find(params[:question_id])
+    TalkingPoint.get_and_assign_stats( question, question.talking_points, @member )
+
+    respond_to do |format|
+      format.js { render 'update_reviewed_preferences', :locals=>{:question => question } }
+    end
+  end
+
   
 end

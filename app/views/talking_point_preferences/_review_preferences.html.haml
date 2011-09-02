@@ -1,0 +1,20 @@
+%div.review_preferences
+	%p
+		%b You must remove #{talking_points.size - 5} of your preferred talking points.
+		Each participant is only allowed to prefer up to 5 talking points for each question
+
+	-#= form_tag update_talking_point_preferences_path(question_id) do
+	%table.review_preferences
+		%tbody
+			- talking_points.each do |talking_point|
+				%tr
+					%td
+						%button.deselect.include{:id => talking_point.id } Remove
+					%td
+						= talking_point.text
+					%td
+						%button.hide.reselect{:id => talking_point.id } Restore
+						
+	%button.submit{:disabled=>true}	 Update my preferences
+	%span.instr.hide
+		%b Please click to update your preferences

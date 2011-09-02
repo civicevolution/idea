@@ -1,0 +1,34 @@
+:plain
+	var review_preferences = $("#{escape_javascript(
+		render :partial  => 'talking_point_preferences/review_preferences', :locals => {:talking_points => talking_points, :question_id => question_id}
+	)}");
+	temp.review_preferences = review_preferences
+	$('div.review_preferences').closest('div.ui-dialog').dialog('destroy').end().remove();
+	var dialog = review_preferences.dialog( {title : 'Please review your preferences', modal : true, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });
+	
+	$('div.talking_point_preferable[id=#{talking_point.id}] input').removeAttr('checked')
+	
+	$('div.review_preferences button').die('click').live('click',
+		function(){
+			var but = $(this);
+			if(but.hasClass('deselect')){
+				but.addClass('hide').removeClass('include');
+				but.closest('td').next('td').css('color','#ccc').next('td').find('button').removeClass('hide');
+			}else if (but.hasClass('reselect')){
+				but.addClass('hide')
+				but.closest('td').prev('td').css('color','#000').prev('td').find('button').removeClass('hide').addClass('include');
+			}else if (but.hasClass('submit')){
+				var ids = [];
+				$('table.review_preferences button.include').map( function(){ ids.push(this.id) })
+				$.post('/talking_point_preferences/#{question_id}/update', {ids: ids})
+			}
+			if( $('table.review_preferences button.include').size() < 6){
+				$('div.review_preferences button.submit').removeAttr('disabled');
+				$('div.review_preferences span.instr').removeClass('hide')
+			}else{
+				$('div.review_preferences button.submit').attr('disabled','disabled');
+				$('div.review_preferences span.instr').addClass('hide')
+			}
+			return false;
+		}
+	)
