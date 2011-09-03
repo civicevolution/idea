@@ -4,8 +4,7 @@
 	)}");
 	
 	new_rating.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
-	new_rating.find('div.graph.no_js').addClass('hide');
-	new_rating.find('div.graph.js').removeClass('hide');
+	new_rating.find('div.community_rating').removeClass('no_js')
 	
 	var old_rating = $('div.talking_point_entry[id=#{talking_point.id}] div.talking_point_acceptable');
 	new_rating.height( old_rating.height());

@@ -24,8 +24,7 @@ $(function(){
 
 function size_talking_point_entries(){
 	$('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
-	$('div.graph.no_js').addClass('hide');
-	$('div.graph.js').removeClass('hide');
+	$('div.community_rating').removeClass('no_js')
 	$('div.talking_point_entry').not('.header').each( 
 		function(){
 			var el = $(this)

@@ -3,7 +3,7 @@
 		%p.title My rating
 		%div.radios
 			- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
-			
+		
 				= label_tag "tp_rating_#{talking_point.id}_#{value}" do
 					%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
 						- if value.to_i == talking_point.my_rating
@@ -16,17 +16,17 @@
 			%p.please_rate Please rate
 		- else
 			%p.option{:title=>"#{TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]}"}= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]
-
+		
 	- vote_max = 0
 	- num_votes = 0
 	- talking_point.rating_votes.each{ |v| num_votes += v; vote_max = v unless vote_max > v }
 	- barw = 16
 	- barh = 22
-	%div.community_rating
+	%div.community_rating.no_js
 		%p.talking_point_ratings= "#{num_votes} ratings"
 		
 		
-		%div.graph.js.hide
+		%div.graph.js
 			- talking_point.rating_votes.each_index do |i|
 				%div.bar.zero{:style=>"left: #{barw * i}px; height: 100%"}
 				- if talking_point.rating_votes[i] > 0
