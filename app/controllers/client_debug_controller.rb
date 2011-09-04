@@ -1,4 +1,6 @@
 class ClientDebugController < ApplicationController
+  skip_before_filter :authorize
+  
   def report
   end
 
@@ -137,9 +139,4 @@ class ClientDebugController < ApplicationController
     
   end
   
-  
-  protected
-    def authorize
-    end
-
 end

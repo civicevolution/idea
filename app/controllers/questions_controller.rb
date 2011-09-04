@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  skip_before_filter :authorize, :only => [ :worksheet ]
+  
   # GET /questions
   # GET /questions.xml
   def index
@@ -83,14 +85,53 @@ class QuestionsController < ApplicationController
     end
   end
   
+  def what_do_you_think_form
+    render 'what_do_you_think', :locals => {:question_id => params[:question_id]}, :layout => 'plan'
+  end
+  
   def what_do_you_think
-    logger.debug "Question#what_do_you_think because user did not select a radio button"
-    
-    respond_to do |format|
-      format.js { render 'what_do_you_think_must_select' }
-      #format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
-      #format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
-      #format.xml  { render :xml => @comment, :status => :created, :location => @comment }
+    logger.debug "Question#what_do_you_think"
+    case params[:input_type]
+      when 'comment'
+       logger.debug "Create question comment with text: #{params[:text]}"
+       @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id])
+       respond_to do |format|
+         if @comment.save
+           format.js { render 'comments/comment_for_question', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.parent_id} }
+           format.html { redirect_to( question_worksheet_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
+           format.xml  { render :xml => @comment, :status => :created, :location => @comment }
+         else
+           format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
+           format.html { 
+             flash[:worksheet_error] = @comment.errors
+             flash[:params] = params
+             redirect_to( what_do_you_think_path(params[:question_id]) )
+           }
+         end
+       end
+      when 'talking_point'
+        logger.debug "Create question talking_point with text: #{params[:text]}"
+        @talking_point = Question.find(params[:question_id]).talking_points.create(:member=> @member, :text => params[:text])
+        respond_to do |format|
+          if @talking_point.save
+            format.js { render 'talking_points/talking_point_for_question', :locals=>{:talking_point=>@talking_point, :question_id => @talking_point.question_id} }
+            format.html { redirect_to( question_worksheet_path(@talking_point.question_id), :notice => 'Talking point was successfully created.') }
+          else
+            format.js { render 'talking_point_for_question_errors', :locals=>{:talking_point=>@talking_point} }
+            format.html { 
+              flash[:worksheet_error] = @talking_point.errors
+              flash[:params] = params
+              redirect_to( what_do_you_think_path(params[:question_id]) )
+            }
+          end
+        end
+    else
+      # redisplay worksheet with error
+      comment = Comment.new
+      comment.errors.add(:base, 'Please select Add a comment, or Add a talking point')
+      flash[:worksheet_error] = comment.errors
+      flash[:params] = params
+      redirect_to( what_do_you_think_path(params[:question_id]) )
     end
     
   end
@@ -340,52 +381,6 @@ class QuestionsController < ApplicationController
         format.html { render :action => "new" }
       end
     end
-    
-    
   end
 
-  protected
-  
-  QUESTIONS_CONTROLLER_PUBLIC_METHODS = ['worksheet']
-  
-  def authorize
-    unless QUESTIONS_CONTROLLER_PUBLIC_METHODS.include? request[:action]
-      # do this except for public methods
-      if (@member.nil? || @member.id == 0 )
-        if request.xhr?
-          respond_to do |format|
-            case request[:action]
-              when 'create_answer'
-                act = 'add or edit an answer'
-              when 'create_comment'
-                act = 'add or edit a comment'
-              when 'create_brainstorm_idea'
-                act = 'add a brainstorming idea'
-              else
-                act = 'continue'
-            end
-            format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
-          end
-          return
-        else
-          respond_to do |format|
-            format.html { 
-              flash[:pre_authorize_uri] = request.fullpath # "/questions/349/update_worksheet_ratings"
-              flash[:notice] = "Please sign in"
-              redirect_to( sign_in_path() ) 
-            }
-            format.js {render :template => 'welcome/must_sign_in', :layout => 'welcome'}
-          end
-        end
-      end
-    end
-    if @member.nil? 
-      @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
-      @member.id = 0
-      @member.email = ''
-      @member.last_visit_ts = Time.now #local(2012,2,23)
-    end
-  end
-  
-  
 end

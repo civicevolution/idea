@@ -1,4 +1,6 @@
 class CommentsController < ApplicationController
+  skip_before_filter :authorize, :only => [:talking_point_comments, :question_comments ]
+  
   # GET /comments
   # GET /comments.xml
   def index
@@ -218,27 +220,6 @@ class CommentsController < ApplicationController
     end
   end
   
-  def create_question_comment
-    logger.debug "Comment.create_question_comment"
-
-    @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id])
-    
-    respond_to do |format|
-      if @comment.save
-        format.js { render 'comment_for_question', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.parent_id} }
-        format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
-        format.html { redirect_to( question_worksheet_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
-        format.xml  { render :xml => @comment, :status => :created, :location => @comment }
-      else
-        format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
-        format.html { render :text => 'comment save failed' } if request.xhr?
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
-      end
-    end
-    
-  end
-  
   def create_comment_comment
     logger.debug "Comment.create_comment_comment"
 
@@ -316,45 +297,6 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(comments_url) }
       format.xml  { head :ok }
-    end
-  end
-  
-  protected
-  
-  COMMENTS_CONTROLLER_PUBLIC_METHODS = ['talking_point_comments', 'question_comments']
-  
-  def authorize
-    unless COMMENTS_CONTROLLER_PUBLIC_METHODS.include? request[:action]
-      # do this except for public methods
-      if (@member.nil? || @member.id == 0 )
-        if request.xhr?
-          respond_to do |format|
-            case request[:action]
-              when 'create_answer'
-                act = 'add or edit an answer'
-              when 'create_comment'
-                act = 'add or edit a comment'
-              when 'create_brainstorm_idea'
-                act = 'add a brainstorming idea'
-              else
-                act = 'continue'
-            end
-            format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
-          end
-          return
-        else
-          flash[:pre_authorize_uri] = request.request_uri
-          flash[:notice] = "Please sign in"
-          render :template => 'welcome/must_sign_in', :layout => 'welcome'
-          
-        end
-      end
-    end
-    if @member.nil? 
-      @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
-      @member.id = 0
-      @member.email = ''
-      @member.last_visit_ts = Time.new #local(2012,2,23)
     end
   end
   

@@ -1,5 +1,6 @@
 class PlanController < ApplicationController
   layout "welcome", :only => [:suggest_new_idea, :review_proposal_idea]
+  skip_before_filter :authorize, :only => [ :index, :summary]
   
   def index
     logger.debug "\n\n******************************************\nStart plan/index\n"
@@ -199,49 +200,5 @@ class PlanController < ApplicationController
       render :action => "must_be_admin", :layout => 'welcome'
     end
   end
-
-
-
-  protected
-  
-  PLAN_CONTROLLER_PUBLIC_METHODS = ['index', 'summary']
-  
-  def authorize
-    #debugger
-    unless PLAN_CONTROLLER_PUBLIC_METHODS.include? request[:action]
-      # do this except for public methods
-      if (@member.nil? || @member.id == 0 )
-        if request.xhr?
-          respond_to do |format|
-            case request[:action]
-              when 'create_answer'
-                act = 'add or edit an answer'
-              when 'create_comment'
-                act = 'add or edit a comment'
-              when 'create_brainstorm_idea'
-                act = 'add a brainstorming idea'
-              else
-                act = 'continue'
-            end
-            format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
-          end
-          return
-        else
-          flash[:pre_authorize_uri] = request.request_uri
-          flash[:notice] = "Please sign in"
-          render :template => 'welcome/must_sign_in', :layout => 'welcome'
-          
-        end
-      end
-    end
-    if @member.nil? 
-      @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
-      @member.id = 0
-      @member.email = ''
-      @member.last_visit_ts = Time.now #.local(2012,2,23)
-    end
-  end
-
-
 
 end

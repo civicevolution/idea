@@ -8,6 +8,8 @@ G3::Application.routes.draw do |map|
 
   get "sign_in/index", :as => 'sign_in'
   
+  get ":controller/sign_in_form", :action => 'sign_in_form', :as => 'sign_in_all'
+  
   get "sign_in/sign_in"
 
   get "sign_in/sign_out"
@@ -38,10 +40,8 @@ G3::Application.routes.draw do |map|
   match 'plan/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }
   match 'proposal/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }, :as=> 'proposal'
 
-
-  post "questions/:question_id/what_do_you_think", :to => "talking_points#create_question_talking_point", :constraints => lambda { |params| params[:input_type] ==  'talking_point'}
-  post "questions/:question_id/what_do_you_think", :to => "comments#create_question_comment", :constraints => lambda { |params| params[:input_type] == 'comment'}
-  post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :constraints => lambda { |params| params[:input_type].nil?}
+  post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :as => 'what_do_you_think'
+  get "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think_form", :as => 'what_do_you_think'
 
   get "questions/:question_id/worksheet" => "questions#worksheet", :as => :question_worksheet
   get "questions/:question_id/new_talking_points" => "questions#new_talking_points", :as => :question_new_talking_points
@@ -90,7 +90,7 @@ G3::Application.routes.draw do |map|
   get "request_help", :to => 'client_debug#request_help'
   post "request_help", :to => 'client_debug#request_help_post'
   
-  root :to => 'welcome#index'
+  root :to => 'welcome#index', :as => 'home'
   match 'about' => 'welcome#about', :as=>'ce_about'
   match 'home' => 'welcome#home', :as=>'ce_home'
   get 'contact_us' => 'welcome#contact_us', :as=>'ce_contact_us'

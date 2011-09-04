@@ -1,8 +1,10 @@
 class SignInController < ApplicationController
-  layout "welcome", :except => [:something_else]
-  
+  layout "plan", :except => [:something_else]
+  skip_before_filter :authorize
+   
   def index
     # show the sign in form
+    flash.keep # keep the info I saved till I successfully process the sign in
   end
 
   def sign_in
@@ -16,34 +18,29 @@ class SignInController < ApplicationController
        request.session_options[:expire_after]= 30.days
        #request.session_options.freeze
       end
-      if flash[:pre_authorize_uri]
-        render :text => "__REDIRECT__=#{flash[:pre_authorize_uri]}"
-      end
-      
       respond_to do |format|
-        format.html do
-          uri = session[:original_uri]
-          session[:original_uri] = nil
-          if uri
-            redirect_to :uri
+        format.html{
+          debugger
+          if flash[:pre_authorize_uri]
+            #redirect_to flash[:pre_authorize_uri]
+            # owrk out how to send the params
+            redirect_to home_path
           else
-            redirect_to :controller=> 'welcome', :action => "index"
-          end 
-          return          
-        end
+            redirect_to home_path
+          end
+        }
         format.js
-        #format.any # specify what you want to happen here or it will look for template with the appropriate name
       end
-      
     else # no member was retrieved with password and email
+      flash.keep # keep the info I saved till I successfully process the sign in
       logger.debug "No valid member for email/pwd"
-      flash.now[:notice] = "Invalid email/password combination"
+      debugger
+      flash[:notice] = "Invalid email/password combination"
       respond_to do |format|
-        format.html { render :controller=>'sign_in', :action=>'index', :status=>401 }
+        format.html { redirect_to sign_in_path }
         format.js { render :controller=>'sign_in', :action=>'index' }
         #format.any # specify what you want to happen here or it will look for template with the appropriate name
       end
-      
     end # end if member
   end
 
@@ -57,12 +54,6 @@ class SignInController < ApplicationController
   end
 
   def change_password
-  end
-
-  protected
-  
-  def authorize
-    
   end
 
 end

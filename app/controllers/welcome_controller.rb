@@ -1,6 +1,7 @@
 require 'recaptcha'
 class WelcomeController < ApplicationController
   include ReCaptcha::AppHelper
+  skip_before_filter :authorize
   
   def index
     logger.warn "Welcome controller index request.subdomains.first: #{request.subdomains.first}"
@@ -418,8 +419,4 @@ class WelcomeController < ApplicationController
     
   end
     
-protected
-  def authorize
-  end  
-  
 end

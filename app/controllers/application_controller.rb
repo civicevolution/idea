@@ -4,8 +4,9 @@
 class ApplicationController < ActionController::Base
   before_filter :set_application_personality, :except => [ :logo, :rss ]
   before_filter :add_member_data, :except => [ :logo, :rss ]
-  before_filter :authorize, :except => [ :login, :proposal, :logo, :rss]
-
+  before_filter :authorize, :except => [ :sign_in_form, :sign_in_post, :login, :proposal, :logo, :rss]
+  
+  helper_method :sign_out, :sign_in_post, :sign_in_form
 
   helper :all # include all helpers, all the time
 #  protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -45,7 +46,55 @@ class ApplicationController < ActionController::Base
     @member = member = Member.find_by_id(session[:member_id])
     render :template=> 'errors/404_not_found', :layout=>'welcome', :locals => {:member=>member, :path=> request.url }
   end
-  
+
+
+  def sign_in_form
+    # show the sign in form
+    flash.keep # keep the info I saved till I successfully process the sign in
+    render :template => 'sign_in/sign_in_form', :layout => 'plan'
+  end
+
+  def sign_in_post
+    logger.debug "sign_in #{params.inspect}"
+    @member = Member.authenticate(params[:email], params[:password])
+
+    if @member
+      session[:member_id] = @member.id
+      if params[:stay_signed_in]
+       request.session_options = request.session_options.dup
+       request.session_options[:expire_after]= 30.days
+       #request.session_options.freeze
+      end
+      respond_to do |format|
+        format.html{
+          if flash[:params]
+            # I came here through a redirect after user was told to sign in
+            # Assign the params from initial request that are stored in flash
+            flash[:params].each_pair{|key,val| params[key] = val }
+            send params[:action] # this will execute the method stored in params[:action]
+          else
+            redirect_to home_path
+          end
+        }
+        format.js
+      end
+    else # no member was retrieved with password and email
+      flash.keep # keep the info I saved till I successfully process the sign in
+      logger.debug "No valid member for email/pwd"
+      flash[:notice] = "Invalid email/password combination"
+      respond_to do |format|
+        format.html { redirect_to sign_in_all_path(:controller=> params[:controller]) }
+        format.js { render :controller=>'sign_in', :action=>'index' }
+        #format.any # specify what you want to happen here or it will look for template with the appropriate name
+      end
+    end # end if member
+  end
+
+  def sign_out
+    session[:member_id] = nil
+    flash[:notice] = "Signed out"
+    redirect_to :controller=> 'welcome', :action => "index"
+  end
   
   
     
@@ -122,16 +171,23 @@ class ApplicationController < ActionController::Base
     def authorize
       logger.silence(3) do
         unless Member.find_by_id(session[:member_id])
-          if request.xhr? || params[:post_mode] == 'ajax'
-            # send back a simple notice, do not redirect
-            m = Member.new
-            m.errors.add(:base, 'You must sign in to continue')
-            render :text => [m.errors].to_json, :status => 401
-          else
-            flash[:pre_authorize_uri] = request.request_uri
-            flash[:notice] = "Please sign in"
-            render :template => 'welcome/must_sign_in', :layout => 'welcome'
-            #redirect_to :controller => 'welcome' , :action => 'not_signed_in'
+          respond_to do |format|
+            format.js { 
+              # send back a simple notice, do not redirect
+              m = Member.new
+              m.errors.add(:base, 'You must sign in to continue')
+              render :text => [m.errors].to_json, :status => 401
+              #format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
+            }
+            format.html {
+              # this shouldn't be accessed as all ajax is now via UJS, as js
+              render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member, :exception => exception} 
+            } if request.xhr?
+            format.html {
+              flash[:params] = request.params
+              flash[:notice] = "Please sign in"
+              redirect_to sign_in_all_path(:controller=> params[:controller])
+            }
           end
         end
       end

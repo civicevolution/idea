@@ -1,12 +1,24 @@
 %div.what_do_you_think
 	%h3.ques_sub_hdg What do you think?
-	= form_tag("/questions/#{question_id}/what_do_you_think", :remote=>true, :id=>'what_do_you_think_form', :class=>'what_do_you_think') do
+	
+	- if flash[:worksheet_error]
+		- flash[:worksheet_error].full_messages.each do |e|
+			%p.warn= e
+	- if flash[:params]
+		- text = flash[:params][:text] ? flash[:params][:text] : ''
+		- type = flash[:params][:input_type] ? flash[:params][:input_type] : ''
+	- else
+		- text = ''
+		- type = ''
+		
+	-#= form_tag("/questions/#{question_id}/what_do_you_think", :remote=>true, :id=>'what_do_you_think_form', :class=>'what_do_you_think') do
+	= form_tag(what_do_you_think_path(question_id), :remote=>true, :id=>'what_do_you_think_form', :class=>'what_do_you_think') do
 		
 		%table
 			%tbody
 				%tr
 					%td
-						= radio_button_tag :input_type, 'talking_point'
+						= radio_button_tag :input_type, 'talking_point', type == 'talking_point' ? true : false
 					%td.icon
 						= label_tag :input_type_talking_point do
 							%div.talking_point.icon
@@ -20,7 +32,7 @@
 
 				%tr
 					%td
-						= radio_button_tag :input_type, "comment" 
+						= radio_button_tag :input_type, "comment", type == 'comment' ? true : false 
 					%td.icon
 						= label_tag :input_type_comment do
 							%div.comment.icon
@@ -32,7 +44,7 @@
 							%li This will appear as a comment below
 							%li Must be less than 1500 characters long
 
-		= text_area_tag :text, '', {:class=>'autosize'}
+		= text_area_tag :text, text, {:class=>'autosize'}
 
 		%div.control_line
 			-#
@@ -46,7 +58,10 @@
 					-#= @team.com_criteria.match(/..(\d+)/)[1]
 					200
 					characters left
-				= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
+				- if 	params[:action] == "what_do_you_think_form"
+					= link_to 'Cancel', question_worksheet_path(question_id), {:class=>'clear', :rel=>'nofollow'}
+				- else
+					= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
 	%p.clear_both
 	
 	%div.instr
