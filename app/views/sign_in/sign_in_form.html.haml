@@ -1,6 +1,6 @@
 %div#sign_in_form
 	%p.error= flash[:notice]
-	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form', :remote=>true}) do
+	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form'}) do
 		%table
 			%tr
 				%td

@@ -80,7 +80,18 @@ class ApplicationController < ActionController::Base
             redirect_to home_path
           end
         }
-        format.js
+        format.js{
+          logger.debug "Respond to sign in form post from UJS"
+          if flash[:params]
+            # I came here through a redirect after user was told to sign in
+            # Assign the params from initial request that are stored in flash
+            flash[:params].each_pair{|key,val| params[key] = val }
+            send params[:action] # this will execute the method stored in params[:action]
+          else
+            redirect_to home_path
+          end
+          
+        }
       end
     else # no member was retrieved with password and email
       flash.keep # keep the info I saved till I successfully process the sign in
@@ -183,11 +194,10 @@ class ApplicationController < ActionController::Base
   def force_sign_in
     respond_to do |format| 
       format.js { 
-        # send back a simple notice, do not redirect
-        m = Member.new
-        m.errors.add(:base, 'You must sign in to continue')
-        render :text => [m.errors].to_json, :status => 401
-        #format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
+        flash[:params] = request.params
+        flash[:fullpath] = request.fullpath unless request.method.match(/POST/i)
+        flash[:notice] = "Please sign in to continue"
+        render :template => 'sign_in/sign_in_form.js', :layout => false#, :status => 409
       }
       format.html {
         # this shouldn't be accessed as all ajax is now via UJS, as js
