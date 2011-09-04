@@ -197,12 +197,10 @@ class QuestionsController < ApplicationController
     @question ||= Question.find(params[:question_id])
     @team = @question.team
     
-    allowed,message = InitiativeRestriction.allow_action(@team.initiative_id, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_actionX(@team.initiative_id, 'view_idea_page', @member)
     if !allowed
       if @member.id == 0
-        flash[:pre_authorize_uri] = request.request_uri
-        flash[:notice] = "Please sign in"
-        render :template => 'welcome/must_sign_in', :layout => 'welcome'
+        force_sign_in
         return
       else
         render :template => 'idea/private_page'

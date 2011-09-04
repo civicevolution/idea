@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sign_in_post
-    logger.debug "sign_in #{params.inspect}"
+    logger.debug "sign_in_post #{params.inspect}"
     @member = Member.authenticate(params[:email], params[:password])
 
     if @member
@@ -71,7 +71,11 @@ class ApplicationController < ActionController::Base
             # I came here through a redirect after user was told to sign in
             # Assign the params from initial request that are stored in flash
             flash[:params].each_pair{|key,val| params[key] = val }
-            send params[:action] # this will execute the method stored in params[:action]
+            if flash[:fullpath]
+              redirect_to flash[:fullpath]
+            else
+              send params[:action] # this will execute the method stored in params[:action]
+            end
           else
             redirect_to home_path
           end
@@ -171,27 +175,31 @@ class ApplicationController < ActionController::Base
     def authorize
       logger.silence(3) do
         unless Member.find_by_id(session[:member_id])
-          respond_to do |format|
-            format.js { 
-              # send back a simple notice, do not redirect
-              m = Member.new
-              m.errors.add(:base, 'You must sign in to continue')
-              render :text => [m.errors].to_json, :status => 401
-              #format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
-            }
-            format.html {
-              # this shouldn't be accessed as all ajax is now via UJS, as js
-              render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member, :exception => exception} 
-            } if request.xhr?
-            format.html {
-              flash[:params] = request.params
-              flash[:notice] = "Please sign in"
-              redirect_to sign_in_all_path(:controller=> params[:controller])
-            }
-          end
+          force_sign_in
         end
       end
     end
-  
+
+  def force_sign_in
+    respond_to do |format| 
+      format.js { 
+        # send back a simple notice, do not redirect
+        m = Member.new
+        m.errors.add(:base, 'You must sign in to continue')
+        render :text => [m.errors].to_json, :status => 401
+        #format.json { render :text => [ {'Sign in required'=> [act]} ].to_json, :status => 409 }
+      }
+      format.html {
+        # this shouldn't be accessed as all ajax is now via UJS, as js
+        render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member, :exception => exception} 
+      } if request.xhr?
+      format.html {
+        flash[:params] = request.params
+        flash[:fullpath] = request.fullpath unless request.method.match(/POST/i)
+        flash[:notice] = "Please sign in to continue"
+        redirect_to sign_in_all_path(:controller=> params[:controller])
+      }
+    end
+  end
   
 end

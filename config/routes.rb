@@ -10,6 +10,8 @@ G3::Application.routes.draw do |map|
   
   get ":controller/sign_in_form", :action => 'sign_in_form', :as => 'sign_in_all'
   
+  post ":controller/sign_in_post", :action => 'sign_in_post', :as => 'sign_in_post'
+  
   get "sign_in/sign_in"
 
   get "sign_in/sign_out"

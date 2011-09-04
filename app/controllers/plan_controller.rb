@@ -12,12 +12,10 @@ class PlanController < ApplicationController
     end
     
     # verify acccess to this team
-    allowed,message = InitiativeRestriction.allow_action(@team.initiative_id, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_actionX(@team.initiative_id, 'view_idea_page', @member)
     if !allowed
       if @member.id == 0
-        flash[:pre_authorize_uri] = request.request_uri
-        flash[:notice] = "Please sign in"
-        render :template => 'welcome/must_sign_in', :layout => 'welcome'
+        force_sign_in
         return
       else
         render :template => 'idea/private_page'
@@ -46,12 +44,11 @@ class PlanController < ApplicationController
     end
     
     # verify acccess to this team
-    allowed,message = InitiativeRestriction.allow_action(@team.initiative_id, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_actionX(@team.initiative_id, 'view_idea_page', @member)
     if !allowed
       if @member.id == 0
-        flash[:pre_authorize_uri] = request.request_uri
-        flash[:notice] = "Please sign in"
-        render :template => 'welcome/must_sign_in', :layout => 'welcome'
+        debugger
+        force_sign_in
         return
       else
         render :template => 'idea/private_page'
@@ -110,7 +107,7 @@ class PlanController < ApplicationController
   def submit_proposal_idea
     logger.debug "plan#submit_proposal_idea, params: #{params.inspect}"
     
-    restrictions_test,message = InitiativeRestriction.allow_action(params[:_initiative_id], 'suggest_idea', @member)
+    restrictions_test,message = InitiativeRestriction.allow_actionX(params[:_initiative_id], 'suggest_idea', @member)
 
     @proposal_idea = ProposalIdea.new params[:proposal_idea]
     if !restrictions_test
