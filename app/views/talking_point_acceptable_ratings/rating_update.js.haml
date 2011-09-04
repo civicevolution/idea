@@ -1,10 +1,11 @@
+= render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var new_rating = $("#{escape_javascript(
 		render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point}
 	)}");
 	
 	new_rating.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
-	new_rating.find('div.community_rating').removeClass('no_js')
+	new_rating.find('div.community_rating').removeClass('no_js');
 	
 	var old_rating = $('div.talking_point_entry[id=#{talking_point.id}] div.talking_point_acceptable');
 	new_rating.height( old_rating.height());
