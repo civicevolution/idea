@@ -4,5 +4,8 @@
 	)}");
 	sign_in_form.find('form').attr('data-remote','true');
 	$('div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
+	$('div#sign_in_form a.cancel').die('click').live('click', 
+		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
+	);
 	
 	var dialog = sign_in_form.dialog( {title : 'Please sign in to continue', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });

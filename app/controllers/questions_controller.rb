@@ -201,11 +201,13 @@ class QuestionsController < ApplicationController
     if !allowed
       if @member.id == 0
         force_sign_in
-        return
       else
-        render :template => 'idea/private_page'
-        return
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
       end
+      return
     end
     
     @question['talking_points_to_display'] ||= @question.top_talking_points
@@ -356,7 +358,7 @@ class QuestionsController < ApplicationController
       case key
         when /tp_rating/
           #logger.debug "Record the rating for #{key.match(/\d+/)[0]}"
-          TalkingPointAcceptableRating.record( @member.id, key.match(/\d+/)[0], val )
+          TalkingPointAcceptableRating.record( @member, key.match(/\d+/)[0], val )
         when /preference_/
           #logger.debug "Record a preference for #{key.match(/\d+/)[0]}"
           selected_ids << key.match(/\d+/)[0]

@@ -1,3 +1,4 @@
+= render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var review_preferences = $("#{escape_javascript(
 		render :partial  => 'talking_point_preferences/review_preferences', :locals => {:talking_points => talking_points, :question_id => question_id}
@@ -5,6 +6,10 @@
 	temp.review_preferences = review_preferences
 	$('div.review_preferences').closest('div.ui-dialog').dialog('destroy').end().remove();
 	var dialog = review_preferences.dialog( {title : 'Please review your preferences', modal : true, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });
+	
+	$('div.review_preferences a.cancel_review').die('click').live('click', 
+		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
+	);
 	
 	$('div.talking_point_preferable[id=#{talking_point.id}] input').removeAttr('checked')
 	

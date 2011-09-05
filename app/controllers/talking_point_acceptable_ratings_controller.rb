@@ -84,7 +84,7 @@ class TalkingPointAcceptableRatingsController < ApplicationController
   def rate_talking_point
     logger.debug "rate_talking_point #{params[:talking_point_id]} with the rating #{params[:rating]}"
 
-    talking_point = TalkingPointAcceptableRating.record( @member.id, params[:talking_point_id], params[:rating] )
+    talking_point = TalkingPointAcceptableRating.record( @member, params[:talking_point_id], params[:rating] )
 
     respond_to do |format|
       format.js { render 'rating_update', :locals=>{:talking_point => talking_point} }

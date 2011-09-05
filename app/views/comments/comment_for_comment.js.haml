@@ -1,3 +1,4 @@
+= render :template => 'shared/clear_sign_in_form.js'
 :plain
 	console.log("comment_for_comment.js.haml");
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");

@@ -1,5 +1,5 @@
 class PlanController < ApplicationController
-  layout "welcome", :only => [:suggest_new_idea, :review_proposal_idea]
+  layout "plan", :only => [:suggest_new_idea, :review_proposal_idea]
   skip_before_filter :authorize, :only => [ :index, :summary]
   
   def index
@@ -16,11 +16,13 @@ class PlanController < ApplicationController
     if !allowed
       if @member.id == 0
         force_sign_in
-        return
       else
-        render :template => 'idea/private_page'
-        return
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
       end
+      return
     end
     
     
@@ -47,13 +49,14 @@ class PlanController < ApplicationController
     allowed,message = InitiativeRestriction.allow_actionX(@team.initiative_id, 'view_idea_page', @member)
     if !allowed
       if @member.id == 0
-        debugger
         force_sign_in
-        return
       else
-        render :template => 'idea/private_page'
-        return
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
       end
+      return
     end
     
     @team.get_talking_point_ratings(@member)
@@ -91,6 +94,8 @@ class PlanController < ApplicationController
     end
     
     Comment.set_question_id_child_comments(@comments)
+    
+    render :new_content, :layout => 'plan'
     
   end
   

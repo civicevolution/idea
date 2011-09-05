@@ -10,6 +10,7 @@ class TalkingPointPreference < ActiveRecord::Base
 	before_validation :check_initiative_restrictions
   
   def check_initiative_restrictions
+    self.member = Member.find(self.member_id) if self.id.nil?
     #logger.debug "TalkingPointPreference.check_initiative_restrictions"
     allowed,message = InitiativeRestriction.allow_actionX({:talking_point_id=>self.talking_point_id}, 'contribute_to_proposal', self.member)
     if !allowed

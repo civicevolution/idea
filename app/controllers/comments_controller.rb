@@ -13,10 +13,16 @@ class CommentsController < ApplicationController
   
   def talking_point_comments
     logger.debug "GET comments for talking point id: #{params[:talking_point_id]} (talking_point_comments)"
-    
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:talking_point_id=>params[:talking_point_id]}, 'view_idea_page', @member)
     if !allowed
-      render :text=>"Sorry, you do not have access to this"
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
       return
     end
     @team = Team.find(team_id)
@@ -37,7 +43,14 @@ class CommentsController < ApplicationController
     
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id=>params[:question_id]}, 'view_idea_page', @member)
     if !allowed
-      render :text=>"Sorry, you do not have access to this"
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
       return
     end
     @team = Team.find(team_id)
@@ -74,7 +87,14 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:comment_id])
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id=>@comment.parent_id}, 'view_idea_page', @member)
     if !allowed
-      render :text=>"Sorry, you do not have access to this"
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
       return
     end
     @team = Team.find(team_id)
@@ -106,7 +126,14 @@ class CommentsController < ApplicationController
     end
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:team_id=>@comment.team_id}, 'view_idea_page', @member)
     if !allowed
-      render :text=>"Sorry, you do not have access to this"
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
       return
     end
     

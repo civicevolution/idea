@@ -50,7 +50,7 @@ $('form.what_do_you_think a.clear').die('click').live('click',
 $('form#what_do_you_think_form').bind('ajax:before', 
 	function(){
 		if( $(this).find('input:radio:checked').size() == 0 ){
-			alert("Please select Add a comment, or Add a talking point")
+			$(this).find('textarea').before('<p class="warn">Please select Add a comment, or Add a talking point</p>')
 			return false
 		}
 	}

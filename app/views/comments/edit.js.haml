@@ -7,7 +7,10 @@
 	var dialog = edit_form.dialog( {title : 'Edit this comment', modal : true, width : '500px', closeOnEscape: false });
 	
 	var form = $('form.comment_edit_form[id=#{comment.id}]');
-	temp.form = form;
+	form.find('a.cancel').die('click').live('click', 
+		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
+	);
+	
 	activate_text_counters_grow( form.find('textarea'), 120 )
 	form.find(' a.cancel').die('click').live('click',
 		function(){

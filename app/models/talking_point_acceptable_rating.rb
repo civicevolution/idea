@@ -18,12 +18,13 @@ class TalkingPointAcceptableRating < ActiveRecord::Base
     true
   end
   
-  def self.record( member_id, talking_point_id, rating)
-    rating_rec = TalkingPointAcceptableRating.find_by_member_id_and_talking_point_id(member_id, talking_point_id)
-
+  def self.record( member, talking_point_id, rating)
+    rating_rec = TalkingPointAcceptableRating.find_by_member_id_and_talking_point_id(member.id, talking_point_id)
+    
     if rating_rec.nil?
-      rating_rec = TalkingPointAcceptableRating.new( :member_id=> member_id, :talking_point_id=> talking_point_id )
+      rating_rec = TalkingPointAcceptableRating.new( :member_id=> member.id, :talking_point_id=> talking_point_id )
     end
+    rating_rec.member = member
     rating_rec.rating = rating
     rating_rec.save
     talking_point = TalkingPoint.find( talking_point_id )

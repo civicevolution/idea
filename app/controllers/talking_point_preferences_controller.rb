@@ -88,6 +88,7 @@ class TalkingPointPreferencesController < ApplicationController
 
     if( params[:prefer] == 'false' )
       tp = TalkingPointPreference.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id])
+      tp.member
       tp.destroy unless tp.nil?
       render_select = false
     else
