@@ -58,8 +58,8 @@ class SignInController < ApplicationController
     member = Member.find_by_email(params[:email].downcase)
     respond_to do |format|
       if member.nil?
-        format.html {render 'reset_password_failed', :locals => {:email => params[:email] } }
-        format.js {}
+        format.html {render 'reset_password_not_found' }
+        format.js { render 'reset_password_not_found' }
       else
         # create and store a code for the member
         mcode = MemberLookupCode.get_code(member.id, {:scenario=>'reset password'})
@@ -68,8 +68,8 @@ class SignInController < ApplicationController
 
         MemberMailer.delay.reset_password(member,mcode, request.env["HTTP_HOST"]) 
 
-        format.html {render 'reset_password_sent', :locals => {:email => params[:email] } }
-        format.js {}
+        format.html {render 'reset_password_sent' }
+        format.js { render 'reset_password_sent' }
       end
     end
   end
