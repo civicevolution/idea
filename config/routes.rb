@@ -6,7 +6,7 @@ G3::Application.routes.draw do |map|
 
   get "profile/my_teams"
 
-  get "sign_in/index", :as => 'sign_in'
+  get "sign_in/sign_in_form", :as => 'sign_in'
   
   get ":controller/sign_in_form", :action => 'sign_in_form', :as => 'sign_in_all'
   
@@ -16,8 +16,12 @@ G3::Application.routes.draw do |map|
 
   get "sign_in/sign_out"
 
-  get "sign_in/reset_password"
+  get "sign_in/reset_password_form", :as => 'reset_password_form'
+  post "sign_in/reset_password_post", :as => 'reset_password_post'
 
+  get "sign_in/password_reset_form", :as => 'password_reset_form'
+  post "sign_in/password_reset_post", :as => 'password_reset_post'
+  
   get "sign_in/change_password"
 
   get "registration/register"

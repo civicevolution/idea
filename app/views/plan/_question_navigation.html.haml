@@ -1,8 +1,8 @@
 %div.navigation
 	- prev_question = questions.detect{|q| q.order_id == question.order_id - 1}
 	- if prev_question
-		= link_to "< Q#{prev_question.order_id}: #{prev_question.text}", question_worksheet_path(prev_question), {:id=> prev_question.id, :class=>'goto prev'}
-	= link_to "Full proposal", proposal_path(question.team_id), {:class=>'summary'}
+		= link_to "< Q#{prev_question.order_id}: #{prev_question.text}", question_worksheet_path(prev_question), {:id=> prev_question.id, :class=>'goto prev', :remote => true}
+	= link_to "Full proposal", proposal_path(question.team_id), {:class=>'summary', :remote => true}
 	- next_question = questions.detect{|q| q.order_id == question.order_id + 1}
 	- if next_question
-		= link_to "Q#{next_question.order_id}: #{next_question.text} >", question_worksheet_path(next_question), {:id=> next_question.id, :class=>'goto next'}
+		= link_to "Q#{next_question.order_id}: #{next_question.text} >", question_worksheet_path(next_question), {:id=> next_question.id, :class=>'goto next', :remote => true}

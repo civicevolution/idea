@@ -4,6 +4,10 @@
 	var worksheet = $("#{escape_javascript(
 		render( :partial => 'plan/question', :locals => {:question => question, :questions => questions, :question_counter => question.order_id } )
 	)}");
+	
+	worksheet.find('div.my_rating').addClass('js');
+	worksheet.find('div.community_rating').removeClass('no_js');
+	
 	$('div.new_content').closest('div.ui-dialog').hide();
 	var page_div = $('div.page_content_div');
 	page_div.remove();

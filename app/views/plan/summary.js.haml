@@ -1,0 +1,11 @@
+= render :template => 'shared/clear_sign_in_form.js'
+:plain
+	var summary = $("#{escape_javascript(
+		render( :template => 'plan/summary.html' )
+	)}");
+
+	var page_div = $('div.page_content_div');
+	page_div.remove();
+
+	$(summary).insertAfter('hr.top').attr('id',question_id);
+

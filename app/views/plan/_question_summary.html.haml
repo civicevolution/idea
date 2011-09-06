@@ -1,6 +1,6 @@
 %div.question_summary
 	%p.question{:id=>question.id}
-		= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'open_worksheet'}
+		= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}
 	%div.talking_point_sec
 		%div.talking_points_list
 

@@ -32,5 +32,5 @@
 			%tr
 				%td
 					= submit_tag "Sign In"
-					= link_to 'Reset password', {:controller=>'welcome'}, {:class=>'reset_password', :rel=>'nofollow'}
+					= link_to 'Reset password', reset_password_form_path, {:class=>'reset_password', :rel=>'nofollow'}
 					= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow'}

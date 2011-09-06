@@ -1,4 +1,4 @@
 %div.talking_point_comments.discussion{:id=> talking_point.id }
 	= render :partial=> 'plan/comment', :collection => comments
 	
-	= render :partial => 'plan/comment_form', :locals => {:id=>talking_point.id, :type=>'talking_points', :criteria => com_criteria}
+	= render :partial => 'plan/comment_form.html', :locals => {:id=>talking_point.id, :type=>'talking_points', :criteria => com_criteria}
