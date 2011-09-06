@@ -6,7 +6,7 @@
 	
 	var dialog = edit_form.dialog( {title : 'Edit this comment', modal : true, width : '500px', closeOnEscape: false });
 	
-	var form = $('form.comment_edit_form[id=#{comment.id}]');
+	var form = $('form.comment_edit_form[id="#{comment.id}"]');
 	form.find('a.cancel').die('click').live('click', 
 		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
 	);

@@ -5,7 +5,7 @@
 	)}");
 	
 	var dialog = report_form.dialog( {title : 'Report content', modal : true, width : '500px', closeOnEscape: false });
-	$('form.report_content[id=#{@target.id}] a.cancel').die('click').live('click',
+	$('form.report_content[id="#{@target.id}"] a.cancel').die('click').live('click',
 		function(){
 			$(this).closest('div.ui-dialog').dialog('destroy').remove();
 			return false;

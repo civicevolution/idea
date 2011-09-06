@@ -1,6 +1,6 @@
 = render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
-	var form = $('div.question_worksheet[id=#{question_id}] div.talking_point_comments[id=#{comment.parent_id}] form.comment_form');
+	var form = $('div.question_worksheet[id="#{question_id}"] div.talking_point_comments[id="#{comment.parent_id}"] form.comment_form');
 	form.find('textarea').val('');
 	form.before(com);

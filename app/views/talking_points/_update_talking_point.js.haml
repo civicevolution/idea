@@ -5,9 +5,9 @@
 	new_tp.find('div.my_rating').addClass('js');
 	new_tp.find('div.community_rating').removeClass('no_js');
 	
-	var tp = $('div.talking_point_entry[id=#{talking_point.id}]')
+	var tp = $('div.talking_point_entry[id="#{talking_point.id}"]')
 	
-	$('form.talking_point_edit_form[id=#{talking_point.id}]').closest('div.ui-dialog').dialog('destroy').remove();
+	$('form.talking_point_edit_form[id="#{talking_point.id}"]').closest('div.ui-dialog').dialog('destroy').remove();
 	
 	tp.replaceWith(new_tp);
 	

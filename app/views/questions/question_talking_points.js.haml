@@ -6,7 +6,7 @@
 	)}");
 	//console.log("insert talking points for q: #{@question.id}");
 	temp.talking_points = talking_points;
-	var tp_list = $('div.talking_points_list[id=#{@question.id}]');
+	var tp_list = $('div.talking_points_list[id="#{@question.id}"]');
 	var last_tp = tp_list.find('div.talking_point_entry').last();
 	var new_tp_ids = [];
 	talking_points.find('div.talking_point_entry').each( function(){ new_tp_ids.push(this.id); last_tp = $(this).insertAfter(last_tp) });

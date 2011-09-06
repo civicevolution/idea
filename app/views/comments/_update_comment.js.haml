@@ -4,9 +4,9 @@
 		render( :partial => 'plan/comment.html', :object => comment )
 	)}");
 
-	var com = $('div.Comment[id=#{comment.id}]')
+	var com = $('div.Comment[id="#{comment.id}"]')
 	
-	$('form.comment_edit_form[id=#{comment.id}]').closest('div.ui-dialog').dialog('destroy').remove();
+	$('form.comment_edit_form[id="#{comment.id}"]').closest('div.ui-dialog').dialog('destroy').remove();
 	
 	com.replaceWith(new_com)
 

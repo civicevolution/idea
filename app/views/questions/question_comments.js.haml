@@ -6,7 +6,7 @@
 	)}");
 	console.log("load comments");
 	temp.comments = comments
-	var ques_disc = $('div.ques_discussion[id=#{@question.id}]');
+	var ques_disc = $('div.ques_discussion[id="#{@question.id}"]');
 	var comment_insert_point = ques_disc.find('div.Comment:first');
 	var new_com_ids = [];
 	comments.find('div.Comment').each( function(){ new_com_ids.push(this.id); comment_insert_point.before(this) });

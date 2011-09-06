@@ -2,7 +2,7 @@
 :plain
 	console.log("comment_for_comment.js.haml");
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
-	var cur_form = $('form.comment_form[id=#{params[:comment_id]}]');
+	var cur_form = $('form.comment_form[id="#{params[:comment_id]}"]');
 	cur_form.before(com);
 	cur_form.closest('div.discussion').find('form.orig').show();
 	cur_form.remove();

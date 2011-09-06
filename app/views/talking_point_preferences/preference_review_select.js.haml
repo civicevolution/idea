@@ -11,7 +11,7 @@
 		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
 	);
 	
-	$('div.talking_point_preferable[id=#{talking_point.id}] input').removeAttr('checked')
+	$('div.talking_point_preferable[id="#{talking_point.id}"] input').removeAttr('checked')
 	
 	$('div.review_preferences button').die('click').live('click',
 		function(){

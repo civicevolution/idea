@@ -3,8 +3,8 @@
 	var tp_coms = $("#{escape_javascript(
 		render( :partial=> 'comments/talking_point_comments.html', :locals=> {:talking_point => talking_point, :comments => comments, :com_criteria => com_criteria } )
 	)}");
-	var tp = $('div.talking_point_entry[id=#{talking_point.id}]')
-	$('div.talking_point_comments.discussion[id=#{talking_point.id}]').remove();
+	var tp = $('div.talking_point_entry[id="#{talking_point.id}"]')
+	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').remove();
 	var link = tp.find('a.tp_show_coms').html('Hide discussion');	
 	var newNode = $(tp_coms).insertAfter(tp);
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
@@ -33,7 +33,7 @@
 			return false;
 		}
 	)
-	$('div.talking_point_comments.discussion[id=#{talking_point.id}]').find('a.clear').html('Clear').die('click').live('click',
+	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').find('a.clear').html('Clear').die('click').live('click',
 		function(){
 			$(this).closest('form').find('textarea').val('');
 			return false;

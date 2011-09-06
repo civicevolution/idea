@@ -6,7 +6,7 @@
 	
 	var dialog = edit_form.dialog( {title : 'Edit this talking point', modal : true, width : '500px', closeOnEscape: false });
 	
-	var form = $('form.talking_point_edit_form[id=#{talking_point.id}]');
+	var form = $('form.talking_point_edit_form[id="#{talking_point.id}"]');
 	
 	form.find('a.cancel').die('click').live('click', 
 		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }

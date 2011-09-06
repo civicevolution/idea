@@ -21,7 +21,7 @@
     
 		$('div.navigation a.goto').die('click').live('click',
 			function(){
-				var question_worksheet = $('div.question_worksheet[id=' + this.id + ']');
+				var question_worksheet = $('div.question_worksheet[id="' + this.id + '"]');
 				$('div.question_worksheet').hide();
 				question_worksheet.show();
 				$.scrollTo(question_worksheet,1000);	

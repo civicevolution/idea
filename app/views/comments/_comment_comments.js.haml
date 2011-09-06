@@ -3,8 +3,8 @@
 	var com_coms = $("#{escape_javascript(
 		render( :partial=> 'comments/comment_comments.html', :locals=> {:comment => comment, :comments => comments, :com_criteria => com_criteria } )
 	)}");
-	var com = $('div.Comment[id=#{comment.id}]')
-	$('div.comment_comments.discussion[id=#{comment.id}]').remove()
+	var com = $('div.Comment[id="#{comment.id}"]')
+	$('div.comment_comments.discussion[id="#{comment.id}"]').remove()
 	var link = com.find('a.reply').html('Hide discussion');	
 	var newNode = $(com_coms).insertAfter(com);
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
@@ -33,7 +33,7 @@
 			return false;
 		}
 	)
-	$('div.comment_comments.discussion[id=#{comment.id}]').find('a.clear').html('Clear').die('click').live('click',
+	$('div.comment_comments.discussion[id="#{comment.id}"]').find('a.clear').html('Clear').die('click').live('click',
 		function(){
 			$(this).closest('form').find('textarea').val('');
 			return false;

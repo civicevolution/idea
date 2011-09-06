@@ -4,9 +4,9 @@
 	tp.find('div.my_rating').addClass('js');
 	tp.find('div.community_rating').removeClass('no_js');
 
-	$('div.question_worksheet[id=#{question_id}] div.talking_point_entry:last').after(tp)
-	$('div.question_worksheet[id=#{question_id}] form.what_do_you_think textarea').val('');
-	$('div.question_worksheet[id=#{question_id}] form.what_do_you_think p.warn').remove();
-	$('div.question_worksheet[id=#{question_id}] form.what_do_you_think input[type="radio"]').attr('checked',false)
+	$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last').after(tp)
+	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think textarea').val('');
+	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think p.warn').remove();
+	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think input[type="radio"]').attr('checked',false)
 	
 = render :template => 'shared/clear_sign_in_form.js'
