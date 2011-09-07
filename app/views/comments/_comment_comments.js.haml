@@ -3,6 +3,7 @@
 	var com_coms = $("#{escape_javascript(
 		render( :partial=> 'comments/comment_comments.html', :locals=> {:comment => comment, :comments => comments, :com_criteria => com_criteria } )
 	)}");
+	
 	var com = $('div.Comment[id="#{comment.id}"]')
 	$('div.comment_comments.discussion[id="#{comment.id}"]').remove()
 	var link = com.find('a.reply').html('Hide discussion');	

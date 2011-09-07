@@ -55,7 +55,32 @@ class ApplicationController < ActionController::Base
   end
 
   def sign_in_post
-    logger.debug "sign_in_post #{params.inspect}"
+    logger.debug "sign_in_post"
+    if params[:sign_in] || params[:email].length > 0 && params[:password].length > 0
+      process_sign_in_post
+    elsif params[:email_join].length > 0
+      process_join_post
+    else
+      process_sign_in_post
+    end
+  end
+  
+  def process_join_post
+    logger.debug "process_join_post for #{params[:email_join]}"
+    
+    respond_to do |format|
+      if Member.email_in_use(params[:email_join])
+        format.js { render :template => "sign_in/join_email_address_in_use", :locals => {:email=>params[:email]} }
+        format.html {render :template=> 'sign_in/join_email_address_in_use', :layout=>'plan', :locals => {:email=>params[:email]} }
+      else  
+        format.js { render :template => "sign_in/join_email_address_ok", :locals => {:email=>params[:email]} }
+        format.html {render :template=> 'sign_in/join_email_address_ok', :layout=>'plan', :locals => {:email=>params[:email]} }
+      end
+    end
+    
+  end
+  
+  def process_sign_in_post
     @member = Member.authenticate(params[:email], params[:password])
 
     if @member
@@ -72,7 +97,6 @@ class ApplicationController < ActionController::Base
       end
       session[:last_visit_ts] ||= Time.now #.local(2012,7,29)
       @member.last_visit_ts = session[:last_visit_ts]
-      
       respond_to do |format|
         format.html{
           if flash[:params]
@@ -96,9 +120,8 @@ class ApplicationController < ActionController::Base
             flash[:params].each_pair{|key,val| params[key] = val }
             send params[:action] # this will execute the method stored in params[:action]
           else
-            redirect_to home_path
+            render 'redirect_to_home_page'
           end
-          
         }
       end
     else # no member was retrieved with password and email
@@ -106,9 +129,8 @@ class ApplicationController < ActionController::Base
       logger.debug "No valid member for email/pwd"
       flash[:notice] = "Invalid email/password combination"
       respond_to do |format|
-        format.html { redirect_to sign_in_all_path(:controller=> params[:controller]) }
-        format.js { render :controller=>'sign_in', :action=>'index' }
-        #format.any # specify what you want to happen here or it will look for template with the appropriate name
+        format.html { redirect_to sign_in_all_path(:controller=> params[:controller], :email=>params[:email]) }
+        format.js { render 'sign_in_form' }
       end
     end # end if member
   end

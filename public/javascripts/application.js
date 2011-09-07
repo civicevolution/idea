@@ -11,7 +11,7 @@
 temp = {};
 
 $(function(){
-		$('input.submit_ratings').remove();
+		remove_worksheet_form();
 		size_talking_point_entries();
 		$(document).ajaxSend(function(e, xhr, options) {
 		  var token = $("meta[name='csrf-token']").attr("content");
@@ -21,6 +21,13 @@ $(function(){
 		
 });
 
+function remove_worksheet_form(){
+	$('input.submit_ratings').remove();
+	var form = $('form.update_worksheet');
+	var div = $('<div class="form_replace"></div>').html( form.children().remove() );	
+	form.after(div);
+	form.remove();
+}
 
 function size_talking_point_entries(){
 	$('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
@@ -44,15 +51,6 @@ $('form.what_do_you_think a.clear').die('click').live('click',
 	function(){
 		$(this).closest('form').find('textarea').val('');
 		return false;
-	}
-);
-
-$('form#what_do_you_think_form').bind('ajax:before', 
-	function(){
-		if( $(this).find('input:radio:checked').size() == 0 ){
-			$(this).find('textarea').before('<p class="warn">Please select Add a comment, or Add a talking point</p>')
-			return false
-		}
 	}
 );
 

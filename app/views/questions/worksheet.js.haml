@@ -5,6 +5,12 @@
 		render( :partial => 'plan/question', :locals => {:question => question, :questions => questions, :question_counter => question.order_id } )
 	)}");
 	
+	worksheet.find('input.submit_ratings').remove();
+	var form = worksheet.find('form.update_worksheet');
+	var div = $('<div class="form_replace"></div>').html( form.children().remove() );	
+	form.after(div);
+	form.remove();
+	
 	worksheet.find('div.my_rating').addClass('js');
 	worksheet.find('div.community_rating').removeClass('no_js');
 	
@@ -14,7 +20,7 @@
 
 	function scrollToElement(){
 		var highlight = $('.highlight');
-		console.log("highlight.size(): " + highlight.size())
+		//console.log("highlight.size(): " + highlight.size())
 		if(highlight.size()>0){
 			console.log("scroll to")
 			$.scrollTo(highlight,600);	
@@ -23,4 +29,3 @@
 	setTimeout(scrollToElement,1000);
 	
 	$(worksheet).insertAfter('hr.top').attr('id',question_id);
-

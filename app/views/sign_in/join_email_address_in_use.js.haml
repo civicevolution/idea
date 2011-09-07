@@ -1,0 +1,11 @@
+:plain
+	var form = $("#{escape_javascript(
+		render( :template => 'sign_in/join_email_address_in_use.html')
+	)}");
+	form.find('form, a.reset_password').attr('data-remote','true');
+	$('div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
+	$('div#sign_in_form a.cancel').die('click').live('click', 
+		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
+	);
+	
+	var dialog = form.dialog( {title : 'Please sign in or join to continue', modal : true, width : '650px', closeOnEscape: true, close: function(){$(this).remove()} });

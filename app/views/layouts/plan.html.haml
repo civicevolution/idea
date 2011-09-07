@@ -42,7 +42,7 @@
 				%div.join_com
 					= link_to 'Register now', {:controller=>'welcome'}, {:class=>'join_our_community', :id=>'join_community_link', :rel=>'nofollow'}
 					or
-					= link_to 'Sign in', {:controller=>'sign_in'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
+					= link_to 'Sign in', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
 					
 			%hr.top
 			%h2#load_message

@@ -1,0 +1,18 @@
+%div#join_email_address_ok
+	%h3 
+		We have created a temporary account with your email address
+		%span.warn.nobreak #{params[:email_join]}
+		
+	%ul
+		%li You can now use CivicEvolution
+		%li You can add comments and talking points and rate talking points right away
+		%li 
+			However, your comments, talking points and ratings 
+			%b won't be displayed 
+			to others until you confirm your email address
+		%li 
+			We sent an email with confirmation instructions to 
+			%span.warn.nobreak #{params[:email_join]}
+			
+	=submit_tag "Continue"
+	= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow', :tabindex => 5}

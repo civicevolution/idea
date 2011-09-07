@@ -1,36 +1,53 @@
 %div#sign_in_form
 	%p.error= flash[:notice]
 	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form'}) do
-		%table
+		%table{:border=>0, :cellspacing=>0}
 			%tr
-				%td
+				%td.sign_in.hdr Sign in
+			
+				%td.join.hdr Join now
+			%tr
+				%td.sign_in 
+					If you're already a member
+				%td.join
+					If you're not a member
+			%tr
+				%td.sign_in
+				
+				%td.join
+		
+			%tr
+				%td.sign_in.lbl
 					%label{:for=>"email"} Email:
-				%td#signin_msg{:rowspan=>6}
-					%p
-						If you have not already joined the 2029 and Beyond community at CivicEvolution, please
-						-#= link_to 'Join our community', {}, {:class=>'join_our_community'}
-						= link_to 'Register', {:controller=>'welcome'}, {:class=>'join_our_community', :rel=>'nofollow'}
-						now.
+				%td.join.lbl
+					%label{:for=>"email_join"} Email:
 				
 			%tr		
-				%td
-					= text_field_tag :email, params[:email]
+				%td.sign_in
+					= text_field_tag :email, params[:email], :tabindex => 1
+				%td.join
+					= text_field_tag :email_join, params[:email_join], :tabindex => 6
+
 			%tr
-				%td
+				%td.sign_in.lbl
 					%label{:for=>"password"} Password:
+					= link_to 'I forgot my password', reset_password_form_path(:email=>params[:email]), {:class=>'reset_password', :rel=>'nofollow', :tabindex => 0}
+				%td.join.lbl{:rowspan=>3}
+					= submit_tag "Get started now!", :name=>'join', :tabindex => 7
+					
 			%tr		
-				%td
-					= password_field_tag :password, params[:password_field_tag]
+				%td.sign_in
+					= password_field_tag :password, params[:password], :tabindex => 2
 			%tr
-				%td
-					= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)'
+				%td.sign_in
+					= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)', :tabindex => 3
 					Stay signed in 
 					%p.signin_warn.hide
 						We'll keep you signed in
 						%br
 						Don't use this on a public computer
 			%tr
-				%td
-					= submit_tag "Sign In"
-					= link_to 'Reset password', reset_password_form_path, {:class=>'reset_password', :rel=>'nofollow'}
-					= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow'}
+				%td.sign_in.lbl
+					= submit_tag "Sign In", :name=>'sign_in', :tabindex => 4
+					-#= link_to 'Reset password', reset_password_form_path, {:class=>'reset_password', :rel=>'nofollow'}
+					= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow', :tabindex => 5}

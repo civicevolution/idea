@@ -4,7 +4,7 @@
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
 		%title Welcome to the 2029 and Beyond Sustainable Future City Project
 		-#= javascript_include_tag "jquery-1.4.4.min.js"
-		=	stylesheet_link_tag 'cgg_welcome.css', 'ce1a.css', 'ce1as.css'
+		=	stylesheet_link_tag 'plan.css', 'cgg_welcome.css', 'ce1a.css', 'ce1as.css'
 		:javascript
 			var dontclick=true;
 			$(document).click(function(e){
@@ -44,7 +44,7 @@
 					-#= link_to 'Join our community', {}, {:class=>'join_our_community', :id=>'join_community_link'}
 					= link_to 'Register now', {:controller=>'welcome'}, {:class=>'join_our_community', :id=>'join_community_link', :rel=>'nofollow'}
 					or
-					= link_to 'Sign in', {:controller=>'sign_in'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
+					= link_to 'Sign in', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
 					
 			%hr.top
 			= yield

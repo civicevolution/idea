@@ -1,9 +1,21 @@
 class TalkingPointVersionsController < ApplicationController
+  skip_before_filter :authorize, :only => [ :history ]
   
   def history
     talking_point = TalkingPoint.find(params[:talking_point_id])
     logger.debug "versions.size: #{talking_point.versions.size}"
-    #debugger
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:talking_point_id=>params[:talking_point_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
     respond_to do |format|
       format.html { render 'history', :locals => {:talking_point => talking_point}, :layout => 'plan' }
       format.js { render 'history', :locals => {:talking_point => talking_point} }

@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  skip_before_filter :authorize, :only => [ :worksheet ]
+  skip_before_filter :authorize, :only => [ :worksheet, :all_comments, :all_talking_points ]
   
   # GET /questions
   # GET /questions.xml
@@ -131,7 +131,12 @@ class QuestionsController < ApplicationController
       comment.errors.add(:base, 'Please select Add a comment, or Add a talking point')
       flash[:worksheet_error] = comment.errors
       flash[:params] = params
-      redirect_to( what_do_you_think_path(params[:question_id]) )
+      respond_to do |format|
+        format.js {
+          render 'what_do_you_think_must_select', :locals => { :question_id => params[:question_id] }
+        }
+        format.html { redirect_to( what_do_you_think_path(params[:question_id]) ) }
+      end
     end
     
   end

@@ -55,9 +55,14 @@ class Member < ActiveRecord::Base
 
 
   validate :password_non_blank
+  
+  def self.email_in_use(email)
+    member = self.find_by_email(email.downcase.strip)
+    return member.nil? ? false : true
+  end
 
   def self.authenticate(email, password)
-    member = self.find_by_email(email.downcase)
+    member = self.find_by_email(email.downcase.strip)
     if member
       expected_password = encrypted_password(password, member.salt)
       if member.hashed_pwd != expected_password

@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  skip_before_filter :authorize, :only => [:talking_point_comments, :question_comments ]
+  skip_before_filter :authorize, :only => [:talking_point_comments, :question_comments, :comment_comments ]
   
   # GET /comments
   # GET /comments.xml
@@ -110,7 +110,7 @@ class CommentsController < ApplicationController
   end    
   
   def comment_reply
-    logger.debug "GET comments for comment_reply id: #{params[:comment_id]} (comment_comments)"
+    logger.debug "GET comments for comment_reply id: #{params[:comment_id]} (comment_reply)"
   
     # comment_comments only exist under the question comments, so use the com's parent_id as question_id
     @comment = Comment.find(params[:comment_id])
@@ -230,7 +230,24 @@ class CommentsController < ApplicationController
   
   def create_talking_point_comment
     logger.debug "Comment.create_talking_point_comment"
-    @comment = TalkingPoint.find(params[:talking_point_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 13, :parent_id => params[:talking_point_id])
+    
+    talking_point = TalkingPoint.find(params[:talking_point_id])
+    
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:talking_point_id=>talking_point.id}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
+    
+    @comment = talking_point.comments.create(:member=> @member, :text => params[:text], :parent_type => 13, :parent_id => params[:talking_point_id])
     
     respond_to do |format|
       if @comment.save
@@ -250,7 +267,22 @@ class CommentsController < ApplicationController
   def create_comment_comment
     logger.debug "Comment.create_comment_comment"
 
-    @comment = Comment.find(params[:comment_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 3, :parent_id => params[:comment_id])
+    par_com = Comment.find(params[:comment_id])
+    
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:team_id=>par_com.team_id}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+
+    @comment = par_com.comments.create(:member=> @member, :text => params[:text], :parent_type => 3, :parent_id => params[:comment_id])
     
     respond_to do |format|
       if @comment.save

@@ -1,0 +1,15 @@
+- params[:email] = params[:email_join]
+%div
+	%h3 
+		The email address you entered
+		%span.warn= params[:email_join]
+		is already in use
+
+	%p 
+		If this is your email address, click here to 
+		
+		= link_to 'reset your password', reset_password_form_path(:email=>params[:email]), {:class=>'reset_password', :rel=>'nofollow', :tabindex => 0}
+		
+	%p Or you can try again:
+		
+	= render( :template => 'sign_in/sign_in_form.html')

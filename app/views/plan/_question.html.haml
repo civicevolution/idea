@@ -6,7 +6,7 @@
 
 		%h2.question{:id=>question.id} Q#{question.order_id}: #{question.text}
 
-		= form_tag update_worksheet_ratings_path(question) do
+		= form_tag update_worksheet_ratings_path(question), :class=>'update_worksheet' do
 			= hidden_field_tag :tp_ids, "#{ question['talking_points_to_display'].map(&:id).join(',') }"
 			%div.talking_point_sec
 				%h3.ques_sub_hdg Talking points suggested and rated by your community

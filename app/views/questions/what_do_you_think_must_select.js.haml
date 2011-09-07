@@ -1,2 +1,7 @@
 :plain
-	alert("Please select Add a comment, or Add a talking point (server)")
+	var msg = $("#{escape_javascript(
+		render( :template => 'questions/what_do_you_think_must_select.html')
+	)}");
+	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think p.warn').remove();
+	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think textarea').before(msg);
+	
