@@ -1,0 +1,56 @@
+%style
+	:sass
+		div#tab_suggest_idea 
+			width: 600px
+		form.suggest_proposal_idea_form, form.join_proposal_team, form.invite_friends
+			margin-bottom: 40px
+			margin-right: 20px
+			width: 100%
+			max-width: 500px
+			clear: both
+			label
+				display: block
+				clear: both
+				margin-top: 0px
+				font-weight: bold
+				font-style: italic
+				color: #888
+			textarea, input[type=text]
+				width: 100%
+				font-size: 1.2em
+			textarea
+				height: 100px
+				margin-bottom: 20px
+		div.control_line.title
+			margin-bottom: 10px
+
+- edit ||= false
+- proposal_idea ||= ProposalIdea.new
+= form_for( proposal_idea, :url => edit ? edit_plan_summary_path(team_id) : submit_proposal_idea_path, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
+	= form.hidden_field :initiative_id, options = {:value=>1}
+	%div.add_idea
+		= form.label :title, "Idea title"
+		= form.text_field :title, :class=>'title', :alias=>'Title'
+		%div.control_line.title
+			%div.controls
+				%span.char_ctr 255 characters left
+
+
+		= form.label :text, "Please summarise your idea to improve our community"
+		= form.text_area :text, :class=>'comment', :class=>'autosize', :rows => 8, :alias=>'Proposal idea'
+		%div.control_line
+			%div.controls
+				%span.char_ctr 
+					1000
+					characters left
+					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+
+		- if !edit
+			%p.acknowledge
+				= form.check_box :accept_guidelines, {:value=>'true', :alias=>'You'}
+				I agree to the ground rules and guidelines above. I understand my idea will be reviewed for relevance before it is published.
+		%div#recaptcha_suggest_idea
+		%p
+			= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'
+			- if edit
+				= link_to "Cancel", plan_path(params[:team_id]), :class=>'cancel'

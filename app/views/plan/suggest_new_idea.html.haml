@@ -1,27 +1,42 @@
-%style
-	:sass
-		div#tab_suggest_idea 
-			width: 600px
-		form.suggest_proposal_idea_form, form.join_proposal_team, form.invite_friends
-			margin-bottom: 40px
-			margin-right: 20px
-			width: 100%
-			max-width: 500px
-			clear: both
-			label
-				display: block
-				clear: both
-				margin-top: 0px
-				font-weight: bold
-				font-style: italic
-				color: #888
-			textarea, input[type=text]
-				width: 100%
-		div.control_line.title
-			margin-bottom: 10px
-
-
-
+- content_for (:script) do
+	= javascript_include_tag 'jquery.autogrow.js',"jquery.show_char_limit-1.1.1.js"
+	:javascript
+		$(function(){
+			activate_text_counters_grow($('textarea, input[type="text"]'), 120)
+		});
+		
+		function activate_text_counters_grow(els, height){
+			height = height? height : 50
+			els.each(
+				function(){
+					var el = $(this);
+					var span = el.next().find('span.char_ctr');
+					while(span.size() == 0 && !el[0].nodeName.match(/BODY/i) ){
+						el = el.parent();
+						span = el.find('span.char_ctr');
+					}
+					if(span.size() == 1){
+						el = $(this);
+						var cnt = Number(span.html().match(/\d+/));
+						el.show_char_limit(cnt, {
+					    error_element: span,
+							status_element: span
+					  });
+						if(el[0].nodeName == 'TEXTAREA'){
+							// if the el is not displayed, IE gives it a width of 0 and the el cannot be setup to grow
+							if(el[0].offsetWidth > 0){
+								el.autoGrow({
+									minHeight  : height,
+									maxHeight : 500
+								});
+							}
+						}
+					}
+				}
+			)
+		}
+		
+		
 
 %div.home_forms.home_pages
 	%div.spiral
@@ -105,28 +120,4 @@
 			- elsif @member.nil?
 				%p.suggest_sign_in You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.
 
-			= form_for( :proposal_idea, :url => { :controller=> :plan, :action => :submit_proposal_idea}, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
-				= form.hidden_field :initiative_id, options = {:value=>1}
-				%div.add_idea
-					= form.label :title, "Idea title"
-					= form.text_field :title, :class=>'title', :alias=>'Title'
-					%div.control_line.title
-						%div.controls
-							%span.char_ctr 255 characters left
-
-
-					= form.label :text, "Please summarise your idea to improve our sustainability"
-					= form.text_area :text, :class=>'comment', :size=>"1x2", :alias=>'Proposal idea'
-					%div.control_line
-						%div.controls
-							%span.char_ctr 
-								1000
-								characters left
-								= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
-
-					%p.acknowledge
-						= form.check_box :accept_guidelines, {:value=>'true', :alias=>'You'}
-						I agree to the ground rules and guidelines above. I understand my idea will be reviewed for relevance before it is published.
-					%div#recaptcha_suggest_idea
-					%p
-						= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'
+			= render :partial => 'plan/idea_form'

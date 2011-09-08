@@ -1,0 +1,21 @@
+:plain
+	#{@member.first_name} #{@member.last_name} <#{@member.email}> has updated a proposal idea for #{@app_name} with CivicEvolution.
+
+	New Title: #{@team.title}
+
+	Old Title: #{@old_title}
+
+
+	New Summary:
+
+	#{@team.solution_statement}
+
+
+	Old Summary:
+
+	#{@old_summary}
+
+
+	This change has gone live. Please review and take action as necessary: 
+	http://#{@host}/team/proposal/#{@team.id}
+

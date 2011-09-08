@@ -5,4 +5,8 @@
 	var cur_form = $('form.comment_form[id="#{params[:comment_id]}"]');
 	cur_form.before(com);
 	cur_form.closest('div.discussion').find('form.orig').show();
-	cur_form.remove();
+	if(cur_form.closest('div.discussion').find('form').size() > 1 ){
+		cur_form.remove();
+	}else{
+		cur_form.find('textarea').val('');
+	}

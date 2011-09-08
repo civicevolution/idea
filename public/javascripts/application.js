@@ -17,7 +17,7 @@ $(function(){
 		  var token = $("meta[name='csrf-token']").attr("content");
 		  xhr.setRequestHeader("X-CSRF-Token", token);
 		});	
-		activate_text_counters_grow($('textarea'), 120)
+		activate_text_counters_grow($('textarea, input[type="text"]'), 120)
 		
 });
 
@@ -106,7 +106,7 @@ function activate_text_counters_grow(els, height){
 		function(){
 			var el = $(this);
 			var span = el.next().find('span.char_ctr');
-			while(span.size() == 0 && el){
+			while(span.size() == 0 && !el[0].nodeName.match(/BODY/i) ){
 				el = el.parent();
 				span = el.find('span.char_ctr');
 			}

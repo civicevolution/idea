@@ -97,7 +97,22 @@ class ProposalMailer < ActionMailer::Base
     ) 
   end
 
-
+  def review_team_summary_update(member, team, old_title, old_summary, host, app_name)
+    @member = member
+    @team = team
+    @old_title = old_title
+    @old_summary = old_summary
+    @host = host
+    @app_name = app_name
+    
+    mail(:to => "support@civicevolution.org",
+      :subject => "Please review this proposal idea update from #{app_name}",
+      :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
+      :reply_to => "support@civicevolution.org"
+    ) 
+    
+  end
+  
   def review_update(member, team, field, old_ver, host, app_name, sent_at = Time.now)
     subject    'Please review this proposal idea update'
     recipients 'support@civicevolution.org'

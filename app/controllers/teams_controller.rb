@@ -1,4 +1,64 @@
 class TeamsController < ApplicationController
+
+  def edit_summary_form
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:team_id=>params[:team_id]}, 'edit_team_summary', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/forbidden', :locals => {:message => message} }
+          format.html { render 'shared/forbidden', :locals => {:message => message}, :layout => 'plan' }
+        end
+      end
+      return
+    end
+
+    team = Team.find(params[:team_id])
+    proposal_idea = ProposalIdea.new :title => team.title, :text=> team.solution_statement
+    
+    respond_to do |format|
+      format.html { render 'edit_summary_form', :locals => {:team_id => params[:team_id], :proposal_idea => proposal_idea, :edit => true}, :layout => 'plan'}
+      format.xml  { render :xml => @team }
+    end
+  end
+
+  def edit_summary_post
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:team_id=>params[:team_id]}, 'edit_team_summary', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/forbidden', :locals => {:message => message} }
+          format.html { render 'shared/forbidden', :locals => {:message => message}, :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
+    team = Team.find(params[:team_id])
+    old_title = team.title
+    old_summary = team.solution_statement
+    team.title = params[:proposal_idea][:title]
+    team.solution_statement = params[:proposal_idea][:text]
+    team.member = @member
+    
+    respond_to do |format|
+      if team.save
+        # send a notification email
+        ProposalMailer.delay.review_team_summary_update(@member, team, old_title, old_summary, request.env["HTTP_HOST"], params[:_app_name] )
+        
+        format.js { render 'comment_for_talking_point', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.talking_point.question_id} }
+        format.html { redirect_to( plan_path(params[:team_id]), :notice => 'Title and summary were successfully updated.') }
+      else
+        format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
+        format.html { render :action => "new" }
+      end
+    end
+  end
+
+
   # GET /teams
   # GET /teams.xml
   def index

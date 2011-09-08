@@ -157,11 +157,11 @@
 					%h2.home_title 
 						%span #{@team.title}
 						- if @member.id == @team.org_id
-							= link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{form_tgt_selector: '.closest(\\'h2\\')', selector: '.parent().find(\\'span\\')', chr_cnt: 255, label: 'Please edit the title', url: '/idea/inline_edit?model=team&field=title&id=#{@team_id}' }]"}
+							= link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"}
 
 					%div.summary
 						- if @member.id == @team.org_id
-							= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", {:action => "edit_proposal_idea", :id => @team.id}, {:class => "edit_in_place [{selector: '.closest(\\\\'div.summary\\\\')', chr_cnt: 1000, label: 'Please edit the summary', url: '/team/inline_edit?model=team&field=solution_statement&id=#{@team_id}' }]"} ) + '</p>')
+							= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"} ) + '</p>')
 						- else
 							= simple_format h @team.solution_statement
 

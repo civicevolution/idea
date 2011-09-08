@@ -34,16 +34,20 @@ G3::Application.routes.draw do |map|
   
   get "plan/suggest_new_idea"
   
-  post "plan/submit_proposal_idea"
+  post "plan/submit_proposal_idea", :as => 'submit_proposal_idea'
   
   get 'plan/review_proposal_idea/:id', :controller => 'plan', :action => 'review_proposal_idea', :requirements => { :id => /\d+/ }
   
   post "plan/approve_proposal_idea", :controller => 'plan', :action => 'approve_proposal_idea'
   
+  get 'plan/:team_id/edit_summary', :to => 'teams#edit_summary_form', :as => 'edit_plan_summary'
+  match 'plan/:team_id/edit_summary', :to => 'teams#edit_summary_post', :via => [:put, :post], :as => 'edit_plan_summary'
+
+
   get 'plan/:team_id/new_content(/:time_stamp)' => 'plan#new_content', :as => 'new_content'
 
   #match 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
-  match 'plan/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }
+  match 'plan/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }, :as => 'plan'
   match 'proposal/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }, :as=> 'proposal'
   match "/idea/:id" => redirect("/plan/%{id}")
 
@@ -83,8 +87,8 @@ G3::Application.routes.draw do |map|
   get "talking_points/:talking_point_id/edit", :to => 'talking_points#edit', :as => 'edit_talking_point'
   get "answer/:answer_id/edit", :to => 'answers#edit', :as => 'edit_answer'
   
-  put "comments/:comment_id/update", :to => 'comments#update', :as => 'comment_update'
-  put "talking_points/:talking_point_id/update", :to => 'talking_points#update', :as => 'talking_point_update'
+  match "comments/:comment_id/update", :to => 'comments#update', :via => [:put, :post], :as => 'comment_update'
+  match "talking_points/:talking_point_id/update", :to => 'talking_points#update', :via => [:put, :post], :as => 'talking_point_update'
 
   get "talking_points/:talking_point_id/versions", :to => 'talking_point_versions#history', :as => 'talking_point_versions'
   

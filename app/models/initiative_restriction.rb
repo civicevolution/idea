@@ -93,6 +93,16 @@ class InitiativeRestriction < ActiveRecord::Base
               messages.push "you need to be a confirmed member"
             end
             
+          when 'team_org'
+            team = Team.find(team_id)
+            if member.id == team.org_id
+              allowed = true if !ir.mandatory
+            else
+              allowed = false if ir.mandatory
+              messages.push "you need to be a the team organizer to edit this"
+            end
+              
+            
         end # end case ir.restriction
         #logger.debug "End of test, allowed: #{allowed},  ir: #{ir.inspect}"
         # passing a mandatory test doesn't make it allowed, just means it isn't NOT allowed

@@ -27,8 +27,7 @@ class WelcomeController < ApplicationController
     
     # get ids of completed teams
 
-    # get statistics for initiative teams - combine that with the teams request, including most active and completed
-    
+    # get statistics for initiative teams - combine that with the teams request, including most active and completed'
   end
   
   def home

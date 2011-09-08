@@ -1,0 +1,4 @@
+%div
+	%h3 Edit the title and summary of this proposal
+	
+	= render :partial => 'plan/idea_form', :locals => {:team_id => params[:team_id], :proposal_idea => proposal_idea, :edit => true}
