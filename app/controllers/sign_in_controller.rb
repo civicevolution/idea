@@ -37,17 +37,30 @@ class SignInController < ApplicationController
       if @member.nil?
         render :template=> 'sign_in/password_reset_bad_code', :layout=> 'plan'
       else
-        if params[:password] != params[:password_repeat]
-          flash[:notice] = 'The password you entered twice did not match.'
-          redirect_to :action => 'password_reset_form'
-          return
-        end
-        # change the password
-        @member.password = params[:password]
-        @member.save
         respond_to do |format|
-          format.js { }  
-          format.html { redirect_to home_path }
+          @member.password = params[:password]
+          if params[:password] != params[:password_repeat] || !@member.save
+            @member.errors.add(:base, 'The password you entered twice did not match.')
+            flash[:reset_pwd_errors] = @member.errors
+            format.html { 
+              if params[:return_page] == 'edit_profile'
+                flash[:reset_pwd_params] = params
+                redirect_to edit_profile_form_path(@member.ape_code)
+              else
+                redirect_to :action => 'password_reset_form'
+              end
+            }
+            format.js { }
+          else
+            format.html { 
+              if params[:return_page] == 'edit_profile'
+                redirect_to edit_profile_form_path(@member.ape_code)
+              else
+                redirect_to home_path 
+            end
+            }
+            format.js { }  
+          end
         end
       end
     rescue

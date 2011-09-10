@@ -15,6 +15,8 @@ Paperclip.interpolates :res_base do |attachment, style|
   RES_BASE
 end
 
-#Recaptcha constants global key
-RCC_PUB='6Lcy0L0SAAAAAHXcETe-lnzty-iUyfYgvVp_br3Z'
-RCC_PRIV='6Lcy0L0SAAAAABuXgAChhDrX3aDx2Prv8WWAcZH4'
+Recaptcha.configure do |config|
+  config.public_key  = '6Lcy0L0SAAAAAHXcETe-lnzty-iUyfYgvVp_br3Z'
+  config.private_key = '6Lcy0L0SAAAAABuXgAChhDrX3aDx2Prv8WWAcZH4'
+  #config.proxy = 'http://myrpoxy.com.au:8080'
+end

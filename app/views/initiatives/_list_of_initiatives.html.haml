@@ -1,0 +1,8 @@
+%div#list_of_initiatives
+	%h3 CivicEvolution initiatives to which you belong
+
+	- if member.initiatives.size == 0
+		%p You do not belong to any CivicEvolution initiatives yet
+	- else
+		- member.initiatives.each do |init|
+			%p= init.title

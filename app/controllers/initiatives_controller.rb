@@ -1,4 +1,25 @@
 class InitiativesController < ApplicationController
+
+  def join
+    # add member to the initiative
+    # is it allowed
+    im = InitiativeMembers.new :initiative_id =>params[:_initiative_id], :member_id=>@member.id, :accept_tos=> params[:accept_tos], :email_opt_in => params[:email_opt_in] ? true : false, :member_category=> params[:member_category]
+    allowed,message = InitiativeRestriction.allow_actionX(params[:_initiative_id], 'join_initiative', @member)
+    im.errors.add(:base, message ) unless allowed
+    respond_to do |format|
+      if allowed && im.save
+        format.html { redirect_to edit_profile_form_path(@member.ape_code) }
+      else
+        format.html { 
+          flash[:join_init_errors] = im.errors
+          flash[:join_in_params] = params
+          redirect_to edit_profile_form_path(@member.ape_code) 
+        }
+      end
+    end
+    
+  end
+
   # GET /initiatives
   # GET /initiatives.xml
   def index

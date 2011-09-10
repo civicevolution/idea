@@ -33,5 +33,14 @@ class MemberMailer < ActionMailer::Base
     )
   end
 
+  def send_profile_link(email, url, app_name)
+    @email = email
+    @url = url
+    @app_name = app_name
+    mail(:to => email,
+      :subject => 'Please create your CivicEvolution membership'
+    )
+  end
+
 
 end

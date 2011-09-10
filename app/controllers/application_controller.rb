@@ -77,7 +77,15 @@ class ApplicationController < ActionController::Base
         format.html {render :template=> 'sign_in/join_email_address_ok', :layout=>'plan', :locals => {:email=>params[:email]} }
       end
     end
+  end
+  
+  def temp_join_save_email
     
+    code = EmailLookupCode.get_code(params[:email])
+    # send the email with this code
+    url = new_profile_form_url(:code => code)
+    debugger
+    MemberMailer.send_profile_link(params[:email], url, params[:_app_name] ).deliver
   end
   
   def process_sign_in_post

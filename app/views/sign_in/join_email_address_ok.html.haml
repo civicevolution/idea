@@ -13,6 +13,10 @@
 		%li 
 			We sent an email with confirmation instructions to 
 			%span.warn.nobreak #{params[:email_join]}
-			
-	=submit_tag "Continue"
-	= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow', :tabindex => 5}
+		%li 
+			Please be sure your email address appears correctly, otherwise
+			= link_to "reenter your email address", sign_in_path
+	= form_tag temp_join_save_email_path do 
+		= hidden_field_tag :email, params[:email_join]
+		=submit_tag "Continue"
+		= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow', :tabindex => 5}

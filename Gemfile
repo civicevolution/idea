@@ -40,7 +40,7 @@ gem "differ"
 gem "haml"
 gem 'paperclip'
 gem "pg"
-gem "ruby-recaptcha"
+gem "recaptcha", :require => "recaptcha/rails"
 gem "tzinfo"
 gem "uuidtools"
 gem "json"

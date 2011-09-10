@@ -1,0 +1,56 @@
+%style
+	:sass
+		div#initiative_join
+			form
+				margin-left: 20px
+				> div
+					margin-top: 20px
+					p
+						margin-left: 20px
+				input[type="submit"]
+					margin-top: 10px
+				label
+					cursor: pointer
+
+- return_page ||= ''			
+
+%div#initiative_join			
+	- init = Initiative.find(params[:_initiative_id])
+	%h3 #{init.title} requires you to complete this short form in order to participate
+	= render( :partial => 'shared/error_messages', :locals => {:errors => flash[:join_init_errors]}) unless flash[:join_init_errors].nil?
+	= form_tag join_initiative_path(params[:_initiative_id]) do
+		= hidden_field :return_page, return_page
+	
+		- if params[:_initiative_id] == 1 || params[:_initiative_id] == 2
+			%div.residency
+				%b Your residence status (required)
+				%p
+					= radio_button_tag :member_category, '1', !flash[:join_in_params].nil? && flash[:join_in_params][:member_category].to_i == 1
+					= label_tag :member_category_1 do
+						I am a resident of the Geraldton City Region
+				%p
+					= radio_button_tag :member_category, '2', !flash[:join_in_params].nil? && flash[:join_in_params][:member_category].to_i == 2
+					= label_tag :member_category_2 do
+						I am NOT a resident of the Geraldton City Region
+		- else
+			= hidden_field_tag :name=>'member_category', :value => '1'
+
+		%div.tos	
+			%b Accept the terms of service (required)
+			%p
+				= check_box_tag :accept_tos, true, !flash[:join_in_params].nil? && flash[:join_in_params][:accept_tos]== 'true', :html=>{:id=>'accept_tos_true'}
+				= label_tag :accept_tos do
+					I accept the 
+					%a{:href=>'#', :class=>'terms_of_use'} terms of use
+					and this fundamental ground rule:
+					%b Be respectful toward individuals and groups.
+				
+		%div.opt_in
+			%b Stay in touch with our community (optional)
+			%p.normal
+				= check_box_tag 'email_opt_in', true, !flash[:join_in_params].nil? && flash[:join_in_params][:email_opt_in]== 'true', {:class=>'email_opt_in', :id => 'email_opt_in_true'}
+				= label_tag :email_opt_in_true do
+					Yes! Please tell me about new ideas at CivicEvolution (once a week or less)
+
+
+		= submit_tag "Join this CivicEvolution group"

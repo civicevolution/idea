@@ -1,0 +1,26 @@
+require 'uuidtools'
+class EmailLookupCode < ActiveRecord::Base
+  
+  validates_uniqueness_of :code
+  
+  def self.get_code(email)
+    begin
+      string = UUIDTools::UUID.timestamp_create().to_s
+      dupl = EmailLookupCode.find_by_code(string)
+    end while not dupl.nil?
+    elc = EmailLookupCode.new(:email=>email, :code=>string)
+    elc.save
+    elc.code
+  end
+
+  def self.get_email(code)
+    elc = EmailLookupCode.find_by_code( code )
+    if elc
+      #elc.destroy
+      return elc.email
+    else
+      return nil
+    end
+  end
+  
+end

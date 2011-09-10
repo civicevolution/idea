@@ -1,4 +1,58 @@
 class MembersController < ApplicationController
+  skip_before_filter :authorize, :only => [:new_profile_form, :new_profile_post, :display_profile]
+  layout "plan", :only => [:new_profile_form, :edit_profile_form, :display_profile]
+  
+  def new_profile_form
+    flash[:profile_params].each_pair{|key,val| params[key] = val } unless flash[:profile_params].nil?
+    # use the code to look up the user's email address
+    email = EmailLookupCode.get_email( params[:code] ) unless params[:code].nil?
+    session[:email] = email unless email.nil?
+    session[:code] = params[:code] unless params[:code].nil?
+  end
+  
+  def new_profile_post
+    # check the captcha before saving
+    member = Member.new :email => session[:email] , :first_name => params[:first_name] , :last_name  => params[:last_name] , :pic_id=> 0, :init_id => 0 , :confirmed => true
+    if verify_recaptcha( :model => member, :message => "We're sorry, but the captcha didn't match. Please try again." ) && member.save
+      logger.debug "The member has been saved, process their past activities"
+      session[:member_id] = member.id
+      session[:email] = nil
+      # process the participant activities that I logged before they signed in 
+      redirect_to edit_profile_form_path(member.ape_code)
+    else
+      logger.debug "Redisplay new profile form with a new captcha"
+      flash[:profile_params] = params
+      flash[:member_errors] = member.errors
+      redirect_to new_profile_form_path
+    end
+  end
+  
+  def edit_profile_form
+
+  end
+  
+  def edit_profile_post
+    debugger
+  end
+  
+  def display_profile
+    
+  end
+  
+  def upload_member_photo
+    logger.debug "save_photo member_id: #{@member.id}"
+    
+    @member.photo = params[:photo]
+    @member.save
+    
+    respond_to do |format|
+      format.html { redirect_to edit_profile_form_path(@member.ape_code) }
+    end
+  end 
+  
+  
+  
+  
   # GET /members
   # GET /members.xml
   def index

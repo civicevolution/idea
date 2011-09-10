@@ -1,0 +1,44 @@
+%style
+	:sass
+		div#edit_profile
+			> div
+				margin-top: 50px
+
+%div#edit_profile
+	%h3 Private profile edit page for #{@member.first_name} #{@member.last_name}
+	
+	%p Email: #{@member.email}
+	- if @member.hashed_pwd.nil?
+		%div#reset_password
+			%h3 You must set your password
+			= render :partial => 'sign_in/password_reset_form', :locals => { :return_page => 'edit_profile'}
+
+	- if @member.initiatives.detect{ |i| i.id == params[:_initiative_id].to_i}.nil?
+		= render :partial => 'initiatives/join_initiative', :locals => { :return_page => 'edit_profile'}
+	
+	= render :partial => 'initiatives/list_of_initiatives', :locals => {:member => @member}
+	
+	%div#profile_pic 
+		- if !@member.photo.url.match(/members_default/).nil?
+			%h3 Please add a picture of yourself to your profile
+		- else
+			%h3 Update your profile picture
+		%div.member_info{:style=>'float: none'}
+			- pic_url = @member.photo.url('36')
+			
+			= image_tag pic_url, {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+		- if @member.hashed_pwd.nil?	
+			%p You must set your password before you can upload your picture
+		- else
+			= form_tag( upload_member_photo_path(@member.ape_code), {:class=>'upload_member_photo', :multipart => true }) do
+				= file_field_tag :photo, {:value=>"Choose a photo"}
+				= hidden_field_tag :return_page, 'edit_profile'
+				%p= submit_tag "Make this my profile picture"
+
+	-#%div#general_notifications
+		%h3 Stay in touch with CivicEvolution
+		= form_tag('/welcome/opt_in_general',{:class=>'opt_in_general'}) do
+			%p.normal
+				= check_box_tag 'broadcast_email_opt_in', true, false, {:class=>'broadcast_email_opt_in'}
+				Yes! Please tell me about new ideas at CivicEvolution (once a week or less)
+	

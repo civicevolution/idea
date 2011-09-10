@@ -9,6 +9,9 @@ class Member < ActiveRecord::Base
   has_many :teams, :through => :team_registrations
   has_many :chat_messages
   has_many :comments
+  has_many :initiative_members, :class_name => 'InitiativeMembers'
+  #InitiativeMembers
+  has_many :initiatives, :class_name => 'Initiative', :through => :initiative_members 
 
   validates_presence_of :first_name
   validates_presence_of :last_name
@@ -54,7 +57,7 @@ class Member < ActiveRecord::Base
   end
 
 
-  validate :password_non_blank
+  validate :password_non_blank, :on=>:update
   
   def self.email_in_use(email)
     member = self.find_by_email(email.downcase.strip)

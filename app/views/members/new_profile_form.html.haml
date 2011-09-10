@@ -1,0 +1,82 @@
+%style
+	:sass
+		div.edit_profile
+			label
+				margin-top: 1em
+				display: block
+			label.section
+				margin-top: 3em
+			table 
+				width: 500px
+			input.profile_name
+				font-size: 1.2em
+				
+:javascript
+	setTimeout(function(){ $('a.reload_captcha').die('click').live('click',function(){Recaptcha.reload(); return false;}) },1000);
+	
+				
+				
+%div.edit_profile
+
+	%h3 Thank you for joining your community at CivicEvolution
+	%p 
+		We will now create a membership for email: 
+		%span.warn= session[:email]
+	%p There are 3 simple steps to complete
+	%ol 
+		%li Provide your name now so we can set up your membership. 
+		%li Fill out the letter recognition test to confirm you are a real user
+		%li On the next page you can set your password and select a profile picture
+
+	- if flash[:member_errors]
+		%div#errorExplanation
+			%h4 #{pluralize(flash[:member_errors].count, "error")} prevented your membership from being created:
+			%ul
+			- flash[:member_errors].full_messages.each do |msg|
+				%li= msg
+	
+	
+	%p
+		%b Please use your real name.  We are creating an environment of trust and respect.
+	
+	= form_tag new_profile_post_path, :class=>'register_form' do
+			
+		%table
+			%tr
+				%td
+					%label{:for=>"first_name"} Enter your first name:
+			%tr		
+				%td
+					= text_field_tag :first_name, params[:first_name], :class=>"profile_name"
+			%tr
+				%td
+					%label{:for=>"last_name"} Enter your last name:
+			%tr		
+				%td
+					= text_field_tag :last_name, params[:last_name], :class=>"profile_name"
+
+			%tr
+				%td
+					%label.section{:for=>"captcha"} Confirm your humanity by entering these letters in the box:
+
+			- if !flash[:captcha].nil?
+				%tr
+					%td
+						%p.warn= flash[:captcha]
+			%tr
+				%td
+					= recaptcha_tags
+					If the text is difficult to read, click
+					%a.reload_captcha{:href=>'#'} reload
+					to see different text.
+					
+			%tr
+				%td
+					%p 
+						
+					%div#recaptcha_register
+					
+			%tr
+				%td
+					= submit_tag "Create my membership", :name=>'create', :alias=>'Please'
+					= link_to 'Cancel', home_path, {:class=>'cancel'}

@@ -1,6 +1,6 @@
-require 'recaptcha'
+#require 'recaptcha'
 class WelcomeController < ApplicationController
-  include ReCaptcha::AppHelper
+  #include ReCaptcha::AppHelper
   skip_before_filter :authorize
   
   def index

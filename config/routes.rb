@@ -11,6 +11,7 @@ G3::Application.routes.draw do |map|
   get ":controller/sign_in_form", :action => 'sign_in_form', :as => 'sign_in_all'
   
   post ":controller/sign_in_post", :action => 'sign_in_post', :as => 'sign_in_post'
+  post ":controller/temp_join_save_email", :action => 'temp_join_save_email', :as => 'temp_join_save_email'
   
   get "sign_in/sign_in"
 
@@ -106,6 +107,15 @@ G3::Application.routes.draw do |map|
   match 'home' => 'welcome#home', :as=>'ce_home'
   get 'contact_us' => 'welcome#contact_us', :as=>'ce_contact_us'
   post 'contact_us' => 'welcome#contact_us_post', :as=>'ce_contact_us_post'
+
+  get 'members/new_profile' => 'members#new_profile_form', :as=>'new_profile_form'
+  match 'members/new_profile' => 'members#new_profile_post', :via => [:put, :post], :as=>'new_profile_post'
+  get 'members/:ape_code/edit_profile' => 'members#edit_profile_form', :as=>'edit_profile_form'
+  match 'members/:ape_code/edit_profile' => 'members#edit_profile_post', :via => [:put, :post], :as=>'edit_profile_post'
+  get 'members/:ape_code/profile' => 'members#edit_profile', :as=>'display_profile'
+  match 'members/:ape_code/photo' => 'members#upload_member_photo', :via => [:put, :post], :as=>'upload_member_photo'
+
+  post 'initiatives/:initiative_id/join' => 'initiatives#join', :as => 'join_initiative'
 
   match 'subscribe' => 'welcome#subscribe'
   get 'get_started' => 'welcome#get_started'

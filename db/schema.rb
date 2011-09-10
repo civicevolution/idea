@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110826072616) do
+ActiveRecord::Schema.define(:version => 20110909220315) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -267,6 +267,15 @@ ActiveRecord::Schema.define(:version => 20110826072616) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "email_lookup_codes", :force => true do |t|
+    t.string   "code"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "email_lookup_codes", ["code"], :name => "unique_email_lookup_code", :unique => true
+
   create_table "endorsements", :force => true do |t|
     t.integer  "team_id"
     t.integer  "member_id"
@@ -311,12 +320,13 @@ ActiveRecord::Schema.define(:version => 20110826072616) do
   end
 
   create_table "initiative_members", :force => true do |t|
-    t.integer  "initiative_id",   :null => false
-    t.integer  "member_id",       :null => false
-    t.boolean  "accept_tos",      :null => false
-    t.integer  "member_category", :null => false
+    t.integer  "initiative_id",                      :null => false
+    t.integer  "member_id",                          :null => false
+    t.boolean  "accept_tos",                         :null => false
+    t.integer  "member_category",                    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "email_opt_in",    :default => false
   end
 
   create_table "initiative_restrictions", :force => true do |t|
@@ -456,7 +466,7 @@ ActiveRecord::Schema.define(:version => 20110826072616) do
     t.string   "last_name",                                            :null => false
     t.integer  "pic_id",                                               :null => false
     t.integer  "init_id",                                              :null => false
-    t.string   "hashed_pwd",                                           :null => false
+    t.string   "hashed_pwd"
     t.boolean  "confirmed",                         :default => false
     t.string   "city"
     t.string   "state"

@@ -8,7 +8,6 @@
 		-#:javascript
 			var _load_times = { start: new Date()}	
 			var AUTH_TOKEN = #{protect_against_forgery? ? form_authenticity_token.inspect : ''}
-			var RCC_PUB_KEY = "#{RCC_PUB}"
 		=	stylesheet_link_tag 'plan.css', 'talking_point.css'
 		-params[:monitor] = 'true'
 		- if params[:monitor] != 'true'
