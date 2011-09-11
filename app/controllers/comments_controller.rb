@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  skip_before_filter :authorize, :only => [:talking_point_comments, :question_comments, :comment_comments ]
+  skip_before_filter :authorize, :only => [:talking_point_comments, :question_comments, :comment_comments, :comment_reply ]
   
   # GET /comments
   # GET /comments.xml
@@ -250,7 +250,7 @@ class CommentsController < ApplicationController
     @comment = talking_point.comments.create(:member=> @member, :text => params[:text], :parent_type => 13, :parent_id => params[:talking_point_id])
     
     respond_to do |format|
-      if @comment.save
+      if @comment.errors.empty?
         format.js { render 'comment_for_talking_point', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.talking_point.question_id} }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
         format.html { redirect_to( talking_point_comments_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
@@ -282,10 +282,13 @@ class CommentsController < ApplicationController
       return
     end
 
-    @comment = par_com.comments.create(:member=> @member, :text => params[:text], :parent_type => 3, :parent_id => params[:comment_id])
-    
+    if par_com.parent_type == 1 # if parent is a comment under a question, then make this a child to that comment
+      @comment = par_com.comments.create(:member=> @member, :text => params[:text], :parent_type => 3, :parent_id => params[:comment_id])
+    else # otherwise, make this a sibling to the parent, a child to the parent's parent
+      @comment = par_com.comments.create(:member=> @member, :text => params[:text], :parent_type => par_com.parent_type, :parent_id => par_com.parent_id )
+    end
     respond_to do |format|
-      if @comment.save
+      if @comment.errors.empty?
         format.js { render 'comment_for_comment', :locals=>{:comment=>@comment, :members => [@member], :comment_id => @comment.parent_id } }
         format.html { render :partial=> 'plan/comment', :locals=>{:comment=>@comment, :members => [@member]} } if request.xhr?
         format.html { 

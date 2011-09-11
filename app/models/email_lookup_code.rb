@@ -4,6 +4,9 @@ class EmailLookupCode < ActiveRecord::Base
   validates_uniqueness_of :code
   
   def self.get_code(email)
+    email = email.strip.downcase
+    rec = EmailLookupCode.find_by_email(email)
+    return rec.code if !rec.nil?
     begin
       string = UUIDTools::UUID.timestamp_create().to_s
       dupl = EmailLookupCode.find_by_code(string)

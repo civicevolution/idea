@@ -52,7 +52,7 @@ class TalkingPointsController < ApplicationController
       format.xml  { render :xml => @talking_point }
     end
   end
-
+  
   # GET /talking_points/1/edit
   def edit
     talking_point = TalkingPoint.find(params[:talking_point_id])
@@ -71,7 +71,7 @@ class TalkingPointsController < ApplicationController
     #@talking_point = TalkingPoint.new(params[:talking_point])
 
     respond_to do |format|
-      if @talking_point.save
+      if @talking_point.errors.empty?
         format.html { render :partial=> 'plan/talking_point', :locals=>{:talking_point=>@talking_point} } if request.xhr?
         format.html { redirect_to(@talking_point, :notice => 'Talking point was successfully created.') }
         format.xml  { render :xml => @talking_point, :status => :created, :location => @talking_point }

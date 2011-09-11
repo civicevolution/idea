@@ -35,6 +35,10 @@
 				= hidden_field_tag :return_page, 'edit_profile'
 				%p= submit_tag "Make this my profile picture"
 
+	%div
+		%h3
+			= link_to "Return to home page", home_path
+			
 	-#%div#general_notifications
 		%h3 Stay in touch with CivicEvolution
 		= form_tag('/welcome/opt_in_general',{:class=>'opt_in_general'}) do

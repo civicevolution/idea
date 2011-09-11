@@ -8,6 +8,15 @@ class TalkingPointPreference < ActiveRecord::Base
   attr_accessor :member
   
 	before_validation :check_initiative_restrictions
+	
+	before_validation :verify_less_than_allowed_limit, :on => :create
+	
+	def verify_less_than_allowed_limit
+	  preferences = TalkingPointPreference.where(:member_id => member.id, :talking_point_id => TalkingPoint.sibling_talking_points(self.talking_point_id).map(&:id)).count
+	  if preferences > 4
+      errors.add(:base, "Sorry, you have already selected the maximum number of preferred talking points for this question.") 
+    end
+  end
   
   def check_initiative_restrictions
     self.member = Member.find(self.member_id) if self.id.nil?

@@ -1,0 +1,9 @@
+- item = 'comment'
+- case params[:action] when /rate/: item = 'rating'; when /prefer/:  item = 'preference'
+- item = 'talking point' if params[:input_type] == "talking_point"
+
+
+%div#acknowledge_preliminary_participation
+	%h3 Your #{item} has been recorded 
+	- if item == 'preference'
+		%p.warn You can select up to 5 preferences per question

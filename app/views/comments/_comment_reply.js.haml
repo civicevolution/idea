@@ -3,10 +3,13 @@
 	var com_form = $("#{escape_javascript(
 		render( :partial => 'plan/comment_form', :locals => {:id=>comment.id, :type=>'comments', :criteria => com_criteria, :text=>text} )
 	)}");
-	com_form.removeClass('orig')
-	var com = $('div.Comment[id="#{comment.id}"]')
-	com.after(com_form);
-	com.closest('div.discussion').find('form.comment_form.orig').hide();
+	com_form.removeClass('orig');
+	var com = $('div.Comment[id="#{comment.id}"]');
+	var form = com.closest('div.discussion').find('form.comment_form.orig');
+	form.before(com_form);
+	if(form.find('textarea').val() == ''){
+		form.hide();
+	}
 	activate_text_counters_grow( com_form.find('textarea'), 120 );
 	var link = com_form.find('a.clear');
 	link.html("Cancel").removeClass('clear').addClass('cancel').attr('id',#{comment.id});

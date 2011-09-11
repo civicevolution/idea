@@ -1,0 +1,30 @@
+- case
+	- when params[:action].match(/what_do_you_think/)
+		:plain
+			$('div.question_worksheet form.what_do_you_think textarea').val('');
+			$('div.question_worksheet form.what_do_you_think input[type="radio"]').attr('checked',false) 
+	- when params[:action].match(/create_comment_comment/)
+		:plain
+			var form = $('div.question_worksheet form.comment_form[id="#{params[:comment_id]}"]');
+			form.closest('div.discussion').find('form.orig').show();
+			form.remove();
+	- when params[:action].match(/create_talking_point_comment/)
+		:plain
+			$('div.talking_point_comments[id="#{params[:talking_point_id]}"] form.orig textarea').val('')
+			
+			
+
+
+:plain
+	var msg = $("#{escape_javascript(
+		render( :template => 'sign_in/acknowledge_preliminary_participation.html')
+	)}");
+
+	var dialog = msg.dialog( {title : 'Thank you for your contribution', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+	var fade_time = #{ params[:action].match(/prefer/) ? 2500 : 1000}
+	dialog.fadeTo(fade_time, 0, 'easeInExpo',
+		function(){
+			temp.this = this
+				$(this).closest('div.ui-dialog').dialog('destroy').end().remove();
+		}
+	)	

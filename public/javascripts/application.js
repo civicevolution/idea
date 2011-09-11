@@ -56,7 +56,7 @@ $('form.what_do_you_think a.clear').die('click').live('click',
 
 $('div.my_rating :radio').die('change').live('change',
 	function(){
-		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/rate', {rating: this.value})
+		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/rate', {rating: this.value}, function(){}, "script");
 	}
 );
 
@@ -82,7 +82,7 @@ $('div.radios label').live('click', function() {
 
 $('p.my_preference :checkbox').die('change').live('change',
 	function(){
-		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/prefer', {prefer: this.checked})
+		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/prefer', {prefer: this.checked}, function(){}, "script");
 	}
 );
 

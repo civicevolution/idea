@@ -96,7 +96,7 @@ class QuestionsController < ApplicationController
        logger.debug "Create question comment with text: #{params[:text]}"
        @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id])
        respond_to do |format|
-         if @comment.save
+         if @comment.errors.empty?
            format.js { render 'comments/comment_for_question', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.parent_id} }
            format.html { redirect_to( question_worksheet_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
            format.xml  { render :xml => @comment, :status => :created, :location => @comment }
@@ -113,7 +113,7 @@ class QuestionsController < ApplicationController
         logger.debug "Create question talking_point with text: #{params[:text]}"
         @talking_point = Question.find(params[:question_id]).talking_points.create(:member=> @member, :text => params[:text])
         respond_to do |format|
-          if @talking_point.save
+          if @talking_point.errors.empty?
             format.js { render 'talking_points/talking_point_for_question', :locals=>{:talking_point=>@talking_point, :question_id => @talking_point.question_id} }
             format.html { redirect_to( question_worksheet_path(@talking_point.question_id), :notice => 'Talking point was successfully created.') }
           else
