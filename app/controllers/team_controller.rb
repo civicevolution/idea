@@ -1,7 +1,7 @@
-require 'recaptcha'
+#require 'recaptcha'
 require 'yaml'
 class TeamController < ApplicationController
-  include ReCaptcha::AppHelper
+  #include ReCaptcha::AppHelper
   include LibCe
 
 

@@ -1,6 +1,6 @@
-require 'recaptcha'
+#require 'recaptcha'
 class IdeaController < ApplicationController
-  include ReCaptcha::AppHelper
+  #include ReCaptcha::AppHelper
   include LibCe
   
   def index
