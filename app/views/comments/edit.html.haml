@@ -19,6 +19,6 @@
 				%span.char_ctr
 					-#= @team.com_criteria.match(/..(\d+)/)[1]
 					1500
-					characters left
+					characters
 				= link_to 'Cancel',  cancel_comment_form_path(:t=> type, :id=>comment.parent_id, :act=>params[:action]), {:class=>'cancel', :rel=>'nofollow'}
 

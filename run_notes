@@ -58,3 +58,17 @@ Run console
 
 	sudo chown briansullivan:admin log/mail.sent.log
 	
+	
+Debugging a bad deployment
+
+Look at the logs:
+
+ls /var/log/engineyard/apps/tp
+
+	vi /var/log/engineyard/apps/tp/unicorn.stderr.log
+	
+	
+	vi /var/log/engineyard/apps/tp/unicorn.log
+
+
+	

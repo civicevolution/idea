@@ -11,7 +11,7 @@
 			%div.controls
 				%span.char_ctr 
 					= question.answer_criteria.match(/..(\d+)/)[1]
-					characters left
+					characters
 				%button Save
 				= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
 	%p.clear_both

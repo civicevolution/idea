@@ -1,0 +1,25 @@
+:plain
+	We received an exception report when a users preliminary participation activities where being instantiated
+
+	
+	Email: #{@email}
+	
+	Errors: #{@message}
+
+	Backtrace #{@backtrace}
+
+:plain 	
+
+	Params: 
+
+	
+- @params.each_pair do |key, value| 
+	- if value.class.to_s.match(/hash/i)
+		********************
+		#{key}:
+		- value.each_pair do |key, value| 
+			#{key} => #{value}
+		********************
+	- else
+		#{key} => #{value}
+	

@@ -35,14 +35,22 @@
 				}
 			)
 		}
-		
+	%style		
+		:sass
+			div#suggest_new_idea
+				position: relative
+				margin-top: 2em
+				textarea
+					height: 250px
+				div#tab_suggest_idea
+					padding-left: 2em
 		
 
-%div.home_forms.home_pages
+%div#suggest_new_idea.home_forms.home_pages
 	%div.spiral
 	%div.notebook
 	
-		= render :partial=>'welcome/logo_links', :locals=>{:active=>'about'}
+		-#= render :partial=>'welcome/logo_links', :locals=>{:active=>'about'}
 
 		%div{:id=>"tab_suggest_idea"}
 
@@ -120,4 +128,4 @@
 			- elsif @member.nil?
 				%p.suggest_sign_in You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.
 
-			= render :partial => 'plan/idea_form'
+			= render :partial => 'plan/idea_form', :locals=> {:proposal_idea => proposal_idea}

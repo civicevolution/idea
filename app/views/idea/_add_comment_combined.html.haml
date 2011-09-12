@@ -21,7 +21,7 @@
 			%div.controls
 				%span.char_ctr
 					= @team.com_criteria.match(/..(\d+)/)[1]
-					characters left
+					characters
 				%button 
 					Save
 				= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
@@ -37,13 +37,13 @@
 			= resource.text_field( :link_url, :class=>'url', :alias=>'Web address')
 			%div.control_line
 				%div.controls
-					%span.char_ctr 255 characters left
+					%span.char_ctr 255 characters
 				
 			= resource.label :title, "Title of site/document:"
 			= resource.text_field( :title, :class=>'title', :alias=>'Title')
 			%div.control_line
 				%div.controls
-					%span.char_ctr 255 characters left
+					%span.char_ctr 255 characters
 
 			= resource.label :description, "Description of this website:"
 			= resource.text_area( :description, :size=>"1x2", :class=>'description', :alias=>'Description' )
@@ -53,7 +53,7 @@
 				%div.controls
 					%span.char_ctr 
 						= @team.res_criteria.match(/..(\d+)/)[1]
-						characters left
+						characters
 					%button Save
 					= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
 
@@ -68,7 +68,7 @@
 			= resource.text_field( :title, :class=>'title', :alias=>'Title')
 			
 			%div.control_line
-				%span.char_ctr 255 characters left
+				%span.char_ctr 255 characters
 
 			-#%label Description of this file:
 			-#%textarea.description{:name=>'resource[description]'}
@@ -80,7 +80,7 @@
 				%div.controls
 					%span.char_ctr 
 						= @team.res_criteria.match(/..(\d+)/)[1]
-						characters left
+						characters
 					%button Save
 					= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
 	%p.clear_both

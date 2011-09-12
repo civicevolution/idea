@@ -27,13 +27,13 @@
 - edit ||= false
 - proposal_idea ||= ProposalIdea.new
 = form_for( proposal_idea, :url => edit ? edit_plan_summary_path(team_id) : submit_proposal_idea_path, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
-	= form.hidden_field :initiative_id, options = {:value=>1}
+	= form.hidden_field :initiative_id, options = {:value=> params[:_initiative_id] }
 	%div.add_idea
 		= form.label :title, "Idea title"
 		= form.text_field :title, :class=>'title', :alias=>'Title'
 		%div.control_line.title
 			%div.controls
-				%span.char_ctr 255 characters left
+				%span.char_ctr 255 characters
 
 
 		= form.label :text, "Please summarise your idea to improve our community"
@@ -42,8 +42,8 @@
 			%div.controls
 				%span.char_ctr 
 					1000
-					characters left
-					= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+					characters
+					= link_to 'Cancel', home_path, {:class=>'clear'}
 
 		- if !edit
 			%p.acknowledge
@@ -54,3 +54,5 @@
 			= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'
 			- if edit
 				= link_to "Cancel", plan_path(params[:team_id]), :class=>'cancel'
+			- else
+				= link_to 'Return to home page', home_path, {:class=>'clear'}

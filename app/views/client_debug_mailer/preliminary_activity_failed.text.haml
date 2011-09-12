@@ -1,0 +1,28 @@
+:plain
+	We received an error report when a users preliminary participation activities where being instantiated
+
+	
+	Email: #{@email}
+	Errors: 
+- if @errors.any?
+	:plain 
+		There were #{pluralize(@errors.count, "error")}
+		
+	- @errors.full_messages.each do |msg|
+		= msg
+
+:plain 	
+
+	Params: 
+
+	
+- @params.each_pair do |key, value| 
+	- if value.class.to_s.match(/hash/i)
+		********************
+		#{key}:
+		- value.each_pair do |key, value| 
+			#{key} => #{value}
+		********************
+	- else
+		#{key} => #{value}
+	
