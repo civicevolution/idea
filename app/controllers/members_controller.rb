@@ -23,27 +23,6 @@ class MembersController < ApplicationController
       logger.debug "The member has been saved, process their past activities"
       session[:member_id] = member.id
       session[:code] = nil
-      
-      # Should I put this in the section where they join the initiative?
-      # process the participant activities that I logged before they signed in 
-      ppas = PreliminaryParticipantActivity.select('id, flash_params').where(:email => member.email).order(:id)
-      ppas.each do |ppa|
-      	case
-      		when ppa.flash_params[:action].match(/rate_talking_point/)
-      			TalkingPointAcceptableRating.record( member, ppa.flash_params[:talking_point_id], ppa.flash_params[:rating] )
-      		when ppa.flash_params[:action].match(/prefer_talking_point/)
-      			tpp = TalkingPointPreference.find_or_create_by_member_id_and_talking_point_id(member.id, ppa.flash_params[:talking_point_id])
-      		when ppa.flash_params[:action].match(/create_talking_point_comment/)
-      			comment = Comment.create(:member=> member, :text => ppa.flash_params[:text], :parent_type => 13, :parent_id => ppa.flash_params[:talking_point_id] )
-      		when ppa.flash_params[:action].match(/create_comment_comment/)
-      			comment = Comment.create(:member=> member, :text => ppa.flash_params[:text], :parent_type => 3, :parent_id => ppa.flash_params[:comment_id] )
-      		when ppa.flash_params[:action].match(/what_do_you_think/) && ppa.flash_params[:input_type] == "comment" 
-      			comment = Comment.create(:member=> member, :text => ppa.flash_params[:text], :parent_type => 1, :parent_id => ppa.flash_params[:question_id] )
-      		when ppa.flash_params[:action].match(/what_do_you_think/) && ppa.flash_params[:input_type] == "talking_point" 
-      			talking_point = TalkingPoint.create(:member=> member, :text => ppa.flash_params[:text], :question_id => ppa.flash_params[:question_id] )
-      	end
-      	ppa.destroy
-      end      
       redirect_to edit_profile_form_path(member.ape_code)
     else
       logger.debug "Redisplay new profile form with a new captcha"

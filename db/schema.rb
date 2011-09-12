@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110910071444) do
+ActiveRecord::Schema.define(:version => 20110911195140) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -526,6 +526,7 @@ ActiveRecord::Schema.define(:version => 20110910071444) do
     t.text     "flash_params"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "init_id"
   end
 
   create_table "proposal_ideas", :force => true do |t|

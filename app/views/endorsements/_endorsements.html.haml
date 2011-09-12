@@ -1,0 +1,60 @@
+%style
+	:sass
+		input.link
+			border: none
+			background: none
+			cursor: po inter
+			margin: 0 
+			padding: 0
+			text-decoration: underline
+		textarea
+			height: 100px
+		
+%div.endorsements
+	%div.spiral
+	%div.notebook
+		- if @endorsements.size == 0
+			%h3.desc No one has endorsed this proposal yet.
+		- else
+			%h3= pluralize(@endorsements.size, 'Community endorsement')
+	
+
+		%table
+			%tr
+				%th{:colspan=>'2'} Name
+				%th Comment
+				%th When
+			- endorsed = false	
+			- @endorsements.each do |e|
+				%tr{:class=> cycle('','stripe'), :id=>e.member.ape_code}
+					%td.pic
+						- if !e.id.nil?
+							%img{:src=> e.member.photo.url('36')} 
+					%td.name
+						%span.member& #{e.member.first_name} #{e.member.last_name}
+					%td.text= simple_format( e.text )
+					%td.time
+						%abbr.timeago{:title=>e.updated_at}= time_ago_in_words(e.updated_at) + ' ago'
+					- if e.member.id == @member.id && !print
+						- endorsed = true
+						%td.delete
+							= form_tag edit_plan_endorsement_path(@team.id) do
+								= submit_tag "Edit", :class => 'link'
+							= form_tag delete_plan_endorsement_path(@team.id) do
+								= submit_tag "Delete", :class => 'link'
+			
+		- if !print			
+			= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form' + ( endorsed ? ' hide' : '' ) do 
+				%p Show your support for this proposal by adding a short statement in this form and clicking the button			
+				%div.add_answer
+					%p
+					= label_tag :text, "My statement in support of this proposal"
+					= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2"
+					%div.control_line
+						%div.controls
+							%span.char_ctr 500 characters left
+							%button I endorse this proposal
+							= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
+				%p.clear
+	%p.clear
+

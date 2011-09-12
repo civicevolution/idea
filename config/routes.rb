@@ -44,6 +44,10 @@ G3::Application.routes.draw do |map|
   get 'plan/:team_id/edit_summary', :to => 'teams#edit_summary_form', :as => 'edit_plan_summary'
   match 'plan/:team_id/edit_summary', :to => 'teams#edit_summary_post', :via => [:put, :post], :as => 'edit_plan_summary'
 
+  match 'endorsements/:team_id/add', :to => 'endorsements#add_endorsement', :via => [:put, :post], :as => 'add_plan_endorsement'
+  post 'endorsements/:team_id/delete', :to => 'endorsements#delete', :as => 'delete_plan_endorsement'
+  post 'endorsements/:team_id/edit', :to => 'endorsements#edit', :as => 'edit_plan_endorsement'
+  match 'endorsements/:team_id/update', :to => 'endorsements#update', :via => [:put, :post], :as => 'update_plan_endorsement'
 
   get 'plan/:team_id/new_content(/:time_stamp)' => 'plan#new_content', :as => 'new_content'
 

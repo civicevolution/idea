@@ -89,17 +89,20 @@ class ApplicationController < ActionController::Base
     MemberMailer.delay.send_profile_link(params[:email], url, params[:_app_name] )
     
     #I should still have flash params and I should execute them
-    ppa = PreliminaryParticipantActivity.create :email=> session[:email],:flash_params => flash[:params]
+    ppa = PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => flash[:params]
 
-    # if js, just close the form, otherwise determine what to show
     respond_to do |format|
       if ppa.errors.empty?
         format.js { 
-          debugger
+          # if js, just close the form, otherwise determine what to show
           params[:action] = flash[:params][:action]
+          params[:input_type] = flash[:params][:input_type]
           render :template => 'sign_in/close_temp_join_save_email' 
         }
-        format.html { }
+        format.html {
+          msg, redirect_url = get_redirect
+          render :template => 'sign_in/acknowledge_preliminary_participation_and_redirect.html', :locals => {:msg => msg, :redirect_url => redirect_url}, :layout => 'plan'
+        }
       else
         format.js { }
         format.html { }
@@ -257,9 +260,11 @@ class ApplicationController < ActionController::Base
     if session[:member_id].nil? && !session[:code].nil?
       # this is an action by a user with a preliminary email account
       # for selected actions, store the params with the email
-      email_account_actions = [ 'rate_talking_point', 'prefer_talking_point','what_do_you_think','create_comment_comment','create_talking_point_comment']
+      #debugger
+      email_account_actions = [ 'rate_talking_point', 'prefer_talking_point','what_do_you_think',
+          'create_comment_comment','create_talking_point_comment','add_endorsement','update_worksheet_ratings']
       if email_account_actions.include?( params[:action])
-        PreliminaryParticipantActivity.create :email=> EmailLookupCode.get_email(session[:code]), :flash_params => params
+        PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => params
         activity_was_queued = true
       end
     end
@@ -268,7 +273,8 @@ class ApplicationController < ActionController::Base
         format.js {
            render :template => 'sign_in/acknowledge_preliminary_participation.js' }
         format.html {
-          debugger
+          msg, redirect_url = get_redirect
+          render :template => 'sign_in/acknowledge_preliminary_participation_and_redirect.html', :locals => {:msg => msg, :redirect_url => redirect_url}, :layout => 'plan'
            }
       else
         format.js { 
@@ -289,6 +295,31 @@ class ApplicationController < ActionController::Base
         }
       end
     end
+  end
+  
+  def get_redirect
+    case params[:action]
+    	when /what_do_you_think/
+    	  if params[:input_type] == "talking_point"
+    	    msg = 'Your talking point was recorded.'
+    	  else
+    	    msg = 'Your comment was recorded.'
+    	  end
+    		redirect_url = question_worksheet_path(params[:question_id])
+    	when /create_comment_comment/
+    	  msg = 'Your comment was recorded.'
+    		redirect_url = comment_comments_path(params[:comment_id])
+    	when /create_talking_point_comment/
+    	  msg = 'Your comment was recorded.'
+    		redirect_url = talking_point_comments_path(params[:talking_point_id])
+    	when /add_endorsement/
+    	  msg = 'You endorsement was recorded.'
+    		redirect_url = plan_path(params[:team_id])
+    	when /update_worksheet_ratings/
+    	  msg = 'Your ratings were recorded.'
+    		redirect_url = question_worksheet_path(params[:question_id])
+    end  
+    return msg, redirect_url  
   end
   
 end

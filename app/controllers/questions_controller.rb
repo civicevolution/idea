@@ -356,23 +356,8 @@ class QuestionsController < ApplicationController
   
   def update_worksheet_ratings
     
+    unrecorded_talking_point_preferences = Question.update_worksheet_ratings( @member, params )
 
-    # iterate through all of the parameters
-    selected_ids = []
-    params.each_pair do |key,val|
-      case key
-        when /tp_rating/
-          #logger.debug "Record the rating for #{key.match(/\d+/)[0]}"
-          TalkingPointAcceptableRating.record( @member, key.match(/\d+/)[0], val )
-        when /preference_/
-          #logger.debug "Record a preference for #{key.match(/\d+/)[0]}"
-          selected_ids << key.match(/\d+/)[0]
-      end 
-    end
-    tp_ids = params[:tp_ids].split(',')
-
-    unrecorded_talking_point_preferences = TalkingPointPreference.update_preferred_talking_points( params[:question_id], selected_ids, tp_ids, @member )
-    
     respond_to do |format|
       if true #@question.save
         format.html { 

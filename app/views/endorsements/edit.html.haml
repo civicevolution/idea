@@ -1,0 +1,17 @@
+%style
+	:sass
+		textarea
+			height: 150px
+			
+%div#edit_endorsement
+	%p
+	= form_tag update_plan_endorsement_path(params[:team_id]), :class=>'std_form' do 
+		%div.add_answer
+			= label_tag :text, "Edit your statement in support of this proposal"
+			= text_area_tag :text, endorsement.text, :class=>'answer autosize', :size=>"1x2"
+			%div.control_line
+				%div.controls
+					%span.char_ctr 500 characters left
+					%button Update my endorsement
+					= link_to 'Cancel', plan_path(params[:team_id]), {:class=>'cancel', :rel=>'nofollow'}
+		%p.clear

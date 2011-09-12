@@ -32,12 +32,13 @@
 				%td.sign_in.lbl
 					%label{:for=>"password"} Password:
 					= link_to 'I forgot my password', reset_password_form_path(:email=>params[:email]), {:class=>'reset_password', :rel=>'nofollow', :tabindex => 0}
-				%td.join.lbl{:rowspan=>3}
+				%td.join.lbl{:rowspan=>2}
 					= submit_tag "Get started now!", :name=>'join', :tabindex => 7
 					
 			%tr		
 				%td.sign_in
 					= password_field_tag :password, params[:password], :tabindex => 2
+				
 			%tr
 				%td.sign_in
 					= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)', :tabindex => 3
@@ -46,6 +47,8 @@
 						We'll keep you signed in
 						%br
 						Don't use this on a public computer
+				%td.join.lbl{:rowspan=>2}
+					Your community needs to know what you think.
 			%tr
 				%td.sign_in.lbl
 					= submit_tag "Sign In", :name=>'sign_in', :tabindex => 4

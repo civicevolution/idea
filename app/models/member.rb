@@ -114,13 +114,17 @@ class Member < ActiveRecord::Base
     if @team_titles.nil?
       # any team I participate (comments, bs_ideas), endorse, follow, or joined
       @team_titles = Team.select('id, title').where( 
-        [%q|id IN (SELECT team_id FROM comments WHERE member_id = ?
+        [%q|id IN (SELECT DISTINCT team_id FROM comments WHERE member_id = :member_id
         UNION
-        SELECT team_id FROM bs_ideas WHERE member_id = ?
+        SELECT DISTINCT team_id FROM talking_points tp left join questions q ON q.id = tp.question_id WHERE tp.member_id = :member_id
         UNION
-        SELECT team_id FROM notification_requests WHERE member_id = ?
+        SELECT DISTINCT team_id FROM talking_point_preferences tpp LEFT JOIN talking_points tp on tpp.talking_point_id = tp.id LEFT JOIN questions q ON q.id = tp.question_id WHERE tp.member_id = :member_id
         UNION
-        SELECT team_id FROM endorsements WHERE member_id = ?)|,self.id,self.id, self.id, self.id]
+        SELECT DISTINCT team_id FROM talking_point_acceptable_ratings tpar LEFT JOIN talking_points tp on tpar.talking_point_id = tp.id LEFT JOIN questions q ON q.id = tp.question_id WHERE tp.member_id = :member_id
+        UNION
+        SELECT team_id FROM notification_requests WHERE member_id = :member_id
+        UNION
+        SELECT team_id FROM endorsements WHERE member_id = :member_id)|, {:member_id => self.id} ]
       ).order('title')
     end
     return @team_titles

@@ -6,6 +6,37 @@ class InitiativesController < ApplicationController
     im = InitiativeMembers.new :initiative_id =>params[:_initiative_id], :member_id=>@member.id, :accept_tos=> params[:accept_tos], :email_opt_in => params[:email_opt_in] ? true : false, :member_category=> params[:member_category]
     allowed,message = InitiativeRestriction.allow_actionX(params[:_initiative_id], 'join_initiative', @member)
     im.errors.add(:base, message ) unless allowed
+    if allowed
+      # process the participant activities that I logged before they signed in 
+      ppas = PreliminaryParticipantActivity.select('id, flash_params').where(:email => @member.email, :init_id => params[:_initiative_id] ).order(:id)
+      ppas.each do |ppa|
+      	case
+      		when ppa.flash_params[:action].match(/rate_talking_point/)
+      			TalkingPointAcceptableRating.record( @member, ppa.flash_params[:talking_point_id], ppa.flash_params[:rating] )
+      		when ppa.flash_params[:action].match(/prefer_talking_point/)
+      			tpp = TalkingPointPreference.find_or_create_by_member_id_and_talking_point_id(@member.id, ppa.flash_params[:talking_point_id])
+      		when ppa.flash_params[:action].match(/create_talking_point_comment/)
+      			comment = Comment.create(:member=> @member, :text => ppa.flash_params[:text], :parent_type => 13, :parent_id => ppa.flash_params[:talking_point_id] )
+      		when ppa.flash_params[:action].match(/create_comment_comment/)
+      			comment = Comment.create(:member=> @member, :text => ppa.flash_params[:text], :parent_type => 3,  :parent_id => ppa.flash_params[:comment_id] )
+      		when ppa.flash_params[:action].match(/what_do_you_think/) && ppa.flash_params[:input_type] == "comment" 
+      			comment = Comment.create(:member=> @member, :text => ppa.flash_params[:text], :parent_type => 1, :parent_id => ppa.flash_params[:question_id] )
+      		when ppa.flash_params[:action].match(/what_do_you_think/) && ppa.flash_params[:input_type] == "talking_point" 
+      			talking_point = TalkingPoint.create(:member=> @member, :text => ppa.flash_params[:text], :question_id => ppa.flash_params[:question_id] )
+      		when ppa.flash_params[:action].match(/add_endorsement/)
+      		  logger.debug 'process the endorsement'
+      		  endorsement = Endorsement.find_or_create_by_member_id_and_team_id(@member.id,ppa.flash_params[:team_id])
+            endorsement.text = ppa.flash_params[:text]
+            endorsement.save
+      		when ppa.flash_params[:action].match(/update_worksheet_ratings/)
+      		  logger.debug "process the update_worksheet_ratings"
+      		  unrecorded_talking_point_preferences = Question.update_worksheet_ratings( @member, ppa.flash_params )
+      		  
+      	end
+      	#ppa.destroy
+      end
+      
+    end
     respond_to do |format|
       if allowed && im.save
         format.html { redirect_to edit_profile_form_path(@member.ape_code) }

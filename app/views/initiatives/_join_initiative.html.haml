@@ -17,6 +17,10 @@
 %div#initiative_join			
 	- init = Initiative.find(params[:_initiative_id])
 	%h3 #{init.title} requires you to complete this short form in order to participate
+	- act_cnt = PreliminaryParticipantActivity.select('id, flash_params').where(:email => @member.email, :init_id => params[:_initiative_id] ).count
+	- if act_cnt > 0
+		When you join this group, the #{pluralize(act_cnt,'contribution')} you made earlier will be added to the proposal.
+	
 	= render( :partial => 'shared/error_messages', :locals => {:errors => flash[:join_init_errors]}) unless flash[:join_init_errors].nil?
 	= form_tag join_initiative_path(params[:_initiative_id]) do
 		= hidden_field :return_page, return_page

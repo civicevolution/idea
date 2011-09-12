@@ -4,6 +4,11 @@
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
 		= csrf_meta_tag
+		
+		- if !defined?(redirect_url).nil?
+			%meta{'http-equiv' => "refresh", :content=> "5;#{redirect_url}" }
+		
+		
 		%title Plan: #{title}
 		-#:javascript
 			var _load_times = { start: new Date()}	
@@ -39,9 +44,8 @@
 				= render :partial => 'sign_in/member_info'		
 			- else
 				%div.join_com
-					= link_to 'Register now', {:controller=>'welcome'}, {:class=>'join_our_community', :id=>'join_community_link', :rel=>'nofollow'}
-					or
-					= link_to 'Sign in', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
+					#{link_to 'Sign in', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}} /
+					= link_to 'Join', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
 					
 			%hr.top
 			%h2#load_message

@@ -1,4 +1,4 @@
-- content_for (:script) do
+- content_for(:script) do
 	:javascript
 	%style
 		:sass
@@ -189,4 +189,4 @@
 			= render :template => 'plan/summary_stats'
 
 	%p.clear_both
-	= render :partial => 'endorsements', :locals=> {:print=>false}
+	= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}
