@@ -6,20 +6,29 @@
 // //= require jquery
 // //= require jquery_ujs
 
-//console.log("Loading application.js");
-
+var console_log='';
+if(typeof console == 'undefined') console = {log:function(str){console_log += str + '\n' }};
 temp = {};
 
+console.log("Loading application.js");
+
+
+
 $(function(){
-		remove_worksheet_form();
-		size_talking_point_entries();
 		$(document).ajaxSend(function(e, xhr, options) {
 		  var token = $("meta[name='csrf-token']").attr("content");
 		  xhr.setRequestHeader("X-CSRF-Token", token);
 		});	
-		activate_text_counters_grow($('textarea, input[type="text"]'), 120)
+		init_page();
 		
 });
+
+function init_page(){
+	console.log("init_page")
+	remove_worksheet_form();
+	size_talking_point_entries();
+	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
+}
 
 function remove_worksheet_form(){
 	$('input.submit_ratings').remove();
@@ -39,7 +48,7 @@ function size_talking_point_entries(){
 			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
 			var p = el.children('div.talking_point_preferable').height('auto');
 			var max = Math.max.apply( Math, [b.height(), (cr.height() + 26), p.height()] );
-			//console.log("max height: " + max)
+			console.log("max height: " + max)
 			b.height(max);
 			cr.height(max-20);
 			p.height(max-20);

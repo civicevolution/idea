@@ -1,5 +1,11 @@
 Notes to run app in development mode
 
+Postgres doesn't autostart on mac as of 9/13/11
+
+	Manully start it
+		su - postgres -c '/usr/local/pgsql/bin/pg_ctl start -D /usr/local/pgsql/data -l /usr/local/pgsql/log/logfile -o -i'
+
+
 cd /ce_development/Rails/tp
 rvmsudo rails s --debugger --port=80
 
