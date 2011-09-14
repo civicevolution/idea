@@ -28,6 +28,7 @@ function init_page(){
 	remove_worksheet_form();
 	size_talking_point_entries();
 	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
+	$('.corner').corner()
 }
 
 function remove_worksheet_form(){
@@ -40,7 +41,8 @@ function remove_worksheet_form(){
 
 function size_talking_point_entries(){
 	$('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
-	$('div.community_rating').removeClass('no_js')
+	$('div.community_rating').removeClass('no_js');
+	//return
 	$('div.talking_point_entry').not('.header').each( 
 		function(){
 			var el = $(this)
@@ -50,7 +52,7 @@ function size_talking_point_entries(){
 			var max = Math.max.apply( Math, [b.height(), (cr.height() + 26), p.height()] );
 			console.log("max height: " + max)
 			b.height(max);
-			cr.height(max-20);
+			cr.parent().height(max-20);
 			p.height(max-20);
 		}
 	)	

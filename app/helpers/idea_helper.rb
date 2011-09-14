@@ -13,7 +13,7 @@ module IdeaHelper
       
       quote_com = simple_format(auto_link(h(quote), :all, :target => "_blank"))
       com = simple_format(auto_link(h(text), :all, :target => "_blank"))
-      %Q|<p>#{author}</p>\n<div class="quote"><p class="quote">#{name} said:</p>#{quote_com}</div>\n#{com}|
+      %Q|<p>#{author}</p>\n<div class="quote corner"><p class="quote">#{name} said:</p>#{quote_com}</div>\n#{com}|
     else
       com = simple_format(auto_link(h(text), :all, :target => "_blank"))
       com.sub(/<p>/,'<p>' + author + ' ')

@@ -14,7 +14,7 @@
 	-#= form_tag("/questions/#{question_id}/what_do_you_think", :remote=>true, :id=>'what_do_you_think_form', :class=>'what_do_you_think') do
 	= form_tag(what_do_you_think_path(question_id), :remote=>true, :id=>'what_do_you_think_form', :class=>'what_do_you_think') do
 		
-		%table
+		%table{:border=>0}
 			%tbody
 				%tr
 					%td
@@ -46,22 +46,24 @@
 
 		= text_area_tag :text, text, {:class=>'autosize'}
 
-		%div.control_line
+		%div.form_controls
+			%button 
+				Share
+			
+			%span.char_ctr
+				-#= @team.com_criteria.match(/..(\d+)/)[1]
+				200
+				characters
+
+			- if 	params[:action] == "what_do_you_think_form"
+				= link_to 'Cancel', question_worksheet_path(question_id), {:class=>'clear', :rel=>'nofollow'}
+			- else
+				= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
+				
 			-#
 				= image_tag('icon_linkc.gif',{:class=>'show_add_link',:title=>'Add a link'})
 				= image_tag('icon_upload.gif',{:class=>'show_attach_file',:title=>'Attach a file'})
-			%div.controls
-				%button 
-					Share
 				
-				%span.char_ctr
-					-#= @team.com_criteria.match(/..(\d+)/)[1]
-					200
-					characters
-				- if 	params[:action] == "what_do_you_think_form"
-					= link_to 'Cancel', question_worksheet_path(question_id), {:class=>'clear', :rel=>'nofollow'}
-				- else
-					= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
 	%p.clear_both
 	
 	%div.instr

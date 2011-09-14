@@ -5,4 +5,5 @@
 	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think textarea').val('');
 	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think p.warn').remove();
 	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think input[type="radio"]').attr('checked',false)
+	setTimeout( function(){	$('.corner').corner()},100);
 = render :template => 'shared/clear_sign_in_form.js'

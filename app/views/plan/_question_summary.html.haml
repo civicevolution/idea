@@ -5,8 +5,8 @@
 		%div.talking_points_list
 
 			%ul.talking_points
-			- question.top_talking_points.each do |talking_point|
-				%li.talking_point= talking_point.text
+				- question.top_talking_points.each do |talking_point|
+					%li.talking_point= talking_point.text
 			
 			%p= link_to 'Please rate these talking points and tell us what you think', question_worksheet_path(question), {:class=> 'open_worksheet', :remote => true}
 		

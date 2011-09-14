@@ -22,16 +22,16 @@
 	
 					%div.talking_point_entry.header
 						%div.talking_point_body
-							%div.instr
-								= image_tag('red_arrow.gif', :class=>'red_arrow')		
+							%div.instr.arrow
+								-#= image_tag('red_arrow.gif', :class=>'red_arrow')		
 								%p.instr
 									The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
 									= link_to "Learn more"
 
-						%div.talking_point_acceptable
+						%div.talking_point_acceptable.corner
 							%p.title Acceptable
 
-						%div.talking_point_preferable
+						%div.talking_point_preferable.corner
 							%p.title Preferable
 		
 						%p.clear_both

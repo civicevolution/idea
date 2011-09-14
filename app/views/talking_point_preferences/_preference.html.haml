@@ -1,4 +1,4 @@
-%div.talking_point_preferable{:id=>talking_point.id}
+%div.talking_point_preferable.corner{:id=>talking_point.id}
 	- if !talking_point.preference_votes.nil?
 		%p.total_preference 
 			- if talking_point.preference_votes.to_i == 0
