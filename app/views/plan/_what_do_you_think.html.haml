@@ -17,27 +17,27 @@
 		%table{:border=>0}
 			%tbody
 				%tr
-					%td
-						= radio_button_tag :input_type, 'talking_point', type == 'talking_point' ? true : false
 					%td.icon
-						= label_tag :input_type_talking_point do
-							%div.talking_point.icon
-								= image_tag('white_bulb.gif')						
-							%p Add a talking point
+						%div.talking_point.icon.corner
+							= image_tag('white_bulb.gif')						
+					%td.label
+						= radio_button_tag :input_type, 'talking_point', type == 'talking_point' ? true : false
+						= label_tag :input_type_talking_point, 'Add a talking point'
 					%td
 						%ul
 							%li Clearly state a single idea to be rated
 							%li This will appear in a blue box above
 							%li Must be less than 200 characters long
 
+
 				%tr
-					%td
-						= radio_button_tag :input_type, "comment", type == 'comment' ? true : false 
 					%td.icon
-						= label_tag :input_type_comment do
-							%div.comment.icon
-								= image_tag('user.gif')						
-							%p Add a comment
+						%div.comment.icon.corner
+							= image_tag('user.gif')						
+					%td.label
+						= radio_button_tag :input_type, "comment", type == 'comment' ? true : false 
+						= label_tag :input_type_comment, 'Add a comment'
+							
 					%td
 						%ul
 							%li Discuss this question and talking points

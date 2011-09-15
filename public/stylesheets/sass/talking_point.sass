@@ -19,6 +19,9 @@ $tools_info_bg: #B4BED0
 $stats_stripe: #B4BED0
 $endorsements_bg: #F9F2D4
 
+input
+	margin: 0
+
 =radius
 	-webkit-border-radius: 10px
 	-moz-border-radius: 10px
@@ -274,13 +277,7 @@ div.talking_point_sec
 div.talking_points_list	
 	//border: 1px solid green
 	margin-left: $page_indent
-	
-div.what_do_you_think
-	//border: 1px solid black
-	margin-left: $page_indent
-	clear: both
-	form
-		margin-top: 1em
+			
 div.ques_discussion
 	//border: 1px solid red
 	margin-top: 50px
@@ -340,8 +337,9 @@ div.talking_point_preferable
 		
 div.talking_point_acceptable	
 	background-color: $acceptable_bg
+	position: relative
 	float: left
-	height: 70px
+	height: auto
 	width: 222px
 	margin: 0 15px
 	padding: 10px 10px 10px 0
@@ -355,18 +353,15 @@ div.talking_point_acceptable
 			width: 100%
 			text-align: center
 			margin: 0 0 7px 0
-		input.rating
-			margin: 2px
 		div.radios
 			margin: 0 15px
 			font-size: 75%
 			white-space: nowrap
-			span
-				margin-left: 0px
+			input, label
+				cursor: pointer
 			label
-				cursor: pointer
-			input
-				cursor: pointer
+				vertical-align: 25%
+				margin-left: 2px
 			div.good
 				background-color: green
 			div.neutral
@@ -374,27 +369,34 @@ div.talking_point_acceptable
 			div.bad
 				background-color: red
 			div
-				height: 20px
-				width: 16px
-				text-align: center
-				padding-top: 2px
-			
+				height: 22px
+				width: 20px
+				cursor: pointer
+				position: relative
+				input.rating
+					height: 16px
+					width: 16px
+					margin: 3px 0 0 3px
+					padding: 0
 	div.my_rating.js
-		width: 132px
+		width: 137px
 		div.radios
 			div
 				float: left
-				width: 20px
-			span
+				width: 21px
+				height: 23px
+				input
+					display: block
+			label
 				display: none
 		p.option
 			margin: 20px 0 0 0px
-			font-size: 75%
+			//font-size: 75%
 			clear: both  
 			text-align: center
 			display: block
 		p.please_rate
-			margin: 20px 0 0 20px
+			margin: 20px 0 0 0px
 			font-size: 1.12em
 			color: red
 			font-weight: bold
@@ -428,11 +430,19 @@ div.community_rating
 		margin: 0 0 8px 0
 		
 div.community_rating.no_js
+	position: absolute
+	right: 8px
+	top: 10px
 	margin-right: 0
+	text-align: right
 	div.graph.js
 		display: none
 	div.graph.no_js
 		display: block
+		width: 50px
+		position: absolute
+		top: 24px
+		right: 0px
 	
 		
 		
@@ -477,45 +487,49 @@ div.talking_point_entry.header
 div.what_do_you_think
 	position: relative
 	margin-top: 50px
+	margin-left: $page_indent
+	clear: both
+	
 	label
 		cursor: pointer
-	form
+		display: inline
+	form.what_do_you_think
 		margin-left: $page_indent
+		max-width: none
+		width: 550px
+		margin-top: 1em
+		
 	h3.ques_sub_hdg
 		margin-bottom: 0
-	td ul
-		margin-top: 0
-		margin-bottom: 10px
-	td
-		white-space: nowrap
-	td.icon
-		//white-space: nowrap
-		label
-			p 
-				float: left
-				margin: 6px 15px 0 0
-				font-weight: bold
+	table
+		width: 100%
+		td ul
+			margin: 0 0 10px -20px
+		td
+			white-space: nowrap
+		td.label
+			padding-top: 12px
+		td.icon
 			div.icon
 				background-color: $talking_point_bg
 				width: 30px
 				height: 30px
-				float: left
-				margin: 0 15px 0 10px
+				margin-top: 6px
 				img
-					margin: 2px 0 0 2px
+					margin: 3px 0 0 3px
 					width: 24px
 					height: 24px
 	
-			div.icon.talking_point
-				background-color: $talking_point_bg
-			div.icon.comment
-				//border: 1px solid black
+				div.icon.talking_point
+					background-color: $talking_point_bg
+				div.icon.comment
+					//border: 1px solid black
 	textarea
-		width: 550px
+		width: 100%
 		height: 60px
 		margin-top: 6px
 	div.form_controls
-		width: 550px
+		width: 100%
 	div.instr
 		position: absolute
 		top: 0

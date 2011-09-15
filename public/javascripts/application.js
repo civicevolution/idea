@@ -71,9 +71,9 @@ $('div.my_rating :radio').die('change').live('change',
 	}
 );
 
-$('div.radios label').live('mouseover mouseout', function(event) {
+$('div.radios div').live('mouseover mouseout', function(event) {
 	var el = $(this);
-	var p = el.closest('div.my_rating').find('p.option');
+	var p = el.closest('div.my_rating').find('p.option').removeClass('please_rate')
   if (event.type == 'mouseover') {
 		var title = el.find('input').attr('title');
 		p.html(title)

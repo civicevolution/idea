@@ -3,17 +3,20 @@
 		%p.title My rating
 		%div.radios
 			- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
-		
-				= label_tag "tp_rating_#{talking_point.id}_#{value}" do
-					%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
-						- if value.to_i == talking_point.my_rating
-							%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
-						- else
-							%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
-						%span.option= title
+
+
+				-#= label_tag "tp_rating_#{talking_point.id}_#{value}" do
+				%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
+					- if value.to_i == talking_point.my_rating
+						%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+					- else
+						%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+					-#%span.option= title
+					= label_tag "tp_rating_#{talking_point.id}_#{value}", title
+					
 		%p.clear_both
 		- if talking_point.my_rating.nil?
-			%p.please_rate Please rate
+			%p.option.please_rate{:title=>"Please rate"} Please rate
 		- else
 			%p.option{:title=>"#{TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]}"}= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]
 		

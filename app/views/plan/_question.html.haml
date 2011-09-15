@@ -1,6 +1,6 @@
 %div.worksheet.page_content_div
 	%div.spiral
-	%div.question_worksheet.notebook{:id=>question.id, :ans_criteria=>question.answer_criteria, :talking_point_criteria=>question.talking_point_criteria}
+	%div.question_worksheet.notebook.corner{:id=>question.id, :ans_criteria=>question.answer_criteria, :talking_point_criteria=>question.talking_point_criteria}
 	
 		= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
 
@@ -19,11 +19,9 @@
 				
 				%div.talking_points_list{:id=>question.id}
 	
-	
 					%div.talking_point_entry.header
 						%div.talking_point_body
 							%div.instr.arrow
-								-#= image_tag('red_arrow.gif', :class=>'red_arrow')		
 								%p.instr
 									The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
 									= link_to "Learn more"
