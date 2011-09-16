@@ -6,10 +6,10 @@ class NotificationController < ApplicationController
     render :layout=> 'welcome'
   end
   
-  def settings
-    @team = Team.select('id,title,initiative_id').where(:id=>params[:id])
+  def settings_form
+    @team = Team.where(:id=>params[:team_id])
 
-    allowed,message = InitiativeRestriction.allow_action(@team[0].initiative_id, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_action({:team_id => params[:team_id]}, 'view_idea_page', @member)
     if !allowed
       if request.xhr?
         render :text => '<p> You are not allowed to access this proposal. ' + message + '</p>', :layout=> false #, :status => 409
@@ -23,13 +23,13 @@ class NotificationController < ApplicationController
     @team = @team[0]
     @notification_setting = NotificationRequest.new :member_id=>@member.id, :team_id=>@team.id, :act=>'init'
     
-    render :action=>'settings', :layout=> request.xhr? ? false : 'welcome', :locals => {:xhr => request.xhr? }
+    render :action=>'settings', :layout=> request.xhr? ? false : 'plan', :locals => {:xhr => request.xhr? }
   end
 
   def update_notification_settings
     logger.debug "update_notification_settings params: #{params.inspect}"
     @team = Team.select('id, title, initiative_id').where(:id=>params[:notification_setting][:team_id])
-    allowed,message = InitiativeRestriction.allow_action(@team[0].initiative_id, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_action({:team_id => params[:notification_setting][:team_id]}, 'view_idea_page', @member)
     if !allowed
       if request.xhr?
         render :text => message, :layout=> false, :status => 409

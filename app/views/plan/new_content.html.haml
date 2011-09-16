@@ -1,6 +1,10 @@
 %div.new_content
 	%h3= @team.title
-	%h3 Show new content since #{@last_visit.strftime('%A %b %d, %Y')}
+	- if @member.id == 0
+		%h3 This is new content since #{@last_visit.strftime('%A %b %d, %Y')}
+		%p If you sign in we can show you only the new content since your last visit
+	- else
+		%h3 Here is the new content since your last visit on #{@last_visit.strftime('%A %b %d, %Y')}
 
 	%p
 		(#{pluralize( @talking_points.select{|tp| tp['new']}.size, 'new talking point')},

@@ -22,9 +22,30 @@
 	%div.text
 		%h3 Be part of the solution!
 		%p.cta
-			= link_to "Follow this idea"
-		%p.cta
 			= link_to "Tell us what you think"
+			
+		%p.cta
+			= link_to "Follow this idea", notification_settings_form_path(@team.id)
+		
+		%p.cta
+			= link_to "Invite friends", invite_friends_form_path(@team.id), {:class=>'invite'}
+			
+		%div.tools	
+			/AddThis Button BEGIN
+			%div.addthis_toolbox.addthis_default_style
+				%a.addthis_button_compact{:href=>"http://addthis.com/bookmark.php?v=250"}Share
+				%span.addthis_separator
+				%a.addthis_button_facebook
+				%a.addthis_button_twitter
+				%a.addthis_button_googlebuzz
+				%a.addthis_button_email
+				%span.addthis_separator
+				%a.addthis_button_facebook_like
+			= javascript_tag %Q|var addthis_config = {"data_track_clickback":true};|
+			= javascript_include_tag 'http://s7.addthis.com/js/250/addthis_widget.js#username=civicevolution'
+			/AddThis Button END
+		
+		
 	%p.clear_both					
 					
 %div.progress.corner
@@ -70,7 +91,7 @@
 	
 	%p.clear_both	
 
-%div.tools_info.corner
+-#%div.tools_info.corner
 	%div.tools	
 		/AddThis Button BEGIN
 		%div.addthis_toolbox.addthis_default_style

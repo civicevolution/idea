@@ -1,6 +1,6 @@
 class MembersController < ApplicationController
-  skip_before_filter :authorize, :only => [:new_profile_form, :new_profile_post, :display_profile]
-  layout "plan", :only => [:new_profile_form, :edit_profile_form, :display_profile]
+  skip_before_filter :authorize, :only => [:new_profile_form, :new_profile_post, :display_profile, :invite_friends_form]
+  layout "plan", :only => [:new_profile_form, :edit_profile_form, :display_profile, :invite_friends_form, :invite_friends_post]
   
   def new_profile_form
     flash[:profile_params].each_pair{|key,val| params[key] = val } unless flash[:profile_params].nil?
@@ -54,6 +54,71 @@ class MembersController < ApplicationController
       format.html { redirect_to edit_profile_form_path(@member.ape_code) }
     end
   end 
+  
+  def invite_friends_form
+    team = Team.find(params[:team_id])
+    
+    
+    respond_to do |format|
+      format.html { render 'invite_friends_form', :locals => { :team => team } }
+    end
+    
+    
+  end
+  
+  def invite_friends_post
+    
+    team = nil
+    
+    respond_to do |format|
+      format.html { render 'invite_friends_sent', :locals => { :team => team } }
+    end
+    return
+    
+    logger.debug "invite_friends #{params.inspect}"
+    
+    member = Member.find(session[:member_id])
+    team = Team.find(params[:team_id])
+    
+    @invite = InviteEmail.new :sender => member, :recipient_emails => params[:recipient_emails], :message=> params[:message]
+    @invite.valid?
+
+    if @invite.errors.empty? && params[:send_now] == 'true'
+      # invite is valid and to be sent now - check the captcha before sending
+      # I shortened the field name in form b/c it was removed by recaptcha
+      params[:recaptcha_challenge_field] = params[:recaptcha_challenge]
+      params[:recaptcha_response_field] =  params[:recaptcha_response]
+      validate_recap(params, @invite.errors)
+    end
+    
+    respond_to do |format|
+      if @invite.errors.empty?
+        if params[:send_now] != 'true'
+          recipient =  @invite.recipients[0]
+          logger.debug "Generate a sample email to #{recipient[:first_name]} at #{recipient[:email]}"
+          @email = ProposalMailer.team_send_invite(member, recipient, @invite, team, request.env["HTTP_HOST"] )
+          format.html { render :action => "team/preview_invite_request", :layout => false } if request.xhr?
+          format.html { render :action => "team/preview_invite_request", :layout => 'welcome' }
+        else
+          @invite.recipients.each do |recipient|
+            logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
+            ProposalMailer.delay.team_send_invite(member, recipient, @invite, team, request.env["HTTP_HOST"] )
+          end
+          format.html { render :action => "team/acknowledge_invite_request", :layout => false } if request.xhr?
+          format.html { render :action => "team/acknowledge_invite_request", :layout => 'welcome' }
+          
+        end
+      else
+        if !@invite.errors[:recipient_emails].nil? && @invite.errors[:recipient_emails].size() > 0 && request.xhr?
+          format.html { render :action => "team/invite_request_email_errors", :layout => false }
+        else
+          format.json { render :text => [@invite.errors].to_json, :status => 409 }    
+        end
+      end
+    end
+    
+  end
+  
   
   
   

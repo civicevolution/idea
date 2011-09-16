@@ -164,6 +164,8 @@ div.cta_block {
     color: white;
     font-size: 80px;
     text-align: center; }
+  div.cta_block div.tools {
+    font-weight: bold; }
 
 /* END Proposal summary page */
 div.proposal.inview {
@@ -217,7 +219,7 @@ div.talking_point_sec {
   div.talking_point_sec div.instr.arrow {
     background: url(/images/red_arrow.gif) no-repeat 0px 12px; }
   div.talking_point_sec div.instr {
-    width: 430px; }
+    width: 428px; }
     div.talking_point_sec div.instr p.instr {
       margin: 0 0 0 40px;
       font-size: 1em; }
@@ -249,7 +251,7 @@ div.talking_point_entry {
 div.talking_point_body {
   background: #bcc3d0 url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
   float: left;
-  width: 430px;
+  width: 428px;
   padding: 0 10px; }
   div.talking_point_body > * {
     margin-left: 40px; }

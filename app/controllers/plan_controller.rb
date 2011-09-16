@@ -1,6 +1,6 @@
 class PlanController < ApplicationController
   layout "plan", :only => [:suggest_new_idea, :review_proposal_idea]
-  skip_before_filter :authorize, :only => [ :index, :summary, :suggest_new_idea]
+  skip_before_filter :authorize, :only => [ :index, :summary, :suggest_new_idea, :new_content]
   
   def index
     logger.debug "\n\n******************************************\nStart plan/index\n"
@@ -12,7 +12,7 @@ class PlanController < ApplicationController
     end
     
     # verify acccess to this team
-    allowed,message = InitiativeRestriction.allow_actionX(@team.initiative_id, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:id]}, 'view_idea_page', @member)
     if !allowed
       if @member.id == 0
         force_sign_in
@@ -46,7 +46,7 @@ class PlanController < ApplicationController
     end
     
     # verify acccess to this team
-    allowed,message = InitiativeRestriction.allow_actionX(@team.initiative_id, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:id]}, 'view_idea_page', @member)
     if !allowed
       if @member.id == 0
         force_sign_in
@@ -71,12 +71,28 @@ class PlanController < ApplicationController
   end
   
   def new_content
+    
+    # verify acccess to this team
+    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:team_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
     time_stamp = params[:time_stamp] 
     if time_stamp
       time_stamp = time_stamp.scan(/\d\d/)
       @last_visit = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
     else
       @last_visit = @member.last_visit_ts      
+      @last_visit= @last_visit.advance(:days => -7) unless @member.id != 0
     end
 
     @team = Team.includes(:questions).find(params[:team_id])

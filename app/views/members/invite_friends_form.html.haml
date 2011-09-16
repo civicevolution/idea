@@ -1,0 +1,55 @@
+%style
+	:sass
+		div#invite_friends
+			p.subject
+				margin: 4em 0 2em 0
+%div#invite_friends
+	%h2 Please tell your friends about this proposal
+	- if @member.id == 0
+		- if team.nil?
+			%p You can email them this link: #{home_url(team)}
+		- else
+			%p You can email them this link: #{plan_url(team)}
+			
+		%p If you #{link_to 'sign in or join', sign_in_path}, we can send this link directly to your friends for you and you'll get the credit and recognition for supporting this proposal.
+	- else
+		%p 
+			The email addresses you enter here will be used just one time to send this email.
+			- if team.initiative_id == 1
+				%i Please note, only City of Geraldton-Greenough staff can access CGG proposals. Please contact us to make an exception.
+		= form_tag( invite_friends_post_path, {:class=>'invite_friends std_form'} ) do
+			= hidden_field_tag :team_id, params[:id]
+			= hidden_field_tag :send_now
+			= hidden_field_tag :recaptcha_challenge
+			= hidden_field_tag :recaptcha_response
+		
+			%label 
+				Please enter your friend's names and email addresses
+				= link_to "How", {:id=>'invite_emails'}, {:class=>'show_me_how', :rel=>'nofollow'}
+				
+			= text_area_tag :recipient_emails, nil, {:class=>'autosize'}
+
+			%div.form_controls
+				%span.char_ctr
+					1000
+					characters
+			
+			%p.subject Subject: #{@member.first_name} #{@member.last_name} thinks you should check out this community proposal
+		
+			%label Please write a short message that will encourage them to visit the site
+			
+			= text_area_tag :message, nil, {:class=>'autosize'}
+
+			%div.form_controls
+				%button 
+					Preview and send
+
+				%span.char_ctr
+					1000
+					characters
+					
+				- if team.nil?
+					= link_to 'Cancel', home_path, {:class=>'clear', :rel=>'nofollow'}
+					%p You can email them this link: #{home_url(team)}
+				- else
+					= link_to 'Cancel', plan_path(team), {:class=>'clear', :rel=>'nofollow'}

@@ -119,6 +119,12 @@ G3::Application.routes.draw do |map|
   get 'members/:ape_code/profile' => 'members#edit_profile', :as=>'display_profile'
   match 'members/:ape_code/photo' => 'members#upload_member_photo', :via => [:put, :post], :as=>'upload_member_photo'
 
+  get 'members/invite(/:team_id)' => 'members#invite_friends_form', :as => 'invite_friends_form'
+  match 'members/invite(/:team_id)' => 'members#invite_friends_post', :via=>[:put, :post], :as => 'invite_friends_post'
+
+  get 'notification/:team_id/settings' => 'notification#settings_form', :as => 'notification_settings_form'
+  match 'notification/:team_id/update_settings' => 'notification#update_notification_settings', :via=>[:put, :post], :as => 'notification_settings_post'
+
   post 'initiatives/:initiative_id/join' => 'initiatives#join', :as => 'join_initiative'
 
   match 'subscribe' => 'welcome#subscribe'

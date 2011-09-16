@@ -24,7 +24,7 @@ $(function(){
 });
 
 function init_page(){
-	console.log("init_page")
+	//console.log("init_page")
 	remove_worksheet_form();
 	size_talking_point_entries();
 	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
@@ -50,7 +50,7 @@ function size_talking_point_entries(){
 			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
 			var p = el.children('div.talking_point_preferable').height('auto');
 			var max = Math.max.apply( Math, [b.height(), (cr.height() + 26), p.height()] );
-			console.log("max height: " + max)
+			//console.log("max height: " + max)
 			b.height(max);
 			cr.parent().height(max-20);
 			p.height(max-20);
@@ -96,6 +96,24 @@ $('p.my_preference :checkbox').die('change').live('change',
 		$.post('/talking_points/' + $(this).closest('div.talking_point_entry').attr('id') + '/prefer', {prefer: this.checked}, function(){}, "script");
 	}
 );
+
+$('form.what_do_you_think :radio').die('change').live('change',
+	function(){
+		var el = $(this);
+		console.log("radio change");
+		var char_ctr = el.closest('form').find('span.char_ctr');
+		if(el.val() == 'talking_point'){
+			var cnt = 200;
+		}else{
+			var cnt = 1500;
+		}
+		el.closest('form').find('textarea').show_char_limit(cnt, {
+	    error_element: char_ctr,
+			status_element: char_ctr
+		})
+	}
+)
+
 
 function getUrlVars()
 {
