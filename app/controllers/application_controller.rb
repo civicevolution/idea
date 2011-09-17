@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :add_member_data, :except => [ :logo, :rss ]
   before_filter :authorize, :except => [ :sign_in_form, :sign_in_post, :temp_join_save_email, :login, :proposal, :logo, :rss]
   
-  helper_method :sign_out, :sign_in_post, :sign_in_form
+  helper_method :sign_out, :sign_in_post, :sign_in_form, :temp_join_save_email
 
   helper :all # include all helpers, all the time
 #  protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -80,13 +80,12 @@ class ApplicationController < ActionController::Base
   end
   
   def temp_join_save_email
-    
     code = EmailLookupCode.get_code(params[:email])
     session[:code] =  code
     
     # send the email with this code
     url = new_profile_form_url(:code => code)
-    MemberMailer.delay.send_profile_link(params[:email], url, params[:_app_name] )
+    MemberMailer.send_profile_link(params[:email], url, params[:_app_name] ).deliver
     #I should still have flash params and I should execute them
     ppa = PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => flash[:params]
 
@@ -100,12 +99,13 @@ class ApplicationController < ActionController::Base
         }
         format.html {
           params[:action] = flash[:params][:action]
+          params[:team_id] = flash[:params][:team_id]
           msg, redirect_url = get_redirect
           render :template => 'sign_in/acknowledge_preliminary_participation_and_redirect.html', :locals => {:msg => msg, :redirect_url => redirect_url}, :layout => 'plan'
         }
       else
         format.js { }
-        format.html { }
+        format.html { render 'sign_in/temp_join_error' }
       end
     end    
   end

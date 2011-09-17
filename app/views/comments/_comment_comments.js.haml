@@ -10,12 +10,13 @@
 	var newNode = $(com_coms).insertAfter(com);
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
 	// activate the link to hide the discussion
-	link.live('ajax:beforeSend', 
+	link.bind('ajax:before',
 		function(){
 			return false;
-		}).die('click').live('click', 
+		}).bind('click', 
 		function(){
 			var el = $(this);
+			el.unbind('ajax:before').unbind('click');
 			var disc = el.closest('div.Comment').next('div.comment_comments');
 			var com_cnt = disc.find('div.Comment').size();
 			switch(com_cnt){

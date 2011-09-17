@@ -11,8 +11,8 @@
 	- when params[:action].match(/create_talking_point_comment/)
 		:plain
 			$('div.talking_point_comments[id="#{params[:talking_point_id]}"] form.orig textarea').val('')
-			
-			
+	- when params[:action].match(/add_endorsement/)		
+			$('div.endorsements textarea').val('');
 
 
 :plain

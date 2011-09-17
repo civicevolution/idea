@@ -9,12 +9,13 @@
 	var newNode = $(tp_coms).insertAfter(tp);
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
 	// activate the link to hide the discussion
-	link.live('ajax:beforeSend', 
+	link.bind('ajax:before', 
 		function(){
 			return false;
-		}).die('click').live('click', 
+		}).bind('click', 
 		function(){
 			var el = $(this);
+			el.unbind('ajax:before').unbind('click');
 			var disc = el.closest('div.talking_point_entry').next('div.talking_point_comments');
 			var com_cnt = disc.find('div.Comment').size();
 			switch(com_cnt){
@@ -29,7 +30,6 @@
 					break;
 			}
 			disc.remove();
-			link.die('ajax:beforeSend').die('click');
 			return false;
 		}
 	)

@@ -3,27 +3,31 @@
 	var com_form = $("#{escape_javascript(
 		render( :partial => 'plan/comment_form', :locals => {:id=>comment.id, :type=>'comments', :criteria => com_criteria, :text=>text} )
 	)}");
+	// is there already a com form with this id?
+	console.log("is there already a com form with this id: #{comment.id}")
 	com_form.removeClass('orig');
 	var com = $('div.Comment[id="#{comment.id}"]');
-	var form = com.closest('div.discussion').find('form.comment_form.orig');
-	form.before(com_form);
-	if(form.find('textarea').val() == ''){
-		form.hide();
-	}
-	activate_text_counters_grow( com_form.find('textarea'), 120 );
-	var link = com_form.find('a.clear');
-	link.html("Cancel").removeClass('clear').addClass('cancel').attr('id',#{comment.id});
-	
-	$('a.cancel[id="#{comment.id}"]').die('click').live('click',
-		function(){
-			var el = $(this);
-			var par = el.closest('div.discussion');
-			var orig_form = par.find('form.comment_form.orig');
-			el.closest('form.comment_form').remove();
-			var forms = par.find('form.comment_form:visible');
-			if(forms.size() == 0){
-				orig_form.show(); 
-			}
-			return false;
+	if( com.closest('div.discussion').find('form.comment_form[id="#{comment.id}"]').size() == 0 ){
+		var form = com.closest('div.discussion').find('form.comment_form.orig');
+		form.before(com_form);
+		if(form.find('textarea').val() == ''){
+			form.hide();
 		}
-	);
+		activate_text_counters_grow( com_form.find('textarea'), 120 );
+		var link = com_form.find('a.clear');
+		link.html("Cancel").removeClass('clear').addClass('cancel').attr('id',#{comment.id});
+	
+		$('a.cancel[id="#{comment.id}"]').die('click').live('click',
+			function(){
+				var el = $(this);
+				var par = el.closest('div.discussion');
+				var orig_form = par.find('form.comment_form.orig');
+				el.closest('form.comment_form').remove();
+				var forms = par.find('form.comment_form:visible');
+				if(forms.size() == 0){
+					orig_form.show(); 
+				}
+				return false;
+			}
+		);
+	}
