@@ -6,16 +6,18 @@
 	var tp = $('div.talking_point_entry[id="#{talking_point.id}"]')
 	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').remove();
 	var link = tp.find('a.tp_show_coms').html('Hide discussion');	
+	// override the ajax Complete function to restore the link text
+	link.removeData('ujs:enable_with'); 
 	var newNode = $(tp_coms).insertAfter(tp);
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
 	// activate the link to hide the discussion
-	link.bind('ajax:before', 
+	link.bind('ajax:beforeSend', 
 		function(){
 			return false;
 		}).bind('click', 
 		function(){
 			var el = $(this);
-			el.unbind('ajax:before').unbind('click');
+			el.unbind('ajax:beforeSend').unbind('click');
 			var disc = el.closest('div.talking_point_entry').next('div.talking_point_comments');
 			var com_cnt = disc.find('div.Comment').size();
 			switch(com_cnt){

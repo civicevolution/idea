@@ -1,12 +1,9 @@
-- show_results = true unless !defined?(show_results).nil? && !show_results.nil?
+- mode = '' unless !defined?(mode).nil? && !mode.nil?
 %div.talking_point_preferable.corner{:id=>talking_point.id}
-	- if !show_results
+	- if mode == 'new_'
 		%p.my_preference 
-			= label_tag "preference_#{talking_point.id}" do
-				- if talking_point.my_preference
-					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox', :checked => true}
-				- else
-					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
+			= label_tag "#{mode}preference_#{talking_point.id}" do
+				%input{:name=>"#{mode}preference_#{talking_point.id}", :id=>"#{mode}preference_#{talking_point.id}", :type=>'checkbox', :checked => talking_point.my_preference ? true : false}
 				I prefer this
 	- elsif !talking_point.preference_votes.nil?
 		%p.total_preference 

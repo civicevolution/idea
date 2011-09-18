@@ -6,7 +6,6 @@
 	new_content.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
 	var dialog = new_content.dialog( {title : 'New content since your last visit', modal : false, width : 'auto', closeOnEscape: true, autoOpen: false });
 	dialog.dialog('open');
-	$('a.request_new').removeAttr('data-remote')
 	$('a.request_new').live('click',
 		function(){
 			var help_dlg = $('div.new_content').closest('.ui-dialog-content');
@@ -18,3 +17,4 @@
 			return false
 		}
 	);
+	setTimeout(function(){$('a.request_new').removeAttr('data-remote');}, 100);

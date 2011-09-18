@@ -78,8 +78,8 @@ G3::Application.routes.draw do |map|
   get "comments/:comment_id/comments", :to => 'comments#comment_comments', :as => 'comment_comments'
   get "comments/:comment_id/reply", :to => 'comments#comment_reply', :as => 'comment_reply'
 
-  post "comments/:comment_id/add_comment", :to => 'comments#create_comment_comment'
-  post "talking_points/:talking_point_id/add_comment", :to => 'comments#create_talking_point_comment'
+  post "comments/:comment_id/add_comment", :to => 'comments#create_comment_comment', :as => 'add_comment_comment'
+  post "talking_points/:talking_point_id/add_comment", :to => 'comments#create_talking_point_comment', :as => 'add_talking_point_comment'
 
   get "comments/:comment_id/report", :to => 'client_debug#report', :as => 'report_comment'
   get "talking_points/:talking_point_id/report", :to => 'client_debug#report', :as => 'report_talking_point'

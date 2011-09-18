@@ -7,16 +7,18 @@
 	var com = $('div.Comment[id="#{comment.id}"]')
 	$('div.comment_comments.discussion[id="#{comment.id}"]').remove()
 	var link = com.find('a.reply').html('Hide discussion');	
+	// override the ajax Complete function to restore the link text
+	link.removeData('ujs:enable_with'); 
 	var newNode = $(com_coms).insertAfter(com);
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
 	// activate the link to hide the discussion
-	link.bind('ajax:before',
+	link.bind('ajax:beforeSend',
 		function(){
 			return false;
 		}).bind('click', 
 		function(){
 			var el = $(this);
-			el.unbind('ajax:before').unbind('click');
+			el.unbind('ajax:beforeSend').unbind('click');
 			var disc = el.closest('div.Comment').next('div.comment_comments');
 			var com_cnt = disc.find('div.Comment').size();
 			switch(com_cnt){
@@ -31,7 +33,6 @@
 					break;
 			}
 			disc.remove();
-			link.die('ajax:beforeSend').die('click');
 			return false;
 		}
 	)

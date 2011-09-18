@@ -23,6 +23,40 @@ $(function(){
 		
 });
 
+function ajaxDisableElement(el){
+	var element = $(el);
+	element.data('ujs:enable_with', element.html()); // store enabled state+      
+	element.html( element.attr('disable-with') || 'Loading...' ); // set to disabled state
+	element.addClass('loading');
+	//element.bind('click.railsDisable', function(e) { // prevent further clicking
+	//	return rails.stopEverything(e)
+	//});
+}
+
+// restore element to its original state which was disabled by 'disableElement' above
+function ajaxEnableElement(el){
+	var element = $(el);
+	if (element.data('ujs:enable_with') !== undefined) {
+		element.html(element.data('ujs:enable_with')); // set to old enabled state
+		element.removeClass('loading');
+		element.removeData('ujs:enable_with'); // clean up cache
+	}
+	//element.unbind('click.railsDisable'); // enable element
+}
+
+$('a[data-remote]').live('ajax:beforeSend', 
+	function(){
+		console.log("ajax beforeSend");
+		ajaxDisableElement(this);
+	}
+).live('ajax:complete', 
+	function(){
+		console.log("ajax complete")
+		ajaxEnableElement(this)	
+	}
+)
+
+
 function init_page(){
 	//console.log("init_page")
 	remove_worksheet_form();

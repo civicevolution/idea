@@ -1,5 +1,6 @@
 - text ||= ''
-= form_tag("/#{type}/#{id}/add_comment", :remote=>true, :id=> id, :class=>'comment_form orig') do
+-#= form_tag("/#{type}/#{id}/add_comment", :remote=>true, :id=> id, :class=>'comment_form orig') do
+= form_tag( type=='comments' ? add_comment_comment_path(id) : add_talking_point_comment_path(id), :remote=>true, :id=> id, :class=>'comment_form orig') do
 	
 	- if type == 'comments'
 		%h3 Reply to this comment
@@ -11,7 +12,7 @@
 	= text_area_tag :text, "#{text}", {:class=>'autosize', :rows => 8}
 
 	%div.form_controls
-		%button 
+		%button{'data-disable-with' =>'Submitting...'}
 			Share
 
 		%span.char_ctr

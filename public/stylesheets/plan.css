@@ -47,10 +47,15 @@ a.help_tag {
   color: #f3973a;
   width: 32px;
   height: 183px;
-  background: url(/images/help_feedback_tag.gif) no-repeat 0 0; }
+  background: url(/images/help_feedback_tag.gif) no-repeat top right; }
 
 a.help_tag:hover {
   border-right: 2px solid white; }
+
+a.help_tag.loading {
+  width: 150px;
+  font-size: 1.4em;
+  font-weight: bold; }
 
 a.new_tag {
   position: fixed;
@@ -63,6 +68,11 @@ a.new_tag {
 
 a.new_tag:hover {
   border-left: 2px solid white; }
+
+a.new_tag.loading {
+  padding-left: 40px;
+  font-size: 1.4em;
+  font-weight: bold; }
 
 div.page {
   width: 980px;
