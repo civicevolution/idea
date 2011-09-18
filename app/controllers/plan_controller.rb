@@ -109,6 +109,8 @@ class PlanController < ApplicationController
       @talking_points  = @talking_points + TalkingPoint.find(tps_i_need)
     end
     
+    TalkingPoint.add_my_ratings_and_prefs(@talking_points,@member)
+
     Comment.set_question_id_child_comments(@comments)
     
     render :new_content, :layout => 'plan'

@@ -131,6 +131,17 @@ class TalkingPoint < ActiveRecord::Base
     end
   end
   
+  def self.add_my_ratings_and_prefs(talking_points, member)
+    #debugger
+    my_ratings = TalkingPointAcceptableRating.my_votes(talking_points.map(&:id), member.id)
+    my_preferences = TalkingPointPreference.my_votes(talking_points.map(&:id), member.id)
+    talking_points.each do |tp| 
+      my_rating = my_ratings.detect{|r| r.talking_point_id == tp.id}
+      tp.my_rating = my_rating.rating.to_i unless my_rating.nil?
+      my_pref = my_preferences.detect{|p| p.talking_point_id == tp.id}
+      tp.my_preference = my_pref.nil? ? false : true 
+    end
+  end
   
   def o_type
     13 #type for talking point

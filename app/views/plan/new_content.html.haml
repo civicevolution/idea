@@ -53,8 +53,28 @@
 							border-bottom: 4px solid white
 							border-top: 4px solid white
 					tr.talking_point
-						background-color: $talking_point_bg
+						//background-color: $talking_point_bg
+						background: $talking_point_bg
 						font-size: 1.2em
+						td.talking_point_entry
+							background: url(/images/white_bulb_sm.gif) no-repeat 8px 20px
+						a.display_talking_point
+							display: block
+							float: left
+							margin: 1em 0
+							padding-left: 30px
+							width: 390px
+						div.talking_point_acceptable
+							width: auto
+							background: none
+							margin: 1em 0 0 0 
+							padding: 0
+						div.talking_point_preferable
+							width: auto
+							background: none
+							margin: 1em 0 0 0 
+							padding: 0
+							
 					tr.comment.stripe
 						background-color: #F9F3DE
 					td
@@ -68,12 +88,6 @@
 				p.talking_point 
 					margin-bottom: 1em
 					padding-left: 30px
-					img
-						background-color: $talking_point_bg
-						width: 20px
-						height: 20px
-						margin-left: -30px
-						margin-right: 4px
 				td
 					a
 						text-decoration: none

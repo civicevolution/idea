@@ -1,18 +1,16 @@
+- mode = '' unless !defined?(mode).nil? && !mode.nil?
 %div.talking_point_acceptable.corner
 	%div.my_rating
 		%p.title My rating
 		%div.radios
 			- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
 
-
-				-#= label_tag "tp_rating_#{talking_point.id}_#{value}" do
 				%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
 					- if value.to_i == talking_point.my_rating
-						%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+						%input.rating{:name => "#{mode}tp_rating_#{talking_point.id}", :id => "#{mode}tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
 					- else
-						%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
-					-#%span.option= title
-					= label_tag "tp_rating_#{talking_point.id}_#{value}", title
+						%input.rating{:name => "#{mode}tp_rating_#{talking_point.id}", :id => "#{mode}tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+					= label_tag "#{mode}tp_rating_#{talking_point.id}_#{value}", title
 					
 		%p.clear_both
 		- if talking_point.my_rating.nil?
@@ -20,25 +18,31 @@
 		- else
 			%p.option{:title=>"#{TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]}"}= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]
 		
-	- vote_max = 0
-	- num_votes = 0
-	- talking_point.rating_votes.each{ |v| num_votes += v; vote_max = v unless vote_max > v }
-	- barw = 16
-	- barh = 22
-	%div.community_rating.no_js
-		%p.talking_point_ratings= "#{num_votes} ratings"
+	- if mode != 'new_'
+		- vote_max = 0
+		- num_votes = 0
+		- talking_point.rating_votes.each{ |v| num_votes += v; vote_max = v unless vote_max > v }
+		- barw = 16
+		- barh = 22
+		%div.community_rating.no_js
+			%p.talking_point_ratings= "#{num_votes} ratings"
 		
 		
-		%div.graph.js
-			- talking_point.rating_votes.each_index do |i|
-				%div.bar.zero{:style=>"left: #{barw * i}px; height: 100%"}
-				- if talking_point.rating_votes[i] > 0
-					%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
+			%div.graph.js
+				- talking_point.rating_votes.each_index do |i|
+					%div.bar.zero{:style=>"left: #{barw * i}px; height: 100%"}
+					- if talking_point.rating_votes[i] > 0
+						%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
 
 
-		%div.graph.no_js
-			- talking_point.rating_votes.each_index do |i|
-				%div.bar.zero{:style=>"top: #{barh * i}px; height: #{barh - 2}px; width: 100%"}
-				- if talking_point.rating_votes[i] > 0
-					%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"top: #{barh * i}px; height: #{barh - 2}px; width: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
+			%div.graph.no_js
+				- talking_point.rating_votes.each_index do |i|
+					%div.bar.zero{:style=>"top: #{barh * i}px; height: #{barh - 2}px; width: 100%"}
+					- if talking_point.rating_votes[i] > 0
+						%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"top: #{barh * i}px; height: #{barh - 2}px; width: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
 			
+		- if !talking_point.my_rating.nil? && talking_point.my_rating > 3		
+			%p.clear_both
+			%p.suggest.hide
+				= link_to 'Add a comment', talking_point_comments_path(talking_point), { :class=> 'tp_add_com', :id=>talking_point.id, :remote=>true}
+				to help others understand your concerns or offer an improvement

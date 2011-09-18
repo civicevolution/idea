@@ -1,5 +1,14 @@
+- show_results = true unless !defined?(show_results).nil? && !show_results.nil?
 %div.talking_point_preferable.corner{:id=>talking_point.id}
-	- if !talking_point.preference_votes.nil?
+	- if !show_results
+		%p.my_preference 
+			= label_tag "preference_#{talking_point.id}" do
+				- if talking_point.my_preference
+					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox', :checked => true}
+				- else
+					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
+				I prefer this
+	- elsif !talking_point.preference_votes.nil?
 		%p.total_preference 
 			- if talking_point.preference_votes.to_i == 0
 				No one prefers this
