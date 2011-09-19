@@ -1,7 +1,40 @@
+require 'differ'
 class TalkingPointVersionsController < ApplicationController
   skip_before_filter :authorize, :only => [ :history ]
   
   def history
+    talking_point = TalkingPoint.find(params[:talking_point_id])
+    logger.debug "versions.size: #{talking_point.versions.size}"
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:talking_point_id=>params[:talking_point_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
+    Differ.format = :html
+    diffs = [ { :version => talking_point.versions.size + 1, :html_diff => Differ.diff_by_word(talking_point.text, talking_point.versions[0].text), :created_at => talking_point.updated_at } ]
+    
+    i = 1
+    while talking_point.versions[i]
+      diffs.push( { :version => talking_point.versions[i-1].version, :html_diff => Differ.diff_by_word(talking_point.versions[i-1].text, talking_point.versions[i].text), :created_at => talking_point.versions[i-1].created_at } )
+      i += 1
+    end    
+    
+    respond_to do |format|
+      format.html { render 'history', :locals => {:talking_point => talking_point, :diffs=>diffs}, :layout => 'plan' }
+      format.js { render 'history', :locals => {:talking_point => talking_point, :diffs=>diffs} }
+    end
+    
+  end
+  
+  def versions_list
     talking_point = TalkingPoint.find(params[:talking_point_id])
     logger.debug "versions.size: #{talking_point.versions.size}"
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:talking_point_id=>params[:talking_point_id]}, 'view_idea_page', @member)

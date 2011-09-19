@@ -1,4 +1,11 @@
 %div
+	%style
+		:sass
+			table.talking_point_history
+				ins
+					color: green
+				del
+					color: red
 	- if !request.xhr?
 		%h3= link_to talking_point.team.title, proposal_path(talking_point.team.id)
 		%h4= link_to "Q#{talking_point.question.order_id}: #{talking_point.question.text}", question_worksheet_path(talking_point.question), {:class=> 'open_worksheet'}
@@ -12,17 +19,37 @@
 					%b (Current)
 				%td= talking_point.text
 				%td 
-					%abbr.timeago{:title=>talking_point.created_at}= time_ago_in_words(talking_point.created_at) + ' ago'
+					%abbr.timeago{:title=>talking_point.updated_at}= time_ago_in_words(talking_point.updated_at) + ' ago'
 				
 		
-		- talking_point.versions.each do |v|
+		- diffs.each do |v|
 			%tr
-				%td.ver Version #{v.version}
-				%td= v.text
+				%td.ver Version #{v[:version]}
+				%td!= v[:html_diff]
 				%td 
-					%abbr.timeago{:title=>v.created_at}= time_ago_in_words(v.created_at) + ' ago'
-		
-		
+					%abbr.timeago{:title=>v[:created_at]}= time_ago_in_words(v[:created_at]) + ' ago'
+	
+		%tr
+			%td
+				Version #{talking_point.versions.last.version}
+				%b (Initial)
+			%td= talking_point.versions.last.text
+			%td 
+				%abbr.timeago{:title=>talking_point.versions.last.created_at}= time_ago_in_words(talking_point.versions.last.created_at) + ' ago'
+
+		%tr
+			%td{:colspan=>3}		
+		%tr
+			%td{:colspan=>3}
+				Green text with underline
+				%ins like this
+				was added to this version
+		%tr
+			%td{:colspan=>3}
+				Red text with strikethrough
+				%del like this
+				was deleted from this version
+
 
 	- if !request.xhr?
 		%h4= link_to "Back", question_worksheet_path(talking_point.question), {:class=> 'open_worksheet'}
