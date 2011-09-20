@@ -168,7 +168,9 @@ class ApplicationController < ActionController::Base
   end
 
   def sign_out
-    session[:member_id] = nil
+    session.delete :member_id
+    session.delete :code
+    session.delete :_mlc
     flash[:notice] = "Signed out"
     redirect_to :controller=> 'welcome', :action => "index"
   end
