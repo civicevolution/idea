@@ -18,14 +18,6 @@
 				%ul.teams_list
 					- @member.team_titles.each do |team|
 						%li{:class=>'team', :id=>team.id}
-							= link_to team.title, {:controller=>'plan',:action => 'index', :id=>team.id}, {}
+							= link_to team.title, plan_path(team.id), {}
 			- else 
 				%p You have not participated in, endorsed, or followed any of the proposal ideas yet.
--#				
-	= form_tag('/welcome/upload_member_photo',{:class=>'upload_member_photo'}) do
-		%p
-			%b Upload your profile picture
-		= file_field_tag :photo
-		%p
-			= submit_tag "Upload photo"
-			= link_to 'Cancel', {:controller => "welcome"}, {:class=>'cancel', :rel=>'nofollow'}

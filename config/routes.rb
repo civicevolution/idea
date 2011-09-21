@@ -131,6 +131,8 @@ G3::Application.routes.draw do |map|
   get 'get_started' => 'welcome#get_started'
   post 'get_started' => 'welcome#get_started_post'
 
+  get 'visual_help' => 'help#visual_help'
+
   resources :answer_diffs
 
   #resources :talking_point_versions

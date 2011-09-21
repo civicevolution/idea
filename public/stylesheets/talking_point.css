@@ -137,8 +137,6 @@ div.tools_info {
   div.tools_info div.videos {
     float: left; }
     div.tools_info div.videos img {
-      width: 135px;
-      height: 105px;
       margin-top: 10px; }
     div.tools_info div.videos p {
       font-weight: bold; }

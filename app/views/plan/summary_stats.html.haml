@@ -91,31 +91,14 @@
 	
 	%p.clear_both	
 
--#%div.tools_info.corner
-	%div.tools	
-		/AddThis Button BEGIN
-		%div.addthis_toolbox.addthis_default_style
-			%a.addthis_button_compact{:href=>"http://addthis.com/bookmark.php?v=250"}Share
-			%span.addthis_separator
-			%a.addthis_button_facebook
-			%a.addthis_button_twitter
-			%a.addthis_button_googlebuzz
-			%a.addthis_button_email
-			%span.addthis_separator
-			%a.addthis_button_facebook_like
-		= javascript_tag %Q|var addthis_config = {"data_track_clickback":true};|
-		= javascript_include_tag 'http://s7.addthis.com/js/250/addthis_widget.js#username=civicevolution'
-		/AddThis Button END
-		%p= link_to "Follow this idea",{},{:class=>'follow'}
-		%p= link_to "Invite friends",{},{:class=>'invite'}
-		-#- if @member.id == @team.org_id || @team.participants.detect{|m| m.id == @member.id}
-		%p= link_to "Email participants",{},{:class=>'email_participants'}
-		%p= link_to "Print proposal",{},{:class=>'invite'}
+%div.tools_info.corner
+	-#%p= link_to "Email participants",{},{:class=>'email_participants'}
+	-#%p= link_to "Print proposal",{},{:class=>'invite'}
 
 	%div.videos	
-		-#%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=WS_EzJ0UW00'}
-		-#%p Watch our 60 second intro video
-		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/22311078', :title=>'2029 CivicEvolution Demo', :id=>'play_intro_video'} 
-			= image_tag '2029_demo_placeholder.gif', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
+		%p Introduction to CivicEvolution
+		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
+			= image_tag 'vhelp/ce_tp_video_placeholder.jpg', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
+
 	%p.clear_both
 

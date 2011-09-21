@@ -62,7 +62,12 @@ function init_page(){
 	remove_worksheet_form();
 	size_talking_point_entries();
 	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
-	$('.corner').corner()
+	if($('.corner').size() > 0 ){
+		$('.corner').corner();
+	}
+	try{
+		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
+	}catch(e){}
 }
 
 function remove_worksheet_form(){

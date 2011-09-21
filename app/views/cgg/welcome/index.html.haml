@@ -126,19 +126,18 @@
 			%ul.teams_list
 				- @member.team_titles.each do |team|
 					%li{:class=>'team', :id=>team.id}
-						= link_to team.title, {:controller=>'plan',:action => 'index', :id=>team.id}, {}
+						= link_to team.title, plan_path(team.id), {}
 
 	%h2.home_title Watch our videos
 	%div.right_vertical_bar
 		%div.videos	
-			-#%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=WS_EzJ0UW00'}
 			%p Introduction to CivicEvolution
-			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/22311078', :title=>'2029 CivicEvolution Demo', :id=>'play_intro_video'} 
-				= image_tag '2029_demo_placeholder.gif', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
+			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
+				= image_tag 'vhelp/ce_tp_video_placeholder.jpg', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
 				
 			%p
 				Or
-				= link_to "read about it", {:controller=> 'welcome', :action=>'intro'}
+				= link_to "read about it", visual_help_path
 			
 			-#%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated', :id=>'play_intro_video'} 
 				= image_tag 'video_placeholder1.jpg', :alt=>'CivicEvolution Illustrated video', :title=> 'Click to play this video'
