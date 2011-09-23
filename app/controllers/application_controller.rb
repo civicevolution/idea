@@ -152,7 +152,8 @@ class ApplicationController < ActionController::Base
             flash[:params].each_pair{|key,val| params[key] = val }
             send params[:action] # this will execute the method stored in params[:action]
           else
-            render 'redirect_to_home_page'
+            #render 'redirect_to_home_page'
+            render 'sign_in/reload.js'
           end
         }
       end
