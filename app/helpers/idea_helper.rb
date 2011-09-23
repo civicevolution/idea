@@ -2,7 +2,7 @@ module IdeaHelper
   
   def show_author_comment(author,ape_code,text)
 
-    author = link_to author, {:action=>'author_info', :id=>ape_code}, {:class=>'com_author'}
+    author = link_to author, display_profile_path(ape_code), {:class=>'com_author', :remote=>true}
     quote = text.match(/\[quote=(.*)\](.*)\[\/quote\]/i)
     fields = text.match(/\[quote="(.*)"\](.*)\[\/quote\]/i)
     if fields

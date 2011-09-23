@@ -14,7 +14,7 @@
 			We discuss each question on the left to find answers acceptable to most of the community. 
 		%p	
 			Click a question to participate. 
-			= link_to "Learn more"
+			= link_to "Learn more", visual_help_path
 	%p.clear_both
 	
 %div.cta_block.corner
@@ -28,7 +28,7 @@
 			= link_to "Follow this idea", notification_settings_form_path(@team.id)
 		
 		%p.cta
-			= link_to "Invite friends", invite_friends_form_path(@team.id), {:class=>'invite'}
+			= link_to "Invite friends", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}
 			
 		%div.tools	
 			/AddThis Button BEGIN
@@ -96,9 +96,8 @@
 	-#%p= link_to "Print proposal",{},{:class=>'invite'}
 
 	%div.videos	
-		%p Introduction to CivicEvolution
+		%p= link_to 'Watch our Introduction to CivicEvolution', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
 			= image_tag 'vhelp/ce_tp_video_placeholder.jpg', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
-
-	%p.clear_both
+		%p= link_to "Visit our help page", visual_help_path
 

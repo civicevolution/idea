@@ -134,12 +134,8 @@ div.tools_info {
       margin: 10px 0 0 0; }
     div.tools_info div.tools a {
       height: 16px; }
-  div.tools_info div.videos {
-    float: left; }
-    div.tools_info div.videos img {
-      margin-top: 10px; }
-    div.tools_info div.videos p {
-      font-weight: bold; }
+  div.tools_info div.videos p {
+    font-weight: bold; }
 
 div.cta_block {
   background-color: #c8bcd1;

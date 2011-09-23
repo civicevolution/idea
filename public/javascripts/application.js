@@ -46,12 +46,12 @@ function ajaxEnableElement(el){
 
 $('a[data-remote]').live('ajax:beforeSend', 
 	function(){
-		console.log("ajax beforeSend");
+		//console.log("ajax beforeSend");
 		ajaxDisableElement(this);
 	}
 ).live('ajax:complete', 
 	function(){
-		console.log("ajax complete")
+		//console.log("ajax complete")
 		ajaxEnableElement(this)	
 	}
 )

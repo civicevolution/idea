@@ -19,7 +19,7 @@ class MembersController < ApplicationController
   def new_profile_post
     # check the captcha before saving
     member = Member.new :email => EmailLookupCode.get_email( session[:code] ) , :first_name => params[:first_name] , :last_name  => params[:last_name] , :pic_id=> 0, :init_id => 0 , :confirmed => true
-    if verify_recaptcha( :model => member, :message => "We're sorry, but the captcha didn't match. Please try again." ) && member.save
+    if verify_recaptcha( :model => member, :message => "We're sorry, but the text you entered in the spam test didn't match. Please try again." ) && member.save
       logger.debug "The member has been saved, process their past activities"
       session[:member_id] = member.id
       session[:code] = nil
@@ -41,6 +41,11 @@ class MembersController < ApplicationController
   end
   
   def display_profile
+    profile = Member.find_by_ape_code(params[:ape_code])
+    respond_to do |format|
+      format.html { render 'display_profile', :locals=>{:profile=>profile} }
+      format.js{ render 'display_profile', :locals=>{:profile=>profile} }
+    end
     
   end
   
@@ -57,68 +62,136 @@ class MembersController < ApplicationController
   
   def invite_friends_form
     team = Team.find(params[:team_id])
-    
-    
-    respond_to do |format|
-      format.html { render 'invite_friends_form', :locals => { :team => team } }
+    if flash[:params]
+      params[:message] = flash[:params][:message]
+      params[:recipient_emails] = flash[:params][:recipient_emails]
     end
-    
-    
+    #debugger
+    @form_errors ||= flash[:form_errors]
+    respond_to do |format|
+      format.html { render 'invite_friends_form.html', :locals => { :team => team } }
+      format.js { render 'invite_friends_form.js', :locals => { :team => team } }
+    end
   end
   
-  def invite_friends_post
-    
-    team = nil
-    
-    respond_to do |format|
-      format.html { render 'invite_friends_sent', :locals => { :team => team } }
-    end
-    return
-    
-    logger.debug "invite_friends #{params.inspect}"
-    
-    member = Member.find(session[:member_id])
-    team = Team.find(params[:team_id])
-    
-    @invite = InviteEmail.new :sender => member, :recipient_emails => params[:recipient_emails], :message=> params[:message]
-    @invite.valid?
+  def invite_friends_preview
+    team = Team.find( params[:team_id] || flash[:params][:team_id] )
 
-    if @invite.errors.empty? && params[:send_now] == 'true'
-      # invite is valid and to be sent now - check the captcha before sending
-      # I shortened the field name in form b/c it was removed by recaptcha
-      params[:recaptcha_challenge_field] = params[:recaptcha_challenge]
-      params[:recaptcha_response_field] =  params[:recaptcha_response]
-      validate_recap(params, @invite.errors)
+    if flash[:params]
+      params[:message] = flash[:params][:message]
+      params[:recipient_emails] = flash[:params][:recipient_emails]
     end
+    
+    @invite = InviteEmail.new :sender => @member, 
+      :recipient_emails => params[:recipient_emails], 
+      :message=> params[:message]
+    @invite.valid?
+    @preview_errors ||= flash[:preview_errors]
     
     respond_to do |format|
       if @invite.errors.empty?
-        if params[:send_now] != 'true'
-          recipient =  @invite.recipients[0]
-          logger.debug "Generate a sample email to #{recipient[:first_name]} at #{recipient[:email]}"
-          @email = ProposalMailer.team_send_invite(member, recipient, @invite, team, request.env["HTTP_HOST"] )
-          format.html { render :action => "team/preview_invite_request", :layout => false } if request.xhr?
-          format.html { render :action => "team/preview_invite_request", :layout => 'welcome' }
+        recipient =  @invite.recipients[0]
+        #logger.debug "Generate a sample email to #{recipient[:first_name]} at #{recipient[:email]}"
+        @email = ProposalMailer.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"] )
+        if flash[:params]
+          flash[:params][:recipient_emails] = params[:recipient_emails] || flash[:params][:recipient_emails]
+          flash[:params][:message] = params[:message] || flash[:params][:message]
         else
-          @invite.recipients.each do |recipient|
-            logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
-            ProposalMailer.delay.team_send_invite(member, recipient, @invite, team, request.env["HTTP_HOST"] )
-          end
-          format.html { render :action => "team/acknowledge_invite_request", :layout => false } if request.xhr?
-          format.html { render :action => "team/acknowledge_invite_request", :layout => 'welcome' }
-          
+          flash[:params] = params
         end
+        flash.keep
+
+        format.html { render :template => "members/preview_invite_request", :locals=>{:team=>team, :use_recaptcha_tags => true}, :layout => 'welcome' }
+        format.js { render :template => "members/preview_invite_request", :locals=>{:team=>team}}
       else
-        if !@invite.errors[:recipient_emails].nil? && @invite.errors[:recipient_emails].size() > 0 && request.xhr?
-          format.html { render :action => "team/invite_request_email_errors", :layout => false }
+        if flash[:params]
+          flash[:params][:recipient_emails] = params[:recipient_emails] || flash[:params][:recipient_emails]
+          flash[:params][:message] = params[:message] || flash[:params][:message]
         else
-          format.json { render :text => [@invite.errors].to_json, :status => 409 }    
+          flash[:params] = params
         end
+        flash.keep
+        format.html { 
+          flash[:form_errors] = @invite.errors
+          redirect_to invite_friends_form_path(team.id) 
+        }
+        format.js { 
+          @form_errors = @invite.errors
+          invite_friends_form 
+        }
       end
     end
-    
   end
-  
+
+  def invite_friends_send
+
+    team = Team.find( params[:team_id] || flash[:params][:team_id] )
+
+    @invite = InviteEmail.new :sender => @member, 
+      :recipient_emails => params[:recipient_emails] || flash[:params][:recipient_emails], 
+      :message=> params[:message] || flash[:params][:message]
+    if !@invite.valid?
+      if flash[:params]
+        flash[:params][:recipient_emails] = params[:recipient_emails] || flash[:params][:recipient_emails]
+        flash[:params][:message] = params[:message] || flash[:params][:message]
+      else
+        flash[:params] = params
+      end
+      
+      respond_to do |format|
+        format.html { 
+          flash[:form_errors] = @invite.errors
+          redirect_to invite_friends_form_path(team.id) 
+        }
+        format.js { 
+          @form_errors = @invite.errors
+          invite_friends_form 
+        }
+      end
+      return
+    end
+
+    verify_recaptcha( :model => @invite, :message => "We're sorry, but the text you entered in the spam test didn't match. Please try again." )
+
+    respond_to do |format|
+      if @invite.errors.empty?
+        @invite.recipients.each do |recipient|
+          #logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
+          ProposalMailer.delay.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"] )
+        end
+        flash[:invite] = @invite
+        flash[:team_id] = team.id
+        format.html { redirect_to invite_friends_acknowledge_path }
+        format.js { 
+          render :template => "members/acknowledge_invite_request.js", :locals=>{:team_id=>team.id, :invite=>@invite}
+        } 
+      else
+
+        if flash[:params]
+          flash[:params][:recipient_emails] = params[:recipient_emails] || flash[:params][:recipient_emails]
+          flash[:params][:message] = params[:message] || flash[:params][:message]
+        else
+          flash[:params] = params
+        end
+        flash.keep
+        format.html { 
+          flash[:preview_errors] = @invite.errors
+          redirect_to invite_friends_preview_path(team.id) 
+        }
+        format.js { 
+          @preview_errors = @invite.errors
+          invite_friends_preview 
+        }
+      end          
+    end
+  end
+
+  def acknowledge_invite_request
+    flash.keep
+    respond_to do |format|
+      format.html { render :template => "members/acknowledge_invite_request.html", :locals=>{:team_id=>flash[:team_id], :invite=>flash[:invite]}, :layout => 'plan' }
+    end
+  end
   
   
   

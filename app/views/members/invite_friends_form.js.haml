@@ -1,0 +1,20 @@
+:plain
+	var form = $("#{escape_javascript(
+		render( :template => 'members/invite_friends_form.html', :locals => { :team => team } )
+	)}");
+
+	var dialog = form.dialog( {title : 'Invite your friends', modal : false, width : 'auto', closeOnEscape: false, close: function(){$(this).remove()} });
+	
+	$('div#invite_friends a.clear').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	)	
+	
+	$('div#preview_invite').closest('div.ui-dialog').dialog('destroy').end().remove();
+	
+	if($('div#invite_friends').size() > 1){
+		$('div#invite_friends:first').closest('div.ui-dialog').dialog('destroy').end().remove();
+	}
+	activate_text_counters_grow(dialog.find('textarea, input[type="text"]'), 120);

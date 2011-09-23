@@ -208,6 +208,9 @@ img.i36 {
   width: 36px;
   height: 36px; }
 
+textarea {
+  height: 100px; }
+
 .form_error_border {
   border: 1px solid #f2583e; }
 
@@ -216,7 +219,8 @@ img.i36 {
   font-weight: bold; }
 
 div#errorExplanation {
-  color: red; }
+  color: red;
+  margin-bottom: 1em; }
 
 form.what_do_you_think, form.std_form, form.comment_form {
   margin-bottom: 40px;

@@ -1,0 +1,55 @@
+- use_recaptcha_tags ||= false
+%div#preview_invite
+	%h3 You are almost done inviting your friend#{@invite.recipients.size>1 ? 's' : ''}
+
+	%p
+		You must preview this sample email and click the 
+		%b Send this email now
+		button to send this invitation
+
+	%div.preview_email 
+		%div.email_headers		
+			%p #{@email.to_s.match(/From:.*/)} 
+			%p Recipients:
+			- @invite.recipients.each do |recipient|
+				%p.recipients #{recipient[:first_name]} #{recipient[:last_name]} &#60;#{recipient[:email]}&#62;
+	
+
+			%p.subject Subject: #{@email.subject}
+
+		%pre.email_body= @email.body
+
+
+	%p 
+		Click 
+		= link_to 'make changes', invite_friends_form_path(params[:team_id]), {:class=>'make_changes', :remote=>true}
+		if you would like to make changes to this invitation
+	%p	
+		If this is okay, enter these letters in the box and click 
+		%b send.
+		(This helps us protect members from spam)
+
+	= form_tag( invite_friends_send_path(params[:team_id]), {:class=>'invite_friends std_form', :remote=>true} ) do
+		= hidden_field_tag :send_now, true
+		
+		= render( :partial => 'shared/error_messages', :locals => {:errors => @preview_errors}) unless @preview_errors.nil?
+		- if use_recaptcha_tags
+			= recaptcha_tags
+		- else
+			%div#dynamic_recaptcha
+		
+			If the text is difficult to read, click
+			%a.reload_captcha{:href=>'#'} reload
+			to see different text.
+		
+		%p
+			= submit_tag 'Send this email now'
+			-#%button Send this email now
+			= link_to 'Make changes', invite_friends_form_path(params[:team_id]), {:class=>'make_changes', :remote=>true}
+
+			- if team.nil?
+				= link_to 'Cancel', home_path, {:class=>'clear', :rel=>'nofollow'}
+				%p You can email them this link: #{home_url(team)}
+			- else
+				= link_to 'Cancel', plan_path(team), {:class=>'clear', :rel=>'nofollow'}
+

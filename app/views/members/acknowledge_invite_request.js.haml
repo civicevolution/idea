@@ -1,0 +1,19 @@
+:plain
+	var ack = $("#{escape_javascript(
+		render( :template => 'members/acknowledge_invite_request.html', :locals=>{:team_id=>flash[:team_id], :invite=>flash[:invite]})
+	)}");
+
+	var dialog = ack.dialog( {title : 'Thank you', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+	
+	
+	$('div#acknowledge_invite a').html('Close').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	)	
+	
+	
+	
+	$('div#preview_invite').closest('div.ui-dialog').dialog('destroy').end().remove();
+	

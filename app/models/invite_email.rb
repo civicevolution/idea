@@ -30,7 +30,7 @@ class InviteEmail < Tableless
                          
                          
   def process_recipient_emails                       
-    logger.debug "process_recipient_emails #{self.recipient_emails}"
+    #logger.debug "process_recipient_emails #{self.recipient_emails}"
     self.recipients = []
     # break this into lines. process each line, record errors
     
@@ -38,7 +38,7 @@ class InviteEmail < Tableless
     lines.each do |line|
       line = line.gsub(/[<>]/,'').strip
       recipient = {}
-      logger.debug "extract and verify email recipient in text: #{line}"
+      #logger.debug "extract and verify email recipient in text: #{line}"
       pieces = line.match(/(.*) ([^ ]*)/)
       if pieces.nil? # no space, treat as just an email address
         recipient[:email] = line
@@ -60,9 +60,9 @@ class InviteEmail < Tableless
                          
   def check_recipient_email_addresses
     addresses = {}
-    logger.debug "check_recipient_email_addresses"
+    #logger.debug "check_recipient_email_addresses"
     self.recipients.each do |recipient|
-      logger.debug "verify email address for #{recipient.inspect}"
+      #logger.debug "verify email address for #{recipient.inspect}"
       if recipient[:email].match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i).nil?
         errors.add(:recipient_emails, "should be like xxx@yyy.zzz")
         recipient[:error] = "The recipient must include a valid email address like xxx@yyy.zzz"

@@ -1,0 +1,32 @@
+:plain
+	var preview = $("#{escape_javascript(
+		render( :template => 'members/preview_invite_request.html', :locals=>{:team=>team} )
+	)}");
+
+	var dialog = preview.dialog( {title : 'Preview your invite email', modal : false, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });
+
+	$('div#invite_friends').closest('div.ui-dialog').dialog('destroy').end().remove();
+	
+	$('div#preview_invite a.clear').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	)	
+
+	if($('div#preview_invite').size() > 1){
+		$('div#preview_invite:first').closest('div.ui-dialog').dialog('destroy').end().remove();
+	}
+
+
+	$.getScript("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js");
+	
+	setTimeout(function(){ 
+		Recaptcha.create('6Lcy0L0SAAAAAHXcETe-lnzty-iUyfYgvVp_br3Z', document.getElementById('dynamic_recaptcha'));
+		$('a.reload_captcha').die('click').live('click',
+			function(){
+				Recaptcha.reload(); 
+				return false;
+			}
+		) 
+	},1000);

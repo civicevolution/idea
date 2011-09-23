@@ -1,9 +1,14 @@
-%style
-	:sass
-		div#invite_friends
-			p.subject
-				margin: 4em 0 2em 0
 %div#invite_friends
+	%style
+		:sass
+			div#invite_friends
+				p.subject
+					margin: 4em 0 2em 0
+				p.instr
+					margin: 0 0 0 1em
+					font-size: .8em
+					color: #444
+	
 	%h2 Please tell your friends about this proposal
 	- if @member.id == 0
 		- if team.nil?
@@ -17,17 +22,23 @@
 			The email addresses you enter here will be used just one time to send this email.
 			- if team.initiative_id == 1
 				%i Please note, only City of Geraldton-Greenough staff can access CGG proposals. Please contact us to make an exception.
-		= form_tag( invite_friends_post_path, {:class=>'invite_friends std_form'} ) do
-			= hidden_field_tag :team_id, params[:id]
+				
+		= render( :partial => 'shared/error_messages', :locals => {:errors => @form_errors}) unless @form_errors.nil?
+				
+		= form_tag( invite_friends_preview_path(team.id), {:class=>'invite_friends std_form', :remote=>true} ) do
 			= hidden_field_tag :send_now
 			= hidden_field_tag :recaptcha_challenge
 			= hidden_field_tag :recaptcha_response
 		
 			%label 
 				Please enter your friend's names and email addresses
-				= link_to "How", {:id=>'invite_emails'}, {:class=>'show_me_how', :rel=>'nofollow'}
-				
-			= text_area_tag :recipient_emails, nil, {:class=>'autosize'}
+				%p.instr One friend per line, the name is optional:
+				%p.instr Joe Public joe@public.com
+				%p.instr mary@public.com
+				-#= link_to "How", {:id=>'invite_emails'}, {:class=>'show_me_how', :rel=>'nofollow'}
+
+			- recipient_emails = params[:recipient_emails] || '' # 'brian@civicevolution.org'	
+			= text_area_tag :recipient_emails, recipient_emails, {:class=>'autosize'}
 
 			%div.form_controls
 				%span.char_ctr
@@ -38,7 +49,8 @@
 		
 			%label Please write a short message that will encourage them to visit the site
 			
-			= text_area_tag :message, nil, {:class=>'autosize'}
+			- message = params[:message]|| '' # || 'Please check out this team'
+			= text_area_tag :message, message, {:class=>'autosize'}
 
 			%div.form_controls
 				%button 

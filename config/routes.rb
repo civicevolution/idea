@@ -116,11 +116,13 @@ G3::Application.routes.draw do |map|
   match 'members/new_profile' => 'members#new_profile_post', :via => [:put, :post], :as=>'new_profile_post'
   get 'members/:ape_code/edit_profile' => 'members#edit_profile_form', :as=>'edit_profile_form'
   match 'members/:ape_code/edit_profile' => 'members#edit_profile_post', :via => [:put, :post], :as=>'edit_profile_post'
-  get 'members/:ape_code/profile' => 'members#edit_profile', :as=>'display_profile'
+  get 'members/:ape_code/profile' => 'members#display_profile', :as=>'display_profile'
   match 'members/:ape_code/photo' => 'members#upload_member_photo', :via => [:put, :post], :as=>'upload_member_photo'
 
   get 'members/invite(/:team_id)' => 'members#invite_friends_form', :as => 'invite_friends_form'
-  match 'members/invite(/:team_id)' => 'members#invite_friends_post', :via=>[:put, :post], :as => 'invite_friends_post'
+  match 'members/invite/:team_id/preview' => 'members#invite_friends_preview', :as => 'invite_friends_preview'
+  post 'members/invite/:team_id/send' => 'members#invite_friends_send', :as => 'invite_friends_send'
+  get 'members/acknowledge_invite_request' => 'members#acknowledge_invite_request', :as => 'invite_friends_acknowledge'
 
   get 'notification/:team_id/settings' => 'notification#settings_form', :as => 'notification_settings_form'
   match 'notification/:team_id/update_settings' => 'notification#update_notification_settings', :via=>[:put, :post], :as => 'notification_settings_post'
