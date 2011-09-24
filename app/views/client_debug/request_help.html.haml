@@ -11,7 +11,7 @@
 			Have you watched our
 			= link_to 'intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 			or visited our
-			#{link_to "help page", visual_help_path}?
+			#{link_to "help page", visual_help_path, {:remote=>true}}?
 			
 	= form_for :request_help, :url => request_help_path, :html=> {:class=>'request_help std_form', :remote=>true } do |form| 
 		%p

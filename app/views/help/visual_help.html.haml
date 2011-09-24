@@ -1,7 +1,7 @@
-%div.visual_help
+%div#visual_help
 	%style
 		:sass
-			div.visual_help
+			div#visual_help
 				width: 505px
 				font-size: 1.2em
 			
@@ -54,3 +54,6 @@
 	
 	%p CivicEvolution makes it easy to think together as a community 
 	%p Join us now!
+	
+	%p
+		= link_to "Close", home_path, {:class=>'cancel'}

@@ -1,0 +1,17 @@
+:plain
+	$('div#visual_help').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+	
+	var help = $("#{escape_javascript(
+		render( :template => 'help/visual_help.html' )
+	)}");
+	
+	var dialog = help.dialog( {title : 'CivicEvolution Help', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+	
+	$('div#visual_help a.cancel').die('click').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);
+
+	
