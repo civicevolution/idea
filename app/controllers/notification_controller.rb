@@ -9,7 +9,7 @@ class NotificationController < ApplicationController
   def settings_form
     @team = Team.where(:id=>params[:team_id])
 
-    allowed,message = InitiativeRestriction.allow_action({:team_id => params[:team_id]}, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:team_id]}, 'view_idea_page', @member)
     if !allowed
       if request.xhr?
         render :text => '<p> You are not allowed to access this proposal. ' + message + '</p>', :layout=> false #, :status => 409
@@ -22,31 +22,34 @@ class NotificationController < ApplicationController
     @teams = (@team + @member.team_titles).map{|t| [t.title, t.id]}.uniq
     @team = @team[0]
     @notification_setting = NotificationRequest.new :member_id=>@member.id, :team_id=>@team.id, :act=>'init'
-    
-    render :action=>'settings', :layout=> request.xhr? ? false : 'plan', :locals => {:xhr => request.xhr? }
+
+    respond_to do |format|
+      format.html { render :template=>'notification/settings', :layout=> 'plan' }
+      format.js { render :template=>'notification/settings' }
+    end
   end
 
   def update_notification_settings
     logger.debug "update_notification_settings params: #{params.inspect}"
-    @team = Team.select('id, title, initiative_id').where(:id=>params[:notification_setting][:team_id])
-    allowed,message = InitiativeRestriction.allow_action({:team_id => params[:notification_setting][:team_id]}, 'view_idea_page', @member)
+
+    @team = Team.select('id, title, initiative_id').where(:id=>params[:team_id])
+    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:team_id]}, 'view_idea_page', @member)
     if !allowed
-      if request.xhr?
-        render :text => message, :layout=> false, :status => 409
-      else
-        render :template => 'idea/private_page', :layout => 'welcome'
+      respond_to do |format|
+        format.html { render 'shared/private', :layout => 'plan' }
+        format.js { render 'shared/private' }
       end
       return
     end
 
     @notification_setting = NotificationRequest.new :member_id=>@member.id, :act=>'split_save'
-    @notification_setting.attributes = params[:notification_setting]        
+    @notification_setting.attributes = params[:notification_setting]   
+    @notification_setting.team_id = params[:team_id]     
     @saved = @notification_setting.split_n_save  
 
-    if request.xhr?
-      render :text => @saved ? 'OK' : 'FAIL'
-    else
-      render :action=>'update_notification_settings', :layout=> 'welcome' 
+    respond_to do |format|
+      format.html { render :template=>'notification/update_notification_settings', :locals=>{:team_id=>params[:team_id]}, :layout=> 'plan'  }
+      format.js { render :template=>'notification/update_notification_settings.js', :locals=>{:team_id=>params[:team_id]} }
     end
   end
   

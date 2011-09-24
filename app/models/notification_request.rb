@@ -2,8 +2,10 @@ class NotificationRequest < ActiveRecord::Base
  
   attr_accessor :reply_freq
   attr_accessor :reply_format
-  attr_accessor :all_freq
-  attr_accessor :all_format
+  attr_accessor :com_freq
+  attr_accessor :com_format
+  attr_accessor :tp_freq
+  attr_accessor :tp_format
   attr_accessor :act
   attr_accessor :follow
   
@@ -15,6 +17,22 @@ class NotificationRequest < ActiveRecord::Base
   # report_format: 1 = full, 2 = summary
   # there can be 0,1, or 2 records
   # freq: n = never, i = immediate, h = hourly, d = daily (1 entry in hours)
+  #  id |       type        |    description     
+  # ----+-------------------+--------------------
+  #   0 | my content
+  #   1 | question          | question           
+  #   2 | answer            | answer             
+  #   3 | comment           | comment            
+  #   4 | team              | team               
+  #   5 | chat_session      | chat_session       
+  #   6 | chat_message      | chat_message       
+  #   7 | list              | list               
+  #   8 | list_item         | list_item          
+  #   9 | page              | page               
+  #  10 | team info         | team info          
+  #  11 | public_discussion | public_discussion  
+  #  12 | bs_idea           | Brainstorming idea 
+  #  13 | talking_point     | talking_point
   
   # after_initialize sets the vars I need to adjust settings in browser
   def init_settings
@@ -23,14 +41,16 @@ class NotificationRequest < ActiveRecord::Base
       self.follow = false
       self.reply_freq = 'n'
       self.reply_format = 'full'
-      self.all_freq = 'n'
-      self.all_format = 'full'
+      self.com_freq = 'n'
+      self.com_format = 'full'
+      self.tp_freq = 'n'
+      self.tp_format = 'full'
       recs = NotificationRequest.find_all_by_member_id_and_team_id(self.member_id, self.team_id)
       #debugger
       recs.each do |req|
         req.hour_to_run = req.hour_to_run.scan(/\d+/).map{|d| d.to_i} unless req.hour_to_run.nil?
         case 
-          when req.report_type == 1 # replies to my content
+          when req.report_type == 0 # replies to my content
             case
               when req.immediate
                 self.reply_freq = 'i'
@@ -40,18 +60,28 @@ class NotificationRequest < ActiveRecord::Base
                 self.reply_freq = 'd'
             end
             self.reply_format = req.report_format == 1 ? 'full' : 'sum'
-          when req.report_type == 2 # all ideas, comments, and answers
+          when req.report_type == 3 # all comments
             case
               when req.immediate
-                self.all_freq = 'i'
+                self.com_freq = 'i'
               when req.dow_to_run.nil? && req.hour_to_run.nil?
-                self.all_freq = 'h'
+                self.com_freq = 'h'
               when req.dow_to_run.nil? && req.hour_to_run.size == 1
-                self.all_freq = 'd'
+                self.com_freq = 'd'
             end          
-            self.all_format = req.report_format == 1 ? 'full' : 'sum'
-          when req.report_type == 3 # follow this idea
+            self.com_format = req.report_format == 1 ? 'full' : 'sum'
+          when req.report_type == 4 # follow this idea
             self.follow = true
+          when req.report_type == 13 # all talking points
+            case
+              when req.immediate
+                self.tp_freq = 'i'
+              when req.dow_to_run.nil? && req.hour_to_run.nil?
+                self.tp_freq = 'h'
+              when req.dow_to_run.nil? && req.hour_to_run.size == 1
+                self.tp_freq = 'd'
+            end          
+            self.tp_format = req.report_format == 1 ? 'full' : 'sum'
           
         end # end case type        
       end # end do req
@@ -72,7 +102,7 @@ class NotificationRequest < ActiveRecord::Base
       recs = NotificationRequest.find_all_by_member_id_and_team_id(self.member_id, self.team_id)
 
       # create/adjust reply first
-      rec = recs.detect{|r| r.report_type == 1} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>1 )
+      rec = recs.detect{|r| r.report_type == 0} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>0 )
       rec.report_format = self.reply_format == 'full' ? 1 : 2
       case self.reply_freq
         when 'i'
@@ -91,14 +121,14 @@ class NotificationRequest < ActiveRecord::Base
           # delete this record
           rec.destroy
           rec = nil
-          save1 = true
+          save0 = true
       end
-      save1 = rec.save unless rec.nil?
+      save0 = rec.save unless rec.nil?
 
-      # create/adjust all
-      rec = recs.detect{|r| r.report_type == 2} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>2 )
-      rec.report_format = self.all_format == 'full' ? 1 : 2
-      case self.all_freq
+      # create/adjust comments
+      rec = recs.detect{|r| r.report_type == 3} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>3 )
+      rec.report_format = self.com_format == 'full' ? 1 : 2
+      case self.com_freq
         when 'i'
           rec.immediate = true
           rec.hour_to_run = nil
@@ -115,20 +145,45 @@ class NotificationRequest < ActiveRecord::Base
           # delete this record
           rec.destroy
           rec = nil
-          save2 = true
+          save3 = true
       end
-      save2 = rec.save unless rec.nil?
+      save3 = rec.save unless rec.nil?
 
       # create/adjust follow
-      rec = recs.detect{|r| r.report_type == 3} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>3 )
+      rec = recs.detect{|r| r.report_type == 4} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>4 )
       if self.follow.to_i == 1 
-        save3 = rec.save
+        save4 = rec.save
       else
         rec.destroy
-        save3 = true
+        save4 = true
       end
+
+
+      # create/adjust comments
+      rec = recs.detect{|r| r.report_type == 13} || NotificationRequest.new( :member_id=>self.member_id, :team_id=>self.team_id, :report_type=>13 )
+      rec.report_format = self.tp_format == 'full' ? 1 : 2
+      case self.tp_freq
+        when 'i'
+          rec.immediate = true
+          rec.hour_to_run = nil
+          rec.dow_to_run = nil          
+        when 'h'
+          rec.immediate = false        
+          rec.hour_to_run = nil
+          rec.dow_to_run = nil          
+        when 'd'
+          rec.immediate = false
+          rec.hour_to_run = '{18}'
+          rec.dow_to_run = nil          
+        when 'n'
+          # delete this record
+          rec.destroy
+          rec = nil
+          save13 = true
+      end
+      save13 = rec.save unless rec.nil?
       
-      return save1 && save2 && save3
+      return save0 && save3 && save4 && save13
     end # end if split_save
   end
   

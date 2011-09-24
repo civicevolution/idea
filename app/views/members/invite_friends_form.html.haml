@@ -37,7 +37,7 @@
 				%p.instr mary@public.com
 				-#= link_to "How", {:id=>'invite_emails'}, {:class=>'show_me_how', :rel=>'nofollow'}
 
-			- recipient_emails = params[:recipient_emails] || '' # 'brian@civicevolution.org'	
+			- recipient_emails = params[:recipient_emails] || ''
 			= text_area_tag :recipient_emails, recipient_emails, {:class=>'autosize'}
 
 			%div.form_controls
@@ -49,7 +49,7 @@
 		
 			%label Please write a short message that will encourage them to visit the site
 			
-			- message = params[:message]|| '' # || 'Please check out this team'
+			- message = params[:message]|| ''
 			= text_area_tag :message, message, {:class=>'autosize'}
 
 			%div.form_controls

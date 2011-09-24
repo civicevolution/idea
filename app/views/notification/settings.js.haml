@@ -1,0 +1,20 @@
+= render :template => 'shared/clear_sign_in_form.js'
+:plain
+	$('div#notification_settings').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+	var notification_form = $("#{escape_javascript(
+		render( :template => 'notification/settings.html' )
+	)}");
+	
+	var dialog = notification_form.dialog( {title : 'Notification settings', modal : true, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });
+	
+	var form = $('div#notification_settings form');
+	
+	activate_text_counters_grow( form.find('textarea'), 120 )
+	form.find(' a.cancel').die('click').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);
+
+	

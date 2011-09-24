@@ -388,7 +388,7 @@ ul.notification_settings li {
 ul.notification_settings p {
   margin: -10px 0 0 0; }
 
-div.notification_settings button {
+div#notification_settings button {
   margin: 10px 0 40px 20px; }
 
 a.help_tag {

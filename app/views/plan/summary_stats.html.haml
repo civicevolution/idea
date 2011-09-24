@@ -25,7 +25,7 @@
 			= link_to "Tell us what you think"
 			
 		%p.cta
-			= link_to "Follow this idea", notification_settings_form_path(@team.id)
+			= link_to "Follow this idea", notification_settings_form_path(@team.id), {:remote=>true}
 		
 		%p.cta
 			= link_to "Invite friends", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}

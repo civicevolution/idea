@@ -1,26 +1,15 @@
-- if !xhr
-	- content_for (:script) do
-		:javascript
-			$('select#notification_setting_team_id').die('change').live('change',
-				function(){
-				console.log("change location to team: " + $('select#notification_setting_team_id').val() )
-					document.location.href = document.location.href.replace(/\d+$/, $('select#notification_setting_team_id').val() )
-				}
-			)
-
-%div.notification_settings
-	-#%h2 Notification settings
+%div#notification_settings
+	%h2 Notification settings for
 
 	%h3= @team.title
 	- if @notification_setting.nil?
-		%p You do not belong to any teams at this time
+		%p You are not participating or following any proposals at this time
 		%p
 			Please return to the 
-			= link_to "home page", :controller=> 'welcome', :action=>'index'
+			= link_to home_path
 	- else	
 	
-		= form_for @notification_setting, :as => :notification_setting, :url => { :action => "update_notification_settings" }, :html => {:class=>'update_notification_settings'} do |form|
-			= form.hidden_field :team_id, :value=>0
+		= form_for @notification_setting, :as => :notification_setting, :url => notification_settings_post_path(@team.id), :html => {:class=>'update_notification_settings', :remote=>true} do |form|
 
 			%p.follow
 				= form.check_box :follow
@@ -29,68 +18,50 @@
 				We will send you occasional emails so you can follow the progress of this idea and 
 				discover opportunities to develop and support this change in your community
 
-			%p
-				%b You can also select to receive regular updates
+			%h3 I want to receive regular updates ...
 
 			%ul.notification_settings
 				%li
 					%h3
-						When someone replies to my comment, idea, or answer
+						When someone replies to my comment or talking point
 					%p
 						Email me  
 						= form.select( :reply_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
 						with a 
 						= form.select( :reply_format, [['Full details', 'full'], ['Summary', 'sum']])
 
-				-#%li
-				-#	%h2
-				-#		When someone edits my answer
-				-#	%p
-				-#		Email me  
-				-#		= form.select( :edit_answer_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
-				-#		with a 
-				-#		= form.select( :edit_answer_format, [['Summary', 'sum'], ['Full details', 'full']])
-
-				-#%li
-				-#	%h2
-				-#		When new ideas are added
-				-#	%p
-				-#		Email me  
-				-#		= form.select( :ideas_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
-				-#		with a 
-				-#		= form.select( :ideas_format, [['Summary', 'sum'], ['Full details', 'full']])
-
-				-#%li
-				-#	%h2
-				-#		When the team answers change
-				-#	%p
-				-#		Email me  
-				-#		= form.select( :answers_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
-				-#		with a 
-				-#		= form.select( :answers_format, [['Summary', 'sum'], ['Full details', 'full']])
+				%li
+					%h3
+						When new talking points are added
+					%p
+						Email me  
+						= form.select( :tp_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
+						with a 
+						= form.select( :tp_format, [['Summary', 'sum'], ['Full details', 'full']])
 
 				%li
 					%h3
-						When any comments, ideas, and answers are added
+						When new comments are added
 					%p
 						Email me  
-						= form.select( :all_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
+						= form.select( :com_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
 						with a 
-						= form.select( :all_format, [['Summary', 'sum'], ['Full details', 'full']])
+						= form.select( :com_format, [['Summary', 'sum'], ['Full details', 'full']])
 
 			%p.submit
-				= submit_tag "Update settings for this team", :name=>'invite_friends', :alias=>'Please'
-				- if xhr
-					= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}
-
-			%p.other_ideas 
-				Manage the settings for the other ideas in which you participate:
+				= submit_tag "Update settings for this proposal", :name=>'invite_friends', :alias=>'Please'
+				= link_to 'Return to proposal', plan_path(@team), {:class=>'cancel'}
+		%hr
+		%p.other_ideas Manage the settings for the other proposals in which you participate:
+		= form_tag( notification_settings_form_path, {:remote=>true} ) do
 			%p.other_ideas_sel
-				= form.select( :team_id, @teams,{},{:style=>'max-width: 500px'})
+				-#= select_tag( :team_id, @teams,{:style=>'max-width: 500px'})
+				= select_tag( :team_id, options_for_select(@teams) )
+				= submit_tag "Manage settings for selected proposal"
 					
 	%style
 		:sass
-			div.notification_settings
+			div#notification_settings
 				p.follow
 					font-weight: bold
 				p.follow_description
@@ -103,66 +74,3 @@
 				input[type='submit']
 					font-size: 1.2em
 
-- if xhr
-	:javascript
-
-		function init_update_notification_settings_form(form){
-
-			$('select#notification_setting_team_id').die('change').live('change',
-				function(){
-					var new_team_notification_id = $('select#notification_setting_team_id').val();
-					$(this).after('<img src="/images/rotating_arrow.gif"/>')
-					open_team_notification_settings( new_team_notification_id );
-				}
-			)
-		
-			$('a.cancel',form).click(
-				function(){
-					try{
-						console.log("Cancel update_notification_settings_form");
-						$(this).closest('div.ui-dialog').dialog('destroy').remove();
-					}catch(e){
-						console.log("activate update_notification_settings_form cancel error: "+ e)
-					}
-					return false;
-				}
-			);
-
-			$(':submit', form).click(
-				function(){
-					try{
-				 		console.log("Submit the update_notification_settings_form");
-
-						var form = $(this).closest('form');
-						var btn = $(this);
-
-						btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
-
-						$(':input,table',form).removeClass('form_error_border');
-						$('p.form_error_text',form).remove();
-
-						form.ajaxSubmit({ 					
-						  type: "POST", 
-							url: 'http://' + document.location.host + '/notification/update_notification_settings',
-						  success: function(data,status){ 
-								console.log("notif submit success, data: " + data);
-								$('<div><p>Your notification settings have been updated.</p></div>').dialog( {title : 'Thank you' } )
-								form.closest('div.ui-dialog').dialog('destroy').remove();
-						  	},
-							error : function(xhr,errorString,exceptionObj){
-								console.log("Error update_notification_settings_form, xhr: " + xhr.responseText)
-								try{
-									form.closest('div.ui-dialog').dialog('destroy').remove();
-									$('<div><p>Your notification settings cannot be updated:</p><p>' + xhr.responseText + '</p></div>').dialog( {title : 'Warning' } )
-								}catch(e){
-									console.log("update_notification_settings_form submit error: " + e)
-									$('<div><p>Sorry, we cannot process your update notification settings request at this time</p><p>We have been notified of this error and we will look into it soon.</p></div>').dialog( {title : 'Warning', modal : true } )
-									btn.removeAttr('disabled').next('img').remove();
-								}
-							}
-						});
-					}catch(e){console.log("submit email_participants form error: " + e.message)}
-					return false;
-				}
-			);
-		}

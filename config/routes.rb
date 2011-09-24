@@ -124,7 +124,7 @@ G3::Application.routes.draw do |map|
   post 'members/invite/:team_id/send' => 'members#invite_friends_send', :as => 'invite_friends_send'
   get 'members/acknowledge_invite_request' => 'members#acknowledge_invite_request', :as => 'invite_friends_acknowledge'
 
-  get 'notification/:team_id/settings' => 'notification#settings_form', :as => 'notification_settings_form'
+  match 'notification(/:team_id)/settings' => 'notification#settings_form', :as => 'notification_settings_form'
   match 'notification/:team_id/update_settings' => 'notification#update_notification_settings', :via=>[:put, :post], :as => 'notification_settings_post'
 
   post 'initiatives/:initiative_id/join' => 'initiatives#join', :as => 'join_initiative'
