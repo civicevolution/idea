@@ -1,4 +1,4 @@
-- title = !@team.nil? ? @team.title : title || 'CivicEvolution'
+- title ||= !@team.nil? ? "#{@team.title}" : title || 'CivicEvolution'
 !!!
 %html{html_attrs('en-en')}
 	%head
@@ -9,7 +9,7 @@
 			%meta{'http-equiv' => "refresh", :content=> "5;#{redirect_url}" }
 		
 		
-		%title Plan: #{title}
+		%title= title
 		-#:javascript
 			var _load_times = { start: new Date()}	
 			var AUTH_TOKEN = #{protect_against_forgery? ? form_authenticity_token.inspect : ''}

@@ -29,7 +29,9 @@ class WelcomeController < ApplicationController
 
     # get statistics for initiative teams - combine that with the teams request, including most active and completed'
     
-    render 'index', :layout => 'welcome'
+    #render 'index', :layout => 'welcome'
+    
+    render 'index2', :locals=>{:title=>'Welcome to the 2029 and Beyond Sustainable Future City Project'}, :layout=>'plan'
   end
   
   def home

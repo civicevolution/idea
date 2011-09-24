@@ -381,3 +381,24 @@ div#join_email_address_ok {
   padding-bottom: 1em; }
   div#join_email_address_ok li {
     margin-bottom: 0.5em; }
+
+/* For the home page */
+div.team_entry {
+  margin: 0 2em 0 1em; }
+  div.team_entry a.team_entry_title {
+    display: block;
+    font-weight: bold;
+    color: #2b3e42; }
+
+div.homepage_intro {
+  margin: 0 2em 0 1em; }
+  div.homepage_intro h2 {
+    margin-top: 0; }
+  div.homepage_intro p {
+    font-size: 1.2em; }
+  div.homepage_intro span.promise, div.homepage_intro p.promise {
+    font-weight: bold;
+    color: #2b3e42;
+    font-size: 96%; }
+
+/* END for the home page */

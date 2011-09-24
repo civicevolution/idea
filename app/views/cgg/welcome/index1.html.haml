@@ -1,0 +1,64 @@
+- content_for(:script) do
+	= javascript_include_tag "jquery.show_char_limit-1.1.1.js", "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js','jquery.scrollTo-min.js'
+	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
+	
+
+- team_ids = !@member.nil? ? @member.team_titles.collect{ |mt| mt.id}.join(',') : ''
+:javascript
+	var member_id = #{ @member.nil? ? 0 : @member.id }
+	var my_team_ids = [ #{team_ids} ];
+
+
+%div.left_col	
+			
+	%h2.home_title Join or start a proposal now!
+	
+	%p.header_desc 
+		These are the ideas your community is working on right now. 
+		Click a title to learn more. If you have a new idea that's not listed, 
+		= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+
+	%div.ideas_and_teams
+		
+		%div
+			%div.tab_window{:id=>"tab_teams"}
+				-#%ul.categories
+				-#	%li All
+				-#	%li Environmental
+				-#	%li Economic development
+				-#	%li Social
+				-#	%li Cultural
+		
+				-#%ul.team_list
+				-#	- if  @teams_launched.size() == 0
+				-#		%li No teams have started developing their proposals yet
+				-#	- elsif  @teams_launched.size() == 0
+				-#		%li This team is working on its proposal. Click the team title to learn more
+				-#	- else
+				-#		%li These #{@teams_launched.size()} teams are working on their proposal. Click a team title to learn more.
+
+	
+				- @teams_launched.each do |team|
+					%div.team_entry{:class=> cycle('stripe_bg','')}
+						= link_to team.title, proposal_path(team.id), {:class=>'team_entry_title',:launched=>'t'}
+						%p.desc= team.solution_statement
+						-#%p.controls
+							-#%span 0 comments
+							%span= pluralize( team['members'], 'member')
+							-#%span active one day ago
+							-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
+
+						-#%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
+						-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
+
+			%div.tab_window{:id=>"tab_ideas"}
+
+				
+			%p
+				%b
+					If you have a new idea that's not listed, 
+					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+
+
+
+
