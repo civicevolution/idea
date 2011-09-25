@@ -99,7 +99,9 @@ div.endorsements {
     margin-right: 1em; }
   div.endorsements h3 {
     width: 100%;
-    text-align: center; }
+    text-align: left; }
+  div.endorsements td, div.endorsements th {
+    text-align: left; }
 
 div.progress {
   padding: 1em;

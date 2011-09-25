@@ -19,7 +19,7 @@
 			%h3= pluralize(@endorsements.size, 'Community endorsement')
 	
 
-		%table
+		%table{:class => @endorsements.size == 0 ? 'hide' : ''}
 			%tr
 				%th{:colspan=>'2'} Name
 				%th Comment

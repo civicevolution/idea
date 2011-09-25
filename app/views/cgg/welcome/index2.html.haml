@@ -8,16 +8,18 @@
 					%div.homepage_intro
 						- if params[:_initiative_id] == 1	
 							%div.mission
-								%h2.home_title Help us plan for a sustainable future
+								%h2 Help us plan for a sustainable future
+								= image_tag('mktg/beach-415.jpg')
 								%p 
 									The City of Geraldton-Greenough is jointly creating a sustainable future for our City Region in a project called 
 									%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and Beyond.
-									To help us to do this well, we first need to make some changes in our own backyard.
+									
+								%p To help us to do this well, we first need to make some changes in our own backyard.
 								%p
 									The Executive Management Team encourages you to join our effort and promises to review and respond to all actionable proposals that meet their
 									%a{:href=>'#', :class=>'2029_guidelines'}guidelines
 									for relevance, completeness, evidence, and community support.
-								%p This website will help you take advantage of this important opportunity. Please view these videos for more information
+								-#%p This website will help you take advantage of this important opportunity. Please view these videos for more information
 
 
 
@@ -48,7 +50,7 @@
 					If you have a new idea that's not listed, 
 					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
 	
-			- i = 0		
+			-# i = 0		
 			- @teams_launched.each do |team|
 				%div.book
 					%div.spiral 
@@ -69,8 +71,8 @@
 
 							-#%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
 							-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
-				- i += 1
-				- break if i > 3 
+				-# i += 1
+				-# break if i > 3 
 			%p
 				%b
 					If you have a new idea that's not listed, 
