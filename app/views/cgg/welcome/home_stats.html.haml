@@ -58,15 +58,18 @@
 					
 					
 %div.progress.corner
-	- if !@member.nil?
-		%h3 Proposals in which I participate
+	%h3 Proposals in which I participate
+	- if !@member.nil? && @member.id != 0
+		
 		%ul.teams_list
 			- @member.team_titles.each do |team|
 				%li{:class=>'team', :id=>team.id}
 					= link_to team.title, plan_path(team.id), {}					
 	- else
-		%p Sign in to see your proposals
-		%p Click a proposal on the right to join in
+		%p 
+			= link_to 'Sign in', sign_in_path, {:remote=>true}
+			to see your proposals
+		%p Click a proposal title on the left to join in
 				
 	%p.clear_both					
 
