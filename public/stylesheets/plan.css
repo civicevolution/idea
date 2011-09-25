@@ -389,6 +389,10 @@ div.team_entry {
     display: block;
     font-weight: bold;
     color: #2b3e42; }
+  div.team_entry p.controls a {
+    font-weight: bold;
+    margin-right: 2em;
+    color: #2b3e42; }
 
 div.homepage_intro {
   margin: 0 2em 0 1em; }

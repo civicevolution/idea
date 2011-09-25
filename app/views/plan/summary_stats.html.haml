@@ -57,10 +57,11 @@
 					%tr
 						%td
 							%img{:src=>participant.photo.url('36'),:class=>'i36'}	
-						%td 
-							%b
-								Citizen
-							%br
+						%td	
+							%b= participant.first_name
+						-#%b
+							Citizen
+						-#%br
 							130 points
 							%br
 							7 contributions
@@ -77,17 +78,21 @@
 		%table
 			%tbody
 				%tr.stripe
+					%td
+						Participation stats will be added soon
+				-#%tr.stripe
 					%td  153 page views
-				%tr
-					%td 53 ratings
-				%tr.stripe
-					%td 37 comments
-				%tr
-					%td 17 talking points
-				%tr.stripe
-					%td 8 preferred talking points
-				%tr
-					%td 9 endorsements
+					%tr
+						%td 53 ratings
+					%tr.stripe
+						%td 37 comments
+					%tr
+						%td 17 talking points
+					%tr.stripe
+						%td 8 preferred talking points
+					%tr
+						%td 9 endorsements
+					
 	
 	%p.clear_both	
 
