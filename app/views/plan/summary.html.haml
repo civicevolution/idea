@@ -19,18 +19,12 @@
 						- else
 							= simple_format h @team.solution_statement
 
-
+					- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
 					%div.resources
-						%div= image_tag('misc/images-1.jpeg')
-						%div= image_tag('misc/images-2.jpeg')
-						%div= image_tag('misc/images-3.jpeg')
-						%div= image_tag('misc/images-4.jpeg')
-						%div= image_tag('misc/images-5.jpeg')
-						%div= image_tag('misc/images-6.jpeg')
-						%div= image_tag('misc/images-7.jpeg')
-						%div= image_tag('misc/images-8.jpeg')
+						= link_to proposal_pic_path(@team.id), {:rel=>'nofollow'} do
+							- pics_array.each do |pic|
+								%div= image_tag("misc/48/#{pic}.jpg")
 					%p.clear_both
-		
 
 				- questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 				%div.proposal

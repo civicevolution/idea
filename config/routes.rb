@@ -129,6 +129,8 @@ G3::Application.routes.draw do |map|
 
   post 'initiatives/:initiative_id/join' => 'initiatives#join', :as => 'join_initiative'
 
+  match 'plan/:team_id/proposal_pic(/:pic_id)' => 'plan#proposal_pic', :as => 'proposal_pic'
+
   match 'subscribe' => 'welcome#subscribe'
   get 'get_started' => 'welcome#get_started'
   post 'get_started' => 'welcome#get_started_post'

@@ -57,7 +57,16 @@
 					%div.notebook.corner
 						%div.team_entry{:class=> cycle('stripe_bg','')}
 							= link_to team.title, proposal_path(team.id), {:class=>'team_entry_title',:launched=>'t'}
+
+							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
+							%div.resources
+								= link_to proposal_pic_path(team.id), {:rel=>'nofollow'} do
+									- pics_array.each do |pic|
+										%div= image_tag("misc/48/#{pic}.jpg")
+							%p.clear_both
+
 							%p.desc= team.solution_statement
+							
 							%p.controls
 								= link_to "View proposal", proposal_path(team.id)
 								= link_to "Follow proposal", notification_settings_form_path(team.id), {:remote=>true}

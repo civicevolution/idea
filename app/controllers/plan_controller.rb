@@ -204,5 +204,9 @@ class PlanController < ApplicationController
       render :action => "must_be_admin", :layout => 'welcome'
     end
   end
+  
+  def proposal_pic
+    
+  end
 
 end
