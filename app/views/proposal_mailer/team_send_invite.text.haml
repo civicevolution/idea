@@ -1,16 +1,36 @@
 - name = @recipient[:first_name].nil? ? '' : ' ' + @recipient[:first_name]
-:plain	
-	Hello#{name},
+
+- if !@team.nil?
+	:plain	
+		Hello#{name},
 	
-	#{@message}
+		#{@message}
 
 
-	The title of the proposal is "#{@team.title}"
+		The title of the proposal is "#{@team.title}"
 
-	You can visit this proposal online at http://#{@host}/idea/#{@team.id}
+		You can visit this proposal online at http://#{@host}/idea/#{@team.id}
 
 
-	#{@member.first_name} #{@member.last_name} (#{@member.email}) requested CivicEvolution send this email to you.
+		#{@member.first_name} #{@member.last_name} (#{@member.email}) requested CivicEvolution send this email to you.
+
+
+- else 
+	:plain	
+		Hello#{name},
+	
+		#{@message}
+
+
+		You can visit CivicEvolution at http://#{@host}
+
+		#{@member.first_name} #{@member.last_name} (#{@member.email}) requested CivicEvolution send this email to you.
+
+
+
+
+
+
 
 
 

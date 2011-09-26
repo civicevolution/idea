@@ -12,7 +12,7 @@
 	%h2 Please tell your friends about this proposal
 	- if @member.id == 0
 		- if team.nil?
-			%p You can email them this link: #{home_url(team)}
+			%p You can email them this link: #{home_url}
 		- else
 			%p You can email them this link: #{plan_url(team)}
 			
@@ -20,12 +20,12 @@
 	- else
 		%p 
 			The email addresses you enter here will be used just one time to send this email.
-			- if team.initiative_id == 1
+			- if !team.nil? && team.initiative_id == 1
 				%i Please note, only City of Geraldton-Greenough staff can access CGG proposals. Please contact us to make an exception.
 				
 		= render( :partial => 'shared/error_messages', :locals => {:errors => @form_errors}) unless @form_errors.nil?
 				
-		= form_tag( invite_friends_preview_path(team.id), {:class=>'invite_friends std_form', :remote=>true} ) do
+		= form_tag( invite_friends_preview_path(team.nil? ? 0 : team.id), {:class=>'invite_friends std_form', :remote=>true} ) do
 			= hidden_field_tag :send_now
 			= hidden_field_tag :recaptcha_challenge
 			= hidden_field_tag :recaptcha_response

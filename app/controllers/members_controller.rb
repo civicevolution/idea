@@ -61,7 +61,7 @@ class MembersController < ApplicationController
   end 
   
   def invite_friends_form
-    team = Team.find(params[:team_id])
+    team = Team.find_by_id(params[:team_id])
     if flash[:params]
       params[:message] = flash[:params][:message]
       params[:recipient_emails] = flash[:params][:recipient_emails]
@@ -75,7 +75,7 @@ class MembersController < ApplicationController
   end
   
   def invite_friends_preview
-    team = Team.find( params[:team_id] || flash[:params][:team_id] )
+    team = Team.find_by_id( params[:team_id] || flash[:params][:team_id] )
 
     if flash[:params]
       params[:message] = flash[:params][:message]
@@ -125,7 +125,7 @@ class MembersController < ApplicationController
 
   def invite_friends_send
 
-    team = Team.find( params[:team_id] || flash[:params][:team_id] )
+    team = Team.find_by_id( params[:team_id] || flash[:params][:team_id] )
 
     @invite = InviteEmail.new :sender => @member, 
       :recipient_emails => params[:recipient_emails] || flash[:params][:recipient_emails], 
@@ -152,7 +152,9 @@ class MembersController < ApplicationController
     end
 
     verify_recaptcha( :model => @invite, :message => "We're sorry, but the text you entered in the spam test didn't match. Please try again." )
-
+    
+    team_id = team ? team.id : 0
+    
     respond_to do |format|
       if @invite.errors.empty?
         @invite.recipients.each do |recipient|
@@ -160,10 +162,10 @@ class MembersController < ApplicationController
           ProposalMailer.delay.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"] )
         end
         flash[:invite] = @invite
-        flash[:team_id] = team.id
+        flash[:team_id] = team_id
         format.html { redirect_to invite_friends_acknowledge_path }
         format.js { 
-          render :template => "members/acknowledge_invite_request.js", :locals=>{:team_id=>team.id, :invite=>@invite}
+          render :template => "members/acknowledge_invite_request.js", :locals=>{:team_id=>team_id, :invite=>@invite}
         } 
       else
 
