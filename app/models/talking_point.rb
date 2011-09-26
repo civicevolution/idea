@@ -21,9 +21,34 @@ class TalkingPoint < ActiveRecord::Base
   attr_accessor :team_id
    
   before_validation :check_initiative_restrictions#, :on=>:create
+  before_create :set_member_id
+  before_update :check_edit_privilege
+  
   after_save :log_team_content
   around_update :update_version
 
+  def check_edit_privilege
+    logger.debug "Does this user have privilege to edit this talking point"
+    # either in team_registrations or a current or previous author of this TP
+    cur_tp_member_id = self.member_id
+    self.member_id = self.member.id
+
+    return true if cur_tp_member_id == self.member.id
+    # I'm not the current author
+    
+    return true unless TalkingPointVersion.find_by_member_id_and_talking_point_id(self.member.id, self.id).nil?
+    # Not a previous author
+    
+    return true unless TeamRegistration.find_by_member_id_and_team_id(self.member.id, self.team_id).nil?
+    # not a registered team member
+    errors.add(:base, "Sorry, you do not have permission to edit this talking point.") 
+    return false
+  end
+
+  def set_member_id
+    self.member_id = self.member.id
+  end
+  
   def update_version
     old_tp = TalkingPoint.find(self.id)
     yield
@@ -35,7 +60,6 @@ class TalkingPoint < ActiveRecord::Base
   
   def check_initiative_restrictions
     #logger.debug "TalkingPoint.check_initiative_restrictions"
-    self.member_id = self.member.id
     self.version = self.version.nil? ? 1 : self.version + 1
     allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:question_id=>self.question_id}, 'contribute_to_proposal', self.member)
     if !allowed
