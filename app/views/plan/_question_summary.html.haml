@@ -5,10 +5,18 @@
 		%div.talking_points_list
 
 			%ul.talking_points
-				- question.top_talking_points.each do |talking_point|
-					%li.talking_point= talking_point.text
+				- if question.top_talking_points.size == 0
+					%p Your community should work together to answer this question by suggesting talking points.
+					%p A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated by community members.
+					
+					%p 
+						Please be the first person to
+						#{link_to 'suggest a talking point', question_worksheet_path(question), {:remote=> true}}.
+				- else
+					- question.top_talking_points.each do |talking_point|
+						%li.talking_point= talking_point.text
 			
-			%p= link_to 'Please rate these talking points and tell us what you think', question_worksheet_path(question), {:class=> 'open_worksheet', :remote => true}
+					%p= link_to 'Please rate these talking points and tell us what you think', question_worksheet_path(question), {:class=> 'open_worksheet', :remote => true}
 		
 			-#
 				- if question.num_new_talking_points > 0

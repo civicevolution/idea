@@ -76,6 +76,11 @@ div.talking_points_list ul.talking_points {
   margin-left: -20px; }
   div.talking_points_list ul.talking_points li {
     margin-bottom: 8px; }
+div.talking_points_list div.talking_point_placeholder {
+  padding-left: 50px; }
+  div.talking_points_list div.talking_point_placeholder p {
+    font-size: 1.2em;
+    width: 400px; }
 
 div.resources {
   margin-left: 40px;

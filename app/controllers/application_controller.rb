@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
         time_stamp = params[:date].scan(/\d\d/)
         session[:last_visit_ts] = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
       end
-      session[:last_visit_ts] ||= Time.now #.local(2012,7,29)
+      session[:last_visit_ts] ||= Time.now - 7.days #.local(2012,7,29)
       @member.last_visit_ts = session[:last_visit_ts]
       respond_to do |format|
         format.html{
@@ -237,13 +237,13 @@ class ApplicationController < ActionController::Base
           @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
           @member.id = 0
           @member.email = ''
-          @member.last_visit_ts = Time.now #.local(2012,2,23)
+          @member.last_visit_ts = Time.now - 7.days #.local(2012,2,23)
         else
           if params[:date]
             time_stamp = params[:date].scan(/\d\d/)
             session[:last_visit_ts] = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
           end
-          session[:last_visit_ts] ||= Time.now #.local(2012,7,29)
+          session[:last_visit_ts] ||= Time.now - 7.days #.local(2012,7,29)
           @member.last_visit_ts = session[:last_visit_ts]
         end
       end
