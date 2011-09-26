@@ -1,0 +1,12 @@
+:plain
+	$('div#question_old_data').closest('div.ui-dialog').dialog('destroy').remove();
+		
+	var old_data = $("#{escape_javascript(
+		render( :template => 'questions/old_data.html', :locals => {:question => question} )
+	)}");
+
+	var dialog = old_data.dialog( {title : 'The old questions and talking points for this question', modal : false, width : '500px', closeOnEscape: false, close: function(){$(this).remove()} });
+	
+	$('div#question_old_data a.cancel').die('click').live('click', 
+		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
+	);

@@ -18,7 +18,8 @@ class Question < ActiveRecord::Base
   
   
   
-  has_one :answer
+  has_many :answers, :order => 'id asc'
+  has_many :bs_ideas, :order => 'id asc'
   
   validates_presence_of :text
   validates_length_of :text, :in => 5..200, :allow_blank => false

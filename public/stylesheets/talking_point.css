@@ -210,6 +210,12 @@ div.question_worksheet.noview {
   div.question_worksheet.noview .navigation {
     display: none; }
 
+h3.ques_sub_hdg {
+  margin-bottom: 0; }
+  h3.ques_sub_hdg a {
+    font-size: 0.7em;
+    font-weight: normal; }
+
 div.talking_point_sec {
   margin-left: 20px; }
   div.talking_point_sec div.instr.arrow {

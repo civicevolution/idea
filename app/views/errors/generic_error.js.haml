@@ -2,5 +2,5 @@
 	var response = $("#{escape_javascript(
 		render( :template => 'errors/generic_error.html', :locals => {:member=>member, :exception => exception} )
 	)}");
-	response.dialog({title : "We're sorry...", modal : true, width : '500px', closeOnEscape: true })
+	response.dialog({title : "We're sorry...", modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} })
 	$('form.request_help').closest('div.ui-dialog').dialog('destroy').remove();

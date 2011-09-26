@@ -1,0 +1,10 @@
+%div#question_old_data
+	%p This is the old data for this question
+	%h3 Answers
+	- question.answers.each do |answer|
+		%div= simple_format( auto_link( h(answer.text), :all, :target => "_blank" ))
+		
+	%h3 BS IDEAS
+	- question.bs_ideas.each do |bs_idea|
+		%div= simple_format( auto_link( h(bs_idea.text), :all, :target => "_blank" ))
+		

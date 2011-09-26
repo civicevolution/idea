@@ -63,6 +63,8 @@ G3::Application.routes.draw do |map|
   get "questions/:question_id/new_talking_points" => "questions#new_talking_points", :as => :question_new_talking_points
   get "questions/:question_id/all_talking_points" => "questions#all_talking_points", :as => :question_all_talking_points
 
+  get "questions/:question_id/old_data" => "questions#old_data", :as => :question_old_data
+
   post "questions/:question_id/update_worksheet_ratings" => "questions#update_worksheet_ratings", :as => :update_worksheet_ratings
 
 

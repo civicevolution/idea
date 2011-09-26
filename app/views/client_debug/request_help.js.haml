@@ -4,7 +4,7 @@
 		render( :template => 'client_debug/request_help.html' )
 	)}");
 	
-	var dialog = report_form.dialog( {title : '2029 and Beyond Help and Feedback', modal : true, width : '500px', closeOnEscape: false });
+	var dialog = report_form.dialog( {title : '2029 and Beyond Help and Feedback', modal : true, width : '500px', closeOnEscape: false, close: function(){$(this).remove()} });
 	var form = $('form.request_help');
 	temp.form = form;
 	activate_text_counters_grow( form.find('textarea'), 120 )

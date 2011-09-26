@@ -353,5 +353,10 @@ class QuestionsController < ApplicationController
       end
     end
   end
+  
+  def old_data
+    question = Question.find(params[:question_id])
+    render 'old_data', :locals=>{:question => question}
+  end
 
 end

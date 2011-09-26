@@ -2,5 +2,5 @@
 	var response = $("#{escape_javascript(
 		render( :template => 'client_debug/report_acknowledgement.html' )
 	)}");
-	response.dialog({title : 'Thank you', modal : true, width : '300px', closeOnEscape: true })
+	response.dialog({title : 'Thank you', modal : true, width : '300px', closeOnEscape: true, close: function(){$(this).remove()} })
 	$('form.report_content[id="#{@target.id}"]').closest('div.ui-dialog').dialog('destroy').remove();

@@ -4,7 +4,7 @@
 		render( :template => 'comments/edit.html', :locals => {:comment => comment, :type => type} )
 	)}");
 	
-	var dialog = edit_form.dialog( {title : 'Edit this comment', modal : true, width : '500px', closeOnEscape: false });
+	var dialog = edit_form.dialog( {title : 'Edit this comment', modal : true, width : '500px', closeOnEscape: false, close: function(){$(this).remove()} });
 	
 	var form = $('form.comment_edit_form[id="#{comment.id}"]');
 	form.find('a.cancel').die('click').live('click', 

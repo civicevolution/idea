@@ -4,4 +4,4 @@
 		render( :template => 'shared/private.html')
 	)}");
 
-	var dialog = message.dialog( {title : 'We\'re sorry', modal : true, width : '500px', closeOnEscape: true });
+	var dialog = message.dialog( {title : 'We\'re sorry', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} });
