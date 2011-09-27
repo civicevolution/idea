@@ -199,7 +199,7 @@ class NotificationRequest < ActiveRecord::Base
         team = entry = nil
       
         requests = NotificationRequest.all( 
-          :conditions=>['team_id = ? AND (report_type = 3 OR report_type = 13 OR member_id = ?)',log_record.team_id, log_record.par_member_id],
+          :conditions=>['team_id = ? AND (report_type = 3 OR report_type = 13)',log_record.team_id],
           :order=>'member_id, report_type' )
         logger.debug "There are #{requests.size} notification requests to process"
         # one user could match 2x : give precedence to immediate if it is sent
