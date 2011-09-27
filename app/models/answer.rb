@@ -12,8 +12,8 @@ class Answer < ActiveRecord::Base
   after_destroy :delete_item_record
   before_destroy :check_item_delete_access
   before_create :set_version
-  #after_save :check_record_saved
-  #after_save :create_history_record
+  after_save :check_record_saved
+  after_save :create_history_record
 
   attr_accessor :par_id
   attr_accessor :target_id

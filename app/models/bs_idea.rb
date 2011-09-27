@@ -11,7 +11,7 @@ class BsIdea < ActiveRecord::Base
     
   after_create :create_item_record
   after_destroy :delete_item_record
-  #after_save :log_team_content
+  after_save :log_team_content
   after_find :get_item_id
     
   #before_destroy :check_item_delete_access
