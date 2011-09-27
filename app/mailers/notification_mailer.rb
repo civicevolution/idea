@@ -1,12 +1,12 @@
 class NotificationMailer < ActionMailer::Base
   
 
-  def periodic_report(recip, team, comments, answers, bs_ideas, reports, mcode, sent_at = Time.now)
+  def periodic_report(recip, team, comments, answers, talking_points, reports, mcode, sent_at = Time.now)
     @recip=recip
     @team=team
     @comments = comments
     @answers=answers
-    @bs_ideas = bs_ideas
+    @talking_points = talking_points
     @reports = reports
     @mcode = mcode
     mail(:to => "#{recip.first_name} #{recip.last_name} <#{recip.email}>",

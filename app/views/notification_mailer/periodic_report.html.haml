@@ -75,10 +75,10 @@
 							= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
 						%div.com!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
 				
-				- when 12
-					- entry = @bs_ideas.detect{|b| b.id == id.to_i}
+				- when 13
+					- entry = @talking_points.detect{|tp| tp.id == id.to_i}
 					-if !entry.nil?
-						%p.entry_title A brainstorming idea was added
+						%p.entry_title A talking point was added
 						%div.idea= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>".html_safe
 
 	- else # show stats

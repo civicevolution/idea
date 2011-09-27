@@ -43,8 +43,8 @@
 						~''
 						= entry.text
 				
-				- when 12
-					- entry = @bs_ideas.detect{|b| b.id == id.to_i}
+				- when 13
+					- entry = @talking_points.detect{|tp| tp.id == id.to_i}
 					-if !entry.nil?
 						A brainstorming idea was added
 						~''

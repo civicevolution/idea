@@ -199,7 +199,7 @@ class NotificationRequest < ActiveRecord::Base
         team = entry = nil
       
         requests = NotificationRequest.all( 
-          :conditions=>['team_id = ? AND (report_type = 2 OR member_id = ?)',log_record.team_id, log_record.par_member_id],
+          :conditions=>['team_id = ? AND (report_type = 3 OR report_type = 13 OR member_id = ?)',log_record.team_id, log_record.par_member_id],
           :order=>'member_id, report_type' )
         logger.debug "There are #{requests.size} notification requests to process"
         # one user could match 2x : give precedence to immediate if it is sent
@@ -231,13 +231,15 @@ class NotificationRequest < ActiveRecord::Base
                     )
                   when log_record.o_type ==  12
                     entry = BsIdea.find(log_record.o_id)
+                  when log_record.o_type ==  13
+                    entry = TalkingPoint.find(log_record.o_id)
                 end # end case
               end # end if 1 (full)
               #recipient = Member.first(:select=>'first_name, last_name, email', :conditions=>{:id=>request.member_id})
               recipient = Member.select('first_name, last_name, email, location').where(:id=>request.member_id).first
               logger.debug "NotificationRequest Send an email for entry #{entry.inspect} to #{recipient.email} at #{Time.now}."
 
-              NotificationMailer.immediate_report(recipient, team, request, entry).deliver
+              NotificationMailer.immediate_report(recipient, team, request, entry).deliver unless team.nil? || entry.nil?
                 #unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
 
               immed_send_mem_id = request.member_id #if request.report_type
@@ -281,7 +283,7 @@ class NotificationRequest < ActiveRecord::Base
     team_ids = []
     recip_ids = []
     member_ids = []
-    displayed_objects = {'2'=>[], '3'=>[], '12'=>[]}
+    displayed_objects = {'2'=>[], '3'=>[], '13'=>[]}
     recipient_reports = []
     recipient_requests = []
     # and combine reports for the same member
@@ -337,10 +339,16 @@ class NotificationRequest < ActiveRecord::Base
       locations.each{|id,tz| a[:tz][id] = tz.utc_to_local(a.updated_at) }
     end
 
-    @bs_ideas = displayed_objects['12'].size == 0 ? [] : BsIdea.find_all_by_id(displayed_objects['12'].uniq)
-    @bs_ideas.each do |b|
-      b[:tz] = {}
-      locations.each{|id,tz| b[:tz][id] = tz.utc_to_local(b.updated_at) }
+    #@bs_ideas = displayed_objects['12'].size == 0 ? [] : BsIdea.find_all_by_id(displayed_objects['12'].uniq)
+    #@bs_ideas.each do |b|
+    #  b[:tz] = {}
+    #  locations.each{|id,tz| b[:tz][id] = tz.utc_to_local(b.updated_at) }
+    #end    
+    
+    @talking_points = displayed_objects['13'].size == 0 ? [] : TalkingPoint.find_all_by_id(displayed_objects['13'].uniq)
+    @talking_points.each do |tp|
+      tp[:tz] = {}
+      locations.each{|id,tz| tp[:tz][id] = tz.utc_to_local(tp.updated_at) }
     end    
     
     recipient_reports.each do |reports| 
@@ -348,7 +356,7 @@ class NotificationRequest < ActiveRecord::Base
       recipient = @recipients.detect{|r| r.id == reports[0].member_id}
       mcode = MemberLookupCode.get_code(recipient.id, {:scenario=>'periodic team report'} )
       
-      NotificationMailer.periodic_report(recipient, @teams, @comments, @answers, @bs_ideas, reports, mcode).deliver
+      NotificationMailer.periodic_report(recipient, @teams, @comments, @answers, @talking_points, reports, mcode).deliver
         #unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
       # uncomment update line to clear the queue
       reports.each do |request|
