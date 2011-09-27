@@ -1,5 +1,93 @@
 namespace :update_for_talking_points do
+
+
+  desc "Consolidate content under important to community question"
+  task :consolidate_important_to_community_questions => :environment do
+    puts 'Update question_id/parent_id to consolidate content under one community question'
+ 
+    #SELECT * FROM comments where parent_type = 1 and parent_id IN (SELECT id FROM questions WHERE text = 'Who would this change affect and how?');
+    #55
+    #
+    #I need a rake script
+    #	1) get the ids of the questions I want to consolidate
+    #		2) get the id of the target question
+    #		3) update question id for the answers
+    #		4) update question id for the bs_ideas
+    #		5) update parent_id for the comments
+ 
+    Answer.record_timestamps = false
+    BsIdea.record_timestamps = false
+    Comment.record_timestamps = false
+    
+    questions = Question.where(:text => 'Who would this change affect and how?')
+    puts "There are #{questions.size} questions"
   
+    questions.each do |question|
+      target_question = Question.find_by_team_id_and_text(question.team_id, 'Why is this important to your community?')
+      Answer.where(:question_id => question.id).each do |answer|
+        answer.update_attribute('question_id',target_question.id)
+        puts answer.inspect
+      end
+      
+      BsIdea.where(:question_id => question.id).each do |bsi|
+        bsi.update_attribute('question_id',target_question.id)
+        puts bsi.inspect
+      end
+      
+      Comment.where(:parent_type => 1, :parent_id => question.id).each do |comment|
+        comment.update_attribute('parent_id',target_question.id)
+        puts comment.inspect
+      end
+    end
+    Answer.record_timestamps = true
+    BsIdea.record_timestamps = true
+    Comment.record_timestamps = true
+  end
+
+  desc "Consolidate content under How can this change be made?"
+  task :consolidate_how_to_change_questions => :environment do
+    puts 'Update question_id/parent_id to consolidate content under one how to change question'
+ 
+    #SELECT * FROM comments where parent_type = 1 and parent_id IN (SELECT id FROM questions WHERE text = 'Who would this change affect and how?');
+    #55
+    #
+    #I need a rake script
+    #	1) get the ids of the questions I want to consolidate
+    #		2) get the id of the target question
+    #		3) update question id for the answers
+    #		4) update question id for the bs_ideas
+    #		5) update parent_id for the comments
+ 
+    Answer.record_timestamps = false
+    BsIdea.record_timestamps = false
+    Comment.record_timestamps = false
+    
+    questions = Question.where(:text => 'What are some options for implementing this change?')
+    puts "There are #{questions.size} questions"
+  
+    questions.each do |question|
+      target_question = Question.find_by_team_id_and_text(question.team_id, 'How can this change be made?')
+      Answer.where(:question_id => question.id).each do |answer|
+        answer.update_attribute('question_id',target_question.id)
+        puts answer.inspect
+      end
+      
+      BsIdea.where(:question_id => question.id).each do |bsi|
+        bsi.update_attribute('question_id',target_question.id)
+        puts bsi.inspect
+      end
+      
+      Comment.where(:parent_type => 1, :parent_id => question.id).each do |comment|
+        comment.update_attribute('parent_id',target_question.id)
+        puts comment.inspect
+      end
+    end
+    Answer.record_timestamps = true
+    BsIdea.record_timestamps = true
+    Comment.record_timestamps = true
+  end
+
+
   desc "Update comments with parent_type and parent_id, mostly for questions"
   task :update_comments => :environment do
     puts 'Update comments with parent_type and parent_id, mostly for questions'

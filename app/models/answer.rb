@@ -12,7 +12,8 @@ class Answer < ActiveRecord::Base
   after_destroy :delete_item_record
   before_destroy :check_item_delete_access
   before_create :set_version
-  after_save :check_record_saved
+  #after_save :check_record_saved
+  #after_save :create_history_record
 
   attr_accessor :par_id
   attr_accessor :target_id
@@ -108,7 +109,7 @@ class Answer < ActiveRecord::Base
   
   
   
-  after_save :create_history_record
+  
   
   def store_initial_values
     # save the previous state, this must be called manually because I don't want to call it everytime I read an answer record
