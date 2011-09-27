@@ -222,7 +222,7 @@ class NotificationRequest < ActiveRecord::Base
                 # make sure I have the necessary data for a full report
                 case
                   when log_record.o_type ==  2
-                    entry = Answer.find(log_record.o_id)
+                    entry = Answer.find_by_id(log_record.o_id)
                   when log_record.o_type ==  3
                     entry = Comment.first(
                       :select => 'c.id, text, c.updated_at, first_name, last_name',
@@ -230,9 +230,9 @@ class NotificationRequest < ActiveRecord::Base
                       :joins => 'as c inner join members as m on m.id = c.member_id' 
                     )
                   when log_record.o_type ==  12
-                    entry = BsIdea.find(log_record.o_id)
+                    entry = BsIdea.find_by_id(log_record.o_id)
                   when log_record.o_type ==  13
-                    entry = TalkingPoint.find(log_record.o_id)
+                    entry = TalkingPoint.find_by_id(log_record.o_id)
                 end # end case
               end # end if 1 (full)
               #recipient = Member.first(:select=>'first_name, last_name, email', :conditions=>{:id=>request.member_id})

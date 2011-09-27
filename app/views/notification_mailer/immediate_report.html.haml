@@ -17,8 +17,8 @@
 		%p.entry_title A comment was added by #{@entry.first_name} #{@entry.last_name}
 		%div.com!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
 
-	- when @entry.class.to_s == "BsIdea" && @report[:report_format] == 1
-		%p.entry_title A brainstorming idea was added
+	- when @entry.class.to_s == "TalkingPoint" && @report[:report_format] == 1
+		%p.entry_title A talking point was added
 		%div.idea!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>".html_safe
 	
 	- when @entry.class.to_s == "Answer"
@@ -44,7 +44,7 @@
 		.com
 			color: black
 		.idea
-			color: orange
+			font-size: 1.2em
 		div.ans, div.com, div.idea
 			margin-left: 20px
 		p.com_date
