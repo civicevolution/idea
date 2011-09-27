@@ -20,8 +20,8 @@ class WelcomeController < ApplicationController
     # get current list of teams for this initiative    
     #@init_teams = Team.find_all_by_initiative_id(params[:_initiative_id])
     @init_teams = Team.teams_with_stats(params[:_initiative_id])
-    @teams_launched = @init_teams.find_all {|t| t.launched == true }
-    @team_ideas = [] # @init_teams.find_all {|t| t.launched == false }
+    #@teams_launched = @init_teams.find_all {|t| t.launched == true }
+    #@team_ideas = [] # @init_teams.find_all {|t| t.launched == false }
     
     # get ids of most active teams
     

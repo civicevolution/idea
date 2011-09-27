@@ -129,8 +129,10 @@ class Team < ActiveRecord::Base
   end  
     
   def self.teams_with_stats(initiative_id)
-    Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement, status, min_members, max_members, signup_mode, launched,
-      (SELECT COUNT(*) FROM team_registrations WHERE team_id = t.id) AS members
+    Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement,
+      (SELECT COUNT(*) FROM comments WHERE team_id = t.id) AS comments,
+      (SELECT COUNT(*) FROM bs_ideas WHERE team_id = t.id) AS bs_ideas,
+      (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers
       FROM teams t 
       WHERE initiative_id = ?|, initiative_id ]
     )

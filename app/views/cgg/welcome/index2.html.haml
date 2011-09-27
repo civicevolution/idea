@@ -51,7 +51,7 @@
 					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
 	
 			-# i = 0		
-			- @teams_launched.each do |team|
+			- @init_teams.each do |team|
 				%div.book
 					%div.spiral 
 					%div.notebook.corner
@@ -66,6 +66,13 @@
 							%p.clear_both
 
 							%p.desc= team.solution_statement
+							%p.controls
+								- if team.comments.to_i == 0
+									= link_to "Please start this conversation", proposal_path(team.id)
+								- else
+									= pluralize(team.comments, 'comment') unless team.comments.to_i == 0
+								= pluralize(team.bs_ideas, 'idea') unless team.bs_ideas.to_i == 0
+								= pluralize(team.answers, 'answer') unless team.answers.to_i == 0
 							
 							%p.controls
 								= link_to "View proposal", proposal_path(team.id)

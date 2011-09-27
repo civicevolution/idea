@@ -1,7 +1,8 @@
 %div.talking_point_sec
 	%h3.ques_sub_hdg 
 		Talking points suggested and rated by your community
-		= link_to 'Show old answers and ideas', question_old_data_path(question.id), {:remote=>true}
+		- if question.answers.size > 0 || question.bs_ideas.size > 0
+			= link_to 'Show old answers and ideas', question_old_data_path(question.id), {:remote=>true}
 
 	- if flash[:unrecorded_talking_point_preferences]
 		%p.warn You checked "I prefer this" on more than 5 talking points
