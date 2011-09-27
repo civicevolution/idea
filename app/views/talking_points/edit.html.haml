@@ -1,4 +1,4 @@
-%div
+%div#edit_talking_point
 	- if !request.xhr?
 		%h3= link_to talking_point.team.title, proposal_path(talking_point.team.id)
 		%h4= link_to "Q#{talking_point.question.order_id}: #{talking_point.question.text}", question_worksheet_path(talking_point.question), {:class=> 'open_worksheet'}

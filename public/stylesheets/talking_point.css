@@ -243,6 +243,11 @@ div.ques_discussion {
     margin-left: 20px; }
   div.ques_discussion p.count_link {
     margin-left: 20px; }
+  div.ques_discussion div.question_discussion_placeholder {
+    margin: 0 0 40px 20px; }
+    div.ques_discussion div.question_discussion_placeholder p {
+      font-size: 1.2em;
+      width: 400px; }
 
 div.comment_comments {
   margin-left: 40px; }
