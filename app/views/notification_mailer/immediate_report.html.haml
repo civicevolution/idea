@@ -1,38 +1,41 @@
-%h3 #{@team.title}
+%div#immediate_report
+	%h3 #{@team.title}
 
-%p.report Immediate activity report for #{@recip.first_name} #{@recip.last_name}
-%p.com_date= TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')
+	%p.report Immediate activity report for #{@recip.first_name} #{@recip.last_name}
+	%p.com_date= TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')
 
 
-- case
-	- when @entry.class.to_s == "Answer" && @report[:report_format] == 1
-		- if @entry.ver == 1
-			%p.entry_title A new answer was added
-		- else
-			%p.entry_title An answer was edited
+	- case
+		- when @entry.class.to_s == "Answer" && @report[:report_format] == 1
+			- if @entry.ver == 1
+				%p.entry_title A new answer was added
+			- else
+				%p.entry_title An answer was edited
 		
-		%div.ans!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
+			%div.ans!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
 
-	- when @entry.class.to_s == "Comment" && @report[:report_format] == 1
-		%p.entry_title A comment was added by #{@entry.first_name} #{@entry.last_name}
-		%div.com!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
+		- when @entry.class.to_s == "Comment" && @report[:report_format] == 1
+			%p.entry_title A comment was added by #{@entry.first_name} #{@entry.last_name}
+			%div.com!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
 
-	- when @entry.class.to_s == "TalkingPoint" && @report[:report_format] == 1
-		%p.entry_title A talking point was added
-		%div.idea!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>".html_safe
+		- when @entry.class.to_s == "TalkingPoint" && @report[:report_format] == 1
+			%p.entry_title A talking point was added
+			%div.idea!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>".html_safe
 	
-	- when @entry.class.to_s == "Answer"
-		An answer was added or edited
+		- when @entry.class.to_s == "Answer"
+			An answer was added or edited
 
-	- when @entry.class.to_s == "Comment"
-		A comment was added
+		- when @entry.class.to_s == "Comment"
+			A comment was added
 
-	- when @entry.class.to_s == "BsIdea"
-		A brainstorming idea was added
+		- when @entry.class.to_s == "BsIdea"
+			A brainstorming idea was added
 
 
 %style
 	:sass
+		body
+			width: 500px
 		p.entry_title
 			font-style: italic
 			margin-bottom: -10px

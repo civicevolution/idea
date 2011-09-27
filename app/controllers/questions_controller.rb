@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  skip_before_filter :authorize, :only => [ :worksheet, :all_comments, :all_talking_points ]
+  skip_before_filter :authorize, :only => [ :worksheet, :all_comments, :all_talking_points, :old_data ]
   
   # GET /questions
   # GET /questions.xml
@@ -143,6 +143,19 @@ class QuestionsController < ApplicationController
   
   
   def new_talking_points
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
     @question = Question.find(params[:question_id])
     if !request.xhr?
       @question['talking_points_to_display'] = @question.top_talking_points
@@ -158,6 +171,19 @@ class QuestionsController < ApplicationController
   end
   
   def all_talking_points
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
     @question = Question.find(params[:question_id])
     if !request.xhr?
       @question['talking_points_to_display'] = @question.talking_points
@@ -171,6 +197,19 @@ class QuestionsController < ApplicationController
   end
 
   def new_comments
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
     @question = Question.find(params[:question_id])
     if !request.xhr?
       @question['comments_to_display'] = 
@@ -184,6 +223,19 @@ class QuestionsController < ApplicationController
   end
   
   def all_comments
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
     @question = Question.find(params[:question_id])
     if !request.xhr?
       @question['comments_to_display'] = @question.comments
@@ -355,6 +407,19 @@ class QuestionsController < ApplicationController
   end
   
   def old_data
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
     question = Question.find(params[:question_id])
     render 'old_data', :locals=>{:question => question}
   end
