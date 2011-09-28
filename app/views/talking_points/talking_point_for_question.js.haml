@@ -3,6 +3,7 @@
 	var tp = $("#{escape_javascript(render(  :partial=> 'plan/talking_point', :locals=>{:talking_point=>talking_point}, :content_type => 'html'  ))}");
 	tp.find('div.my_rating').addClass('js');
 	tp.find('div.community_rating').removeClass('no_js');
+	tp.find('.corner').corner('cc:#F2E9C3');
 
 	$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last').after(tp)
 	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think textarea').val('');

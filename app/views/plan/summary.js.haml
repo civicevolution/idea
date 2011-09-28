@@ -3,7 +3,7 @@
 	var summary = $("#{escape_javascript(
 		render( :template => 'plan/summary.html' )
 	)}");
-
+	summary.find('.corner').corner();
 	var page_div = $('div.page_content_div');
 	page_div.remove();
 
