@@ -4,8 +4,10 @@
 	var talking_points = $("#{escape_javascript(
 		'<div>' + render( :partial=> 'plan/talking_point', :collection => @question.talking_points_to_display ) + '</div>'
 	)}");
-	//console.log("insert talking points for q: #{@question.id}");
-	temp.talking_points = talking_points;
+	
+	talking_points.find('.corner').corner('cc:#F2E9C3');
+	
+	
 	var tp_list = $('div.talking_points_list[id="#{@question.id}"]');
 	var last_tp = tp_list.find('div.talking_point_entry').last();
 	var new_tp_ids = [];

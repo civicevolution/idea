@@ -62,9 +62,15 @@ function init_page(){
 	remove_worksheet_form();
 	size_talking_point_entries();
 	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
-	if($('.corner').size() > 0 ){
-		$('.corner').corner();
+	var worksheet_corners = $('div.worksheet .corner');
+	var non_worksheet_corners = $('.corner').not( worksheet_corners );
+	if( worksheet_corners.size() > 0 ){
+		worksheet_corners.corner( 'cc:#F2E9C3');
 	}
+	if( non_worksheet_corners.size() > 0 ){
+		non_worksheet_corners.corner();
+	}
+
 	try{
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 	}catch(e){}
