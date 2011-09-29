@@ -345,13 +345,14 @@ div.talking_point_acceptable {
         display: block; }
     div.talking_point_acceptable div.my_rating.js div.radios label {
       display: none; }
+    div.talking_point_acceptable div.my_rating.js div.radios p.clear_both {
+      margin: 0; }
     div.talking_point_acceptable div.my_rating.js p.option {
-      margin: 20px 0 0 0px;
+      margin: 4px 0 0 0px;
       clear: both;
       text-align: center;
       display: block; }
     div.talking_point_acceptable div.my_rating.js p.please_rate {
-      margin: 20px 0 0 0px;
       font-size: 1.12em;
       color: red;
       font-weight: bold;
