@@ -81,24 +81,72 @@ class NotificationController < ApplicationController
     NotificationRequest.send_periodic_report(dow,hour)
   end
   
-  def send_immediate
-    
+  def display_immediate
     log = TeamContentLog.find(params[:id])
     log.processed = false
     log.save
-    
+    @recip, @team, @report, @entry, @mcode, @host  = NotificationRequest.check_team_content_log(logger, true)
+    if @team.nil?
+      render :text => "No notification request for immediate report"
+    elsif @entry.nil?
+      render :text => 'Content was deleted'
+    else
+      if params[:text]
+        render :template => 'notification_mailer/immediate_report.text', :layout=>'email_preview' 
+      else
+        render :template => 'notification_mailer/immediate_report', :layout=>'email_preview' 
+      end
+    end
+  end
+
+  def send_immediate
+    log = TeamContentLog.find(params[:id])
+    log.processed = false
+    log.save
     NotificationRequest.check_team_content_log(logger)
     render :text=>'NotificationRequest.check_team_content_log(logger) was called'
   end
   
-  def send_periodic
+  def display_periodic
     
-    req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,2,10013)
-    req.match_queue = '{3-854,12-88,12-87,12-86}'
+    req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,4,10065)
+    req.match_queue = '{3-1227,13-76}'
+    req.immediate = false
+    req.dow_to_run = nil
+    req.hour_to_run = nil
     req.save
 
-    req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,2,10028)
-    req.match_queue = '{3-684,3-685}'
+    req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,4,10048)
+    req.match_queue = '{3-734, 3-737}'
+    req.immediate = false
+    req.dow_to_run = nil
+    req.hour_to_run = nil
+    req.save
+    
+    @recip, @teams, @comments, @answers, @talking_points, @reports, @mcode = NotificationRequest.send_periodic_report(0,0,logger, true)
+    if params[:text]
+      render :template => 'notification_mailer/periodic_report.text', :layout=>'email_preview' 
+    else
+      render :template => 'notification_mailer/periodic_report.html', :layout=>'email_preview' 
+    end
+    
+    #render :text=>'NotificationRequest.send_periodic_report(0,0,logger) was called'
+  end
+
+  def send_periodic
+    
+    req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,4,10065)
+    req.match_queue = '{3-1227,13-76}'
+    req.immediate = false
+    req.dow_to_run = nil
+    req.hour_to_run = nil
+    req.save
+
+    req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,4,10048)
+    req.match_queue = '{3-734, 3-737}'
+    req.immediate = false
+    req.dow_to_run = nil
+    req.hour_to_run = nil
     req.save
     
     NotificationRequest.send_periodic_report(0,0,logger)

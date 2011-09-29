@@ -1,71 +1,64 @@
+Updates to the proposals you are following			
+==========================================
+~''
 - location = @recip.location.gsub(' ','_')
-	
+Report generated #{TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).strftime('%A %B %d, %Y at %I:%M %p')}
+
+
 - @reports.each do |report|
-	- team =  @team.detect{|t| t.id == report.team_id}
-	- com = idea = ans = 0
-	- report.match_queue.scan(/(\d+)-(\d+)/).each{|type, id| case type.to_i when 2: ans += 1 when 3: com +=1 when 12: idea += 1 end}
+	- team =  @teams.detect{|t| t.id == report.team_id}
+	- @host = team['host']
+	~''
+	~''
 	= team.title
-	===============================================
-	-host = team.initiative_id == 1 ? 'cgg' : '2029'
+	================================================================
 	~''
-	Please contribute to your team's discussion today!
-	-#http://#{host}.civicevolution.org/idea/#{report.team_id}?_mlc=#{@mcode}&_sc=discuss_change
-	http://#{host}.civicevolution.org/idea/#{report.team_id}
+	You can visit the proposal at #{plan_url(:host=>@host,:id=>team.id,:_mlc => @mcode)}
 	~''
-	~''
-	- if report.report_type == 1
-		You have chosen to only see replies to your comments, ideas, and answers
-		~''
-		~''
-	- if report.report_format == 1
-		(Summary: #{com} Comments, #{idea} Ideas, #{ans} Answers)
-		~''
-		~''
-		- report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
-			- case type.to_i
-				- when 2
-					- entry = @answers.detect{|a| a.id == id.to_i}
-					-if !entry.nil?
-						- if entry.ver == 1
-							New answer
-						- else
-							Edited answer
-					
-						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-						~''
-						= entry.text
-   
-				- when 3
-					- entry = @comments.detect{|c| c.id == id.to_i}
-					-if !entry.nil?
-						#{entry.first_name} #{entry.last_name} posted this comment
-						= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-						~''
-						= entry.text
-				
-				- when 13
-					- entry = @talking_points.detect{|tp| tp.id == id.to_i}
-					-if !entry.nil?
-						A brainstorming idea was added
-						~''
-						= entry.text
-			~''
-			~''
-			~''
-	- else # show stats
-		-# scan the queue and count the coms, ideas, and answers
-		- #debugger
-		Summary of team activity since last report
-		~''
-		= "#{com} Comments"
-		= "#{idea} Ideas"
-		= "#{ans} Answers"
+	These are posts to this proposal since your last report	
 	~''
 	~''
 	
-	Unsubscribe or adjust your team notification settings
-	http://2029.civicevolution.org/notification/settings?id=#{team.id}&_mlc=#{@mcode}
-	~''
-	~''
-	~''
+	- report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
+		- case type.to_i
+			- when 2
+				- entry = @answers.detect{|a| a.id == id.to_i}
+				-if !entry.nil?
+					- if entry.ver == 1
+						New answer:
+						~''
+					- else
+						Edited answer:
+						~''
+		
+					= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+					entry.text
+
+			- when 3
+				- entry = @comments.detect{|c| c.id == id.to_i}
+				-if !entry.nil?
+					#{entry.author.first_name} #{entry.author.last_name} posted this comment on #{entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')}:
+					~''
+					= entry.text
+					~''
+					You can view this comment at #{question_worksheet_url(:host=>@host, :question_id=>entry.question.id, :t=>'c', :id=> entry.id, :_mlc => @mcode)}
+					~''
+					~''
+					~''
+			
 	
+			- when 13
+				- entry = @talking_points.detect{|tp| tp.id == id.to_i}
+				-if !entry.nil?
+					This talking point was added:
+					~''
+					= entry.text
+					~''
+					You can view this talking point at #{question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)}
+
+	You can adjust your notification settings for this proposal at #{notification_settings_form_url(:host=>@host, :team_id => team.id, :_mlc => @mcode)}
+	~''
+	~''
+~''
+======================
+You can completely unsubscribe at #{unsubscribe_url(:host=>@host, :_mlc => @mcode)}

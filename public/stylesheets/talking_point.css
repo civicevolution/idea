@@ -4,7 +4,7 @@ input {
 .corner {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  border-radius: 1 0px; }
+  border-radius: 10px; }
 
 abbr {
   border: none; }

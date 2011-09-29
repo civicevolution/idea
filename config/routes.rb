@@ -128,7 +128,8 @@ G3::Application.routes.draw do |map|
 
   match 'notification(/:team_id)/settings' => 'notification#settings_form', :as => 'notification_settings_form'
   match 'notification/:team_id/update_settings' => 'notification#update_notification_settings', :via=>[:put, :post], :as => 'notification_settings_post'
-
+  get 'notification/unsubscribe' => 'notification#unsubscribe', :as => 'unsubscribe'
+  
   post 'initiatives/:initiative_id/join' => 'initiatives#join', :as => 'join_initiative'
 
   match 'plan/:team_id/proposal_pic(/:pic_id)' => 'plan#proposal_pic', :as => 'proposal_pic'

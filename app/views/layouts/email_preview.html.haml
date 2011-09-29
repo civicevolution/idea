@@ -1,0 +1,11 @@
+%div#preview_immediate_email
+	%p 
+		This is a preview of the email
+		- if params[:action].match(/immed/i)
+			= link_to 'Send this immediate email', "/notification/send_immediate?id=#{params[:id]}", {:remote=>true}
+		- else 
+			= link_to 'Send this periodic email', "/notification/send_periodic", {:remote=>true}
+		
+	%hr
+	= yield
+

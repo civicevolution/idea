@@ -1,30 +1,40 @@
+On #{TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')},
+~''
+- if @entry.class.to_s == "Comment"
+	#{@entry.author.first_name} #{@entry.author.last_name} updated this proposal you are following:
+- else
+	Someone updated this proposal you are following:
+~''
 = @team.title
+~''
+You can visit the proposal at #{plan_url(:host=>@host,:id=>@team.id,:_mlc => @mcode)}
+~''
 ~''
 ~''
 
-Immediate activity report for #{@recip.first_name} #{@recip.last_name}
-= TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')
-~''
-~''
 - case
 	- when @entry.class.to_s == "Answer" && @report[:report_format] == 1
 		- if @entry.ver == 1
-			A new answer was added
+			This new answer was added:
 		- else
 			An answer was edited
-		~''
-		= @entry.text
-		
-	- when @entry.class.to_s == "Comment" && @report[:report_format] == 1
-		A comment was added by #{@entry.first_name} #{@entry.last_name}
-		~''
+
 		= @entry.text
 
-	- when @entry.class.to_s == "TalkingPoint" && @report[:report_format] == 1
-		A talking point was added
+	- when @entry.class.to_s == "Comment" && @report[:report_format] == 1
+		This comment was added:
 		~''
 		= @entry.text
-	
+		~''
+		You can view this comment at #{question_worksheet_url(:host=>@host, :question_id=>@entry.question.id, :t=>'c', :id=> @entry.id, :_mlc => @mcode)}
+
+	- when @entry.class.to_s == "TalkingPoint" && @report[:report_format] == 1
+		This talking point was added:
+		~''
+		= @entry.text
+		~''
+		You can view this talking point at #{question_worksheet_url(:host=>@host, :question_id=>@entry.question_id, :t=>'tp', :id=> @entry.id, :_mlc => @mcode)}
+
 	- when @entry.class.to_s == "Answer"
 		An answer was added or edited
 
@@ -33,3 +43,21 @@ Immediate activity report for #{@recip.first_name} #{@recip.last_name}
 
 	- when @entry.class.to_s == "BsIdea"
 		A brainstorming idea was added
+
+~''
+~''
+~''
+We have just finished a major redesign of CivicEvolution
+~''
+* Please view the video to see how the new design works at #{home_url(:host=>@host,:video=>'play', :_mlc => @mcode)}
+* Please help us by reporting any bugs, problems, or suggestions
+* Click "Help and feedback" on the right side of each page
+* You can also email us at support@civicevolution.org
+~''
+~''
+~''
+You can adjust your notification settings for this proposal at #{notification_settings_form_url(:host=>@host, :team_id => @team.id, :_mlc => @mcode)}
+~''
+Or you can completely unsubscribe at #{unsubscribe_url(:host=>@host, :_mlc => @mcode)}
+
+

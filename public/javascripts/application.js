@@ -20,7 +20,9 @@ $(function(){
 		  xhr.setRequestHeader("X-CSRF-Token", token);
 		});	
 		init_page();
-		
+		if(params['video']=='play'){
+			setTimeout(function(){ $('a#play_intro_video').click(); },1000);
+		}
 });
 
 function ajaxDisableElement(el){

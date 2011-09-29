@@ -1,10 +1,9 @@
 %style
 	:sass
 		body
-			max-width: 500px
-		p.com_author, p.ans_title
+			max-width: 600px
+		p.entry_header
 			font-style: italic
-			margin-bottom: 0
 		p.ans_title
 			font-weight: bold
 		p.com_date
@@ -21,79 +20,93 @@
 		p.summary
 			font-style: italic
 			margin-bottom: 30px
+		p.date
+			margin: 0
+			font-size: .88em
+			font-style: italic
+		p.unsubscribe
+			font-size: .8em
+		div.Comment
+			background-color: rgb(245,230,190)
+			padding: 1em
+			-webkit-border-radius: 10px
+			-moz-border-radius: 10px
+			border-radius: 10px
+		div.TalkingPoint
+			background-color: #BCC3D0
+			padding: 1em
+			-webkit-border-radius: 10px
+			-moz-border-radius: 10px
+			border-radius: 10px
+		div.proposal_report
+			margin-left: 20px
+		div.report
+			margin-left: 20px
 
+- if (1..2) === @teams[0].initiative_id 
+	%img{:src=>"http://2029.civicevolution.org/images/2029beyondemail2.jpg"}
 
-%img{:src=>"http://2029.civicevolution.org/images/2029beyondemail2.jpg"}
+%h2 Updates to the proposals you are following			
+%div.report			
+	- location = @recip.location.gsub(' ','_')
+	%p.date 
+		Report generated
+		= TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).strftime('%A %B %d, %Y at %I:%M %p')
 
-			
-- location = @recip.location.gsub(' ','_')
--#%p 
--#	#{@recip.first_name} #{@recip.last_name}'s report generated
--#	= TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).strftime('%A %B %d, %Y at %I:%M %p')
+	- @reports.each do |report|
+		- team =  @teams.detect{|t| t.id == report.team_id}
+		- @host = team['host']
 	
-- @reports.each do |report|
-	- team =  @team.detect{|t| t.id == report.team_id}
-	- com = idea = ans = 0
-	- report.match_queue.scan(/(\d+)-(\d+)/).each{|type, id| case type.to_i when 2: ans += 1 when 3: com +=1 when 12: idea += 1 end}
-	
-	%h3.team_title= team.title
-	-host = team.initiative_id == 1 ? 'cgg' : '2029'
+		%h3.team_title
+			= link_to team.title, plan_url(:host=>@host,:id=>team.id,:_mlc => @mcode)
+		%div.proposal_report
+			%p These are posts to this proposal since your last report	
+		
 
-	%p.team_link
-		Please contribute to your 
-		-#%a{:href=>"http://#{host}.civicevolution.org/idea/#{report.team_id}?_mlc=#{@mcode}&_sc=discuss_change"}team's discussion
-		%a{:href=>"http://#{host}.civicevolution.org/idea/#{report.team_id}"}team's discussion
-		today!
-	- if report.report_type == 1
-		%p You have chosen to only see replies to your comments, ideas, and answers
-	-#- else
-	-#	%p These are posts to your team since the last report
-	
-	- if report.report_format == 1
-		%p.summary (Summary: #{com} Comments, #{idea} Ideas, #{ans} Answers)
-		- report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
-			- #debugger
-			- case type.to_i
-				- when 2
-					- entry = @answers.detect{|a| a.id == id.to_i}
-					-if !entry.nil?
-						- if entry.ver == 1
-							%p.ans_title New answer
-						- else
-							%p.ans_title Edited answer
-					
-						%p.com_date
-							= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-						%div.ans!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
-   
-				- when 3
-					- entry = @comments.detect{|c| c.id == id.to_i}
-					-if !entry.nil?
-						%p.com_author 
-							#{entry.first_name} #{entry.last_name} posted this comment
-						%p.com_date
-							= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-						%div.com!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
+			- report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
+				- #debugger
+				- case type.to_i
+					- when 2
+						- entry = @answers.detect{|a| a.id == id.to_i}
+						-if !entry.nil?
+							- if entry.ver == 1
+								%p.ans_title New answer
+							- else
+								%p.ans_title Edited answer
 				
-				- when 13
-					- entry = @talking_points.detect{|tp| tp.id == id.to_i}
-					-if !entry.nil?
-						%p.entry_title A talking point was added
-						%div.idea= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>".html_safe
+							%p.entry_header
+								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+							%div.ans!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
+  
+					- when 3
+						- entry = @comments.detect{|c| c.id == id.to_i}
+						-if !entry.nil?
+							%p.entry_header 
+								#{entry.author.first_name} #{entry.author.last_name} posted this comment on
+								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+							%div.Comment
+								!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
+								%p.view= link_to 'View this comment', question_worksheet_url(:host=>@host, :question_id=>entry.question.id, :t=>'c', :id=> entry.id, :_mlc => @mcode)
+					
+			
+					- when 13
+						- entry = @talking_points.detect{|tp| tp.id == id.to_i}
+						-if !entry.nil?
+							%p.entry_header This talking point was added
+							%div.TalkingPoint
+								!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>".html_safe
+								%p.view= link_to 'View this talking point', question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)
+						
 
-	- else # show stats
-		-# scan the queue and count the coms, ideas, and answers
-		- com = idea = ans = 0
-		- report.match_queue.scan(/(\d+)-(\d+)/).each{|type, id| case type.to_i when 2: ans += 1 when 3: com +=1 when 11: idea += 1 end}
-		- #debugger
-		%p Summary of team activity since last report
-		%p= "#{com} Comments"
-		%p= "#{idea} Ideas"
-		%p= "#{ans} Answers"
-
-
-	%p 
-		%a{:href=>"http://2029.civicevolution.org/notification/settings?id=#{team.id}&_mlc=#{@mcode}"}Unsubscribe or adjust your team notification settings
+			%p.unsubscribe
+				You can 
+				=link_to 'adjust your notification settings',  notification_settings_form_url(:host=>@host, :team_id => team.id, :_mlc => @mcode)
+				for this proposal
 	
 	
--#%img{:src=>"http://2029.civicevolution.org/img/logo/#{@mcode}"}
+	%hr	
+	%p.unsubscribe
+		You can 
+		=link_to 'completely unsubscribe',  unsubscribe_url(:host=>@host, :_mlc => @mcode)
+	
+	-#%img{:src=>"http://2029.civicevolution.org/img/logo/#{@mcode}"}
