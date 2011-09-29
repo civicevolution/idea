@@ -257,7 +257,8 @@ class NotificationRequest < ActiveRecord::Base
         requests.each do |request|
         
           logger.info "I found a match for member #{request.member_id} 2: #{immed_send_mem_id}"
-          if request.immediate
+          #if request.immediate
+          if false # never send as immediate while I generate TP
             if request.member_id == log_record.member_id 
               logger.debug "Don't report immediately, it is my comment"
             elsif immed_send_mem_id == request.member_id
@@ -328,14 +329,20 @@ class NotificationRequest < ActiveRecord::Base
   def self.send_periodic_report(dow = 5, hod = 13, logger = logger, test_mode = false)
     logger.debug "NotifiationRequest.send_periodic_report"
     
+    return
+    
     #reports = NotificationRequest.all(
     #  :conditions=>['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',hod, dow ],
     #  :order=>"member_id, team_id, report_type"
     #)
     
-    reports = NotificationRequest.where(
-      ['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',hod, dow ]
-      ).order("member_id, team_id, report_type")  
+    #reports = NotificationRequest.where(
+    #  ['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',hod, dow ]
+    #  ).order("member_id, team_id, report_type")  
+    #
+    # send all queued reports
+    reports = NotificationRequest.where( 'match_queue IS NOT NULL' ).order("member_id, team_id, report_type")  
+
       
     return if reports.size == 0
     
