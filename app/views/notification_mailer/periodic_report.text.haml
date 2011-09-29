@@ -37,7 +37,7 @@ Report generated #{TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).st
 			- when 3
 				- entry = @comments.detect{|c| c.id == id.to_i}
 				-if !entry.nil?
-					#{entry.author.first_name} #{entry.author.last_name} posted this comment on #{entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')}:
+					#{entry.author.first_name} #{entry.author.last_name} added this comment to the question "#{entry.question.text}" on #{entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')}:
 					~''
 					= entry.text
 					~''
@@ -50,15 +50,19 @@ Report generated #{TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).st
 			- when 13
 				- entry = @talking_points.detect{|tp| tp.id == id.to_i}
 				-if !entry.nil?
-					This talking point was added:
+					This talking point was added to the question "#{entry.question.text}" on #{entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')}:
+					
 					~''
 					= entry.text
 					~''
 					You can view this talking point at #{question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)}
+					~''
+					~''
+					~''
 
 	You can adjust your notification settings for this proposal at #{notification_settings_form_url(:host=>@host, :team_id => team.id, :_mlc => @mcode)}
 	~''
 	~''
 ~''
 ======================
-You can completely unsubscribe at #{unsubscribe_url(:host=>@host, :_mlc => @mcode)}
+You can completely unsubscribe from CivicEvolution at #{unsubscribe_url(:host=>@host, :_mlc => @mcode)}

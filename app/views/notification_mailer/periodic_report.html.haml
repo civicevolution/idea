@@ -4,6 +4,7 @@
 			max-width: 600px
 		p.entry_header
 			font-style: italic
+			margin-bottom: .5em
 		p.ans_title
 			font-weight: bold
 		p.com_date
@@ -26,22 +27,34 @@
 			font-style: italic
 		p.unsubscribe
 			font-size: .8em
+			margin: -1em 0 4em 0
+		p.unsubscribe_all
+			font-size: .8em
 		div.Comment
 			background-color: rgb(245,230,190)
 			padding: 1em
 			-webkit-border-radius: 10px
 			-moz-border-radius: 10px
 			border-radius: 10px
+			margin-bottom: 2em
+		p.comment
+			font-size: 1.2em
 		div.TalkingPoint
 			background-color: #BCC3D0
 			padding: 1em
 			-webkit-border-radius: 10px
 			-moz-border-radius: 10px
 			border-radius: 10px
+			margin-bottom: 2em
+		p.talking_point
+			font-size: 1.2em
 		div.proposal_report
 			margin-left: 20px
 		div.report
 			margin-left: 20px
+		span.question
+			font-weight: bold
+	
 
 - if (1..2) === @teams[0].initiative_id 
 	%img{:src=>"http://2029.civicevolution.org/images/2029beyondemail2.jpg"}
@@ -60,7 +73,7 @@
 		%h3.team_title
 			= link_to team.title, plan_url(:host=>@host,:id=>team.id,:_mlc => @mcode)
 		%div.proposal_report
-			%p These are posts to this proposal since your last report	
+			%p Below are the posts to this proposal since your last report:
 		
 
 			- report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
@@ -82,19 +95,28 @@
 						- entry = @comments.detect{|c| c.id == id.to_i}
 						-if !entry.nil?
 							%p.entry_header 
-								#{entry.author.first_name} #{entry.author.last_name} posted this comment on
+								#{entry.author.first_name} #{entry.author.last_name} added this comment to the question
+								%span.question #{entry.question.text}
+								on
 								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+								
 							%div.Comment
-								!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
+								!= %Q|<p class="comment">#{entry.text.gsub(/\n/,'<br/>')}</p>|
 								%p.view= link_to 'View this comment', question_worksheet_url(:host=>@host, :question_id=>entry.question.id, :t=>'c', :id=> entry.id, :_mlc => @mcode)
 					
 			
 					- when 13
 						- entry = @talking_points.detect{|tp| tp.id == id.to_i}
 						-if !entry.nil?
-							%p.entry_header This talking point was added
+							%p.entry_header 
+								This talking point was added to the question
+								%span.question #{entry.question.text}
+								on
+								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+							
+							
 							%div.TalkingPoint
-								!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>".html_safe
+								!= %Q|<p class="talking_point">#{entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
 								%p.view= link_to 'View this talking point', question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)
 						
 
@@ -105,8 +127,8 @@
 	
 	
 	%hr	
-	%p.unsubscribe
+	%p.unsubscribe_all
 		You can 
 		=link_to 'completely unsubscribe',  unsubscribe_url(:host=>@host, :_mlc => @mcode)
-	
+		from CivicEvolution
 	-#%img{:src=>"http://2029.civicevolution.org/img/logo/#{@mcode}"}

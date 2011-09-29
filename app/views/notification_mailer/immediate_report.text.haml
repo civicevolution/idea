@@ -1,13 +1,8 @@
-On #{TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')},
+This proposal you are following was updated:
 ~''
-- if @entry.class.to_s == "Comment"
-	#{@entry.author.first_name} #{@entry.author.last_name} updated this proposal you are following:
-- else
-	Someone updated this proposal you are following:
+"#{@team.title}"
 ~''
-= @team.title
-~''
-You can visit the proposal at #{plan_url(:host=>@host,:id=>@team.id,:_mlc => @mcode)}
+(You can visit the proposal at #{plan_url(:host=>@host,:id=>@team.id,:_mlc => @mcode)})
 ~''
 ~''
 ~''
@@ -22,14 +17,14 @@ You can visit the proposal at #{plan_url(:host=>@host,:id=>@team.id,:_mlc => @mc
 		= @entry.text
 
 	- when @entry.class.to_s == "Comment" && @report[:report_format] == 1
-		This comment was added:
+		On #{TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')}, #{@entry.author.first_name} #{@entry.author.last_name} added this comment to the question "#{@entry.question.text}":
 		~''
 		= @entry.text
 		~''
 		You can view this comment at #{question_worksheet_url(:host=>@host, :question_id=>@entry.question.id, :t=>'c', :id=> @entry.id, :_mlc => @mcode)}
 
 	- when @entry.class.to_s == "TalkingPoint" && @report[:report_format] == 1
-		This talking point was added:
+		On #{TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')}, this talking point was added:
 		~''
 		= @entry.text
 		~''
@@ -44,7 +39,7 @@ You can visit the proposal at #{plan_url(:host=>@host,:id=>@team.id,:_mlc => @mc
 	- when @entry.class.to_s == "BsIdea"
 		A brainstorming idea was added
 
-~''
+
 ~''
 ~''
 We have just finished a major redesign of CivicEvolution
@@ -58,6 +53,6 @@ We have just finished a major redesign of CivicEvolution
 ~''
 You can adjust your notification settings for this proposal at #{notification_settings_form_url(:host=>@host, :team_id => @team.id, :_mlc => @mcode)}
 ~''
-Or you can completely unsubscribe at #{unsubscribe_url(:host=>@host, :_mlc => @mcode)}
+Or you can completely unsubscribe from CivicEvolution at #{unsubscribe_url(:host=>@host, :_mlc => @mcode)}
 
 
