@@ -77,4 +77,11 @@ ls /var/log/engineyard/apps/tp
 	vi /var/log/engineyard/apps/tp/unicorn.log
 
 
-	
+git diff 539ca090e8baff4e1b66889e0704ab12f65aa819 HEAD --name-status
+git diff c2a0703b4962f6ce122de44a716a77d53b7a4295 HEAD app/models/notification_request.rb	
+
+http://2029.civicevolution.dev/notification/display_immediate?id=2248
+http://2029.civicevolution.dev/notification/display_immediate?id=2248&text=1
+
+http://2029.civicevolution.dev/notification/display_periodic
+http://2029.civicevolution.dev/notification/display_periodic?text=1
