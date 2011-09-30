@@ -179,6 +179,8 @@ div.question_worksheet {
   clear: both;
   padding: 20px 0 20px 20px;
   margin-bottom: 40px; }
+  div.question_worksheet h2.worksheet_team {
+    text-align: center; }
   div.question_worksheet a.open_worksheet {
     display: none;
     margin: 20px 0 20px 20px;

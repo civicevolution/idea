@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110911195140) do
+ActiveRecord::Schema.define(:version => 20110930220750) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -492,12 +492,13 @@ ActiveRecord::Schema.define(:version => 20110911195140) do
     t.integer  "report_type"
     t.integer  "report_format"
     t.boolean  "immediate"
-    t.string   "dow_to_run",    :limit => nil
-    t.string   "hour_to_run",   :limit => nil
-    t.string   "match_queue",   :limit => nil
+    t.string   "dow_to_run",     :limit => nil
+    t.string   "hour_to_run",    :limit => nil
+    t.string   "match_queue",    :limit => nil
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "sent_time"
+    t.boolean  "call_to_action"
   end
 
   create_table "page_chat_messages", :force => true do |t|

@@ -8,68 +8,17 @@
 			Please return to the 
 			= link_to home_path
 	- else	
-	
 		
 		= form_for @notification_setting, :as => :notification_setting, :url => notification_settings_post_path(@team.id), :html => {:class=>'update_notification_settings', :remote=>true} do |form|
 
 			%h3 
 				Please email me updates 
 
-				= form.select( :follow_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Weekly','w'], ['Never','n']])
+				= form.select( :follow_freq, [['When I should review this proposal again','c'],['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Weekly','w'], ['Never','n']])
 			%p.submit
 				= submit_tag "Update settings for this proposal", :name=>'invite_friends', :alias=>'Please'
 				= link_to 'Return to proposal', plan_path(@team), {:class=>'cancel'}
 		
-	
-		-#= form_for @notification_setting, :as => :notification_setting, :url => notification_settings_post_path(@team.id), :html => {:class=>'update_notification_settings', :remote=>true} do |form|
-
-			%p.follow
-				= form.check_box :follow
-				I want to follow this idea
-			%p.follow_description 
-				We will send you occasional emails so you can follow the progress of this idea and 
-				discover opportunities to develop and support this change in your community
-
-			%h3 I want to receive regular updates ...
-
-			%ul.notification_settings
-				%li
-					%p
-						Email me  
-						= form.select( :tp_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
-						with a 
-						= form.select( :tp_format, [['Summary', 'sum'], ['Full details', 'full']])
-			
-				-#%li
-					%h3
-						When someone replies to my comment or talking point
-					%p
-						Email me  
-						= form.select( :reply_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
-						with a 
-						= form.select( :reply_format, [['Full details', 'full'], ['Summary', 'sum']])
-
-				-#%li
-					%h3
-						When new talking points are added
-					%p
-						Email me  
-						= form.select( :tp_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
-						with a 
-						= form.select( :tp_format, [['Summary', 'sum'], ['Full details', 'full']])
-
-				-#%li
-					%h3
-						When new comments are added
-					%p
-						Email me  
-						= form.select( :com_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Never','n']])
-						with a 
-						= form.select( :com_format, [['Summary', 'sum'], ['Full details', 'full']])
-
-			%p.submit
-				= submit_tag "Update settings for this proposal", :name=>'invite_friends', :alias=>'Please'
-				= link_to 'Return to proposal', plan_path(@team), {:class=>'cancel'}
 		%hr
 		%p.other_ideas Manage the settings for the other proposals in which you participate:
 		= form_tag( notification_settings_form_path, {:remote=>true} ) do

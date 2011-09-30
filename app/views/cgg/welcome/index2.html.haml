@@ -76,8 +76,8 @@
 								= pluralize(team.talking_points, 'talking point')
 							
 							%p.controls
-								= link_to "View proposal", proposal_path(team.id)
-								= link_to "Follow proposal", notification_settings_form_path(team.id), {:remote=>true}
+								= link_to "Help us make a difference", proposal_path(team.id)
+								= link_to "Follow our progress", notification_settings_form_path(team.id), {:remote=>true}
 							-#%p.controls
 								-#%span 0 comments
 								%span= pluralize( team['members'], 'member')

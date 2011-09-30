@@ -2,6 +2,7 @@
 	%div.spiral
 	%div.question_worksheet.notebook.corner{:id=>question.id, :ans_criteria=>question.answer_criteria, :talking_point_criteria=>question.talking_point_criteria}
 	
+		%h2.worksheet_team= question.team.title
 		= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
 
 		%h2.question{:id=>question.id} Q#{question.order_id}: #{question.text}
