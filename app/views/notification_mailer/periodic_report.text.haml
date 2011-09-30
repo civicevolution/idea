@@ -1,9 +1,18 @@
-Updates to the proposals you are following			
-==========================================
-~''
 - location = @recip.location.gsub(' ','_')
 Report generated #{TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).strftime('%A %B %d, %Y at %I:%M %p')}
+~''
+CivicEvolution just released a major redesign
+~''
+* Please view the video to see how the new design works at #{home_url(:host=>@teams[0]['host'],:video=>'play', :_mlc => @mcode)}
+* Please help us by reporting any bugs, problems, or suggestions
+* Click "Help and feedback" on the right side of each page
+* You can also email us at support@civicevolution.org
 
+~''
+~''
+We've been working on these proposals and we want you to join us
+================================================================
+~''
 
 - @reports.each do |report|
 	- team =  @teams.detect{|t| t.id == report.team_id}
@@ -55,7 +64,7 @@ Report generated #{TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).st
 					~''
 					= entry.text
 					~''
-					You can view this talking point at #{question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)}
+					You can rate this talking point at #{question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)}
 					~''
 					~''
 					~''
@@ -63,6 +72,8 @@ Report generated #{TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).st
 	You can adjust your notification settings for this proposal at #{notification_settings_form_url(:host=>@host, :team_id => team.id, :_mlc => @mcode)}
 	~''
 	~''
+~''
+Now we want to know what you think. Click one of the links above to share your voice.
 ~''
 ======================
 You can completely unsubscribe from CivicEvolution at #{unsubscribe_url(:host=>@host, :_mlc => @mcode)}

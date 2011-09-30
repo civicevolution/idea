@@ -1,4 +1,8 @@
-This proposal you are following was updated:
+- if @entry.class.to_s == "Comment"
+	#{@entry.author.first_name} #{@entry.author.last_name} is working on this proposal
+- else
+	Someone is working on this proposal
+
 ~''
 "#{@team.title}"
 ~''
@@ -28,7 +32,7 @@ This proposal you are following was updated:
 		~''
 		= @entry.text
 		~''
-		You can view this talking point at #{question_worksheet_url(:host=>@host, :question_id=>@entry.question_id, :t=>'tp', :id=> @entry.id, :_mlc => @mcode)}
+		You can rate this talking point at #{question_worksheet_url(:host=>@host, :question_id=>@entry.question_id, :t=>'tp', :id=> @entry.id, :_mlc => @mcode)}
 
 	- when @entry.class.to_s == "Answer"
 		An answer was added or edited
@@ -42,7 +46,10 @@ This proposal you are following was updated:
 
 ~''
 ~''
-We have just finished a major redesign of CivicEvolution
+Now we want to know what you think. Click one of the links above to share your voice.
+~''
+~''
+CivicEvolution just released a major redesign
 ~''
 * Please view the video to see how the new design works at #{home_url(:host=>@host,:video=>'play', :_mlc => @mcode)}
 * Please help us by reporting any bugs, problems, or suggestions

@@ -22,7 +22,7 @@
 			font-style: italic
 			margin-bottom: 30px
 		p.date
-			margin: 0
+			margin: 0 0 1em 0
 			font-size: .88em
 			font-style: italic
 		p.unsubscribe
@@ -54,17 +54,36 @@
 			margin-left: 20px
 		span.question
 			font-weight: bold
+		h1.cta
+			margin-bottom: 0
+		p.cta
+			margin-top: 4px
 	
 
+- location = @recip.location.gsub(' ','_')
+%p.date 
+	Report generated
+	= TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).strftime('%A %B %d, %Y at %I:%M %p')
+
+%p 
+	%b CivicEvolution just released a major redesign	
+%ul
+	%li 
+		Please 
+		= link_to 'view the video', home_url(:host=>@teams[0]['host'],:video=>'play', :_mlc => @mcode) 
+		to see how the new design works
+	%li Please help us by reporting any bugs, problems, or suggestions
+	%li Click "Help and feedback" on the right side of each page
+	%li You can also email us at support@civicevolution.org
+
+%hr
 - if (1..2) === @teams[0].initiative_id 
 	%img{:src=>"http://2029.civicevolution.org/images/2029beyondemail2.jpg"}
 
-%h2 Updates to the proposals you are following			
+
+%h2 We've been working on these proposals and we want you to join us
 %div.report			
-	- location = @recip.location.gsub(' ','_')
-	%p.date 
-		Report generated
-		= TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).strftime('%A %B %d, %Y at %I:%M %p')
+
 
 	- @reports.each do |report|
 		- team =  @teams.detect{|t| t.id == report.team_id}
@@ -117,7 +136,7 @@
 							
 							%div.TalkingPoint
 								!= %Q|<p class="talking_point">#{entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
-								%p.view= link_to 'View this talking point', question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)
+								%p.view= link_to 'Rate this talking point', question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)
 						
 
 			%p.unsubscribe
@@ -125,6 +144,8 @@
 				=link_to 'adjust your notification settings',  notification_settings_form_url(:host=>@host, :team_id => team.id, :_mlc => @mcode)
 				for this proposal
 	
+	%h1.cta Now we want to know what you think
+	%p.cta Click one of the links above to share your voice
 	
 	%hr	
 	%p.unsubscribe_all
