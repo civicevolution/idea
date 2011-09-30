@@ -10,7 +10,7 @@ class NotificationMailer < ActionMailer::Base
     @reports = reports
     @mcode = mcode
     mail(:to => "#{recip.first_name} #{recip.last_name} <#{recip.email}>",
-      :subject => 'Your 2029 CivicEvolution proposal has been updated',
+      :subject => 'Your 2029 and Beyond CivicEvolution proposal has been updated',
       :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
       :date => sent_at
     )
@@ -26,7 +26,7 @@ class NotificationMailer < ActionMailer::Base
     @mcode=mcode
     @host=host
     mail(:to => "#{recip.first_name} #{recip.last_name} <#{recip.email}>",
-      :subject => 'Someone just posted in your 2029 CivicEvolution proposal',
+      :subject => 'Someone just posted in your 2029 and Beyond CivicEvolution proposal',
       :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
       :date => sent_at
     )
