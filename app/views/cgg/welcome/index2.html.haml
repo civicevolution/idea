@@ -71,9 +71,9 @@
 									= link_to "Please start this conversation", proposal_path(team.id)
 								- else
 									= pluralize(team.comments, 'comment') unless team.comments.to_i == 0
-								= pluralize(team.bs_ideas, 'idea') unless team.bs_ideas.to_i == 0
-								= pluralize(team.answers, 'answer') unless team.answers.to_i == 0
-								= pluralize(team.talking_points, 'talking point') unless team.talking_points.to_i == 0
+								-#= pluralize(team.bs_ideas, 'idea') unless team.bs_ideas.to_i == 0
+								-#= pluralize(team.answers, 'answer') unless team.answers.to_i == 0
+								= pluralize(team.talking_points, 'talking point')
 							
 							%p.controls
 								= link_to "View proposal", proposal_path(team.id)

@@ -16,10 +16,12 @@
 				- else
 					- question.top_talking_points.each do |talking_point|
 						%li.talking_point= talking_point.text
+					- if question.talking_points.size - question.top_talking_points.size > 0
+						%li= link_to pluralize( question.talking_points.size - question.top_talking_points.size, 'more talking point'), question_all_talking_points_path(question), {:class=> 'open_worksheet', :remote => false}	
 			
 					%p= link_to 'Please rate these talking points and tell us what you think', question_worksheet_path(question), {:class=> 'open_worksheet', :remote => true}
 
-				- if question.answers.size > 0 || question.bs_ideas.size > 0
+				-# if question.answers.size > 0 || question.bs_ideas.size > 0
 					%p= link_to 'Show old answers and ideas', question_old_data_path(question.id), {:remote=>true}
 			
 		
