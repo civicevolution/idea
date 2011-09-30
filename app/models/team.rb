@@ -132,7 +132,8 @@ class Team < ActiveRecord::Base
     Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement,
       (SELECT COUNT(*) FROM comments WHERE team_id = t.id) AS comments,
       (SELECT COUNT(*) FROM bs_ideas WHERE team_id = t.id) AS bs_ideas,
-      (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers
+      (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers, 
+      (SELECT COUNT(*) FROM talking_points WHERE question_id IN (SELECT id FROM questions WHERE team_id = t.id)) AS talking_points
       FROM teams t 
       WHERE initiative_id = ?|, initiative_id ]
     )
