@@ -328,20 +328,9 @@ class NotificationRequest < ActiveRecord::Base
   def self.send_periodic_report(dow = 5, hod = 13, logger = logger, test_mode = false)
     logger.debug "NotifiationRequest.send_periodic_report"
     
-    #return
-    
-    #reports = NotificationRequest.all(
-    #  :conditions=>['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',hod, dow ],
-    #  :order=>"member_id, team_id, report_type"
-    #)
-    
-    #reports = NotificationRequest.where(
-    #  ['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',hod, dow ]
-    #  ).order("member_id, team_id, report_type")  
-    #
-    # send all queued reports
-    reports = NotificationRequest.where( 'match_queue IS NOT NULL AND report_type = 4' ).order("member_id, team_id, report_type")  
-
+    reports = NotificationRequest.where(
+      ['match_queue IS NOT NULL AND (hour_to_run IS NULL OR ? = ANY (hour_to_run) ) AND (dow_to_run IS NULL OR ? = ANY (dow_to_run) )',hod, dow ]
+    ).order("member_id, team_id, report_type")  
       
     return if reports.size == 0
     

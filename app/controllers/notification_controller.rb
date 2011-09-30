@@ -103,6 +103,14 @@ class NotificationController < ApplicationController
   end
   
   def display_immediate
+    if @member.id != 1
+      respond_to do |format|
+        format.html { render 'shared/private', :layout => 'plan' }
+        format.js { render 'shared/private' }
+      end
+      return
+    end
+    
     log = TeamContentLog.find(params[:id])
     log.processed = false
     log.save
@@ -121,6 +129,14 @@ class NotificationController < ApplicationController
   end
 
   def send_immediate
+    if @member.id != 1
+      respond_to do |format|
+        format.html { render 'shared/private', :layout => 'plan' }
+        format.js { render 'shared/private' }
+      end
+      return
+    end
+    
     log = TeamContentLog.find(params[:id])
     log.processed = false
     log.save
@@ -129,7 +145,14 @@ class NotificationController < ApplicationController
   end
   
   def display_periodic
-    
+    if @member.id != 1
+      respond_to do |format|
+        format.html { render 'shared/private', :layout => 'plan' }
+        format.js { render 'shared/private' }
+      end
+      return
+    end
+
     req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,4,10065)
     req.match_queue = '{3-1227,13-76}'
     req.immediate = false
@@ -155,7 +178,14 @@ class NotificationController < ApplicationController
   end
 
   def send_periodic
-    
+    if @member.id != 1
+      respond_to do |format|
+        format.html { render 'shared/private', :layout => 'plan' }
+        format.js { render 'shared/private' }
+      end
+      return
+    end
+
     req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,4,10065)
     req.match_queue = '{3-1227,13-76}'
     req.immediate = false
