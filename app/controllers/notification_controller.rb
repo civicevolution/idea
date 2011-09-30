@@ -1,5 +1,5 @@
 class NotificationController < ApplicationController
-  skip_before_filter :authorize, :only => [ :settings ]
+  skip_before_filter :authorize, :only => [ :settings, :follow_initiative_form, :follow_initiative_post ]
     
   def unsubscribe
     @member.update_attributes( :email_ok => false)
@@ -52,6 +52,27 @@ class NotificationController < ApplicationController
       format.js { render :template=>'notification/update_notification_settings.js', :locals=>{:team_id=>params[:team_id]} }
     end
   end
+  
+  def follow_initiative_form
+    # if they are a member look up their current state
+    respond_to do |format|
+      format.html { render :template=>'notification/follow_initiative', :layout=> 'plan' }
+      format.js { render :template=>'notification/follow_initiative' }
+    end
+  end
+  
+  def follow_initiative_post
+    @act = params[:follow].nil? ? 'remove' : 'add'
+    email = @member.email.nil?	|| @member.email.length == 0 ? params[:email] : @member.email
+    AdminMailer.delay.subscribe_to_follow_initiative( email, params[:_initiative_id], @act ) 
+    msg = params[:follow].nil? ? 'We will unsubscribe you' : 'Thank you for subscribing to CivicEvoution updates'
+    respond_to do |format|
+      format.js { render 'initiative_subscribed' }
+      format.html { redirect_to( home_path, :flash => { :subscribed => msg}) }
+    end
+  end
+  
+  
   
   def run_test
     case params[:type]

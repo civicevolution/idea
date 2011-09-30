@@ -1,0 +1,7 @@
+%div#initiative_subscribed
+	- if @act == 'remove'
+		%h3 We will unsubscribe you
+	- else 
+		%h3 Thank you for subscribing to 2029 updates
+		
+	= link_to 'Close', home_path, {:class=>'cancel'}

@@ -15,11 +15,18 @@ class AdminMailer < ActionMailer::Base
   end
 
   def subscribe_to_follow(email)
-      @email = email
-      mail(:to => "Info at CivicEvolution <info@civicevolution.org>",
-        :subject => 'Subscribe to follow request')
+    @email = email
+    mail(:to => "Info at CivicEvolution <info@civicevolution.org>",
+      :subject => 'Subscribe to follow request')
+  end
 
-    end
+  def subscribe_to_follow_initiative(email, init_id, follow)
+    @email = email
+    @init_id = init_id
+    @follow = follow
+    mail(:to => "Info at CivicEvolution <info@civicevolution.org>",
+      :subject => 'Subscribe to follow initiative request')
+  end
 
   def get_started(params)
     @params = params

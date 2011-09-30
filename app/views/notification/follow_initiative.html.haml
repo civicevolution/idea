@@ -1,0 +1,13 @@
+%div#follow_initiative
+	%h3 Thank you for wanting to follow the 2029 and Beyond proposal ideas
+	= form_tag  follow_initiative_post_path, {:remote=>true} do
+		%p
+			= check_box_tag :follow
+			Please send me occasional emails so I can follow the progress of this 2029 and Beyond idea and 
+			discover opportunities to develop and support change in this community
+
+		- if @member.email.nil?	|| @member.email.length == 0
+			%p Your email address: #{text_field_tag 'email',''}
+		%p.submit
+			= submit_tag "Save my request", :name=>'invite_friends', :alias=>'Please'
+			= link_to 'Return to 2029 and Beyond home page', home_path, {:class=>'cancel'}

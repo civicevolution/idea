@@ -1,0 +1,17 @@
+= render :template => 'shared/clear_sign_in_form.js'
+:plain
+	$('div#follow_initiative').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+	var follow_form = $("#{escape_javascript(
+		render( :template => 'notification/initiative_subscribed.html' )
+	)}");
+	
+	var dialog = follow_form.dialog( {title : 'Thank you', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+	
+	$('div#initiative_subscribed a.cancel').die('click').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);
+
+	

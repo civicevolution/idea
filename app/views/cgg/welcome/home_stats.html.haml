@@ -32,8 +32,11 @@
 		
 		%p.cta
 			= link_to "Endorse a proposal"		
+			
 		%p.cta
-			= link_to "Follow 2029 and Beyond ideas", notification_settings_form_path(0), {:remote=>true}
+			= link_to "Follow 2029 and Beyond ideas", follow_initiative_form_path, {:remote=>true}
+		- if flash[:subscribed]
+			%p.cta.warn= flash[:subscribed]
 		
 		%p.cta
 			= link_to "Invite friends", invite_friends_form_path(0), {:class=>'invite', :remote=>true}

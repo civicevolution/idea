@@ -130,6 +130,9 @@ G3::Application.routes.draw do |map|
   match 'notification/:team_id/update_settings' => 'notification#update_notification_settings', :via=>[:put, :post], :as => 'notification_settings_post'
   get 'notification/unsubscribe' => 'notification#unsubscribe', :as => 'unsubscribe'
   
+  get 'notification/follow_initiative_form' => 'notification#follow_initiative_form', :as => 'follow_initiative_form'
+  post 'notification/follow_initiative_post' => 'notification#follow_initiative_post', :as => 'follow_initiative_post'
+  
   post 'initiatives/:initiative_id/join' => 'initiatives#join', :as => 'join_initiative'
 
   match 'plan/:team_id/proposal_pic(/:pic_id)' => 'plan#proposal_pic', :as => 'proposal_pic'
