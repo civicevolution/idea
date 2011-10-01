@@ -1,0 +1,18 @@
+:plain
+	$('div#help_endorse_proposal').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+	$('div#help_develop_proposal').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+	
+	var help = $("#{escape_javascript(
+		render( :template => 'help/help_endorse_proposal.html' )
+	)}");
+	
+	var dialog = help.dialog( {title : 'CivicEvolution Help: Endorse a proposal', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+	
+	$('div#help_endorse_proposal a.cancel').html('Close').die('click').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);
+
+	

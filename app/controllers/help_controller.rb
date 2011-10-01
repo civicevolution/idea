@@ -6,5 +6,13 @@ class HelpController < ApplicationController
     
   end
 
+  def help_endorse_proposal
+    
+  end
+  
+  def help_develop_proposal
+    
+  end
+  
 end
 

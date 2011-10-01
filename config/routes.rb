@@ -142,6 +142,8 @@ G3::Application.routes.draw do |map|
   post 'get_started' => 'welcome#get_started_post'
 
   get 'visual_help' => 'help#visual_help'
+  get 'help_develop' => 'help#help_develop_proposal'
+  get 'help_endorse' => 'help#help_endorse_proposal'
 
   resources :answer_diffs
 

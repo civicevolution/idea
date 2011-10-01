@@ -1,0 +1,37 @@
+%div#help_endorse_proposal
+	%style
+		:sass
+			div#help_endorse_proposal
+				width: 505px
+				li, p
+					font-size: 1.2em
+				li
+					margin-bottom: .5em
+
+	%h2 How to endorse a proposal
+	%p This explains how you can endorse a proposal to show your support. 
+	
+	%ol
+		%li 
+			Select a proposal from the list on the left side of the
+			= link_to 'home page', home_path
+			and click the link that says 
+			%b Help us make a difference
+		%li You'll see the four questions that make up a proposal and the talking points that have already been developed
+		%li Below the questions and talking points, you'll see the Endorsement form and a list of people that have endorsed this proposal
+		%li 
+			Enter your endorsement in the form and click the 
+			%b I endorse this proposal
+			button
+		%li You'll need to sign in or join CivicEvolution for your endorsement to count
+		%li If you're not already a member of CivicEvolution, we'll ask for your email address
+		%li Your endorsement will be remembered, but you will need to confirm your email address before your endorsement is displayed and counted
+		
+	%p 
+		Once you've joined, we hope you will help develop the proposal further. Here are more
+		= link_to 'details', help_develop_path, {:remote=>true}
+		about how you can help develop a proposal.
+	
+	%h3 We need to know what you think!	
+		
+	= link_to "Return to home page", home_path, {:class=>'cancel'}
