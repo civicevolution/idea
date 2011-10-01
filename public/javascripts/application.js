@@ -72,8 +72,9 @@ function init_page(){
 	if( non_worksheet_corners.size() > 0 ){
 		non_worksheet_corners.corner();
 	}
-
+	
 	try{
+		init_add_this();
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 	}catch(e){}
 }
@@ -205,4 +206,21 @@ function activate_text_counters_grow(els, height){
 			}
 		}
 	)
+}
+
+function init_add_this(){
+	var addthis_config = {"data_track_clickback":true};
+	var addthisScript = "http://s7.addthis.com/js/250/addthis_widget.js#username=civicevolution"
+
+	function initAddthis(){ 
+		if (window.addthis){ 
+			window.addthis.ost = 0; 
+			window.addthis.init(); 
+		} 
+	} 
+
+	$.getScript( addthisScript , function(){
+		initAddthis()
+	});
+	
 }

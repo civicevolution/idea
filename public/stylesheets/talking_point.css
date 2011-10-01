@@ -77,7 +77,10 @@ div.talking_points_list ul.talking_points {
   div.talking_points_list ul.talking_points li {
     margin-bottom: 8px; }
 div.talking_points_list div.talking_point_placeholder {
-  padding-left: 50px; }
+  background: #bcc3d0 url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
+  width: 428px;
+  padding-left: 50px;
+  padding-bottom: 20px; }
   div.talking_points_list div.talking_point_placeholder p {
     font-size: 1.2em;
     width: 400px; }

@@ -18,6 +18,7 @@
 					%p.instr
 						The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
 						= link_to "Learn more", visual_help_path, {:remote=>true}
+						
 
 			%div.talking_point_acceptable.corner
 				%p.title Acceptable
@@ -37,9 +38,14 @@
 			- if question.num_talking_points > question['talking_points_to_display'].length
 				= link_to "Show #{ pluralize(question.num_talking_points - question['talking_points_to_display'].length, 'more talking point')}", question_all_talking_points_path(question, :ids => question['talking_points_to_display'].map(&:id).join('-') ), { :class=> 'show_all_talking_points', :id=>question.id, :remote => true }
 			- if question.num_talking_points == 0
-				%div.talking_point_placeholder
+				%div.talking_point_placeholder.corner
 					%p Your community should work together to answer this question by suggesting talking points.
 					%p A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated by community members.
 				
 					%p 
 						Please be the first person to suggest a talking point by typing it in the form below.
+					%p	
+						Learn more by watching 
+						#{link_to 'our intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'}, 
+						reading our #{link_to "short intro", help_develop_path, {:remote=>true}}, 
+						or #{link_to "browsing the visual help", visual_help_path, {:remote=>true}}.

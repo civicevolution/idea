@@ -14,7 +14,7 @@
 			We discuss each question on the left to find answers acceptable to most of the community. 
 		%p	
 			Click a question to participate. 
-			= link_to "Learn more", visual_help_path, {:remote=>true}
+			= link_to "Learn more", help_develop_path, {:remote=>true}
 	%p.clear_both
 	
 %div.cta_block.corner
@@ -23,6 +23,12 @@
 		%h3 Be part of the solution!
 		-#%p.cta
 			= link_to "Tell us what you think"
+		%p.cta
+			= link_to "Help develop a proposal", help_develop_path, {:remote=>true}
+
+		%p.cta
+			= link_to "Endorse a proposal", help_endorse_path, {:remote=>true}
+		
 			
 		%p.cta
 			= link_to "Follow this idea", notification_settings_form_path(@team.id), {:remote=>true}
@@ -41,10 +47,13 @@
 				%a.addthis_button_email
 				%span.addthis_separator
 				%a.addthis_button_facebook_like
-			= javascript_tag %Q|var addthis_config = {"data_track_clickback":true};|
-			= javascript_include_tag 'http://s7.addthis.com/js/250/addthis_widget.js#username=civicevolution'
+			-#= javascript_tag %Q|var addthis_config = {"data_track_clickback":true};|
+			-#= javascript_include_tag 'http://s7.addthis.com/js/250/addthis_widget.js#username=civicevolution'
 			/AddThis Button END
 		
+		%p.cta
+			= link_to 'Please watch our intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
+
 		
 	%p.clear_both					
 					
