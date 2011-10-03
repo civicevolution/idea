@@ -93,13 +93,13 @@ class ApplicationController < ActionController::Base
       if ppa.errors.empty?
         format.js { 
           # if js, just close the form, otherwise determine what to show
-          params[:action] = flash[:params][:action]
-          params[:input_type] = flash[:params][:input_type]
+          params[:action] = flash[:params][:action] if flash[:params]
+          params[:input_type] = flash[:params][:input_type] if flash[:params]
           render :template => 'sign_in/close_temp_join_save_email' 
         }
         format.html {
-          params[:action] = flash[:params][:action]
-          params[:team_id] = flash[:params][:team_id]
+          params[:action] = flash[:params][:action] if flash[:params]
+          params[:team_id] = flash[:params][:team_id] if flash[:params]
           msg, redirect_url = get_redirect
           render :template => 'sign_in/acknowledge_preliminary_participation_and_redirect.html', :locals => {:msg => msg, :redirect_url => redirect_url}, :layout => 'plan'
         }
@@ -215,8 +215,7 @@ class ApplicationController < ActionController::Base
           @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.request_uri} )
           if @member.nil?
             if session[:_mlc] != params[:_mlc] || session[:member_id].nil?
-              #render :controller=>'welcome', :action=>'request_new_access_code'
-              render :template=>'welcome/request_new_access_code', :layout=>'welcome'
+              render :template=>'members/request_new_access_code', :layout=>'plan'
               flash[:pre_request_access_code_uri] = request.request_uri #.sub(/\?.*/,'')
               return
             else

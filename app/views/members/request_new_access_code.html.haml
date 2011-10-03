@@ -1,0 +1,20 @@
+%h3 We're sorry, the link we emailed you has expired
+
+%p Please enter your email and click the button and we will immediately send a valid email so you can continue
+- if flash[:error]
+	%p.warn= flash[:error] 
+	
+= form_tag send_new_access_code_path do
+	= hidden_field_tag :code, params[:id]
+	%table
+		%tr
+			%td
+				%label{:for=>"email"} 
+					%b Email:
+			%td
+				= text_field_tag :email, flash[:email], {:size=>40}
+
+		%tr
+			%td{:colspan=>2}
+				= submit_tag "Send me a new link"
+			

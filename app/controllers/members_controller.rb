@@ -1,11 +1,12 @@
 class MembersController < ApplicationController
-  skip_before_filter :authorize, :only => [:new_profile_form, :new_profile_post, :display_profile, :invite_friends_form]
-  layout "plan", :only => [:new_profile_form, :edit_profile_form, :display_profile, :invite_friends_form, :invite_friends_post]
+  skip_before_filter :authorize, :only => [:new_profile_form, :new_profile_post, :display_profile, :invite_friends_form, :request_new_access_code, :send_new_access_code]
+  layout "plan", :only => [:new_profile_form, :edit_profile_form, :display_profile, :invite_friends_form, :invite_friends_post, :request_new_access_code, :send_new_access_code]
   
   def new_profile_form
     flash[:profile_params].each_pair{|key,val| params[key] = val } unless flash[:profile_params].nil?
     # use the code to look up the user's email address
-    if params[:code].nil?
+    params[:code] ||= session[:code]
+    if params[:code].nil? 
       render 'new_profile_code_not_found'
     else
       email = EmailLookupCode.get_email( params[:code] )
@@ -28,7 +29,7 @@ class MembersController < ApplicationController
       logger.debug "Redisplay new profile form with a new captcha"
       flash[:profile_params] = params
       flash[:member_errors] = member.errors
-      redirect_to new_profile_form_path
+      redirect_to new_profile_form_path()
     end
   end
   
@@ -195,6 +196,33 @@ class MembersController < ApplicationController
     end
   end
   
+  def request_new_access_code
+  end
+  
+  def send_new_access_code
+    @member = Member.find_by_email(params[:email].downcase)
+    if @member.nil?
+      
+      #render 'email_not_found', :layout => 'plan'
+      flash[:error]= 'The email you entered was not found'
+      flash[:email] = params[:email]
+      redirect_to request_new_access_code_path
+      request_new_access_code
+      return
+    else
+      #debugger
+      # create and store a code for the member
+      mcode = MemberLookupCode.get_code(@member.id, {:scenario=>'send new access code'} )
+      
+      logger.debug "generate an email to #{@member.email} with code: #{mcode}"
+      # generate an email to the member      
+      # generate new url = original url with mlc replaced with mcode
+      new_url = flash[:pre_request_access_code_uri].sub(/\b_mlc=.{36}/,'_mlc=' + mcode)
+      MemberMailer.delay.new_access_code(@member, new_url, request.env["HTTP_HOST"]) 
+      @email = @member.email
+      @member = nil
+    end
+  end
   
   
   
