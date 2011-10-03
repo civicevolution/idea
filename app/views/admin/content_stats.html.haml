@@ -1,4 +1,10 @@
-%h3 Comment stats
+%style
+	:sass
+		td
+			padding-left: 1em
+		
+= render :partial => 'admin_nav'
+%h3 Content stats
 
 %table
 	%tr
@@ -11,13 +17,13 @@
 			%td= cs.cnt
 			%td= cs.commentors
 			
-%h3 Brainstorming idea stats
+%h3 Talking point stats
 %table
 	%tr
 		%th Day
-		%th Ideas
+		%th Talking points
 		%th Contributors
-	- @idea_stats.each do |cs|
+	- @talking_point_stats.each do |cs|
 		%tr
 			%td= cs.cal_day
 			%td= cs.cnt
@@ -35,3 +41,5 @@
 			%td= cs.cal_day
 			%td= cs.cnt
 			%td= cs.members
+
+= render :partial => 'admin_nav'

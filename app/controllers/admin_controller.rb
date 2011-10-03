@@ -1,9 +1,10 @@
 require 'bluecloth'
 class AdminController < ApplicationController
-  
-  before_filter :get_admin_privileges
+  layout "plan"
+  append_before_filter :get_admin_privileges
 
   def index
+    @initiative = Initiative.find(params[:_initiative_id])
     
   end
 
@@ -19,11 +20,11 @@ class AdminController < ApplicationController
   def recent_content
     @start_days = params[:start_days].nil? ? 2 : params[:start_days].to_i
     @end_days = params[:end_days].nil? ? 0 : params[:end_days].to_i
-
+    #logger.debug "recent content start: #{@start_days} till #{@end_days}"
     @items = TeamContentLog.all(
       :select=>%q|m.id AS member_id, first_name, last_name, email, t.id AS team_id, t.initiative_id, t.launched, t.title, tcl.created_at,
-        (SELECT CASE WHEN tcl.o_type = 2 THEN 'ANS' WHEN tcl.o_type=3 THEN 'COM' WHEN tcl.o_type=11 THEN 'IDEA' END) AS type,
-        (SELECT CASE WHEN tcl.o_type = 2 THEN (SELECT text FROM answers where id = tcl.o_id) WHEN tcl.o_type=3 THEN (SELECT text FROM comments where id = tcl.o_id) WHEN tcl.o_type=11 THEN (SELECT text FROM bs_ideas where id = tcl.o_id) END) AS content|,
+        (SELECT CASE WHEN tcl.o_type = 2 THEN 'ANS' WHEN tcl.o_type=3 THEN 'COM' WHEN tcl.o_type=13 THEN 'TP' END) AS type,
+        (SELECT CASE WHEN tcl.o_type = 2 THEN (SELECT text FROM answers where id = tcl.o_id) WHEN tcl.o_type=3 THEN (SELECT text FROM comments where id = tcl.o_id) WHEN tcl.o_type=13 THEN (SELECT text FROM talking_points where id = tcl.o_id) END) AS content|,
       :joins=>'AS tcl INNER JOIN members AS m ON tcl.member_id = m.id INNER JOIN teams AS t ON tcl.team_id = t.id',
       :conditions=>[%q|tcl.created_at BETWEEN (now() AT time zone 'UTC') - INTERVAL '? days' AND (now() AT time zone 'UTC') - INTERVAL '? days' AND t.initiative_id IN (1,2)|,@start_days, @end_days],
       :order=>'tcl.created_at DESC'
@@ -308,17 +309,17 @@ class AdminController < ApplicationController
   def content_stats
     @com_stats = Comment.find_by_sql(%q|SELECT count(id) AS cnt, COUNT(DISTINCT member_id) AS commentors, DATE_TRUNC('day', created_at + interval '19 hours') AS day, TO_CHAR(created_at + interval '19 hours', 'Dy Mon DD, YYYY') AS cal_day
     FROM comments
-    WHERE team_id IN (SELECT id FROM teams WHERE initiative_id IN (1,2) )
+    WHERE team_id IN (SELECT id FROM teams WHERE initiative_id IN (1,2) ) AND created_at > (now() AT time zone 'UTC') - INTERVAL '30 days'
     GROUP BY day, cal_day ORDER BY day ASC|)
 
-    @idea_stats = BsIdea.find_by_sql(%q|SELECT count(id) AS cnt, COUNT(DISTINCT member_id) AS members, DATE_TRUNC('day', created_at + interval '19 hours') AS day, TO_CHAR(created_at + interval '19 hours', 'Dy Mon DD, YYYY') AS cal_day
-    FROM bs_ideas
-    WHERE team_id IN (SELECT id FROM teams WHERE initiative_id IN (1,2) )
+    @talking_point_stats = TalkingPoint.find_by_sql(%q|SELECT count(id) AS cnt, COUNT(DISTINCT member_id) AS members, DATE_TRUNC('day', created_at + interval '19 hours') AS day, TO_CHAR(created_at + interval '19 hours', 'Dy Mon DD, YYYY') AS cal_day
+    FROM talking_points
+    WHERE question_id IN (SELECT id FROM questions WHERE team_id IN (SELECT id FROM teams WHERE initiative_id IN (1,2) )) AND created_at > (now() AT time zone 'UTC') - INTERVAL '30 days'
     GROUP BY day, cal_day ORDER BY day ASC|);
 
     @ans_stats = Answer.find_by_sql(%q|SELECT count(id) AS cnt, COUNT(DISTINCT member_id) AS members, DATE_TRUNC('day', created_at + interval '19 hours') AS day, TO_CHAR(created_at + interval '19 hours', 'Dy Mon DD, YYYY') AS cal_day
     FROM answers
-    WHERE team_id IN (SELECT id FROM teams WHERE initiative_id IN (1,2) )
+    WHERE team_id IN (SELECT id FROM teams WHERE initiative_id IN (1,2) ) AND created_at > (now() AT time zone 'UTC') - INTERVAL '30 days'
     GROUP BY day, cal_day ORDER BY day ASC|);
     
   end
@@ -400,7 +401,7 @@ class AdminController < ApplicationController
             logger.debug "Generate a sample email to #{recipient[:first_name]} at #{recipient[:email]}"
             @email = GenericMailer.generic_email(@member, recipient, params[:subject], params[:message] )
             format.html { render :action => "preview_invite_request", :layout => false } if request.xhr?
-            format.html { render :action => "preview_invite_request", :layout => 'welcome' }
+            format.html { render :action => "preview_invite_request", :layout => 'plan' }
           else
             @invite.recipients.each do |recipient|
               logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
@@ -408,7 +409,7 @@ class AdminController < ApplicationController
               logger.warn "Email sent to #{recipient[:first_name]} at #{recipient[:email]}"
             end
             format.html { render :action => "acknowledge_invite_request", :layout => false } if request.xhr?
-            format.html { render :action => "acknowledge_invite_request", :layout => 'welcome' }
+            format.html { render :action => "acknowledge_invite_request", :layout => 'plan' }
 
           end
         else
@@ -425,6 +426,7 @@ class AdminController < ApplicationController
   protected
     
     def get_admin_privileges
+      #debugger
       logger.debug "get_admin_privileges"
       @privileges = AdminPrivilege.read_privileges( session[:member_id],params[:_initiative_id])
       

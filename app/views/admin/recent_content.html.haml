@@ -76,7 +76,7 @@
 			td.title 
 				max-width: 200px
 					
-
+= render :partial => 'admin_nav'
 %h3 Recent content
 %p Click columns to sort
 
@@ -114,3 +114,4 @@
 %p	
 	= link_to "Go back 2 more days", {}, {:class=>'add_more_days'}
 				
+= render :partial => 'admin_nav'
