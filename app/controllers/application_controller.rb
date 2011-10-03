@@ -87,10 +87,13 @@ class ApplicationController < ActionController::Base
     url = new_profile_form_url(:code => code)
     MemberMailer.send_profile_link(params[:email], url, params[:_app_name] ).deliver
     #I should still have flash params and I should execute them
-    ppa = PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => flash[:params]
-
+    if flash[:params]
+      ppa = PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => flash[:params]
+    else
+      ppa = nil
+    end
     respond_to do |format|
-      if ppa.errors.empty?
+      if ppa.nil? || ppa.errors.empty?
         format.js { 
           # if js, just close the form, otherwise determine what to show
           params[:action] = flash[:params][:action] if flash[:params]
