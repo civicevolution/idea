@@ -19,7 +19,11 @@ class MembersController < ApplicationController
   
   def new_profile_post
     # check the captcha before saving
-    member = Member.new :email => EmailLookupCode.get_email( session[:code] ) , :first_name => params[:first_name] , :last_name  => params[:last_name] , :pic_id=> 0, :init_id => 0 , :confirmed => true
+    member = Member.new :email => EmailLookupCode.get_email( session[:code] ) , :first_name => params[:first_name] , :last_name  => params[:last_name] , :pic_id=> 0, :confirmed => true
+    member.init_id = params[:_initiative_id]
+    member.ip = request.remote_ip
+    member.location = 'Australia/Perth'
+    member.domain = Rails.root.to_s.match(/^\/data\//) ? Rails.root.to_s.match(/\/data\/(\w+)\//)[1] : Rails.root.to_s.match(/\/ce_development\/Rails\/(\w+)/)[1]
     if verify_recaptcha( :model => member, :message => "We're sorry, but the text you entered in the spam test didn't match. Please try again." ) && member.save
       logger.debug "The member has been saved, process their past activities"
       session[:member_id] = member.id

@@ -1,3 +1,4 @@
 :plain
 	$('div#join_email_address_ok').closest('div.ui-dialog').dialog('destroy').end().remove();
-= render :template => 'sign_in/acknowledge_preliminary_participation.js'
+- if flash[:params]	
+	= render :template => 'sign_in/acknowledge_preliminary_participation.js'
