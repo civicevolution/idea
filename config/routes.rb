@@ -55,7 +55,10 @@ G3::Application.routes.draw do |map|
   match 'plan/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }, :as => 'plan'
   match 'proposal/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }, :as=> 'proposal'
   match "/idea/:id" => redirect("/plan/%{id}")
-
+    
+  match "/idea/bsd/:id" => redirect("/questions/%{id}/worksheet")
+    
+    
   post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :as => 'what_do_you_think'
   get "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think_form", :as => 'what_do_you_think'
 
