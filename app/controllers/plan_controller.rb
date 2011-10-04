@@ -183,7 +183,7 @@ class PlanController < ApplicationController
     
         # create a team record
         @team = Team.new :initiative_id => @proposal_idea.initiative_id, :org_id=>@proposal_idea.member_id, :title=>@proposal_idea.title, 
-          :problem_statement=>'', :solution_statement=>@proposal_idea.text, :min_members=>4, :max_members=>25
+          :archived=>false, :problem_statement=>'', :solution_statement=>@proposal_idea.text, :min_members=>4, :max_members=>25
         @team.save
         
         @team.member = admin # so create team idea page can set the launched status = true
