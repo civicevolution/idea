@@ -251,7 +251,12 @@ class QuestionsController < ApplicationController
   def worksheet
     logger.debug "Question#worksheet"
 
-    @question ||= Question.find(params[:question_id])
+    @question ||= Question.find_by_id(params[:question_id])
+    if @question.nil?
+      render :template => 'team/proposal_not_found', :layout=> 'welcome'
+      return
+    end    
+    
     @team = @question.team
     
     allowed,message = InitiativeRestriction.allow_actionX(@team.initiative_id, 'view_idea_page', @member)
