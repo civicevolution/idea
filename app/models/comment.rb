@@ -68,8 +68,9 @@ class Comment < ActiveRecord::Base
   def check_length
     range = Team.find(self.team_id).com_criteria
     range = range.match(/(\d+)..(\d+)/)
-    errors.add(:text, "must be at least #{range[1]} characters") unless text && text.length >= range[1].to_i
-    errors.add(:text, "must be no longer than #{range[2]} characters") unless text && text.length <= range[2].to_i
+    length = text.scan(/\S/).size
+    errors.add(:text, "must be at least #{range[1]} characters") unless length >= range[1].to_i
+    errors.add(:text, "must be no longer than #{range[2]} characters") unless length <= range[2].to_i
   end
   
   def check_initiative_restrictions

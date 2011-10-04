@@ -23,10 +23,19 @@ class TalkingPoint < ActiveRecord::Base
   before_validation :check_initiative_restrictions#, :on=>:create
   before_create :set_member_id
   before_update :check_edit_privilege
+  validate :check_length
   
   after_save :log_team_content
   around_update :update_version
 
+  def check_length
+    range = Question.find(self.question_id).talking_point_criteria
+    range = range.match(/(\d+)..(\d+)/)
+    length = text.scan(/\S/).size
+    errors.add(:text, "must be at least #{range[1]} characters") unless length >= range[1].to_i
+    errors.add(:text, "must be no longer than #{range[2]} characters") unless length <= range[2].to_i
+  end
+  
   def check_edit_privilege
     logger.debug "Does this user have privilege to edit this talking point"
     # either in team_registrations or a current or previous author of this TP

@@ -71,7 +71,8 @@ class TalkingPointsController < ApplicationController
       end
       return
     end
-    
+
+    talking_point.text = flash[:talking_point_text] unless flash[:talking_point_text].nil?
     flash[:errors].each() {|attr, msg| talking_point.errors.add(attr, msg)} unless flash[:errors].nil?
     respond_to do |format|
       format.js {render :action=> 'edit', :locals => {:talking_point => talking_point}, :layout=>false}
@@ -110,7 +111,8 @@ class TalkingPointsController < ApplicationController
         format.js { render :partial => 'update_talking_point', :locals => {:talking_point => talking_point} }
         format.xml  { head :ok }
       else
-        format.html { redirect_to edit_talking_point_path(talking_point), :flash => { :errors => talking_point.errors} }
+        format.js { render 'talking_point_edit_errors', :locals=>{:talking_point=>talking_point} }
+        format.html { redirect_to edit_talking_point_path(talking_point), :flash => { :errors => talking_point.errors, :talking_point_text => params[:talking_point][:text] } }
         format.xml  { render :xml => talking_point.errors, :status => :unprocessable_entity }
       end
     end

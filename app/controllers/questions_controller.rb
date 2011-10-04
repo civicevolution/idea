@@ -101,7 +101,7 @@ class QuestionsController < ApplicationController
            format.html { redirect_to( question_worksheet_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
            format.xml  { render :xml => @comment, :status => :created, :location => @comment }
          else
-           format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
+           format.js { render 'comments/comment_for_question_errors', :locals=>{:comment=>@comment} }
            format.html { 
              flash[:worksheet_error] = @comment.errors
              flash[:params] = params
@@ -117,7 +117,7 @@ class QuestionsController < ApplicationController
             format.js { render 'talking_points/talking_point_for_question', :locals=>{:talking_point=>@talking_point, :question_id => @talking_point.question_id} }
             format.html { redirect_to( question_worksheet_path(@talking_point.question_id), :notice => 'Talking point was successfully created.') }
           else
-            format.js { render 'talking_point_for_question_errors', :locals=>{:talking_point=>@talking_point} }
+            format.js { render 'talking_points/talking_point_for_question_errors', :locals=>{:talking_point=>@talking_point} }
             format.html { 
               flash[:worksheet_error] = @talking_point.errors
               flash[:params] = params

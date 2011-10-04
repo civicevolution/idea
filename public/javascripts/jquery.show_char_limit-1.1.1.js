@@ -23,8 +23,9 @@ jQuery.fn.show_char_limit = function(limit_or_opts, opts) {
 
     src = jQuery(src);
 
-    var chars_typed = src.val().length;
-
+    //var chars_typed = src.val().length;
+		var chars_typed = src.val() == '' ? 0 : src.val().match(/\S/g).length
+		
     var m = src.attr('maxlength');
     if (!m || m == "" || m == -1 || m > 500000) {
     	m = o['maxlength'];

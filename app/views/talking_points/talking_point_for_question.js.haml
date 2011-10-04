@@ -6,8 +6,10 @@
 	tp.find('.corner').corner('cc:#F2E9C3');
 
 	$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last').after(tp)
-	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think textarea').val('');
-	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think p.warn').remove();
-	$('div.question_worksheet[id="#{question_id}"] form.what_do_you_think input[type="radio"]').attr('checked',false)
+	var form = $('div.question_worksheet[id="#{question_id}"] form.what_do_you_think')
+	form.find('textarea').val('');
+	form.find('p.warn').remove();
+	form.find('input[type="radio"]').attr('checked',false)
+	form.find('div#errorExplanation').remove();	
 	
 = render :template => 'shared/clear_sign_in_form.js'

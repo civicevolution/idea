@@ -1,5 +1,6 @@
 = render :template => 'shared/clear_sign_in_form.js'
-- err_str = "#{pluralize(comment.errors.count, "error")} prohibited this comment from being saved:"
-- err_str += '\n\n' + comment.errors.full_messages.join('\n')
 :plain
-	alert('#{err_str}')
+	var errors = $("#{escape_javascript( render :partial => 'shared/error_messages', :locals => {:target => comment})}");
+	var form = $('form.comment_form[id="#{params[:comment_id]}"]');
+	form.find('div#errorExplanation').remove();	
+	form.find('textarea').before(errors);

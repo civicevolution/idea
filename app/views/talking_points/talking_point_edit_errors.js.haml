@@ -1,8 +1,6 @@
 = render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var errors = $("#{escape_javascript( render :partial => 'shared/error_messages', :locals => {:target => talking_point})}");
-	var form = $('div.question_worksheet[id="#{talking_point.question_id}"] form.what_do_you_think');
-	form.find('p.warn').remove();
+	var form = $('form.talking_point_edit_form[id="#{params[:talking_point_id]}"]');
 	form.find('div#errorExplanation').remove();	
-	var textarea = form.find('textarea');
-	textarea.before(errors);
+	form.find('textarea').before(errors);

@@ -176,6 +176,7 @@ class CommentsController < ApplicationController
   # GET /comments/1/edit
   def edit
     comment = Comment.find(params[:comment_id])
+    comment.text = flash[:com_text] unless flash[:com_text].nil?
     case comment.parent_type
       when 1
         type = 'question'
@@ -256,7 +257,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to( talking_point_comments_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
-        format.js { render 'comment_for_question_errors', :locals=>{:comment=>@comment} }
+        format.js { render 'comment_for_talking_point_errors', :locals=>{:comment=>@comment} }
         format.html { render :text => 'comment save failed' } if request.xhr?
         format.html { render :action => "new" }
         format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
@@ -343,7 +344,8 @@ class CommentsController < ApplicationController
         format.js { render :partial => 'update_comment', :locals => {:comment => comment} }
         format.xml  { head :ok }
       else
-        format.html { redirect_to edit_comment_path(comment), :flash => { :errors => comment.errors} }
+        format.js { render 'comment_edit_errors', :locals=>{:comment=>comment} }
+        format.html { redirect_to edit_comment_path(comment), :flash => { :errors => comment.errors, :com_text => params[:comment][:text]} }
         format.xml  { render :xml => comment.errors, :status => :unprocessable_entity }
       end
     end
