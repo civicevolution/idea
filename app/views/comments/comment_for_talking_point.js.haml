@@ -3,4 +3,5 @@
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
 	var form = $('div.question_worksheet[id="#{question_id}"] div.talking_point_comments[id="#{comment.parent_id}"] form.comment_form.orig');
 	form.find('textarea').val('');
+	form.find('div#errorExplanation').remove();
 	form.before(com);

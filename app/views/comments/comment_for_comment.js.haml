@@ -9,5 +9,6 @@
 		cur_form.remove();
 	}else{
 		cur_form.find('textarea').val('');
+		cur_form.find('div#errorExplanation').remove();
 	}
 	setTimeout( function(){	$('.corner').corner()},100);
