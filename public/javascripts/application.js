@@ -109,6 +109,7 @@ function size_talking_point_entries(){
 $('form.what_do_you_think a.clear').die('click').live('click',
 	function(){
 		$(this).closest('form').find('textarea').val('');
+		$(this).closest('form').find('div#errorExplanation').remove();
 		return false;
 	}
 );

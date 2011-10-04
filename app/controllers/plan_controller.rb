@@ -6,6 +6,7 @@ class PlanController < ApplicationController
     logger.debug "\n\n******************************************\nStart plan/index\n"
     begin
       @team = Team.includes(:questions).find(params[:id])
+      raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
     rescue
       render :template => 'team/proposal_not_found', :layout=> 'welcome'
       return
@@ -40,6 +41,7 @@ class PlanController < ApplicationController
     logger.debug "\n\n******************************************\nStart plan/summary\n"
     begin
       @team = Team.includes(:questions).find(params[:id])
+      raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
     rescue
       render :template => 'team/proposal_not_found', :layout=> 'welcome'
       return
