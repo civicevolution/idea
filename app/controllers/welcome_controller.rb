@@ -34,9 +34,12 @@ class WelcomeController < ApplicationController
     render 'index2', :locals=>{:title=>'Welcome to the 2029 and Beyond Sustainable Future City Project'}, :layout=>'plan'
   end
   
-  def home
+  def home  
     logger.debug "Show the CE home page"
-    render :action=>'home1', :layout=>'civicevolution'
+    respond_to do |format|
+      format.html { render :template=>'welcome/home1.html', :layout=>'civicevolution' }
+      format.text { render :text => 'http://civicevolution.org is only available as HTML' }
+    end
   end
   
   def about
