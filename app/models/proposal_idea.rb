@@ -10,6 +10,14 @@ class ProposalIdea < ActiveRecord::Base
 
   attr_accessor :member
   
+  def o_type
+    15 #type for ProposalIdea
+  end
+  def type_text
+    'proposal idea' #type for ProposalIdea
+  end
+  
+  
   private
 
     def check_initiative_restrictions
@@ -27,7 +35,4 @@ class ProposalIdea < ActiveRecord::Base
       errors.add(:base, "You must confirm your CivicEvolution registration before you can submit a proposal idea") unless Member.find_by_id(self.member_id).confirmed
     end
 
-
-
-  
 end

@@ -45,7 +45,8 @@ class Answer < ActiveRecord::Base
   end
 
   def team
-    Team.first.joins(:questions).where('questions.id = ?', self.question_id).first
+    #Team.first.joins(:questions).where('questions.id = ?', self.question_id).first
+    Team.find(self.team_id)
   end
 
 

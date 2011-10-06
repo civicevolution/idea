@@ -1,3 +1,6 @@
+# move this to library when it is stable
+# /lib is not reloaded in dev, but putting this module in models means it will be reloaded each time it is referenced
+
 module LibGetTalkingPointsRatings
   
   def get_talking_point_ratings(member)

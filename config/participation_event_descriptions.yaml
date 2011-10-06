@@ -1,0 +1,52 @@
+# this is the data I need to seed participation_event_descriptions
+# read the data file
+# add each question as shown
+
+item1: 
+  id: 1
+  description: 'Add comment'
+
+item1a: 
+  id: 2
+  description: 'Edit comment'
+
+item2:
+  id: 3
+  description: 'Add talking point'
+
+item3:
+  id: 4
+  description: 'Edit talking point'
+
+item4:
+  id: 5
+  description: 'Add answer'
+
+item5:
+  id: 6
+  description: 'Edit answer'
+
+item6:
+  id: 7
+  description: 'Add endorsement'
+
+item6a:
+  id: 8
+  description: 'Update endorsement'
+
+
+item7:
+  id: 9
+  description: 'Invite a friend'
+  
+item8:
+  id: 10
+  description: 'Visit with _mlc code'
+
+item9:
+  id: 11
+  description: 'Load proposal summary'
+  
+item10:
+  id: 12
+  description: 'Load question worksheet'

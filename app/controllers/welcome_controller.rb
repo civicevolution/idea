@@ -13,25 +13,14 @@ class WelcomeController < ApplicationController
       return
     end
     
-    
-    # if I have a current session, get my teams and insert them into the page instead of the signin form
-    # use a partial template and layout to create initiative specific page details
-    
+    ActiveSupport::Notifications.instrument( 'tracking', :event => 'load 2029 home page', :params => params.merge(:member_id => @member.id))
     # get current list of teams for this initiative    
-    #@init_teams = Team.find_all_by_initiative_id(params[:_initiative_id])
     @init_teams = Team.teams_with_stats(params[:_initiative_id])
-    #@teams_launched = @init_teams.find_all {|t| t.launched == true }
-    #@team_ideas = [] # @init_teams.find_all {|t| t.launched == false }
-    
-    # get ids of most active teams
-    
-    # get ids of completed teams
-
-    # get statistics for initiative teams - combine that with the teams request, including most active and completed'
-    
-    #render 'index', :layout => 'welcome'
-    
-    render 'index2', :locals=>{:title=>'Welcome to the 2029 and Beyond Sustainable Future City Project'}, :layout=>'plan'
+     
+    respond_to do |format|
+      format.html { render 'index2', :locals=>{:title=>'Welcome to the 2029 and Beyond Sustainable Future City Project'}, :layout=>'plan' }
+      format.text { render :text => 'http://2029.civicevolution.org is only available as HTML' }
+    end
   end
   
   def home  

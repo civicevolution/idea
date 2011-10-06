@@ -5,7 +5,8 @@ class EndorsementsController < ApplicationController
 # endorsements/:team_id/update
   
   def add_endorsement
-    endorsement = Endorsement.find_or_create_by_member_id_and_team_id(@member.id,params[:team_id])
+    endorsement = Endorsement.find_by_member_id_and_team_id(@member.id,params[:team_id])
+    endorsement = Endorsement.new :member_id => @member.id, :team_id => params[:team_id] if endorsement.nil?
     endorsement.text = params[:text]
     respond_to do |format|
       if endorsement.save

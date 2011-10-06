@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  initiative_id: 1
+  team_id: 1
+  question_id: 1
+  item_type: 1
+  item_id: 1
+  member_id: 1
+  event_id: 1
+  points: 1
+
+two:
+  initiative_id: 1
+  team_id: 1
+  question_id: 1
+  item_type: 1
+  item_id: 1
+  member_id: 1
+  event_id: 1
+  points: 1
