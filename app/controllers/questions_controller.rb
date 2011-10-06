@@ -390,7 +390,7 @@ class QuestionsController < ApplicationController
       :locals => {:question => @question, :questions => @team.questions.sort{|a,b| a.order_id <=> b.order_id}, }, 
       :layout => request.xhr? ? false : 'plan'
     
-    ActiveSupport::Notifications.instrument( 'tracking', :event => 'Question worksheet', :params => params.merge(:member_id => @member.id, :team_id=>@team.id))
+    ActiveSupport::Notifications.instrument( 'tracking', :event => 'Question worksheet', :params => params.merge(:member_id => @member.id, :team_id=>@team.id)) unless @member.nil? || @member.id == 0
   end
   
   def update_worksheet_ratings
