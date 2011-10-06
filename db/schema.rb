@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111006021506) do
+ActiveRecord::Schema.define(:version => 20111006172956) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -366,6 +366,18 @@ ActiveRecord::Schema.define(:version => 20111006021506) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "domain",                       :default => "civicevolution.org", :null => false
+  end
+
+  create_table "invites", :force => true do |t|
+    t.integer  "member_id"
+    t.integer  "initiative_id"
+    t.integer  "team_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.string   "_ilc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "item_diffs", :force => true do |t|

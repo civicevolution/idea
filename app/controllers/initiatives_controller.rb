@@ -59,7 +59,8 @@ class InitiativesController < ApplicationController
             end
       		when ppa.flash_params[:action].match(/add_endorsement/)
       		  begin
-        		  endorsement = Endorsement.find_or_create_by_member_id_and_team_id(@member.id,ppa.flash_params[:team_id])
+      		    endorsement = Endorsement.find_by_member_id_and_team_id(@member.id,ppa.flash_params[:team_id])
+              endorsement = Endorsement.new :member_id => @member.id, :team_id => ppa.flash_params[:team_id] if endorsement.nil?
               endorsement.text = ppa.flash_params[:text]
               endorsement.save
               ClientDebugMailer.preliminary_activity_failed(ppa.email, ppa.flash_params, endorsement.errors, request.env["HTTP_HOST"]).deliver unless endorsement.errors.empty?

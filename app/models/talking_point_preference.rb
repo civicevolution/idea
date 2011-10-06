@@ -1,5 +1,7 @@
 class TalkingPointPreference < ActiveRecord::Base
   
+  belongs_to :talking_point
+  
   #scope :sums, lambda { select('talking_point_id, count(member_id)').group('talking_point_id') }
 	scope :sums, lambda { |ids| select('talking_point_id, count(member_id)').group('talking_point_id').where(:talking_point_id => ids) }
 	
@@ -98,6 +100,13 @@ class TalkingPointPreference < ActiveRecord::Base
     
   end
 
+  def o_type
+    21 #type for talking point preference
+  end
+  
+  def type_text
+    'talking point preference' #type for talking point
+  end
 
 
 end

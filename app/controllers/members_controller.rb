@@ -83,8 +83,8 @@ class MembersController < ApplicationController
     team = Team.find_by_id( params[:team_id] || flash[:params][:team_id] )
 
     if flash[:params]
-      params[:message] = flash[:params][:message]
-      params[:recipient_emails] = flash[:params][:recipient_emails]
+      params[:message] ||= flash[:params][:message]
+      params[:recipient_emails] ||= flash[:params][:recipient_emails]
     end
     
     @invite = InviteEmail.new :sender => @member, 
@@ -165,6 +165,7 @@ class MembersController < ApplicationController
         @invite.recipients.each do |recipient|
           #logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
           ProposalMailer.delay.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"] )
+          Invite.create :member_id => @member.id, :initiative_id => params[:_initiative_id], :team_id => team_id, :first_name => recipient[:first_name],:last_name => recipient[:last_name], :email => recipient[:email], :_ilc => nil
         end
         flash[:invite] = @invite
         flash[:team_id] = team_id

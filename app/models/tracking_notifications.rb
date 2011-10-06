@@ -18,8 +18,8 @@ class TrackingNotifications
   #  100 | Summary page
   #  101 | Question worksheet
   #  102 | New content page
-  #  200 | Invite a friend         
-  #  201 | Visit with _mlc code    
+  #  201 | Invite a friend         
+  #  203 | Visit with _mlc code    
   
   def self.process_event(payload)
     # payload[:event]
@@ -65,6 +65,52 @@ class TrackingNotifications
         when 'ProposalIdea'
           event_id = name == 'after_create' ? 9 : 10
           participation_event = ParticipationEvent.new :initiative_id => obj.initiative_id, :team_id => nil, :question_id => nil,
+           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+
+        when 'Invite'
+          event_id = name == 'after_create' ? 11 : 12
+          participation_event = ParticipationEvent.new :initiative_id => obj.initiative_id, :team_id => obj.team_id, :question_id => nil,
+           :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+
+        when 'ContentReport'
+          if obj.member_id
+            event_id = name == 'after_create' ? 13 : 14
+            case obj.content_type
+              when 'TalkingPoint'
+                team = TalkingPoint.find_by_id(obj.content_id).team
+              when 'Comment'
+                team = Comment.find_by_id(obj.content_id).team
+            end
+            team ||= {:id => 0, :initiative_id => 0}
+            participation_event = ParticipationEvent.new :initiative_id => team[:initiative_id], :team_id => team[:id], :question_id => nil,
+             :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+            Rails.logger.debug "participation_event: #{participation_event.inspect}"
+          end
+
+        when 'InitiativeMembers'
+          debugger
+          event_id = name == 'after_create' ? 15 : 16
+          participation_event = ParticipationEvent.new :initiative_id => obj.initiative_id, :team_id => nil, :question_id => nil,
+           :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+         
+        when  'TalkingPointAcceptableRating' 
+          event_id = name == 'after_create' ? 17 : 18
+          participation_event = ParticipationEvent.new :initiative_id => obj.talking_point.team.initiative_id, :team_id => obj.talking_point.team.id, :question_id => obj.talking_point.question_id,
+          :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+
+        when  'TalkingPointPreference' 
+          event_id = name == 'after_create' ? 19 : 20
+          participation_event = ParticipationEvent.new :initiative_id => obj.talking_point.team.initiative_id, :team_id => obj.talking_point.team.id, :question_id => obj.talking_point.question_id,
+          :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+
+        when  'AnswerRating'
+          event_id = name == 'after_create' ? 21 : 22
+          participation_event = ParticipationEvent.new :initiative_id => obj.answer.team.initiative_id, :team_id => obj.answer.team.id, :question_id => obj.answer.question_id,
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           

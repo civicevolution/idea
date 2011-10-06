@@ -13,16 +13,16 @@
 		= form.label :report_type, "Please select the appropriate category:"
 		%p.cat 
 			= label_tag :report_type do
-				#{form.radio_button 'report_type', 'off topic'}off topic
+				#{form.radio_button 'report_type', 'off topic'} Off topic
 		%p.cat 
 			= label_tag :report_type do
-				#{form.radio_button 'report_type', 'offensive'}offensive
+				#{form.radio_button 'report_type', 'offensive'} Offensive
 		%p.cat
 			= label_tag :report_type_personal do
-				#{form.radio_button 'report_type', 'personal'}personal attack
+				#{form.radio_button 'report_type', 'personal'} Personal attack
 		%p.cat
 			= label_tag :report_type_spam do
-				#{form.radio_button 'report_type', 'spam'}spam/commercial
+				#{form.radio_button 'report_type', 'spam'} Spam/commercial
 		
 		= form.label :text, "Please provide details about why you are reporting this content:"
 		= form.text_area :text, :cols => 50, :rows => 8

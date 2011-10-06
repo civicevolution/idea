@@ -1,6 +1,6 @@
 class AnswerRating < ActiveRecord::Base
   
-  has_one :answer
+  belongs_to :answer
   #has_many :bs_idea_rating, :dependent => :destroy
   
   validate :check_team_access
@@ -47,6 +47,14 @@ class AnswerRating < ActiveRecord::Base
     raise TeamAccessDeniedError, "In AnswerRating.check_item_edit_access Answer answer_id = #{self.answer_id}" if @team.nil?
     self.team_id = @team.id # this will be used to send APE message
     @team
+  end
+  
+  def o_type
+    23 
+  end
+  
+  def type_text
+    'answer rating' 
   end
   
 

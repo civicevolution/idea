@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  member_id: 1
+  initiative_id: 1
+  team_id: 1
+  first_name: MyString
+  last_name: MyString
+  email: MyString
+  _ilc: MyString
+
+two:
+  member_id: 1
+  initiative_id: 1
+  team_id: 1
+  first_name: MyString
+  last_name: MyString
+  email: MyString
+  _ilc: MyString

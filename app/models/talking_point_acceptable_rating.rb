@@ -1,5 +1,7 @@
 class TalkingPointAcceptableRating < ActiveRecord::Base
   
+  belongs_to :talking_point
+  
   scope :sums, lambda { |ids| select('talking_point_id, rating, count(member_id)').group('talking_point_id, rating').where("talking_point_id IN(?)", ids) }
   
   scope :my_votes, lambda { |ids,member_id| select('talking_point_id, rating').where("talking_point_id IN(?) AND member_id = ?", ids, member_id) }
@@ -37,5 +39,14 @@ class TalkingPointAcceptableRating < ActiveRecord::Base
     return talking_point
     
   end
+  
+  def o_type
+    20 #type for talking point
+  end
+  
+  def type_text
+    'talking point acceptable rating' #type for talking point
+  end
+  
   
 end
