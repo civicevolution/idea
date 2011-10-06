@@ -86,7 +86,6 @@ class ClientDebugController < ApplicationController
   end
   
   def request_help_post
-    
     team_id = params[:url] && params[:url].match(/\d+$/) ? params[:url].match(/\d+$/)[0] : nil
     # create the client_details
     client_details = ClientDetails.new :ip=> request.remote_ip, :session_id=> request.session_options[:id], :member_id=> session[:member_id], 
@@ -125,6 +124,7 @@ class ClientDebugController < ApplicationController
         @mail_error = true
       end
       
+      ActiveSupport::Notifications.instrument( 'tracking', :event => 'Request help', :params => params.merge(:member_id => @member.id, :team_id => team_id ))
     end
     
     respond_to do |format|

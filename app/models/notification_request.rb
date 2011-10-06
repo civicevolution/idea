@@ -122,7 +122,7 @@ class NotificationRequest < ActiveRecord::Base
           save_follow = true
       end
       save_follow = rec.save unless rec.nil?
-      return save_follow
+      return save_follow, rec
       
     end # end if split_save
   end

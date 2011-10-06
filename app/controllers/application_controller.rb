@@ -2,7 +2,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  before_filter :set_application_personality, :except => [ :logo, :rss ]
   before_filter :add_member_data, :except => [ :logo, :rss ]
   before_filter :authorize, :except => [ :sign_in_form, :sign_in_post, :temp_join_save_email, :login, :proposal, :logo, :rss]
   
@@ -212,7 +211,7 @@ class ApplicationController < ActionController::Base
   
   
     def add_member_data
-      #debugger
+      set_application_personality
       logger.silence(3) do
         if params[:_mlc]
           @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.request_uri} )
@@ -226,6 +225,9 @@ class ApplicationController < ActionController::Base
             end
           else
             session[:member_id] = @member.id
+            if session[:_mlc] != params[:_mlc] # only record the first time this code is used
+              ActiveSupport::Notifications.instrument( 'tracking', :event => 'Visit with _mlc', :params => params.merge(:member_id => @member.id))
+            end
             session[:_mlc] = params[:_mlc]
           end
 

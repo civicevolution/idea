@@ -28,6 +28,7 @@ class MembersController < ApplicationController
       logger.debug "The member has been saved, process their past activities"
       session[:member_id] = member.id
       session[:code] = nil
+      ActiveSupport::Notifications.instrument( 'tracking', :event => 'Create new profile', :params => params.merge(:member_id => member.id))
       redirect_to edit_profile_form_path(member.ape_code)
     else
       logger.debug "Redisplay new profile form with a new captcha"
@@ -58,8 +59,9 @@ class MembersController < ApplicationController
     logger.debug "save_photo member_id: #{@member.id}"
     
     @member.photo = params[:photo]
-    @member.save
-    
+    if @member.save
+      ActiveSupport::Notifications.instrument( 'tracking', :event => 'Upload profile photo', :params => params.merge(:member_id => @member.id))
+    end
     respond_to do |format|
       format.html { redirect_to edit_profile_form_path(@member.ape_code) }
     end

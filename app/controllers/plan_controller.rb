@@ -5,7 +5,7 @@ class PlanController < ApplicationController
   def index
     logger.debug "\n\n******************************************\nStart plan/index\n"
     begin
-      @team = Team.includes(:questions).find(params[:id])
+      @team = Team.includes(:questions).find(params[:team_id])
       raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
     rescue
       render :template => 'team/proposal_not_found', :layout=> 'welcome'
@@ -13,7 +13,7 @@ class PlanController < ApplicationController
     end
     
     # verify acccess to this team
-    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:id]}, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:team_id]}, 'view_idea_page', @member)
     if !allowed
       if @member.id == 0
         force_sign_in
@@ -40,7 +40,7 @@ class PlanController < ApplicationController
   def summary
     logger.debug "\n\n******************************************\nStart plan/summary\n"
     begin
-      @team = Team.includes(:questions).find(params[:id])
+      @team = Team.includes(:questions).find(params[:team_id])
       raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
     rescue
       render :template => 'team/proposal_not_found', :layout=> 'welcome'
@@ -48,7 +48,7 @@ class PlanController < ApplicationController
     end
     
     # verify acccess to this team
-    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:id]}, 'view_idea_page', @member)
+    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:team_id]}, 'view_idea_page', @member)
     if !allowed
       if @member.id == 0
         force_sign_in

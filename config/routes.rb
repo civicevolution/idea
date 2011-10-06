@@ -52,8 +52,8 @@ G3::Application.routes.draw do |map|
   get 'plan/:team_id/new_content(/:time_stamp)' => 'plan#new_content', :as => 'new_content'
 
   #match 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
-  match 'plan/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }, :as => 'plan'
-  match 'proposal/:id', :controller => 'plan', :action => 'summary', :requirements => { :id => /\d+/ }, :as=> 'proposal'
+  match 'plan/:team_id', :to => 'plan#summary', :requirements => { :team_id => /\d+/ }, :as => 'plan'
+  match 'proposal/:team_id', :to => 'plan#summary', :requirements => { :team_id => /\d+/ }, :as=> 'proposal'
   match "/idea/:id" => redirect("/plan/%{id}")
     
   match "/idea/bsd/:id" => redirect("/questions/%{id}/worksheet")

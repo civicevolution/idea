@@ -13,7 +13,6 @@ class WelcomeController < ApplicationController
       return
     end
     
-    ActiveSupport::Notifications.instrument( 'tracking', :event => 'load 2029 home page', :params => params.merge(:member_id => @member.id))
     # get current list of teams for this initiative    
     @init_teams = Team.teams_with_stats(params[:_initiative_id])
      

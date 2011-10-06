@@ -45,8 +45,10 @@ class NotificationController < ApplicationController
     @notification_setting = NotificationRequest.new :member_id=>@member.id, :act=>'split_save'
     @notification_setting.attributes = params[:notification_setting]   
     @notification_setting.team_id = params[:team_id]     
-    @saved = @notification_setting.split_n_save  
+    @saved, notification = @notification_setting.split_n_save  
 
+    ActiveSupport::Notifications.instrument( 'tracking', :event => 'Update notification settings', :params => params.merge(:member_id => @member.id, :notification => notification))
+    
     respond_to do |format|
       format.html { render :template=>'notification/update_notification_settings', :locals=>{:team_id=>params[:team_id]}, :layout=> 'plan'  }
       format.js { render :template=>'notification/update_notification_settings.js', :locals=>{:team_id=>params[:team_id]} }

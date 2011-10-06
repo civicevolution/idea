@@ -90,7 +90,6 @@ class TrackingNotifications
           end
 
         when 'InitiativeMembers'
-          debugger
           event_id = name == 'after_create' ? 15 : 16
           participation_event = ParticipationEvent.new :initiative_id => obj.initiative_id, :team_id => nil, :question_id => nil,
            :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
@@ -135,7 +134,7 @@ class TrackingNotifications
       case name
         when 'Summary page'
           event_id = 100
-          participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:id], :question_id => nil,
+          participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
            :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           
@@ -151,6 +150,52 @@ class TrackingNotifications
            :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
       
+        when 'Visit with _mlc'
+          event_id = 103
+          if params[:question_id] && params[:team_id].nil?
+            q = Question.find_by_id(params[:question_id])
+            params[:team_id] = q.team_id unless q.nil?
+          end
+          participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => params[:question_id],
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+      
+        when 'Upload profile photo'
+          event_id = 104
+          # only count this one time per member
+          return if ParticipationEvent.where(:member_id => params[:member_id], :event_id => event_id).exists?
+          participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => nil, :question_id => nil,
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+          
+        when 'Request help'
+          event_id = 105
+          participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+
+        when 'Create new profile'
+          event_id = 106
+          participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => nil, :question_id => nil,
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+        
+        when 'Update notification settings'
+          event_id = 107
+          # only record one time
+          # remove if the notification was cancelled
+          if params[:notification].nil?
+            # remove it
+            ParticipationEvent.where(:member_id => params[:member_id], :event_id => event_id).each{|n| n.destroy }
+            return
+          else
+            return if ParticipationEvent.where(:member_id => params[:member_id], :event_id => event_id).exists?
+            participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
+             :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+            Rails.logger.debug "participation_event: #{participation_event.inspect}"
+          end
+          
+          
         else
           raise "I don't know how to handle #{name} from Notifications"
       end
