@@ -21,7 +21,7 @@
 		%p 
 			The email addresses you enter here will be used just one time to send this email.
 			- if !team.nil? && team.initiative_id == 1
-				%i Please note, only City of Geraldton-Greenough staff can access CGG proposals. Please contact us to make an exception.
+				%i Please note, only City of Greater Geraldton staff can access CGG proposals. Please contact us to make an exception.
 				
 		= render( :partial => 'shared/error_messages', :locals => {:errors => @form_errors}) unless @form_errors.nil?
 				
