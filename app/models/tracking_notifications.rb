@@ -41,37 +41,37 @@ class TrackingNotifications
         when 'Comment'
           event_id = name == 'after_create' ? 1 : 2
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question.id,
-           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
         
         when  'TalkingPoint'
           event_id = name == 'after_create' ? 3 : 4
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question_id,
-           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
         
         when  'Answer'
           event_id = name == 'after_create' ? 5 : 6
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question_id,
-           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
         
         when 'Endorsement'
           event_id = name == 'after_create' ? 7 : 8
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => nil,
-           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
 
         when 'ProposalIdea'
           event_id = name == 'after_create' ? 9 : 10
           participation_event = ParticipationEvent.new :initiative_id => obj.initiative_id, :team_id => nil, :question_id => nil,
-           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
 
         when 'Invite'
           event_id = name == 'after_create' ? 11 : 12
           participation_event = ParticipationEvent.new :initiative_id => obj.initiative_id, :team_id => obj.team_id, :question_id => nil,
-           :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
 
         when 'ContentReport'
@@ -85,21 +85,21 @@ class TrackingNotifications
             end
             team ||= {:id => 0, :initiative_id => 0}
             participation_event = ParticipationEvent.new :initiative_id => team[:initiative_id], :team_id => team[:id], :question_id => nil,
-             :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+             :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
             Rails.logger.debug "participation_event: #{participation_event.inspect}"
           end
 
         when 'InitiativeMembers'
           event_id = name == 'after_create' ? 15 : 16
           participation_event = ParticipationEvent.new :initiative_id => obj.initiative_id, :team_id => nil, :question_id => nil,
-           :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => nil, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
          
         when  'TalkingPointAcceptableRating' 
           event_id = 17
           return if ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :item_id => obj.id).exists?
           participation_event = ParticipationEvent.new :initiative_id => obj.talking_point.team.initiative_id, :team_id => obj.talking_point.team.id, :question_id => obj.talking_point.question_id,
-          :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+          :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
 
         when  'TalkingPointPreference' 
@@ -109,14 +109,14 @@ class TrackingNotifications
             return
           else
             participation_event = ParticipationEvent.new :initiative_id => obj.talking_point.team.initiative_id, :team_id => obj.talking_point.team.id, :question_id => obj.talking_point.question_id,
-            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
             Rails.logger.debug "participation_event: #{participation_event.inspect}"
           end
         when  'AnswerRating'
           event_id = 21
           return if ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :item_id => obj.id).exists?
           participation_event = ParticipationEvent.new :initiative_id => obj.answer.team.initiative_id, :team_id => obj.answer.team.id, :question_id => obj.answer.question_id,
-           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           
         else
@@ -142,21 +142,21 @@ class TrackingNotifications
           event_id = 100
           return if ParticipationEvent.where("member_id = ? AND event_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id).exists?
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
-           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           
         when 'Question worksheet'
           event_id = 101
           return if ParticipationEvent.where("member_id = ? AND event_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id).exists?
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => params[:question_id],
-           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
         
         when 'New content page'
           event_id = 102
           return if ParticipationEvent.where("member_id = ? AND event_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id).exists?
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
-           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
       
         when 'Visit with _mlc'
@@ -166,7 +166,7 @@ class TrackingNotifications
             params[:team_id] = q.team_id unless q.nil?
           end
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => params[:question_id],
-           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
       
         when 'Upload profile photo'
@@ -174,19 +174,19 @@ class TrackingNotifications
           # only count this one time per member
           return if ParticipationEvent.where(:member_id => params[:member_id], :event_id => event_id).exists?
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => nil, :question_id => nil,
-           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           
         when 'Request help'
           event_id = 105
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
-           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
 
         when 'Create new profile'
           event_id = 106
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => nil, :question_id => nil,
-           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+           :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
         
         when 'Update notification settings'
@@ -200,7 +200,7 @@ class TrackingNotifications
           else
             return if ParticipationEvent.where(:member_id => params[:member_id], :event_id => event_id).exists?
             participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
-             :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id)
+             :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
             Rails.logger.debug "participation_event: #{participation_event.inspect}"
           end
           
@@ -225,8 +225,13 @@ class TrackingNotifications
     return 1234
   end
   
-  def self.get_event_points(event_id)
-    return 10000
+  def self.get_event_points(event_id,obj)
+    # PARTICIPATION_EVENT_POINTS is read from yaml config file "#{Rails.root}/config/participation_event_descriptions.yaml" in initializers/civicevolution.rb
+    points = PARTICIPATION_EVENT_POINTS["item#{event_id}"]['points']
+    if PARTICIPATION_EVENT_POINTS["item#{event_id}"]['min_length']
+      points = 0 if obj.nil? || obj.text.nil? || obj.text.length < PARTICIPATION_EVENT_POINTS["item#{event_id}"]['min_length']
+    end
+    return points
   end
   
 end

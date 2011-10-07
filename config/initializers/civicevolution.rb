@@ -20,3 +20,5 @@ Recaptcha.configure do |config|
   config.private_key = '6Lcy0L0SAAAAABuXgAChhDrX3aDx2Prv8WWAcZH4'
   #config.proxy = 'http://myrpoxy.com.au:8080'
 end
+
+PARTICIPATION_EVENT_POINTS = YAML.load_file("#{Rails.root}/config/participation_event_descriptions.yaml")

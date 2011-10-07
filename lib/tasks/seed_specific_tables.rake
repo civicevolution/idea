@@ -176,5 +176,17 @@ namespace :seed_specific_tables do
     end
   end
 
+  desc "add comments into participation events"
+  task :assign_participation_event_points => :environment do
+    ParticipationEvent.record_timestamps = false
+    events = ParticipationEvent.all
+    puts "There are #{events.size} events"
+    events.each do |event|
+      puts "Processing events id: #{event.id}"
+      obj = event.event_id == 1 ? Comment.find_by_id(event.item_id) : nil
+      event.points = TrackingNotifications.get_event_points(event.event_id, obj)
+      event.save
+    end
+  end
   
 end

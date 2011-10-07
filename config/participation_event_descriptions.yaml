@@ -4,118 +4,142 @@
 
 item1: 
   id: 1
+  code: 'com'
   description: 'Add comment'
-  points: 
+  points: 120
+  min_length: 40 
 
 item2: 
   id: 2
+  code: 'e_com'
   description: 'Edit comment'
-  points: 
+  points: 0
     
 item3:
   id: 3
+  code: 'tp'
   description: 'Add talking point'
-  points: 
+  points: 200
     
 item4:
   id: 4
+  code: 'e_tp'
   description: 'Edit talking point'
-  points: 
+  points: 80
     
 item5:
   id: 5
+  code: 'ans'
   description: 'Add answer'
-  points: 
+  points: 600
     
 item6:
   id: 6
+  code: 'e_ans'
   description: 'Edit answer'
-  points: 
+  points: 240
     
 item7:
   id: 7
+  code: 'end'
   description: 'Add endorsement'
-  points: 
+  points: 120
     
 item8:
   id: 8
+  code: 'e_end'
   description: 'Update endorsement'
-  points: 
+  points: 0
     
 item9:
   id: 9
+  code: 'proposal'
   description: 'Add proposal idea'
-  points: 
+  points: 800
     
 item11:
   id: 11
+  code: 'invite'
   description: 'Invite friend'
-  points: 
+  points: 300
     
 item13:
   id: 13
+  code: 'report'
   description: 'Report content'
-  points: 
+  points: 40
     
 item15:
   id: 15
+  code: 'init'
   description: 'Join initiative'
-  points: 
+  points: 96
     
 item17:
   id: 17
+  code: 'rate_tp'
   description: 'Rate talking point'
-  points: 
+  points: 40
     
 item19:
   id: 19
+  code: 'prefer_tp'
   description: 'Prefer talking point'
-  points: 
+  points: 80
     
 item21:
   id: 21
+  code: 'rate_ans'
   description: 'Rate answer'
-  points: 
+  points: 60
     
 
 
 item100:
   id: 100
+  code: 'summary'
   description: 'Load proposal summary'
-  points: 
+  points: 20
     
 item101:
   id: 101
+  code: 'worksheet'
   description: 'Load question worksheet'
-  points: 
+  points: 20
     
 item102:
   id: 102
+  code: 'new'
   description: 'Load new content'
-  points: 
+  points: 20
     
 item103:
   id: 103
+  code: '_mlc'
   description: 'Visit with _mlc code'
-  points: 
+  points: 30
     
 item104:
   id: 104
+  code: 'profile_pic'
   description: 'Upload profile picture'
-  points: 
+  points: 120
     
 item105:
   id: 105
+  code: 'help'
   description: 'Request help'
-  points: 
+  points: 40
           
 item106:
   id: 106
+  code: 'new_profile'
   description: 'Create a new profile'
-  points: 
+  points: 96
     
 item107:
   id: 107
+  code: 'notification'
   description: 'Update notification settings
-  points: 
+  points: 160
     
