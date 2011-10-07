@@ -96,19 +96,25 @@ class TrackingNotifications
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
          
         when  'TalkingPointAcceptableRating' 
-          event_id = name == 'after_create' ? 17 : 18
+          event_id = 17
+          return if ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :item_id => obj.id).exists?
           participation_event = ParticipationEvent.new :initiative_id => obj.talking_point.team.initiative_id, :team_id => obj.talking_point.team.id, :question_id => obj.talking_point.question_id,
           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
 
         when  'TalkingPointPreference' 
-          event_id = name == 'after_create' ? 19 : 20
-          participation_event = ParticipationEvent.new :initiative_id => obj.talking_point.team.initiative_id, :team_id => obj.talking_point.team.id, :question_id => obj.talking_point.question_id,
-          :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
-          Rails.logger.debug "participation_event: #{participation_event.inspect}"
-
+          event_id = 19
+          if name == 'after_destroy'
+            ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :item_id => obj.id).each{|pe| pe.destroy}
+            return
+          else
+            participation_event = ParticipationEvent.new :initiative_id => obj.talking_point.team.initiative_id, :team_id => obj.talking_point.team.id, :question_id => obj.talking_point.question_id,
+            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
+            Rails.logger.debug "participation_event: #{participation_event.inspect}"
+          end
         when  'AnswerRating'
-          event_id = name == 'after_create' ? 21 : 22
+          event_id = 21
+          return if ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :item_id => obj.id).exists?
           participation_event = ParticipationEvent.new :initiative_id => obj.answer.team.initiative_id, :team_id => obj.answer.team.id, :question_id => obj.answer.question_id,
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
