@@ -140,6 +140,5 @@ item106:
 item107:
   id: 107
   code: 'notification'
-  description: 'Update notification settings
+  description: 'Update notification settings'
   points: 160
-    
