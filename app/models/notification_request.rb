@@ -12,6 +12,7 @@ class NotificationRequest < ActiveRecord::Base
     
   after_initialize :init_settings
   
+  belongs_to :team
     
   # save notification settings as notification requests
   # report_type: 1 = replies, 2 = all
@@ -333,6 +334,13 @@ class NotificationRequest < ActiveRecord::Base
     
   end
 
+  def o_type
+    22 #type for notification request
+  end
+  
+  def type_text
+    'notification request' #type for notification request
+  end
 
   
 end

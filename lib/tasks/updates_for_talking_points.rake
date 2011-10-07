@@ -165,7 +165,7 @@ namespace :update_for_talking_points do
       item_version = ItemVersions.find_by_item_id_and_item_type_and_ver(item_diff.o_id, item_diff.o_type,item_diff.ver)
       
       
-      answer_diff = AnswerDiff.new(:answer_id => item_diffs, :member_id => item_diff.member_id, :version => item_diff.ver)
+      answer_diff = AnswerDiff.new(:answer_id => item_diff.o_id, :member_id => item_diff.member_id, :version => item_diff.ver)
       answer_diff.created_at = item_diff.created_at
       answer_diff.updated_at = item_diff.updated_at
       answer_diff.text = item_version.nil? ? '' : item_version.text

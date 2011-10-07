@@ -157,6 +157,12 @@ class Member < ActiveRecord::Base
     
   end  
   
+  def o_type
+    21 #type for member
+  end
+  def type_text
+    'member' #type for member
+  end
   
   
   private

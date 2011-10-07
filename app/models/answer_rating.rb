@@ -50,7 +50,7 @@ class AnswerRating < ActiveRecord::Base
   end
   
   def o_type
-    23 
+    16
   end
   
   def type_text

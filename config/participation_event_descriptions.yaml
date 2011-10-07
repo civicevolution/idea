@@ -5,48 +5,117 @@
 item1: 
   id: 1
   description: 'Add comment'
+  points: 
 
-item1a: 
+item2: 
   id: 2
   description: 'Edit comment'
-
-item2:
+  points: 
+    
+item3:
   id: 3
   description: 'Add talking point'
-
-item3:
+  points: 
+    
+item4:
   id: 4
   description: 'Edit talking point'
-
-item4:
+  points: 
+    
+item5:
   id: 5
   description: 'Add answer'
-
-item5:
+  points: 
+    
+item6:
   id: 6
   description: 'Edit answer'
-
-item6:
+  points: 
+    
+item7:
   id: 7
   description: 'Add endorsement'
-
-item6a:
+  points: 
+    
+item8:
   id: 8
   description: 'Update endorsement'
-
-
-item7:
-  id: 9
-  description: 'Invite a friend'
-  
-item8:
-  id: 10
-  description: 'Visit with _mlc code'
-
+  points: 
+    
 item9:
+  id: 9
+  description: 'Add proposal idea'
+  points: 
+    
+item11:
   id: 11
+  description: 'Invite friend'
+  points: 
+    
+item13:
+  id: 13
+  description: 'Report content'
+  points: 
+    
+item15:
+  id: 15
+  description: 'Join initiative'
+  points: 
+    
+item17:
+  id: 17
+  description: 'Rate talking point'
+  points: 
+    
+item19:
+  id: 19
+  description: 'Prefer talking point'
+  points: 
+    
+item21:
+  id: 21
+  description: 'Rate answer'
+  points: 
+    
+
+
+item100:
+  id: 100
   description: 'Load proposal summary'
-  
-item10:
-  id: 12
+  points: 
+    
+item101:
+  id: 101
   description: 'Load question worksheet'
+  points: 
+    
+item102:
+  id: 102
+  description: 'Load new content'
+  points: 
+    
+item103:
+  id: 103
+  description: 'Visit with _mlc code'
+  points: 
+    
+item104:
+  id: 104
+  description: 'Upload profile picture'
+  points: 
+    
+item105:
+  id: 105
+  description: 'Request help'
+  points: 
+          
+item106:
+  id: 106
+  description: 'Create a new profile'
+  points: 
+    
+item107:
+  id: 107
+  description: 'Update notification settings
+  points: 
+    

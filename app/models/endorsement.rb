@@ -15,7 +15,7 @@ class Endorsement < ActiveRecord::Base
   end
   
   def o_type
-    14 #type for Endorsement
+    19 #type for Endorsement
   end
   def type_text
     'endorsement' #type for Answers

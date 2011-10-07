@@ -41,7 +41,7 @@ class TalkingPointAcceptableRating < ActiveRecord::Base
   end
   
   def o_type
-    20 #type for talking point
+    14 #type for talking point
   end
   
   def type_text

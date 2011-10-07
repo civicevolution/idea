@@ -11,7 +11,7 @@ class ProposalIdea < ActiveRecord::Base
   attr_accessor :member
   
   def o_type
-    15 #type for ProposalIdea
+    18 #type for ProposalIdea
   end
   def type_text
     'proposal idea' #type for ProposalIdea

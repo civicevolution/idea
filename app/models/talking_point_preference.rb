@@ -101,7 +101,7 @@ class TalkingPointPreference < ActiveRecord::Base
   end
 
   def o_type
-    21 #type for talking point preference
+    15 #type for talking point preference
   end
   
   def type_text
