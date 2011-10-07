@@ -14,6 +14,23 @@ namespace :seed_specific_tables do
     }
     puts "End Seed participation_event_descriptions"
   end
+
+  desc "Seed item_types"
+  task :add_item_types => :environment do 
+    puts "Add item_types from file"
+    yml = YAML.load_file "#{Rails.root}/config/item_types.yaml"
+  
+    #yml.each_pair { |key, value| rec = value; puts rec['type'], rec['description']}
+    yml.each_pair { |key, value|
+      rec = value
+      # create a record
+      item = ItemType.new :description => rec['description']
+      item.id = rec['id']
+      item.type = rec['type']
+      item.save   
+    }
+    puts "End Seed item_types"
+  end
   
   desc "add comments into participation events"
   task :make_comment_participation_events => :environment do

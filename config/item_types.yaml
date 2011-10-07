@@ -1,0 +1,90 @@
+# SELECT E'item1:\n\tid: '|| id ||E'\n\ttype: '''||type||E'''\n\tdescription: '''||description || '''' FROM item_types order by id;
+
+item1:
+  id: 1
+  type: 'question'
+  description: 'question'
+item2:
+  id: 2
+  type: 'answer'
+  description: 'answer'
+item3:
+  id: 3
+  type: 'comment'
+  description: 'comment'
+item4:
+  id: 4
+  type: 'team'
+  description: 'team'
+item5:
+  id: 5
+  type: 'chat_session'
+  description: 'chat_session'
+item6:
+  id: 6
+  type: 'chat_message'
+  description: 'chat_message'
+item7:
+  id: 7
+  type: 'list'
+  description: 'list'
+item8:
+  id: 8
+  type: 'list_item'
+  description: 'list_item'
+item9:
+  id: 9
+  type: 'page'
+  description: 'page'
+item10:
+  id: 10
+  type: 'team info'
+  description: 'team info'
+item11:
+  id: 11
+  type: 'public_discussion'
+  description: 'public_discussion'
+item12:
+  id: 12
+  type: 'bs_idea'
+  description: 'Brainstorming idea'
+item13:
+  id: 13
+  type: 'talking_point'
+  description: 'talking_point'
+item14:
+  id: 14
+  type: 'talking_point_acceptable_rating'
+  description: 'talking_point_acceptable_rating'
+item15:
+  id: 15
+  type: 'talking_point_preference'
+  description: 'talking_point_preference'
+item16:
+  id: 16
+  type: 'answer_rating'
+  description: 'answer_rating'
+item17:
+  id: 17
+  type: 'answer_diff'
+  description: 'answer_diff'
+item18:
+  id: 18
+  type: 'proposal_idea'
+  description: 'proposal_idea'
+item19:
+  id: 19
+  type: 'endorsement'
+  description: 'endorsement'
+item20:
+  id: 20
+  type: 'initiative_member'
+  description: 'initiative_member'
+item21:
+  id: 21
+  type: 'member'
+  description: 'member'
+item22:
+  id: 22
+  type: 'notification_request'
+  description: 'notification_request'
