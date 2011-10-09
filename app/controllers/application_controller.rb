@@ -124,12 +124,13 @@ class ApplicationController < ActionController::Base
        request.session_options[:expire_after]= 30.days
        #request.session_options.freeze
       end
-      
       if params[:date]
         time_stamp = params[:date].scan(/\d\d/)
         session[:last_visit_ts] = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
+      else
+        last_event = ParticipationEvent.where(:member_id => 1).last
+        session[:last_visit_ts] = last_event.nil? ? Time.now - 7.days : last_event.created_at
       end
-      session[:last_visit_ts] ||= Time.now - 7.days #.local(2012,7,29)
       @member.last_visit_ts = session[:last_visit_ts]
       respond_to do |format|
         format.html{
@@ -246,8 +247,10 @@ class ApplicationController < ActionController::Base
           if params[:date]
             time_stamp = params[:date].scan(/\d\d/)
             session[:last_visit_ts] = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
+          else
+            last_event = ParticipationEvent.where(:member_id => 1).last
+            session[:last_visit_ts] = last_event.nil? ? Time.now - 7.days : last_event.created_at
           end
-          session[:last_visit_ts] ||= Time.now - 7.days #.local(2012,7,29)
           @member.last_visit_ts = session[:last_visit_ts]
         end
       end

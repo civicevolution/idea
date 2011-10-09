@@ -6,6 +6,8 @@ item1:
   id: 1
   code: 'com'
   description: 'Add comment'
+  summary_order: 7
+  summary_title: 'comment'
   points: 120
   min_length: 40 
 
@@ -19,30 +21,40 @@ item3:
   id: 3
   code: 'tp'
   description: 'Add talking point'
+  summary_order: 8
+  summary_title: 'talking point'
   points: 200
     
 item4:
   id: 4
   code: 'e_tp'
   description: 'Edit talking point'
+  summary_order: 9
+  summary_title: 'talking point edit'
   points: 80
     
 item5:
   id: 5
   code: 'ans'
   description: 'Add answer'
+  summary_order: 0
+  summary_title: 'answer'
   points: 600
     
 item6:
   id: 6
   code: 'e_ans'
   description: 'Edit answer'
+  summary_order: 0
+  summary_title: 'answer edit'
   points: 240
     
 item7:
   id: 7
   code: 'end'
   description: 'Add endorsement'
+  summary_order: 6
+  summary_title: 'endorsement'
   points: 120
     
 item8:
@@ -61,12 +73,16 @@ item11:
   id: 11
   code: 'invite'
   description: 'Invite friend'
+  summary_order: 3
+  summary_title: 'friend invite'
   points: 300
     
 item13:
   id: 13
   code: 'report'
   description: 'Report content'
+  summary_order: 12
+  summary_title: 'content report'
   points: 40
     
 item15:
@@ -79,18 +95,24 @@ item17:
   id: 17
   code: 'rate_tp'
   description: 'Rate talking point'
+  summary_order: 10
+  summary_title: 'talking point rating'
   points: 40
     
 item19:
   id: 19
   code: 'prefer_tp'
   description: 'Prefer talking point'
+  summary_order: 11
+  summary_title: 'preferred talking point'
   points: 80
     
 item21:
   id: 21
   code: 'rate_ans'
   description: 'Rate answer'
+  summary_order: 0
+  summary_title: 'answer rating'
   points: 60
     
 
@@ -99,12 +121,16 @@ item100:
   id: 100
   code: 'summary'
   description: 'Load proposal summary'
+  summary_order: 4
+  summary_title: 'proposal view'
   points: 20
     
 item101:
   id: 101
   code: 'worksheet'
   description: 'Load question worksheet'
+  summary_order: 5
+  summary_title: 'question view'
   points: 20
     
 item102:
@@ -141,4 +167,6 @@ item107:
   id: 107
   code: 'notification'
   description: 'Update notification settings'
+  summary_order: 2
+  summary_title: 'follower'
   points: 160

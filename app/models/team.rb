@@ -30,24 +30,25 @@ class Team < ActiveRecord::Base
   end  
   
   def participants
-    q_ids = self.questions.map(&:id).join(',')
-    tp_ids = TalkingPoint.find_by_sql("SELECT id FROM talking_points WHERE question_id IN (#{q_ids})").map(&:id).join(',')
-    tp_ids = '0' unless tp_ids != ''
-    a_ids = TalkingPoint.find_by_sql("SELECT id FROM answers WHERE question_id IN (#{q_ids})").map(&:id).join(',')
-    a_ids = '0' unless a_ids != ''
-
-    p_ids = ActiveRecord::Base.connection.select_rows(
-    %Q|SELECT distinct member_id FROM comments WHERE (parent_type = 1 AND parent_id IN (#{q_ids})) OR (parent_type = 13 AND parent_id IN (#{tp_ids}))
-    UNION
-    SELECT distinct member_id FROM talking_points WHERE id IN (#{tp_ids})
-    UNION
-    SELECT distinct member_id FROM answer_diffs WHERE answer_id IN (#{a_ids})|).flatten.map{|i| i.to_i}
-    p_ids << self.org_id
-
-    Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => p_ids.uniq)
+    participation_records = ActiveRecord::Base.connection.select_rows("SELECT member_id, SUM(points) FROM participation_events WHERE team_id = #{self.id} GROUP BY member_id order by SUM(points) DESC")
+    members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => participation_records.map{|p|p[0]})
+    
+    # Now I need to get the points back into the members
+    participation_records.each{ |rec| members.detect{|m| m.id == rec[0].to_i}[:points] = rec[1].to_i }
+    return members
   end
   
-  
+  def stats
+    if @stats.nil?
+      @stats = []
+        event_records = ActiveRecord::Base.connection.select_rows("SELECT event_id, COUNT(id), SUM(points) FROM participation_events WHERE team_id = #{self.id} GROUP BY event_id")
+        event_records.each do |er| 
+        	pep = PARTICIPATION_EVENT_POINTS["item#{er[0]}"]
+        	@stats.push :title => pep['summary_title'], :count => er[1], :points => er[2], :order=>pep['summary_order']
+        end
+    end
+    @stats
+  end  
   
   def o_type
     4 #type for Teams
@@ -115,18 +116,6 @@ class Team < ActiveRecord::Base
     #)
     #pub_authors.collect { |m| {:id=> m.id, :first_name=>m.first_name, :last_name=>m.last_name, :ape_code=> m.ape_code, :pic_id => m.pic_id,:member => 'f' }  }
   end
-    
-  def stats
-    if @stats.nil?
-      @stats = Team.find_by_sql([ %q|SELECT (SELECT COUNT(*) FROM team_registrations WHERE team_id = ?) AS members,
-        (SELECT COUNT(*) FROM comments WHERE team_id = ?) AS comments,
-        (SELECT COUNT(*) FROM bs_ideas WHERE team_id = ?) AS bs_ideas,
-        (SELECT COUNT(*) FROM answers WHERE team_id = ?) AS answers|, self.id, self.id, self.id, self.id ]
-      )[0]
-    end
-    @stats
-    
-  end  
     
   def self.teams_with_stats(initiative_id)
     Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement,

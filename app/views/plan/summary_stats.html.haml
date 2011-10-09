@@ -62,19 +62,15 @@
 		%h3 Top participants
 		%table
 			%tbody
-				- @team.participants.each do |participant|
+				- @team.participants.sort{|a,b| b[:points]<=>a[:points]}.each do |participant|
 					%tr
 						%td
 							%img{:src=>participant.photo.url('36'),:class=>'i36'}	
 						%td	
 							%b= participant.first_name
-						-#%b
-							Citizen
-						-#%br
-							130 points
 							%br
-							7 contributions
-
+								#{participant[:points]} points
+							
 	%div.participants
 		%h3 All participants
 	
@@ -83,24 +79,16 @@
 		- @team.participants.each do |participant|
 			%img{:src=>participant.photo.url('36'),:class=>'i36'}
 
-		-#%h3 They've made great progress
+		%h3 They've made great progress
 		%table
 			%tbody
 				%tr.stripe
-					%td
-						Participation stats will be added soon
-				-#%tr.stripe
-					%td  153 page views
-					%tr
-						%td 53 ratings
-					%tr.stripe
-						%td 37 comments
-					%tr
-						%td 17 talking points
-					%tr.stripe
-						%td 8 preferred talking points
-					%tr
-						%td 9 endorsements
+					%td= pluralize( @team.participants.size, 'participant')
+				- @team.stats.find_all{|s| s[:order] && s[:order].to_i != 0}.sort{|a,b| a[:order].to_i<=>b[:order].to_i}.each do |stat|
+					%tr{:class=>cycle('','stripe')}
+						%td
+							= pluralize(stat[:count], stat[:title]) 
+							-#(#{stat[:points]} points)
 					
 	
 	%p.clear_both	
