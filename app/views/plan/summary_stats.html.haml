@@ -89,11 +89,12 @@
 						%td
 							= pluralize(stat[:count], stat[:title]) 
 							-#(#{stat[:points]} points)
-				-	PARTICIPATION_EVENT_POINTS.values.find_all{|pep| pep['summary_order'] && pep['summary_order'].to_i != 0}.sort{|a,b| a['summary_order'].to_i<=>b['summary_order'].to_i}.each do |stat|
-					- logger.debug "stat: #{stat.inspect}"
-					%tr{:class=>cycle('','stripe')}
-						%td
-							= pluralize(@team.stats[stat['col_name']], stat['summary_title']) 					
+				- if @team.stats
+					-	PARTICIPATION_EVENT_POINTS.values.find_all{|pep| pep['summary_order'] && pep['summary_order'].to_i != 0}.sort{|a,b| a['summary_order'].to_i<=>b['summary_order'].to_i}.each do |stat|
+						- logger.debug "stat: #{stat.inspect}"
+						%tr{:class=>cycle('','stripe')}
+							%td
+								= pluralize(@team.stats[stat['col_name']], stat['summary_title']) 					
 	
 	%p.clear_both	
 

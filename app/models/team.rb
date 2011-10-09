@@ -39,12 +39,16 @@ class Team < ActiveRecord::Base
   end
   
   def stats
+    #@stats || ProposalStats.find_by_team_id(self.id)
+    
     if @stats.nil?
       @stats = ProposalStats.find_by_team_id(self.id)
-      @stats.proposal_views += stats.proposal_views_base
-      @stats.question_views += stats.question_views_base
+      @stats.proposal_views += stats.proposal_views_base if @stats
+      @stats.question_views += stats.question_views_base if @stats
     end
     @stats
+    
+    
     #if @stats.nil?
     #  @stats = []
     #    event_records = ActiveRecord::Base.connection.select_rows("SELECT event_id, COUNT(id), SUM(points) FROM participation_events WHERE team_id = #{self.id} GROUP BY event_id")

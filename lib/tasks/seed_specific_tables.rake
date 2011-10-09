@@ -190,8 +190,6 @@ namespace :seed_specific_tables do
   end
 
   task :seed_proposal_stats_table => :environment do
-    
-    
     teams = Team.order('id ASC')
     puts "There are #{teams.size} teams"
     teams.each do |team|
@@ -201,9 +199,19 @@ namespace :seed_specific_tables do
       stats_rec.participants = ActiveRecord::Base.connection.select_value("SELECT COUNT(DISTINCT(member_id)) FROM participation_events WHERE team_id = #{team.id};").to_i
       stats_rec.points = ActiveRecord::Base.connection.select_value("SELECT SUM(points) FROM Participation_events WHERE team_id = #{team.id};").to_i
       
-      team.stats.each do |stat|
+      stats = []
+      event_records = ActiveRecord::Base.connection.select_rows("SELECT event_id, COUNT(id), SUM(points) FROM participation_events WHERE team_id = #{team.id} GROUP BY event_id")
+      event_records.each do |er| 
+      	pep = PARTICIPATION_EVENT_POINTS["item#{er[0]}"]
+      	stats.push(:title => pep['summary_title'], :count => er[1], :points => er[2], :order=>pep['summary_order'], :col_name => pep['col_name'])
+      end
+      
+      stats.each do |stat|
         stats_rec[stat[:col_name]] = stat[:count].to_i unless stat[:col_name] == ''
       end
+      
+      #stats.each{ |stat| stats_rec[stat[:col_name]] = stat[:count].to_i unless stat[:col_name] == '' }
+      
       
       # estimate the base for views
       stats_rec.proposal_views_base = 
