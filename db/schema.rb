@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111006172956) do
+ActiveRecord::Schema.define(:version => 20111009193223) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -570,6 +570,27 @@ ActiveRecord::Schema.define(:version => 20111006172956) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "launched",          :default => false, :null => false
+  end
+
+  create_table "proposal_stats", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "proposal_views",            :default => 0
+    t.integer  "question_views",            :default => 0
+    t.integer  "participants",              :default => 0
+    t.integer  "friend_invites",            :default => 0
+    t.integer  "followers",                 :default => 0
+    t.integer  "endorsements",              :default => 0
+    t.integer  "talking_points",            :default => 0
+    t.integer  "talking_point_edits",       :default => 0
+    t.integer  "talking_point_ratings",     :default => 0
+    t.integer  "talking_point_preferences", :default => 0
+    t.integer  "comments",                  :default => 0
+    t.integer  "points",                    :default => 0
+    t.integer  "content_reports",           :default => 0
+    t.integer  "proposal_views_base",       :default => 0
+    t.integer  "question_views_base",       :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "proposal_submits", :force => true do |t|

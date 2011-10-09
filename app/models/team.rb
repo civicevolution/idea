@@ -40,15 +40,33 @@ class Team < ActiveRecord::Base
   
   def stats
     if @stats.nil?
-      @stats = []
-        event_records = ActiveRecord::Base.connection.select_rows("SELECT event_id, COUNT(id), SUM(points) FROM participation_events WHERE team_id = #{self.id} GROUP BY event_id")
-        event_records.each do |er| 
-        	pep = PARTICIPATION_EVENT_POINTS["item#{er[0]}"]
-        	@stats.push :title => pep['summary_title'], :count => er[1], :points => er[2], :order=>pep['summary_order']
-        end
+      @stats = ProposalStats.find_by_team_id(self.id)
+      @stats.proposal_views += stats.proposal_views_base
+      @stats.question_views += stats.question_views_base
     end
     @stats
+    #if @stats.nil?
+    #  @stats = []
+    #    event_records = ActiveRecord::Base.connection.select_rows("SELECT event_id, COUNT(id), SUM(points) FROM participation_events WHERE team_id = #{self.id} GROUP BY event_id")
+    #    event_records.each do |er| 
+    #    	pep = PARTICIPATION_EVENT_POINTS["item#{er[0]}"]
+    #    	@stats.push(:title => pep['summary_title'], :count => er[1], :points => er[2], :order=>pep['summary_order'], :col_name => pep['col_name'])
+    #    end
+    #end
+    #@stats
   end  
+  
+  def self.teams_with_stats(initiative_id)
+    Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement,
+      (SELECT COUNT(*) FROM comments WHERE team_id = t.id) AS comments,
+      (SELECT COUNT(*) FROM bs_ideas WHERE team_id = t.id) AS bs_ideas,
+      (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers, 
+      (SELECT COUNT(*) FROM talking_points WHERE question_id IN (SELECT id FROM questions WHERE team_id = t.id)) AS talking_points
+      FROM teams t 
+      WHERE initiative_id = ? AND archived = FALSE|, initiative_id ]
+    )
+  end
+  
   
   def o_type
     4 #type for Teams
@@ -116,18 +134,7 @@ class Team < ActiveRecord::Base
     #)
     #pub_authors.collect { |m| {:id=> m.id, :first_name=>m.first_name, :last_name=>m.last_name, :ape_code=> m.ape_code, :pic_id => m.pic_id,:member => 'f' }  }
   end
-    
-  def self.teams_with_stats(initiative_id)
-    Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement,
-      (SELECT COUNT(*) FROM comments WHERE team_id = t.id) AS comments,
-      (SELECT COUNT(*) FROM bs_ideas WHERE team_id = t.id) AS bs_ideas,
-      (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers, 
-      (SELECT COUNT(*) FROM talking_points WHERE question_id IN (SELECT id FROM questions WHERE team_id = t.id)) AS talking_points
-      FROM teams t 
-      WHERE initiative_id = ? AND archived = FALSE|, initiative_id ]
-    )
-  end
-  
+     
   def resources
     Resource.find(:all, 
       :select => 'r.*', 

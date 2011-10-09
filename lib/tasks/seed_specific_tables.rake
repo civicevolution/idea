@@ -188,5 +188,42 @@ namespace :seed_specific_tables do
       event.save
     end
   end
+
+  task :seed_proposal_stats_table => :environment do
+    
+    
+    teams = Team.order('id ASC')
+    puts "There are #{teams.size} teams"
+    teams.each do |team|
+      puts "Processing teams id: #{team.id}"
+
+      stats_rec = ProposalStats.find_by_team_id(team.id) || ProposalStats.new(:team_id => team.id)
+      stats_rec.participants = ActiveRecord::Base.connection.select_value("SELECT COUNT(DISTINCT(member_id)) FROM participation_events WHERE team_id = #{team.id};").to_i
+      stats_rec.points = ActiveRecord::Base.connection.select_value("SELECT SUM(points) FROM Participation_events WHERE team_id = #{team.id};").to_i
+      
+      team.stats.each do |stat|
+        stats_rec[stat[:col_name]] = stat[:count].to_i unless stat[:col_name] == ''
+      end
+      
+      # estimate the base for views
+      stats_rec.proposal_views_base = 
+        stats_rec.endorsements * 5  +
+        stats_rec.talking_points * 8 +
+        stats_rec.comments * 4 +
+        stats_rec.participants * 4 +
+        stats_rec.followers * 4
+
+      stats_rec.question_views_base = 
+        stats_rec.endorsements * 3  +
+        stats_rec.talking_points * 6 +
+        stats_rec.comments * 4
+      
+      puts stats_rec.inspect
+      
+      stats_rec.save
+
+    end
+  end
+
   
 end

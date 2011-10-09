@@ -4,6 +4,7 @@
 
 item1: 
   id: 1
+  col_name: 'comments'
   code: 'com'
   description: 'Add comment'
   summary_order: 7
@@ -13,12 +14,14 @@ item1:
 
 item2: 
   id: 2
+  col_name: ''
   code: 'e_com'
   description: 'Edit comment'
   points: 0
     
 item3:
   id: 3
+  col_name: 'talking_points'
   code: 'tp'
   description: 'Add talking point'
   summary_order: 8
@@ -27,6 +30,7 @@ item3:
     
 item4:
   id: 4
+  col_name: 'talking_point_edits'
   code: 'e_tp'
   description: 'Edit talking point'
   summary_order: 9
@@ -35,6 +39,7 @@ item4:
     
 item5:
   id: 5
+  col_name: ''
   code: 'ans'
   description: 'Add answer'
   summary_order: 0
@@ -43,6 +48,7 @@ item5:
     
 item6:
   id: 6
+  col_name: ''
   code: 'e_ans'
   description: 'Edit answer'
   summary_order: 0
@@ -51,6 +57,7 @@ item6:
     
 item7:
   id: 7
+  col_name: 'endorsements'
   code: 'end'
   description: 'Add endorsement'
   summary_order: 6
@@ -59,18 +66,21 @@ item7:
     
 item8:
   id: 8
+  col_name: ''
   code: 'e_end'
   description: 'Update endorsement'
   points: 0
     
 item9:
   id: 9
+  col_name: ''
   code: 'proposal'
   description: 'Add proposal idea'
   points: 800
     
 item11:
   id: 11
+  col_name: 'friend_invites'
   code: 'invite'
   description: 'Invite friend'
   summary_order: 3
@@ -79,6 +89,7 @@ item11:
     
 item13:
   id: 13
+  col_name: 'content_reports'
   code: 'report'
   description: 'Report content'
   summary_order: 12
@@ -87,12 +98,14 @@ item13:
     
 item15:
   id: 15
+  col_name: ''
   code: 'init'
   description: 'Join initiative'
   points: 96
     
 item17:
   id: 17
+  col_name: 'talking_point_ratings'
   code: 'rate_tp'
   description: 'Rate talking point'
   summary_order: 10
@@ -101,6 +114,7 @@ item17:
     
 item19:
   id: 19
+  col_name: 'talking_point_preferences'
   code: 'prefer_tp'
   description: 'Prefer talking point'
   summary_order: 11
@@ -109,16 +123,17 @@ item19:
     
 item21:
   id: 21
+  col_name: ''
   code: 'rate_ans'
   description: 'Rate answer'
   summary_order: 0
   summary_title: 'answer rating'
   points: 60
-    
 
 
 item100:
   id: 100
+  col_name: 'proposal_views'
   code: 'summary'
   description: 'Load proposal summary'
   summary_order: 4
@@ -127,6 +142,7 @@ item100:
     
 item101:
   id: 101
+  col_name: 'question_views'
   code: 'worksheet'
   description: 'Load question worksheet'
   summary_order: 5
@@ -135,36 +151,42 @@ item101:
     
 item102:
   id: 102
+  col_name: ''
   code: 'new'
   description: 'Load new content'
   points: 20
     
 item103:
   id: 103
+  col_name: ''
   code: '_mlc'
   description: 'Visit with _mlc code'
   points: 30
     
 item104:
   id: 104
+  col_name: ''
   code: 'profile_pic'
   description: 'Upload profile picture'
   points: 120
     
 item105:
   id: 105
+  col_name: ''
   code: 'help'
   description: 'Request help'
   points: 40
           
 item106:
   id: 106
+  col_name: ''
   code: 'new_profile'
   description: 'Create a new profile'
   points: 96
     
 item107:
   id: 107
+  col_name: 'followers'
   code: 'notification'
   description: 'Update notification settings'
   summary_order: 2
