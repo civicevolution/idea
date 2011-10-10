@@ -3,24 +3,8 @@
 
 class TrackingNotifications
   
-  #  id |       description       
-  # ----+-------------------------
-  #   1 | Add comment             
-  #   2 | Edit comment            
-  #   3 | Add talking point       
-  #   4 | Edit talking point      
-  #   5 | Add answer              
-  #   6 | Edit answer             
-  #   7 | Endorse  
-  #   8 | Update endorsement
-  #   9 | Add proposal idea
-  #  10 | Update proposal idea              
-  #  100 | Summary page
-  #  101 | Question worksheet
-  #  102 | New content page
-  #  201 | Invite a friend         
-  #  203 | Visit with _mlc code    
-  
+# See config/participation_event_descriptions.yaml for details and key to event_ids
+
   def self.process_event(payload)
     # payload[:event]
     # payload[:params] => {"_app_name"=>"2029 and Beyond", "_initiative_id"=>2}
