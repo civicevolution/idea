@@ -54,3 +54,5 @@ gem "airbrake"
 gem "juggernaut"
 
 gem "SystemTimer"
+
+gem "redis"
