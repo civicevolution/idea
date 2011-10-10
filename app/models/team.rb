@@ -30,7 +30,7 @@ class Team < ActiveRecord::Base
   end  
   
   def participants
-    participation_records = ActiveRecord::Base.connection.select_rows("SELECT member_id, SUM(points) FROM participation_events WHERE team_id = #{self.id} GROUP BY member_id order by SUM(points) DESC")
+    participation_records = ActiveRecord::Base.connection.select_rows("SELECT member_id, SUM(points) FROM participation_events WHERE team_id = #{self.id} AND member_id != 10 GROUP BY member_id order by SUM(points) DESC")
     members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => participation_records.map{|p|p[0]})
     
     # Now I need to get the points back into the members
