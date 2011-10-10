@@ -163,6 +163,11 @@ $('form.what_do_you_think :radio').die('change').live('change',
 	}
 )
 
+$('div.home_page table.proposal_stats').die('click').live('click',
+	function(){
+		document.location = '/plan/' + $(this).closest('div.notebook').attr('id')
+	}
+)
 
 function getUrlVars()
 {

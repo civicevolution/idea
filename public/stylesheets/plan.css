@@ -385,6 +385,10 @@ div#join_email_address_ok {
 /* For the home page */
 div.team_entry {
   margin: 0 2em 0 1em; }
+  div.team_entry table {
+    width: 100%;
+    background-color: #f9f3de;
+    cursor: pointer; }
   div.team_entry div.resources {
     margin: 1em 0 72px 0; }
   div.team_entry a.team_entry_title {

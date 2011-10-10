@@ -55,30 +55,43 @@
 			- @init_teams.each do |team|
 				%div.book
 					%div.spiral 
-					%div.notebook.corner
+					%div.notebook.corner{:id=>team.team_id}
 						%div.team_entry{:class=> cycle('stripe_bg','')}
-							= link_to team.title, proposal_path(team.id), {:class=>'team_entry_title',:launched=>'t'}
+							= link_to team.title, proposal_path(team.team_id), {:class=>'team_entry_title',:launched=>'t'}
 
 							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
 							%div.resources
-								= link_to proposal_pic_path(team.id), {:rel=>'nofollow'} do
+								= link_to proposal_pic_path(team.team_id), {:rel=>'nofollow'} do
 									- pics_array.each do |pic|
 										%div= image_tag("misc/48/#{pic}.jpg")
 							%p.clear_both
 
 							%p.desc= team.solution_statement
 							%p.controls
-								- if team.comments.to_i == 0
+								%table.proposal_stats
+									%tr
+										%td= pluralize(team.participants, 'participant')
+										%td= pluralize( (team.proposal_views + team.proposal_views_base), 'view')
+										%td= pluralize(team.points, 'point')
+								
+									%tr
+										%td= pluralize(team.comments, 'comment')
+										%td= pluralize(team.talking_points, 'talking point')
+										%td= pluralize(team.endorsements, 'endorsement')
+							
+							
+							
+								-# if team.comments.to_i == 0
 									= link_to "Please start this conversation", proposal_path(team.id)
-								- else
+								-# else
 									= pluralize(team.comments, 'comment') unless team.comments.to_i == 0
 								-#= pluralize(team.bs_ideas, 'idea') unless team.bs_ideas.to_i == 0
 								-#= pluralize(team.answers, 'answer') unless team.answers.to_i == 0
-								= pluralize(team.talking_points, 'talking point')
+								-#= pluralize(team.talking_points, 'talking point')
 							
 							%p.controls
-								= link_to "Help us make a difference", proposal_path(team.id)
-								= link_to "Follow our progress", notification_settings_form_path(team.id), {:remote=>true}
+								= link_to "Help us make a difference", proposal_path(team.team_id)
+								= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
 							-#%p.controls
 								-#%span 0 comments
 								%span= pluralize( team['members'], 'member')

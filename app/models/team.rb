@@ -47,28 +47,10 @@ class Team < ActiveRecord::Base
       @stats.question_views += stats.question_views_base if @stats
     end
     @stats
-    
-    
-    #if @stats.nil?
-    #  @stats = []
-    #    event_records = ActiveRecord::Base.connection.select_rows("SELECT event_id, COUNT(id), SUM(points) FROM participation_events WHERE team_id = #{self.id} GROUP BY event_id")
-    #    event_records.each do |er| 
-    #    	pep = PARTICIPATION_EVENT_POINTS["item#{er[0]}"]
-    #    	@stats.push(:title => pep['summary_title'], :count => er[1], :points => er[2], :order=>pep['summary_order'], :col_name => pep['col_name'])
-    #    end
-    #end
-    #@stats
   end  
   
-  def self.teams_with_stats(initiative_id)
-    Team.find_by_sql([ %q|SELECT id, org_id, title, solution_statement,
-      (SELECT COUNT(*) FROM comments WHERE team_id = t.id) AS comments,
-      (SELECT COUNT(*) FROM bs_ideas WHERE team_id = t.id) AS bs_ideas,
-      (SELECT COUNT(*) FROM answers WHERE team_id = t.id) AS answers, 
-      (SELECT COUNT(*) FROM talking_points WHERE question_id IN (SELECT id FROM questions WHERE team_id = t.id)) AS talking_points
-      FROM teams t 
-      WHERE initiative_id = ? AND archived = FALSE|, initiative_id ]
-    )
+  def self.proposal_stats(initiative_id)
+    ProposalStats.select("title, solution_statement, ps.*").joins(" as ps JOIN teams AS t ON ps.team_id = t.id").where("t.initiative_id = ? and t.archived = false", initiative_id)
   end
   
   
