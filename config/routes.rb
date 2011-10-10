@@ -1,4 +1,6 @@
 G3::Application.routes.draw do |map|
+
+  get "plan/jug"
   
   get "profile/index"
 

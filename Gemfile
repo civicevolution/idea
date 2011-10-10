@@ -50,3 +50,5 @@ gem 'delayed_job'
 gem 'jquery-rails', '>= 1.0.12'
 
 gem "airbrake"
+
+gem "juggernaut"

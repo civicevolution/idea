@@ -1,6 +1,13 @@
+require "juggernaut"
 class PlanController < ApplicationController
   layout "plan", :only => [:suggest_new_idea, :review_proposal_idea]
   skip_before_filter :authorize, :only => [ :index, :summary, :suggest_new_idea, :new_content]
+  
+  def jug
+    
+    Juggernaut.publish("channel1", params[:str])
+    render :text => "str: #{params[:str]} was sent to juggernaut"
+  end
   
   def index
     logger.debug "\n\n******************************************\nStart plan/index\n"

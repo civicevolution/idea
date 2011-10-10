@@ -4,7 +4,7 @@
 	- else
 		%p.report Someone is working on this proposal
 		
-	%h3= link_to @team.title, plan_url(:host=>@host,:id=>@team.id,:_mlc => @mcode)
+	%h3= link_to @team.title, plan_url(:host=>@host,:team_id=>@team.id,:_mlc => @mcode)
 
 	%div.new_content
 		- case

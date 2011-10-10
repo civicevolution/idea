@@ -90,7 +90,7 @@
 		- @host = team['host']
 	
 		%h3.team_title
-			= link_to team.title, plan_url(:host=>@host,:id=>team.id,:_mlc => @mcode)
+			= link_to team.title, plan_url(:host=>@host,:team_id=>team.id,:_mlc => @mcode)
 		%div.proposal_report
 			%p Below are the posts to this proposal since your last report:
 		
