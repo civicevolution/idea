@@ -22,3 +22,5 @@ Recaptcha.configure do |config|
 end
 
 PARTICIPATION_EVENT_POINTS = YAML.load_file("#{Rails.root}/config/participation_event_descriptions.yaml")
+
+Juggernaut.options = {:host=> YAML.load_file("#{Rails.root}/../../shared/config/database.yml")['production']['host'] } 
