@@ -75,6 +75,6 @@ G3::Application.configure do
     :authentication => :plain, 
   }
 
-  Juggernaut.options = {:host=> YAML.load_file("../../shared/config/database.yml")['production']['host'] } 
+  Juggernaut.options = {:host=> YAML.load_file("#{Rails.root}/../../shared/config/database.yml")['production']['host'] } 
   
 end
