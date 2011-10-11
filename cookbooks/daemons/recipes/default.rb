@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: delayed_job
+# Cookbook Name:: daemons
 # Recipe:: default
 #
 
@@ -19,7 +19,14 @@ case node[:instance_role]
           :worker_name => "notify_d_#{app_name}"
         })
       end
+      
+    end
+end
 
+case node[:instance_role]
+  when "solo", "app_master"
+    node[:applications].each do |app_name,data|
+  
       template "/etc/monit.d/delayed_job.#{app_name}.monitrc" do
         source "delayed_job.monitrc.erb"
         owner "root"
@@ -33,8 +40,11 @@ case node[:instance_role]
         })
       end
       
-      
     end
+end
+
+case node[:instance_role]
+  when "solo", "app_master"
     execute "monit reload" do
       action :run
     end

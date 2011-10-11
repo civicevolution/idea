@@ -44,6 +44,8 @@ stop notify and delayed daemons
 
 pg_dump -i -h localhost -p 5432 -U postgres -F c -b -f "g3_development.03.7.11.11.03.pgz" g3_development
 
+scp /ce_development/backups/2029_db/app_2029_production.10.10.11.09.07.pgz brian@ec2-50-18-101-127.us-west-1.compute.amazonaws.com:.
+
 dropdb tp_development
 createdb tp_development
 ls -l /ce_development/backups/2029_db/app_2029_production.*

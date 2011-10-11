@@ -1,0 +1,6 @@
+check process juggernaut-<%= @profile %>
+with pidfile <%= @pidfile %>
+  start program = "/usr/local/bin/juggernaut"
+  stop program = "/usr/bin/redis-cli -p <%= @port %> shutdown"
+  group redis-util
+

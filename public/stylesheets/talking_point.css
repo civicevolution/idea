@@ -443,6 +443,8 @@ div.what_do_you_think {
   margin-top: 50px;
   margin-left: 20px;
   clear: both; }
+  div.what_do_you_think li.em {
+    font-weight: bold; }
   div.what_do_you_think label {
     cursor: pointer;
     display: inline; }
