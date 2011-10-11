@@ -32,4 +32,7 @@ G3::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  
+  Juggernaut.options = {:host=> YAML.load_file("../../shared/config/database.yml")['test']['host'] }
+    
 end

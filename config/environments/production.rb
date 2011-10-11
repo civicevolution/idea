@@ -74,6 +74,7 @@ G3::Application.configure do
     :password	=> "gayjorge2011CANYON",
     :authentication => :plain, 
   }
-  
+
+  Juggernaut.options = {:host=> YAML.load_file("../../shared/config/database.yml")['production']['host'] } 
   
 end
