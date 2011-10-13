@@ -1859,76 +1859,76 @@ class TeamController < ApplicationController
   end
   
   def email_teammates
-    message = params[:message]
-    @team = Team.find(params[:team_id])
-    @host = request.env["HTTP_HOST"]
-
-    if !params[:act].nil?
-      @team_email = TeammateEmail.new :sender => @member, :recip_ids => params[:recip_ids], :subject => params[:subject], :message=> message
-      valid = @team_email.valid?
-      if !valid
-        render :text => [@team_email.errors].to_json, :status => 409
-        return
-      end
-    end
-      
-    if params[:act] == 'preview'
-      @recipient = Member.find_by_id( params[:recip_ids][0].to_i )
-      @mcode = '~~SECRET~ACCESS~CODE~~'
-      #msg = render_to_string :inline=>message
-      #html = RedCloth.new( msg ).to_html
-      
-      respond_to do |format|
-        #format.html { render :text => message, :layout => false } if request.xhr?
-        #format.html { render :text => html, :layout => false } if request.xhr?
-        email_str = TeamMailer.teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team ).encoded.sub(/Mime-Version.*\n/i, '').sub(/Content-Type.*\n/i, '').gsub(/</,'&lt;').gsub(/>/,'&gt;')
-        format.html { render :text => "<pre class='wordwrap'>#{email_str}</pre>", :layout => false } if request.xhr?
-        #format.html { render :text => "Please set up admin:email for non ajax" } 
-      end
-      
-      return
-      
-    elsif params[:act] == 'send'
-      logger.debug "Check the recaptcha before sending"
-      
-      if @team_email.errors.empty? && params[:send_now] == 'true'
-        # invite is valid and to be sent now - check the captcha before sending
-        # I shortened the field name in form b/c it was removed by recaptcha
-        params[:recaptcha_challenge_field] = params[:recaptcha_challenge]
-        params[:recaptcha_response_field] =  params[:recaptcha_response]
-        #validate_recap(params, @team_email.errors)
-      end
-      
-      if @team_email.errors.empty?
-      
-      
-        @recipients = []
-        Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
-          @recipients.push @recipient
-          @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
-          #msg = render_to_string :inline=>message
-          TeamMailer.delay.teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team )
-        end
-        @mcode = '~~SECRET~ACCESS~CODE~~'
-        TeamMailer.delay.teammate_message_receipt(@member, @recipients, params[:subject], message, @host, @mcode, @team )
-      
-        respond_to do |format|
-          format.html { render :text => "sent ok", :layout => false } if request.xhr?
-          format.html { render :text => "need response for email_teammates" } 
-        end
-      else
-        render :text => [@team_email.errors].to_json, :status => 409
-        #render :json => @team_email.errors, :status => 409 
-      end
-      
-    else
-      
-      respond_to do |format|
-        format.html { render :layout => false }
-      end
-      
-      
-    end
+    #message = params[:message]
+    #@team = Team.find(params[:team_id])
+    #@host = request.env["HTTP_HOST"]
+    #
+    #if !params[:act].nil?
+    #  @team_email = TeammateEmail.new :sender => @member, :recip_ids => params[:recip_ids], :subject => params[:subject], :message=> message
+    #  valid = @team_email.valid?
+    #  if !valid
+    #    render :text => [@team_email.errors].to_json, :status => 409
+    #    return
+    #  end
+    #end
+    #  
+    #if params[:act] == 'preview'
+    #  @recipient = Member.find_by_id( params[:recip_ids][0].to_i )
+    #  @mcode = '~~SECRET~ACCESS~CODE~~'
+    #  #msg = render_to_string :inline=>message
+    #  #html = RedCloth.new( msg ).to_html
+    #  
+    #  respond_to do |format|
+    #    #format.html { render :text => message, :layout => false } if request.xhr?
+    #    #format.html { render :text => html, :layout => false } if request.xhr?
+    #    email_str = TeamMailer.teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team ).encoded.sub(/Mime-Version.*\n/i, '').sub(/Content-Type.*\n/i, '').gsub(/</,'&lt;').gsub(/>/,'&gt;')
+    #    format.html { render :text => "<pre class='wordwrap'>#{email_str}</pre>", :layout => false } if request.xhr?
+    #    #format.html { render :text => "Please set up admin:email for non ajax" } 
+    #  end
+    #  
+    #  return
+    #  
+    #elsif params[:act] == 'send'
+    #  logger.debug "Check the recaptcha before sending"
+    #  
+    #  if @team_email.errors.empty? && params[:send_now] == 'true'
+    #    # invite is valid and to be sent now - check the captcha before sending
+    #    # I shortened the field name in form b/c it was removed by recaptcha
+    #    params[:recaptcha_challenge_field] = params[:recaptcha_challenge]
+    #    params[:recaptcha_response_field] =  params[:recaptcha_response]
+    #    #validate_recap(params, @team_email.errors)
+    #  end
+    #  
+    #  if @team_email.errors.empty?
+    #  
+    #  
+    #    @recipients = []
+    #    Member.find_all_by_id( params[:recip_ids].map{|r| r.to_i } ).each do |@recipient|
+    #      @recipients.push @recipient
+    #      @mcode = MemberLookupCode.get_code(@recipient.id, {:scenario=>'admin send email'})
+    #      #msg = render_to_string :inline=>message
+    #      TeamMailer.delay.teammate_message(@member, @recipient, params[:subject], message, @host, @mcode, @team )
+    #    end
+    #    @mcode = '~~SECRET~ACCESS~CODE~~'
+    #    TeamMailer.delay.teammate_message_receipt(@member, @recipients, params[:subject], message, @host, @mcode, @team )
+    #  
+    #    respond_to do |format|
+    #      format.html { render :text => "sent ok", :layout => false } if request.xhr?
+    #      format.html { render :text => "need response for email_teammates" } 
+    #    end
+    #  else
+    #    render :text => [@team_email.errors].to_json, :status => 409
+    #    #render :json => @team_email.errors, :status => 409 
+    #  end
+    #  
+    #else
+    #  
+    #  respond_to do |format|
+    #    format.html { render :layout => false }
+    #  end
+    #  
+    #  
+    #end
   end
   
   
