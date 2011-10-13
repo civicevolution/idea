@@ -23,10 +23,6 @@ td {
 
 div#load_mask {
   background-color: #23238e;
-  filter: alpha(opacity=10);
-  -moz-opacity: 0.1;
-  -khtml-opacity: 0.1;
-  opacity: 0.1;
   z-index: 1000;
   position: absolute;
   top: 0;

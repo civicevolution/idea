@@ -1,0 +1,5 @@
+check process juggernaut
+  with pidfile /var/run/juggernaut.pid
+  start program = "/etc/init.d/juggernaut restart"
+  stop program = "/etc/init.d/juggernaut stop"
+  if failed port 8080 then restart

@@ -6,12 +6,12 @@ $new_tag: #f3973a
 $light_stripe: rgb(242,233,195) 
 $lightest_bg: #F9F3DE
 
-//sass mixin for opacity
-=opacity(!opacity)
-	:filter alpha(opacity= !opacity * 100)
-	:-moz-opacity = !opacity
-	:-khtml-opacity = !opacity
-	:opacity = !opacity
+////sass mixin for opacity
+//=opacity(!opacity)
+//	:filter alpha(opacity= !opacity * 100)
+//	:-moz-opacity = !opacity
+//	:-khtml-opacity = !opacity
+//	:opacity = !opacity
 
 .wordwrap
 	white-space: pre-wrap /* css-3 */
@@ -44,7 +44,7 @@ td
 
 div#load_mask
 	background-color: $navy_blue
-	+opacity(0.1)
+	//+opacity(0.1)
 	z-index: 1000
 	position: absolute
 	top: 0
