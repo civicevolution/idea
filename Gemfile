@@ -24,6 +24,7 @@ gem "daemons"
 gem "diff-lcs"
 gem "differ"
 gem "haml"
+gem 'sass'
 gem 'paperclip'
 gem "pg"
 gem "recaptcha", :require => "recaptcha/rails"
