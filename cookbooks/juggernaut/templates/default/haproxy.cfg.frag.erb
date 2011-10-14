@@ -1,0 +1,16 @@
+frontend public
+        bind :80
+        monitor-uri     /monitoruri
+
+        acl nodejs path_dir socket.io
+        acl nodejs_init path /application.js /index.html
+
+        use_backend nodejs_server if METH_CONNECT or nodejs or nodejs_init
+        default_backend webserver
+
+backend nodejs_server
+				mode http
+        server nodejs-0 <%= @master_app_server_host %>:<%= @node_js_port %> check inter 5000 fastinter 1000 fall 1 weight 50
+
+backend webserver
+        mode http

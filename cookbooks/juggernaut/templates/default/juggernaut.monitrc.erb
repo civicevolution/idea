@@ -1,6 +1,5 @@
-check process juggernaut-<%= @profile %>
-with pidfile <%= @pidfile %>
-  start program = "/usr/local/bin/juggernaut"
-  stop program = "/usr/bin/redis-cli -p <%= @port %> shutdown"
-  group redis-util
-
+check process juggernaut
+  with pidfile <%= @pid_file %>
+  start program = "/etc/init.d/juggernaut restart"
+  stop program = "/etc/init.d/juggernaut stop"
+  if failed port 8080 then restart

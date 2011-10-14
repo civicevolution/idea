@@ -3,11 +3,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-REDISTOGO_URL='http://brian:123@ec2-50-18-101-127.us-west-1.compute.amazonaws.com:6379'
+REDISTOGO_URL='http://<%= @redis_user %>:<%= @redis_pwd %>@<%= @redis_host %>:<%= @redis_port %>'
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin
 DESC="Juggernaut on node.js service"
 NODEUSER=brian:brian
-PIDFILE=/var/run/juggernaut.pid
+PIDFILE=<%= @pid_file %>
 LOCAL_VAR_RUN=/var/run
 NAME=juggernaut
 DAEMON=/usr/local/bin/$NAME

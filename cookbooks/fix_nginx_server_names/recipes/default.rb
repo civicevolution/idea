@@ -7,8 +7,8 @@ case node[:instance_role]
   when "solo", "app_master", "app"
     node[:applications].each do |app_name,data|
       filepath = "/data/nginx/servers/#{app_name}.conf"
-      config = IO.readlines(filepath,'').to_s
-
+      config = IO.read(filepath)
+      
       #ruby 1.8 doesn't support lookahead, so I'll just look for default
       
       is_default_server = config.match(/^\s*server_name.*\sdefault/i) ? true : false
