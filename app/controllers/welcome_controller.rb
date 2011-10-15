@@ -4,6 +4,9 @@ class WelcomeController < ApplicationController
   skip_before_filter :authorize
   
   def index
+    #redirect_to('http://civicevolution.net'), :status=> 302
+    #return
+    
     logger.warn "Welcome controller index request.subdomains.first: #{request.subdomains.first}"
     
     if (request.subdomains.first.nil? || request.subdomains.first.match(/www/i))  && env['PATH_INFO'] == '/'

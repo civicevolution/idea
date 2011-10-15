@@ -87,3 +87,31 @@ http://2029.civicevolution.dev/notification/display_immediate?id=2248&text=1
 
 http://2029.civicevolution.dev/notification/display_periodic
 http://2029.civicevolution.dev/notification/display_periodic?text=1
+
+***********************************************************************************
+
+Sat Oct 15 09:30:28 PDT 2011
+
+***********************************************************************************
+
+Realtime with Nodejs
+
+Start node and redis
+
+On DEV
+	cd /ce_development/src/redis-2.2.14
+	 $ src/redis-server
+		port 6379
+
+	cd /ce_development/node/chat1
+	chat1 briansullivan$ juggernaut
+	
+On PROD these are controlled by monit	
+
+•••• sudo ln -s /ce_development/node/chat1/node_modules/juggernaut/server.js /usr/bin/juggernaut
+	
+netstat -lnptu	
+
+Simple run:	
+	http://2029.civicevolution.dev/plan/jug?str=now_856	
+	http://localhost:8080/

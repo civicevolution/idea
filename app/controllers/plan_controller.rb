@@ -4,7 +4,7 @@ class PlanController < ApplicationController
   
   def jug
     
-    Juggernaut.publish("channel1", params[:str])
+    Juggernaut.publish(params[:ch], params[:str])
     render :text => "str: #{params[:str]} was sent to juggernaut"
   end
   
@@ -44,6 +44,11 @@ class PlanController < ApplicationController
   end
 
   def summary
+    
+    #redirect_to("http://civicevolution.net/plan/#{params[:team_id]}", :status=> 302)
+    #return
+    
+    
     logger.debug "\n\n******************************************\nStart plan/summary\n"
     begin
       @team = Team.includes(:questions).find(params[:team_id])
