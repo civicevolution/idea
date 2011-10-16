@@ -44,11 +44,6 @@ class PlanController < ApplicationController
   end
 
   def summary
-    
-    #redirect_to("http://civicevolution.net/plan/#{params[:team_id]}", :status=> 302)
-    #return
-    
-    
     logger.debug "\n\n******************************************\nStart plan/summary\n"
     begin
       @team = Team.includes(:questions).find(params[:team_id])
