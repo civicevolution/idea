@@ -23,6 +23,7 @@ $(function(){
 		if(params['video']=='play'){
 			setTimeout(function(){ $('a#play_intro_video').click(); },1000);
 		}
+		setTimeout(init_realtime, 1000);
 });
 
 function ajaxDisableElement(el){
@@ -229,4 +230,45 @@ function init_add_this(){
 		initAddthis()
 	});
 	
+}
+
+var jug;
+var log;
+
+function init_realtime(){
+	if( typeof team_id == 'undefined' || team_id == 0 ) return;
+	$.getScript('/application.js', 
+		function(){
+			console.log("node application.js is loaded");
+			setTimeout(init_real2,1000);
+			console.log("setTimeout init_real2 is set")
+		}
+	)
+}
+function init_real2(){
+		log = function(data){
+			console.log("juggernaut log: " + data)
+		}
+
+		jug = new Juggernaut({
+		  secure: ('https:' == document.location.protocol),
+		  host: document.location.hostname,
+		  port: document.location.port || 80
+		});
+
+		jug.on("connect", function(){ 
+			log("Connected");
+			console.log("call init_real3");
+			setTimeout(init_real3,1000);
+			console.log("setTimeout init_real3 is set")
+		});
+		jug.on("disconnect", function(){ log("Disconnected") });
+		jug.on("reconnect", function(){ log("Reconnecting") });
+}
+function init_real3(){		
+		console.log("subscribe_to_team_channel: Subscribing to " + team_id);
+		jug.subscribe("10065", function(data){
+		  log("data: " + data);
+			$('div#chat_log').append("<p>" + data + "</p>");
+		});
 }

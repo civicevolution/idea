@@ -1,6 +1,10 @@
 G3::Application.routes.draw do |map|
 
-  get "plan/jug"
+  match 'jug' => 'chat#jug'
+  
+  match "chat" => 'chat#send_chat_message', :as => 'chat'
+
+  get "chat_form/:team_id" => 'chat#chat_form', :as => 'chat_form'
   
   get "profile/index"
 

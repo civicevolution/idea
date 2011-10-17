@@ -1,0 +1,23 @@
+= render :template => 'shared/clear_sign_in_form.js'
+:plain
+	$('div#chat_form').closest('div.ui-dialog').dialog('destroy').end().remove();
+	var chat_form = $("#{escape_javascript(
+		render( :template => 'chat/chat_form.html' )
+	)}");
+	
+	var dialog = chat_form.dialog( {title : 'Chat with your fellow participants', modal : true, width : '500px', closeOnEscape: false, close: function(){$(this).remove()} });
+	
+	var form = $('form.chat_form');
+	
+	form.find('a.cancel').die('click').live('click', 
+		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
+	);
+	
+	activate_text_counters_grow( form.find('textarea'), 120 )
+	form.find(' a.cancel').die('click').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);
+

@@ -36,6 +36,9 @@
 		%p.cta
 			= link_to "Invite friends", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}
 			
+			%p.cta
+				= link_to "Chat", chat_form_path(@team.id), {:class=>'invite', :remote=>true}
+			
 		%div.tools	
 			/AddThis Button BEGIN
 			%div.addthis_toolbox.addthis_default_style
