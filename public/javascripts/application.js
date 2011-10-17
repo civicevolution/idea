@@ -264,11 +264,30 @@ function init_real2(){
 		});
 		jug.on("disconnect", function(){ log("Disconnected") });
 		jug.on("reconnect", function(){ log("Reconnecting") });
+		
+		$(document).ajaxSend(function(e, xhr, options) {
+		  xhr.setRequestHeader("X-Juggernaut-Id", jug.sessionID);
+		});	
+		
 }
 function init_real3(){		
 		console.log("subscribe_to_team_channel: Subscribing to " + team_id);
 		jug.subscribe("10065", function(data){
 		  log("data: " + data);
-			$('div#chat_log').append("<p>" + data + "</p>");
+			process_realtime(data)
 		});
+}
+function process_realtime(data){
+		temp.data = data
+		switch(data.act){
+			case 'update_chat':
+				$('div#chat_log').append("<p>" + data.name + ": " + data.msg + "</p>").scrollTop(99999999);
+				
+				break;
+			case 'update_page':
+				$('div#chat_log').append("<p>Update page with " + data.type + "</p>");
+				break;
+		}
+		
+
 }

@@ -1,18 +1,22 @@
 %div#chat_form
 	%style
 		:sass
-			div#chat_log
-				width: 460px
-				height: 500px
-				border: 1px solid black
-				padding: 1em 0
-				p 
-					margin: 0 1em
-			input[type=text]
-				width: 360px
-				
-	%div#chat_log
-	= form_tag( chat_path, {:class=>'chat_form', :remote=>true}) do
-		= hidden_field_tag :team_id, params[:team_id]
-		= text_field_tag :msg
-		= submit_tag 'Send', {:disable_with => 'Submitting…'}
+			div#outer_chat
+				div#chat_log
+					overflow: auto
+					overflow-y: scroll
+					width: 460px
+					height: 300px
+					border: 1px solid black
+					padding: 1em 0
+					p 
+						margin: 0 1em
+				input[type=text]
+					width: 360px
+
+	%div#outer_chat			
+		%div#chat_log
+		= form_tag( chat_path, {:class=>'chat_form', :remote=>true}) do
+			= hidden_field_tag :team_id, params[:team_id]
+			= text_field_tag :msg
+			= submit_tag 'Send', {:disable_with => 'Submitting…'}

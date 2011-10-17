@@ -5,15 +5,22 @@
 		render( :template => 'chat/chat_form.html' )
 	)}");
 	
-	var dialog = chat_form.dialog( {title : 'Chat with your fellow participants', modal : true, width : '500px', closeOnEscape: false, close: function(){$(this).remove()} });
+	var dialog = chat_form.dialog( {title : 'Chat with your fellow participants', modal : false, width : '500px', closeOnEscape: false, close: function(){$(this).remove()} });
 	
 	var form = $('form.chat_form');
+
+	form.bind('ajax:beforeSend', 
+		function() {
+			$('div#chat_log').append("<p>Me: " + this['msg'].value + "</p>").scrollTop(99999999);
+			this['msg'].value = ''
+		}
+	);
 	
 	form.find('a.cancel').die('click').live('click', 
 		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
 	);
 	
-	activate_text_counters_grow( form.find('textarea'), 120 )
+	//activate_text_counters_grow( form.find('textarea'), 120 )
 	form.find(' a.cancel').die('click').live('click',
 		function(){
 			$(this).closest('div.ui-dialog').dialog('destroy').remove();
@@ -21,3 +28,4 @@
 		}
 	);
 
+	setTimeout(function(){$('div#chat_form').closest('div.ui-dialog').css('position','fixed')},100);

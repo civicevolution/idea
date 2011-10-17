@@ -8,8 +8,8 @@ class ChatController < ApplicationController
   end
   
   def send_chat_message
-    Juggernaut.publish(params[:team_id], params[:msg])
-    #render :text => "ok on team_id: #{params[:team_id]} with msg: #{params[:msg]}"
+    logger.debug "Publish the chat message"
+    Juggernaut.publish(params[:team_id], {:act=>'update_chat', :name=>"#{@member.first_name} #{@member.last_name.slice(0)}",  :msg=>params[:msg]}, :except => request.headers["X-Juggernaut-Id"] )
   end
 
   def chat_form
