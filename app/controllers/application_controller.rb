@@ -206,7 +206,7 @@ class ApplicationController < ActionController::Base
         when /^skyline$/i
           params[:_initiative_id] = 5
           params[:_app_name] = 'Skyline Voices'
-          self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
+          self.prepend_view_path([ Rails::root.to_s + "/app/views/skyline" ])
         else	
           params[:_initiative_id] = 6
           params[:_app_name] = 'CivicEvolution'
