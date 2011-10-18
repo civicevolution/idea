@@ -1,0 +1,62 @@
+%div#get_templates_scripts
+	%script
+		:plain
+			// some common functions
+			templates = {};
+			template_functions = {};
+			realtime_data_update_functions = {};
+			function simple_format(s){
+				var strs = unescape(s).split(/\n\n/)
+				s = ''
+				for(var i=0;str=strs[i];i++) s += '<p>'+str+'</p>'
+				return s.replace(/\n/g,'<br/>')
+			}
+			function simple_com_format(context){
+				var s = unescape(context.data.comment.text);
+				var strs = s.split(/\n\n/)
+				s = ''
+				for(var i=0;str=strs[i];i++) s += '<p>'+str+'</p>'
+				s = s.replace(/\n/g,'<br/>')
+
+				var author = '<a href="/members/' + context.ape_code + '/profile" class="com_author" data-remote="true">' + unescape(context.author.first_name + ' ' + context.author.last_name) + '</a>'
+
+			  s = s.replace(/<p>/,'<p>' + author + ' ')
+				//console.log("simple_com_format s: " + s)
+				return s;
+			}
+
+	%script#comment_template{:type=>'text/html'}
+		:plain
+			#{render( :partial => 'plan/comment.html', :object => @comment)}
+		
+	%script#create_comment_template
+		:plain
+			templates['comment'] = $('<div></div>').html($.trim( $('script#comment_template').html() )).find('div:first');
+			template_functions['comment'] = templates['comment'].compile(
+				{
+					'div.Comment_entry @id' : 'com_\#{data.comment.id}',	
+					'img.i36 @src' : 'author.photo_url',
+					'div.comment_text' : function(arg){return simple_com_format(arg.context)},
+					'a.reply @href' : '/comments/\#{data.comment_id}/comments',
+					'a.reply @id' : 'data.comment.id',	
+					'a.report @href' : '/comments/\#{data.comment_id}/report',
+					'@id' : 'data.comment.id'
+				}
+			);
+			realtime_data_update_functions['comment'] =
+				function(data){
+					com = template_functions['comment'](data)
+					$('div.ques_discussion').append( com )
+				}
+			console.log("Comment template is ready");
+
+
+	%script#talking_point_template{:type=>'text/html'}
+		:plain
+			#{render( :partial => 'plan/comment.html', :object => @comment)}
+			
+	%script#talking_point_directives
+		:plain
+			var talkingment_directives = {
+				'div.comment_text' : function(arg){return simple_com_format(arg.context.data.comment.text)}
+			}

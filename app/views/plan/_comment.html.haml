@@ -40,7 +40,7 @@
 			- comment.text = "... Waiting for author's release" if comment.publish.nil? && comment.status == 'prereview'
 			
 			%div.comment_text!= show_author_comment(name, comment.author.ape_code, comment.text)
-			- if !resource.nil?
+			-# if !resource.nil?
 				%div{:class => "resource #{resource.link_url ? 'link' : 'upload'}"}
 					%h3.resource_title&= resource.title
 					%p.resource_link

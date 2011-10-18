@@ -27,6 +27,8 @@ class TrackingNotifications
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question.id,
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
+          Juggernaut.publish(obj.team_id, {:act=>'update_page', :type=>'comment', :data=>obj, 
+            :author=>{:first_name=>obj.author.first_name, :last_name=>obj.author.last_name, :ape_code=>obj.author.ape_code, :photo_url=>obj.author.photo.url('36')}})
         
         when  'TalkingPoint'
           event_id = name == 'after_create' ? 3 : 4
