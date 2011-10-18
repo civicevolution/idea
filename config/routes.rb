@@ -1,6 +1,5 @@
 G3::Application.routes.draw do |map|
 
-  match 'plan/get_json' => 'plan#get_json'
   match 'plan/get_templates' => 'plan#get_templates'
   
   match 'jug' => 'chat#jug'

@@ -35,7 +35,8 @@
 		
 		%p.cta
 			= link_to "Invite friends", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}
-			
+
+		- if params[:rt] == 't'
 			%p.cta
 				= link_to "Chat", chat_form_path(@team.id), {:class=>'invite', :remote=>true}
 			

@@ -211,13 +211,7 @@ class PlanController < ApplicationController
   def proposal_pic
     
   end
-  
-  def get_json
-    comment = Comment.find(1013)
-    render :text =>comment.to_json
-  end
-  
-  
+
   def get_templates
 
     # Set up all of the data I need for the templates to run
