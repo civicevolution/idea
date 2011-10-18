@@ -23,7 +23,9 @@ $(function(){
 		if(params['video']=='play'){
 			setTimeout(function(){ $('a#play_intro_video').click(); },1000);
 		}
-		setTimeout(load_templates, 1000);
+		if(params['rt']){
+			setTimeout(load_templates, 500);
+		}
 });
 
 function ajaxDisableElement(el){
