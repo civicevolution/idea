@@ -1,0 +1,117 @@
+- logger.debug "\n\n*************** Begin to render the plan page\n\n"
+%div.page_content_div
+	%div.home_page
+		%div.left_side
+			%div.book
+				%div.spiral 
+				%div.notebook.corner
+					%div.homepage_intro
+						- if params[:_initiative_id] == 1	
+							%div.mission
+								%h2 Help us plan for a sustainable future
+								= image_tag('mktg/beach-415.jpg')
+								%p 
+									The City of Greater Geraldton is jointly creating a sustainable future for our City Region in a project called 
+									%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and Beyond.
+									
+								%p To help us to do this well, we first need to make some changes in our own backyard.
+								%p
+									The Executive Management Team encourages you to join our effort and promises to review and respond to all actionable proposals that meet their
+									-#%a{:href=>'#', :class=>'2029_guidelines'}guidelines
+									guidelines
+									for relevance, completeness, evidence, and community support.
+								-#%p This website will help you take advantage of this important opportunity. Please view these videos for more information
+
+
+
+						- else
+							%div.mission
+								%h2 Do you have an idea to make your community a better place to live?
+								= image_tag('mktg/beach-415.jpg')
+								%p
+									%b= link_to( "2029 and Beyond", {}, {:href=>'http://www.2029andbeyond.com.au/', :target=>'_blank', :class=>'mission_link 2029'}).html_safe
+									is a community wide project to create the kind of healthy, sustainable and creative city region we all desire.
+								 
+								%p 
+									%span.promise We need to hear from you!
+								
+								%p
+									The 
+									= link_to( "Alliance Governance Group", {}, {:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}) 
+									that oversees 2029 and Beyond commits to review every proposal from the community developed through CivicEvolution and that meets their guidelines.
+								
+								%p 
+									%span.promise This is your opportunity to make your idea happen!
+									
+				%p.clear_both
+					
+			%h2 Ideas proposed by your community		
+			%p
+				%b
+					If you have a new idea that's not listed, 
+					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+	
+			-# i = 0		
+			- @init_teams.each do |team|
+				%div.book
+					%div.spiral 
+					%div.notebook.corner{:id=>team.team_id}
+						%div.team_entry{:class=> cycle('stripe_bg','')}
+							= link_to team.title, proposal_path(team.team_id), {:class=>'team_entry_title',:launched=>'t'}
+
+							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
+							%div.resources
+								= link_to proposal_pic_path(team.team_id), {:rel=>'nofollow'} do
+									- pics_array.each do |pic|
+										%div= image_tag("misc/48/#{pic}.jpg")
+							%p.clear_both
+
+							%p.desc= team.solution_statement
+							%p.controls
+								%table.proposal_stats
+									%tr
+										%td= pluralize(team.participants, 'participant')
+										%td= pluralize( (team.proposal_views + team.proposal_views_base), 'view')
+										%td= pluralize(team.points, 'point')
+								
+									%tr
+										%td= pluralize(team.comments, 'comment')
+										%td= pluralize(team.talking_points, 'talking point')
+										%td= pluralize(team.endorsements, 'endorsement')
+							
+							
+							
+								-# if team.comments.to_i == 0
+									= link_to "Please start this conversation", proposal_path(team.id)
+								-# else
+									= pluralize(team.comments, 'comment') unless team.comments.to_i == 0
+								-#= pluralize(team.bs_ideas, 'idea') unless team.bs_ideas.to_i == 0
+								-#= pluralize(team.answers, 'answer') unless team.answers.to_i == 0
+								-#= pluralize(team.talking_points, 'talking point')
+							
+							%p.controls
+								= link_to "Help us make a difference", proposal_path(team.team_id)
+								= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
+							-#%p.controls
+								-#%span 0 comments
+								%span= pluralize( team['members'], 'member')
+								-#%span active one day ago
+								-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
+
+
+
+							-#%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
+							-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
+				-# i += 1
+				-# break if i > 3 
+			%p
+				%b
+					If you have a new idea that's not listed, 
+					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+					
+
+		%div.right_side
+			= render :template => 'welcome/home_stats'
+
+	%p.clear_both
+	-#= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}

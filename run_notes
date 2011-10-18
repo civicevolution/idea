@@ -115,3 +115,30 @@ netstat -lnptu
 Simple run:	
 	http://2029.civicevolution.dev/plan/jug?str=now_856	
 	http://localhost:8080/
+
+***********************************************************************************
+
+Tue Oct 18 10:21:36 PDT 2011
+
+***********************************************************************************
+
+Running on DEV
+
+	cd /ce_development/src/redis-2.2.14
+	src/redis-server
+	
+	cd /ce_development/node/chat1
+	juggernaut
+	
+	rails s --debugger --port=8001
+	
+	sudo /usr/local/sbin/haproxy -f /etc/haproxy.cfg -D
+	
+	RAILS_ENV=development script/monit.notify.sh start
+	RAILS_ENV=development script/monit.notify.sh stop
+		ps aux | grep notification
+
+	RAILS_ENV=development script/delayed_job start		
+	RAILS_ENV=development script/delayed_job stop		
+		ps aux | grep delayed_job
+	

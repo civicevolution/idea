@@ -182,7 +182,7 @@ class Team < ActiveRecord::Base
         # create a quesstion record
         question = Question.new :member_id=>self.org_id, :text=>rec['question'], :team_id=>self.id,
           :answer_criteria=>rec['answer_criteria'], :num_answers=>rec['num_answers'], :default_answer_id=>rec['default_answer_id'],
-          :talking_point_criteria=>rec['idea_criteria'], :order_id=>rec['order_id'], :talking_point_criteria=>rec['talking_point_criteria'], 
+          :order_id=>rec['order_id'], :talking_point_criteria=>rec['talking_point_criteria'], 
           :talking_point_preferences=>rec['talking_point_preferences']
         question.save   
       }
