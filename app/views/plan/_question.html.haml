@@ -6,43 +6,51 @@
 		= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
 
 		%h2.question{:id=>question.id} Q#{question.order_id}: #{question.text}
-		- if request.xhr?
-			%div
-				= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
-				%p.clear_both
-		- else
-			= form_tag update_worksheet_ratings_path(question), :class=>'update_worksheet' do
-				= hidden_field_tag :tp_ids, "#{ question['talking_points_to_display'].map(&:id).join(',') }"
-
-				= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
-				= submit_tag "Save your ratings and preferences", :class=>'submit_ratings'
-				%p.clear_both
-
-		= render :partial => 'plan/what_do_you_think', :locals => {:question_id=>question.id}
-
-		%div.ques_discussion.discussion{:id=>question.id}
-			%h3.ques_sub_hdg Recent comments posted by your community
-
-			- if question['comments_to_display'].size > 0
-				= render :partial=> 'plan/comment', :collection => question['comments_to_display'].sort{|a,b| a.id<=>b.id}
-			- else
-				%div.Comment.hide
-			
-			%p.clear_both
-
-
-
-			%p.show_more_link
 		
-				- if question.new_coms > 0
-					= link_to "Show #{ pluralize(question.new_coms, 'more new comment')}", question_new_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_new_comments', :id=>question.id, :remote => true }
+		- if question.inactive
+			%h2.warn This question has been marked as inactive
+			%p.warn 
+				Please return to the 
+				= link_to 'proposal summary', plan_path(question.team.id)
+		- else
+		
+			- if request.xhr?
+				%div
+					= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
+					%p.clear_both
+			- else
+				= form_tag update_worksheet_ratings_path(question), :class=>'update_worksheet' do
+					= hidden_field_tag :tp_ids, "#{ question['talking_points_to_display'].map(&:id).join(',') }"
+
+					= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
+					= submit_tag "Save your ratings and preferences", :class=>'submit_ratings'
+					%p.clear_both
+
+			= render :partial => 'plan/what_do_you_think', :locals => {:question_id=>question.id}
+
+			%div.ques_discussion.discussion{:id=>question.id}
+				%h3.ques_sub_hdg Recent comments posted by your community
+
+				- if question['comments_to_display'].size > 0
+					= render :partial=> 'plan/comment', :collection => question['comments_to_display'].sort{|a,b| a.id<=>b.id}
+				- else
+					%div.Comment.hide
+			
+				%p.clear_both
+
+
+
+				%p.show_more_link
+		
+					- if question.new_coms > 0
+						= link_to "Show #{ pluralize(question.new_coms, 'more new comment')}", question_new_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_new_comments', :id=>question.id, :remote => true }
 									
-				- if question.coms > question['comments_to_display'].length
-					= link_to "Show #{ pluralize(question.coms - question['comments_to_display'].length, 'earlier comment')}", question_all_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_all_comments', :id=>question.id, :remote => true }
+					- if question.coms > question['comments_to_display'].length
+						= link_to "Show #{ pluralize(question.coms - question['comments_to_display'].length, 'earlier comment')}", question_all_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_all_comments', :id=>question.id, :remote => true }
 				
-				- if question.coms == 0
-					%div.question_discussion_placeholder
-						%p Please start the conversation about this question.
-						%p Click "Add a comment" in the form above and type your comment.
+					- if question.coms == 0
+						%div.question_discussion_placeholder
+							%p Please start the conversation about this question.
+							%p Click "Add a comment" in the form above and type your comment.
 				
 		= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
