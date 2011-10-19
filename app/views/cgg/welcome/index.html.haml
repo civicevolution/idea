@@ -1,195 +1,117 @@
-- content_for(:script) do
-	= javascript_include_tag "jquery.show_char_limit-1.1.1.js", "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js','jquery.scrollTo-min.js'
-	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
-	
+- logger.debug "\n\n*************** Begin to render the plan page\n\n"
+%div.page_content_div
+	%div.home_page
+		%div.left_side
+			%div.book
+				%div.spiral 
+				%div.notebook.corner
+					%div.homepage_intro
+						- if params[:_initiative_id] == 1	
+							%div.mission
+								%h2 Help us plan for a sustainable future
+								= image_tag('mktg/beach-415.jpg')
+								%p 
+									The City of Greater Geraldton is jointly creating a sustainable future for our City Region in a project called 
+									%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and Beyond.
+									
+								%p To help us to do this well, we first need to make some changes in our own backyard.
+								%p
+									The Executive Management Team encourages you to join our effort and promises to review and respond to all actionable proposals that meet their
+									-#%a{:href=>'#', :class=>'2029_guidelines'}guidelines
+									guidelines
+									for relevance, completeness, evidence, and community support.
+								-#%p This website will help you take advantage of this important opportunity. Please view these videos for more information
 
-- team_ids = !@member.nil? ? @member.team_titles.collect{ |mt| mt.id}.join(',') : ''
-:javascript
-	var member_id = #{ @member.nil? ? 0 : @member.id }
-	var my_team_ids = [ #{team_ids} ];
 
 
-%div.left_col	
-	- if params[:_initiative_id] == 1	
-		%div.mission
-			%h2.home_title Help us plan for a sustainable future
-			%p 
-				The City of Greater Geraldton is jointly creating a sustainable future for our City Region in a project called 
-				%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and Beyond.
-				To help us to do this well, we first need to make some changes in our own backyard.
-			%p
-				The Executive Management Team encourages you to join our effort and promises to review and respond to all actionable proposals that meet their
-				%a{:href=>'#', :class=>'2029_guidelines'}guidelines
-				for relevance, completeness, evidence, and community support.
-			%p This website will help you take advantage of this important opportunity. Please view these videos for more information
-	- else
-		%div.mission
-			%h2.home_title Do you have an idea to make your community a better place to live?
-			
-			%p 
-				The 
-				= link_to( "Alliance Governance Group", {}, {:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'})
-				wants to hear your proposal. They oversee
-				= link_to( "2029 and Beyond", {}, {:href=>'http://www.2029andbeyond.com.au/', :target=>'_blank', :class=>'mission_link 2029'}) + "&mdash;a".html_safe
-				community wide project to create the kind of healthy, sustainable and creative city region we all desire.
-			%p We need your proposals for change. A proposal is a detailed action plan written and supported by the community. The plan explains how the change can be put into action by answering what, why, who, and how.
-			%p This website helps the community answer each of these questions through brainstorming and prioritisation to find answers that most of its members can accept.			
-			
-			%p
-				The Alliance Governance Group 
-				%span.promise commits to review every proposal
-				that the community develops through CivicEvolution and meets their 
-				=link_to( "guidelines", {}, {:href=>'#', :class=>'2029_guidelines'}) + ","
-				so this is 
-				%span.promise your opportunity to make your idea happen!
-			
-	%h2.home_title Join or start a proposal now!
-	
-	%p.header_desc 
-		These are the ideas your community is working on right now. 
-		Click a title to learn more. If you have a new idea that's not listed, 
-		= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
-
-	%div.ideas_and_teams
-		
-		%div
-			%div.tab_window{:id=>"tab_teams"}
-				-#%ul.categories
-				-#	%li All
-				-#	%li Environmental
-				-#	%li Economic development
-				-#	%li Social
-				-#	%li Cultural
-		
-				-#%ul.team_list
-				-#	- if  @teams_launched.size() == 0
-				-#		%li No teams have started developing their proposals yet
-				-#	- elsif  @teams_launched.size() == 0
-				-#		%li This team is working on its proposal. Click the team title to learn more
-				-#	- else
-				-#		%li These #{@teams_launched.size()} teams are working on their proposal. Click a team title to learn more.
-
-	
-				- @teams_launched.each do |team|
-					%div.team_entry{:class=> cycle('stripe_bg','')}
-						= link_to team.title, proposal_path(team.id), {:class=>'team_entry_title',:launched=>'t'}
-						%p.desc= team.solution_statement
-						-#%p.controls
-							-#%span 0 comments
-							%span= pluralize( team['members'], 'member')
-							-#%span active one day ago
-							-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
-
-						-#%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
-						-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
-
-			%div.tab_window{:id=>"tab_ideas"}
-				-#%ul.categories
-				-#	%li All
-				-#	%li Environmental
-				-#	%li Economic development
-				-#	%li Social
-				-#	%li Cultural
-		
-				-#%ul.team_list
-				-#	%li Ideas must recruit at least four committed members before they can begin working on their proposal
-				-#	- if  @team_ideas.size() == 0
-				-#		%li No teams are waiting for members
-				-#	- elsif  @team_ideas.size() == 1
-				-#		%li This team needs additional committed members before it can start working on its proposal. Click the team title to learn more.
-				-#	- else
-				-#		These #{@team_ideas.size()} teams need additional committed members before they can start working on their proposal. Click a team title to learn more.
-				-#	%li You can suggest your own idea for proposal by clicking the "Suggest an idea" tab above
+						- else
+							%div.mission
+								%h2 Do you have an idea to make your community a better place to live?
+								= image_tag('mktg/beach-415.jpg')
+								%p
+									%b= link_to( "2029 and Beyond", {}, {:href=>'http://www.2029andbeyond.com.au/', :target=>'_blank', :class=>'mission_link 2029'}).html_safe
+									is a community wide project to create the kind of healthy, sustainable and creative city region we all desire.
+								 
+								%p 
+									%span.promise We need to hear from you!
+								
+								%p
+									The 
+									= link_to( "Alliance Governance Group", {}, {:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}) 
+									that oversees 2029 and Beyond commits to review every proposal from the community developed through CivicEvolution and that meets their guidelines.
+								
+								%p 
+									%span.promise This is your opportunity to make your idea happen!
+									
+				%p.clear_both
 					
-	
-				-# @team_ideas.each do |team|
-					%div.team_entry
-						= link_to team.title, {:controller=>'idea',:action => 'index', :id=>team.id}, {:class=>'team_entry_title', :launched=>'f'}
-						%p.desc= team.solution_statement
-						-#%p.controls
-							-#%span 0 comments
-							%span= pluralize( team['members'], 'member')
-							-#%span active one day ago
-							-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
-				
+			%h2 Ideas proposed by your community		
 			%p
 				%b
 					If you have a new idea that's not listed, 
 					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+	
+			-# i = 0		
+			- @init_teams.each do |team|
+				%div.book
+					%div.spiral 
+					%div.notebook.corner{:id=>team.team_id}
+						%div.team_entry{:class=> cycle('stripe_bg','')}
+							= link_to team.title, proposal_path(team.team_id), {:class=>'team_entry_title',:launched=>'t'}
+
+							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
+							%div.resources
+								= link_to proposal_pic_path(team.team_id), {:rel=>'nofollow'} do
+									- pics_array.each do |pic|
+										%div= image_tag("misc/48/#{pic}.jpg")
+							%p.clear_both
+
+							%p.desc= team.solution_statement
+							%p.controls
+								%table.proposal_stats
+									%tr
+										%td= pluralize(team.participants, 'participant')
+										%td= pluralize( (team.proposal_views + team.proposal_views_base), 'view')
+										%td= pluralize(team.points, 'point')
+								
+									%tr
+										%td= pluralize(team.comments, 'comment')
+										%td= pluralize(team.talking_points, 'talking point')
+										%td= pluralize(team.endorsements, 'endorsement')
+							
+							
+							
+								-# if team.comments.to_i == 0
+									= link_to "Please start this conversation", proposal_path(team.id)
+								-# else
+									= pluralize(team.comments, 'comment') unless team.comments.to_i == 0
+								-#= pluralize(team.bs_ideas, 'idea') unless team.bs_ideas.to_i == 0
+								-#= pluralize(team.answers, 'answer') unless team.answers.to_i == 0
+								-#= pluralize(team.talking_points, 'talking point')
+							
+							%p.controls
+								= link_to "Help us make a difference", proposal_path(team.team_id)
+								= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
+							-#%p.controls
+								-#%span 0 comments
+								%span= pluralize( team['members'], 'member')
+								-#%span active one day ago
+								-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
 
 
-%div.right_col
-	-#= render( :partial => 'welcome/signin_register' )
-	- if !@member.nil?
-		%h2.home_title.my_teams My ideas
-		%div.right_vertical_bar.my_teams
-			%ul.teams_list
-				- @member.team_titles.each do |team|
-					%li{:class=>'team', :id=>team.id}
-						= link_to team.title, plan_path(team.id), {}
 
-	%h2.home_title Watch our videos
-	%div.right_vertical_bar
-		%div.videos	
-			%p Introduction to CivicEvolution
-			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
-				= image_tag 'vhelp/ce_tp_video_placeholder.jpg', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
-				
+							-#%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
+							-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
+				-# i += 1
+				-# break if i > 3 
 			%p
-				Or visit our 
-				= link_to "help page", visual_help_path
-				
-			
-			-#%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated', :id=>'play_intro_video'} 
-				= image_tag 'video_placeholder1.jpg', :alt=>'CivicEvolution Illustrated video', :title=> 'Click to play this video'
-		-#
-			%p Getting started
-			%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14627369', :title=>'Getting started with CivicEvolution', :id=>'play_getting_started'} 
-				= image_tag 'video_placeholder2.jpg', :alt=>'CivicEvolution Illustrated video', :title=> 'Click to play this video'
-	-#
-		%div.stats
-			%p
-				%b Community achievements
-			%table
-				%tr
-					%td
-						Ideas
-					%td
-						2
-				%tr
-					%td
-						Participants
-					%td
-						5
-				%tr
-					%td
-						Teams
-					%td
-						2
-				%tr					
-					%td
-						Visitors
-					%td
-						12
-				%tr
-					%td
-						Team comments
-					%td
-						73
-				%tr					
-					%td
-						Public comments
-					%td
-						0
-				%tr
-					%td
-						Completed proposals
-					%td
-						0
-				%tr					
-					%td
-						Proposal endorsements
-					%td
-						0
+				%b
+					If you have a new idea that's not listed, 
+					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+					
 
-%p.clear_both
+		%div.right_side
+			= render :template => 'welcome/home_stats'
+
+	%p.clear_both
+	-#= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}

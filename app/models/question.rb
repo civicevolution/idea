@@ -22,7 +22,7 @@ class Question < ActiveRecord::Base
   has_many :bs_ideas, :order => 'id asc'
   
   validates_presence_of :text
-  validates_length_of :text, :in => 5..200, :allow_blank => false
+  validates_length_of :text, :in => 12..200, :allow_blank => false
   
   #validate_on_create :check_team_access
   #validate_on_update :check_item_edit_access

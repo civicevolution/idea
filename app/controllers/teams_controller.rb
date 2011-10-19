@@ -58,6 +58,47 @@ class TeamsController < ApplicationController
     end
   end
 
+  def setup_form
+    team = Team.find_by_id(params[:team_id]) || Team.new
+    render :template=>'teams/setup_form', :locals=>{:team=>team}, :layout=>'plan'
+    
+    
+  end
+  
+  def update_setup
+    #debugger
+    
+    team = Team.find_by_id(params[:team_id]) || Team.new
+    team.attributes = params[:team]
+    team.problem_statement = ''
+    team.member = Member.find(1)
+    team_saved = team.save
+    
+    question_errors = {}
+    if team_saved
+      params.each do |key,value| 
+        if key.match(/question_\d+/)
+          #debugger
+          question = Question.find_by_id(value[:id]) || Question.new
+          question.attributes = value
+          question.member_id = params[:team][:org_id]
+          question.team_id = team.id
+          logger.debug "XXXXXXXXXX question: #{question.inspect}"
+          question.save        
+          question_errors[question.id] = question.errors unless question.errors.empty?
+        end
+      end
+    end
+    
+    team.errors.add(:base,"There were errors when saving the questions") unless question_errors.empty?
+    flash[:team_errors] = team.errors unless team.errors.empty?
+    flash[:question_errors] = question_errors unless question_errors.empty?
+    
+    flash[:notice] = 'Proposal data has been updated' if flash[:team_errors].nil? && flash[:question_errors].nil?
+
+    redirect_to setup_team_form_path(team.id)
+
+  end
 
   # GET /teams
   # GET /teams.xml

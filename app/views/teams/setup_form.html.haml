@@ -1,0 +1,129 @@
+- content_for (:script) do
+	%script
+		:plain
+			$('a.add_question').live('click',
+				function(){
+					console.log("Add another question");
+					// get the highest question #
+					var hi_cnt = 0
+					$('div.question_block').each(
+						function(){
+							hi_cnt = Number(this.id) > hi_cnt ? Number(this.id) : hi_cnt
+						}
+					);
+					hi_cnt += 1
+					
+					var new_question_node = $('div.question_block:last').clone(true);
+					new_question_node.attr('id',hi_cnt);
+					new_question_node.find('label:first').html( new_question_node.find('label:first').html().replace(/\d+/,hi_cnt) )
+
+					new_question_node.find('input,textarea').each(
+						function(){
+							this.name = this.name.replace(/\d+/,hi_cnt);
+							this.id = this.id.replace(/\d+/,hi_cnt)
+						}
+					)
+
+					new_question_node.find('input[name$="[id]"]').val('');
+					new_question_node.find('textarea').val('');					
+					new_question_node.find('input[name$="[order_id]"]').val(hi_cnt);
+
+					$('div.proposal_questions').append( new_question_node );
+					return false;
+				}
+			)
+			
+			$('a.copy_all').live('click',
+				function(){
+					inp = $(this).closest('tr').find('input');
+					val = inp.val();
+					inp_name = String(inp.attr('name').match(/\[\w*\]/));
+					inp.closest('form').find('input[name$="' + inp_name + '"]').val(val);
+					return false;
+				}
+			);
+			
+			
+			
+			
+			
+	%style
+		:sass
+			div#setup_team_form
+				p.notice
+					color: green
+					font-weight: bold
+				
+				form.std_form
+					div.form_controls
+						margin-bottom: 40px
+					div.details
+						label
+							display: inline
+						input
+							width: 80px
+					div.question_block
+						margin: 40px 0
+	
+	
+%div#setup_team_form
+					
+	%h2 Team/proposal setup page
+	%p.notice= flash[:notice]
+	
+	= render( :partial => 'shared/error_messages', :locals => {:errors => flash[:team_errors]}) unless flash[:team_errors].nil?
+	
+	- if !team.id.nil?
+		%h2= link_to "Preview proposal", plan_path(team.id), {:target=>'_blank'}
+	
+	= form_for( team, :url=>setup_team_post_path(params[:team_id]), :html=>{:class=>'std_form'} ) do |form|
+		%p= label_tag :title, 'Proposal title'
+		= form.text_field :title
+		
+		
+		%div
+			%p= label_tag :solution_statement, 'Summarize the proposal idea'
+			-#= text_area_tag :solution_statement, team.solution_statement, :class=>'autosize'
+			= form.text_area :solution_statement, :class=>'autosize'
+			%div.form_controls
+				%span.char_ctr
+					1000
+					characters
+					
+		%table
+			%tr
+				%td= label_tag "num_answers", 'Archive team (No listing)'
+				%td= form.check_box :archived
+			%tr
+				%td= label_tag "team_id", 'Team id'
+				%td= form.text_field :id, :disabled => true
+			%tr
+				%td= label_tag "initiative_id", 'Initiative id'
+				%td= form.text_field :initiative_id
+			%tr
+				%td= label_tag "org_id", 'Organizer member_id'
+				%td= form.text_field :org_id
+			%tr
+				%td= label_tag "answer_criteria", 'Comment text range'
+				%td= form.text_field :com_criteria
+			%tr
+				%td= label_tag "res_criteria", 'Resources text range'
+				%td= form.text_field :res_criteria
+					
+		
+		%h3 Proposal questions
+		%div.proposal_questions
+		
+			- ctr = 1
+			- team.all_questions.sort{|a,b| a.order_id <=> b.order_id}.each do |question|
+				= render :partial => 'question_setup_form', :locals => {:question=>question, :ctr=>ctr}
+				- ctr += 1
+
+			- if ctr == 1
+				= render :partial => 'question_setup_form', :locals => {:question=>Question.new, :ctr=>ctr}
+						
+		= link_to "Add a question", nil, {:class=>'add_question'}
+		
+		%p= submit_tag params[:team_id].nil? ? 'Create proposal' : 'Update proposal'
+
+	

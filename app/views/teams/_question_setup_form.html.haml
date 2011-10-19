@@ -1,0 +1,42 @@
+%div.question_block{:id=>ctr}
+	= render( :partial => 'shared/error_messages', :locals => {:errors => flash[:question_errors][question.id]}) unless flash[:question_errors].nil? || flash[:question_errors][question.id].nil?
+	= fields_for "question_#{ctr}", question do |q|
+		%p= label_tag "question_#{ctr}", "Question #{ctr}"
+		= q.text_area :text, :class=>'autosize'
+		%div.form_controls
+			%span.char_ctr
+				250
+				characters
+		%div.details
+			%table
+				%tr
+					%td= label_tag "inactive", 'Hide question'
+					%td= q.check_box :inactive
+				%tr
+					%td= label_tag "num_answers", 'id'
+					%td= q.text_field :id, :disabled => true
+					= q.hidden_field :id
+				%tr
+					%td= label_tag "answer_criteria", 'order id'
+					%td= q.text_field :order_id
+				%tr
+					%td= label_tag "num_answers", 'Num answers'
+					%td= q.text_field :num_answers
+					%td= link_to "Copy value to all", nil, :class=>'copy_all'
+				%tr
+					%td= label_tag "answer_criteria", 'Answer criteria'
+					%td= q.text_field :answer_criteria
+					%td= link_to "Copy value to all", nil, :class=>'copy_all'
+				%tr
+					%td= label_tag "default_answer_id", 'Default answer id'
+					%td= q.text_field :default_answer_id
+					%td= link_to "Copy value to all", nil, :class=>'copy_all'
+				%tr
+					%td= label_tag "talking_point_criteria", 'Talking point criteria'
+					%td= q.text_field :talking_point_criteria
+					%td= link_to "Copy value to all", nil, :class=>'copy_all'
+				%tr
+					%td= label_tag "talking_point_preferences", 'Talking point preferences'
+					%td= q.text_field :talking_point_preferences
+					%td= link_to "Copy value to all", nil, :class=>'copy_all'
+			

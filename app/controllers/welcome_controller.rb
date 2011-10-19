@@ -17,7 +17,7 @@ class WelcomeController < ApplicationController
     @init_teams = Team.proposal_stats(params[:_initiative_id])
      
     respond_to do |format|
-      format.html { render 'index2', :locals=>{:title=>'Welcome to the 2029 and Beyond Sustainable Future City Project'}, :layout=>'plan' }
+      format.html { render 'index', :locals=>{:title=>'Welcome to the 2029 and Beyond Sustainable Future City Project'}, :layout=>'plan' }
       format.text { render :text => 'http://2029.civicevolution.org is only available as HTML' }
     end
   end

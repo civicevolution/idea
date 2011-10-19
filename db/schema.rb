@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111009193223) do
+ActiveRecord::Schema.define(:version => 20111019161539) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -621,6 +621,7 @@ ActiveRecord::Schema.define(:version => 20111009193223) do
     t.integer  "order_id"
     t.string   "talking_point_criteria"
     t.string   "talking_point_preferences"
+    t.boolean  "inactive",                  :default => false
   end
 
   create_table "ratings", :force => true do |t|

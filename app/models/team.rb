@@ -4,7 +4,8 @@ class Team < ActiveRecord::Base
   has_many :team_registrations
   has_many :members, :through => :team_registrations
   
-  has_many :questions
+  has_many :questions, :conditions => 'inactive = false'
+  has_many :all_questions, :class_name => 'Question'
   
   has_one :organizer, :class_name => 'Member', :foreign_key => 'id', :primary_key => 'org_id'
   
@@ -12,6 +13,7 @@ class Team < ActiveRecord::Base
   
   #validate_on_update :check_team_edit_access
   validate :check_team_edit_access, :on=>:update
+  validates_length_of :title, :in => 12..250, :allow_blank => false
   
   
   def check_team_edit_access

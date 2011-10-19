@@ -1,5 +1,8 @@
 G3::Application.routes.draw do |map|
 
+  get 'teams(/:team_id)/setup' => 'teams#setup_form', :as => 'setup_team_form'
+  match 'teams(/:team_id)/update_setup' => 'teams#update_setup', :via => [:put, :post], :as => 'setup_team_post'
+
   match 'plan/get_templates' => 'plan#get_templates'
   
   match 'jug' => 'chat#jug'
@@ -175,8 +178,8 @@ G3::Application.routes.draw do |map|
   resources :comments
   resources :questions
   resources :members
-  resources :teams
-  resources :initiatives
+  #resources :teams
+  #resources :initiatives
 
 
   resources :questions do
