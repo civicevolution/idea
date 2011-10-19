@@ -108,7 +108,7 @@ class MembersController < ApplicationController
         end
         flash.keep
 
-        format.html { render :template => "members/preview_invite_request", :locals=>{:team=>team, :use_recaptcha_tags => true}, :layout => 'welcome' }
+        format.html { render :template => "members/preview_invite_request", :locals=>{:team=>team, :use_recaptcha_tags => true}, :layout => 'plan' }
         format.js { render :template => "members/preview_invite_request", :locals=>{:team=>team}}
       else
         if flash[:params]

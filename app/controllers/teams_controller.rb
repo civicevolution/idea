@@ -76,6 +76,9 @@ class TeamsController < ApplicationController
     
     question_errors = {}
     if team_saved
+      # there must be an initial proposal stats record so this can appear in home page
+      ProposalStats.find_or_create_by_team_id( team.id )
+      
       params.each do |key,value| 
         if key.match(/question_\d+/)
           #debugger

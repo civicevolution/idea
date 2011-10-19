@@ -3,7 +3,7 @@ class NotificationController < ApplicationController
     
   def unsubscribe
     @member.update_attributes( :email_ok => false)
-    render :layout=> 'welcome'
+    render :layout=> 'plan'
   end
   
   def settings_form
@@ -14,7 +14,7 @@ class NotificationController < ApplicationController
       if request.xhr?
         render :text => '<p> You are not allowed to access this proposal. ' + message + '</p>', :layout=> false #, :status => 409
       else
-        render :template => 'idea/private_page', :layout => 'welcome'
+        render :template => 'idea/private_page', :layout => 'plan'
       end
       return
     end

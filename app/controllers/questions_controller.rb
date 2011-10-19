@@ -253,7 +253,7 @@ class QuestionsController < ApplicationController
 
     @question ||= Question.find_by_id(params[:question_id])
     if @question.nil?
-      render :template => 'team/proposal_not_found', :layout=> 'welcome'
+      render :template => 'team/proposal_not_found', :layout=> 'plan'
       return
     end    
     

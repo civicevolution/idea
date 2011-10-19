@@ -14,6 +14,7 @@ class Team < ActiveRecord::Base
   #validate_on_update :check_team_edit_access
   validate :check_team_edit_access, :on=>:update
   validates_length_of :title, :in => 12..250, :allow_blank => false
+  validates_presence_of :org_id
   
   
   def check_team_edit_access

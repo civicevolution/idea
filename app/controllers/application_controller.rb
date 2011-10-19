@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
 
   def render_404
     @member = member = Member.find_by_id(session[:member_id])
-    render :template=> 'errors/404_not_found', :layout=>'welcome', :locals => {:member=>member, :path=> request.url }
+    render :template=> 'errors/404_not_found', :layout=>'plan', :locals => {:member=>member, :path=> request.url }
   end
 
 

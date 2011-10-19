@@ -8,7 +8,7 @@ class PlanController < ApplicationController
       @team = Team.includes(:questions).find(params[:team_id])
       raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
     rescue
-      render :template => 'team/proposal_not_found', :layout=> 'welcome'
+      render :template => 'team/proposal_not_found', :layout=> 'plan'
       return
     end
     
@@ -43,7 +43,7 @@ class PlanController < ApplicationController
       @team = Team.includes(:questions).find(params[:team_id])
       raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
     rescue
-      render :template => 'team/proposal_not_found', :layout=> 'welcome'
+      render :template => 'team/proposal_not_found', :layout=> 'plan'
       return
     end
     
@@ -140,7 +140,7 @@ class PlanController < ApplicationController
       if @proposal_idea.save
         ProposalMailer.delay.submit_receipt(@member, @proposal_idea, params[:_app_name] )
         ProposalMailer.delay.review_request(@member, @proposal_idea, request.env["HTTP_HOST"], params[:_app_name] )
-        format.html { render :template => "plan/acknowledge_proposal_idea", :layout => 'welcome' }
+        format.html { render :template => "plan/acknowledge_proposal_idea", :layout => 'plan' }
         format.js
       else
         # what do I do if there is an error saving the proposal?
@@ -159,9 +159,9 @@ class PlanController < ApplicationController
     @submittor = Member.find_by_id(@proposal.member_id)
     respond_to do |format|
       if @submittor.nil? 
-        format.html { render :text => "Please ignore this suggested idea -- the person that submitted this proposal is no longer a member", :layout => 'welcome' } 
+        format.html { render :text => "Please ignore this suggested idea -- the person that submitted this proposal is no longer a member", :layout => 'plan' } 
       else
-        format.html { render :action => "review_proposal_idea", :layout => 'welcome' } 
+        format.html { render :action => "review_proposal_idea", :layout => 'plan' } 
       end
     end
   end
@@ -198,13 +198,13 @@ class PlanController < ApplicationController
         @host = request.env["HTTP_HOST"]
         ProposalMailer.delay.approval_notice(@submittor, @proposal_idea, @team, @host )
 
-        render :action => "proposal_idea_published", :layout => 'welcome'
+        render :action => "proposal_idea_published", :layout => 'plan'
       else
         logger.debug "This proposal: #{@proposal_idea} has already been converted into a team"
-        render :text=> "This proposal: #{@proposal_idea} has already been converted into a team", :layout => 'welcome'
+        render :text=> "This proposal: #{@proposal_idea} has already been converted into a team", :layout => 'plan'
       end
     else
-      render :action => "must_be_admin", :layout => 'welcome'
+      render :action => "must_be_admin", :layout => 'plan'
     end
   end
   

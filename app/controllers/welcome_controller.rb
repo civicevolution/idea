@@ -184,14 +184,14 @@ class WelcomeController < ApplicationController
         return
       end
       if @member.nil?
-        render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 409
+        render :template=> 'welcome/password_reset_bad_code', :layout=> 'plan', :status=> 409
       else
         # change the password
         @member.password = params[:password]
         @member.save
       end
     rescue
-      render :template=> 'welcome/password_reset_bad_code', :layout=> 'welcome', :status=> 409
+      render :template=> 'welcome/password_reset_bad_code', :layout=> 'plan', :status=> 409
     end
   end
   

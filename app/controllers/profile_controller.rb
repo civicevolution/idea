@@ -1,5 +1,5 @@
 class ProfileController < ApplicationController
-  layout "welcome", :except => [:something_else]
+  layout "plan", :except => [:something_else]
   
   def index
   end
