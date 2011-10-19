@@ -1,5 +1,5 @@
 - @member ||= Member.new :first_name=>'Unknown', :last_name=>'Visitor', :ape_code =>'unknown'
-- title ||= !@team.nil? ? "#{@team.title}" : title || 'CivicEvolution'
+- title ||= !@team.nil? ? "#{@team.title}" : title || 'Skyline Voices @ CivicEvolution'
 !!!
 %html{html_attrs('en-en')}
 	%head
@@ -41,7 +41,8 @@
 				%a{ :href=> '/'}
 					= image_tag("sky/voices_logo.gif")
 			%div.tagline
-				%h1 Skyline Voices
+				%h1 
+					= link_to 'Skyline Voices', home_path
 				%h3 Thinking together to Act together
 					
 
