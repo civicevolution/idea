@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111019191734) do
+ActiveRecord::Schema.define(:version => 20111020210558) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -534,6 +534,32 @@ ActiveRecord::Schema.define(:version => 20111019191734) do
     t.string   "nav_title"
   end
 
+  create_table "participant_stats", :force => true do |t|
+    t.integer  "member_id"
+    t.integer  "team_id"
+    t.integer  "proposal_views",            :default => 0
+    t.integer  "question_views",            :default => 0
+    t.integer  "friend_invites",            :default => 0
+    t.integer  "following",                 :default => 0
+    t.boolean  "endorse",                   :default => false
+    t.integer  "talking_points",            :default => 0
+    t.integer  "talking_point_edits",       :default => 0
+    t.integer  "talking_point_ratings",     :default => 0
+    t.integer  "talking_point_preferences", :default => 0
+    t.integer  "comments",                  :default => 0
+    t.integer  "content_reports",           :default => 0
+    t.integer  "points_total",              :default => 0
+    t.integer  "points_days1",              :default => 0
+    t.integer  "points_days3",              :default => 0
+    t.integer  "points_days7",              :default => 0
+    t.integer  "points_days14",             :default => 0
+    t.integer  "points_days28",             :default => 0
+    t.integer  "points_days90",             :default => 0
+    t.datetime "last_visit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "participation_event_details", :force => true do |t|
     t.text     "description"
     t.datetime "created_at"
@@ -585,12 +611,18 @@ ActiveRecord::Schema.define(:version => 20111019191734) do
     t.integer  "talking_point_ratings",     :default => 0
     t.integer  "talking_point_preferences", :default => 0
     t.integer  "comments",                  :default => 0
-    t.integer  "points",                    :default => 0
     t.integer  "content_reports",           :default => 0
     t.integer  "proposal_views_base",       :default => 0
     t.integer  "question_views_base",       :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "points_total",              :default => 0
+    t.integer  "points_days1",              :default => 0
+    t.integer  "points_days3",              :default => 0
+    t.integer  "points_days7",              :default => 0
+    t.integer  "points_days14",             :default => 0
+    t.integer  "points_days28",             :default => 0
+    t.integer  "points_days90",             :default => 0
   end
 
   create_table "proposal_submits", :force => true do |t|

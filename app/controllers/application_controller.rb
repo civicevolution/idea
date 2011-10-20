@@ -252,7 +252,7 @@ class ApplicationController < ActionController::Base
             time_stamp = params[:date].scan(/\d\d/)
             session[:last_visit_ts] = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
           else
-            last_event = ParticipationEvent.where(:member_id => 1).last
+            last_event = ParticipationEvent.where(:member_id => @member.id).last
             session[:last_visit_ts] = last_event.nil? ? Time.now - 7.days : last_event.created_at
           end
           @member.last_visit_ts = session[:last_visit_ts]

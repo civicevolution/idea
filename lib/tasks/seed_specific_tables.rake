@@ -197,7 +197,18 @@ namespace :seed_specific_tables do
 
       stats_rec = ProposalStats.find_by_team_id(team.id) || ProposalStats.new(:team_id => team.id)
       stats_rec.participants = ActiveRecord::Base.connection.select_value("SELECT COUNT(DISTINCT(member_id)) FROM participation_events WHERE team_id = #{team.id};").to_i
-      stats_rec.points = ActiveRecord::Base.connection.select_value("SELECT SUM(points) FROM Participation_events WHERE team_id = #{team.id};").to_i
+      
+      participation_counts = ActiveRecord::Base.connection.select_all(
+      %Q|SELECT SUM(points_total) AS points_total, SUM(points_days1) AS points_days1, SUM(points_days3) AS points_days3, SUM(points_days7) AS points_days7, 
+      SUM(points_days14) AS points_days14, SUM(points_days28) AS points_days28, SUM(points_days90) AS points_days90 FROM participant_stats WHERE #{team.id} = 10065|)[0]
+      
+      stats_rec.points_total = participation_counts['points_total'].to_i
+      stats_rec.points_days1 = participation_counts['points_days1'].to_i
+      stats_rec.points_days3 = participation_counts['points_days3'].to_i
+      stats_rec.points_days7 = participation_counts['points_days7'].to_i
+      stats_rec.points_days14 = participation_counts['points_days14'].to_i
+      stats_rec.points_days28 = participation_counts['points_days28'].to_i
+      stats_rec.points_days90 = participation_counts['points_days90'].to_i
       
       stats = []
       event_records = ActiveRecord::Base.connection.select_rows("SELECT event_id, COUNT(id), SUM(points) FROM participation_events WHERE team_id = #{team.id} GROUP BY event_id")
@@ -209,9 +220,6 @@ namespace :seed_specific_tables do
       stats.each do |stat|
         stats_rec[stat[:col_name]] = stat[:count].to_i unless stat[:col_name] == ''
       end
-      
-      #stats.each{ |stat| stats_rec[stat[:col_name]] = stat[:count].to_i unless stat[:col_name] == '' }
-      
       
       # estimate the base for views
       stats_rec.proposal_views_base = 
@@ -230,6 +238,76 @@ namespace :seed_specific_tables do
       
       stats_rec.save
 
+    end
+    
+  end
+
+  task :seed_participant_stats_table => :environment do
+    Team.order('id ASC').each do |team|
+      puts "Processing teams id: #{team.id}"
+
+      # for each team, get the distinct participants
+      participant_ids = ActiveRecord::Base.connection.select_values("SELECT DISTINCT(member_id) FROM participation_events WHERE team_id = #{team.id};")
+      puts "participant_ids: #{participant_ids}"
+      participant_ids.each do |participant_id|
+
+        puts "participant_id: #{participant_id}"
+        participant = Member.find_by_id(participant_id)
+        next if participant.nil?
+
+        puts "Create participant_stats record for team #{team.id} and member: #{participant.id}"
+
+        stats_rec = ParticipantStats.find_by_member_id_and_team_id(participant.id, team.id) || ParticipantStats.new(:member_id => participant.id, :team_id => team.id)
+
+        notify = NotificationRequest.find_by_member_id_and_team_id(participant.id, team.id)
+        stats_rec.following = notify.nil? ? 0 : notify.report_type
+
+        stats_rec.endorse = Endorsement.find_by_member_id_and_team_id(participant.id, team.id).nil? ? false : true
+
+        # get the counts
+
+        participation_counts = ActiveRecord::Base.connection.select_all(
+        %Q|select 
+        (select count(id) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND event_id = 100) AS proposal_views,
+        (select count(id) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND event_id = 101) AS question_views,
+        (select count(id) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND event_id = 11) AS friend_invites,
+        (select count(id) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND event_id = 3) AS talking_points,
+        (select count(id) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND event_id = 4) AS talking_point_edits,
+        (select count(id) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND event_id = 17) AS talking_point_ratings,
+        (select count(id) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND event_id = 19) AS talking_point_preferences,
+        (select count(id) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND event_id = 1) AS comments,
+        (select count(id) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND event_id = 13) AS content_reports,
+        (select sum(points) from participation_events where team_id = #{team.id} and member_id = #{participant.id}) AS points_total,        
+        (select sum(points) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND created_at > now() - interval '1 days') AS points_days1,
+        (select sum(points) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND created_at > now() - interval '3 days') AS points_days3,
+        (select sum(points) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND created_at > now() - interval '7 days') AS points_days7,
+        (select sum(points) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND created_at > now() - interval '14 days') AS points_days14,
+        (select sum(points) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND created_at > now() - interval '28 days') AS points_days28,
+        (select sum(points) from participation_events where team_id = #{team.id} and member_id = #{participant.id} AND created_at > now() - interval '90 days') AS points_days90
+        |)[0]
+
+        stats_rec.proposal_views = participation_counts['proposal_views'].to_i
+        stats_rec.question_views = participation_counts['question_views'].to_i
+        stats_rec.friend_invites = participation_counts['friend_invites'].to_i
+        stats_rec.talking_points = participation_counts['talking_points'].to_i
+        stats_rec.talking_point_edits = participation_counts['talking_point_edits'].to_i
+        stats_rec.talking_point_ratings = participation_counts['talking_point_ratings'].to_i
+        stats_rec.talking_point_preferences = participation_counts['talking_point_preferences'].to_i
+        stats_rec.comments = participation_counts['comments'].to_i
+        stats_rec.content_reports = participation_counts['content_reports'].to_i
+
+        stats_rec.points_total = participation_counts['points_total'].to_i
+        stats_rec.points_days1 = participation_counts['points_days1'].to_i
+        stats_rec.points_days3 = participation_counts['points_days3'].to_i
+        stats_rec.points_days7 = participation_counts['points_days7'].to_i
+        stats_rec.points_days14 = participation_counts['points_days14'].to_i
+        stats_rec.points_days28 = participation_counts['points_days28'].to_i
+        stats_rec.points_days90 = participation_counts['points_days90'].to_i
+
+        last_visit = ParticipationEvent.where(:member_id => 1, :team_id => team.id).last
+        stats_rec.last_visit = last_visit.nil? ? nil : last_visit.created_at
+        stats_rec.save
+      end
     end
   end
 

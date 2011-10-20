@@ -142,3 +142,31 @@ Running on DEV
 	RAILS_ENV=development script/delayed_job stop		
 		ps aux | grep delayed_job
 	
+***********************************************************************************
+
+Wed Oct 19 18:57:55 PDT 2011
+
+***********************************************************************************
+
+	rake routes
+	
+Test routes in console
+	
+r = ActionController::Routing::Routes	
+puts r.routes	
+r.recognize_path "/talking_points/2"
+ => {:action=>"show", :id=>"2", :controller=>"talking_points"} 
+
+r.recognize_path "/talking_points/2/comments"
+ => {:talking_point_id=>"2", :action=>"index", :controller=>"comments"} 
+
+Ok, it still uses the comments controller
+
+r.generate :controller => :station
+r.generate :controller => :station, :action=> :index
+r.generate :controller => :station, :action=> :index, :id=>42
+r.generate :controller => :station, :action=> :index, :id=>42, :param => "xyzzy"
+
+r.recognize_path "/talking_points/2/comments"
+	=> {:talking_point_id=>"2", :action=>"index", :controller=>"comments"} 
+	

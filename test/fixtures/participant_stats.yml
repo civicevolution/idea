@@ -1,0 +1,47 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  member_id: 1
+  team_id: 1
+  proposal_views: 1
+  question_views: 1
+  friend_invites: 1
+  following: 1
+  endorse: false
+  talking_points: 1
+  talking_point_edits: 1
+  talking_point_ratings: 1
+  talking_point_preferences: 1
+  comments: 1
+  content_reports: 1
+  points_total: 1
+  points_days1: 1
+  points_days3: 1
+  points_days7: 1
+  points_days14: 1
+  points_days28: 1
+  points_days90: 1
+  last_visit: 2011-10-20 13:50:51
+
+two:
+  member_id: 1
+  team_id: 1
+  proposal_views: 1
+  question_views: 1
+  friend_invites: 1
+  following: 1
+  endorse: false
+  talking_points: 1
+  talking_point_edits: 1
+  talking_point_ratings: 1
+  talking_point_preferences: 1
+  comments: 1
+  content_reports: 1
+  points_total: 1
+  points_days1: 1
+  points_days3: 1
+  points_days7: 1
+  points_days14: 1
+  points_days28: 1
+  points_days90: 1
+  last_visit: 2011-10-20 13:50:51

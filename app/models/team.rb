@@ -9,6 +9,8 @@ class Team < ActiveRecord::Base
   
   has_one :organizer, :class_name => 'Member', :foreign_key => 'id', :primary_key => 'org_id'
   
+  has_one :proposal_stats
+  
   attr_accessor :member
   
   #validate_on_update :check_team_edit_access
