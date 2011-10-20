@@ -54,7 +54,7 @@
 									%tr
 										%td= pluralize(team.participants, 'participant')
 										%td= pluralize( (team.proposal_views + team.proposal_views_base), 'view')
-										%td= pluralize(team.points, 'point')
+										%td= pluralize(team.points_total, 'point')
 								
 									%tr
 										%td= pluralize(team.comments, 'comment')
