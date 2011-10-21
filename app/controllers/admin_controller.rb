@@ -338,6 +338,11 @@ class AdminController < ApplicationController
     @team_stats = Team.includes(:proposal_stats).where(:initiative_id => 1..2).order('initiative_id DESC, title ASC')
   end    
   
+  def team_participant_stats
+    @team_participant_stats = Team.includes(:participant_stats, {:participant_stats => :member}).find(params[:team_id]).participant_stats
+    render( :template => 'admin/team_participant_stats', :locals => {:standalone => true})
+  end
+  
   def participant_stats 
     
     if @privileges.include? 'set_cta'

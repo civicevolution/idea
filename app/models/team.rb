@@ -10,6 +10,7 @@ class Team < ActiveRecord::Base
   has_one :organizer, :class_name => 'Member', :foreign_key => 'id', :primary_key => 'org_id'
   
   has_one :proposal_stats
+  has_many :participant_stats, :class_name => 'ParticipantStats'
   
   attr_accessor :member
   

@@ -1,0 +1,152 @@
+- if standalone
+	- content_for (:script) do
+		= javascript_include_tag "jquery.tablesorter.min.js"
+		:javascript
+			$(function(){
+		
+				//// add new widget called indexFirstColumn
+				//$.tablesorter.addWidget({
+				//    // give the widget a id
+				//    id: "indexFirstColumn",
+				//    // format is called when the on init and when a sorting has finished
+				//    format: function(table) {                               
+				//            // loop all tr elements and set the value for the first column  
+				//            for(var i=0; i <= table.tBodies[0].rows.length; i++) {
+				//                    $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
+				//            }                                                               
+				//    }
+				//});
+
+				//$("#teams").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
+				//$("#members").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
+			
+				if(false){ //if(#{@set_cta}){
+					//$('table.tablesorter tr').die('click').live('click',
+					//	function(e){
+					//		ids = this.id.split('-');
+					//		member_id = ids[0]
+					//		team_id = ids[1]
+					//		//console.log("click on row member_id: " + member_id + ", team_id: " + team_id)
+					//		//console.log("x: " + e.pageX + ", y: " + e.pageY)
+					//		var dialog = $('<div id="select_cta"><div>').dialog( {title : false, modal : true, position : [e.pageX,e.pageY - pageYOffset - 50] } )
+					//		$('div#select_cta').load('/call_to_action/load_cta_options',{member_id:member_id, team_id: team_id})
+					//		dialog.siblings('div.ui-dialog-titlebar').remove();
+					//	}
+					//)
+			
+					//$(':radio').die('click').live('click',
+					//	function(e){
+					//		var el = $(this)
+					//		ids = el.closest('table').attr('id').split('-');
+					//		member_id = ids[0]
+					//		team_id = ids[1]
+					//		scenario = el.val()
+					//		console.log("clicked on scenario: " + scenario + " for member_id: " + member_id + " and team_id: " + team_id)
+					//		// submit to the server
+					//		$.ajax	({ 					
+					//		  type: "POST", 
+					//			url: 'http://' + document.location.host + '/call_to_action/save_to_queue',
+					//			data: {member_id: member_id, team_id: team_id, scenario: scenario},
+					//		  success: function(data,status){ 
+					//				console.log("/call_to_action/save_to_queue submit success");
+					//				//debugger
+					//				$('tr#' + member_id + '-' + team_id).find('td:last').html(data)
+					//				el.closest('div.ui-dialog').dialog('destroy').remove();
+					//		  },
+					//			error : function(xhr,errorString,exceptionObj){
+					//				console.log("error updating call to action")
+					//			}
+					//		});			
+					//	  return false;
+					//	}
+					//)
+				}
+			});
+		%style
+			:sass
+				div.page
+					width: auto
+					margin-bottom: 200px
+				table td 
+					padding: 3px
+				table tr.odd td
+					background: #e6f2ff
+				span.sort_time
+					width: 20px
+					display: none
+				td.title 
+					max-width: 200px
+				td.pts
+					background-color: #ccc
+				td.mems
+					background-color: #ddd
+				td.tp
+					background-color: #c00
+				td.com
+					background-color: #d66
+					
+%div#team_participant_stats
+	%h3 Team participation statistics
+	-#%ul
+		%li Top table shows every team member on every team and the content they have contributed and the last call to action email they received.
+		%li Lower table shows all people registered to 2029/CGG that have not joined a team
+		%li Click column headers to sort (To sort date "..ago" columns click the adjacent column marked "v^")
+
+	-#
+		team_stats = Team.includes(:proposal_stats).where(:initiative_id => 1..2).order('initiative_id DESC, title ASC')
+		team.stats[0].each{|key,value| puts key}
+
+
+
+	%table#teams{:class=>"tablesorter"}
+		%thead
+			%tr.stripe
+				%th #
+				%th First
+				%th Last
+				%th View
+				%th Q views
+				%th Inv.
+				%th foll
+				%th end
+				%th Coms
+				%th TP
+				%th TP edits
+				%th Rate
+				%th Pref
+				%th Rep
+				%th P1
+				%th P3
+				%th P7
+				%th P14
+				%th P28
+				%th P90
+				%th Tot
+				%th Last visit
+			
+			
+		%tbody	
+			- @team_participant_stats.sort{ |a,b| a.member.first_name <=> b.member.first_name && a.member.last_name <=> b.member.last_name}.each do |m|
+				%tr{:id=>"#{m['id']}-#{m['team_id']}", :class=>cycle('','stripe')}
+					%td
+					%td.title= m.member['first_name']
+					%td= m.member['last_name']
+					%td= m['proposal_views']
+					%td= m['question_views']
+					%td= m['friend_invites']
+					%td= m['following']
+					%td= m['endorse']
+					%td.com= m['comments']
+					%td.tp= m['talking_points']
+					%td= m['talking_point_edits']
+					%td= m['talking_point_ratings']
+					%td= m['talking_point_preferences']
+					%td= m['content_reports']
+					%td.pts= m['points_days1']
+					%td.pts= m['points_days3']
+					%td.pts= m['points_days7']
+					%td.pts= m['points_days14']
+					%td.pts= m['points_days28']
+					%td.pts= m['points_days90']
+					%td.pts= m['points_total']
+					%td.pts= m['last_visit']

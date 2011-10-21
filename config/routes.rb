@@ -164,6 +164,10 @@ G3::Application.routes.draw do |map|
   get 'help_develop' => 'help#help_develop_proposal'
   get 'help_endorse' => 'help#help_endorse_proposal'
 
+  get 'admin/team/:team_id/stats' => 'admin#team_stats', :as => 'team_stats'
+  get 'admin/team/:team_id/team_participant_stats' => 'admin#team_participant_stats', :as => 'team_participant_stats'
+
+
   resources :answer_diffs
 
   #resources :talking_point_versions

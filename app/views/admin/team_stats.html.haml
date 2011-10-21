@@ -1,66 +1,64 @@
 - content_for (:script) do
 	= javascript_include_tag "jquery.tablesorter.min.js"
 	:javascript
-		$(function() {
-			// add new widget called indexFirstColumn
-			$.tablesorter.addWidget({
-			    // give the widget a id
-			    id: "indexFirstColumn",
-			    // format is called when the on init and when a sorting has finished
-			    format: function(table) {                               
-			            // loop all tr elements and set the value for the first column  
-			            for(var i=0; i <= table.tBodies[0].rows.length; i++) {
-			                    $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
-			            }                                                               
-			    }
-			});
+		$(function(){
+		
+			//// add new widget called indexFirstColumn
+			//$.tablesorter.addWidget({
+			//    // give the widget a id
+			//    id: "indexFirstColumn",
+			//    // format is called when the on init and when a sorting has finished
+			//    format: function(table) {                               
+			//            // loop all tr elements and set the value for the first column  
+			//            for(var i=0; i <= table.tBodies[0].rows.length; i++) {
+			//                    $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
+			//            }                                                               
+			//    }
+			//});
 
-			$("#team_members").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
-			$("#members").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
+			//$("#teams").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
+			//$("#members").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
 			
-			if(#{@set_cta}){
-				$('table.tablesorter tr').die('click').live('click',
-					function(e){
-						ids = this.id.split('-');
-						member_id = ids[0]
-						team_id = ids[1]
-						//console.log("click on row member_id: " + member_id + ", team_id: " + team_id)
-						//console.log("x: " + e.pageX + ", y: " + e.pageY)
-						var dialog = $('<div id="select_cta"><div>').dialog( {title : false, modal : true, position : [e.pageX,e.pageY - pageYOffset - 50] } )
-						$('div#select_cta').load('/call_to_action/load_cta_options',{member_id:member_id, team_id: team_id})
-						dialog.siblings('div.ui-dialog-titlebar').remove();
-					
-					}
-				)
+			if(false){ //if(#{@set_cta}){
+				//$('table.tablesorter tr').die('click').live('click',
+				//	function(e){
+				//		ids = this.id.split('-');
+				//		member_id = ids[0]
+				//		team_id = ids[1]
+				//		//console.log("click on row member_id: " + member_id + ", team_id: " + team_id)
+				//		//console.log("x: " + e.pageX + ", y: " + e.pageY)
+				//		var dialog = $('<div id="select_cta"><div>').dialog( {title : false, modal : true, position : [e.pageX,e.pageY - pageYOffset - 50] } )
+				//		$('div#select_cta').load('/call_to_action/load_cta_options',{member_id:member_id, team_id: team_id})
+				//		dialog.siblings('div.ui-dialog-titlebar').remove();
+				//	}
+				//)
 			
-				$(':radio').die('click').live('click',
-					function(e){
-						var el = $(this)
-						ids = el.closest('table').attr('id').split('-');
-						member_id = ids[0]
-						team_id = ids[1]
-						scenario = el.val()
-						console.log("clicked on scenario: " + scenario + " for member_id: " + member_id + " and team_id: " + team_id)
-						// submit to the server
-					
-						$.ajax	({ 					
-						  type: "POST", 
-							url: 'http://' + document.location.host + '/call_to_action/save_to_queue',
-							data: {member_id: member_id, team_id: team_id, scenario: scenario},
-						  success: function(data,status){ 
-								console.log("/call_to_action/save_to_queue submit success");
-								//debugger
-								$('tr#' + member_id + '-' + team_id).find('td:last').html(data)
-								el.closest('div.ui-dialog').dialog('destroy').remove();
-
-						  },
-							error : function(xhr,errorString,exceptionObj){
-								console.log("error updating call to action")
-							}
-						});			
-					  return false;
-					}
-				)
+				//$(':radio').die('click').live('click',
+				//	function(e){
+				//		var el = $(this)
+				//		ids = el.closest('table').attr('id').split('-');
+				//		member_id = ids[0]
+				//		team_id = ids[1]
+				//		scenario = el.val()
+				//		console.log("clicked on scenario: " + scenario + " for member_id: " + member_id + " and team_id: " + team_id)
+				//		// submit to the server
+				//		$.ajax	({ 					
+				//		  type: "POST", 
+				//			url: 'http://' + document.location.host + '/call_to_action/save_to_queue',
+				//			data: {member_id: member_id, team_id: team_id, scenario: scenario},
+				//		  success: function(data,status){ 
+				//				console.log("/call_to_action/save_to_queue submit success");
+				//				//debugger
+				//				$('tr#' + member_id + '-' + team_id).find('td:last').html(data)
+				//				el.closest('div.ui-dialog').dialog('destroy').remove();
+				//		  },
+				//			error : function(xhr,errorString,exceptionObj){
+				//				console.log("error updating call to action")
+				//			}
+				//		});			
+				//	  return false;
+				//	}
+				//)
 			}
 		});
 	%style
@@ -77,10 +75,20 @@
 				display: none
 			td.title 
 				max-width: 200px
+			td.pts
+				background-color: #ccc
+			td.mems
+				background-color: #ddd
+			td.tp
+				background-color: #c00
+			td.com
+				background-color: #d66
+			div#team_participant_stats
+				margin-bottom: 40px
 					
 
 %h3 Team participation statistics
-%ul
+-#%ul
 	%li Top table shows every team member on every team and the content they have contributed and the last call to action email they received.
 	%li Lower table shows all people registered to 2029/CGG that have not joined a team
 	%li Click column headers to sort (To sort date "..ago" columns click the adjacent column marked "v^")
@@ -91,49 +99,62 @@
 
 
 
-%table#team_members{:class=>"tablesorter"}
+%table#teams{:class=>"tablesorter"}
 	%thead
-		%tr
+		%tr.stripe
 			%th #
 			%th Team
 			%th Init
 			%th View
 			%th Q views
-			%th Ptcpnt
+			%th Mems
 			%th Inv.
 			%th foll
 			%th end
+			%th Coms
 			%th TP
 			%th TP edits
 			%th Rate
 			%th Pref
-			%th Coms
-			%th Points
+			%th P1
+			%th P3
+			%th P7
+			%th P14
+			%th P28
+			%th P90
+			%th Tot
 			%th Rep.
 			%th Vw base
 			%th Q base
 			
 			
-	%tbody			
+	%tbody	
 		- @team_stats.each do |m|
-			%tr{:id=>"#{m['id']}-#{m['team_id']}"}
+			%tr{:id=>"#{m['id']}", :class=>cycle('','stripe')}
 				%td
 				%td.title= m['title']
 				%td= m['initiative_id']
 				%td= m.proposal_stats['proposal_views']
 				%td= m.proposal_stats['question_views']
-				%td= m.proposal_stats['participants']
+				%td.mems= m.proposal_stats['participants']
 				%td= m.proposal_stats['friend_invites']
 				%td= m.proposal_stats['followers']
 				%td= m.proposal_stats['endorsements']
-				%td= m.proposal_stats['talking_points']
+				%td.com= m.proposal_stats['comments']
+				%td.tp= m.proposal_stats['talking_points']
 				%td= m.proposal_stats['talking_point_edits']
 				%td= m.proposal_stats['talking_point_ratings']
 				%td= m.proposal_stats['talking_point_preferences']
-				%td= m.proposal_stats['comments']
-				%td= m.proposal_stats['points']
+				%td.pts= m.proposal_stats['points_days1']
+				%td.pts= m.proposal_stats['points_days3']
+				%td.pts= m.proposal_stats['points_days7']
+				%td.pts= m.proposal_stats['points_days14']
+				%td.pts= m.proposal_stats['points_days28']
+				%td.pts= m.proposal_stats['points_days90']
+				%td.pts= m.proposal_stats['points_total']
 				%td= m.proposal_stats['content_reports']
 				%td= m.proposal_stats['proposal_views_base']
 				%td= m.proposal_stats['question_views_base']
+				%td= link_to 'Participants', team_participant_stats_path(m['id']), :remote=>true
 				
 				

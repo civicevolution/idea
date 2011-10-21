@@ -1,0 +1,8 @@
+:plain
+	var participants = $("<td colspan='20'>#{escape_javascript(
+		render( :template => 'admin/team_participant_stats.html', :locals => {:standalone => false})
+	)}</td>");
+	
+	var tr = $('tr[id="#{params[:team_id]}"]');
+	tr.clone().html(participants).insertAfter(tr)
+	
