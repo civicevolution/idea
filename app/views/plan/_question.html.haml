@@ -36,21 +36,21 @@
 				- else
 					%div.Comment.hide
 			
-				%p.clear_both
+			%p.clear_both
 
 
 
-				%p.show_more_link
-		
-					- if question.new_coms > 0
-						= link_to "Show #{ pluralize(question.new_coms, 'more new comment')}", question_new_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_new_comments', :id=>question.id, :remote => true }
-									
-					- if question.coms > question['comments_to_display'].length
-						= link_to "Show #{ pluralize(question.coms - question['comments_to_display'].length, 'earlier comment')}", question_all_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_all_comments', :id=>question.id, :remote => true }
-				
-					- if question.coms == 0
-						%div.question_discussion_placeholder
-							%p Please start the conversation about this question.
-							%p Click "Add a comment" in the form above and type your comment.
+			%p.show_more_link
+	
+				- if question.new_coms > 0
+					= link_to "Show #{ pluralize(question.new_coms, 'more new comment')}", question_new_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_new_comments', :id=>question.id, :remote => true }
+								
+				- if question.coms > question['comments_to_display'].length
+					= link_to "Show #{ pluralize(question.coms - question['comments_to_display'].length, 'earlier comment')}", question_all_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_all_comments', :id=>question.id, :remote => true }
+			
+				- if question.coms == 0
+					%div.question_discussion_placeholder
+						%p Please start the conversation about this question.
+						%p Click "Add a comment" in the form above and type your comment.
 				
 		= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}

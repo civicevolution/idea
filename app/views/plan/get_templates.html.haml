@@ -40,13 +40,18 @@
 					'a.reply @href' : '/comments/\#{data.comment_id}/comments',
 					'a.reply @id' : 'data.comment.id',	
 					'a.report @href' : '/comments/\#{data.comment_id}/report',
-					'@id' : 'data.comment.id'
+					'@id' : 'data.comment.id',
+					'abbr.timeago @title' : 'data.comment.created_at'
 				}
 			);
 			realtime_data_update_functions['comment'] =
 				function(data){
-					com = template_functions['comment'](data)
-					$('div.ques_discussion').append( com )
+					com = template_functions['comment'](data);
+					
+					com = $(com).appendTo('div.ques_discussion');
+					temp.com = com
+					com.find('abbr').timeago();
+					
 				}
 			console.log("Comment template is ready");
 
