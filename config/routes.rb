@@ -6,6 +6,10 @@ G3::Application.routes.draw do |map|
   match 'plan/get_templates' => 'plan#get_templates'
   
   match 'jug' => 'chat#jug'
+
+  #get 'live/jug' => 'ce_live#jug'
+  
+  #get 'live/index' => 'ce_live#index'
   
   match "chat" => 'chat#send_chat_message', :as => 'chat'
 
@@ -69,6 +73,7 @@ G3::Application.routes.draw do |map|
 
   match "/idea/:id" => redirect("/plan/%{id}"), :requirements => { :id => /\d+/ }
   match "/idea/bsd/:id" => redirect("/questions/%{id}/worksheet"), :requirements => { :id => /\d+/ }
+  match "/idea/index/:id" => redirect("/plan/%{id}"), :requirements => { :id => /\d+/ }
 
     
   post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :as => 'what_do_you_think'
