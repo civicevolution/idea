@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111020210558) do
+ActiveRecord::Schema.define(:version => 20111023081022) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -450,6 +450,38 @@ ActiveRecord::Schema.define(:version => 20111020210558) do
     t.string   "title",                        :null => false
     t.text     "text",                         :null => false
     t.integer  "member_id",                    :null => false
+  end
+
+  create_table "live_conclusions", :force => true do |t|
+    t.integer  "live_session_id"
+    t.integer  "themer_id"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "live_sessions", :force => true do |t|
+    t.integer  "event_id"
+    t.text     "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "live_talking_points", :force => true do |t|
+    t.integer  "live_session_id"
+    t.integer  "group_id"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "live_themes", :force => true do |t|
+    t.integer  "live_session_id"
+    t.integer  "themer_id"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "member_lookup_code_logs", :force => true do |t|

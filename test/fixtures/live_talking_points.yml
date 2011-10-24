@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  live_session_id: 1
+  group_id: 1
+  text: MyText
+
+two:
+  live_session_id: 1
+  group_id: 1
+  text: MyText

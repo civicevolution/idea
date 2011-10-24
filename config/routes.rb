@@ -7,9 +7,11 @@ G3::Application.routes.draw do |map|
   
   match 'jug' => 'chat#jug'
 
-  #get 'live/jug' => 'ce_live#jug'
+  get 'live/jug' => 'ce_live#jug'
   
-  #get 'live/index' => 'ce_live#index'
+  get 'live/index' => 'ce_live#index'
+  get 'live/get_templates' => 'ce_live#get_templates'
+  get 'live/test' => 'ce_live#session_test'
   
   match "chat" => 'chat#send_chat_message', :as => 'chat'
 

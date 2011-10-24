@@ -561,6 +561,54 @@ class AdminController < ApplicationController
     render :text => 'seed_proposal_stats_table completed'
   end
   
+  def create_live_talking_point_records
+    
+    filename = "/ce assets/2011/JHK/istorm data/Citizen Parliament - ISTORM results.csv"
+
+    require 'csv'
+
+    CSV.foreach(filename) do |row|
+      puts row[0]
+
+      if !row[0].nil?
+        if row[0].match(/Scribe/)
+        	group_id = row[0].match(/\d+/)[0].to_i
+        	puts "Save a live talking point for group #{group_id}"
+        	row.each_index do |index|
+        	  if index > 0 && !row[index].nil?
+        	    ltp = LiveTalkingPoint.new :live_session_id=>index, :group_id => group_id, :text => row[index]
+        	    ltp.save
+        	    puts ltp.inspect
+      	    end
+      	  end
+        	# for every non blank fied, make a live_talking_point
+        elsif row[0].match(/Theme/)
+        	themer_id = row[0].match(/\d+/)[0].to_i
+        	puts "Save a live theme for group #{themer_id}"
+        	row.each_index do |index|
+        	  if index > 0 && !row[index].nil? && row[index].match(/\w/)
+        	    lt = LiveTheme.new :live_session_id=>index, :themer_id => themer_id, :text => row[index]
+        	    lt.save
+        	    puts lt.inspect
+      	    end
+      	  end
+        elsif row[0].match(/Coordinator/)
+        	puts "save a live conclusion for Coordinator"
+        	row.each_index do |index|
+        	  if index > 0 && !row[index].nil? && row[index].match(/\w/)
+        	    lc = LiveConclusion.new :live_session_id=>index, :themer_id => 1, :text => row[index]
+        	    lc.save
+        	    puts lc.inspect
+      	    end
+      	  end
+
+        end
+      end
+    end
+    render :text => 'create_live_talking_point_records is complete'
+  end
+  
+  
   protected
     
     def get_admin_privileges
