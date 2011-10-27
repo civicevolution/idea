@@ -52,6 +52,7 @@ G3::Application.configure do
   
   Paperclip.options[:command_path] = "/opt/local/bin"
   
+  REDIS_CLIENT = Redis.new(:host => 'localhost', :port => 6379)	
   
 end
 

@@ -45,19 +45,24 @@ function init_real2(){
 			setTimeout(init_real3,100);
 			console.log("setTimeout init_real3 is set")
 		});
-		jug.on("disconnect", function(){ log("Disconnected") });
-		jug.on("reconnect", function(){ log("Reconnecting") });
-		
+		jug.on("disconnect", function(){ console.log("Disconnected") });
+		jug.on("reconnect", function(){ console.log("Reconnecting") });
+		jug.on('subscribe_not_allowed', function(data){ console.log("You are not authorized to subscribe to channel: " + data.channel) });
+		console.log("setup on for subscribe_not_allowed")
 		$(document).ajaxSend(function(e, xhr, options) {
 		  xhr.setRequestHeader("X-Juggernaut-Id", jug.sessionID);
 		});	
 		
 }
 function init_real3(){		
-		ch = params['ch']
+		ch = params['ch'] || 'theme1'
 		console.log("subscribe_to_team_channel: Subscribing to " + ch);
 		jug.subscribe(ch, function(data){
-		  log("data: " + data);
+		  log("theme data: " + data);
+			process_realtime(data)
+		});
+		jug.subscribe('theme1-chat', function(data){
+		  log("chat data: " + data);
 			process_realtime(data)
 		});
 		//$.getScript('/chat_form/' + ch,null,null,'script');

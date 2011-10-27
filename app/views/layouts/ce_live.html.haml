@@ -1,5 +1,5 @@
 - @member ||= Member.new :first_name=>'Unknown', :last_name=>'Visitor', :ape_code =>'unknown'
-- title ||= !@team.nil? ? "#{@team.title}" : title || 'CivicEvolution Live'
+- title ||= !@team.nil? ? "#{@team.title}" : title || @title.nil? ? 'CivicEvolution Live' : @title
 !!!
 %html{html_attrs('en-en')}
 	%head

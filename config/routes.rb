@@ -7,11 +7,13 @@ G3::Application.routes.draw do |map|
   
   match 'jug' => 'chat#jug'
 
-  get 'live/jug' => 'ce_live#jug'
-  
-  get 'live/index' => 'ce_live#index'
+  get 'live/ltp_to_jug' => 'ce_live#ltp_to_jug'
+  get 'live/group' => 'ce_live#group'
+  get 'live/theme' => 'ce_live#theme'
   get 'live/get_templates' => 'ce_live#get_templates'
   get 'live/test' => 'ce_live#session_test'
+  post 'live/:channel/post_tp' => 'ce_live#post_talking_point_from_group', :as => 'post_live_tp'
+  post 'live/test_ids' => 'ce_live#get_tp_test_ids', :as => 'live_test_ids'
   
   match "chat" => 'chat#send_chat_message', :as => 'chat'
 

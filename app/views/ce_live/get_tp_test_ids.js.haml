@@ -1,0 +1,20 @@
+- delay_range = params[:delay_range].split('..').map{|d| Integer(d)}
+:plain
+	ltp_ids = #{live_talking_point_ids};
+
+	$('h3.warn').show();
+	request_a_ltp_into_juggernaut();
+	
+	function request_a_ltp_into_juggernaut(){
+		var ltp_id = ltp_ids.pop();
+		console.log("request an ltp id: " + ltp_id + " into juggernaut on channel: #{params[:channel]}");
+		
+		$.get("/live/ltp_to_jug?ch=#{params[:channel]}&id=" + ltp_id);
+		
+		if(ltp_ids.length > 60){
+			setTimeout(request_a_ltp_into_juggernaut, (#{delay_range[1] - delay_range[0]} * Math.random() + #{delay_range[0]} ) * 1000 );
+		}else{
+			console.log("Test is complete");
+			$('h3.warn').hide();
+		}
+	}

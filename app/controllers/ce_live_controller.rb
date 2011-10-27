@@ -2,7 +2,7 @@ class CeLiveController < ApplicationController
   layout "ce_live"
   skip_before_filter :authorize, :only => [ ]
   
-  def jug
+  def ltp_to_jug
     ltp = LiveTalkingPoint.find(params[:id])
     Juggernaut.publish(params[:ch], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
     render :text => "On juggernaut on channel; #{params[:ch]}, sent LiveTalkingPoint: #{ltp.inspect}", :content_type => 'text/plain'
@@ -17,8 +17,32 @@ class CeLiveController < ApplicationController
     
   end
   
-  def index
+  def theme
     
+  end
+  
+  def group
+    
+  end
+  
+  def get_tp_test_ids
+    group_range = params[:group_range].split('..').map{|d| Integer(d)}
+    ltp_ids = LiveTalkingPoint.select('id').where(:live_session_id => params[:live_session_id], :group_id => group_range[0]..group_range[1] ).collect{|ltp| ltp.id}.shuffle
+    render( :template => 'ce_live/get_tp_test_ids.js', :locals =>{:live_talking_point_ids => ltp_ids})
+  end
+  
+  def post_talking_point_from_group
+    
+    # I want to use session to determine 
+    # live_session_id
+    # group_id
+    # channel
+    
+    ltp = LiveTalkingPoint.new live_session_id: params[:sid], group_id: params[:gid], text: params[:text]
+    ltp.id = 1234
+    
+    Juggernaut.publish(params[:channel], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
+    render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => ltp})
   end
   
   def get_templates

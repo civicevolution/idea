@@ -1,0 +1,140 @@
+- content_for(:script) do
+	:javascript
+		var tp_live_form_ctr = 1;
+		$('a.new_live_talking_point').live('click', 
+			function(){
+				console.log("new_live_talking_point - add another form v1");
+				var tp = $('div.talking_point_block'); 
+				var tp_clone = tp.eq(0).clone();
+				if(tp.size() > 1){
+					$('a.new_live_talking_point').hide();
+				
+				}else{
+				
+				}
+				tp_clone.find('textarea').val('');
+				tp_clone.find('form').removeClass('orig');
+				tp_clone.find('input[name="form_id"]').val(++tp_live_form_ctr);
+				tp_clone.find('h3').html( tp_clone.find('h3').html().replace('Enter a ', 'Start a new ') );
+				tp.last().after(tp_clone)
+				return false;
+			}
+		)
+		$('a.test_mode').live('click',
+			function(){
+				var test = $('div.test_mode');
+				if(test.is(':visible')){
+					test.hide();
+				}else{
+					test.show();
+				}
+			}
+		)
+	
+	%style
+		:sass
+			div.page
+				div#left
+					width: 400px
+					float: left
+					margin-right: 40px
+				div#right
+					width: 400px
+					float: left
+
+			div#outer_chat
+				div#chat_log
+					overflow: auto
+					overflow-y: scroll
+					width: 460px
+					height: 300px
+					border: 1px solid black
+					padding: 1em 0
+					p 
+						margin: 0 1em
+				input[type=text]
+					width: 360px
+
+			div#live_talking_points, div#groups_live_talking_points
+				div.inner
+					overflow: auto
+					overflow-y: scroll
+					width: 460px
+					height: 300px
+					border: 1px solid black
+					padding: 1em 0
+				input[type=text]
+					width: 360px
+			
+			div#groups_live_talking_points
+				div.inner
+					height: 140px
+	
+
+%div#group
+	- @title = 'Group recording page - CivicEvolution Live'
+	%h2 Group recording page @ CivicEvolution Live
+
+	%div#left
+		%div.talking_point_block
+			%h3 Enter a talking point from your table
+			- params[:ch] ||= 'theme1'
+			= form_tag(post_live_tp_path(params[:ch]), :remote=>true, :class=>'std_form orig', :id=>1) do
+				= text_area_tag :text, nil, {:class=>'autosize'}
+				%p sid: #{text_field_tag :sid, 23}
+				%p gid: #{text_field_tag :gid, 2}
+				%p ch: #{text_field_tag :ch, 'theme1'}
+				%p form_id: #{text_field_tag :form_id, 1}
+				
+
+				%div.form_controls
+					%button{'data-disable-with' =>'Submitting...'}
+						Share
+					%span.char_ctr
+						220 characters
+						
+		= link_to 'Start a new talking point', nil, :class=>'new_live_talking_point'
+
+		%p= link_to 'Use test mode',nil,:class=>'test_mode'
+		%div.test_mode
+			%h3 Test mode
+			= form_tag( live_test_ids_path, {:remote=>true}) do
+				%table
+					%tr
+						%td Live session id
+						%td= text_field_tag :live_session_id,22
+					%tr
+						%td Group range
+						%td= text_field_tag :group_range, '1..8'
+					%tr
+						%td Delay range
+						%td= text_field_tag :delay_range, '1..5'
+					%tr
+						%td Channel
+						%td= text_field_tag :channel, 'theme1'
+				
+				= submit_tag 'Start test', {:disable_with => 'Submitting…'}
+				%h3.warn.hide Test in progress
+	
+		
+	%div#right
+	
+		%h3 Talking points sent by your table
+		%div#groups_live_talking_points
+			%div.inner
+		
+		
+		%h3 Talking points as seen by themers
+		%div#live_talking_points
+			%div.inner
+
+		%h3 Chat with your theme team
+		%div#outer_chat			
+			%div#chat_log
+			= form_tag( chat_path, {:class=>'chat_form', :remote=>true}) do
+				= hidden_field_tag :team_id, params[:team_id]
+				= text_field_tag :msg
+				= submit_tag 'Send', {:disable_with => 'Submitting…'}
+
+
+

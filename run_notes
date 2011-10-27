@@ -106,6 +106,12 @@ On DEV
 	cd /ce_development/node/chat1
 	chat1 briansullivan$ juggernaut
 	
+	how do I use a redis command line client
+		cd /ce_development/src/redis-2.2.14
+		src/redis-cli
+	
+	
+	
 On PROD these are controlled by monit	
 
 •••• sudo ln -s /ce_development/node/chat1/node_modules/juggernaut/server.js /usr/bin/juggernaut

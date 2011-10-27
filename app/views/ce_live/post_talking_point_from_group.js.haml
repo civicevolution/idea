@@ -1,0 +1,23 @@
+:plain
+	console.log("post_talking_point_from_group.js")
+	var ltp = $("#{escape_javascript(
+		render( :template => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => live_talking_point})
+	)}");
+
+	$('div#groups_live_talking_points div.inner').append(ltp);
+	
+	// clear the right form, or remove it
+	
+	$('input[name="form_id"]').each(
+		function(){
+			if(Number(this.value) == Number(#{params[:form_id]})){
+				var form = $(this).closest('form');
+				if(form.hasClass('orig')){
+					form.find('textarea').val('');
+				}else{
+					form.closest('div.talking_point_block').remove();
+				}
+			}
+			console.log("value of this is " + this.value)
+		}
+	)

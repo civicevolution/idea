@@ -5,13 +5,3 @@ div.tagline {
   div.tagline h1 a {
     text-decoration: none;
     color: black; }
-
-div#live_talking_points div.inner {
-  overflow: auto;
-  overflow-y: scroll;
-  width: 460px;
-  height: 300px;
-  border: 1px solid black;
-  padding: 1em 0; }
-div#live_talking_points input[type=text] {
-  width: 360px; }

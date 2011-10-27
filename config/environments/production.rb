@@ -76,5 +76,6 @@ G3::Application.configure do
   }
 
   Juggernaut.options = {:host=> YAML.load_file("#{Rails.root}/../../shared/config/database.yml")['production']['host'] } 
+  REDIS_CLIENT = Redis.new(:host => YAML.load_file("#{Rails.root}/../../shared/config/database.yml")['production']['host'], :port => 6379)	
   
 end
