@@ -6,10 +6,15 @@ class WelcomeController < ApplicationController
   def index
     logger.warn "Welcome controller index request.subdomains.first: #{request.subdomains.first}"
     
-    if (request.subdomains.first.nil? || request.subdomains.first.match(/www/i))  && env['PATH_INFO'] == '/'
+    if (request.subdomains.first.nil? || request.subdomains.first.match(/www/i) || params[:_initiative_id] == 6 )  && env['PATH_INFO'] == '/'
       logger.debug "Show the CE home page"
       #render :action=>'home', :layout=>false
       home
+      return
+    end
+    
+    if request.subdomains.first.match(/live/i) && env['PATH_INFO'] == '/'
+      live_home
       return
     end
     
@@ -28,6 +33,10 @@ class WelcomeController < ApplicationController
       format.html { render :template=>'welcome/home1.html', :layout=>'civicevolution' }
       format.text { render :text => 'http://civicevolution.org is only available as HTML' }
     end
+  end
+  
+  def live_home
+    render :template=>'welcome/index.html', :layout=>'civicevolution'
   end
   
   def about
