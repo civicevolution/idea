@@ -130,23 +130,50 @@ Tue Oct 18 10:21:36 PDT 2011
 
 Running on DEV
 
-	cd /ce_development/src/redis-2.2.14
-	src/redis-server
+1)	Start rails
+		cd /ce_development/Rails/tp
+		rails s --debugger --port=8001
+
+2) 	Start redis
+		cd /ce_development/src/redis-2.2.14
+		src/redis-server
 	
-	cd /ce_development/node/chat1
-	juggernaut
+3)	Start juggernaut
+
+			Run regular mode
+			
+				cd /ce_development/node/chat1/node_modules/juggernaut	
+				juggernaut
 	
-	rails s --debugger --port=8001
+			Run in debug mode
+				
+				Start node inspector debugger
+					node-inspector --web-port=8181 & 
+		
+				Start juggernaut in node in debug mode
+					node --debug server.js
+						(debugger listening on port 5858)
+
+				Open debugger in browser
+					http://0.0.0.0:8181/debug?port=5858	
+					
+4) Start haproxy
+		sudo /usr/local/sbin/haproxy -f /etc/haproxy.cfg -D
 	
-	sudo /usr/local/sbin/haproxy -f /etc/haproxy.cfg -D
-	
-	RAILS_ENV=development script/monit.notify.sh start
-	RAILS_ENV=development script/monit.notify.sh stop
+5) Start notification daemon	
+		RAILS_ENV=development script/monit.notify.sh start
+		RAILS_ENV=development script/monit.notify.sh stop
 		ps aux | grep notification
 
-	RAILS_ENV=development script/delayed_job start		
-	RAILS_ENV=development script/delayed_job stop		
+6) Start dealyed_jobs daemon
+		RAILS_ENV=development script/delayed_job start		
+		RAILS_ENV=development script/delayed_job stop		
 		ps aux | grep delayed_job
+		
+7) Access redis cli
+	cd /ce_development/src/redis-2.2.14
+	src/redis-cli
+
 	
 ***********************************************************************************
 

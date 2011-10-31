@@ -66,7 +66,7 @@ class PlanController < ApplicationController
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
 
     render :summary, :layout => 'plan'
-    ActiveSupport::Notifications.instrument( 'tracking', :event => 'Summary page', :params => params.merge(:member_id => @member.id)) unless @member.nil? || @member.id == 0
+    ActiveSupport::Notifications.instrument( 'tracking', :event => 'Summary page', :params => params.merge(:member_id => @member.id, :session_id=>request.session_options[:id])) unless @member.nil? || @member.id == 0
     
     logger.debug "\n\nEnd plan/summary\n******************************************\n"
     logger.flush

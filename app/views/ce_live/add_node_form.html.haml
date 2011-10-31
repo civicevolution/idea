@@ -1,0 +1,40 @@
+%div#add_node_form
+	%style
+		:sass
+			div.form_controls
+				margin-bottom: 40px
+	%h3 Add/edit a node
+	
+	= form_for( @live_node, :url=>post_live_node_path(params[:event_id]), :html=>{:class=>'std_form'} ) do |form|
+		= form.hidden_field :id
+		%p= label_tag :role, 'Role'	
+		= form.select( :role, @role_options ) 
+		
+		
+		%div
+			%p= label_tag :title, 'node name'
+			= form.text_field :name
+			%div.form_controls
+				%span.char_ctr
+					200
+					characters
+			
+		
+		%div
+			%p= label_tag :description, 'Describe this node'
+			= form.text_area :description, :class=>'autosize'
+			%div.form_controls
+				%span.char_ctr
+					1000
+					characters
+					
+		%p= label_tag :parent_id, 'Reports to'			
+		= form.select( :parent_id, @parent_options ) 
+					
+		%p= label_tag :username, 'Username'
+		= form.text_field :username
+
+		%p= label_tag :password, 'Password'
+		= form.text_field :password
+		
+		%p= submit_tag @live_node.id.nil? ? 'Create node' : 'Update node'

@@ -69,9 +69,12 @@
 			div#groups_live_talking_points
 				div.inner
 					height: 140px
-	
 
-%div#group
+
+%div#table
+	:javascript
+		var pub_sub_channels = #{@channels}
+	
 	- @title = 'Group recording page - CivicEvolution Live'
 	%h2 Group recording page @ CivicEvolution Live
 
@@ -79,12 +82,9 @@
 		%div.talking_point_block
 			%h3 Enter a talking point from your table
 			- params[:ch] ||= 'theme1'
-			= form_tag(post_live_tp_path(params[:ch]), :remote=>true, :class=>'std_form orig', :id=>1) do
+			= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig', :id=>1) do
 				= text_area_tag :text, nil, {:class=>'autosize'}
-				%p sid: #{text_field_tag :sid, 23}
-				%p gid: #{text_field_tag :gid, 2}
-				%p ch: #{text_field_tag :ch, 'theme1'}
-				%p form_id: #{text_field_tag :form_id, 1}
+				= hidden_field_tag :form_id, 1
 				
 
 				%div.form_controls
@@ -131,10 +131,11 @@
 		%h3 Chat with your theme team
 		%div#outer_chat			
 			%div#chat_log
-			= form_tag( chat_path, {:class=>'chat_form', :remote=>true}) do
-				= hidden_field_tag :team_id, params[:team_id]
+			= form_tag( live_chat_path, {:class=>'chat_form', :remote=>true}) do
+				= hidden_field_tag :type, 'table'
 				= text_field_tag :msg
 				= submit_tag 'Send', {:disable_with => 'Submitting…'}
 
 
 
+	

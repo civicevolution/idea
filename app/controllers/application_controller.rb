@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  before_filter :set_application_personality, :except => [ :logo, :rss ]
   before_filter :add_member_data, :except => [ :logo, :rss ]
   before_filter :authorize, :except => [ :sign_in_form, :sign_in_post, :temp_join_save_email, :login, :proposal, :logo, :rss]
   
@@ -207,6 +208,10 @@ class ApplicationController < ActionController::Base
           params[:_initiative_id] = 5
           params[:_app_name] = 'Skyline Voices'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/skyline" ])
+        when /^live$/i
+          params[:_initiative_id] = 7
+          params[:_app_name] = 'CivicEvolution Live'
+          self.prepend_view_path([ Rails::root.to_s + "/app/views/live" ])
         else	
           params[:_initiative_id] = 6
           params[:_app_name] = 'CivicEvolution'
@@ -216,7 +221,6 @@ class ApplicationController < ActionController::Base
   
   
     def add_member_data
-      set_application_personality
       logger.silence(3) do
         if params[:_mlc]
           @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.request_uri} )

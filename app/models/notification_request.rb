@@ -187,11 +187,11 @@ class NotificationRequest < ActiveRecord::Base
                 else
                   subdomain = ''
               end
-              host = subdomain + (RAILS_ENV == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
+              host = subdomain + (Rails.env == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
 
               if !test_mode
                 NotificationMailer.immediate_report(recipient, team, request, entry, mcode, host).deliver unless team.nil? || entry.nil?
-                  #unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
+                  #unless Rails.env=='development' && recipient.email.match(/civicevolution.org/).nil?
               else
                 log_record.update_attribute('processed',true)
                 return recipient, team, request, entry, mcode, host
@@ -311,7 +311,7 @@ class NotificationRequest < ActiveRecord::Base
         else
           subdomain = ''
       end
-      team['host'] = subdomain + (RAILS_ENV == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
+      team['host'] = subdomain + (Rails.env == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
     end
 
     recipient_reports.each do |reports| 
@@ -320,7 +320,7 @@ class NotificationRequest < ActiveRecord::Base
       mcode = MemberLookupCode.get_code(recipient.id, {:scenario=>'periodic team report'} )
       if !test_mode
         NotificationMailer.periodic_report(recipient, @teams, @comments, @answers, @talking_points, reports, mcode).deliver
-          #unless RAILS_ENV=='development' && recipient.email.match(/civicevolution.org/).nil?
+          #unless Rails.env=='development' && recipient.email.match(/civicevolution.org/).nil?
       else
         return recipient, @teams, @comments, @answers, @talking_points, reports, mcode
       end

@@ -1,0 +1,111 @@
+%div#coordinator
+	:javascript
+		var pub_sub_channels = #{@channels}
+	%style
+		:sass
+			div#coordinator
+				td, th 
+					padding-top: 1em
+					padding-right: 2em
+					text-align: left
+					vertical-align: top
+				input.link
+					border: none
+					background: none
+					cursor: po inter
+					margin: 0 
+					padding: 0
+					text-decoration: underline
+					
+					
+	%h2 Coordinator page
+	%p The coordinator
+	%ul
+		%li Create sessions
+		%li Create groups
+		%li Link groups to themers
+		%li Start sessions
+		%li End sessions
+		%li Review activity
+		%li Chat with themers and groups
+
+
+
+	%h2 Event setup
+	
+	%h3= @event.name
+	%p= @event.description
+	
+	
+	%h3 Sessions to be recorded with CE Live
+	%table
+		%tr
+			%th.nobreak Session #
+			%th Session name and description
+		- @event_sessions.sort{|a,b| a.order_id<=>b.order_id}.each do |session|
+			%tr
+				%td= session.order_id
+				%td
+					%b= session.name
+					%br
+					= session.description
+				%td
+					= form_tag edit_live_session_path(:event_id => session.live_event_id, :id => session.id) do
+						= submit_tag "Edit", :class => 'link'
+				%td		
+					= form_tag delete_live_session_path(:event_id => session.live_event_id, :id => session.id) do
+						= submit_tag "Delete", :class => 'link'
+
+	%p= link_to "Add session", add_live_session_path
+	
+	%h3 Nodes
+	%table
+		%tr
+			%th Node name and description
+			%th Role
+			%th Reports to
+			%th Login as
+		- @event_nodes.each do |node|
+			%tr
+				%td
+					%b= node.name
+					%br
+					= node.description
+				%td= node.role
+					
+				%td
+					- par = @event_nodes.detect{ |en| en.id == node.parent_id }
+					= par.nil? ? 'Not selected' : par.name
+
+				%td #{node.username}/#{node.password}
+				%td
+					= form_tag edit_live_node_path(:event_id => node.live_event_id, :id => node.id) do
+						= submit_tag "Edit", :class => 'link'
+				%td		
+					= form_tag delete_live_node_path(:event_id => node.live_event_id, :id => node.id) do
+						= submit_tag "Delete", :class => 'link'
+
+	%p= link_to "Add node", add_live_node_path
+	
+	%p Subscribe to #{@channels}
+
+-#	%h3 All staff
+	%table
+		%tr
+			%th First name
+			%th Last name
+			%th Username
+			%th Password
+			%th Roles
+		- @event_staff.sort{|a,b| a.first_name<=>b.first_name && a.last_name<=>b.last_name}.each do |staff|
+			%tr
+				%td= staff.first_name
+				%td= staff.last_name
+				%td= staff.user_name
+				%td= staff.password
+				%td= staff.roles
+				%td= link_to "edit"
+				%td= link_to "delete"
+	%p= link_to "Add staff"
+		
+				

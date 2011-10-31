@@ -7,9 +7,9 @@
 				var tp_clone = tp.eq(0).clone();
 				if(tp.size() > 1){
 					$('a.new_live_talking_point').hide();
-				
+
 				}else{
-				
+
 				}
 				tp_clone.find('textarea').val('');
 				tp_clone.find('h3').html( tp_clone.find('h3').html().replace('Enter a ', 'Start a new ') );
@@ -17,7 +17,7 @@
 				return false;
 			}
 		)
-	
+
 	%style
 		:sass
 			div.page
@@ -52,14 +52,14 @@
 					padding: 1em 0
 				input[type=text]
 					width: 360px
-			
 
+%div#themer
+	:javascript
+		var pub_sub_channels = #{@channels}
 
-%div#theme
 	- @title = 'Theme team page - CivicEvolution Live'
 	%h3 Theme team page @ CivicEvolution Live
-
-
+	
 	%h3 Talking points from the tables
 	%div#live_talking_points
 		%div.inner
@@ -68,7 +68,7 @@
 	%h3 Chat with your tables
 	%div#outer_chat			
 		%div#chat_log
-		= form_tag( chat_path, {:class=>'chat_form', :remote=>true}) do
-			= hidden_field_tag :team_id, params[:team_id]
+		= form_tag( live_chat_path, {:class=>'chat_form', :remote=>true}) do
+			= hidden_field_tag :type, 'table'
 			= text_field_tag :msg
 			= submit_tag 'Send', {:disable_with => 'Submitting…'}

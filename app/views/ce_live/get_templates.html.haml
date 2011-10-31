@@ -62,6 +62,14 @@
 					$('div#live_talking_points div.inner').append(live_talking_point).scrollTop(99999999);
 					
 					temp.live_talking_point = live_talking_point
+					
+					if(data.data.live_talking_point.text.match(/yahoo/)){
+						console.log("change the page to yahoo")
+						document.location = 'http://yahoo.com'
+					
+					}
+					
+					
 				}
 			console.log("live_talking_point template is ready");
 

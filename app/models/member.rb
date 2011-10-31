@@ -89,8 +89,8 @@ class Member < ActiveRecord::Base
   
   
   def reserve_ape_code
-    #if APP_NAME == 'app_2029' || RAILS_ENV != 'production'
-    #f self.domain == 'app_2029' || RAILS_ENV != 'production'
+    #if APP_NAME == 'app_2029' || Rails.env != 'production'
+    #f self.domain == 'app_2029' || Rails.env != 'production'
       o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;  
       # I can check to make sure this code isn't already in the table    
       string = ''

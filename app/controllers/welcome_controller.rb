@@ -14,7 +14,7 @@ class WelcomeController < ApplicationController
     end
     
     if request.subdomains.first.match(/live/i) && env['PATH_INFO'] == '/'
-      live_home
+      redirect_to live_home_url
       return
     end
     
@@ -34,11 +34,7 @@ class WelcomeController < ApplicationController
       format.text { render :text => 'http://civicevolution.org is only available as HTML' }
     end
   end
-  
-  def live_home
-    render :template=>'welcome/index.html', :layout=>'civicevolution'
-  end
-  
+    
   def about
     render :action=>'about', :layout=>'civicevolution'
   end

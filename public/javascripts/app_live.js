@@ -1,5 +1,9 @@
 $(function(){
-	setTimeout(load_templates, 500);
+	if(document.location.href.match(/sign_in_form/i)){
+		return
+	}else{
+		setTimeout(load_templates, 500);
+	}
 });
 
 function load_templates(){
@@ -55,17 +59,13 @@ function init_real2(){
 		
 }
 function init_real3(){		
-		ch = params['ch'] || 'theme1'
-		console.log("subscribe_to_team_channel: Subscribing to " + ch);
-		jug.subscribe(ch, function(data){
-		  log("theme data: " + data);
+	for(var i in pub_sub_channels){
+		console.log("subscribe to " + pub_sub_channels[i]);
+		jug.subscribe(pub_sub_channels[i], function(data){
+		  log("data for pub_sub_channel " + pub_sub_channels[i] +": " + data);
 			process_realtime(data)
 		});
-		jug.subscribe('theme1-chat', function(data){
-		  log("chat data: " + data);
-			process_realtime(data)
-		});
-		//$.getScript('/chat_form/' + ch,null,null,'script');
+	}
 }
 function process_realtime(data){
 	console.log("process_realtime act: " + data.act)

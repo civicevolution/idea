@@ -7,13 +7,38 @@ G3::Application.routes.draw do |map|
   
   match 'jug' => 'chat#jug'
 
+  get 'live/home' => 'ce_live#live_home', :as => 'live_home'
+  get 'live/:event_id/auto' => 'ce_live#auto_mode', :as => 'auto_mode'
   get 'live/ltp_to_jug' => 'ce_live#ltp_to_jug'
   get 'live/group' => 'ce_live#group'
   get 'live/theme' => 'ce_live#theme'
   get 'live/get_templates' => 'ce_live#get_templates'
   get 'live/test' => 'ce_live#session_test'
-  post 'live/:channel/post_tp' => 'ce_live#post_talking_point_from_group', :as => 'post_live_tp'
+  #post 'live/:channel/post_tp' => 'ce_live#post_talking_point_from_group', :as => 'post_live_tp'
+  post 'live/post_tp' => 'ce_live#post_talking_point_from_group', :as => 'post_live_tp'
   post 'live/test_ids' => 'ce_live#get_tp_test_ids', :as => 'live_test_ids'
+  
+  
+  
+  get 'live/:event_id/coordinator' => 'ce_live#coordinator', :as => 'live_coordinator'
+  get 'live/:event_id/themer' => 'ce_live#themer', :as => 'live_themer' 
+  get 'live/:event_id/table' => 'ce_live#table', :as => 'live_table'
+  get 'live/:event_id/observer' => 'ce_live#observer', :as => 'live_observer'
+  get 'live/:event_id/add_session(/:id)' => 'ce_live#add_session_form', :as=> 'add_live_session'
+  match 'live/:event_id/add_session(/:id)' => 'ce_live#add_session_form', :as=> 'edit_live_session'
+  match 'live/:event_id/post_session(/:id)' => 'ce_live#add_session_post', :via=>[:put,:post], :as=> 'post_live_session'
+  match 'live/:event_id/delete_session(/:id)' => 'ce_live#delete_session_post', :via=>[:put,:post], :as=> 'delete_live_session'
+
+  get 'live/:event_id/add_node(/:id)' => 'ce_live#add_node_form', :as=> 'add_live_node'
+  match 'live/:event_id/add_node(/:id)' => 'ce_live#add_node_form', :as=> 'edit_live_node'
+  match 'live/:event_id/post_node(/:id)' => 'ce_live#add_node_post', :via=>[:put,:post], :as=> 'post_live_node'
+  match 'live/:event_id/delete_node(/:id)' => 'ce_live#delete_node_post', :via=>[:put,:post], :as=> 'delete_live_node'
+
+  match "live/chat" => 'ce_live#send_chat_message', :as => 'live_chat'
+  
+  
+  
+  
   
   match "chat" => 'chat#send_chat_message', :as => 'chat'
 
@@ -34,7 +59,7 @@ G3::Application.routes.draw do |map|
   
   get "sign_in/sign_in"
 
-  get "sign_in/sign_out"
+  get "sign_in/sign_out", :as=>'sign_out'
 
   get "sign_in/reset_password_form", :as => 'reset_password_form'
   post "sign_in/reset_password_post", :as => 'reset_password_post'

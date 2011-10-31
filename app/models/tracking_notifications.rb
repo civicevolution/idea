@@ -126,21 +126,27 @@ class TrackingNotifications
       case name
         when 'Summary page'
           event_id = 100
-          return if ParticipationEvent.where("member_id = ? AND event_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id).exists?
+          return if ParticipationEvent.where("member_id = ? AND event_id = ? AND team_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id, params[:team_id]).exists?
+          #add auth to redis for this user(session_id) and team in the form
+          REDIS_CLIENT.sadd "_auth_team_#{params[:team_id]}", params[:session_id]
+          
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
            :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           
         when 'Question worksheet'
           event_id = 101
-          return if ParticipationEvent.where("member_id = ? AND event_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id).exists?
+          return if ParticipationEvent.where("member_id = ? AND event_id = ? AND question_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id, params[:question_id]).exists?
+          #add auth to redis for this user(session_id) and team in the form
+          REDIS_CLIENT.sadd "_auth_team_#{params[:team_id]}", params[:session_id]
+          
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => params[:question_id],
            :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
         
         when 'New content page'
           event_id = 102
-          return if ParticipationEvent.where("member_id = ? AND event_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id).exists?
+          return if ParticipationEvent.where("member_id = ? AND event_id = ? AND team_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id, params[:team_id]).exists?
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
            :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"

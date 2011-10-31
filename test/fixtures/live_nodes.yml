@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  live_event_id: 1
+  name: MyString
+  description: MyText
+  parent_id: 1
+  username: MyString
+  password: MyString
+
+two:
+  live_event_id: 1
+  name: MyString
+  description: MyText
+  parent_id: 1
+  username: MyString
+  password: MyString
