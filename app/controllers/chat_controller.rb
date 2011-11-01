@@ -9,7 +9,7 @@ class ChatController < ApplicationController
   
   def send_chat_message
     logger.debug "Publish the chat message"
-    Juggernaut.publish(params[:team_id], {:act=>'update_chat', :name=>"#{@member.first_name} #{@member.last_name.slice(0)}",  :msg=>params[:msg]}, :except => request.headers["X-Juggernaut-Id"] )
+    Juggernaut.publish("_auth_team_#{params[:team_id]}", {:act=>'update_chat', :name=>"#{@member.first_name} #{@member.last_name.slice(0)}",  :msg=>params[:msg]}, :except => request.headers["X-Juggernaut-Id"] )
   end
 
   def chat_form

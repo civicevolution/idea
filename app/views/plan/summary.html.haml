@@ -1,5 +1,7 @@
 - logger.debug "\n\n*************** Begin to render the plan page\n\n"
 %div.page_content_div
+	:javascript
+		var pub_sub_channels = #{@channels}
 	%div.talking_points_page
 		%div.left_side
 			%div.spiral

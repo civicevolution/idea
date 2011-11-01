@@ -65,6 +65,9 @@ class PlanController < ApplicationController
 
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
 
+    @channels = ["_auth_team_#{@team.id}", "_auth_inititive_#{params[:_initiative_id]}"]
+    authorize_juggernaut_channels(request.session_options[:id], @channels )
+    
     render :summary, :layout => 'plan'
     ActiveSupport::Notifications.instrument( 'tracking', :event => 'Summary page', :params => params.merge(:member_id => @member.id, :session_id=>request.session_options[:id])) unless @member.nil? || @member.id == 0
     

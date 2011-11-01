@@ -23,3 +23,19 @@ end
 
 PARTICIPATION_EVENT_POINTS = YAML.load_file("#{Rails.root}/config/participation_event_descriptions.yaml")
 
+
+def authorize_juggernaut_channels(session_id, channels )
+  logger.debug "authorize_juggernaut_channels for session_id: #{session_id} for channels: #{@channels}"
+  # read all the channels for this session_id and clear them
+  old_channels = REDIS_CLIENT.HGET "session_id_channels", session_id
+  if old_channels
+    JSON.parse(old_channels).each do |channel|
+      REDIS_CLIENT.SREM channel,session_id
+    end
+  end
+  # add this session_id to the new channels
+  channels.each do |channel|
+    REDIS_CLIENT.sadd channel,session_id
+  end
+  REDIS_CLIENT.HSET "session_id_channels", session_id, channels
+end

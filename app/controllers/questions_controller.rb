@@ -386,6 +386,9 @@ class QuestionsController < ApplicationController
     new_comment_ids = Comment.select('id').where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
     @question.new_coms = (new_comment_ids.map(&:id) - @question['comments_to_display'].map(&:id)).size
 
+    @channels = ["_auth_team_#{@team.id]}", "_auth_inititive_#{params[:_initiative_id]}"]
+    authorize_juggernaut_channels(request.session_options[:id], @channels )
+    
     render :template=> 'questions/worksheet', 
       :locals => {:question => @question, :questions => @team.questions.sort{|a,b| a.order_id <=> b.order_id}, }, 
       :layout => request.xhr? ? false : 'plan'

@@ -1,5 +1,6 @@
 = render :partial => 'plan/question', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
 :javascript
+	var pub_sub_channels = #{@channels};
 	function scrollToElement(){
 		var highlight = $('.highlight');
 		//console.log("highlight.size(): " + highlight.size())
