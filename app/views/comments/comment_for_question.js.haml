@@ -4,11 +4,12 @@
 	
 	if( $('div.Comment[id="#{comment.id}"]').size()>0){
 		// replace the existing one with this one
-		$('div.Comment[id="#{comment.id}"]').replaceWith(com);
+		com = $('div.Comment[id="#{comment.id}"]').replaceWith(com);
 	}else{
 		// insert this one
-		$('div.question_worksheet[id="#{question_id}"] div.ques_discussion div.Comment:last').after(com);
+		 com = $(com).insertAfter('div.question_worksheet[id="#{question_id}"] div.ques_discussion div.Comment:last');
 	}
+	com.find('abbr').timeago();
 	
 	var form = $('div.question_worksheet[id="#{question_id}"] form.what_do_you_think')
 	form.find('textarea').val('');

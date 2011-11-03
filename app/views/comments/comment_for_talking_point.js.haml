@@ -7,10 +7,10 @@
 	
 	if( $('div.Comment[id="#{comment.id}"]').size()>0){
 		// replace the existing one with this one
-		$('div.Comment[id="#{comment.id}"]').replaceWith(com);
+		com = $('div.Comment[id="#{comment.id}"]').replaceWith(com);
 	}else{
 		// insert this one
-		form.before(com);
+		com = $(com).insertBefore(form);
 	}
-	
+	com.find('abbr').timeago();
 	

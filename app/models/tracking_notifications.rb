@@ -27,15 +27,21 @@ class TrackingNotifications
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question.id,
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
-          Juggernaut.publish("_auth_team_#{obj.team_id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj, 
-            :author=>{:first_name=>obj.author.first_name, :last_name=>obj.author.last_name, :ape_code=>obj.author.ape_code, :photo_url=>obj.author.photo.url('36')}})
-        
+          author = {:first_name=>obj.author.first_name, :last_name=>obj.author.last_name, :ape_code=>obj.author.ape_code, :photo_url=>obj.author.photo.url('36')}
+          mem_id = obj.member_id
+          obj.member_id = nil
+          Juggernaut.publish("_auth_team_#{obj.team_id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj, :author=>author})
+          obj.member_id = mem_id
+
         when  'TalkingPoint'
           event_id = name == 'after_create' ? 3 : 4
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question_id,
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
+          mem_id = obj.member_id
+          obj.member_id = nil
           Juggernaut.publish("_auth_team_#{obj.team.id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj})
+          obj.member_id = mem_id
           
         when  'Answer'
           event_id = name == 'after_create' ? 5 : 6
@@ -48,7 +54,7 @@ class TrackingNotifications
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => nil,
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
-          Juggernaut.publish("_auth_team_#{obj.team_id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj})
+          #Juggernaut.publish("_auth_team_#{obj.team_id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj})
 
         when 'ProposalIdea'
           event_id = name == 'after_create' ? 9 : 10

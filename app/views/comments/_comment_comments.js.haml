@@ -10,6 +10,7 @@
 	// override the ajax Complete function to restore the link text
 	link.removeData('ujs:enable_with'); 
 	var newNode = $(com_coms).insertAfter(com);
+	newNode.find('abbr').timeago();
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
 	// activate the link to hide the discussion
 	link.bind('ajax:beforeSend',

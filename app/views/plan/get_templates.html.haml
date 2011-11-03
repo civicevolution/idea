@@ -134,7 +134,9 @@
 							console.log("replace the text only");
 						  old_tp.find('p.talking_point').html(data.data.talking_point.text);
 							resize_talking_point_entry(old_tp);
-							
+							// update the versions link
+							temp.old_tp = old_tp
+							old_tp.find('a.versions').removeClass('hide').html( 'View ' + (data.data.talking_point.version - 1) + ' old ' + ((data.data.talking_point.version-1) == 1 ? 'version' : 'versions'));
 						}else{
 							console.log("insert a new TP")
 							// insert a new tp

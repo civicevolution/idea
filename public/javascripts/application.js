@@ -12,7 +12,13 @@ temp = {};
 
 console.log("Loading application.js");
 
-
+jQuery(function() {
+	jQuery.support.borderRadius = false;
+	jQuery.each(['BorderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
+		if(document.body.style[this] !== undefined) jQuery.support.borderRadius = true;
+		return (!jQuery.support.borderRadius);
+	});
+});
 
 $(function(){
 		$(document).ajaxSend(function(e, xhr, options) {
@@ -64,6 +70,25 @@ function init_page(){
 	remove_worksheet_form();
 	size_talking_point_entries();
 	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
+	if(!$.support.borderRadius){ 
+		console.log("load corner support script and activate");
+		$.getScript('/javascripts/jquery.corner.js', 
+			function(){
+				var worksheet_corners = $('div.worksheet .corner');
+				var non_worksheet_corners = $('.corner').not( worksheet_corners );
+				if( worksheet_corners.size() > 0 ){
+					worksheet_corners.corner( 'cc:#F2E9C3');
+				}
+				if( non_worksheet_corners.size() > 0 ){
+					non_worksheet_corners.corner();
+				}
+			}
+		);
+	}else{
+		// define dummy corner function
+		$.fn.corner = function(){ return this; }
+	}
+
 	var worksheet_corners = $('div.worksheet .corner');
 	var non_worksheet_corners = $('.corner').not( worksheet_corners );
 	if( worksheet_corners.size() > 0 ){
@@ -72,7 +97,7 @@ function init_page(){
 	if( non_worksheet_corners.size() > 0 ){
 		non_worksheet_corners.corner();
 	}
-	
+
 	try{
 		init_add_this();
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
@@ -234,3 +259,15 @@ function init_add_this(){
 	});
 	
 }
+
+// This tiny snippet was created by Rob Glazebrook (@robbyg) on April 15, 2010.
+// Original Article: http://www.cssnewbie.com/test-for-border-radius-support/
+// Use this snippet anywhere you wish, but I'd appreciate attribution (such as leaving this in place!)
+
+jQuery(function() {
+	jQuery.support.borderRadius = false;
+	jQuery.each(['BorderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
+		if(document.body.style[this] !== undefined) jQuery.support.borderRadius = true;
+		return (!jQuery.support.borderRadius);
+	});
+});

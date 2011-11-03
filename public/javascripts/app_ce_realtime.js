@@ -97,7 +97,7 @@ function process_juggernaut_input(data){
 			$('div#chat_log').append("<p>" + data.name + ": " + data.msg + "</p>").scrollTop(99999999);
 			break;
 		case 'update_page':
-			$('div#chat_log').append("<p>Update page with " + data.type + "</p>");
+			//$('div#chat_log').append("<p>Update page with " + data.type + "</p>");
 			if(realtime_data_update_functions[data.type]){
 				realtime_data_update_functions[data.type](data)	
 			}else{

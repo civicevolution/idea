@@ -6,7 +6,8 @@ class TrackingObserver < ActiveRecord::Observer
       if Rails.env == 'production'
         TrackingNotifications.delay.process_event( {:event => 'after_create', :model => model} )
       else # don't delay in DEV to make debugging easier
-        TrackingNotifications.process_event( {:event => 'after_create', :model => model} )
+        #TrackingNotifications.process_event( {:event => 'after_create', :model => model} )
+        TrackingNotifications.delay.process_event( {:event => 'after_create', :model => model} )
       end
 	  end
 
@@ -14,7 +15,8 @@ class TrackingObserver < ActiveRecord::Observer
       if Rails.env == 'production'
         TrackingNotifications.delay.process_event( {:event => 'after_update', :model => model} )
       else # don't delay in DEV to make debugging easier
-        TrackingNotifications.process_event( {:event => 'after_update', :model => model} )
+        #TrackingNotifications.process_event( {:event => 'after_update', :model => model} )
+        TrackingNotifications.delay.process_event( {:event => 'after_update', :model => model} )
       end
 	  end
   

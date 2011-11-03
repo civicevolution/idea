@@ -6,7 +6,8 @@ class TrackingDestroyObserver < ActiveRecord::Observer
       if Rails.env == 'production'
         TrackingNotifications.delay.process_event( {:event => 'after_destroy', :json => model.to_json} )
       else # don't delay in DEV to make debugging easier
-        TrackingNotifications.process_event( {:event => 'after_destroy', :json => model.to_json} )
+        TrackingNotifications.delay.process_event( {:event => 'after_destroy', :json => model.to_json} )
+        #TrackingNotifications.process_event( {:event => 'after_destroy', :json => model.to_json} )
       end
       
 	  end
