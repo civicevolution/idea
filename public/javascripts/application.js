@@ -74,7 +74,8 @@ function init_page(){
 		console.log("load corner support script and activate");
 		$.getScript('/javascripts/jquery.corner.js', 
 			function(){
-				var worksheet_corners = $('div.worksheet .corner');
+				//console.log("corner has been loaded")
+				var worksheet_corners = $('div.question_worksheet .corner');
 				var non_worksheet_corners = $('.corner').not( worksheet_corners );
 				if( worksheet_corners.size() > 0 ){
 					worksheet_corners.corner( 'cc:#F2E9C3');
@@ -89,19 +90,15 @@ function init_page(){
 		$.fn.corner = function(){ return this; }
 	}
 
-	var worksheet_corners = $('div.worksheet .corner');
-	var non_worksheet_corners = $('.corner').not( worksheet_corners );
-	if( worksheet_corners.size() > 0 ){
-		worksheet_corners.corner( 'cc:#F2E9C3');
-	}
-	if( non_worksheet_corners.size() > 0 ){
-		non_worksheet_corners.corner();
-	}
-
 	try{
 		init_add_this();
-		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
+		console.log("init_add_this is okay")
 	}catch(e){}
+	try{
+		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
+		console.log("pretty photo is okay")
+	}catch(e){}
+
 }
 
 function remove_worksheet_form(){
