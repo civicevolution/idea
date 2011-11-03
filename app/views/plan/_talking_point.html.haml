@@ -12,7 +12,7 @@
 			- else
 				- link_text = "Reply"
 			%p.coms
-				= link_to link_text, talking_point_comments_path(talking_point), { :class=> 'tp_show_coms', :id=>talking_point.id, :remote=>true}
+				= link_to link_text, talking_point_comments_path(talking_point), { :class=> 'tp_show_coms', :remote=>true}
 			%p.other
 				= link_to "Edit", edit_talking_point_path(talking_point), {:class => 'edit', :rel=>'nofollow', :remote=>true}
 				- if talking_point.version > 1

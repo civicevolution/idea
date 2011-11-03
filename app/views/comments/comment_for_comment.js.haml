@@ -3,7 +3,15 @@
 	console.log("comment_for_comment.js.haml");
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
 	var cur_form = $('form.comment_form[id="#{params[:comment_id]}"]');
-	cur_form.before(com);
+	
+	if( $('div.Comment[id="#{comment.id}"]').size()>0){
+		// replace the existing one with this one
+		$('div.Comment[id="#{comment.id}"]').replaceWith(com);
+	}else{
+		// insert this one
+		cur_form.before(com);
+	}
+	
 	cur_form.closest('div.discussion').find('form.orig').show();
 	if(cur_form.closest('div.discussion').find('form').size() > 1 ){
 		cur_form.remove();

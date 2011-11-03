@@ -16,7 +16,7 @@
 
 	%div#outer_chat			
 		%div#chat_log
-		= form_tag( chat_path, {:class=>'chat_form', :remote=>true}) do
+		= form_tag( chat_path, {:class=>'chat_form', :remote=>true, :autocomplete=>'off'}) do
 			= hidden_field_tag :team_id, params[:team_id]
 			= text_field_tag :msg
 			= submit_tag 'Send', {:disable_with => 'Submitting…'}

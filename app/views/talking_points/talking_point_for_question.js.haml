@@ -5,7 +5,13 @@
 	tp.find('div.community_rating').removeClass('no_js');
 	tp.find('.corner').corner('cc:#F2E9C3');
 
-	$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last').after(tp)
+	if( $('div.talking_point_entry[id="#{talking_point.id}"]').size()>0){
+		// replace the existing one with this one
+		$('div.talking_point_entry[id="#{talking_point.id}"]').replaceWith(tp);
+	}else{
+		// insert this one
+		$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last').after(tp);
+	}
 	var form = $('div.question_worksheet[id="#{question_id}"] form.what_do_you_think')
 	form.find('textarea').val('');
 	form.find('p.warn').remove();

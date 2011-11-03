@@ -43,6 +43,7 @@ G3::Application.routes.draw do |map|
   match "chat" => 'chat#send_chat_message', :as => 'chat'
 
   get "chat_form/:team_id" => 'chat#chat_form', :as => 'chat_form'
+  get 'test_insert'=>'chat#test_insert'
   
   get "profile/index"
 

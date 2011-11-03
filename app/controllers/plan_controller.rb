@@ -236,7 +236,10 @@ class PlanController < ApplicationController
     @comment.text = ''
     @comment.id = 0
 
-
+    @talking_point = TalkingPoint.new(:created_at => old_ts, :updated_at => newer_ts)
+    @talking_point.text = ''
+    @talking_point.id = 0
+    @talking_point.version = 1
 
 
     # the templates are built in get_templates.js

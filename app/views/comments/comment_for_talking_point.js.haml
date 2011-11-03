@@ -4,4 +4,13 @@
 	var form = $('div.question_worksheet[id="#{question_id}"] div.talking_point_comments[id="#{comment.parent_id}"] form.comment_form.orig');
 	form.find('textarea').val('');
 	form.find('div#errorExplanation').remove();
-	form.before(com);
+	
+	if( $('div.Comment[id="#{comment.id}"]').size()>0){
+		// replace the existing one with this one
+		$('div.Comment[id="#{comment.id}"]').replaceWith(com);
+	}else{
+		// insert this one
+		form.before(com);
+	}
+	
+	

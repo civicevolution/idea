@@ -27,7 +27,7 @@ class TrackingNotifications
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question.id,
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
-          Juggernaut.publish(obj.team_id, {:act=>'update_page', :type=>'comment', :data=>obj, 
+          Juggernaut.publish("_auth_team_#{obj.team_id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj, 
             :author=>{:first_name=>obj.author.first_name, :last_name=>obj.author.last_name, :ape_code=>obj.author.ape_code, :photo_url=>obj.author.photo.url('36')}})
         
         when  'TalkingPoint'
@@ -35,7 +35,8 @@ class TrackingNotifications
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question_id,
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
-        
+          Juggernaut.publish("_auth_team_#{obj.team.id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj})
+          
         when  'Answer'
           event_id = name == 'after_create' ? 5 : 6
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question_id,
@@ -47,6 +48,7 @@ class TrackingNotifications
           participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => nil,
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
+          Juggernaut.publish("_auth_team_#{obj.team_id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj})
 
         when 'ProposalIdea'
           event_id = name == 'after_create' ? 9 : 10
@@ -83,13 +85,21 @@ class TrackingNotifications
          
         when  'TalkingPointAcceptableRating' 
           event_id = 17
+          tpr = TalkingPointAcceptableRating.sums(obj.talking_point_id)
+          rating_votes = [0,0,0,0,0]
+          tpr.each{|r| rating_votes[r.rating-1] = r.count.to_i }
+          Juggernaut.publish("_auth_team_#{obj.talking_point.team.id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>{:id=>obj.talking_point_id, :votes=>rating_votes}})
+          
           return if ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :item_id => obj.id).exists?
           participation_event = ParticipationEvent.new :initiative_id => obj.talking_point.team.initiative_id, :team_id => obj.talking_point.team.id, :question_id => obj.talking_point.question_id,
           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
-          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+          #Rails.logger.debug "participation_event: #{participation_event.inspect}"
 
         when  'TalkingPointPreference' 
           event_id = 19
+          preference_count = TalkingPointPreference.count(:member_id, :conditions => ['talking_point_id = ?', obj.talking_point_id ])
+          Juggernaut.publish("_auth_team_#{obj.talking_point.team.id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>{:id=>obj.talking_point_id, :count=>preference_count}})
+          
           if name == 'after_destroy'
             ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :item_id => obj.id).each{|pe| pe.destroy}
             return
@@ -98,6 +108,7 @@ class TrackingNotifications
             :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
             Rails.logger.debug "participation_event: #{participation_event.inspect}"
           end
+          
         when  'AnswerRating'
           event_id = 21
           return if ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :item_id => obj.id).exists?
@@ -115,6 +126,21 @@ class TrackingNotifications
         raise "I didn't get all the data for #{obj.class.to_s}:\n#{participation_event.inspect}"
       end
       
+    elsif payload.key?(:json) # process the model destroy observers that stored the old model in json
+        obj = JSON.parse(payload[:json])
+        
+        case obj.keys[0]
+          when 'talking_point_preference'
+            event_id = 19
+            tpp = obj['talking_point_preference']
+            preference_count = TalkingPointPreference.count(:member_id, :conditions => ['talking_point_id = ?', tpp['talking_point_id'] ])
+            talking_point = TalkingPoint.find_by_id(tpp['talking_point_id'])
+            if !talking_point.nil?
+              Juggernaut.publish("_auth_team_#{talking_point.team.id}", {:act=>'update_page', :type=>'TalkingPointPreference', :data=> {:id=>tpp['talking_point_id'], :count=>preference_count}})
+            end
+            ParticipationEvent.where(:member_id => tpp['member_id'], :event_id => event_id, :item_id => tpp['id']).each{|pe| pe.destroy}
+        end
+      
     else # process the controller Notifications
       
       Rails.logger.debug "Process this event #{name} from Notifications" unless !debug
@@ -128,7 +154,6 @@ class TrackingNotifications
           event_id = 100
           return if ParticipationEvent.where("member_id = ? AND event_id = ? AND team_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id, params[:team_id]).exists?
           #add auth to redis for this user(session_id) and team in the form
-          REDIS_CLIENT.sadd "_auth_team_#{params[:team_id]}", params[:session_id]
           
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
            :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
@@ -138,7 +163,6 @@ class TrackingNotifications
           event_id = 101
           return if ParticipationEvent.where("member_id = ? AND event_id = ? AND question_id = ? AND created_at > now() AT TIME ZONE 'UTC' - interval '1 hour'", params[:member_id], event_id, params[:question_id]).exists?
           #add auth to redis for this user(session_id) and team in the form
-          REDIS_CLIENT.sadd "_auth_team_#{params[:team_id]}", params[:session_id]
           
           participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => params[:question_id],
            :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)

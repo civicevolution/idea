@@ -93,18 +93,22 @@ function size_talking_point_entries(){
 	//return
 	$('div.talking_point_entry').not('.header').each( 
 		function(){
-			var el = $(this)
-			var b = el.children('div.talking_point_body').height('auto');
-			var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
-			var p = el.children('div.talking_point_preferable').height('auto');
-			var max = Math.max.apply( Math, [b.height(), (cr.height() + 26), p.height()] );
-			//console.log("max height: " + max)
-			b.height(max);
-			cr.parent().height(max-20);
-			p.height(max-20);
+			resize_talking_point_entry( $(this) );
 		}
 	)	
 }
+
+function resize_talking_point_entry(el){
+	var b = el.children('div.talking_point_body').height('auto');
+	var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
+	var p = el.children('div.talking_point_preferable').height('auto');
+	var max = Math.max.apply( Math, [b.height(), (cr.height() + 26), p.height()] );
+	//console.log("max height: " + max)
+	b.height(max);
+	cr.parent().height(max-20);
+	p.height(max-20);
+}
+
 
 $('form.what_do_you_think a.clear').die('click').live('click',
 	function(){

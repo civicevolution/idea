@@ -25,14 +25,13 @@
 		- barw = 16
 		- barh = 22
 		%div.community_rating.no_js
-			%p.talking_point_ratings= "#{num_votes} ratings"
+			%p.talking_point_ratings= pluralize(num_votes, 'rating')
 		
 		
 			%div.graph.js
 				- talking_point.rating_votes.each_index do |i|
 					%div.bar.zero{:style=>"left: #{barw * i}px; height: 100%"}
-					- if talking_point.rating_votes[i] > 0
-						%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
+					%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
 
 
 			%div.graph.no_js

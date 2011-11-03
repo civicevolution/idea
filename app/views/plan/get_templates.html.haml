@@ -5,6 +5,7 @@
 			templates = {};
 			template_functions = {};
 			realtime_data_update_functions = {};
+			
 			function simple_format(s){
 				var strs = unescape(s).split(/\n\n/)
 				s = ''
@@ -44,24 +45,163 @@
 					'abbr.timeago @title' : 'data.comment.created_at'
 				}
 			);
-			realtime_data_update_functions['comment'] =
+			realtime_data_update_functions['Comment'] =
 				function(data){
+					console.log("insert a comment v5");
+					// testing mode, change the id of the existing element in the page
+					//$('div.Comment[id="' + data.data.comment.id + '"]').attr('id', '123123');
+					
 					com = template_functions['comment'](data);
-					
-					com = $(com).appendTo('div.ques_discussion');
-					temp.com = com
-					com.find('abbr').timeago();
-					
+
+					var old_com = $('div.Comment[id="' + data.data.comment.id + '"]');
+					if(old_com.size()>0){
+						// replace the text only
+						console.log("replace the text only");
+					  old_com.find('div.comment_text').html( $(com).find('div.comment_text'));
+					}else{
+						switch(Number(data.data.comment.parent_type)){
+							case 1:
+								var par_div = $('div.ques_discussion');
+								if(par_div.size()>0){
+									com = $(com).appendTo(par_div);
+								}
+								break
+							case 3:
+								var par_div = $('div.comment_comments[id="' + data.data.comment.parent_id + '"]');
+								if(par_div.size()>0){
+									var form = par_div.find('form.orig');
+									if(form.size()>0){
+										com = $(com).insertBefore(form);
+									}else{
+										com = $(com).appendTo(par_div);
+									}
+								}
+							
+								break
+							case 13:
+								var par_div = $('div.talking_point_comments[id="' + data.data.comment.parent_id + '"]');
+								if(par_div.size()>0){
+									var form = par_div.find('form.orig');
+									if(form.size()>0){
+										com = $(com).insertBefore(form);
+									}else{
+										com = $(com).appendTo(par_div);
+									}
+								}
+								break
+						}
+						com.find('abbr').timeago();
+					}
 				}
 			console.log("Comment template is ready");
 
 
+
 	%script#talking_point_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'plan/comment.html', :object => @comment)}
-			
-	%script#talking_point_directives
+			#{render( :partial => 'plan/talking_point.html', :object => @talking_point)}
+
+	%script#create_talking_point_template
 		:plain
-			var talkingment_directives = {
-				'div.comment_text' : function(arg){return simple_com_format(arg.context.data.comment.text)}
-			}
+			templates['TalkingPoint'] = $('<div></div>').html($.trim( $('script#talking_point_template').html() )).find('div:first');
+			template_functions['TalkingPoint'] = templates['TalkingPoint'].compile(
+				{
+					'@id' : 'data.talking_point.id',
+					'p.talking_point' : 'data.talking_point.text',
+					'a.tp_show_coms@href' : '/talking_points/\#{data.talking_point.id}/comments',
+					'a.edit@href' : '/talking_points/\#{data.talking_point.id}/edit',
+					'a.report@href' : '/talking_points/\#{data.talking_point.id}/report'
+				}
+			);
+			realtime_data_update_functions['TalkingPoint'] =
+				function(data){
+					console.log("insert a TalkingPoint v2 with id: " + data.data.talking_point.id);
+					temp.tp_data = data;
+
+					tp = template_functions['TalkingPoint'](data);
+					temp.tp_str = tp;
+					
+					var par_div = $('div.talking_points_list[id="' + data.data.talking_point.question_id + '"]');
+					if(par_div.size()>0){
+						// testing mode, change the id of the existing element in the page
+						//par_div.find('div.talking_point_entry[id="' + data.data.talking_point.id + '"]').attr('id', '123123')
+						// testing mode, remove the original element so it won't be duplicated
+						//par_div.find('div.talking_point_entry[id="' + data.data.talking_point.id + '"]').remove();
+						
+						var old_tp = par_div.find('div.talking_point_entry[id="' + data.data.talking_point.id + '"]');
+						if(old_tp.size()>0){
+							// replace the text only
+							console.log("replace the text only");
+						  old_tp.find('p.talking_point').html(data.data.talking_point.text);
+							resize_talking_point_entry(old_tp);
+							
+						}else{
+							console.log("insert a new TP")
+							// insert a new tp
+							tp = $(tp).insertBefore( par_div.find('p.new_tp_insert_point') );
+							temp.tp = tp;
+							// resize and make it JS format
+							resize_talking_point_entry(tp);
+							tp.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
+							tp.find('div.community_rating').removeClass('no_js');
+							// fix the rating @id and @name
+							var id = data.data.talking_point.id;
+							tp.find(':radio').each(
+								function(){
+									var el = $(this);
+									var val = el.val();
+									el.attr('id','tp_rating_' + id + '_' + val);
+									el.attr('name','tp_rating_' + id);
+									el.parent().find('label').attr('for','tp_rating_' + id + '_' + val);
+								}
+							)
+							var cb = tp.find(':checkbox');
+							cb.attr('id','preference_' + id );
+							cb.attr('name','preference_' + id);
+							cb.parent().attr('for','preference_' + id );
+							
+						}
+					}
+				}
+
+			console.log("TalkingPoint template is ready");
+			
+			realtime_data_update_functions['TalkingPointPreference'] =
+				function(data){
+					console.log("insert a TalkingPointPreference v1 with id: " + data.data.id);
+					temp.tpp_data = data;
+					var cnt = data.data.count
+					var tpp_div = $('div.talking_point_preferable[id="' + data.data.id + '"] p.total_preference');
+					if(cnt == 0 ){
+						tpp_div.html('No one prefers this');					
+					}else if(cnt == 1){
+						tpp_div.html('1 person prefers this');					
+					}else{
+						tpp_div.html(cnt + ' people prefer this');					
+					}
+				}	
+			console.log("TalkingPointPreference function is ready")
+
+
+			realtime_data_update_functions['TalkingPointAcceptableRating'] =
+				function(data){
+					console.log("insert a TalkingPointAcceptableRating v2 with id: " + data.data.id);
+					
+					var vote_max = 0
+					var num_votes = 0
+					$.each(data.data.votes, 
+						function(){
+							vote = Number(this);
+							num_votes += vote;
+							if(vote > vote_max) vote_max = vote;
+						}
+					);
+					$('div.talking_point_entry[id="' + data.data.id + '"] div.graph.js div').not('.zero').each(
+						function(i,el){
+							$(el).height(data.data.votes[i]/vote_max * 100 + '%')
+						}
+					);
+					
+					$('div.talking_point_entry[id="' + data.data.id + '"] p.talking_point_ratings').html(num_votes + (num_votes == 1 ? ' rating' : ' ratings'));
+				}
+			console.log("TalkingPointAcceptableRating function is ready")

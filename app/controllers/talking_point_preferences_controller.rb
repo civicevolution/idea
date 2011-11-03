@@ -86,15 +86,15 @@ class TalkingPointPreferencesController < ApplicationController
     
     talking_point = TalkingPoint.find( params[:talking_point_id] )
 
+    tpp = TalkingPointPreference.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id])
+    
     if( params[:prefer] == 'false' )
-      tp = TalkingPointPreference.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id])
-      tp.member
-      tp.destroy unless tp.nil?
+      tpp.destroy unless tpp.nil?
       render_select = false
     else
       pref_count = TalkingPoint.joins(:talking_point_preferences).where('talking_point_preferences.member_id = ? AND question_id = ?', @member.id, talking_point.question_id).count()
       if pref_count < 5
-        @preference = TalkingPointPreference.create( :member_id=> @member.id, :talking_point_id=>params[:talking_point_id])
+        @preference = TalkingPointPreference.create( :member_id=> @member.id, :talking_point_id=>params[:talking_point_id]) if tpp.nil? 
         render_select = false
       else
         render_select = true
