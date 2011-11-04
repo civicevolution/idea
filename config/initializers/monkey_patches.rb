@@ -65,37 +65,3 @@ module ActionView
   end  
 end  
 
-
-
-module Delayed
-  class Worker
-    alias_method :original_handle_failed_job, :handle_failed_job
-    alias_method :original_failed, :failed
-    
-    protected
-    def handle_failed_job(job, error)
-      #say "Error Intercepted by Hoptoad..."
-      #HoptoadNotifier.notify(error)
-      begin
-        if job.attempts.to_i == 1
-          say "An email was sent to notify about delayed_job failure in Delayed::Worker::handle_failed_job"
-          ErrorMailer.delayed_job_error('handle_failed_job',error).deliver
-        end
-      rescue
-      end
-      original_handle_failed_job(job,error)
-    end
-
-    def failed(job)
-      #say "Error Intercepted by Hoptoad..."
-      #HoptoadNotifier.notify(error)
-      begin
-        say "An email was sent to notify about delayed_job failure in Delayed::Worker::failed"
-        ErrorMailer.delayed_job_error('failed').deliver
-      rescue
-      end
-      original_failed(job)
-    end
-
-  end
-end

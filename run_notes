@@ -175,6 +175,17 @@ Running on DEV
 	src/redis-cli
 
 	
+Upload and apply custom recipes
+	attach chef recipes
+	  cd /ce_development/Rails/ey-cloud-recipes
+	
+	Upload
+	  ey recipes upload -e civic_west
+	
+	Apply
+	  ey recipes apply -e civic_west
+	
+	
 ***********************************************************************************
 
 Wed Oct 19 18:57:55 PDT 2011

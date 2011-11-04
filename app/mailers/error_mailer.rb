@@ -19,7 +19,7 @@ class ErrorMailer < ActionMailer::Base
     @error = error
     
     mail(:to => "Brian Sullivan <brian@civicevolution.org>",
-      :subject => "Delayed Job error"
+      :subject => "#{Rails.env} - Delayed Job error"
     )
   end
 

@@ -1,10 +1,18 @@
 An error was detected in delayed_job
 ~''
-Job:
+Job.failed_at:
+=@job.failed_at
 ~''
-=@job.inspect
+Job.attempts:
+=@job.attempts
+~''
+Job.handler:
+~''
+=@job.handler
 ~''
 ~''
-Error:
+class: #{@job.last_error.class}
+
+Job.last_error:
 ~''
-=@error.inspect
+= @job.last_error
