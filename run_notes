@@ -203,3 +203,5 @@ r.generate :controller => :station, :action=> :index, :id=>42, :param => "xyzzy"
 r.recognize_path "/talking_points/2/comments"
 	=> {:talking_point_id=>"2", :action=>"index", :controller=>"comments"} 
 	
+	
+http://jscompress.com/	http://www.minifyjavascript.com/

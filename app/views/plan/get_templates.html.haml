@@ -198,8 +198,14 @@
 							if(vote > vote_max) vote_max = vote;
 						}
 					);
+					//console.log("vote_max: " + vote_max + " num_votes: " + num_votes);
+					var graph = $('div.talking_point_entry[id="' + data.data.id + '"] div.graph.js')
+					//console.log("graph.height(): " + graph.height());
+					// forcefully reset the height for IE7
+					graph.height( graph.height() )
 					$('div.talking_point_entry[id="' + data.data.id + '"] div.graph.js div').not('.zero').each(
 						function(i,el){
+							//console.log("height: data.data.votes[i]/vote_max * 100 + '%' " + data.data.votes[i]/vote_max * 100 + '%')
 							$(el).height(data.data.votes[i]/vote_max * 100 + '%')
 						}
 					);

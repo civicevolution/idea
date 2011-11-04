@@ -1,6 +1,6 @@
 class ChatController < ApplicationController
   layout "plan", :only => [:suggest_new_idea, :review_proposal_idea]
-  skip_before_filter :authorize, :only => [ :index, :summary, :suggest_new_idea, :new_content]
+  skip_before_filter :authorize, :only => [ :chat_form ]
   
   def jug
     Juggernaut.publish(params[:ch], params[:str])

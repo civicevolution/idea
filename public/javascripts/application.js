@@ -29,6 +29,7 @@ $(function(){
 		if(params['video']=='play'){
 			setTimeout(function(){ $('a#play_intro_video').click(); },1000);
 		}
+		if (typeof JSON == 'undefined' || !JSON) { console.log("load json2"); $.getScript('/javascripts/json2-min.js'); }
 });
 
 function ajaxDisableElement(el){
@@ -92,11 +93,11 @@ function init_page(){
 
 	try{
 		init_add_this();
-		console.log("init_add_this is okay")
+		//console.log("init_add_this is okay")
 	}catch(e){}
 	try{
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
-		console.log("pretty photo is okay")
+		//console.log("pretty photo is okay")
 	}catch(e){}
 
 }
