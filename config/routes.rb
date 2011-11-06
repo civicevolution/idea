@@ -161,6 +161,7 @@ G3::Application.routes.draw do |map|
   root :to => 'welcome#index', :as => 'home'
   match 'about' => 'welcome#about', :as=>'ce_about'
   match 'home' => 'welcome#home', :as=>'ce_home'
+  match 'welcome' => redirect('/home')
   get 'contact_us' => 'welcome#contact_us', :as=>'ce_contact_us'
   post 'contact_us' => 'welcome#contact_us_post', :as=>'ce_contact_us_post'
 
