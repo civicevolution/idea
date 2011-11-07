@@ -38,9 +38,15 @@
 					'div.Comment_entry @id' : 'com_\#{data.comment.id}',	
 					'img.i36 @src' : 'author.photo_url',
 					'div.comment_text' : function(arg){return simple_com_format(arg.context)},
-					'a.reply @href' : '/comments/\#{data.comment_id}/comments',
+					'a.reply @href' : function(arg){
+						if(arg.context.data.comment.parent_type == 1){
+							 return '/comments/' + arg.context.data.comment.id + '/comments'
+						}else{
+							return '/comments/' + arg.context.data.comment.id + '/reply'
+						}
+					},
 					'a.reply @id' : 'data.comment.id',	
-					'a.report @href' : '/comments/\#{data.comment_id}/report',
+					'a.report @href' : '/comments/\#{data.comment.id}/report',
 					'@id' : 'data.comment.id',
 					'abbr.timeago @title' : 'data.comment.created_at'
 				}
@@ -90,7 +96,9 @@
 								}
 								break
 						}
-						com.find('abbr').timeago();
+						try{ // com doesn't always exist, if not inserted
+							com.find('abbr').timeago();
+						}catch(e){}
 					}
 				}
 			console.log("Comment template is ready");
