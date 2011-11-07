@@ -25,6 +25,19 @@
 				//console.log("simple_com_format s: " + s)
 				return s;
 			}
+			
+			function reformat_comment_quote(com){
+				//com = $('div.Comment[id="1078"]')
+				var txt = com.find('div.comment_text').html();
+				if(!txt.match(/\[quote=/)) return;
+				var pcs = txt.match(/^(.*)\[quote="([^"]*)"\]([\s\S]*)\[\/quote\]([\s\S]*)$/);
+				var author = pcs[1] + '</p>';
+				var quote = '<div class="quote corner"><p class="quote">' + pcs[2] + ' said:</p><p>' + pcs[3] + '</p></div>	'
+				pcs[4] = pcs[4].replace(/\n/,'').replace(/<br\/*>/gi,'\n').replace(/^\s*/,'').replace(/\n/g,'<br/>');
+				var com_body = '<p>' + pcs[4];
+				com.find('div.comment_text').html( author + quote + com_body);
+			}
+		  
 
 	%script#comment_template{:type=>'text/html'}
 		:plain
@@ -63,7 +76,7 @@
 					if(old_com.size()>0){
 						// replace the text only
 						console.log("replace the text only");
-					  old_com.find('div.comment_text').html( $(com).find('div.comment_text'));
+					  old_com.find('div.comment_text').replaceWith( $(com).find('div.comment_text'));
 					}else{
 						switch(Number(data.data.comment.parent_type)){
 							case 1:
@@ -81,6 +94,7 @@
 									}else{
 										com = $(com).appendTo(par_div);
 									}
+									reformat_comment_quote(com);
 								}
 							
 								break
