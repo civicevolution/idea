@@ -8,32 +8,15 @@
 					%div.homepage_intro
 						%div.mission
 							%h2 Bring out the Community in our College: Think Together to Act Together
-							= image_tag('sky/skyline_photo.jpg')
+							= image_tag('sky/DSC_0379-280s.jpg')
 
-
-
-							%p Contribute to our online collaboration and sharing of our best ideas for improving our Skyline Campus and Community.  Grants awarded to fund top ideas (4 total, $6100).
-
-							%p Share your best ideas, vote on others’ ideas, invite friends to contribute, collaborate together to vision the best possible projects. Project ideas voted on by students March, 2011.
-
-
-							%p Projects supported through Skyline College Center for Community & Student Engagement, Grants funded by Skyline College President Innovation Fund, Campus events co-sponsored by V.O.I.C.E.S. (Voices Of Inspired, Caring, Engaged Students) & A.S.S.C. (Associated Students of Skyline College).
-														
-							-#%p
-								%b Voices
-								-#%b= link_to( "Voices", {}, {:href=>'http://www.2029andbeyond.com.au/', :target=>'_blank', :class=>'mission_link 2029'}).html_safe
-								is a campus wide project to create a healthy, sustainable and creative campus community.
-							 
-							%p 
-								%span.promise We need to hear from you!
-							
-							-#%p
-								The 
-								= link_to( "Alliance Governance Group", {}, {:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}) 
-								that oversees 2029 and Beyond commits to review every proposal from the community developed through CivicEvolution and that meets their guidelines.
-							
-							-#%p 
-								%span.promise This is your opportunity to make your idea happen!
+							%p Four Grants, $6100 total, awarded to fund top ideas.
+							%p Step Up!  Share your best ideas here for improving our Skyline Campus and Community. 
+							%p Collaborate! Your ideas are rated, commented on, and developed with your peers, so we can “Think Together.”
+							%p SHARE your best ideas, RATE others’ ideas, INVITE friends to contribute, COLLABORATE together to vision the best possible projects. 
+							%p Project ideas voted on by students April 19, 2012.  
+							%p Project applications due March 30, 2012. Email mairj@smccd.edu for application.
+							%p.fine_print Projects supported through Skyline College Center for Community & Student Engagement, Grants funded by Skyline College President Innovation Fund, Campus events co-sponsored by V.O.I.C.E.S. (Voices Of Inspired, Caring, Engaged Students) & A.S.S.C. (Associated Students of Skyline College).
 									
 				%p.clear_both
 					
@@ -96,10 +79,11 @@
 							-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
 				-# i += 1
 				-# break if i > 3 
-			%p
-				%b
-					If you have a new idea that's not listed, 
-					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+			- if @init_teams.size > 0
+				%p
+					%b
+						If you have a new idea that's not listed, 
+						= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
 					
 
 		%div.right_side

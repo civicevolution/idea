@@ -2,28 +2,27 @@
 	%div.num 1
 	%div.text
 		%h3.tagline Think together to act together
-		%p We're creating community written and supported proposals for constructive change
-		-#%p A proposal explains how the idea can be put into action by answering What, Why, How, and Where
-		%p A proposal is a plan for putting your idea into action. It answers: What change do we want to make? Why is it important to our community? How can the change be made? and Where do we start?
+		%p Start by entering your proposal to enhance and improve our Skyline Campus & Community
+		%p Your proposal is your plan for putting your ideas into action.  It answers: What change do we want to make? Why is it important to our community? How can the change be made? Who will be involved in making the change? and Where do we start?
+
 	%p.clear_both
 	
 %div.cta_block.corner
 	%div.num 2
 	%div.text
 		%h3 How it works
-		%p A community member proposes a change
-		%p The community works together to answer each of the questions through a process of suggesting, discussing, and rating talking points
-		%p The goal is to reach agreement on the most preferred talking points that are acceptable to most of our community.
+		%p You, a student of Skyline College, propose a change.
+		%p The Skyline student community works together to answer each of the questions through a process of suggesting, discussing and rating talking points.
+		%p The goal is to reach agreement on which talking points and ideas are the most preferred and acceptable to most of our community.
 		%p 
-			These talking points express our common ground and provide a foundation for constructive change.
-			= link_to "Learn more", visual_help_path, {:remote=>true}
+			These talking points help us to find and express our common ground and provide the foundation for your Skyline Students Step Up project proposal for improving our campus and community. #{link_to "Learn more", visual_help_path, {:remote=>true}}
 			
 	%p.clear_both
 	
 %div.cta_block.corner
 	%div.num 3
 	%div.text
-		%h3 Be part of the solution!
+		%h3 Be part of the solution! Step Up!
 		%p.cta
 			= link_to "Suggest a proposal", {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
 			
@@ -34,7 +33,7 @@
 			= link_to "Endorse a proposal", help_endorse_path, {:remote=>true}
 			
 		%p.cta
-			= link_to "Follow 2029 and Beyond ideas", follow_initiative_form_path, {:remote=>true}
+			= link_to "Follow Skyline Students Step Up project ideas", follow_initiative_form_path, {:remote=>true}
 		- if flash[:subscribed]
 			%p.cta.warn= flash[:subscribed]
 		
