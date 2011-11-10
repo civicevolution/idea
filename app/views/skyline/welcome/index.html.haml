@@ -24,7 +24,7 @@
 			%p
 				%b
 					If you have a new idea that's not listed, 
-					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+					#{link_to 'suggest it now', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}}.
 	
 			-# i = 0		
 			- @init_teams.each do |team|

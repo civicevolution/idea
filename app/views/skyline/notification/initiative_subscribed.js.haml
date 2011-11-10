@@ -2,12 +2,12 @@
 :plain
 	$('div#follow_initiative').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	var follow_form = $("#{escape_javascript(
-		render( :template => 'notification/follow_initiative.html' )
+		render( :template => 'skyline/notification/initiative_subscribed.html' )
 	)}");
 	
-	var dialog = follow_form.dialog( {title : 'Follow request', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+	var dialog = follow_form.dialog( {title : 'Thank you', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
 	
-	$('#follow_initiative a.cancel').html('Cancel').die('click').live('click',
+	$('div#initiative_subscribed a.cancel').die('click').live('click',
 		function(){
 			$(this).closest('div.ui-dialog').dialog('destroy').remove();
 			return false;
