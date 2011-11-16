@@ -41,6 +41,14 @@ class TalkingPoint < ActiveRecord::Base
     # either in team_registrations or a current or previous author of this TP
     cur_tp_member_id = self.member_id
     self.member_id = self.member.id
+
+    if self.member.confirmed
+      return true
+    else
+      errors.add(:base, "Sorry, you must be a conifrmed member to edit this talking point.") 
+      return false
+    end
+
     
     return true if cur_tp_member_id == 10 # if the initial version was entered by the admin account 10, let someone else edit it
 
