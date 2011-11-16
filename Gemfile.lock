@@ -29,7 +29,7 @@ GEM
       activemodel (= 3.0.5)
       activesupport (= 3.0.5)
     activesupport (3.0.5)
-    airbrake (3.0.4)
+    airbrake (3.0.5)
       activesupport
       builder
     archive-tar-minitar (0.5.2)
