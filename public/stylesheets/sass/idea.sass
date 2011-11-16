@@ -11,13 +11,6 @@ $bsd_bar_light: #fee188 // #fed660 // #fff4e0 //#f9de68 //rgb(251, 226, 7) //#ff
 $navy_blue: #23238E
 $help_tag: #f3973a
 
-//sass mixin for opacity
-=opacity(!opacity)
-	:filter alpha(opacity= !opacity * 100)
-	:-moz-opacity = !opacity
-	:-khtml-opacity = !opacity
-	:opacity = !opacity
-
 .wordwrap
 	white-space: pre-wrap /* css-3 */
 	white-space: -moz-pre-wrap  /* Mozilla, since 1999 */
@@ -54,7 +47,6 @@ img
 
 div#load_mask
 	background-color: $navy_blue
-	+opacity(0.1)
 	z-index: 1000
 	position: absolute
 	top: 0
@@ -323,7 +315,7 @@ div.brainstorming
 	div.bs_idea.selected
 		//background-color: #eee
 	div.status
-		border-top: 1px solid !navy_blue
+		border-top: 1px solid blue
 		padding-top: 10px
 	div.discussion
 		display: none

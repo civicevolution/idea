@@ -7,10 +7,9 @@
 
 	worksheet.find('div.my_rating').addClass('js');
 	worksheet.find('div.community_rating').removeClass('no_js');
+	worksheet.attr('id',#{question.id});
 	
 	$('div.new_content').closest('div.ui-dialog').hide();
-	var page_div = $('div.page_content_div');
-	page_div.remove();
 
 	function scrollToElement(){
 		var highlight = $('.highlight');
@@ -23,5 +22,8 @@
 	setTimeout(scrollToElement,1000);
 
 	setTimeout(init_page,10)
-	$(worksheet).insertAfter('hr.top').attr('id',#{question.id});
+
+	var question_summary = $('div.question_summary[id="#{question.id}"]');
+	var q_link = question_summary.find('a.display_worksheet');
 	
+	question_summary.find('div.talking_point_sec').replaceWith(worksheet)

@@ -6,12 +6,14 @@
 	
 	new_rating.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
 	new_rating.find('div.community_rating').removeClass('no_js');
+	new_rating.find('div.graph.no_js').remove();
 	
 	var old_rating = $('div.talking_point_entry[id="#{talking_point.id}"] div.talking_point_acceptable');
 	var sug = new_rating.find('p.suggest');
 	if(sug.size() > 0){
 		sug.removeClass('hide');
-	}else{
-		new_rating.height( old_rating.height());
 	}
+	//}else{
+	//	new_rating.height( old_rating.height());
+	//}
 	old_rating.replaceWith(new_rating);

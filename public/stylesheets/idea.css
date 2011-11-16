@@ -1,85 +1,866 @@
-/*
-Syntax error: Invalid CSS after "(": expected variable (e.g. $foo), was "!opacity)"
-        on line 15 of /ce_development/Rails/tp/public/stylesheets/sass/idea.sass
+.wordwrap {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word; }
 
-10: $bsd_bar_light: #fee188 // #fed660 // #fff4e0 //#f9de68 //rgb(251, 226, 7) //#fff4e0 // rgb(254, 204, 55)  //
-11: $navy_blue: #23238E
-12: $help_tag: #f3973a
-13: 
-14: //sass mixin for opacity
-15: =opacity(!opacity)
-16: 	:filter alpha(opacity= !opacity * 100)
-17: 	:-moz-opacity = !opacity
-18: 	:-khtml-opacity = !opacity
-19: 	:opacity = !opacity
-20: 
+body, p, ol, ul, td, textarea {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px; }
 
-Backtrace:
-/ce_development/Rails/tp/public/stylesheets/sass/idea.sass:15
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/scss/parser.rb:926:in `expected'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/script/lexer.rb:193:in `expected!'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/script/parser.rb:448:in `assert_tok'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/script/parser.rb:317:in `block in defn_arglist!'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/script/parser.rb:314:in `loop'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/script/parser.rb:314:in `defn_arglist!'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/script/parser.rb:102:in `parse_mixin_definition_arglist'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:798:in `parse_mixin_definition'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:555:in `parse_line'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:456:in `build_tree'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:475:in `block in append_children'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:474:in `each'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:474:in `append_children'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:330:in `_to_tree'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:300:in `_render'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:248:in `block in render'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/util.rb:297:in `silence_sass_warnings'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/engine.rb:248:in `render'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/plugin/compiler.rb:319:in `update_stylesheet'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/plugin/compiler.rb:181:in `block (2 levels) in update_stylesheets'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/plugin/compiler.rb:175:in `each'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/plugin/compiler.rb:175:in `block in update_stylesheets'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/plugin/compiler.rb:173:in `each'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/plugin/compiler.rb:173:in `update_stylesheets'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/plugin.rb:81:in `update_stylesheets'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/plugin.rb:54:in `check_for_updates'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/sass-3.1.10/lib/sass/plugin/rack.rb:51:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/head.rb:14:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/rack-1.2.4/lib/rack/methodoverride.rb:24:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/flash.rb:182:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/cookies.rb:302:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/activerecord-3.0.5/lib/active_record/query_cache.rb:32:in `block in call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/activerecord-3.0.5/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/activerecord-3.0.5/lib/active_record/query_cache.rb:12:in `cache'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/activerecord-3.0.5/lib/active_record/query_cache.rb:31:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/activerecord-3.0.5/lib/active_record/connection_adapters/abstract/connection_pool.rb:354:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/callbacks.rb:46:in `block in call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/activesupport-3.0.5/lib/active_support/callbacks.rb:415:in `_run_call_callbacks'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/rack-1.2.4/lib/rack/sendfile.rb:106:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/show_exceptions.rb:47:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/railties-3.0.5/lib/rails/rack/logger.rb:13:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/rack-1.2.4/lib/rack/runtime.rb:17:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/activesupport-3.0.5/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/rack-1.2.4/lib/rack/lock.rb:11:in `block in call'
-<internal:prelude>:10:in `synchronize'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/rack-1.2.4/lib/rack/lock.rb:11:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/actionpack-3.0.5/lib/action_dispatch/middleware/static.rb:30:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/airbrake-3.0.4/lib/airbrake/user_informer.rb:12:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/railties-3.0.5/lib/rails/application.rb:168:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/railties-3.0.5/lib/rails/application.rb:77:in `method_missing'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/railties-3.0.5/lib/rails/rack/debugger.rb:21:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/railties-3.0.5/lib/rails/rack/log_tailer.rb:14:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/rack-1.2.4/lib/rack/content_length.rb:13:in `call'
-/Users/briansullivan/.rvm/gems/ruby-1.9.2-p290/gems/rack-1.2.4/lib/rack/handler/webrick.rb:52:in `service'
-/Users/briansullivan/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/webrick/httpserver.rb:111:in `service'
-/Users/briansullivan/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/webrick/httpserver.rb:70:in `run'
-/Users/briansullivan/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/webrick/server.rb:183:in `block in start_thread'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Invalid CSS after \"(\": expected variable (e.g. $foo), was \"!opacity)\"\A         on line 15 of /ce_development/Rails/tp/public/stylesheets/sass/idea.sass\A \A 10: $bsd_bar_light: #fee188 // #fed660 // #fff4e0 //#f9de68 //rgb(251, 226, 7) //#fff4e0 // rgb(254, 204, 55)  //\A 11: $navy_blue: #23238E\A 12: $help_tag: #f3973a\A 13: \A 14: //sass mixin for opacity\A 15: =opacity(!opacity)\A 16: 	:filter alpha(opacity= !opacity * 100)\A 17: 	:-moz-opacity = !opacity\A 18: 	:-khtml-opacity = !opacity\A 19: 	:opacity = !opacity\A 20: "; }
+div#tooltip_source {
+  display: none; }
+
+div.show_me li {
+  margin-bottom: 8px; }
+
+body .cluetip-default, body .cluetip-default #cluetip-outer {
+  border-top: #f3973a 12px solid;
+  color: #23238e;
+  background-color: #fecc37; }
+
+img {
+  border: none; }
+
+div#load_mask {
+  background-color: #23238e;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  height: 1000px; }
+
+h2#load_message {
+  color: #23238e;
+  display: none;
+  border: 2px solid #23238e;
+  padding: 10px; }
+
+a.help_tag {
+  position: fixed;
+  top: 25%;
+  right: 0;
+  color: #f3973a;
+  width: 32px;
+  height: 183px;
+  background: url(/images/help_feedback_tag.gif) no-repeat 0 0; }
+
+a.help_tag.mouseover {
+  border-right: 2px solid white; }
+
+div.page {
+  width: 980px;
+  margin: auto; }
+
+div.logo {
+  text-align: left;
+  float: left; }
+  div.logo img {
+    margin-bottom: 8px; }
+
+iframe.ape {
+  display: none;
+  position: absolute;
+  left: -300px;
+  top: -300px; }
+
+div.member_info {
+  float: right;
+  width: 180px;
+  margin-top: 18px;
+  color: #2b3e42; }
+  div.member_info div.member {
+    padding: 0 0 4px 42px;
+    margin: 0;
+    text-align: left;
+    font-weight: bold;
+    position: relative; }
+    div.member_info div.member img {
+      display: block;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0; }
+  div.member_info p.signout {
+    margin: 0; }
+    div.member_info p.signout a.my_teams {
+      margin-right: 10px; }
+  div.member_info form.upload_member_photo {
+    display: none; }
+
+div.join_com {
+  float: right;
+  margin-top: 55px; }
+  div.join_com a {
+    font-size: 14px;
+    font-weight: bold; }
+
+hr.top {
+  clear: both;
+  margin-bottom: 0; }
+
+div.footer_logo {
+  margin: 20px;
+  width: 100%; }
+
+div.ce_credit {
+  width: 100%; }
+  div.ce_credit div.powered {
+    float: left; }
+    div.ce_credit div.powered h3 {
+      margin-bottom: 6px; }
+    div.ce_credit div.powered p.tag_line {
+      margin-top: 4px;
+      font-weight: bold; }
+  div.ce_credit div.lottery {
+    float: left;
+    margin-left: 50px;
+    margin-top: 16px; }
+
+hr.bottom, .clear {
+  clear: both; }
+
+.hide {
+  display: none; }
+
+tr.stripe {
+  background-color: #dddddd; }
+
+p.loading {
+  font-weight: bold;
+  font-size: 1.2em; }
+
+div.suggest_title {
+  position: relative;
+  margin-bottom: 0; }
+  div.suggest_title img.i36 {
+    position: absolute;
+    top: 4px;
+    left: 0; }
+  div.suggest_title h3 {
+    margin-left: 40px; }
+
+div.idea_page {
+  float: left;
+  width: 778px; }
+
+div.brainstorming form.add_bs_idea_form textarea {
+  font-size: 1em; }
+
+h2.home_title {
+  margin: 18px 41px 0px 41px; }
+  h2.home_title a {
+    font-size: 0.6em;
+    margin-left: 0px;
+    font-weight: normal; }
+
+div.summary {
+  margin: -10px 41px 20px 41px;
+  font-size: 1.12em; }
+
+div.side_bar {
+  width: 180px;
+  float: left;
+  margin-left: 20px; }
+  div.side_bar div.share {
+    margin: 20px 0; }
+  div.side_bar a.request_help {
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold; }
+
+div.help_intro {
+  margin-top: 16px; }
+  div.help_intro img.me {
+    float: left;
+    margin: 4px 10px 10px 0; }
+  div.help_intro h3 {
+    margin: 0 0 6px 0; }
+  div.help_intro p {
+    margin: 0 0 8px 0; }
+
+form.request_help textarea {
+  width: 500px;
+  font-size: 1.2em; }
+form.request_help label {
+  display: block;
+  font-weight: bold;
+  margin-top: 16px; }
+form.request_help input {
+  display: block; }
+form.request_help select {
+  font-size: 1.28em; }
+
+div.report {
+  max-width: 500px; }
+  div.report p.cat {
+    margin: 0 0 4px 0; }
+  div.report label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px; }
+  div.report a.cancel {
+    font-size: 80%; }
+
+img.i36 {
+  width: 36px;
+  height: 36px; }
+
+div#endorsements {
+  margin: 40px 0; }
+  div#endorsements h2 {
+    margin: 0 0 4px 0; }
+  div#endorsements p {
+    margin: 0 0 12px 0; }
+  div#endorsements table {
+    margin: 8px 0 30px 0; }
+    div#endorsements table th {
+      text-align: left; }
+    div#endorsements table td {
+      text-align: left;
+      vertical-align: top; }
+    div#endorsements table td.pic {
+      width: 36px; }
+    div#endorsements table td.text {
+      padding: 0 10px; }
+
+div#submit {
+  margin: 60px 0 40px 0; }
+  div#submit h2 {
+    margin: 0 0 4px 0; }
+  div#submit p.desc {
+    margin-top: 0; }
+
+.form_error_border {
+  border: 1px solid #f2583e; }
+
+.form_error_text, .error {
+  color: #f2583e;
+  font-weight: bold; }
+
+div.bs_idea {
+  position: relative; }
+  div.bs_idea p.fav_action_status {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-weight: bold; }
+  div.bs_idea p.com_controls {
+    margin: 0 0 10px 0; }
+    div.bs_idea p.com_controls a {
+      margin-right: 20px; }
+  div.bs_idea p.status {
+    margin: 0 0 4px 0;
+    text-align: right; }
+  div.bs_idea p.like_controls {
+    margin: 0 0 4px 0;
+    text-align: right; }
+
+div.ans {
+  clear: both;
+  padding: 40px 0; }
+
+div.discussion, div.bsd_disc {
+  width: 400px;
+  margin-left: -20px; }
+  div.discussion form.add_comment_form, div.bsd_disc form.add_comment_form {
+    margin-left: 24px;
+    margin-top: 20px; }
+  div.discussion a.close, div.bsd_disc a.close {
+    margin-left: 24px; }
+
+div.discussion h3, div.bsd_disc h3 {
+  margin-left: 26px; }
+
+div.brainstorming {
+  width: 300px;
+  float: left; }
+  div.brainstorming div.bs_idea {
+    margin-bottom: 40px; }
+  div.brainstorming div.status {
+    border-top: 1px solid blue;
+    padding-top: 10px; }
+  div.brainstorming div.discussion {
+    display: none; }
+
+div.gen_discussion {
+  width: 428px;
+  float: left;
+  margin-left: 40px; }
+
+div.bs_idea {
+  font-size: 120%;
+  background-color: #fcf88a;
+  border: 1px solid #fcf88a; }
+  div.bs_idea div.bs_idea_inner {
+    margin: 0 14px 0 14px;
+    padding: 10px 0; }
+    div.bs_idea div.bs_idea_inner input.fav_order {
+      width: 30px; }
+    div.bs_idea div.bs_idea_inner div.text p {
+      font-size: 1em; }
+
+div.list_inner.fav div.bs_idea {
+  position: relative; }
+div.list_inner.fav div.sort_ctl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 10px;
+  padding-top: 14px; }
+  div.list_inner.fav div.sort_ctl div.sort {
+    width: 21px;
+    height: 20px;
+    background: url(/images/sort.gif) no-repeat 0 0;
+    cursor: pointer; }
+  div.list_inner.fav div.sort_ctl div.sort.down {
+    background-position: 0 -20px;
+    margin-bottom: 14px; }
+  div.list_inner.fav div.sort_ctl input.sort {
+    display: block;
+    margin: 6px 0;
+    width: 16px;
+    text-align: center;
+    font-size: 0.8em; }
+div.list_inner.fav div.bs_idea_inner {
+  width: 236px;
+  margin: 0 14px 0 50px;
+  padding: 10px 0; }
+  div.list_inner.fav div.bs_idea_inner input.fav_order {
+    width: 30px; }
+
+div.list h3 {
+  display: none;
+  margin-bottom: 0; }
+div.list p.list_instr {
+  margin: 4px 0 24px 0;
+  font-style: italic; }
+
+p.idea_lists {
+  margin: -14px 0 0px 0;
+  font-size: 0.9em;
+  font-weight: bold; }
+  p.idea_lists a {
+    margin-right: 14px; }
+  p.idea_lists a.active_list {
+    display: none; }
+
+p.not_published {
+  color: red; }
+
+div.bs_idea_add {
+  font-size: 120%;
+  background-color: #fcf88a;
+  margin-top: 40px; }
+
+p.idea_controls {
+  margin: 0px 0 30px 0; }
+
+a.com_author {
+  margin-right: 0;
+  text-decoration: none; }
+
+h3.disc_title a, h3.question a {
+  margin-left: 20px;
+  font-size: 80%; }
+
+div.close_1com {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  background: url(/images/idea_sprite1.gif) no-repeat 0 -16px;
+  cursor: pointer; }
+
+div.add_idea div.controls {
+  font-size: 0.8em; }
+
+div.full_comment_display div.comment {
+  margin-top: -50px;
+  padding-left: 46px;
+  width: 100%;
+  background: transparent; }
+
+div.one_line_comment div.comment {
+  margin-top: -20px;
+  padding-left: 46px;
+  width: 100%;
+  background: transparent; }
+
+div.Comment.top_sibling {
+  padding-left: 6px;
+  margin-left: 20px; }
+
+div.Comment {
+  margin-top: 20px;
+  max-width: 600px; }
+  div.Comment p.clear_both {
+    padding-bottom: 4px;
+    margin: 0; }
+
+div.comment {
+  width: auto;
+  background: transparent; }
+
+div.Comment {
+  margin-top: 16px; }
+
+div.Comment_entry.one_line_comment.new_com {
+  font-weight: bold; }
+
+div.Comment_entry.one_line_comment {
+  margin-bottom: 0px;
+  height: auto; }
+  div.Comment_entry.one_line_comment div.close_1com {
+    background-position: 0 0; }
+  div.Comment_entry.one_line_comment img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0px 10px 0px 0px;
+    cursor: pointer; }
+  div.Comment_entry.one_line_comment div.comment {
+    position: relative;
+    margin-top: -20px;
+    padding-left: 46px; }
+  div.Comment_entry.one_line_comment span.author {
+    display: none; }
+  div.Comment_entry.one_line_comment abbr {
+    display: none; }
+  div.Comment_entry.one_line_comment div.comment_text {
+    height: 20px;
+    overflow: hidden;
+    margin-left: -20px; }
+    div.Comment_entry.one_line_comment div.comment_text p {
+      display: none; }
+    div.Comment_entry.one_line_comment div.comment_text div.one_liner {
+      display: block;
+      position: relative;
+      height: 20px;
+      cursor: pointer; }
+      div.Comment_entry.one_line_comment div.comment_text div.one_liner span.txt {
+        white-space: nowrap; }
+      div.Comment_entry.one_line_comment div.comment_text div.one_liner img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 12px;
+        height: 12px; }
+  div.Comment_entry.one_line_comment div.resource {
+    display: none; }
+  div.Comment_entry.one_line_comment span.new {
+    display: none; }
+  div.Comment_entry.one_line_comment div.comment_controls {
+    display: none; }
+
+div.coms_show_one_line .hidden {
+  display: none; }
+div.coms_show_one_line form.open_form {
+  clear: both;
+  margin-bottom: 10px;
+  padding-right: 20px; }
+  div.coms_show_one_line form.open_form input {
+    color: #333333;
+    width: 100%; }
+
+div.Comment_entry.full_comment_display img {
+  display: block;
+  margin: 4px 10px 0 0; }
+div.Comment_entry.full_comment_display div.comment {
+  position: relative;
+  margin-top: -50px;
+  padding-left: 46px; }
+div.Comment_entry.full_comment_display span.author {
+  display: inline;
+  font-size: 88%; }
+div.Comment_entry.full_comment_display abbr {
+  display: block;
+  font-size: 80%;
+  margin-top: -4px;
+  border: none; }
+div.Comment_entry.full_comment_display abbr.move_up {
+  margin-top: -16px; }
+div.Comment_entry.full_comment_display div.comment_text {
+  height: auto;
+  display: inline; }
+  div.Comment_entry.full_comment_display div.comment_text p {
+    margin: 8px 0; }
+  div.Comment_entry.full_comment_display div.comment_text div.one_liner {
+    display: none; }
+div.Comment_entry.full_comment_display span.new {
+  color: #f2583e;
+  font-weight: bold; }
+div.Comment_entry.full_comment_display div.comment_controls {
+  position: relative;
+  margin-top: 0; }
+
+div.comment_text p, div.answer p, div.bs_idea p {
+  margin: 0 0 8px 0; }
+
+div.comment_controls {
+  height: 50px; }
+  div.comment_controls div.comment_links a {
+    margin-right: 16px; }
+
+div.rating {
+  position: relative;
+  height: 16px;
+  margin-bottom: 4px; }
+
+div.bs_idea_inner div.rating {
+  margin-top: 12px; }
+  div.bs_idea_inner div.rating form {
+    width: auto; }
+    div.bs_idea_inner div.rating form input {
+      position: static; }
+    div.bs_idea_inner div.rating form span {
+      font-weight: normal;
+      position: static; }
+
+form.mini_thumbs_up {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 230px;
+  font-style: italic; }
+  form.mini_thumbs_up span, form.mini_thumbs_up input {
+    position: absolute; }
+  form.mini_thumbs_up span {
+    font-weight: bold; }
+  form.mini_thumbs_up input {
+    width: 16px;
+    height: 16px;
+    background: url(/images/sprite.png) no-repeat 0 0;
+    cursor: pointer;
+    text-indent: -9999px; }
+    form.mini_thumbs_up input .selected {
+      position-background-y: -48px; }
+  form.mini_thumbs_up input:hover {
+    background-position: 0 -16px; }
+  form.mini_thumbs_up span.votes_up {
+    right: 70px;
+    padding-right: 10px;
+    text-align: right;
+    width: 30px;
+    color: green; }
+  form.mini_thumbs_up input.vote_up {
+    right: 60px; }
+    form.mini_thumbs_up input.vote_up .selected {
+      position-background-y: -48px; }
+  form.mini_thumbs_up input.vote_down {
+    right: 40px;
+    background-position: -16px 0; }
+  form.mini_thumbs_up input.vote_down:hover {
+    background-position: -16px -16px; }
+  form.mini_thumbs_up input.vote_down:active {
+    background-position: -16px -32px; }
+  form.mini_thumbs_up input.vote_down.other_selected {
+    background-position: -16px -48px; }
+  form.mini_thumbs_up input.vote_up.other_selected {
+    background-position: 0px -48px; }
+  form.mini_thumbs_up input:active {
+    background-position: 0 -32px; }
+  form.mini_thumbs_up span.votes_down {
+    right: 6px;
+    padding-left: 0px;
+    text-align: left;
+    width: 30px;
+    color: #f2583e; }
+  form.mini_thumbs_up .spinner {
+    background: url(/images/spinner.gif) no-repeat 0 0;
+    width: 16px; }
+  form.mini_thumbs_up input {
+    font-size: 0;
+    line-height: 999px;
+    border: none; }
+
+form.add_comment_form, form.add_answer_form, form.add_bs_idea_form, form.suggest_idea_form, form.std_form {
+  margin-bottom: 40px;
+  margin-right: 0px;
+  width: 100%;
+  max-width: 500px;
+  clear: both; }
+  form.add_comment_form label, form.add_answer_form label, form.add_bs_idea_form label, form.suggest_idea_form label, form.std_form label {
+    display: block;
+    clear: both;
+    margin-top: 0px;
+    font-weight: bold;
+    font-style: italic;
+    color: #888888; }
+  form.add_comment_form img, form.add_answer_form img, form.add_bs_idea_form img, form.suggest_idea_form img, form.std_form img {
+    display: block;
+    float: left;
+    margin: 6px 10px 0 0; }
+  form.add_comment_form textarea, form.add_comment_form input[type=text], form.add_answer_form textarea, form.add_answer_form input[type=text], form.add_bs_idea_form textarea, form.add_bs_idea_form input[type=text], form.suggest_idea_form textarea, form.suggest_idea_form input[type=text], form.std_form textarea, form.std_form input[type=text] {
+    width: 100%;
+    font-size: 1.2em; }
+  form.add_comment_form input[type=submit], form.add_answer_form input[type=submit], form.add_bs_idea_form input[type=submit], form.suggest_idea_form input[type=submit], form.std_form input[type=submit] {
+    margin: 0 10px 0 10px; }
+  form.add_comment_form input[type=file], form.add_answer_form input[type=file], form.add_bs_idea_form input[type=file], form.suggest_idea_form input[type=file], form.std_form input[type=file] {
+    margin: 12px 0 16px 0; }
+  form.add_comment_form div.controls, form.add_answer_form div.controls, form.add_bs_idea_form div.controls, form.suggest_idea_form div.controls, form.std_form div.controls {
+    position: absolute;
+    right: 0; }
+  form.add_comment_form div.control_line, form.add_answer_form div.control_line, form.add_bs_idea_form div.control_line, form.suggest_idea_form div.control_line, form.std_form div.control_line {
+    position: relative;
+    margin-bottom: 10px; }
+    form.add_comment_form div.control_line img, form.add_answer_form div.control_line img, form.add_bs_idea_form div.control_line img, form.suggest_idea_form div.control_line img, form.std_form div.control_line img {
+      cursor: pointer; }
+  form.add_comment_form div.add_comment, form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_comment, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_comment, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_comment, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file, form.std_form div.add_comment, form.std_form div.add_link, form.std_form div.attach_file {
+    clear: both;
+    margin-right: 20px;
+    border: 0px solid #dddddd; }
+    form.add_comment_form div.add_comment p img, form.add_comment_form div.add_link p img, form.add_comment_form div.attach_file p img, form.add_answer_form div.add_comment p img, form.add_answer_form div.add_link p img, form.add_answer_form div.attach_file p img, form.add_bs_idea_form div.add_comment p img, form.add_bs_idea_form div.add_link p img, form.add_bs_idea_form div.attach_file p img, form.suggest_idea_form div.add_comment p img, form.suggest_idea_form div.add_link p img, form.suggest_idea_form div.attach_file p img, form.std_form div.add_comment p img, form.std_form div.add_link p img, form.std_form div.attach_file p img {
+      display: block;
+      margin-top: -2px; }
+  form.add_comment_form div.add_link, form.add_comment_form div.attach_file, form.add_answer_form div.add_link, form.add_answer_form div.attach_file, form.add_bs_idea_form div.add_link, form.add_bs_idea_form div.attach_file, form.suggest_idea_form div.add_link, form.suggest_idea_form div.attach_file, form.std_form div.add_link, form.std_form div.attach_file {
+    display: none; }
+  form.add_comment_form button, form.add_answer_form button, form.add_bs_idea_form button, form.suggest_idea_form button, form.std_form button {
+    margin-left: 15px; }
+  form.add_comment_form p.resource_warning, form.add_answer_form p.resource_warning, form.add_bs_idea_form p.resource_warning, form.suggest_idea_form p.resource_warning, form.std_form p.resource_warning {
+    margin-top: -12px; }
+
+form.std_form label {
+  margin-bottom: 8px; }
+
+form.add_bs_idea_form {
+  font-size: 1em; }
+
+form.add_answer_form {
+  margin-bottom: 80px; }
+
+div.answer_section {
+  padding-top: 20px;
+  margin-bottom: 50px;
+  clear: both; }
+  div.answer_section div.answer {
+    font-size: 1.12em;
+    float: left;
+    width: 470px; }
+    div.answer_section div.answer p.title {
+      font-weight: bold; }
+    div.answer_section div.answer div.answer_body p {
+      font-size: 1.12em; }
+  div.answer_section div.answer_details {
+    float: left;
+    width: 278px;
+    margin-left: 20px; }
+  div.answer_section td.rating {
+    padding-left: 40px; }
+  div.answer_section div.answer_details div.rate div.rating {
+    vertical-align: top;
+    float: left; }
+    div.answer_section div.answer_details div.rate div.rating form {
+      display: none; }
+    div.answer_section div.answer_details div.rate div.rating div.cnt {
+      float: left;
+      margin-left: 10px; }
+    div.answer_section div.answer_details div.rate div.rating div.result_stars {
+      float: left;
+      position: relative; }
+      div.answer_section div.answer_details div.rate div.rating div.result_stars div.bs_rating_red_bg {
+        background: url(/images/red_stars.gif) no-repeat left top;
+        height: 16px;
+        width: 0;
+        position: absolute;
+        top: 0;
+        left: 0; }
+      div.answer_section div.answer_details div.rate div.rating div.result_stars div.bs_rating_grey_bg {
+        background: url(/images/grey_stars.gif) no-repeat left top;
+        height: 16px;
+        width: 85px; }
+  div.answer_section div.answer_details div.checklist {
+    margin-bottom: 16px; }
+    div.answer_section div.answer_details div.checklist p.title {
+      font-weight: bold;
+      margin: 4px 0; }
+    div.answer_section div.answer_details div.checklist ul {
+      margin-top: 0;
+      margin-bottom: 0; }
+      div.answer_section div.answer_details div.checklist ul li {
+        margin: 6px 0 0 -20px; }
+    div.answer_section div.answer_details div.checklist div.extended_checklist {
+      display: none; }
+  div.answer_section div.ans_comment_links {
+    clear: both;
+    height: 20px;
+    font-size: 0.9em; }
+    div.answer_section div.ans_comment_links a {
+      margin-right: 16px; }
+
+span.star_hover {
+  white-space: wrap; }
+
+span.stars {
+  display: block;
+  float: left; }
+
+span.star_hover, span.rating_results {
+  display: block;
+  float: left;
+  margin-left: 10px; }
+
+div.rating form {
+  float: left;
+  white-space: nowrap; }
+
+div.rate {
+  height: 20px; }
+  div.rate p {
+    font-weight: bold;
+    float: left;
+    margin: 0; }
+
+form.add_bs_idea_form label {
+  color: #23238e;
+  margin-bottom: 20px; }
+form.add_bs_idea_form div.control_line {
+  margin-bottom: 20px; }
+form.add_bs_idea_form div.add_idea {
+  margin: 16px;
+  padding: 16px 0; }
+
+div.bs_ideas div.cnt {
+  margin-bottom: 2px;
+  font-size: 0.8em; }
+
+span.please_rate {
+  color: #f2583e;
+  font-weight: bold; }
+
+form.item_rater {
+  width: 300px; }
+
+div.idea_comments {
+  display: none; }
+
+div.q_cta {
+  height: 40px;
+  width: 100%;
+  background: url(/images/cta_speakup3.gif) no-repeat left top;
+  cursor: pointer; }
+  div.q_cta div {
+    height: 38px;
+    margin-left: 100px;
+    margin-right: 40px;
+    border: 2px dashed red;
+    border-left: none; }
+    div.q_cta div a {
+      display: block;
+      margin-left: 40px;
+      font-size: 20px;
+      margin-top: 6px; }
+
+div.q_cta.mouseover {
+  background: url(/images/cta_speakup_mo3.gif) no-repeat left top; }
+
+div.bsd_bar {
+  background-color: #f3973a;
+  height: 40px;
+  width: 100%;
+  clear: both;
+  color: #23238e; }
+  div.bsd_bar h3 {
+    float: left;
+    margin: 10px 0 0 10px; }
+  div.bsd_bar a {
+    display: block;
+    float: left;
+    margin: 10px 0 0 20px;
+    font-weight: bold; }
+  div.bsd_bar a.bsd_close {
+    float: right;
+    margin: 10px 10px 0 0; }
+
+div.bsd_bar.bottom {
+  margin-top: 20px; }
+
+div.bsd_instr {
+  background-color: #fee188;
+  padding: 10px 10px 10px 10px; }
+  div.bsd_instr a.show_me_how {
+    font-style: italic;
+    margin-left: 8px; }
+  div.bsd_instr a.next_action {
+    margin-left: 16px; }
+  div.bsd_instr p {
+    margin-top: 0; }
+
+p.intro {
+  margin-bottom: -6px; }
+
+p.intro.cta {
+  margin-bottom: 50px; }
+
+div#submit_proposal {
+  max-width: 500px; }
+  div#submit_proposal p.title {
+    font-style: italic;
+    margin: 0 20px; }
+  div#submit_proposal p.cat {
+    margin: 0 0 4px 0; }
+  div#submit_proposal label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px; }
+  div#submit_proposal a.cancel {
+    font-size: 80%; }
+
+div#submit_proposal_acknowledge {
+  max-width: 500px; }
+
+div.preview_email {
+  border: 1px solid #666666;
+  padding: 20px;
+  word-wrap: break-word; }
+  div.preview_email div.email_headers p {
+    margin: 0; }
+  div.preview_email div.email_headers p.subject {
+    margin-top: 10px; }
+  div.preview_email div.email_headers p.recipients {
+    margin-left: 20px; }
+  div.preview_email pre.email_body {
+    margin: 10px 0 30px 0; }
+
+form.reset_password_form, form.signin_form, form.register_form {
+  max-width: 400px; }
+  form.reset_password_form label, form.signin_form label, form.register_form label {
+    font-weight: bold; }
+  form.reset_password_form input[type='text'], form.reset_password_form input[type='password'], form.signin_form input[type='text'], form.signin_form input[type='password'], form.register_form input[type='text'], form.register_form input[type='password'] {
+    width: 250px; }
+  form.reset_password_form input[type='submit'], form.signin_form input[type='submit'], form.register_form input[type='submit'] {
+    margin: 20px 0; }
+
+form.signin_form td {
+  vertical-align: top; }
+form.signin_form p {
+  width: 240px;
+  margin: 0 20px 10px 40px; }
+form.signin_form p.signin_warn {
+  margin: 0;
+  padding: 4px;
+  border: 1px solid #f2583e;
+  width: 240px; }
+form.signin_form p.signin_action_warn {
+  color: red;
+  font-weight: bold; }
+
+div#email_participants {
+  textarea-height: 100px; }
+  div#email_participants th, div#email_participants td {
+    text-align: left;
+    padding-left: 20px; }
+  div#email_participants th.ctr, div#email_participants td.ctr {
+    text-align: center; }
+
+table.tablesorter th {
+  cursor: pointer; }
+
+div#invite_friends {
+  max-width: 500px; }
+
+ul.teams_list li {
+  margin-bottom: 8px; }

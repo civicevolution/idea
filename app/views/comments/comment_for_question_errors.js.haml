@@ -1,7 +1,7 @@
 = render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var errors = $("#{escape_javascript( render :partial => 'shared/error_messages', :locals => {:target => comment})}");
-	var form = $('div.question_worksheet[id="#{comment.parent_id}"] form.what_do_you_think');
+	var form = $('div.question_worksheet[id="#{comment.parent_id}"] form.comment_form');
 	form.find('p.warn').remove();
 	form.find('div#errorExplanation').remove();	
 	var textarea = form.find('textarea');

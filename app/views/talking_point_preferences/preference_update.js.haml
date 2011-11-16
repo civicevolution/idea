@@ -4,6 +4,4 @@
 		render :partial => 'talking_point_preferences/preference', :locals => {:talking_point => talking_point}
 	)}");
 
-	var old_preference = $('div.talking_point_entry[id="#{talking_point.id}"] div.talking_point_preferable');
-	new_preference.height( old_preference.height());
-	old_preference.replaceWith(new_preference);
+	$('div.talking_point_entry[id="#{talking_point.id}"] div.favorite').replaceWith(new_preference);

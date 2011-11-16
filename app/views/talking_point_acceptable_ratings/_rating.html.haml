@@ -1,7 +1,25 @@
 - mode = '' unless !defined?(mode).nil? && !mode.nil?
-%div.talking_point_acceptable.corner
+%div.talking_point_acceptable
 	%div.my_rating
-		%p.title My rating
+		-#%p.title My rating
+		
+		
+		- if mode != 'new_'
+			- vote_max = 0
+			- num_votes = 0
+			- talking_point.rating_votes.each{ |v| num_votes += v; vote_max = v unless vote_max > v }
+			- barw = 21
+			- barh = 22
+			%div.community_rating.no_js
+				%p.talking_point_ratings= pluralize(num_votes, 'rating')
+
+
+				%div.graph.js
+					- talking_point.rating_votes.each_index do |i|
+						%div.bar.zero{:style=>"left: #{barw * i + 24}px; height: 100%"}
+						%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i + 24}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
+		
+		
 		%div.radios
 			- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
 
@@ -18,30 +36,17 @@
 		- else
 			%p.option{:title=>"#{TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]}"}= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]
 		
-	- if mode != 'new_'
-		- vote_max = 0
-		- num_votes = 0
-		- talking_point.rating_votes.each{ |v| num_votes += v; vote_max = v unless vote_max > v }
-		- barw = 16
-		- barh = 22
-		%div.community_rating.no_js
-			%p.talking_point_ratings= pluralize(num_votes, 'rating')
-		
-		
-			%div.graph.js
-				- talking_point.rating_votes.each_index do |i|
-					%div.bar.zero{:style=>"left: #{barw * i}px; height: 100%"}
-					%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
-
-
-			%div.graph.no_js
-				- talking_point.rating_votes.each_index do |i|
-					%div.bar.zero{:style=>"top: #{barh * i}px; height: #{barh - 2}px; width: 100%"}
-					- if talking_point.rating_votes[i] > 0
-						%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"top: #{barh * i}px; height: #{barh - 2}px; width: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
+			- if mode != 'new_'
+				%div.graph.no_js
+					- talking_point.rating_votes.each_index do |i|
+						%div.bar.zero{:style=>"top: #{barh * i}px; height: #{barh - 2}px; width: 100%"}
+						- if talking_point.rating_votes[i] > 0
+							%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"top: #{barh * i}px; height: #{barh - 2}px; width: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
 			
-		- if !talking_point.my_rating.nil? && talking_point.my_rating > 3		
-			%p.clear_both
-			%p.suggest.hide
-				= link_to 'Add a comment', talking_point_comments_path(talking_point), { :class=> 'tp_add_com', :id=>talking_point.id, :remote=>true}
-				to help others understand your concerns or offer an improvement
+			- if !talking_point.my_rating.nil? && talking_point.my_rating > 3		
+				%p.clear_both
+				%p.suggest.hide
+					= link_to 'Add a comment', talking_point_comments_path(talking_point), { :class=> 'tp_add_com', :id=>talking_point.id, :remote=>true}
+					to help others understand your concerns or offer an improvement
+
+	

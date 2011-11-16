@@ -1,29 +1,10 @@
 - mode = '' unless !defined?(mode).nil? && !mode.nil?
-%div.talking_point_preferable.corner{:id=>talking_point.id}
-	- if mode == 'new_'
-		%p.my_preference 
-			= label_tag "#{mode}preference_#{talking_point.id}" do
-				%input{:name=>"#{mode}preference_#{talking_point.id}", :id=>"#{mode}preference_#{talking_point.id}", :type=>'checkbox', :checked => talking_point.my_preference ? true : false}
-				I prefer this
-	- elsif !talking_point.preference_votes.nil?
-		%p.total_preference 
-			- if talking_point.preference_votes.to_i == 0
-				No one prefers this
-			- elsif talking_point.preference_votes.to_i == 1
-				1 person prefers this
-			- else
-				#{talking_point.preference_votes} people prefer this 
-		%p.my_preference
-			= label_tag "preference_#{talking_point.id}" do
-				- if talking_point.my_preference
-					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox', :checked => true}
-				- else
-					%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
-				I prefer this
-
-	- else
-		%p.total_preference No one prefers this
-		%p.my_preference 
-			= label_tag "preference_#{talking_point.id}" do
-				%input{:name=>"preference_#{talking_point.id}", :id=>"preference_#{talking_point.id}", :type=>'checkbox'}
-				I prefer this
+%div.favorite		
+	- votes = talking_point.preference_votes.nil? ? 0 : talking_point.preference_votes
+	- my_fav = talking_point.my_preference.nil? ? 'true' : talking_point.my_preference ? 'false' : 'true'
+	%button{:val=> my_fav}
+		- if talking_point.my_preference
+			= image_tag('tp-star-g.gif')
+		- else
+			= image_tag('tp-star-e.gif')
+		%span.fav_cnt= mode != 'new_' ? votes : ''

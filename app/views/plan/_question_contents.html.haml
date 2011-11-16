@@ -1,8 +1,5 @@
 %div.talking_point_sec
 	%h3.ques_sub_hdg 
-		Talking points suggested and rated by your community
-		- if question.answers.size > 0 || question.bs_ideas.size > 0
-			= link_to 'Show old answers and ideas', question_old_data_path(question.id), {:remote=>true}
 
 	- if flash[:unrecorded_talking_point_preferences]
 		%p.warn You checked "I prefer this" on more than 5 talking points
@@ -11,23 +8,6 @@
 
 
 	%div.talking_points_list{:id=>question.id}
-
-		%div.talking_point_entry.header
-			%div.talking_point_body
-				%div.instr.arrow
-					%p.instr
-						The goal is to reach agreement on the most preferred talking points that are acceptable to most of your community. 
-						= link_to "Learn more", visual_help_path, {:remote=>true}
-						
-
-			%div.talking_point_acceptable.corner
-				%p.title Acceptable
-
-			%div.talking_point_preferable.corner
-				%p.title Preferable
-
-			%p.clear_both
-
 
 		= render :partial=> 'plan/talking_point', :collection => question['talking_points_to_display']
 

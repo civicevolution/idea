@@ -1,9 +1,9 @@
-%div.question_summary
-	%p.question{:id=>question.id}
+%div.question_summary{:id=>question.id}
+	%p.question
 		= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}
 		
 	%div.talking_point_sec
-		%div.talking_points_list
+		%div.talking_points_list.summary.corner
 
 			%ul.talking_points
 				- if question.top_talking_points.size == 0

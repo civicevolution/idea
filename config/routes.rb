@@ -108,7 +108,10 @@ G3::Application.routes.draw do |map|
     
   post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :as => 'what_do_you_think'
   get "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think_form", :as => 'what_do_you_think'
-
+  
+  post "questions/:question_id/add_talking_point", :to => "questions#add_talking_point", :as => 'add_talking_point'
+  
+  get "questions/:question_id/summary" => "questions#summary", :as => :question_summary
   get "questions/:question_id/worksheet" => "questions#worksheet", :as => :question_worksheet
   get "questions/:question_id/new_talking_points" => "questions#new_talking_points", :as => :question_new_talking_points
   get "questions/:question_id/all_talking_points" => "questions#all_talking_points", :as => :question_all_talking_points
@@ -132,6 +135,7 @@ G3::Application.routes.draw do |map|
 
   post "comments/:comment_id/add_comment", :to => 'comments#create_comment_comment', :as => 'add_comment_comment'
   post "talking_points/:talking_point_id/add_comment", :to => 'comments#create_talking_point_comment', :as => 'add_talking_point_comment'
+  post "questions/:question_id/add_comment", :to => 'questions#add_comment', :as => 'add_question_comment'
 
   get "comments/:comment_id/report", :to => 'client_debug#report', :as => 'report_comment'
   get "talking_points/:talking_point_id/report", :to => 'client_debug#report', :as => 'report_talking_point'
@@ -203,6 +207,7 @@ G3::Application.routes.draw do |map|
   get 'admin/team/:team_id/stats' => 'admin#team_stats', :as => 'team_stats'
   get 'admin/team/:team_id/team_participant_stats' => 'admin#team_participant_stats', :as => 'team_participant_stats'
 
+  get 'test' => 'plan#test'
 
   resources :answer_diffs
 

@@ -11,7 +11,7 @@
 			height: 100px
 		
 %div.endorsements
-	%div.spiral
+	-#%div.spiral
 	%div.notebook.corner
 		- if @endorsements.size == 0
 			%h3.desc No one has endorsed this proposal yet.
@@ -45,7 +45,9 @@
 			
 		- if !print			
 			= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form' + ( endorsed ? ' hide' : '' ) do 
-				%p Show your support for this proposal by adding a short statement in this form and clicking the button			
+				%ul
+					%li Show your support for this proposal by adding a short statement in this form and clicking the button			
+					%li If you don't like this proposal, please consider joining the discussion to share your concerns and suggest improvements. Click one of the question links above to get started
 				%div.add_answer
 					%p
 					= label_tag :text, "My statement in support of this proposal"

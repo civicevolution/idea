@@ -69,18 +69,14 @@ $('a[data-remote]').live('ajax:beforeSend',
 function init_page(){
 	//console.log("init_page")
 	remove_worksheet_form();
-	size_talking_point_entries();
+	reformat_talking_point_entries();
 	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
 	if(!$.support.borderRadius){ 
 		console.log("load corner support script and activate");
 		$.getScript('/javascripts/jquery.corner.js', 
 			function(){
 				//console.log("corner has been loaded")
-				var worksheet_corners = $('div.question_worksheet .corner');
-				var non_worksheet_corners = $('.corner').not( worksheet_corners );
-				if( worksheet_corners.size() > 0 ){
-					worksheet_corners.corner( 'cc:#F2E9C3');
-				}
+				var non_worksheet_corners = $('.corner');
 				if( non_worksheet_corners.size() > 0 ){
 					non_worksheet_corners.corner();
 				}
@@ -90,16 +86,14 @@ function init_page(){
 		// define dummy corner function
 		$.fn.corner = function(){ return this; }
 	}
-
 	try{
 		init_add_this();
-		//console.log("init_add_this is okay")
 	}catch(e){}
 	try{
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 		//console.log("pretty photo is okay")
 	}catch(e){}
-
+	$('a.new_tag, a.help_tag').html('');
 }
 
 function remove_worksheet_form(){
@@ -110,36 +104,11 @@ function remove_worksheet_form(){
 	form.remove();
 }
 
-function size_talking_point_entries(){
+function reformat_talking_point_entries(){
 	$('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
 	$('div.community_rating').removeClass('no_js');
-	//return
-	$('div.talking_point_entry').not('.header').each( 
-		function(){
-			resize_talking_point_entry( $(this) );
-		}
-	)	
+	$('div.graph.no_js').remove();
 }
-
-function resize_talking_point_entry(el){
-	var b = el.children('div.talking_point_body').height('auto');
-	var cr = el.find('div.talking_point_acceptable > div.community_rating').height('auto');
-	var p = el.children('div.talking_point_preferable').height('auto');
-	var max = Math.max.apply( Math, [b.height(), (cr.height() + 26), p.height()] );
-	//console.log("max height: " + max)
-	b.height(max);
-	cr.parent().height(max-20);
-	p.height(max-20);
-}
-
-
-$('form.what_do_you_think a.clear').die('click').live('click',
-	function(){
-		$(this).closest('form').find('textarea').val('');
-		$(this).closest('form').find('div#errorExplanation').remove();
-		return false;
-	}
-);
 
 $('div.my_rating :radio').die('change').live('change',
 	function(){
@@ -166,29 +135,12 @@ $('div.radios label').live('click', function() {
 	p.attr('title',title);
 });
 
-
-$('p.my_preference :checkbox').die('change').live('change',
+$('div.favorite button').die('click').live('click',
 	function(){
-		$.post('/talking_points/' + $(this).closest('.talking_point_entry').attr('id') + '/prefer', {prefer: this.checked}, function(){}, "script");
+		var button = $(this);
+		$.post('/talking_points/' + button.closest('.talking_point_entry').attr('id') + '/prefer', {prefer: button.attr('val')}, function(){}, "script");
 	}
 );
-
-$('form.what_do_you_think :radio').die('change').live('change',
-	function(){
-		var el = $(this);
-		console.log("radio change");
-		var char_ctr = el.closest('form').find('span.char_ctr');
-		if(el.val() == 'talking_point'){
-			var cnt = 200;
-		}else{
-			var cnt = 1500;
-		}
-		el.closest('form').find('textarea').show_char_limit(cnt, {
-	    error_element: char_ctr,
-			status_element: char_ctr
-		})
-	}
-)
 
 $('div.home_page table.proposal_stats').die('click').live('click',
 	function(){
@@ -242,6 +194,8 @@ function activate_text_counters_grow(els, height){
 }
 
 function init_add_this(){
+	if( typeof _atd != 'undefined' ) return 
+	
 	var addthis_config = {"data_track_clickback":true};
 	var addthisScript = "http://s7.addthis.com/js/250/addthis_widget.js#username=civicevolution"
 

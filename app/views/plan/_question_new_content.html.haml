@@ -7,37 +7,16 @@
 - talking_points.each do |talking_point|
 	%tr.talking_point
 		%td.level1.talking_point_entry{:colspan=>2, :id=>talking_point.id}
+			%div.talking_point_entry{:id=>talking_point.id}
 		
-			= link_to question_worksheet_path(question, :t=>'tp', :id=>talking_point.id), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id, :remote => true do
-				= talking_point.text
-				-# if talking_point['new'].nil?
-					%span.tp_reference For reference
+				= link_to question_worksheet_path(question, :t=>'tp', :id=>talking_point.id), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id, :remote => true do
+					= talking_point.text
+					-# if talking_point['new'].nil?
+						%span.tp_reference For reference
 			
-			= render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point, :mode => 'new_'}	
-			= render :partial => 'talking_point_preferences/preference', :locals => {:talking_point => talking_point, :mode => 'new_'}
-					
-			-#%div.talking_point_acceptable						
-				%div.my_rating		
-					%p.title My rating
-					%div.radios
-						- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
-
-
-							-#= label_tag "tp_rating_#{talking_point.id}_#{value}" do
-							%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
-								- if value.to_i == talking_point.my_rating
-									%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
-								- else
-									%input.rating{:name => "tp_rating_#{talking_point.id}", :id => "tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
-								-#%span.option= title
-								= label_tag "tp_rating_#{talking_point.id}_#{value}", title
-
-					%p.clear_both
-					- if talking_point.my_rating.nil?
-						%p.option.please_rate{:title=>"Please rate"} Please rate
-					- else
-						%p.option{:title=>"#{TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]}"}= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]
-				
+				= render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point, :mode => 'new_'}	
+				= render :partial => 'talking_point_preferences/preference', :locals => {:talking_point => talking_point, :mode => 'new_'}
+						
 		%td
 			%abbr.timeago{:title=>talking_point.created_at}= time_ago_in_words(talking_point.created_at) + ' ago'
 

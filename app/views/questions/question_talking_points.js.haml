@@ -5,7 +5,7 @@
 		'<div>' + render( :partial=> 'plan/talking_point', :collection => @question.talking_points_to_display ) + '</div>'
 	)}");
 	
-	talking_points.find('.corner').corner('cc:#F2E9C3');
+	talking_points.find('.corner').corner();
 	
 	
 	var tp_list = $('div.talking_points_list[id="#{@question.id}"]');
@@ -26,5 +26,5 @@
 		if(cnt == 1)text = text.replace(/s$/,'')
 		link.html(text)
 	} 
-	size_talking_point_entries();
+	reformat_talking_point_entries();
 

@@ -1,6 +1,6 @@
 class PlanController < ApplicationController
   layout "plan", :only => [:suggest_new_idea, :review_proposal_idea]
-  skip_before_filter :authorize, :only => [ :index, :summary, :suggest_new_idea, :new_content, :get_templates]
+  skip_before_filter :authorize, :only => [ :index, :summary, :suggest_new_idea, :new_content, :get_templates, :test]
   
   def index
     logger.debug "\n\n******************************************\nStart plan/index\n"
@@ -92,10 +92,11 @@ class PlanController < ApplicationController
       return
     end
     
-    time_stamp = params[:time_stamp] 
+    time_stamp = params[:date] 
     if time_stamp
-      time_stamp = time_stamp.scan(/\d\d/)
-      @last_visit = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
+      time_stamp = time_stamp.split('-')
+      session[:last_visit_ts] = 
+      @last_visit = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
     else
       @last_visit = @member.last_visit_ts      
       @last_visit= @last_visit.advance(:days => -7) unless @member.id != 0

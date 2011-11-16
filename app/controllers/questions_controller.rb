@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  skip_before_filter :authorize, :only => [ :worksheet, :all_comments, :all_talking_points, :old_data ]
+  skip_before_filter :authorize, :only => [ :summary, :worksheet, :all_comments, :all_talking_points, :old_data ]
   
   # GET /questions
   # GET /questions.xml
@@ -85,62 +85,44 @@ class QuestionsController < ApplicationController
     end
   end
   
-  def what_do_you_think_form
-    render 'what_do_you_think', :locals => {:question_id => params[:question_id]}, :layout => 'plan'
+  def add_talking_point
+    logger.debug "Question#add_talking_point"
+    logger.debug "Create question talking_point with text: #{params[:text]}"
+    @talking_point = Question.find(params[:question_id]).talking_points.create(:member=> @member, :text => params[:text])
+    respond_to do |format|
+      if @talking_point.errors.empty?
+        format.js { render 'talking_points/talking_point_for_question', :locals=>{:talking_point=>@talking_point, :question_id => @talking_point.question_id} }
+        format.html { redirect_to( question_worksheet_path(@talking_point.question_id), :notice => 'Talking point was successfully created.') }
+      else
+        format.js { render 'talking_points/talking_point_for_question_errors', :locals=>{:talking_point=>@talking_point} }
+        format.html { 
+          flash[:worksheet_error] = @talking_point.errors
+          flash[:params] = params
+          redirect_to( what_do_you_think_path(params[:question_id]) )
+        }
+      end
+    end
   end
   
-  def what_do_you_think
-    logger.debug "Question#what_do_you_think"
-    case params[:input_type]
-      when 'comment'
-       logger.debug "Create question comment with text: #{params[:text]}"
-       @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id])
-       respond_to do |format|
-         if @comment.errors.empty?
-           format.js { render 'comments/comment_for_question', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.parent_id} }
-           format.html { redirect_to( question_worksheet_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
-           format.xml  { render :xml => @comment, :status => :created, :location => @comment }
-         else
-           format.js { render 'comments/comment_for_question_errors', :locals=>{:comment=>@comment} }
-           format.html { 
-             flash[:worksheet_error] = @comment.errors
-             flash[:params] = params
-             redirect_to( what_do_you_think_path(params[:question_id]) )
-           }
-         end
-       end
-      when 'talking_point'
-        logger.debug "Create question talking_point with text: #{params[:text]}"
-        @talking_point = Question.find(params[:question_id]).talking_points.create(:member=> @member, :text => params[:text])
-        respond_to do |format|
-          if @talking_point.errors.empty?
-            format.js { render 'talking_points/talking_point_for_question', :locals=>{:talking_point=>@talking_point, :question_id => @talking_point.question_id} }
-            format.html { redirect_to( question_worksheet_path(@talking_point.question_id), :notice => 'Talking point was successfully created.') }
-          else
-            format.js { render 'talking_points/talking_point_for_question_errors', :locals=>{:talking_point=>@talking_point} }
-            format.html { 
-              flash[:worksheet_error] = @talking_point.errors
-              flash[:params] = params
-              redirect_to( what_do_you_think_path(params[:question_id]) )
-            }
-          end
-        end
-    else
-      # redisplay worksheet with error
-      comment = Comment.new
-      comment.errors.add(:base, 'Please select Add a comment, or Add a talking point')
-      flash[:worksheet_error] = comment.errors
-      flash[:params] = params
-      respond_to do |format|
-        format.js {
-          render 'what_do_you_think_must_select', :locals => { :question_id => params[:question_id] }
+  def add_comment
+    logger.debug "Create question comment with text: #{params[:text]}"
+    @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id])
+    respond_to do |format|
+      if @comment.errors.empty?
+        format.js { render 'comments/comment_for_question', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.parent_id} }
+        format.html { redirect_to( question_worksheet_path(@comment.parent_id), :notice => 'Comment was successfully created.') }
+        format.xml  { render :xml => @comment, :status => :created, :location => @comment }
+      else
+        format.js { render 'comments/comment_for_question_errors', :locals=>{:comment=>@comment} }
+        format.html { 
+          flash[:worksheet_error] = @comment.errors
+          flash[:params] = params
+          redirect_to( what_do_you_think_path(params[:question_id]) )
         }
-        format.html { redirect_to( what_do_you_think_path(params[:question_id]) ) }
       end
     end
     
   end
-  
   
   def new_talking_points
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
@@ -247,6 +229,31 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def summary
+    @question ||= Question.find_by_id(params[:question_id])
+    if @question.nil?
+      render :template => 'team/proposal_not_found', :layout=> 'plan'
+      return
+    end    
+    
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
+    @question.get_talking_point_ratings(@member)
+    			
+    render :template=>'questions/summary.js', :layout => false, :locals=>{:question=>@question}
+  end
+  
   
   def worksheet
     logger.debug "Question#worksheet"

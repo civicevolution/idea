@@ -4,7 +4,7 @@
 		var pub_sub_channels = #{@channels}
 	%div.talking_points_page
 		%div.left_side
-			%div.spiral
+			-#%div.spiral
 			%div.notebook.corner
 				%div.intro
 					%div.suggest_title
@@ -30,13 +30,14 @@
 
 				- questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 				%div.proposal
-					%h3 Current proposal details
+					-#%h3 Current proposal details
 					= render :partial=> 'question_summary', :collection => questions, :as => :question, :locals => {:questions => questions}
 	
 				-#= render :partial => 'submit'
+			= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}
 
 		%div.right_side
 			= render :template => 'plan/summary_stats'
 
 	%p.clear_both
-	= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}
+	

@@ -12,7 +12,7 @@
 		// insert this one
 		$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last').after(tp);
 	}
-	var form = $('div.question_worksheet[id="#{question_id}"] form.what_do_you_think')
+	var form = $('div.question_worksheet[id="#{question_id}"] form.talking_point_form')
 	form.find('textarea').val('');
 	form.find('p.warn').remove();
 	form.find('input[type="radio"]').attr('checked',false)

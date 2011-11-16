@@ -1,5 +1,5 @@
-%div.talking_point_entry{:id=>talking_point.id, :class => talking_point['highlight'] ? 'highlight' : ''}
-	%div.talking_point_body.corner
+%div.talking_point_entry.corner{:id=>talking_point.id, :class => talking_point['highlight'] ? 'highlight' : ''}
+	%div.talking_point_body
 		%p.talking_point= talking_point.text
 
 		%div.talking_point_controls
@@ -16,13 +16,14 @@
 			%p.other
 				= link_to "Edit", edit_talking_point_path(talking_point), {:class => 'edit', :rel=>'nofollow', :remote=>true}
 				- if talking_point.version > 1
-					= link_to "View #{pluralize(talking_point.version - 1, 'old version')}", talking_point_versions_path(talking_point), {:class => 'versions', :rel=>'nofollow', :remote=>true}
-				- else
+					= link_to "#{pluralize(talking_point.version - 1, ' version')}", talking_point_versions_path(talking_point), {:class => 'versions', :rel=>'nofollow', :remote=>true}
+				-# else
 					= link_to "View 1 old version", talking_point_versions_path(talking_point), {:class => 'versions hide', :rel=>'nofollow', :remote=>true}
 				= link_to "Report", report_talking_point_path(talking_point), {:class=>'report', :rel=>'nofollow', :remote=>true}
 
 	= render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point}
 	= render :partial => 'talking_point_preferences/preference', :locals => {:talking_point => talking_point}
+	
 	
 	%p.clear_both
 - if talking_point['comments']

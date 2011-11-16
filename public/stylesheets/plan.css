@@ -414,3 +414,6 @@ div#follow_initiative input[type=text] {
   width: 300px; }
 div#follow_initiative input {
   font-size: 1.2em; }
+
+div.cta_block {
+  font-size: 13px; }

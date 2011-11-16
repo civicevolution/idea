@@ -1,19 +1,21 @@
 - text ||= ''
--#= form_tag("/#{type}/#{id}/add_comment", :remote=>true, :id=> id, :class=>'comment_form orig') do
-= form_tag( type=='comments' ? add_comment_comment_path(id) : add_talking_point_comment_path(id), :remote=>true, :id=> id, :class=>'comment_form orig') do
-	
-	- if type == 'comments'
-		%h3 Reply to this comment
-	- elsif type == 'talking_points'
-		%h3 Tell us what you think about this talking point
-	- else
-		type = 'comments'
+- if type == 'comments'
+	- title = 'Reply to this comment'
+	- path = add_comment_comment_path(id)
+- elsif type == 'talking_points'
+	- title = 'Tell us what you think about this talking point'
+	- path = add_talking_point_comment_path(id)
+- elsif type == 'question'
+	- title = 'Add a comment'
+	- path = add_question_comment_path(id)
+
+= form_tag( path, :remote=>true, :id=> id, :class=>'comment_form orig') do
+	%h3= title
 
 	= text_area_tag :text, "#{text}", {:class=>'autosize', :rows => 8}
 
 	%div.form_controls
-		%button{'data-disable-with' =>'Submitting...'}
-			Share
+		= submit_tag "Share", :name=>'sign_in', 'data-disable-with'=>'Submitting...'
 
 		%span.char_ctr
 			= criteria.match(/..(\d+)/)[1]

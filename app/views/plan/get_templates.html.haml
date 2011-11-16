@@ -27,7 +27,6 @@
 			}
 			
 			function reformat_comment_quote(com){
-				//com = $('div.Comment[id="1078"]')
 				var txt = com.find('div.comment_text').html();
 				if(!txt.match(/\[quote=/)) return;
 				var pcs = txt.match(/^(.*)\[quote="([^"]*)"\]([\s\S]*)\[\/quote\]([\s\S]*)$/);
@@ -66,7 +65,7 @@
 			);
 			realtime_data_update_functions['Comment'] =
 				function(data){
-					console.log("insert a comment v5");
+					console.log("insert a comment v7");
 					// testing mode, change the id of the existing element in the page
 					//$('div.Comment[id="' + data.data.comment.id + '"]').attr('id', '123123');
 					
@@ -77,6 +76,7 @@
 						// replace the text only
 						console.log("replace the text only");
 					  old_com.find('div.comment_text').replaceWith( $(com).find('div.comment_text'));
+						reformat_comment_quote(old_com);
 					}else{
 						switch(Number(data.data.comment.parent_type)){
 							case 1:
@@ -107,6 +107,7 @@
 									}else{
 										com = $(com).appendTo(par_div);
 									}
+									reformat_comment_quote(com);
 								}
 								break
 						}
@@ -155,17 +156,14 @@
 							// replace the text only
 							console.log("replace the text only");
 						  old_tp.find('p.talking_point').html(data.data.talking_point.text);
-							resize_talking_point_entry(old_tp);
 							// update the versions link
 							temp.old_tp = old_tp
-							old_tp.find('a.versions').removeClass('hide').html( 'View ' + (data.data.talking_point.version - 1) + ' old ' + ((data.data.talking_point.version-1) == 1 ? 'version' : 'versions'));
+							old_tp.find('a.versions').removeClass('hide').html( (data.data.talking_point.version - 1) + ((data.data.talking_point.version-1) == 1 ? ' version' : ' versions'));
 						}else{
 							console.log("insert a new TP")
 							// insert a new tp
 							tp = $(tp).insertBefore( par_div.find('p.new_tp_insert_point') );
 							temp.tp = tp;
-							// resize and make it JS format
-							resize_talking_point_entry(tp);
 							tp.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
 							tp.find('div.community_rating').removeClass('no_js');
 							// fix the rating @id and @name
@@ -192,17 +190,8 @@
 			
 			realtime_data_update_functions['TalkingPointPreference'] =
 				function(data){
-					console.log("insert a TalkingPointPreference v1 with id: " + data.data.id);
-					temp.tpp_data = data;
-					var cnt = data.data.count
-					var tpp_div = $('div.talking_point_preferable[id="' + data.data.id + '"] p.total_preference');
-					if(cnt == 0 ){
-						tpp_div.html('No one prefers this');					
-					}else if(cnt == 1){
-						tpp_div.html('1 person prefers this');					
-					}else{
-						tpp_div.html(cnt + ' people prefer this');					
-					}
+					//console.log("insert a TalkingPointPreference v1 with id: " + data.data.id) ;
+					$('div.talking_point_entry[id="' + data.data.id + '"] span.fav_cnt').html(data.data.count);
 				}	
 			console.log("TalkingPointPreference function is ready")
 
