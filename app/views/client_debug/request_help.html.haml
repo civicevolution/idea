@@ -34,6 +34,5 @@
 					characters
 	
 		%p	
-			%button
-				Send
+			= submit_tag "Send", :name=>'send', 'data-disable-with'=>'Submitting...'
 			= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}

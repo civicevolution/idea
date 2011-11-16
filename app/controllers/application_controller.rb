@@ -126,8 +126,8 @@ class ApplicationController < ActionController::Base
        #request.session_options.freeze
       end
       if params[:date]
-        time_stamp = params[:date].scan(/\d\d/)
-        session[:last_visit_ts] = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
+        time_stamp = params[:date].split('-')
+        session[:last_visit_ts] = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
       else
         last_event = ParticipationEvent.where(:member_id => 1).last
         session[:last_visit_ts] = last_event.nil? ? Time.now - 7.days : last_event.created_at
@@ -167,7 +167,7 @@ class ApplicationController < ActionController::Base
       flash[:notice] = "Invalid email/password combination"
       respond_to do |format|
         format.html { redirect_to sign_in_all_path(:controller=> params[:controller], :email=>params[:email]) }
-        format.js { render 'sign_in_form' }
+        format.js { render 'sign_in/sign_in_form' }
       end
     end # end if member
   end
@@ -253,8 +253,8 @@ class ApplicationController < ActionController::Base
           @member.last_visit_ts = Time.now - 7.days #.local(2012,2,23)
         else
           if params[:date]
-            time_stamp = params[:date].scan(/\d\d/)
-            session[:last_visit_ts] = Time.local(time_stamp[0], time_stamp[1], time_stamp[2])
+            time_stamp = params[:date].split('-') # 11-21-2011
+            session[:last_visit_ts] = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
           else
             last_event = ParticipationEvent.where(:member_id => @member.id).last
             session[:last_visit_ts] = last_event.nil? ? Time.now - 7.days : last_event.created_at

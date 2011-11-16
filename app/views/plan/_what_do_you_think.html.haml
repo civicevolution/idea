@@ -47,8 +47,7 @@
 		= text_area_tag :text, text, {:class=>'autosize'}
 
 		%div.form_controls
-			%button{'data-disable-with' =>'Submitting...'}
-				Share
+			= submit_tag "Share", :name=>'share', 'data-disable-with'=>'Submitting...'
 			
 			%span.char_ctr
 				-#= @team.com_criteria.match(/..(\d+)/)[1]

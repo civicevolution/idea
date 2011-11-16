@@ -53,7 +53,7 @@
 					%div.control_line
 						%div.controls
 							%span.char_ctr 500 characters
-							%button I endorse this proposal
+							= submit_tag "I endorse this proposal", :name=>'endorse', 'data-disable-with'=>'Submitting...'
 							= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
 				%p.clear
 	%p.clear

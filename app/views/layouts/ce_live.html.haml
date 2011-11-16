@@ -32,7 +32,7 @@
 	%body
 		= link_to "Help", request_help_path, {:class=>'help_tag request_help', :remote => true}
 		- if !@team.nil?
-			= link_to "New", new_content_path(@team),{:class=>'new_tag request_new', :remote => true}
+			= link_to "New", new_content_path(@team, :date=>params[:date]),{:class=>'new_tag request_new', :remote => true}
 		
 		%div#load_mask
 	

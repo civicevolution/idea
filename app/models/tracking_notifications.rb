@@ -231,7 +231,9 @@ class TrackingNotifications
           raise "I don't know how to handle #{name} from Notifications"
       end
       
-      if participation_event.save
+      if participation_event.member_id.nil?
+        Rails.logger.debug "Don't save participation event record #{name}, no valid member"
+      elsif participation_event.save
         Rails.logger.debug "Saved participation event record #{name}:\n#{participation_event.inspect}"
       else
         raise "I couldn't save participation event record for #{name}:\n#{participation_event.inspect}"

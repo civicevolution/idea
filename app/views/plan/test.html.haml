@@ -1,0 +1,72 @@
+%style
+	:sass
+		$talking_point_bg: #BCC3D0
+		=radius
+			-webkit-border-radius: 10px
+			-moz-border-radius: 10px
+			border-radius: 10px
+
+		h3
+			color: red
+			margin: 1em 0
+		div.tp
+			width: 700px
+			height: 100px
+			margin: 4em
+			+radius
+			
+			background: $talking_point_bg url(/images/rate-bg.gif) repeat-y 300px
+			div.instr
+				//border: 1px solid green
+				float: left
+				width: 190px
+				margin-right: 10px
+				margin-left: 15px
+				margin-bottom: 1em
+
+			div.form
+				background: url(/images/comment.gif) no-repeat 8px 20px
+				//border: 1px solid red
+				float: left
+				width: 428px
+				p
+					font-size: 1.2em
+
+			div.instrX
+				border: 1px solid green
+				//float: left
+				//width: 190px
+				//margin-right: 10px
+				//margin-left: 15px
+				//margin-bottom: 1em
+
+			div.formX
+				background: url(/images/comment.gif) no-repeat 8px 20px
+				border: 1px solid red
+				float: left
+				//width: 428px
+				//p
+				//	font-size: 1.2em
+				> *
+					margin-left: 40px
+				h3
+					margin-left: 40px
+					
+				
+			
+
+%h3 Test page
+
+%div.tp
+	%div.form
+		%h3 hello to me
+	%div.instr
+		%p This needs to be done
+
+
+
+%div.tp
+	%div.formX
+		%h3 hello to me X
+	%div.instrX
+		%p This needs to be done X
