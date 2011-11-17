@@ -28,7 +28,7 @@ gem 'sass'
 gem 'paperclip'
 gem "pg"
 gem "recaptcha", :require => "recaptcha/rails"
-gem "tzinfo"
+gem "tzinfo", '=0.3.30'
 gem "uuidtools"
 gem "json"
 gem 'aws-s3', :require => 'aws/s3'
