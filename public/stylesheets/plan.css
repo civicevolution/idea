@@ -21,6 +21,9 @@ img {
 td {
   vertical-align: top; }
 
+div.logo {
+  margin-top: 10px; }
+
 div#load_mask {
   background-color: #23238e;
   z-index: 1000;

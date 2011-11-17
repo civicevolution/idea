@@ -20,4 +20,3 @@ config/database.yml
 *.log
 *.pid
 vendor/bundle
-*.css
