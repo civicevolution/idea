@@ -19,7 +19,7 @@ end
 # end
 
 
-gem "bluecloth" 
+gem "bluecloth", '= 2.1.0'
 gem "daemons"
 gem "diff-lcs"
 gem "differ"
@@ -39,7 +39,7 @@ gem 'jquery-rails', '>= 1.0.12'
 
 gem "airbrake"
 
-gem "juggernaut"
+gem "juggernaut", '= 2.0.4'
 
 gem 'SystemTimer', :platforms => [:ruby_18]
 
