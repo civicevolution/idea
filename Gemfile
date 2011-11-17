@@ -35,7 +35,7 @@ gem 'aws-s3', :require => 'aws/s3'
 gem "aws-ses"
 gem 'delayed_job'
 
-gem 'jquery-rails', '= 1.0.16'
+gem 'jquery-rails'
 
 gem "airbrake"
 
