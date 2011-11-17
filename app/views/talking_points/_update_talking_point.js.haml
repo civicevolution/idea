@@ -1,16 +1,17 @@
+= render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var new_tp = $("#{escape_javascript(
 		render( :partial => 'plan/talking_point.html', :object => talking_point )
 	)}");
 	new_tp.find('div.my_rating').addClass('js');
 	new_tp.find('div.community_rating').removeClass('no_js');
-	new_tp.find('.corner').corner('cc:#F2E9C3');
+	new_tp.find('.corner').corner();
 	
 	var tp = $('div.talking_point_entry[id="#{talking_point.id}"]')
 	
 	$('form.talking_point_edit_form[id="#{talking_point.id}"]').closest('div.ui-dialog').dialog('destroy').remove();
 	
-	tp.find('talking_point_body').replaceWith(new_tp.find('talking_point_body'));
+	tp.find('div.talking_point_body').replaceWith(new_tp.find('div.talking_point_body'));
 	
-= render :template => 'shared/clear_sign_in_form.js'
+
 	

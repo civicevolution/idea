@@ -14,7 +14,7 @@
 		- else
 		
 			- if request.xhr?
-				= link_to "Close worksheet", question_summary_path(question.id), :remote=>true
+				= link_to "Close talking points worksheet", question_summary_path(question.id), :remote=>true
 				%div
 					= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
 					%p.clear_both
