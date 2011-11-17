@@ -28,7 +28,7 @@ gem 'sass'
 gem 'paperclip', '= 2.4.4'
 gem "pg"
 gem "recaptcha", :require => "recaptcha/rails"
-gem "tzinfo", '= 0.3.30'
+gem "tzinfo"
 gem "uuidtools"
 gem "json"
 gem 'aws-s3', :require => 'aws/s3'
@@ -39,7 +39,7 @@ gem 'jquery-rails', '= 1.0.16'
 
 gem "airbrake"
 
-gem "juggernaut", '= 2.0.4'
+gem "juggernaut"
 
 gem 'SystemTimer', :platforms => [:ruby_18]
 

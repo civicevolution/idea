@@ -1,80 +1,71 @@
-- mode = '' unless !mode.nil?
-- show_reply = true if show_reply.nil?
-- resource = nil # @resources.detect { |r| r.comment_id == comment.id }
-- if comment.anonymous == 't'
-	- name = 'Anonymous'
-	- pic_src = '/images/members_default/36/m.jpg'
-- else
-	- name = comment.author.first_name + ' ' + comment.author.last_name
-	- pic_src = comment.author.photo.url('36')
+- if comment.publish
+	- mode = '' unless !mode.nil?
+	- show_reply = true if show_reply.nil?
+	- resource = nil # @resources.detect { |r| r.comment_id == comment.id }
+	- if comment.anonymous == 't'
+		- name = 'Anonymous'
+		- pic_src = '/images/members_default/36/m.jpg'
+	- else
+		- name = comment.author.first_name + ' ' + comment.author.last_name
+		- pic_src = comment.author.photo.url('36')
 
-- @last_ts = Time.local(2010,1,20)
-- if comment.created_at > @last_ts
-	- class_str = 'entry Comment_entry new_com full_comment_display'
-	- new_str = 1
-- elsif comment.updated_at > @last_ts
-	- class_str = 'entry Comment_entry new_com full_comment_display'
-	- new_str = 2
-- else
-	- class_str = 'entry Comment_entry one_line_comment'
-	- new_str = 0
+	- @last_ts = Time.local(2010,1,20)
+	- if comment.created_at > @last_ts
+		- class_str = 'entry Comment_entry new_com full_comment_display'
+		- new_str = 1
+	- elsif comment.updated_at > @last_ts
+		- class_str = 'entry Comment_entry new_com full_comment_display'
+		- new_str = 2
+	- else
+		- class_str = 'entry Comment_entry one_line_comment'
+		- new_str = 0
 
 
-%div.Comment{:id => comment.id, :class => comment['highlight'] ? 'highlight' : '' }
-	%div{:class=>class_str, :id => "com_#{comment.id}" }
-		%img{:src=>pic_src,:class=>'i36'}
-		%div.comment
-			-#- if new_str == 1
-			-#	%span.new._comment New 
-			-#- elsif new_str == 2
-			-#	%span.new._comment Updated
+	%div.Comment{:id => comment.id, :class => comment['highlight'] ? 'highlight' : '' }
+		%div{:class=>class_str, :id => "com_#{comment.id}" }
+			%img{:src=>pic_src,:class=>'i36'}
+			%div.comment
+				-#- if new_str == 1
+				-#	%span.new._comment New 
+				-#- elsif new_str == 2
+				-#	%span.new._comment Updated
 				
-			- if comment.publish.nil? && comment.status != 'prereview' || mode	== 'templ'
-				%p.not_published
-					Your comment will not be visible to others until you  
-					= link_to 'confirm', {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email', :rel=>'nofollow'}
-					your email.
-
+				%div.comment_text!= show_author_comment(name, comment.author.ape_code, comment.text)
+				-# if !resource.nil?
+					%div{:class => "resource #{resource.link_url ? 'link' : 'upload'}"}
+						%h3.resource_title&= resource.title
+						%p.resource_link
+							- if resource.link_url
+								= link_to resource.link_url, resource.link_url, {:target => '_blank', :class => 'resource_url' }
+							-else
+								- if resource.resource_content_type =~ /image/ && resource.resource.url(:small)
+									= image_tag resource.resource.url(:small)
+								= link_to resource.resource_file_name, resource.resource.url	, {:target => '_blank', :class => 'resource_upload' }
+						%div.resource_description= simple_format h resource.description
 			
-			- comment.text = "... Hidden by author" if comment.publish == false
-			- comment.text = "... Waiting for author's release" if comment.publish.nil? && comment.status == 'prereview'
-			
-			%div.comment_text!= show_author_comment(name, comment.author.ape_code, comment.text)
-			-# if !resource.nil?
-				%div{:class => "resource #{resource.link_url ? 'link' : 'upload'}"}
-					%h3.resource_title&= resource.title
-					%p.resource_link
-						- if resource.link_url
-							= link_to resource.link_url, resource.link_url, {:target => '_blank', :class => 'resource_url' }
-						-else
-							- if resource.resource_content_type =~ /image/ && resource.resource.url(:small)
-								= image_tag resource.resource.url(:small)
-							= link_to resource.resource_file_name, resource.resource.url	, {:target => '_blank', :class => 'resource_upload' }
-					%div.resource_description= simple_format h resource.description
-			
-			%div.comment_controls
-				- if comment.publish
-					- if show_reply
-						- if comment['comments']
-							- link_text = "Hide discussion"
-						- elsif comment.new_coms > 0
-							- link_text = "Show #{ pluralize(comment.new_coms, 'new comment')}"
-						- elsif comment.coms > 0
-							- link_text = "Show #{ pluralize(comment.coms, 'comment')}"
-						- else
-							- link_text = "Reply"
-						%p.coms	
-							- if comment.parent_type == 1
-								= link_to link_text, comment_comments_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
-							- else 
-								= link_to link_text, comment_reply_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
+				%div.comment_controls
+					- if comment.publish
+						- if show_reply
+							- if comment['comments']
+								- link_text = "Hide discussion"
+							- elsif comment.new_coms > 0
+								- link_text = "Show #{ pluralize(comment.new_coms, 'new comment')}"
+							- elsif comment.coms > 0
+								- link_text = "Show #{ pluralize(comment.coms, 'comment')}"
+							- else
+								- link_text = "Reply"
+							%p.coms	
+								- if comment.parent_type == 1
+									= link_to link_text, comment_comments_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
+								- else 
+									= link_to link_text, comment_reply_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
 
-					%p.other
-						%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'	
-						- if comment.member_id == @member.id
-							= link_to "Edit", edit_comment_path(comment), {:class => 'edit', :rel=>'nofollow', :remote=>true}
-						- else
-							= link_to "Report", report_comment_path(comment), {:class=>'report', :rel=>'nofollow', :remote=>true}
+						%p.other
+							%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'	
+							- if comment.member_id == @member.id
+								= link_to "Edit", edit_comment_path(comment), {:class => 'edit', :rel=>'nofollow', :remote=>true}
+							- else
+								= link_to "Report", report_comment_path(comment), {:class=>'report', :rel=>'nofollow', :remote=>true}
 
-- if comment['comments']
-	= render :partial => 'comments/comment_comments.html', :locals=> {:comment => comment, :comments => comment['comments'], :com_criteria => @team.com_criteria}
+	- if comment['comments']
+		= render :partial => 'comments/comment_comments.html', :locals=> {:comment => comment, :comments => comment['comments'], :com_criteria => @team.com_criteria}
