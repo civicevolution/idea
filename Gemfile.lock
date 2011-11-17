@@ -43,7 +43,7 @@ GEM
       mail (> 2.2.5)
       mime-types
       xml-simple
-    bluecloth (2.1.0)
+    bluecloth (2.2.0)
     builder (2.1.2)
     cocaine (0.2.0)
     columnize (0.3.4)
@@ -132,7 +132,7 @@ DEPENDENCIES
   airbrake
   aws-s3
   aws-ses
-  bluecloth (= 2.1.0)
+  bluecloth
   daemons
   delayed_job
   diff-lcs

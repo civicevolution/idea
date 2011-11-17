@@ -19,7 +19,7 @@ end
 # end
 
 
-gem "bluecloth", '= 2.1.0'
+gem "bluecloth"
 gem "daemons"
 gem "diff-lcs"
 gem "differ"
