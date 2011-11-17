@@ -25,7 +25,7 @@ gem "diff-lcs"
 gem "differ"
 gem "haml"
 gem 'sass'
-gem 'paperclip', '= 2.4.4'
+gem 'paperclip'
 gem "pg"
 gem "recaptcha", :require => "recaptcha/rails"
 gem "tzinfo"
@@ -35,7 +35,7 @@ gem 'aws-s3', :require => 'aws/s3'
 gem "aws-ses"
 gem 'delayed_job'
 
-gem 'jquery-rails'
+gem 'jquery-rails', '= 1.0.16'
 
 gem "airbrake"
 
