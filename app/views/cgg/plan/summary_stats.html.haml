@@ -13,7 +13,7 @@
 		%p We create a set of talking points to answer each question
 		%p We discuss, rate and refine the talking points to find those that are acceptable to most of our community
 		
-		-#%p Our completed proposal will be reviewed by the Alliance Governance Group
+		%p Our completed proposal will be reviewed by the Alliance Governance Group
 	%p.clear_both
 	
 %div.cta_block.corner
@@ -29,7 +29,9 @@
 			= link_to "Learn more", help_develop_path, {:remote=>true}
 		
 		%p.cta
-			= link_to "Help answer the questions", help_develop_path, {:remote=>true}
+			= link_to "Help answer the questions"
+		-#%p.cta
+			= link_to "Help develop a proposal", help_develop_path, {:remote=>true}
 		
 		%p.cta
 			= link_to "Invite friends to participate", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}

@@ -4,17 +4,20 @@
 		%h3.tagline Think together to act together
 		%p We're creating community written and supported proposals for constructive change
 		-#%p A proposal explains how the idea can be put into action by answering What, Why, How, and Where
-		%p A proposal is a plan for putting your idea into action. It answers: What change do we want to make? Why is it important to our community? How can the change be made? and Where do we start?
+		-#%p A proposal is a plan for putting your idea into action. It answers: What change do we want to make? Why is it important to our community? How can the change be made? and Where do we start?
 	%p.clear_both
 	
 %div.cta_block.corner
 	%div.num 2
 	%div.text
 		%h3 How it works
-		%p A community member proposes a change
-		%p The community works together to answer each of the questions through a process of suggesting, discussing, and rating talking points
-		%p The goal is to reach agreement on the most preferred talking points that are acceptable to most of our community.
-		%p 
+		%p Anyone can propose a change
+		%p Our community works together to create a set of talking points that answer questions about how to make this change
+		%p We discuss, rate and refine the talking points to find those that are acceptable to most of our community
+		%p Completed proposals will be reviewed by the Alliance Governance Group
+		-#%p The community works together to answer each of the questions through a process of suggesting, discussing, and rating talking points
+		-#%p The goal is to reach agreement on the most preferred talking points that are acceptable to most of our community.
+		-#%p 
 			These talking points express our common ground and provide a foundation for constructive change.
 			= link_to "Learn more", visual_help_path, {:remote=>true}
 			
@@ -24,28 +27,24 @@
 	%div.num 3
 	%div.text
 		%h3 Be part of the solution!
-		%p.cta
-			= link_to "Suggest a proposal", {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
-			
-		%p.cta
-			= link_to "Help develop a proposal", help_develop_path, {:remote=>true}
 		
-		%p.cta
-			= link_to "Endorse a proposal", help_endorse_path, {:remote=>true}
+		%p.cta We need your help to create the best plans for change in our community, please&hellip;
+		%p.cta= link_to "Suggest a proposal", {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
 			
-		%p.cta
-			= link_to "Follow 2029 and Beyond ideas", follow_initiative_form_path, {:remote=>true}
+		%p.cta= link_to "Help develop a proposal", help_develop_path, {:remote=>true}
+		
+		%p.cta= link_to "Invite friends to participate", invite_friends_form_path(0), {:class=>'invite', :remote=>true}
+		
+		%p.cta= link_to "Follow 2029 and Beyond ideas", follow_initiative_form_path, {:remote=>true}
 		- if flash[:subscribed]
 			%p.cta.warn= flash[:subscribed]
-		
-		%p.cta
-			= link_to "Invite friends", invite_friends_form_path(0), {:class=>'invite', :remote=>true}
-			
+
+		%p.cta= link_to "Endorse a proposal", help_endorse_path, {:remote=>true}
+
 		%div.tools	
 			/AddThis Button BEGIN
 			%div.addthis_toolbox.addthis_default_style
-				%a.addthis_button_compact{:href=>"http://addthis.com/bookmark.php?v=250"}Share
-				%span.addthis_separator
+				%a.addthis_button{:href=>"http://addthis.com/bookmark.php?v=250"}Tell your community about us
 				%a.addthis_button_facebook
 				%a.addthis_button_twitter
 				%a.addthis_button_googlebuzz
@@ -57,7 +56,8 @@
 			/AddThis Button END
 
 		%p.cta
-			= link_to 'Please watch our intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
+			= link_to "Learn more", visual_help_path, {:remote=>true}
+			-#= link_to 'Please watch our intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 		
 		
 	%p.clear_both					
