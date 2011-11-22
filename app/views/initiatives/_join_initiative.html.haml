@@ -36,8 +36,27 @@
 					= radio_button_tag :member_category, '2', !flash[:join_in_params].nil? && flash[:join_in_params][:member_category].to_i == 2
 					= label_tag :member_category_2 do
 						I am NOT a resident of the Geraldton City Region
-		- else
-			= hidden_field_tag :name=>'member_category', :value => '1'
+		- elsif params[:_initiative_id] == 5
+			%div.residency
+				%b Your affiliation with Skyline Community College (required)
+				%p
+					= radio_button_tag :member_category, '1', !flash[:join_in_params].nil? && flash[:join_in_params][:member_category].to_i == 1
+					= label_tag :member_category_1 do
+						I am a student of Skyline Community College
+				%p
+					= radio_button_tag :member_category, '2', !flash[:join_in_params].nil? && flash[:join_in_params][:member_category].to_i == 2
+					= label_tag :member_category_2 do
+						I am on the faculty or staff of Skyline Community College
+				%p
+					= radio_button_tag :member_category, '3', !flash[:join_in_params].nil? && flash[:join_in_params][:member_category].to_i == 3
+					= label_tag :member_category_3 do
+						I am a local resident of the community, but NOT a student, faculty or staff member of Skyline Community College
+				%p
+					= radio_button_tag :member_category, '4', !flash[:join_in_params].nil? && flash[:join_in_params][:member_category].to_i == 4
+					= label_tag :member_category_4 do
+						Other
+		- else	
+			= hidden_field_tag :member_category, 1
 
 		%div.tos	
 			%b Accept the terms of service (required)
