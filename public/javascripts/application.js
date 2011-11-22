@@ -112,7 +112,12 @@ function reformat_talking_point_entries(){
 
 $('div.my_rating :radio').die('change').live('change',
 	function(){
-		$.post('/talking_points/' + $(this).closest('.talking_point_entry').attr('id') + '/rate', {rating: this.value}, function(){}, "script");
+		var id = $(this).closest('.talking_point_entry').attr('id');
+		if(id==0){
+			alert('This is an example of a talking point and you cannot act on it.'); 
+		}else{
+			$.post('/talking_points/' + id + '/rate', {rating: this.value}, function(){}, "script");
+		}
 	}
 );
 
@@ -138,7 +143,12 @@ $('div.radios label').live('click', function() {
 $('div.favorite button').die('click').live('click',
 	function(){
 		var button = $(this);
-		$.post('/talking_points/' + button.closest('.talking_point_entry').attr('id') + '/prefer', {prefer: button.attr('val')}, function(){}, "script");
+		var id = button.closest('.talking_point_entry').attr('id');
+		if(id==0){
+			alert('This is an example of a talking point and you cannot act on it.'); 
+		}else{
+			$.post('/talking_points/' + id + '/prefer', {prefer: button.attr('val')}, function(){}, "script");
+		}
 	}
 );
 

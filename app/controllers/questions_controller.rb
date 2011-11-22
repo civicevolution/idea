@@ -249,6 +249,7 @@ class QuestionsController < ApplicationController
       return
     end
     
+    @question['talking_points_to_display'] = params[:all] == 't' ? @question.all_talking_points : @question.top_talking_points
     @question.get_talking_point_ratings(@member)
     			
     render :template=>'questions/summary.js', :layout => false, :locals=>{:question=>@question}
@@ -396,6 +397,25 @@ class QuestionsController < ApplicationController
     @channels = ["_auth_team_#{@team.id}", "_auth_inititive_#{params[:_initiative_id]}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
+    participant_actions = ActiveRecord::Base.connection.select_values("select distinct event_id from participation_events where member_id = #{@member.id} and question_id = #{@question.id} and event_id < 100").map{|e| e.to_i}
+    @question['I_rated'] = participant_actions.include?(17) ? true : false
+  	@question['I_favd'] = participant_actions.include?(19) ? true : false
+  	@question['I_tpd'] = participant_actions.include?(3) ? true : false
+		@add_tp = @rate_tp = @fav_tp = @com_tp = false
+		if @question['talking_points_to_display'].size == 0
+			@add_tp = true
+		else 
+			@rate_tp = true if @question['I_rated'] == false
+			@fav_tp = true if @question['I_favd'] == false
+			if !(@fav_tp || @rate_tp)
+				if @question['I_tpd'] == false
+					@add_tp = true
+				else
+					@com_tp = true
+				end
+			end
+  	end
+  	
     render :template=> 'questions/worksheet', 
       :locals => {:question => @question, :questions => @team.questions.sort{|a,b| a.order_id <=> b.order_id}, }, 
       :layout => request.xhr? ? false : 'plan'

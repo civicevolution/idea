@@ -155,7 +155,7 @@ hr.bottom, .clear {
   display: none; }
 
 tr.stripe {
-  background-color: #f2e9c3; }
+  background-color: #ececec; }
 
 p.loading {
   font-weight: bold;
@@ -241,7 +241,7 @@ form.what_do_you_think, form.std_form, form.comment_form {
   form.what_do_you_think textarea, form.what_do_you_think input[type=text], form.std_form textarea, form.std_form input[type=text], form.comment_form textarea, form.comment_form input[type=text] {
     width: 100%;
     font-size: 1.2em;
-    background-color: #f9f3de; }
+    background-color: #ececec; }
   form.what_do_you_think input[type=submit], form.std_form input[type=submit], form.comment_form input[type=submit] {
     margin: 0 10px 0 10px; }
   form.what_do_you_think input[type=file], form.std_form input[type=file], form.comment_form input[type=file] {
@@ -386,7 +386,7 @@ div.team_entry {
   margin: 0 2em 0 1em; }
   div.team_entry table {
     width: 100%;
-    background-color: #f9f3de;
+    background-color: #ececec;
     cursor: pointer; }
   div.team_entry div.resources {
     margin: 1em 0 72px 0; }

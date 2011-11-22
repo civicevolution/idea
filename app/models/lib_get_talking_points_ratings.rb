@@ -5,7 +5,7 @@ module LibGetTalkingPointsRatings
   
   def get_talking_point_ratings(member)
     self.member = member
-#debugger    
+
     case self.type_text
       when 'team'
         questions = self.questions

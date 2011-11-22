@@ -130,6 +130,8 @@ Tue Oct 18 10:21:36 PDT 2011
 
 Running on DEV
 
+	rake log:clear
+
 1)	Start rails
 		cd /ce_development/Rails/tp
 		rails s --debugger --port=8001
@@ -174,7 +176,7 @@ Running on DEV
 	cd /ce_development/src/redis-2.2.14
 	src/redis-cli
 
-rake log:clear
+
 	
 Upload and apply custom recipes
 	attach chef recipes

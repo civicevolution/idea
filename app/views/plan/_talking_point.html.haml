@@ -1,5 +1,9 @@
 %div.talking_point_entry.corner{:id=>talking_point.id, :class => talking_point['highlight'] ? 'highlight' : ''}
 	%div.talking_point_body
+		- if talking_point.id == 0
+			%p.talking_point
+				%b This is an example of a talking point
+			
 		%p.talking_point= talking_point.text
 
 		%div.talking_point_controls

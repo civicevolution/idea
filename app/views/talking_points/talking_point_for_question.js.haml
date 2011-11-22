@@ -12,6 +12,9 @@
 		// insert this one
 		$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last').after(tp);
 	}
+	
+	$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry[id="0"]').remove();
+	
 	var form = $('div.question_worksheet[id="#{question_id}"] form.talking_point_form')
 	form.find('textarea').val('');
 	form.find('p.warn').remove();

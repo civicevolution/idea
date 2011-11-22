@@ -199,7 +199,7 @@ div.talking_points_list ul.talking_points {
   div.talking_points_list ul.talking_points li {
     margin-bottom: 8px; }
 div.talking_points_list div.talking_point_placeholder {
-  background: #bcc3d0 url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
+  background: #c7c7c7 url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
   width: 428px;
   padding-left: 50px;
   padding-bottom: 20px; }
@@ -235,12 +235,12 @@ div.endorsements {
 div.progress {
   padding: 1em;
   margin: 40px 0;
-  background-color: #bcc3d0; }
+  background-color: #e1e8c4; }
   div.progress h3 {
     font-size: 1em;
     margin: 0 0 8px 0; }
   div.progress div.participants tr.stripe {
-    background-color: #b4bed0; }
+    background-color: #e1e8c4; }
   div.progress div.participants img {
     padding: 0 8px 8px 0; }
   div.progress div.leaderboard td {
@@ -248,7 +248,7 @@ div.progress {
     font-size: 0.8em; }
 
 div.tools_info {
-  background-color: #b4bed0;
+  background-color: #e1e8c4;
   padding: 1em; }
   div.tools_info div.tools {
     float: left; }
@@ -262,7 +262,7 @@ div.tools_info {
     font-weight: bold; }
 
 div.cta_block {
-  background-color: #c8bcd1;
+  background-color: #e1e8c4;
   width: 100%;
   margin-bottom: 20px;
   padding-bottom: 10px; }
@@ -378,7 +378,7 @@ div.talking_point_entry {
   margin-top: 25px; }
 
 div.talking_point_body {
-  background: #bcc3d0 url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
+  background: #c7c7c7 url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
   float: left;
   width: 428px;
   padding: 0 10px; }
@@ -435,12 +435,16 @@ div.talking_point_acceptable {
       div.talking_point_acceptable div.my_rating div.radios label {
         vertical-align: 25%;
         margin-left: 2px; }
-      div.talking_point_acceptable div.my_rating div.radios div.good {
-        background-color: #39e639; }
-      div.talking_point_acceptable div.my_rating div.radios div.neutral {
-        background-color: #fff73f; }
-      div.talking_point_acceptable div.my_rating div.radios div.bad {
-        background-color: #ff4040; }
+      div.talking_point_acceptable div.my_rating div.radios div.bar1 {
+        background-color: #759564; }
+      div.talking_point_acceptable div.my_rating div.radios div.bar2 {
+        background-color: #cdd89d; }
+      div.talking_point_acceptable div.my_rating div.radios div.bar3 {
+        background-color: #f0ecc1; }
+      div.talking_point_acceptable div.my_rating div.radios div.bar4 {
+        background-color: #e2b68c; }
+      div.talking_point_acceptable div.my_rating div.radios div.bar5 {
+        background-color: #cf725f; }
       div.talking_point_acceptable div.my_rating div.radios div {
         height: 22px;
         width: 20px;
@@ -488,14 +492,19 @@ div.community_rating {
   div.community_rating div.bar {
     width: 13px;
     bottom: 0;
-    position: absolute;
-    background-color: #39e639; }
-  div.community_rating div.bar.neutral {
-    background-color: #fff73f; }
-  div.community_rating div.bar.bad {
-    background-color: #ff4040; }
+    position: absolute; }
+  div.community_rating div.bar.bar1 {
+    background-color: #759564; }
+  div.community_rating div.bar2 {
+    background-color: #cdd89d; }
+  div.community_rating div.bar3 {
+    background-color: #f0ecc1; }
+  div.community_rating div.bar4 {
+    background-color: #e2b68c; }
+  div.community_rating div.bar5 {
+    background-color: #cf725f; }
   div.community_rating div.bar.zero {
-    background-color: #dddddd; }
+    background-color: white; }
   div.community_rating p.talking_point_ratings {
     margin: 0 0 8px 0; }
 
@@ -575,7 +584,7 @@ div.what_do_you_think {
     div.what_do_you_think table td.label {
       padding-top: 12px; }
     div.what_do_you_think table td.icon div.icon {
-      background-color: #bcc3d0;
+      background-color: #c7c7c7;
       width: 30px;
       height: 30px;
       margin-top: 6px; }
@@ -584,7 +593,7 @@ div.what_do_you_think {
         width: 24px;
         height: 24px; }
       div.what_do_you_think table td.icon div.icon div.icon.talking_point {
-        background-color: #bcc3d0; }
+        background-color: #c7c7c7; }
   div.what_do_you_think textarea {
     width: 100%;
     height: 60px;
@@ -777,9 +786,9 @@ div.talking_point_body {
     font-size: 0.9em; }
 
 div.talking_point_entry {
-  background: #bcc3d0 url(/images/rate-bg.gif) repeat-y 430px;
+  background: #c7c7c7 url(/images/rate-bg-g.gif) repeat-y 430px;
   border: 1px solid #bcc3d0;
-  width: 676px; }
+  width: 100%; }
 
 div.talking_points_list {
   margin-left: 0; }
@@ -788,7 +797,8 @@ div.talking_point_sec {
   margin-left: 0; }
 
 div.question_worksheet {
-  padding: 20px 0; }
+  padding: 0;
+  width: 676px; }
 
 form.talking_point_form {
   width: 360px; }
@@ -798,11 +808,11 @@ form.talking_point_form {
       left: 160px; }
 
 div.talking_point_form {
-  background: #bcc3d0 url(/images/rate-bg.gif) repeat-y 430px;
-  width: 670px;
+  background: #e1e8c4 url(/images/rate-bg-gr.gif) repeat-y 430px;
+  width: 100%;
   border: 1px solid #bcc3d0; }
   div.talking_point_form div.form {
-    background: url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
+    background: url(/images/white_bulb_gr_sm1.gif) no-repeat 8px 20px;
     float: left;
     width: 428px;
     padding: 0 10px; }
@@ -816,12 +826,13 @@ div.talking_point_form {
         margin-left: 0; }
     div.talking_point_form div.form form {
       margin-bottom: 0; }
+  div.talking_point_form div.form.cta {
+    background: url(/images/hand3-gr2.gif) no-repeat 8px 10px; }
   div.talking_point_form div.instr {
     float: left;
     width: 190px;
     margin-right: 10px;
-    margin-left: 15px;
-    margin-bottom: 1em; }
+    margin-left: 15px; }
     div.talking_point_form div.instr p {
       font-size: 1.2em;
       margin: 1em 0; }
@@ -829,7 +840,7 @@ div.talking_point_form {
 div.talking_point_form.disc {
   margin-top: 2em; }
   div.talking_point_form.disc div.form {
-    background: url(/images/comment1.gif) no-repeat 8px 16px;
+    background: url(/images/comment1-gr1.gif) no-repeat 8px 14px;
     width: 428px; }
     div.talking_point_form.disc div.form p {
       font-size: 1.2em; }
@@ -868,7 +879,7 @@ div.talking_point_body p.talking_point {
   font-size: 1em; }
 
 div.question_summary div.talking_points_list.summary {
-  background: #bcc3d0;
+  background: #ececec;
   padding: 1em; }
   div.question_summary div.talking_points_list.summary li {
     font-size: 1.2em; }
@@ -884,3 +895,21 @@ div.participants {
 a.addthis_button {
   display: block;
   margin-bottom: 8px; }
+
+ul.talking_points p {
+  font-style: italic;
+  font-size: 1.2em;
+  margin-left: -20px; }
+
+div.talking_point_form.hint {
+  background: #e1e8c4 url(/images/rate-bg-gr.gif) repeat-y 430px;
+  margin-bottom: 8px; }
+  div.talking_point_form.hint p {
+    font-size: 0.9em; }
+  div.talking_point_form.hint div.instr p {
+    font-size: 0.9em; }
+
+div.worksheet {
+  margin: 0; }
+  div.worksheet p.worksheet_intro {
+    font-size: 1em; }

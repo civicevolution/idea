@@ -134,29 +134,36 @@ td:first-child, th:first-child
 
 
 $question_bg: rgb(245,230,190)
-$talking_point_bg: #BCC3D0 //rgb(192,228,154)
+$talking_point_bg: #c7c7c7 // #BCC3D0 //rgb(192,228,154)
 $acceptable_bg: #C8BCD1 //rgb(232,237,238)
 $prefence_bg: #C8BCD1 //C5B4D1 //B4BED0 //rgb(222,222,236)
-$input_bg: rgb(251,248,237)
+$input_bg: #ececec // rgb(251,248,237)
 $pale_input: rgb(51, 51, 51)
 $new_item_color: #F2583E
 $comments_block_bg: #F9F3DE
 $com_quote_bg: #cbbdb1 // #BCC3D0
 
-$graph_red: #FF4040
-$graph_green: #39E639
-$graph_yellow: #fff73f
+$cta_bg_left: #e1e8c4 // #ececec // #dbe0e8 //#d7dde8
+$cta_bg_right: #00ff00
+
+$talking_points_list: #ececec
+
+$graph_green: #759564
+$graph_greenish: #cdd89d
+$graph_yellow: #f0ecc1
+$graph_reddish: #e2b68c
+$graph_red: #cf725f
 
 $talking_points_page_width: 778px
 $page_indent: 20px
 $talking_point_width: 428px
 
 
-$stats_background: #BCC3D0
-$stat_cta_background: #C8BCD1
-$tools_info_bg: #B4BED0
-$stats_stripe: #B4BED0
-$endorsements_bg: #F9F2D4
+$stats_background: #e1e8c4 // #cdd89d
+$stat_cta_background: #e1e8c4 // #cdd89d
+$tools_info_bg: #e1e8c4 // #cdd89d
+$stats_stripe: #e1e8c4
+$endorsements_bg: #cdd89d
 
 input
 	margin: 0
@@ -527,12 +534,17 @@ div.talking_point_acceptable
 			label
 				vertical-align: 25%
 				margin-left: 2px
-			div.good
+			div.bar1
 				background-color: $graph_green
-			div.neutral
+			div.bar2
+				background-color: $graph_greenish
+			div.bar3
 				background-color: $graph_yellow
-			div.bad
+			div.bar4
+				background-color: $graph_reddish
+			div.bar5
 				background-color: $graph_red
+				
 			div
 				height: 22px
 				width: 20px
@@ -584,14 +596,20 @@ div.community_rating
 		width: 13px
 		bottom: 0
 		position: absolute
-		background-color: $graph_green
 		
-	div.bar.neutral
+	div.bar.bar1
+		background-color: $graph_green
+	div.bar2	
+		background-color: $graph_greenish
+	div.bar3
 		background-color: $graph_yellow
-	div.bar.bad
+	div.bar4
+		background-color: $graph_reddish
+	div.bar5
 		background-color: $graph_red
+		
 	div.bar.zero
-		background-color: #ddd
+		background-color: #fff
 	p.talking_point_ratings
 		margin: 0 0 8px 0
 		
@@ -977,15 +995,16 @@ div.talking_point_body
 		font-size: .9em
 	
 div.talking_point_entry
-	background: $talking_point_bg url(/images/rate-bg.gif) repeat-y 430px
+	background: $talking_point_bg url(/images/rate-bg-g.gif) repeat-y 430px
 	border: 1px solid #BCC3D0
-	width: 676px
+	width: 100%
 div.talking_points_list
 	margin-left: 0
 div.talking_point_sec
 	margin-left: 0
 div.question_worksheet
-	padding: 20px 0
+	padding: 0
+	width: 676px
 form.talking_point_form
 	width: 360px
 	div.form_controls 
@@ -994,11 +1013,12 @@ form.talking_point_form
 			left: 160px
 		
 div.talking_point_form
-	background: $talking_point_bg url(/images/rate-bg.gif) repeat-y 430px
-	width: 670px
+	//background: $talking_point_bg url(/images/rate-bg-g.gif) repeat-y 430px
+	background: $cta_bg_left url(/images/rate-bg-gr.gif) repeat-y 430px
+	width: 100%
 	border: 1px solid #BCC3D0
 	div.form
-		background: url(/images/white_bulb_sm.gif) no-repeat 8px 20px
+		background: url(/images/white_bulb_gr_sm1.gif) no-repeat 8px 20px
 		float: left
 		//border: 1px solid red
 		width: $talking_point_width
@@ -1014,20 +1034,22 @@ div.talking_point_form
 				margin-left: 0
 		form
 			margin-bottom: 0
+	div.form.cta
+		background: url(/images/hand3-gr2.gif) no-repeat 8px 10px
 	div.instr
 		//border: 1px solid green
 		float: left
 		width: 190px
 		margin-right: 10px
 		margin-left: 15px
-		margin-bottom: 1em
+		//margin-bottom: 1em
 		p
 			font-size: 1.2em
 			margin: 1em 0
 div.talking_point_form.disc
 	margin-top: 2em
 	div.form
-		background: url(/images/comment1.gif) no-repeat 8px 16px
+		background: url(/images/comment1-gr1.gif) no-repeat 8px 14px
 		//border: 1px solid red
 		//float: left
 		width: 428px
@@ -1072,7 +1094,7 @@ div.talking_point_body p.talking_point
 	
 div.question_summary
 	div.talking_points_list.summary
-		background: $talking_point_bg
+		background: $talking_points_list
 		padding: 1em
 		li
 			font-size: 1.2em
@@ -1089,3 +1111,23 @@ div.participants
 a.addthis_button
 	display: block
 	margin-bottom: 8px
+ul.talking_points
+	p
+		font-style: italic
+		font-size: 1.2em
+		margin-left: -20px
+		
+div.talking_point_form.hint		
+	//background: $cta_bg_left
+	background: $cta_bg_left url(/images/rate-bg-gr.gif) repeat-y 430px
+	
+	margin-bottom: 8px
+	p	
+		font-size: .9em
+	div.instr
+		p	
+			font-size: .9em
+div.worksheet
+	margin: 0
+	p.worksheet_intro
+		font-size: 1em

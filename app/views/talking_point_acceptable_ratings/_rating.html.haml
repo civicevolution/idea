@@ -17,13 +17,11 @@
 				%div.graph.js
 					- talking_point.rating_votes.each_index do |i|
 						%div.bar.zero{:style=>"left: #{barw * i + 24}px; height: 100%"}
-						%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"left: #{barw * i + 24}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
-		
+						%div.bar{:class=> "bar#{i+1}", :style=>"left: #{barw * i + 24}px; height: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
 		
 		%div.radios
 			- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
-
-				%div{:class=> value<3 ? 'good' :value==3 ? 'neutral' : 'bad'}
+				%div{:class=> "bar#{value}"}
 					- if value.to_i == talking_point.my_rating
 						%input.rating{:name => "#{mode}tp_rating_#{talking_point.id}", :id => "#{mode}tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
 					- else

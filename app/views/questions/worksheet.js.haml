@@ -22,6 +22,17 @@
 	setTimeout(scrollToElement,1000);
 
 	setTimeout(init_page,10)
+	
+	setTimeout(function(){
+		// Disable functionality in the example talking points
+		$('div.talking_point_entry[id="0"] a').each(function(){ var link = $(this); link.removeAttr('data-remote').attr('href','#')})
+			.die('click').live('click',
+				function(){
+					alert('This is an example of a talking point and you cannot act on it.'); 
+					return false;
+				}
+			);
+	},100);
 
 	var question_summary = $('div.question_summary[id="#{question.id}"]');
 	var q_link = question_summary.find('a.display_worksheet');
