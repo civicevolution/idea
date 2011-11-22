@@ -764,7 +764,8 @@ div.talking_point_acceptable {
     font-size: 0.9em;
     margin: 0 0 4px 0; }
   div.talking_point_acceptable p.suggest {
-    margin-right: -60px; }
+    margin-right: -60px;
+    width: 200px; }
   div.talking_point_acceptable div.graph.js {
     height: 30px; }
 
