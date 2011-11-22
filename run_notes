@@ -42,21 +42,28 @@ stop rails console
 stop psql
 stop notify and delayed daemons
 
-pg_dump -i -h localhost -p 5432 -U postgres -F c -b -f "g3_development.03.7.11.11.03.pgz" g3_development
+pg_dump -i -h localhost -p 5432 -U postgres -F c -b -f "tp_production.11.22.11.09.48.pgz" tp
 
+scp brian@civic-db:/var/lib/postgresql/tp_production.11.22.11.09.48.pgz /ce_development/backups/2029_db/
 scp /ce_development/backups/2029_db/app_2029_production.10.10.11.09.07.pgz brian@ec2-50-18-101-127.us-west-1.compute.amazonaws.com:.
+
+
 
 dropdb tp_development
 createdb tp_development
-ls -l /ce_development/backups/2029_db/app_2029_production.*
-pg_restore -h localhost -p 5432 -U postgres -d tp_development "/ce_development/backups/2029_db/app_2029_production.07.12.11.09.53.pgz"
+ls -l /ce_development/backups/2029_db/tp_production.*
+pg_restore -h localhost -p 5432 -U postgres -d tp_development "/ce_development/backups/2029_db/tp_production.11.22.11.09.48.pgz"
 
 clear the notification requests before starting the daemons
+	select * from notification_requests where  match_queue = null;
 	update notification_requests set match_queue = null;
 	select * from team_content_logs where processed = false;
 
-
-
+restart 
+	rails s --debugger --port=8001
+	RAILS_ENV=development script/delayed_job start		
+	RAILS_ENV=development script/monit.notify.sh start
+	
 Run delayed_job in the foreground
 	rake jobs:work
 	
