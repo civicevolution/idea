@@ -178,11 +178,18 @@ class Team < ActiveRecord::Base
   
   def create_team_plan_page()
     logger.debug "create_team_plan_page for id: #{self.id}, \"#{self.title}\""
-    yml = YAML.load_file "#{Rails.root}/config/plan_page_template.yaml"
+    case self.initiative_id
+      when 1..2
+        filename = "#{Rails.root}/config/plan_page_template.yaml"
+      when 5
+        filename = "#{Rails.root}/config/plan_page_template-skyline.yaml"
+      else
+        filename = "#{Rails.root}/config/plan_page_template.yaml"
+    end
+    yml = YAML.load_file filename
   
     if !self.launched
       member = Member.find(self.org_id)
-      team_item = Item.find_by_o_id_and_o_type(self.id, 4)
       yml.each_pair { |key, value|
         rec = value
         # create a quesstion record
@@ -192,8 +199,11 @@ class Team < ActiveRecord::Base
           :talking_point_preferences=>rec['talking_point_preferences']
         question.save   
       }
-
+      
+      ProposalStats.create :team_id => self.id
+      
       self.launched = true
+      self.archived = false
       self.save
       
     end

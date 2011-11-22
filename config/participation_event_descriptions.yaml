@@ -77,6 +77,13 @@ item9:
   code: 'proposal'
   description: 'Add proposal idea'
   points: 800
+
+item10:
+  id: 10
+  col_name: ''
+  code: 'proposal'
+  description: 'Update proposal idea'
+  points: 0
     
 item11:
   id: 11
