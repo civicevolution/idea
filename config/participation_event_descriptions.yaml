@@ -199,3 +199,12 @@ item107:
   summary_order: 2
   summary_title: 'follower'
   points: 160
+
+item1000:
+  id: 1000
+  col_name: 'points_total'
+  code: 'total_points'
+  description: 'Total team points'
+  summary_order: 100
+  summary_title: 'total team points'
+  points: 0

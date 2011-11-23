@@ -1,7 +1,6 @@
 = render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
-	
 	if( $('div.Comment[id="#{comment.id}"]').size()>0){
 		// replace the existing one with this one
 		com = $('div.Comment[id="#{comment.id}"]').replaceWith(com);
@@ -9,10 +8,8 @@
 		// insert this one
 		 com = $(com).insertAfter('div.question_worksheet[id="#{question_id}"] div.ques_discussion div.Comment:last');
 	}
-	com.find('abbr').timeago();
-	
 	var form = $('div.question_worksheet[id="#{question_id}"] form.comment_form.orig')
 	form.find('textarea').val('');
 	form.find('p.warn').remove();
 	form.find('div#errorExplanation').remove();	
-	setTimeout( function(){	$('.corner').corner()},100);
+	com.find('abbr').timeago(); 

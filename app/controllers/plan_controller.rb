@@ -194,7 +194,7 @@ class PlanController < ApplicationController
         @team.member = admin # so create team idea page can set the launched status = true
         
         # create the plan page
-        @team.create_team_plan_page()
+        @team.create_team_plan_page(@proposal_idea.id)
 
         @proposal_idea.update_attribute('launched',true)
         

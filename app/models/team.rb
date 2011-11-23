@@ -176,7 +176,7 @@ class Team < ActiveRecord::Base
     return pub_disc_items.concat( pub_disc_descendent_items ), comments_with_ratings, resources, pub_authors
   end
   
-  def create_team_plan_page()
+  def create_team_plan_page(proposal_id)
     logger.debug "create_team_plan_page for id: #{self.id}, \"#{self.title}\""
     case self.initiative_id
       when 1..2
@@ -200,7 +200,13 @@ class Team < ActiveRecord::Base
         question.save   
       }
       
-      ProposalStats.create :team_id => self.id
+      # add team_id to the participation_events rec and find how many points did the originator get for this team_proposal and add to stats
+      event = ParticipationEvent.find_by_event_id_and_item_id(9,proposal_id)
+      event.team_id = self.id
+      event.save
+
+      ParticipantStats.create :member_id => self.org_id, :team_id => self.id, :points_total => event.points
+      ProposalStats.create :team_id => self.id, :points_total => event.points
       
       self.launched = true
       self.archived = false

@@ -200,7 +200,7 @@ namespace :seed_specific_tables do
       
       participation_counts = ActiveRecord::Base.connection.select_all(
       %Q|SELECT SUM(points_total) AS points_total, SUM(points_days1) AS points_days1, SUM(points_days3) AS points_days3, SUM(points_days7) AS points_days7, 
-      SUM(points_days14) AS points_days14, SUM(points_days28) AS points_days28, SUM(points_days90) AS points_days90 FROM participant_stats WHERE #{team.id} = 10065|)[0]
+      SUM(points_days14) AS points_days14, SUM(points_days28) AS points_days28, SUM(points_days90) AS points_days90 FROM participant_stats WHERE team_id = #{team.id}|)[0]
       
       stats_rec.points_total = participation_counts['points_total'].to_i
       stats_rec.points_days1 = participation_counts['points_days1'].to_i

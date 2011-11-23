@@ -126,7 +126,23 @@ class TrackingNotifications
           raise "I didn't know how to process #{obj.class.to_s}"
       end
 
-      if participation_event.save
+      if participation_event.member_id.nil?
+        Rails.logger.debug "Don't save participation event record #{name}, no valid member"
+      elsif participation_event.save
+        # now update the team and participant summary stats
+        if participation_event.team_id # && participation_event.points > 0
+          col_name = PARTICIPATION_EVENT_POINTS["item#{participation_event.event_id}"]['col_name']
+          if !col_name.nil? && col_name != ''
+            part_stats_rec = ParticipantStats.find_by_member_id_and_team_id(participation_event.member_id, participation_event.team_id) || ParticipantStats.new(:member_id => participation_event.member_id, :team_id => participation_event.team_id)
+            part_stats_rec[col_name] += 1
+            part_stats_rec['points_total'] += participation_event.points
+            part_stats_rec.save
+            team_stats_rec = ProposalStats.find_by_team_id(participation_event.team_id) || ProposalStats.new(:team_id => participation_event.team_id)
+            team_stats_rec[col_name] += 1
+            team_stats_rec['points_total'] += participation_event.points
+            team_stats_rec.save
+          end
+        end
         Rails.logger.debug "Saved participation event record #{obj.class.to_s}:\n#{participation_event.inspect}"
       else
         raise "I didn't get all the data for #{obj.class.to_s}:\n#{participation_event.inspect}"

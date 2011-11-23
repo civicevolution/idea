@@ -5,16 +5,15 @@
 		'<div>' + render( :partial=> 'plan/comment', :collection => @question['comments_to_display'] ) + '</div>'
 	)}");
 	console.log("load comments");
-	temp.comments = comments
 	var ques_disc = $('div.ques_discussion[id="#{@question.id}"]');
 	var comment_insert_point = ques_disc.find('div.Comment:first');
 	var new_com_ids = [];
 	comments.find('div.Comment').each( function(){ new_com_ids.push(this.id); comment_insert_point.before(this) });
 	ques_disc.find('a.show_new_comments').remove();
-	if(#{params[:action] == "all_comments" ? 'true' : 'false'}){
-		ques_disc.find('a.show_all_comments').remove();
+	if(#{params[:action] == "all_comments" ? true : false}){
+		$('a.show_all_comments[id="#{@question.id}"]').remove();
 	}else{
-		var link = ques_disc.find('a.show_all_comments');
+		var link = $('a.show_all_comments[id="#{@question.id}"]').remove();
 		var href = link.attr('href');
 		var text = link.html();
 		var cnt = Number(text.match(/\d+/));
