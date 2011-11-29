@@ -238,8 +238,8 @@ div.form_controls
 div.talking_points_page, div.home_page
 	position: relative
 	padding-top: 30px
-div.question_summary
-	margin-bottom: 4em
+//div.question_summary
+	//margin-bottom: 4em
 p.question
 	font-weight: bold
 	margin-left: 20px
@@ -1028,11 +1028,6 @@ div.talking_point_form
 			margin: 1em 0
 		h3, div.form_controls, textarea, p
 			margin-left: 40px
-		div.form_controls
-			margin-bottom: 1em
-			//height: 50px
-			input[type="submit"]
-				margin-left: 0
 		form
 			margin-bottom: 0
 	div.form.cta
@@ -1045,8 +1040,14 @@ div.talking_point_form
 		margin-left: 15px
 		//margin-bottom: 1em
 		p
-			font-size: 1.2em
+			font-size: 1em
 			margin: 1em 0
+div.form_controls
+	margin-bottom: 1em
+	//height: 50px
+	input[type="submit"]
+		margin-left: 0
+
 div.talking_point_form.disc
 	margin-top: 2em
 	div.form
@@ -1094,11 +1095,22 @@ div.talking_point_body p.talking_point
 	font-size: 1em
 	
 div.question_summary
+	p.question
+		margin-top: 0
 	div.talking_points_list.summary
-		background: $talking_points_list
+		//background: $talking_points_list
 		padding: 1em
-		li
-			font-size: 1.2em
+		ul.talking_points
+			margin-top: 0
+			li
+				font-size: 1.2em
+		p.example
+			margin-top: 0
+		div.talking_point_form.hint		
+			margin-top: 20px
+			margin-left: -20px
+			p
+				font-size: 1.2em
 
 div.cta_block 
 	div.num
@@ -1132,3 +1144,11 @@ div.worksheet
 	margin: 0
 	p.worksheet_intro
 		font-size: 1em
+
+div.endorsements		
+	div#add_tp.talking_point_form.hint.corner		
+		margin: 32px 0 32px 0
+		div.cta p
+			font-size: 1em
+div#submit
+	margin-top: 60px

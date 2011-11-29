@@ -216,6 +216,25 @@ class PlanController < ApplicationController
     
   end
 
+  def submit_proposal
+    @team = Team.find(params[:team_id])
+    if params[:step].nil?
+      render :action=> 'submit_proposal', :layout => 'plan'
+      return
+    else
+      submit_request = ProposalSubmit.new params[:proposal_submit]
+      submit_request.member = @member
+      submit_request.member_id = @member.id
+      logger.debug "review submit_request: #{submit_request.inspect}"
+      if submit_request.save
+        AdminReportMailer.delay.submit_proposal(submit_request, @team, @member, request.env['HTTP_HOST'],params[:_app_name] )
+        render :action=> 'submit_proposal_acknowledge', :layout => 'plan', :locals=>{:status=>'ok'}
+      else
+        render :action=> 'submit_proposal_acknowledge', :layout => 'plan', :locals=>{:status=>'fail'}
+      end
+    end
+  end
+
   def get_templates
 
     # Set up all of the data I need for the templates to run

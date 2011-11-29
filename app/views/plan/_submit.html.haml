@@ -9,7 +9,13 @@
 			for the review eligibility. We strongly recommend that you request a pre-submission review from CivicEvolution before submitting
 			your proposal to the #{sponsor}. Please use the links below to request a review and/or submit your  proposal
 		
-		%p
-			= link_to 'Request pre-submission review', {}, {:class=>"pre_review_proposal", :rel=>'nofollow'} 
-			(Recommended)
-		%p= link_to "Submit this proposal to the #{sponsor}", {}, {:class=>"submit_proposal", :rel=>'nofollow'} 
+			%div#add_tp.talking_point_form.hint.corner
+				%div.form.cta
+					%p
+						= link_to 'Request pre-submission review', submit_proposal_path(@team.id, :act => 'pre_review'), {:class=>"pre_review_proposal", :rel=>'nofollow', :remote=>true} 
+						(Recommended)
+					%p= link_to "Submit this proposal to the #{sponsor}", submit_proposal_path(@team.id, :act => 'submit'), {:class=>"submit_proposal", :rel=>'nofollow', :remote=>true} 
+				%div.instr
+				%p.clear_both
+		
+		

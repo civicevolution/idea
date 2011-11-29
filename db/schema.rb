@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111029021854) do
+ActiveRecord::Schema.define(:version => 20111129203400) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -610,6 +610,10 @@ ActiveRecord::Schema.define(:version => 20111029021854) do
     t.datetime "last_visit"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "level",                     :default => 1
+    t.integer  "day_visits",                :default => 1
+    t.datetime "last_day_visit"
+    t.datetime "next_day_visit"
   end
 
   create_table "participation_event_details", :force => true do |t|
@@ -773,6 +777,8 @@ ActiveRecord::Schema.define(:version => 20111029021854) do
     t.string   "text"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "order_id",    :default => 0
+    t.boolean  "visible",     :default => true
   end
 
   create_table "team_content_logs", :force => true do |t|

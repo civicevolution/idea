@@ -3,7 +3,7 @@
 		input.link
 			border: none
 			background: none
-			cursor: po inter
+			cursor: pointer
 			margin: 0 
 			padding: 0
 			text-decoration: underline
@@ -16,7 +16,7 @@
 		- if @endorsements.size == 0
 			%h3.desc No one has endorsed this proposal yet.
 		- else
-			%h3= pluralize(@endorsements.size, 'Community endorsement')
+			%h3 Proposal is endorsed by #{pluralize(@endorsements.size, 'community member')}
 	
 
 		%table{:class => @endorsements.size == 0 ? 'hide' : ''}
@@ -44,18 +44,31 @@
 								= submit_tag "Delete", :class => 'link'
 			
 		- if !print			
+			%div#add_tp.talking_point_form.hint.corner
+				%div.form.cta
+					%p 
+						If you agree with this proposal, show your support by endorsing it. Add a statement of support in the form below and click the button.
+				%div.instr
+					%p 
+						If you disagree, join the discussion to share your concerns and suggest improvements.
+						= link_to "Here's how", help_develop_path, {:remote=>true}
+				%p.clear_both
+			
 			= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form' + ( endorsed ? ' hide' : '' ) do 
-				%ul
-					%li Show your support for this proposal by adding a short statement in this form and clicking the button			
-					%li If you don't like this proposal, please consider joining the discussion to share your concerns and suggest improvements. Click one of the question links above to get started
 				%div.add_answer
 					%p
 					= label_tag :text, "My statement in support of this proposal"
 					= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2"
-					%div.control_line
+					%div.form_controls
+						= submit_tag "I endorse this proposal", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+
+						%span.char_ctr 500 characters
+						= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
+					
+					-#%div.control_line
 						%div.controls
-							%span.char_ctr 500 characters
 							= submit_tag "I endorse this proposal", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+							%span.char_ctr 500 characters
 							= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
 				%p.clear
 	%p.clear

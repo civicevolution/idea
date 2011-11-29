@@ -175,9 +175,6 @@ div.talking_points_page, div.home_page {
   position: relative;
   padding-top: 30px; }
 
-div.question_summary {
-  margin-bottom: 4em; }
-
 p.question {
   font-weight: bold;
   margin-left: 20px;
@@ -821,10 +818,6 @@ div.talking_point_form {
       margin: 1em 0; }
     div.talking_point_form div.form h3, div.talking_point_form div.form div.form_controls, div.talking_point_form div.form textarea, div.talking_point_form div.form p {
       margin-left: 40px; }
-    div.talking_point_form div.form div.form_controls {
-      margin-bottom: 1em; }
-      div.talking_point_form div.form div.form_controls input[type="submit"] {
-        margin-left: 0; }
     div.talking_point_form div.form form {
       margin-bottom: 0; }
   div.talking_point_form div.form.cta {
@@ -835,8 +828,13 @@ div.talking_point_form {
     margin-right: 10px;
     margin-left: 15px; }
     div.talking_point_form div.instr p {
-      font-size: 1.2em;
+      font-size: 1em;
       margin: 1em 0; }
+
+div.form_controls {
+  margin-bottom: 1em; }
+  div.form_controls input[type="submit"] {
+    margin-left: 0; }
 
 div.talking_point_form.disc {
   margin-top: 2em; }
@@ -879,11 +877,21 @@ div.talking_points_page div.proposal {
 div.talking_point_body p.talking_point {
   font-size: 1em; }
 
+div.question_summary p.question {
+  margin-top: 0; }
 div.question_summary div.talking_points_list.summary {
-  background: #ececec;
   padding: 1em; }
-  div.question_summary div.talking_points_list.summary li {
-    font-size: 1.2em; }
+  div.question_summary div.talking_points_list.summary ul.talking_points {
+    margin-top: 0; }
+    div.question_summary div.talking_points_list.summary ul.talking_points li {
+      font-size: 1.2em; }
+  div.question_summary div.talking_points_list.summary p.example {
+    margin-top: 0; }
+  div.question_summary div.talking_points_list.summary div.talking_point_form.hint {
+    margin-top: 20px;
+    margin-left: -20px; }
+    div.question_summary div.talking_points_list.summary div.talking_point_form.hint p {
+      font-size: 1.2em; }
 
 div.cta_block div.num {
   margin-right: 12px; }
@@ -914,3 +922,11 @@ div.worksheet {
   margin: 0; }
   div.worksheet p.worksheet_intro {
     font-size: 1em; }
+
+div.endorsements div#add_tp.talking_point_form.hint.corner {
+  margin: 32px 0 32px 0; }
+  div.endorsements div#add_tp.talking_point_form.hint.corner div.cta p {
+    font-size: 1em; }
+
+div#submit {
+  margin-top: 60px; }

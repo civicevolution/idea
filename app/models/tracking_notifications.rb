@@ -126,27 +126,7 @@ class TrackingNotifications
           raise "I didn't know how to process #{obj.class.to_s}"
       end
 
-      if participation_event.member_id.nil?
-        Rails.logger.debug "Don't save participation event record #{name}, no valid member"
-      elsif participation_event.save
-        # now update the team and participant summary stats
-        if participation_event.team_id # && participation_event.points > 0
-          col_name = PARTICIPATION_EVENT_POINTS["item#{participation_event.event_id}"]['col_name']
-          if !col_name.nil? && col_name != ''
-            part_stats_rec = ParticipantStats.find_by_member_id_and_team_id(participation_event.member_id, participation_event.team_id) || ParticipantStats.new(:member_id => participation_event.member_id, :team_id => participation_event.team_id)
-            part_stats_rec[col_name] += 1
-            part_stats_rec['points_total'] += participation_event.points
-            part_stats_rec.save
-            team_stats_rec = ProposalStats.find_by_team_id(participation_event.team_id) || ProposalStats.new(:team_id => participation_event.team_id)
-            team_stats_rec[col_name] += 1
-            team_stats_rec['points_total'] += participation_event.points
-            team_stats_rec.save
-          end
-        end
-        Rails.logger.debug "Saved participation event record #{obj.class.to_s}:\n#{participation_event.inspect}"
-      else
-        raise "I didn't get all the data for #{obj.class.to_s}:\n#{participation_event.inspect}"
-      end
+      update_stat_records(name, participation_event, obj)
       
     elsif payload.key?(:json) # process the model destroy observers that stored the old model in json
         obj = JSON.parse(payload[:json])
@@ -246,23 +226,87 @@ class TrackingNotifications
         else
           raise "I don't know how to handle #{name} from Notifications"
       end
-      
-      if participation_event.member_id.nil?
-        Rails.logger.debug "Don't save participation event record #{name}, no valid member"
-      elsif participation_event.save
-        Rails.logger.debug "Saved participation event record #{name}:\n#{participation_event.inspect}"
-      else
-        raise "I couldn't save participation event record for #{name}:\n#{participation_event.inspect}"
-      end
-      
-      
+      update_stat_records(name, participation_event)
     end
     
     Rails.logger.debug "\n\n\n\n" unless !debug
   end
   
-  def self.get_event_id(payload)
-    return 1234
+  def self.update_stat_records(name, participation_event, obj = nil)
+    name = obj.nil? ? name : obj.class.to_s
+    if participation_event.member_id.nil?
+      Rails.logger.debug "Don't save participation event record #{name}, no valid member"
+    elsif participation_event.save
+      # now update the team and participant summary stats
+      if participation_event.team_id # && participation_event.points > 0
+        col_name = PARTICIPATION_EVENT_POINTS["item#{participation_event.event_id}"]['col_name']
+        if !col_name.nil? && col_name != ''
+          part_stats_rec = ParticipantStats.find_by_member_id_and_team_id(participation_event.member_id, participation_event.team_id) || ParticipantStats.new(:member_id => participation_event.member_id, :team_id => participation_event.team_id)
+          part_stats_rec[col_name] += 1
+          part_stats_rec['points_total'] += participation_event.points
+          
+          if participation_event.event_id == 100
+            # set the day_visits fields
+            ldv = part_stats_rec[:last_day_visit]
+            ndv = part_stats_rec[:next_day_visit]
+            time = Time.now.utc
+            if time > ndv
+              part_stats_rec[:day_visits] += 1
+              if time - ldv - 24.hours > 0
+                part_stats_rec[:next_day_visit] = time + 8.hours
+              else
+                part_stats_rec[:next_day_visit] = ldv + 36.hours
+              end
+              part_stats_rec[:last_day_visit] = time
+            end
+          end
+          # determine if the level should be increased
+          # start at highest level and then let it be decreased by each test, only save it if it is greater than current level
+          
+          level = 4 
+
+          coms = [0,3,5,6]
+          my_coms = part_stats_rec[:comments]
+          coms.each_index{|x| if my_coms < coms[x] then level = level >= x ? x : level; break; end }
+
+          rate = [0,1,4,12]
+          my_rate = part_stats_rec[:talking_point_ratings]
+          rate.each_index{|x| if my_rate < rate[x] then level = level >= x ? x : level; break; end }
+          
+          favor = [0,1,4,8]
+          my_favor = part_stats_rec[:talking_point_preferences]
+          favor.each_index{|x| if my_favor < favor[x] then level = level >= x ? x : level; break; end }
+          
+          talking_points = [0,0,2,4]
+          my_tp = part_stats_rec[:talking_points] + part_stats_rec[:talking_point_edits]
+          talking_points.each_index{|x| if my_tp < talking_points[x] then level = level >= x ? x : level; break; end }
+
+          visits = [0,2,4,6]
+          my_visits = part_stats_rec[:day_visits]
+          visits.each_index{|x| if my_visits < visits[x] then level = level >= x ? x : level; break; end }
+
+          invites = [0,0,0,2]
+          my_invites = part_stats_rec[:friend_invites]
+          invites.each_index{|x| if my_invites < invites[x] then level = level >= x ? x : level; break; end }
+
+          points = [0,500,1200,2000]
+          my_points = part_stats_rec[:points_total]
+          points.each_index{|x| if my_points < points[x] then level = level >= x ? x : level; break; end }
+
+          part_stats_rec[:level] = level unless level < part_stats_rec[:level]
+          
+          part_stats_rec.save
+          
+          team_stats_rec = ProposalStats.find_by_team_id(participation_event.team_id) || ProposalStats.new(:team_id => participation_event.team_id)
+          team_stats_rec[col_name] += 1
+          team_stats_rec['points_total'] += participation_event.points
+          team_stats_rec.save
+        end
+      end
+      Rails.logger.debug "Saved participation event record #{name}:\n#{participation_event.inspect}"
+    else
+      raise "I didn't get all the data for #{name}:\n#{participation_event.inspect}"
+    end
   end
   
   def self.get_event_points(event_id,obj)

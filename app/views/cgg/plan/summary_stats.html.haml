@@ -29,7 +29,7 @@
 			= link_to "Learn more", help_develop_path, {:remote=>true}
 		
 		%p.cta
-			= link_to "Help answer the questions"
+			= link_to "Help answer the questions", help_develop_path, {:remote=>true}
 		-#%p.cta
 			= link_to "Help develop a proposal", help_develop_path, {:remote=>true}
 		
@@ -100,6 +100,8 @@
 								= pluralize(@team.stats[stat['col_name']], stat['summary_title']) 					
 	
 	%p.clear_both	
+	-#%iframe#participation_chart{:src=>'/test'}
+	
 
 %div.tools_info.corner
 	-#%p= link_to "Email participants",{},{:class=>'email_participants'}

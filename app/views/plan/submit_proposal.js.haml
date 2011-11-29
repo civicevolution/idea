@@ -1,0 +1,14 @@
+:plain
+	var form = $("#{escape_javascript(
+		render( :template => 'plan/submit_proposal.html' )
+	)}");
+
+	var dialog = form.dialog( {title : 'Submit your proposal', modal : false, width : 'auto', closeOnEscape: false, close: function(){$(this).remove()} });
+	
+	$('div#submit_proposal a.cancel').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	)	
+	

@@ -14,7 +14,15 @@
 		- else
 			
 			- if request.xhr?
-				%p.worksheet_intro Please create, discuss, rate and refine talking points to answer this question and find those that are acceptable to most of our community. #{link_to "Close talking points worksheet", question_summary_path(question.id), :remote=>true}
+				%div#add_tp.talking_point_form.hint.corner
+					%div.form.cta
+						%p Please create, discuss, rate and refine the talking points below to answer this question and find those that are acceptable to most of our community
+					%div.instr
+						%p= link_to "Close this talking points worksheet", question_summary_path(question.id), :remote=>true
+						
+					%p.clear_both
+				
+				-#%p.worksheet_intro Please create, discuss, rate and refine talking points to answer this question and find those that are acceptable to most of our community. #{link_to "Close talking points worksheet", question_summary_path(question.id), :remote=>true}
 				%div
 				
 					= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
@@ -94,5 +102,5 @@
 		-#= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
 		
 		- if request.xhr?
-			%p.worksheet_intro= link_to "Close talking points worksheet", question_summary_path(question.id), :remote=>true
+			%p.worksheet_intro= link_to "Close this talking points worksheet", question_summary_path(question.id), :remote=>true
 			

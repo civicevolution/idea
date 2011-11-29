@@ -1,72 +1,37 @@
-%style
-	:sass
-		$talking_point_bg: #BCC3D0
-		=radius
-			-webkit-border-radius: 10px
-			-moz-border-radius: 10px
-			border-radius: 10px
-
-		h3
-			color: red
-			margin: 1em 0
-		div.tp
-			width: 700px
-			height: 100px
-			margin: 4em
-			+radius
-			
-			background: $talking_point_bg url(/images/rate-bg.gif) repeat-y 300px
-			div.instr
-				//border: 1px solid green
-				float: left
-				width: 190px
-				margin-right: 10px
-				margin-left: 15px
-				margin-bottom: 1em
-
-			div.form
-				background: url(/images/comment.gif) no-repeat 8px 20px
-				//border: 1px solid red
-				float: left
-				width: 428px
-				p
-					font-size: 1.2em
-
-			div.instrX
+%div.piechart
+	%style
+		:sass
+			div#chart_div
 				border: 1px solid green
-				//float: left
-				//width: 190px
-				//margin-right: 10px
-				//margin-left: 15px
-				//margin-bottom: 1em
-
-			div.formX
-				background: url(/images/comment.gif) no-repeat 8px 20px
-				border: 1px solid red
-				float: left
-				//width: 428px
-				//p
-				//	font-size: 1.2em
-				> *
-					margin-left: 40px
-				h3
-					margin-left: 40px
-					
 				
-			
+	= javascript_include_tag "https://www.google.com/jsapi"
+	:javascript
+		google.load("visualization", "1", {packages:["corechart"]});
+		google.setOnLoadCallback(drawChart);
+		function drawChart() {
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Task');
+			data.addColumn('number', 'Hours per Day');
+			data.addRows(7);
+			data.setValue(0, 0, 'Work');
+			data.setValue(0, 1, 11);
+			data.setValue(1, 0, 'Eat');
+			data.setValue(1, 1, 2);
+			data.setValue(2, 0, 'Commute');
+			data.setValue(2, 1, 2);
+			data.setValue(3, 0, 'Watch TV');
+			data.setValue(3, 1, 2);
+			data.setValue(4, 0, 'Sleep');
+			data.setValue(4, 1, 7);
+			data.setValue(5, 0, 'Dreaming');
+			data.setValue(5, 1, .2);
+			data.setValue(6, 0, 'laughing');
+			data.setValue(6, 1, .7);
 
-%h3 Test page
+			var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+			chart.draw(data, {width: 240, height: 300, title: 'Relative participation'});
+		}
 
-%div.tp
-	%div.form
-		%h3 hello to me
-	%div.instr
-		%p This needs to be done
+%h3 My pie chart
+%div#chart_div
 
-
-
-%div.tp
-	%div.formX
-		%h3 hello to me X
-	%div.instrX
-		%p This needs to be done X

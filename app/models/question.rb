@@ -5,21 +5,21 @@ class Question < ActiveRecord::Base
   has_many :talking_points, :dependent => :destroy
 
   has_many :top_talking_points, :class_name => 'TalkingPoint', :finder_sql => 
-    proc { %Q|SELECT tp.id, tp.version, tp.text, tp.updated_at, count(tpp.member_id) 
+    proc { %Q|SELECT tp.id, tp.version, tp.text, tp.order_id, tp.visible, tp.updated_at, count(tpp.member_id) 
     FROM talking_points tp 
     LEFT OUTER JOIN talking_point_preferences tpp ON tp.id = tpp.talking_point_id
     WHERE tp.question_id = #{id}
     GROUP BY tp.id, tp.version, tp.text, tp.updated_at
-    ORDER BY count(tpp.member_id) DESC, id DESC
+    ORDER BY count(tpp.member_id) DESC, tp.id DESC
     LIMIT 5| }
  
   has_many :all_talking_points, :class_name => 'TalkingPoint', :finder_sql => 
-    proc { %Q|SELECT tp.id, tp.version, tp.text, tp.updated_at, count(tpp.member_id) 
+    proc { %Q|SELECT tp.id, tp.version, tp.text, tp.order_id, tp.visible, tp.updated_at, count(tpp.member_id) 
     FROM talking_points tp 
     LEFT OUTER JOIN talking_point_preferences tpp ON tp.id = tpp.talking_point_id
     WHERE tp.question_id = #{id}
     GROUP BY tp.id, tp.version, tp.text, tp.updated_at
-    ORDER BY count(tpp.member_id) DESC, id DESC| }
+    ORDER BY count(tpp.member_id) DESC, tp.id DESC| }
   
 
   has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :order => 'id asc', :include => :author

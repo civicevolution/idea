@@ -1,0 +1,31 @@
+%div#submit_proposal_acknowledge
+	- if status == 'fail'
+		%p We experienced a problem submitting your proposal.We have been notified and will look into this very soon. 
+		%p We will contact you via email if appropriate
+
+	- else
+		- if params[:proposal_submit][:submit_type] == 'pre_review'
+			%div#submit_proposal_acknowledge
+				%p Thank you for requesting a pre-submission review of your proposal
+				%p "#{@team.title}"
+
+				%p 
+					You will be notified via email when your idea has been reviewed, usually within 
+					%b 2 business days.
+					If we have any questions or concerns, we will email you.
+	
+				%p
+					You can contact us at support@civicevolution.org if you have any questions.
+
+		- else
+			%div#submit_proposal_acknowledge
+				%p Thank you for submitting your proposal for official review
+				%p "#{@team.title}"
+
+				%p 
+					You will be notified via email when your idea has been accepted for official review, usually within 
+					%b 5 business days. 
+					If we have any questions or concerns, we will email you.
+	
+				%p
+					You can contact us at support@civicevolution.org if you have any questions.

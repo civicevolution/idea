@@ -7,7 +7,7 @@
 		%div.talking_points_list.summary.corner{:id=>question.id}
 			%ul.talking_points
 				- if question['talking_points_to_display'].size == 0
-					%p 
+					%p.example
 						Here are some
 						%b example 
 						talking points that describe CivicEvolution
@@ -18,26 +18,44 @@
 					-#%li Everyone should review, rate and discuss the talking points
 					%li Each time you return to this proposal, you will see the talking points that have been added or edited since your last visit
 				
-					%p 
-						Click to 
-						#{link_to 'suggest a talking point', question_worksheet_path(question), {:remote=> true}} or
-						#{link_to 'discuss this question', question_worksheet_path(question), {:remote=> true}}
-						-# by opening the talking points worksheet
-						
+					%div#add_tp.talking_point_form.hint.corner
+						%div.form.cta
+							%p 
+								Click to 
+								#{link_to 'suggest a talking point', question_worksheet_path(question), {:remote=> true}} or
+								#{link_to 'discuss this question', question_worksheet_path(question), {:remote=> true}}
+								-# by opening the talking points worksheet
+						%div.instr
+							%p 
+						%p.clear_both
 
 				- else
 					- question['talking_points_to_display'].each do |talking_point|
 						%li.talking_point= talking_point.text
 					- if question.talking_points.size - question['talking_points_to_display'].size > 0
-						%li= link_to pluralize( question.talking_points.size - question['talking_points_to_display'].size, 'more talking point'), question_summary_path(question.id, :all=>'t'), :remote=>true						
+						%div#add_tp.talking_point_form.hint.corner
+							%div.form.cta
+								%p Click here to display #{link_to pluralize( question.talking_points.size - question['talking_points_to_display'].size, 'more talking point'), question_summary_path(question.id, :all=>'t'), :remote=>true}
+							%div.instr
+								%p 
+							%p.clear_both
+						
+					
+						-#%li= link_to pluralize( question.talking_points.size - question['talking_points_to_display'].size, 'more talking point'), question_summary_path(question.id, :all=>'t'), :remote=>true						
 			
-					%p
-						Please 
-						= link_to 'rate', question_worksheet_path(question), {:class=> 'open_worksheet', :remote => true}
-						these talking points and 
-						= link_to 'tell us', question_worksheet_path(question), {:class=> 'open_worksheet', :remote => true}
-						what you think
-
+			
+					%div#add_tp.talking_point_form.hint.corner
+						%div.form.cta
+							%p 
+								We need to hear from you. Please 
+								= link_to 'rate', question_worksheet_path(question), {:class=> 'open_worksheet', :remote => true}
+								these talking points and 
+								= link_to 'tell us', question_worksheet_path(question), {:class=> 'open_worksheet', :remote => true}
+								what you think
+						%div.instr
+							%p 
+						%p.clear_both
+					
 				-# if question.answers.size > 0 || question.bs_ideas.size > 0
 					%p= link_to 'Show old answers and ideas', question_old_data_path(question.id), {:remote=>true}
 			

@@ -1,0 +1,9 @@
+:plain
+	var form = $("#{escape_javascript(
+		render( :template => 'plan/submit_proposal_acknowledge.html', :locals=>{:status => status} )
+	)}");
+
+	var title = "#{status == 'ok' ? 'Thank you' : "We're sorry"}"
+	var dialog = form.dialog( {title : title, modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+	
+	$('div#submit_proposal').closest('div.ui-dialog').dialog('destroy').remove();

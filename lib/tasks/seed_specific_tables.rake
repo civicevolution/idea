@@ -306,6 +306,46 @@ namespace :seed_specific_tables do
 
         last_visit = ParticipationEvent.where(:member_id => 1, :team_id => team.id).last
         stats_rec.last_visit = last_visit.nil? ? nil : last_visit.created_at
+        
+        
+        # set the participants level following these simplistic rules
+        # start at highest level
+        
+        stats_rec.day_visits = participation_counts['proposal_views'].to_i + participation_counts['comments'].to_i + participation_counts['comments'].to_i
+        
+        level = 4 
+
+        coms = [0,3,5,6]
+        my_coms = stats_rec[:comments]
+        coms.each_index{|x| if my_coms < coms[x] then level = level >= x ? x : level; break; end }
+
+        #rate = [0,1,4,12]
+        #my_rate = stats_rec[:talking_point_ratings]
+        #rate.each_index{|x| if my_rate < rate[x] then level = level >= x ? x : level; break; end }
+        #
+        #favor = [0,1,4,8]
+        #my_favor = stats_rec[:talking_point_preferences]
+        #favor.each_index{|x| if my_favor < favor[x] then level = level >= x ? x : level; break; end }
+        #
+        #talking_points = [0,0,2,4]
+        #my_tp = stats_rec[:talking_points] + stats_rec[:talking_point_edits]
+        #talking_points.each_index{|x| if my_tp < talking_points[x] then level = level >= x ? x : level; break; end }
+
+        visits = [0,2,4,6]
+        my_visits = stats_rec[:day_visits]
+        visits.each_index{|x| if my_visits < visits[x] then level = level >= x ? x : level; break; end }
+
+        invites = [0,0,0,2]
+        my_invites = stats_rec[:friend_invites]
+        invites.each_index{|x| if my_invites < invites[x] then level = level >= x ? x : level; break; end }
+
+        points = [0,500,1200,2000]
+        my_points = stats_rec[:points_total]
+        points.each_index{|x| if my_points < points[x] then level = level >= x ? x : level; break; end }
+
+        stats_rec[:level] = level
+        
+        
         stats_rec.save
       end
     end

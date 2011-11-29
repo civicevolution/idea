@@ -1,0 +1,46 @@
+%div#submit_proposal
+	-#= error_messages_for :content_report
+	
+	- if params[:act] == 'pre_review'
+		%p Congratulations for working on your proposal and requesting a pre-submission review for your idea:
+		%p.title= @team.title
+	
+	
+	- else
+		%p Congratulations for working on your proposal and submitting it for official review for your idea:
+		%p.title= @team.title
+	
+	= form_for :proposal_submit, :url => { :action => :submit_proposal, :id=>@team.id }, :html=>{:remote=>true} do |form| 
+		-#
+			= form.label :report_type, "Please select the appropriate category:"
+			%p.cat #{form.radio_button 'report_type', 'off topic'}off topic
+			%p.cat #{form.radio_button 'report_type', 'offensive'}offensive
+			%p.cat #{form.radio_button 'report_type', 'personal'}personal attack
+			%p.cat #{form.radio_button 'report_type', 'spam'}spam/commercial
+			
+		= form.label :name, "Submitter's name:"
+		= form.text_field :name, :value=>"#{@member.first_name} #{@member.last_name}"
+
+		= form.label :email, "Submitter's email:"
+		= form.text_field :email, :value=>@member.email
+
+		= form.label :phone, "Phone (optional):"
+		= form.text_field :phone
+		
+		= form.label :text, "Please provide any additional information you feel is relevant (optional):"
+		= form.text_area :text, :cols => 50, :rows => 8
+		= form.hidden_field :team_id, :value => params[:id]
+		= hidden_field_tag :step, 'post'
+		
+
+		%p
+			- if params[:act] == 'pre_review'
+				= form.hidden_field :submit_type, :value => 'pre_review'
+				= submit_tag 'Request pre-review'
+			- else
+				= form.hidden_field :submit_type, :value => 'submit'
+				= submit_tag 'Submit proposal'
+			
+			= link_to 'Cancel', {},{:class=>'cancel', :rel=>'nofollow'}
+			
+			

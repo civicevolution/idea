@@ -18,7 +18,7 @@ G3::Application.routes.draw do |map|
   post 'live/post_tp' => 'ce_live#post_talking_point_from_group', :as => 'post_live_tp'
   post 'live/test_ids' => 'ce_live#get_tp_test_ids', :as => 'live_test_ids'
   
-  
+  get 'final/:team_id/proposal' => 'final#proposal', :as => 'final_proposal'
   
   get 'live/:event_id/coordinator' => 'ce_live#coordinator', :as => 'live_coordinator'
   get 'live/:event_id/themer' => 'ce_live#themer', :as => 'live_themer' 
@@ -79,6 +79,8 @@ G3::Application.routes.draw do |map|
   get "plan/index"
   
   get "plan/suggest_new_idea"
+  
+  match "plan/:team_id/submit", :to => 'plan#submit_proposal', :as => 'submit_proposal'
   
   post "plan/submit_proposal_idea", :as => 'submit_proposal_idea'
   
