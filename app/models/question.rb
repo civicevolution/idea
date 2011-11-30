@@ -9,7 +9,7 @@ class Question < ActiveRecord::Base
     FROM talking_points tp 
     LEFT OUTER JOIN talking_point_preferences tpp ON tp.id = tpp.talking_point_id
     WHERE tp.question_id = #{id}
-    GROUP BY tp.id, tp.version, tp.text, tp.updated_at
+    GROUP BY tp.id, tp.version, tp.text, tp.order_id, tp.visible, tp.updated_at
     ORDER BY count(tpp.member_id) DESC, tp.id DESC
     LIMIT 5| }
  
@@ -18,7 +18,7 @@ class Question < ActiveRecord::Base
     FROM talking_points tp 
     LEFT OUTER JOIN talking_point_preferences tpp ON tp.id = tpp.talking_point_id
     WHERE tp.question_id = #{id}
-    GROUP BY tp.id, tp.version, tp.text, tp.updated_at
+    GROUP BY tp.id, tp.version, tp.text, tp.order_id, tp.visible, tp.updated_at
     ORDER BY count(tpp.member_id) DESC, tp.id DESC| }
   
 
