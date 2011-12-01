@@ -218,7 +218,7 @@ class WelcomeController < ApplicationController
     @member.domain = Rails.root.to_s.match(/^\/data\//) ? Rails.root.to_s.match(/\/data\/(\w+)\//)[1] : Rails.root.to_s.match(/\/ce_development\/Rails\/(\w+)/)[1]
     
     
-    restrictions_test,message = InitiativeRestriction.allow_action(params[:_initiative_id], 'join_initiative', @member)
+    restrictions_test,message = InitiativeRestriction.allow_actionX(params[:_initiative_id], 'join_initiative', @member)
     #logger.debug "Welcome::register restrictons test result #{restrictions_test} with message: #{message}"
     
     if !restrictions_test

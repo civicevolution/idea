@@ -1,3 +1,8 @@
+- message ||= nil
 %div
-	%h3 You are not authorized to edit this talking point.
+	- if message.nil?
+		%h3 You are not authorized to edit this talking point.
+	- else
+		%h3= message
+		
 	%p If you believe this is an error please contact your group administrator

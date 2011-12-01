@@ -1,4 +1,8 @@
+- message ||= nil
 %div
 	%h3 This page is private
-	%p You are not authorized to view this page.
+	- if message.nil?
+		%p You are not authorized to view this page.
+	- else
+		%p= message
 	%p If you believe this is an error please contact your group administrator

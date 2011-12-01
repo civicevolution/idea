@@ -32,11 +32,12 @@
 				%div.proposal
 					-#%h3 Current proposal details
 					= render :partial=> 'question_summary', :collection => questions, :as => :question, :locals => {:questions => questions}
-	
-			-#= render :partial => 'submit'
-			
-			= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}
 
+			= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}
+			
+			- if @team.org_id == @member.id || @participant_stats.level >= 4
+				= render :partial => 'submit'
+			
 		%div.right_side
 			= render :template => 'plan/summary_stats'
 

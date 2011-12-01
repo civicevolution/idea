@@ -26,7 +26,7 @@ class AnswerRating < ActiveRecord::Base
     logger.debug "AnswerRating check_team_access member: #{self.member.inspect}"
     if !self.member.nil?
       # this is access check for the idea page version
-      allowed,message = InitiativeRestriction.allow_action({:answer_id=>self.answer_id}, 'contribute_to_proposal', self.member)
+      allowed,message = InitiativeRestriction.allow_actionX({:answer_id=>self.answer_id}, 'contribute_to_proposal', self.member)
       if !allowed
         errors.add(:base, "Sorry, you do not have permission to rate this answer.") 
         return false

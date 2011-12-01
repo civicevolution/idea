@@ -21,7 +21,7 @@ class ComRating < ActiveRecord::Base
     
     if !self.member.nil?
       # this is access check for the idea page version
-      allowed,message = InitiativeRestriction.allow_action({:comment_id=>self.comment_id}, 'contribute_to_proposal', self.member)
+      allowed,message = InitiativeRestriction.allow_actionX({:comment_id=>self.comment_id}, 'contribute_to_proposal', self.member)
       if !allowed
         errors.add(:base, "Sorry, you do not have permission to rate this comment.") 
         return false

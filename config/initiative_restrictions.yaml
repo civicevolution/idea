@@ -1,0 +1,312 @@
+# initiative_restrictions
+# read the data file
+# add each question as shown
+
+init_1:
+
+  action_rules:
+    
+    join_initiative:
+      act: 'join this CGG Staff project'
+      mandatory: ['$match_email_domain(cgg.wa.gov.au, civicevolution.org)']
+
+    suggest_idea:
+      act: 'suggest an idea'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+    
+    view_idea_page:
+      act: 'view this proposal page'
+      mandatory: ['$confirmed']
+      pass_one: ['$belong_to_initiative', '$match_email_domain(cgg.wa.gov.au, civicevolution.org)']
+      
+    view_question_details:
+      act: 'view the details about this question'
+      mandatory: ['$confirmed']
+      pass_one: ['$belong_to_initiative', '$match_email_domain(cgg.wa.gov.au, civicevolution.org)']
+  
+    contribute_to_proposal:
+      act: 'contribute to this proposal'
+      mandatory: ['$confirmed']
+      pass_one: ['$belong_to_initiative', '$match_email_domain(cgg.wa.gov.au, civicevolution.org)']
+    
+    edit_talking_point:
+      act: 'edit this talking point'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+
+    curate_talking_points:
+      act: 'select and order these talking points'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(3)']
+    
+    edit_team_summary:
+      act: 'edit the proposal title and summary'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(4)']
+    
+    submit_proposal:
+      act: 'submit this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(4)']
+
+  rule_definitions:
+    
+    belong_to_initiative:
+      restriction: 'belong_to_initiative'
+      message: 'Sorry, you must belong to the CGG staff project to $act'
+    confirmed:
+      restriction: 'confirmed_member'
+      message: 'You must confirm your email address before you can $act'
+    team_org:
+      restriction: 'team_org'
+      message: 'You must be the team organizer to $act'
+    level:
+      restriction: 'minimum_level'
+      message: 'You must achieve at least level $level to $act'
+    match_email_domain: 
+      restriction: 'match_email_domain'
+      message: 'Only CGG staff with emails ending in @cgg.wa.gov.au are allowed join this initiative'
+
+
+init_2: # 2029 and beyond
+  
+  action_rules:
+    
+    suggest_idea:
+      act: 'suggest an idea'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+  
+    contribute_to_proposal:
+      act: 'contribute to this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+    
+    edit_talking_point:
+      act: 'edit this talking point'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+
+    curate_talking_points:
+      act: 'select and order these talking points'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(3)']
+    
+    edit_team_summary:
+      act: 'edit the proposal title and summary'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(4)']
+    
+    submit_proposal:
+      act: 'submit this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(4)']
+
+  rule_definitions:
+    
+    belong_to_initiative:
+      restriction: 'belong_to_initiative'
+      message: 'Sorry, you must join the 2029 and Beyond project staff project to $act'
+    confirmed:
+      restriction: 'confirmed_member'
+      message: 'You must confirm your email address before you can $act'
+    team_org:
+      restriction: 'team_org'
+      message: 'You must be the team organizer to $act'
+    level:
+      restriction: 'minimum_level'
+      message: 'You must achieve at least level $level to $act'
+
+
+
+init_3: #demo
+  
+  action_rules:
+    
+    suggest_idea:
+      act: 'suggest an idea'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+  
+    contribute_to_proposal:
+      act: 'contribute to this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+    
+    edit_talking_point:
+      act: 'edit this talking point'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+
+    curate_talking_points:
+      act: 'select and order these talking points'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(3)']
+    
+    edit_team_summary:
+      act: 'edit the proposal title and summary'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(42)']
+    
+    submit_proposal:
+      act: 'submit this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(4)']
+
+  rule_definitions:
+    
+    belong_to_initiative:
+      restriction: 'belong_to_initiative'
+      message: 'Sorry, you must join the demo project to $act'
+    confirmed:
+      restriction: 'confirmed_member'
+      message: 'You must confirm your email address before you can $act'
+    team_org:
+      restriction: 'team_org'
+      message: 'You must be the team organizer to $act'
+    level:
+      restriction: 'minimum_level'
+      message: 'You must achieve at least level $level to $act'
+    talking_point_author:
+      restriction: 'talking_point_author'
+      message: 'You must be the author of this talking point to $act'
+
+init_5: # skyline
+  
+  action_rules:
+    
+    suggest_idea:
+      act: 'suggest an idea'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+  
+    contribute_to_proposal:
+      act: 'contribute to this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+    
+    edit_talking_point:
+      act: 'edit this talking point'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+
+    curate_talking_points:
+      act: 'select and order these talking points'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(3)']
+    
+    edit_team_summary:
+      act: 'edit the proposal title and summary'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(42)']
+    
+    submit_proposal:
+      act: 'submit this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(4)']
+
+  rule_definitions:
+    
+    belong_to_initiative:
+      restriction: 'belong_to_initiative'
+      message: 'Sorry, you must join the Skyline Community project to $act'
+    confirmed:
+      restriction: 'confirmed_member'
+      message: 'You must confirm your email address before you can $act'
+    team_org:
+      restriction: 'team_org'
+      message: 'You must be the team organizer to $act'
+    level:
+      restriction: 'minimum_level'
+      message: 'You must achieve at least level $level to $act'
+
+
+init_6: # civicevolution
+  
+  action_rules:
+    
+    suggest_idea:
+      act: 'suggest an idea'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+  
+    contribute_to_proposal:
+      act: 'contribute to this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+    
+    edit_talking_point:
+      act: 'edit this talking point'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+
+    curate_talking_points:
+      act: 'select and order these talking points'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(3)']
+    
+    edit_team_summary:
+      act: 'edit the proposal title and summary'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(42)']
+    
+    submit_proposal:
+      act: 'submit this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(4)']
+
+  rule_definitions:
+    
+    belong_to_initiative:
+      restriction: 'belong_to_initiative'
+      message: 'Sorry, you must join the CivicEvolution project to $act'
+    confirmed:
+      restriction: 'confirmed_member'
+      message: 'You must confirm your email address before you can $act'
+    team_org:
+      restriction: 'team_org'
+      message: 'You must be the team organizer to $act'
+    level:
+      restriction: 'minimum_level'
+      message: 'You must achieve at least level $level to $act'
+
+
+init_7: # live
+  
+  action_rules:
+    
+    suggest_idea:
+      act: 'suggest an idea'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+  
+    contribute_to_proposal:
+      act: 'contribute to this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+    
+    edit_talking_point:
+      act: 'edit this talking point'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+
+    curate_talking_points:
+      act: 'select and order these talking points'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(3)']
+    
+    edit_team_summary:
+      act: 'edit the proposal title and summary'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(42)']
+    
+    submit_proposal:
+      act: 'submit this proposal'
+      mandatory: ['$confirmed', '$belong_to_initiative']
+      pass_one: ['$team_org', '$level(4)']
+
+  rule_definitions:
+    
+    belong_to_initiative:
+      restriction: 'belong_to_initiative'
+      message: 'Sorry, you must join the CivicEvolution project to $act'
+    confirmed:
+      restriction: 'confirmed_member'
+      message: 'You must confirm your email address before you can $act'
+    team_org:
+      restriction: 'team_org'
+      message: 'You must be the team organizer to $act'
+    level:
+      restriction: 'minimum_level'
+      message: 'You must achieve at least level $level to $act'
+

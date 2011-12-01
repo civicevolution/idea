@@ -22,7 +22,7 @@ Recaptcha.configure do |config|
 end
 
 PARTICIPATION_EVENT_POINTS = YAML.load_file("#{Rails.root}/config/participation_event_descriptions.yaml")
-
+INITIATIVE_RESTRICTIONS = YAML.load_file("#{Rails.root}/config/initiative_restrictions.yaml")
 
 def authorize_juggernaut_channels(session_id, channels )
   logger.debug "authorize_juggernaut_channels for session_id: #{session_id} for channels: #{@channels}"

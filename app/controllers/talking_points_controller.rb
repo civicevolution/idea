@@ -57,16 +57,15 @@ class TalkingPointsController < ApplicationController
   def edit
     talking_point = TalkingPoint.find(params[:talking_point_id])
     talking_point.member = @member
-    
-    allowed,message,team_id = InitiativeRestriction.allow_actionX({:talking_point_id => params[:talking_point_id]}, 'view_idea_page', @member)
-    allowed = talking_point.check_edit_privilege unless !allowed
+
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:talking_point_id => params[:talking_point_id], :tp_member_id => talking_point.member_id}, 'edit_talking_point', @member)
     if !allowed
       if @member.id == 0
         force_sign_in
       else
         respond_to do |format|
-          format.js { render 'talking_points/edit_not_allowed' }
-          format.html { render 'talking_points/edit_not_allowed', :layout => 'plan' }
+          format.js { render 'talking_points/edit_not_allowed', :locals => {:message=>message} }
+          format.html { render 'talking_points/edit_not_allowed', :locals => {:message=>message}, :layout => 'plan' }
         end
       end
       return

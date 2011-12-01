@@ -1,7 +1,7 @@
 = render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var message = $("#{escape_javascript(
-		render( :template => 'shared/private.html')
+		render( :template => 'shared/private.html', :locals => {:message=>message})
 	)}");
 
 	var dialog = message.dialog( {title : 'We\'re sorry', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} });

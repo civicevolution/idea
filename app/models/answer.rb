@@ -63,7 +63,7 @@ class Answer < ActiveRecord::Base
     self.question_id = par_item.o_id
     if !self.member.nil?
       # this is access check for the idea page version
-      allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
+      allowed,message = InitiativeRestriction.allow_actionX({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
       if !allowed
         errors.add(:base, "Sorry, you do not have permission to add an answer.") 
         return false
@@ -90,7 +90,7 @@ class Answer < ActiveRecord::Base
     
     if !self.member.nil?
       # this is access check for the idea page version
-      allowed,message = InitiativeRestriction.allow_action({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
+      allowed,message = InitiativeRestriction.allow_actionX({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
       if !allowed
         errors.add(:base, "Sorry, you do not have permission to edit this answer.") 
         return false

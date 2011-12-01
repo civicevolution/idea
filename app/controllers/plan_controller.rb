@@ -1,41 +1,6 @@
 class PlanController < ApplicationController
   layout "plan", :only => [:suggest_new_idea, :review_proposal_idea]
   skip_before_filter :authorize, :only => [ :index, :summary, :suggest_new_idea, :new_content, :get_templates, :test]
-  
-  def index
-    logger.debug "\n\n******************************************\nStart plan/index\n"
-    begin
-      @team = Team.includes(:questions).find(params[:team_id])
-      raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
-    rescue
-      render :template => 'team/proposal_not_found', :layout=> 'plan'
-      return
-    end
-    
-    # verify acccess to this team
-    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:team_id]}, 'view_idea_page', @member)
-    if !allowed
-      if @member.id == 0
-        force_sign_in
-      else
-        respond_to do |format|
-          format.js { render 'shared/private' }
-          format.html { render 'shared/private', :layout => 'plan' }
-        end
-      end
-      return
-    end
-    
-    
-    @team.get_talking_point_ratings(@member)
-    @team['org_member'] = Member.find_by_id(@team.org_id)
-    
-    render :index, :layout => 'plan'
-    
-    logger.debug "\n\nEnd plan/index\n******************************************\n"
-    logger.flush
-    #logger.auto_flushing = 1
-  end
 
   def summary
     logger.debug "\n\n******************************************\nStart plan/summary\n"
@@ -54,14 +19,16 @@ class PlanController < ApplicationController
         force_sign_in
       else
         respond_to do |format|
-          format.js { render 'shared/private' }
-          format.html { render 'shared/private', :layout => 'plan' }
+          format.js { render 'shared/private', :locals => {:message=>message} }
+          format.html { render 'shared/private', :layout => 'plan', :locals => {:message=>message} }
         end
       end
       return
     end
     
     @team.get_talking_point_ratings(@member)
+
+    @participant_stats = ParticipantStats.find_by_member_id_and_team_id(@member.id,@team.id) || ParticipantStats.new
 
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
 
@@ -217,6 +184,19 @@ class PlanController < ApplicationController
   end
 
   def submit_proposal
+    allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:team_id]}, 'submit_proposal', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'submit_proposal_not_allowed', :locals => {:message=>message} }
+          format.html { render 'submit_proposal_not_allowed', :layout => 'plan', :locals => {:message=>message} }
+        end
+      end
+      return
+    end
+
     @team = Team.find(params[:team_id])
     if params[:step].nil?
       render :action=> 'submit_proposal', :layout => 'plan'
@@ -236,16 +216,13 @@ class PlanController < ApplicationController
   end
 
   def get_templates
-
     # Set up all of the data I need for the templates to run
     # Build the templates in the templates.js template which will insert the HTML in script blocks text/html to hide them from browser processing
     # Add the directives to templates.js
     # Compile the templates when this loads into the browser
 
-
     old_ts = Time.local(2020,1,1)
     newer_ts = Time.local(2025,1,1)
-
 
     @comment = Comment.new(:created_at => old_ts, :updated_at => newer_ts)
 
@@ -261,72 +238,8 @@ class PlanController < ApplicationController
     @talking_point.id = 0
     @talking_point.version = 1
 
-
     # the templates are built in get_templates.js
     render :template => 'plan/get_templates.html' #, :content_type => 'application/javascript'
-    
-    
-=begin    
-    
-    render_to_string( :partial => 'plan/comment.html', :object => @comment) 
-
-strs.push render_to_string( :partial => 'plan/comment.html', :object => @comment,
-  :locals => { :item => Item.new, :down => 0, :up => 0,  :rated => 0, :mode=>'templ'})
-    
-    @team = Team.new(:com_criteria=>'4..7', :res_criteria=>'3..8')
-    @question = Question.new(:text => 'Question for template', :created_at => old_ts, :updated_at => old_ts, :answer_criteria=>'5..15',:idea_criteria=>'6..12')
-    @question.id = 1
-
-           
-    #@comment[:member_id] = @member.id
-    #@comment[:pic_id] = 10011
-    #@comment[:text] = ''
-    #@comment[:my_vote] = 0
-    #@comment[:up] = 0
-    #@comment[:down] = 0
-    #@comment[:par_id] = 0
-    #@comment[:sib_id] = 123
-    #@comment[:item_id] = 123
-    #@comment.member_id = 0
-    #@resources = [ Resource.new ] 
-    #@authors = [Member.new(:first_name=>'J', :last_name=>'Public') ]
-    #@authors[0].id = 0
-    #@comments = []
-    #@new_coms = @coms = 0
-    #@member = Member.new
-    #@member.id = 0
-    #
-    #strs.push render_to_string( :partial => 'comment', :object => @comment,
-    #  :locals => { :item => Item.new, :down => 0, :up => 0,  :rated => 0, :mode=>'templ'})
-    #
-    #strs.push '<hr/><h3>add_comment_combined</h3><hr/>'
-    #strs.push render_to_string(:partial => 'add_comment_combined', :locals => { :id => 1, :label=>'Please add your comment'})
-    #strs.push '<hr/><h3>add_answer</h3><hr/>'
-    #strs.push render_to_string(:partial => 'add_answer', :locals => { :question=>@question })
-    #strs.push '<hr/><h3>add_bs_idea</h3><hr/>'
-    #strs.push render_to_string(:partial => 'add_bs_idea', :locals => { :question=>@question })
-    #
-    #bs_idea = BsIdea.new(:member_id => @member.id, :created_at => old_ts, :updated_at => newer_ts)
-    #bs_idea.item_id = 1
-    #bs_idea['new_coms']  = bs_idea['coms'] = 0
-    #strs.push '<hr/><h3>bs_idea</h3><hr/>'
-    #strs.push render_to_string( :partial=> 'bs_idea', :object=>bs_idea, :locals=>{:mode=>'templ', :coms=>'t'} )
-    #
-    #answer = Answer.new :text=>'', :ver=>1, :item_id=>0
-		#answer['my_vote'] = answer['average'] = answer['count'] = 3
-    #strs.push '<hr/><h3>answer</h3><hr/>'
-    #strs.push render_to_string( :partial => 'answer', :object=>answer, :locals=> {:question=> @question, :title=>'Current answer', :def_ans=>nil, :is_def_ans=>false} )
-    #
-    #
-    ##strs.push '<hr/><h3>chat message</h3><hr/>'
-    ##strs.push render_to_string(:partial => '/team/chat')
-    #
-    #@endorsements = [Endorsement.new(:member_id=>1, :updated_at=> old_ts)]
-    #@member = Member.find(1)
-  	#@endorsers = [ @member ]
-    #strs.push '<hr/><h3>endorsement</h3><hr/>'
-    #strs.push render_to_string( :partial=> 'endorsements')
-=end     
     
   end
 

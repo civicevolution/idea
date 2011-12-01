@@ -41,27 +41,15 @@ class TalkingPoint < ActiveRecord::Base
     # either in team_registrations or a current or previous author of this TP
     cur_tp_member_id = self.member_id
     self.member_id = self.member.id
+    
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:talking_point_id => self.id, :tp_member_id => cur_tp_member_id}, 'edit_talking_point', self.member)
 
-    if self.member.confirmed
+    if allowed
       return true
     else
-      errors.add(:base, "Sorry, you must be a conifrmed member to edit this talking point.") 
+      errors.add(:base, message) 
       return false
     end
-
-    
-    return true if cur_tp_member_id == 10 # if the initial version was entered by the admin account 10, let someone else edit it
-
-    return true if cur_tp_member_id == self.member.id
-    # I'm not the current author
-    
-    return true unless TalkingPointVersion.find_by_member_id_and_talking_point_id(self.member.id, self.id).nil?
-    # Not a previous author
-    
-    return true unless TeamRegistration.find_by_member_id_and_team_id(self.member.id, self.team_id).nil?
-    # not a registered team member
-    errors.add(:base, "Sorry, you do not have permission to edit this talking point.") 
-    return false
   end
 
   def set_member_id

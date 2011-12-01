@@ -87,7 +87,6 @@ class Member < ActiveRecord::Base
     self.save
   end
   
-  
   def reserve_ape_code
     #if APP_NAME == 'app_2029' || Rails.env != 'production'
     #f self.domain == 'app_2029' || Rails.env != 'production'
