@@ -4,3 +4,11 @@
 	)}");
 
 	$('div.question_summary[id="#{question.id}"]').replaceWith(summary);
+	
+	// fade  out the old curated list
+	$('div.curated_list[id="#{question.id}"]').fadeOut(300,
+		function(){
+			$(this).remove();
+		}
+	);
+	

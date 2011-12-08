@@ -1,22 +1,17 @@
-- question['talking_points_to_display'] ||= question.top_talking_points
 %div.question_summary{:id=>question.id}
 	%p.question
 		= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}
 		
 	%div.talking_point_sec
 		%div.talking_points_list.summary.corner{:id=>question.id}
-			%ul.talking_points
-				- if question['talking_points_to_display'].size == 0
-					%p.example
-						Here are some
-						%b example 
-						talking points that describe CivicEvolution
-					%li Your community works together to create talking points to answer each question
-					%li A talking point is a short sentence that clearly states a single idea
-					%li We discuss, rate and refine the talking points to find those that are acceptable to most of our community
-					%li Anyone can suggest a talking point
-					-#%li Everyone should review, rate and discuss the talking points
-					%li Each time you return to this proposal, you will see the talking points that have been added or edited since your last visit
+			%ul.talking_points{:id=>question.id, :curated_tp_ids=>question.curated_tp_ids, :auto_curated=> question.auto_curated ? 't' : 'f'}
+				- if question.curated_talking_points.size == 0
+					- da = @default_answers.detect{|da| da.id == question.default_answer_id}
+					- if da
+						- da.checklist.split(/\n/).each do |point|
+							%li.checklist= point
+					- else
+						%li Click the question link above to help answer this question
 				
 					%div#add_tp.talking_point_form.hint.corner
 						%div.form.cta
@@ -30,18 +25,20 @@
 						%p.clear_both
 
 				- else
-					- question['talking_points_to_display'].each do |talking_point|
-						%li.talking_point= talking_point.text
-					- if question.talking_points.size - question['talking_points_to_display'].size > 0
+					- question.curated_talking_points.each do |talking_point|
+						%li.talking_point{:id=>talking_point.id}
+							= talking_point.text
+							= image_tag 'delete_icon_16.gif',{:title=>'Click to delete'}
+					-# if question.talking_points.size - question.curated_talking_points.size > 0
 						%div#add_tp.talking_point_form.hint.corner
 							%div.form.cta
-								%p Click here to display #{link_to pluralize( question.talking_points.size - question['talking_points_to_display'].size, 'more talking point'), question_summary_path(question.id, :all=>'t'), :remote=>true}
+								%p Click here to display #{link_to pluralize( question.talking_points.size - question.curated_talking_points.size, 'more talking point'), question_summary_path(question.id, :all=>'t'), :remote=>true}
 							%div.instr
 								%p 
 							%p.clear_both
 						
 					
-						-#%li= link_to pluralize( question.talking_points.size - question['talking_points_to_display'].size, 'more talking point'), question_summary_path(question.id, :all=>'t'), :remote=>true						
+						-#%li= link_to pluralize( question.talking_points.size - question.curated_talking_points.size, 'more talking point'), question_summary_path(question.id, :all=>'t'), :remote=>true						
 			
 			
 					%div#add_tp.talking_point_form.hint.corner

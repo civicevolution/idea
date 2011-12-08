@@ -37,4 +37,21 @@
 	var question_summary = $('div.question_summary[id="#{question.id}"]');
 	var q_link = question_summary.find('a.display_worksheet');
 	
-	question_summary.find('div.talking_point_sec').replaceWith(worksheet)
+	question_summary.find('div.talking_point_sec').replaceWith(worksheet);
+	worksheet.hide();
+	worksheet.slideDown(3000);
+	
+	function make_talking_points_draggable($talking_points){
+		$talking_points.draggable( {
+			revert: true,
+			revertDuration: 200,
+			//start: function(event,ui){temp.drag_ui = ui},
+			connectToSortable: $('div.curated_list[id="#{question.id}"] ul.talking_points'),
+			helper: 'clone'
+		});
+	}
+	if(am_curator){
+		make_talking_points_draggable( $('div.talking_points_list[id="#{question.id}"] p.talking_point') );
+	}
+	
+	

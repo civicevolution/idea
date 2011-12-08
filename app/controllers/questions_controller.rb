@@ -423,6 +423,26 @@ class QuestionsController < ApplicationController
     ActiveSupport::Notifications.instrument( 'tracking', :event => 'Question worksheet', :params => params.merge(:member_id => @member.id, :team_id=>@team.id)) unless @member.nil? || @member.id == 0
   end
   
+  def curate_tps
+    updated,message = Question.update_curated_talking_point_ids(params[:question_id],params[:tp_ids],'manual',@member)
+    if updated
+      render :template=>'questions/curate_tps_ok.js', :layout => false
+    else
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'curate_not_allowed', :locals => {:message=>message} }
+          format.html { render 'curate_not_allowed', :layout => 'plan', :locals => {:message=>message} }
+        end
+      end
+      return
+    end
+
+    # Do I need this?
+    #render :template=>'questions/curate_failed.js', :layout => false, :locals=>{:question=>question}
+  end
+  
   def update_worksheet_ratings
     
     unrecorded_talking_point_preferences = Question.update_worksheet_ratings( @member, params )

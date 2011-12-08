@@ -21,4 +21,8 @@
 	form.find('input[type="radio"]').attr('checked',false)
 	form.find('div#errorExplanation').remove();	
 	
+	if(am_curator){
+		make_talking_points_draggable( tp.find('p.talking_point') );
+	}
+	
 = render :template => 'shared/clear_sign_in_form.js'

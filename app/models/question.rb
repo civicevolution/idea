@@ -20,45 +20,15 @@ class Question < ActiveRecord::Base
     WHERE tp.question_id = #{id}
     GROUP BY tp.id, tp.version, tp.text, tp.order_id, tp.visible, tp.updated_at
     ORDER BY count(tpp.member_id) DESC, tp.id DESC| }
-  
 
+  
   has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :order => 'id asc', :include => :author
   has_many :recent_comments, :class_name => 'Comment', :foreign_key => 'parent_id', :conditions => 'parent_type = 1', :limit => 3, :order => "id DESC", :include => :author
   
-  
-  
   has_many :answers, :order => 'id asc'
-  has_many :bs_ideas, :order => 'id asc'
   
   validates_presence_of :text
   validates_length_of :text, :in => 12..200, :allow_blank => false
-  
-  #validate_on_create :check_team_access
-  #validate_on_update :check_item_edit_access
-    
-  #after_create :create_item_record
-  #after_destroy :delete_item_record
-  #before_destroy :check_item_delete_access
-  before_create :set_version
-    
-  #before_validation :check_team_access, :create_item_record
-  
-  #before_validation :check_initiative_restrictions, :on=>:create
-  #def check_initiative_restrictions
-  #  self.publish = true unless !self.member.confirmed
-  #  #logger.debug "Comment.check_initiative_restrictions"
-  #  self.member_id ||= self.member.id
-  #  allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.parent_id, :parent_type => self.parent_type}, 'contribute_to_proposal', self.member)
-  #  if !allowed
-  #    errors.add(:base, "Sorry, you do not have permission to add a question.") 
-  #    return false
-  #  end
-  #  true
-  #end
-  
-  
-  
-  
   
   attr_accessor :par_id
   attr_accessor :target_id
@@ -73,7 +43,48 @@ class Question < ActiveRecord::Base
   attr_accessor :num_new_talking_points
   attr_accessor :talking_points_to_display
   attr_accessor :member
+  attr_accessor :curated_talking_points_set
+  attr_accessor :previousText
+  attr_accessor :previousVer
+  attr_accessor :previousUpdated_at
   
+  def self.update_curated_talking_point_ids(question_id, tp_ids, mode, member)
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => question_id}, 'curate_talking_points', member)
+    if !allowed
+      return false, message
+    end
+    
+    Question.find(question_id).update_curate_fields(tp_ids,mode)  
+    return true
+  end
+    
+  def auto_curate_talking_points()
+    return if self.auto_curated == false
+    top_tp_ids = ActiveRecord::Base.connection.select_values(%Q|SELECT tp.id, COUNT(tpp.member_id) 
+    FROM talking_points tp LEFT JOIN talking_point_preferences tpp 
+    ON tp.id = tpp.talking_point_id
+    WHERE tp.question_id = #{self.id}
+    GROUP BY tp.id
+    ORDER BY COUNT(tpp.member_id) DESC
+    LIMIT 5|).collect{|id| id.to_i}.join(',')
+    self.update_curate_fields(top_tp_ids,'auto')
+  end
+  
+  def curated_talking_points
+    if self.curated_talking_points_set.nil?
+      # eager load the curated talking points and attach them to the questions in order as question.curated_talking_points
+      self.curated_talking_points_set = []
+      tp_ids = self.curated_tp_ids.nil? ? [] : self.curated_tp_ids.split(',').collect{|id| id.to_i}
+      #Query for all curated TP
+      talking_points = TalkingPoint.where(:id => tp_ids )
+
+      #iterate through talking points and assign the tp to the questions in order of curated ids
+      talking_points.each do |talking_point|
+        self.curated_talking_points_set[ tp_ids.index(talking_point.id) ] = talking_point
+      end
+    end
+    self.curated_talking_points_set
+  end
 
   def remaining_talking_points(ids)
     # process ids to make sure they are just numbers
@@ -121,39 +132,6 @@ class Question < ActiveRecord::Base
     ids = [0] if ids.size == 0
     Comment.includes(:author).where("parent_id = :question_id AND parent_type = 1 AND comments.id NOT IN (:current_com_ids)", :question_id => self.id, :current_com_ids => ids).order('id ASC')
   end
-
-
-  
-  # code required to record revision history for this item
-  def set_version 
-    self.ver = 0
-  end
-  
-  after_save :create_history_record
-
-  def store_initial_values
-    # save the previous state, this must be called manually because I don't want to call it everytime I read an answer record
-    # call store_initial_values after instantiating the object, but before I add the new parameters
-    self.previousText = self.text || ''
-    self.previousVer = self.ver || 0
-    self.previousUpdated_at = self.updated_at || nil
-  end
-
-  attr_accessor :previousText
-  attr_accessor :previousVer
-  attr_accessor :previousUpdated_at
-
-  @created_history_record = false
-
-  def create_history_record
-    return if @created_history_record # only create record once per save. update ver attribute will revisit here
-    diff = ItemDiff.new(:item => self)
-    diff.save!
-    @created_history_record = true
-    self.update_attribute :ver, diff.ver  # update the item ver
-  end
-  # end of code for revision history  
-  
   
   def o_type
     1 #type for Questions
@@ -208,19 +186,6 @@ class Question < ActiveRecord::Base
     )
   end
   
-  #def answers_with_ratings(memberId)
-  #  AnswerRating.find_by_sql([ %q|SELECT a.id, 
-  #    AVG(rating) AS average, 
-  #    COUNT(rating) AS count, 
-  #    (SELECT rating FROM answer_ratings WHERE member_id = ? AND answer_id = a.id) AS my_vote,
-  #    a.question_id, a.member_id, a.text, a.ver, a.created_at, a.updated_at
-  #    FROM answers a LEFT OUTER JOIN answer_ratings ar ON a.id = ar.answer_id
-  #    WHERE question_id = ?
-  #    GROUP BY a.id, a.question_id, a.member_id,a.text, a.ver, a.created_at, a.updated_at|, memberId, self.id ]
-  #  )
-  #end
-  
-  
   def self.com_counts(question_ids, last_visit_ts)
     ActiveRecord::Base.connection.select_all(
       %Q|select ques_id,
@@ -248,6 +213,28 @@ class Question < ActiveRecord::Base
     tp_ids = params[:tp_ids].split(',')
 
     unrecorded_talking_point_preferences = TalkingPointPreference.update_preferred_talking_points( params[:question_id], selected_ids, tp_ids, member )
+    
+  end
+
+protected
+
+  def update_curate_fields(tp_ids,mode)
+    if tp_ids.strip != ''
+      self.curated_tp_ids = tp_ids
+      self.auto_curated = mode == 'auto' ? true : false
+      self.save(:validate => false)
+    else
+      if self.talking_points.size>0
+        self.auto_curated = true 
+        self.auto_curate_talking_points()
+        return
+      else
+        return
+      end
+    end
+
+    # record curation history
+    # record curation participation event
     
   end
   

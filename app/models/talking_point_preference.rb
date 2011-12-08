@@ -12,10 +12,13 @@ class TalkingPointPreference < ActiveRecord::Base
 	before_validation :check_initiative_restrictions
 	
 	before_validation :verify_less_than_allowed_limit, :on => :create
+	after_save :check_auto_curate
 	
 	def verify_less_than_allowed_limit
+	  @question = Question.find_by_sql(%Q|SELECT * FROM questions 
+	    WHERE id = (SELECT question_id FROM talking_points WHERE id = #{self.talking_point_id})|)[0]
 	  preferences = TalkingPointPreference.where(:member_id => member.id, :talking_point_id => TalkingPoint.sibling_talking_points(self.talking_point_id).map(&:id)).count
-	  if preferences > 4
+	  if preferences >= @question.talking_point_preferences.to_i
       errors.add(:base, "Sorry, you have already selected the maximum number of preferred talking points for this question.") 
     end
   end
@@ -68,10 +71,12 @@ class TalkingPointPreference < ActiveRecord::Base
       TalkingPointPreference.delete_all(:talking_point_id=> ids_to_remove, :member_id => member.id)
     end
     
-    question = Question.find( question_id )
-    TalkingPoint.get_and_assign_stats( question, question.talking_points, member )
-    return question
+    @question = Question.find( question_id )
+    TalkingPoint.get_and_assign_stats( @question, @question.talking_points, member )
     
+    @question.auto_curate_talking_points() if @question.auto_curated
+    
+    return @question
   end
 
   def self.update_preferred_talking_points( question_id, selected_ids, tp_ids, member )
@@ -107,6 +112,13 @@ class TalkingPointPreference < ActiveRecord::Base
   def type_text
     'talking point preference' #type for talking point
   end
-
-
+  
+protected
+  def check_auto_curate
+    if @question.auto_curated
+      @question.auto_curate_talking_points()
+    end
+  end
+  
+  
 end

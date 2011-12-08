@@ -1,7 +1,7 @@
 $(function(){
-		if(params['rt']){
+		//if(params['rt']){
 			setTimeout(load_templates, 100);
-		}
+		//}
 });
 
 function load_templates(){
@@ -10,7 +10,9 @@ function load_templates(){
 			//console.log("PURE is loaded, now load and process the templates")
 			$('<div id="123123"></div>').appendTo('body').load('/plan/get_templates',null,
 				function(){
-					setTimeout(init_load_juggernaut, 100);
+					if(params['rt']){
+						setTimeout(init_load_juggernaut, 100);
+					}
 				}
 			);
 		}

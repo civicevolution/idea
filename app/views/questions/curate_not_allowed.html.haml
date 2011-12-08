@@ -1,0 +1,8 @@
+- message ||= nil
+%div
+	- if message.nil?
+		%h3 You are not authorized to select and arrange talking points for this question
+	- else
+		%h3= message
+		
+	%p If you believe this is an error please contact your group administrator

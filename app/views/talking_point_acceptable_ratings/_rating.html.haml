@@ -16,8 +16,8 @@
 
 				%div.graph.js
 					- talking_point.rating_votes.each_index do |i|
-						%div.bar.zero{:style=>"left: #{barw * i + 24}px; height: 100%"}
-						%div.bar{:class=> "bar#{i+1}", :style=>"left: #{barw * i + 24}px; height: #{talking_point.rating_votes[i] == 0 ? 0 : talking_point.rating_votes[i].to_f/vote_max * 100}%"}
+						%div.bar.zero{:style=>"left: #{barw * i + 4}px; height: 100%"}
+						%div.bar{:class=> "bar#{i+1}", :style=>"left: #{barw * i + 4}px; height: #{talking_point.rating_votes[i] == 0 ? 0 : talking_point.rating_votes[i].to_f/vote_max * 100}%"}
 		
 		%div.radios
 			- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
@@ -41,7 +41,7 @@
 						- if talking_point.rating_votes[i] > 0
 							%div{:class=> i<2 ? 'bar' : i==2 ? 'bar neutral' : 'bar bad',  :style=>"top: #{barh * i}px; height: #{barh - 2}px; width: #{talking_point.rating_votes[i].to_f/vote_max * 100}%"}
 			
-			- if !talking_point.my_rating.nil? && talking_point.my_rating > 3		
+			- if !talking_point.my_rating.nil? && talking_point.my_rating < 4		
 				%p.clear_both
 				%p.suggest.hide
 					= link_to 'Add a comment', talking_point_comments_path(talking_point), { :class=> 'tp_add_com', :id=>talking_point.id, :remote=>true}

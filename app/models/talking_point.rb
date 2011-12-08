@@ -27,9 +27,11 @@ class TalkingPoint < ActiveRecord::Base
   
   after_save :log_team_content
   around_update :update_version
+  after_create :check_auto_curate
 
   def check_length
-    range = Question.find(self.question_id).talking_point_criteria
+    @question = Question.find(self.question_id)
+    range = @question.talking_point_criteria
     range = range.match(/(\d+)..(\d+)/)
     length = text.scan(/\S/).size
     errors.add(:text, "must be at least #{range[1]} characters") unless length >= range[1].to_i
@@ -70,7 +72,7 @@ class TalkingPoint < ActiveRecord::Base
     self.version = self.version.nil? ? 1 : self.version + 1
     allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:question_id=>self.question_id}, 'contribute_to_proposal', self.member)
     if !allowed
-      errors.add(:base, "Sorry, you do not have permission to add a talking point.") 
+      errors.add(:base, "#{message} - you do not have permission to add a talking point") 
       return false
     end
     true
@@ -181,5 +183,13 @@ class TalkingPoint < ActiveRecord::Base
   def type_text
     'talking point' #type for talking point
   end
+
+protected
+  def check_auto_curate
+    if @question.auto_curated
+      @question.auto_curate_talking_points()
+    end
+  end
+  
   
 end

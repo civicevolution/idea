@@ -59,6 +59,23 @@ class Team < ActiveRecord::Base
     ProposalStats.select("title, solution_statement, ps.*").joins(" as ps JOIN teams AS t ON ps.team_id = t.id").where("t.initiative_id = ? and t.archived = false", initiative_id)
   end
   
+  def include_curated_talking_points
+    # eager load the curated talking points and attach them to the questions in order as question.curated_talking_points
+    #iterate through to collect the curated_ids
+    tp_ids = {}  
+    self.questions.each do |question|
+      tp_ids[question.id] = question.curated_tp_ids.nil? ? [] : question.curated_tp_ids.split(',').collect{|id| id.to_i}  
+      question.curated_talking_points_set = []
+    end
+    
+    #Query for all curated TP
+    talking_points = TalkingPoint.where(:id => tp_ids.values.flatten)
+
+    #iterate through talking points and assign the tp to the questions in order of curated ids
+    talking_points.each do |talking_point|
+      self.questions.detect{|q| q.id == talking_point.question_id}.curated_talking_points_set[ tp_ids[talking_point.question_id].index(talking_point.id) ] = talking_point
+    end
+  end
   
   def o_type
     4 #type for Teams

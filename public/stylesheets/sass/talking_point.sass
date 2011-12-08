@@ -156,7 +156,7 @@ $graph_red: #cf725f
 
 $talking_points_page_width: 778px
 $page_indent: 20px
-$talking_point_width: 428px
+$talking_point_width: 400px
 
 
 $stats_background: #e1e8c4 // #cdd89d
@@ -481,7 +481,9 @@ div.talking_point_body
 		margin-left: 40px
 	p.talking_point
 		font-size: 1.28em
+		margin-right: 10px
 	div.talking_point_controls
+		margin-right: 10px
 		p
 			margin-top: -4px
 		p.coms
@@ -526,7 +528,7 @@ div.talking_point_acceptable
 			text-align: center
 			margin: 0 0 7px 0
 		div.radios
-			margin: 0 15px
+			//margin: 0 15px
 			font-size: 75%
 			white-space: nowrap
 			input, label
@@ -535,15 +537,15 @@ div.talking_point_acceptable
 				vertical-align: 25%
 				margin-left: 2px
 			div.bar1
-				background-color: $graph_green
+				background-color: $graph_red
 			div.bar2
-				background-color: $graph_greenish
+				background-color: $graph_reddish
 			div.bar3
 				background-color: $graph_yellow
 			div.bar4
-				background-color: $graph_reddish
+				background-color: $graph_greenish
 			div.bar5
-				background-color: $graph_red
+				background-color: $graph_green
 				
 			div
 				height: 22px
@@ -556,7 +558,7 @@ div.talking_point_acceptable
 					margin: 3px 0 0 3px
 					padding: 0
 	div.my_rating.js
-		width: 137px
+		width: 105px
 		div.radios
 			div
 				float: left
@@ -598,15 +600,15 @@ div.community_rating
 		position: absolute
 		
 	div.bar.bar1
-		background-color: $graph_green
+		background-color: $graph_red
 	div.bar2	
-		background-color: $graph_greenish
+		background-color: $graph_reddish
 	div.bar3
 		background-color: $graph_yellow
 	div.bar4
-		background-color: $graph_reddish
+		background-color: $graph_greenish
 	div.bar5
-		background-color: $graph_red
+		background-color: $graph_green
 		
 	div.bar.zero
 		background-color: #fff
@@ -956,14 +958,15 @@ div.talking_point_acceptable
 	div.my_rating 
 		float: left
 		margin-left: 6px
-		div.radios
-			margin: 0 20px
+		//div.radios
+		//	margin: 0 20px
 	div.community_rating
 		float: none		
 	div.my_rating.js
-		width: 147px
+		//width: 147px
 		p.option
-			white-space: nowrap
+			//white-space: nowrap
+			height: 36px
 			font-size: .9em
 			margin-top: 4px
 		p.clear_both
@@ -979,13 +982,16 @@ div.talking_point_acceptable
 		height: 30px
 div.favorite
 	float: left
-	margin-left: -20px
+	//margin-left: -20px
 	margin-top: 26px
 	span.fav_cnt
 		font-size: 2em
 	button
 		cursor: pointer
-
+		img
+			display: block
+			margin-left: auto
+			margin-right: auto
 div.talking_point_body
 	background: none
 	background: url(/images/white_bulb_sm.gif) no-repeat 8px 20px
@@ -996,7 +1002,7 @@ div.talking_point_body
 		font-size: .9em
 	
 div.talking_point_entry
-	background: $talking_point_bg url(/images/rate-bg-g.gif) repeat-y 430px
+	background: $talking_point_bg url(/images/rate-bg-g.gif) repeat-y 380px
 	border: 1px solid #BCC3D0
 	width: 100%
 div.talking_points_list
@@ -1005,17 +1011,16 @@ div.talking_point_sec
 	margin-left: 0
 div.question_worksheet
 	padding: 0
-	width: 676px
+	width: 600px
 form.talking_point_form
-	width: 360px
+	width: 320px
 	div.form_controls 
-		width: 360px
+		width: 320px
 		span.char_ctr
-			left: 160px
+			left: 120px
 		
 div.talking_point_form
-	//background: $talking_point_bg url(/images/rate-bg-g.gif) repeat-y 430px
-	background: $cta_bg_left url(/images/rate-bg-gr.gif) repeat-y 430px
+	background: $cta_bg_left url(/images/rate-bg-gr.gif) repeat-y 380px
 	width: 100%
 	border: 1px solid #BCC3D0
 	div.form
@@ -1024,9 +1029,9 @@ div.talking_point_form
 		//border: 1px solid red
 		width: $talking_point_width
 		padding: 0 10px
-		h3,p
+		h3,h4,p
 			margin: 1em 0
-		h3, div.form_controls, textarea, p
+		h3,h4, div.form_controls, textarea, p
 			margin-left: 40px
 		form
 			margin-bottom: 0
@@ -1035,12 +1040,12 @@ div.talking_point_form
 	div.instr
 		//border: 1px solid green
 		float: left
-		width: 190px
-		margin-right: 10px
-		margin-left: 15px
+		width: 160px
+		//margin-right: 10px
+		//margin-left: 15px
 		//margin-bottom: 1em
 		p
-			font-size: 1em
+			font-size: .9em
 			margin: 1em 0
 div.form_controls
 	margin-bottom: 1em
@@ -1054,9 +1059,9 @@ div.talking_point_form.disc
 		background: url(/images/comment1-gr1.gif) no-repeat 8px 14px
 		//border: 1px solid red
 		//float: left
-		width: 428px
+		width: 400px
 		p
-			font-size: 1.2em
+			font-size: 1em
 	
 div.ques_discussion
 	margin-top: 30px
@@ -1111,6 +1116,9 @@ div.question_summary
 			margin-left: -20px
 			p
 				font-size: 1.2em
+			p.close
+				font-size: .8em
+				margin-left: 30px
 
 div.cta_block 
 	div.num
@@ -1129,12 +1137,12 @@ ul.talking_points
 		font-style: italic
 		font-size: 1.2em
 		margin-left: -20px
+	li.checklist
+		font-style: italic
 		
 div.talking_point_form.hint		
 	//background: $cta_bg_left
-	background: $cta_bg_left url(/images/rate-bg-gr.gif) repeat-y 430px
-	
-	margin-bottom: 8px
+	background: $cta_bg_left url(/images/rate-bg-gr.gif) repeat-y 380px
 	p	
 		font-size: .9em
 	div.instr
@@ -1152,3 +1160,79 @@ div.endorsements
 			font-size: 1em
 div#submit
 	margin-top: 60px
+
+div.curated_list
+	position: absolute
+	background-color: white
+	border: 2px solid $cta_bg_left
+	//font-size: 1.2em
+	div.summary
+		margin-right: 0
+	div.talking_point_form.hint p 
+		font-size: auto
+	div.cta
+		width: auto
+		//ul
+		//	margin-left: 20px
+	p
+		margin-left: 20px
+		//font-weight: bold
+	p.question
+		margin: 10px 0 20px 10px
+		cursor: normal
+	li
+		margin: 0 10px 10px 10px
+	li.talking_point
+		padding-right: 20px
+		position: relative
+		img
+			position: absolute
+			top: 4px
+			right: 0
+			display: none
+		img.show	
+			display: block
+			cursor: pointer
+		//background: url(/images/delete_icon_16.gif) no-repeat 100% 8px 
+		
+li.talking_point
+	img
+		display: none
+	
+div.left_side
+	width: 620px
+div.right_side
+	width: 340px
+div.talking_points_list
+	div.msg
+		position: absolute
+		top: 0
+		background-color: white
+		display: none
+		height: 100%
+		width: 100%
+		p
+			font-size: 1.2em
+			margin: 20px
+div.talking_point_sec
+	h2
+		margin: 2em 0 3em 1em
+.curated_list_placeholder
+	height: 4em
+	line-height: 1.2em
+	background-color: $talking_points_list
+
+img.close_worksheet
+	cursor: pointer
+div.talking_point_form	
+	div.instr.icon
+		position: relative
+		img
+			position: absolute
+			top: 16px
+			left: 0
+		p
+			margin-left: 22px
+a.close_worksheet
+	img
+		margin-right: 8px

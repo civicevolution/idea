@@ -2,7 +2,7 @@
 %div.favorite		
 	- votes = talking_point.preference_votes.nil? ? 0 : talking_point.preference_votes
 	- my_fav = talking_point.my_preference.nil? ? 'true' : talking_point.my_preference ? 'false' : 'true'
-	%button{:val=> my_fav}
+	%button.corner{:val=> my_fav}
 		- if talking_point.my_preference
 			= image_tag('tp-star-g.gif')
 		- else

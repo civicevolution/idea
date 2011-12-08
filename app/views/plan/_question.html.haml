@@ -17,8 +17,8 @@
 				%div#add_tp.talking_point_form.hint.corner
 					%div.form.cta
 						%p Please create, discuss, rate and refine the talking points below to answer this question and find those that are acceptable to most of our community
-					%div.instr
-						%p= link_to "Close this talking points worksheet", question_summary_path(question.id), :remote=>true
+					%div.instr.icon
+						%p= link_to image_tag('close_icon_16.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}) + "Close this talking points worksheet", question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
 						
 					%p.clear_both
 				
@@ -102,5 +102,6 @@
 		-#= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
 		
 		- if request.xhr?
-			%p.worksheet_intro= link_to "Close this talking points worksheet", question_summary_path(question.id), :remote=>true
+			%p.worksheet_intro
+				= link_to image_tag('close_icon_16.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}) + "Close this talking points worksheet", question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
 			

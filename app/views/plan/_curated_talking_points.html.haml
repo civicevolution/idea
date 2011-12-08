@@ -1,0 +1,45 @@
+%div.talking_point_sec.corner
+
+	%p.question Insert question here
+
+	%div.talking_points_list.summary.corner
+		-#%p.no_talking_points No talking points have been created for this answer
+		%ul.talking_points
+			%li.talking_point#0
+				%i This section will list the talking points that can best answer this question
+			%li.talking_point#0 
+				%i No talking points have been created for this answer, yet.
+			%li.talking_point#0 
+				%i Please consider adding a talking point with the form on the left
+
+	%div#add_tp.talking_point_form.hint.corner.curated
+		%div.form.cta
+			%p 
+				These talking points were selected and ordered to reflect the preferences of the group
+				= link_to "Learn more"
+		%p.clear_both
+
+	%div#add_tp.talking_point_form.hint.corner.non_curated
+		%div.form.cta
+			%p 
+				These are the top talking points from the group
+				= link_to "Learn more"
+		%p.clear_both
+
+	%div#add_tp.talking_point_form.hint.corner.curator
+		%div.form.cta
+			%h4 You can help create this list
+			%ul
+				%li 
+					Select talking points from the left by dragging them into the list above
+					= link_to "Show me how"
+				%li Arrange the list items by dragging them up or down
+				%li This list should reflect the ratings and favorites of the group
+				-#%li This list should answer the question in a way that is acceptable to most of your community.
+			%p.close
+				= check_box_tag :hide_help
+				Don't show this help panel again
+				-#= link_to "X close"
+		%p.clear_both
+		
+

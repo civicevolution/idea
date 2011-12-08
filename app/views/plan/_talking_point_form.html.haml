@@ -1,7 +1,7 @@
 %p.clear_both
 %div.talking_point_form.corner
 	%div.form
-		%h3 Share a new talking point
+		%h4 Share a new talking point
 	
 		- if flash[:worksheet_error]
 			- flash[:worksheet_error].full_messages.each do |e|
@@ -44,12 +44,12 @@
 
 %div.talking_point_form.disc.corner
 	%div.form
-		%h3 What do you think?
+		%h4 What do you think?
 		%p Discuss this question and the talking points listed above
 
 	%div.instr
 		%p 
-			Comment can be up to 1500 characters long and will be posted with your name.
+			Comments can be up to 1500 characters long and will be posted with your name.
 			= link_to "Help", visual_help_path, {:remote=>true}
 				
 	%p.clear_both

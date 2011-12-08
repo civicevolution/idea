@@ -5,7 +5,7 @@ ANSWER_RATING_OPTIONS = {1 =>  'Not important at all', 2 => "Not too important",
 
 ANSWER_RATING_OPTIONS_G = {1 =>  'Strongly disagree', 2 => "Disagree", 3 => "Neutral", 4 => 'Agree', 5 => 'Strongly agree'}
 
-TALKING_POINT_RATING_OPTIONS = {1 =>  'Perfectly acceptable', 2 => "Acceptable", 3 => "Neutral", 4 => 'Unacceptable', 5 => 'Completely unacceptable'}
+TALKING_POINT_RATING_OPTIONS = {1 => 'Completely unacceptable', 2 => 'Unacceptable', 3 => "Neutral", 4 => "Acceptable", 5 =>  'Perfectly acceptable'}
 
 Paperclip.interpolates :ape_code do |attachment, style|
   attachment.instance.ape_code

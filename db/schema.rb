@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111129203400) do
+ActiveRecord::Schema.define(:version => 20111206173029) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -710,6 +710,8 @@ ActiveRecord::Schema.define(:version => 20111129203400) do
     t.string   "talking_point_criteria"
     t.string   "talking_point_preferences"
     t.boolean  "inactive",                  :default => false
+    t.string   "curated_tp_ids"
+    t.boolean  "auto_curated",              :default => true
   end
 
   create_table "ratings", :force => true do |t|

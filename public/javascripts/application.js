@@ -50,8 +50,31 @@ function ajaxEnableElement(el){
 		element.removeClass('loading');
 		element.removeData('ujs:enable_with'); // clean up cache
 	}
-	//element.unbind('click.railsDisable'); // enable element
+	element.unbind('click.railsDisable'); // enable element
 }
+
+$('a.display_worksheet').live('ajax:beforeSend', 
+	function(){
+		// if the WS is already open, return false
+		var id = Number($(this).attr('href').match(/\d+/));
+		var disable_flag = $('div.worksheet[id="' + id + '"]').size() > 0 ? true : false
+		console.log("display_worksheet beforeSend disable_flag: " + disable_flag )
+		if(disable_flag){
+			// make sure the link is restored
+			temp.dw_link = this;
+			setTimeout(function(){ajaxEnableElement(this)}.bind(this),10);
+			return false;
+		}else{
+			open_question_worksheet(this);
+		}
+	}
+)
+
+$('a.close_worksheet').live('ajax:beforeSend', 
+	function(){
+		close_question_worksheet(this);
+	}
+)
 
 $('a[data-remote]').live('ajax:beforeSend', 
 	function(){
@@ -64,7 +87,6 @@ $('a[data-remote]').live('ajax:beforeSend',
 		ajaxEnableElement(this)	
 	}
 )
-
 
 function init_page(){
 	//console.log("init_page")

@@ -17,8 +17,6 @@ class Comment < ActiveRecord::Base
   
   #validates_length_of :text, :in => 5..1500, :allow_blank => false
   
-  #before_validation :check_team_access, :on=>:create  # checks team access and sets the team_id
-  
   before_validation :check_initiative_restrictions, :on=>:create
   
   validate :check_com_edit_access, :on=>:update
@@ -116,42 +114,6 @@ class Comment < ActiveRecord::Base
     child_coms.each{|c| c['question_id'] = com_lookup[c.parent_id]}
   end
     
-  def check_team_access
-    self.publish = true unless !self.member.confirmed
-    logger.debug "validate check_team_access, @par_id: #{@par_id}"
-    par_item = Item.find_by_id(@par_id);
-    self.team_id = par_item.team_id
-    
-    if !self.member.nil?
-      # this is access check for the idea page version
-      allowed,message = InitiativeRestriction.allow_actionX({:team_id=>self.team_id}, 'contribute_to_proposal', self.member)
-      if !allowed
-        errors.add(:base, "Sorry, you do not have permission to add a comment.") 
-        return false
-      end
-      return
-    end
-    
-    is_team_member = !( TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.team_id).nil? )
-    # return as ok if user is a team member or parent is the public discussion
-    return if is_team_member || par_item.o_type == 11
-
-    logger.debug "check for pub anc self.team_id: #{self.team_id}"
-    # determine if this is under a public discussion, is any ancestor, type 11?
-    pub_par_item = Item.find(
-      :all,
-      :select=>'id',
-      :conditions=> {:team_id=>self.team_id , :o_type=>11, :id => par_item.ancestors.split(/[^\d]/).map { |s| s.to_i }.uniq }
-    )
-    #logger.debug "pub_par_item.size: #{pub_par_item.size}"
-
-    if pub_par_item.size == 0
-      errors.add(:base, "This discussion is private and you must be a team member to participate.") 
-      return false
-    end
-    # errors.add(:base, "You must sign in to continue")
-  end  
-  
   def check_com_edit_access
     logger.debug "validate check_com_edit_access"
   
@@ -171,25 +133,7 @@ class Comment < ActiveRecord::Base
       end
       return
     end
-    
-    
-    # are you a still a team member
-    is_team_member = !( TeamRegistration.find_by_member_id_and_team_id(self.member_id, self.team_id).nil? )
-    # return as ok if user is a team member
-    return if is_team_member
 
-    # determine if this is under a public discussion, is any ancestor, type 11?
-    item = Item.find_by_o_id_and_o_type(self.id, self.o_type)
-    pub_par_item = Item.find(
-      :all,
-      :select=>'id',
-      :conditions=> {:team_id=>self.team_id , :o_type=>11, :id => item.ancestors.split(/[^\d]/).map { |s| s.to_i }.uniq }
-    )
-    #logger.debug "pub_par_item.size: #{pub_par_item.size}"
-    if pub_par_item.size == 0
-      errors.add(:base, "This discussion is private and you must be a team member to participate.") 
-      return false
-    end
   end  
   
   def self.member_confirmed_publish(member_id)

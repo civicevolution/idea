@@ -1,0 +1,95 @@
+- logger.debug "\n\n*************** Begin to render the proposal page\n\n"
+- edit_mode ||= false
+%div.proposal_page
+	%style
+		:sass
+			$talking_points_list: #ececec
+			$cta_bg_left: #e1e8c4
+			body
+				width: 600px
+				margin: 2em
+				div.page
+					width: 360px
+			
+			div.question_summary
+				div.talking_point_sec	
+					background: $talking_points_list
+					border: 2px solid $cta_bg_left
+					margin-bottom: 40px
+					p.question
+						margin-left: 12px
+						margin-top: 12px
+					div.talking_points_list.summary
+						margin-right: 0
+						margin-bottom: 0
+						padding-left: 12px
+						ul
+							margin-bottom: 0
+							li	
+								font-size: 1em
+						p.no_talking_points
+							font-style: italic
+							margin-left: 2em
+							margin-bottom: 2em	
+				div.talking_point_form	
+					margin-bottom: 0
+					div.form.cta
+						width: auto
+						ul
+							padding-left: 50px
+							li
+								margin-bottom: 6px
+				div.talking_point_form.hint						
+					p.close
+						font-size: .8em
+						margin-left: 30px
+								
+			table.question_talking_points
+				td
+					vertical-align: top
+					input[type=text]
+						width: 25px
+					padding-bottom: 1em
+					
+	#:javascript
+	-#	var pub_sub_channels = #{@channels}
+
+	%div.intro
+		-#%div.suggest_title
+			%img{:src=>@team.organizer.photo.url('36'),:class=>'i36'}
+			%h3 #{@team.organizer.first_name} #{@team.organizer.last_name} suggested this idea for change:
+		%h2.home_title 
+			%span #{@team.title}
+
+		%div.summary
+			= simple_format h @team.solution_statement
+
+	- questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
+	= render :partial=> 'question_summary', :collection => questions, :as => :question, :locals => {:questions => questions, :edit_mode => edit_mode}
+
+	%div.participants
+		%h3 Participants who helped with this proposal
+	
+		-#%p These community members are already involved in creating this proposal
+
+		- @team.participants.each do |participant|
+			%p
+				%img{:src=>participant.photo.url('36'),:class=>'i36'}
+				= participant.first_name
+				= participant.last_name
+
+		%h3 Proposal participation stats
+		%table
+			%tbody
+				%tr.stripe
+					%td= pluralize( @team.participants.size, 'participant')
+				- if @team.stats
+					-	PARTICIPATION_EVENT_POINTS.values.find_all{|pep| pep['summary_order'] && pep['summary_order'].to_i != 0}.sort{|a,b| a['summary_order'].to_i<=>b['summary_order'].to_i}.each do |stat|
+						%tr{:class=>cycle('','stripe')}
+							%td
+								= pluralize(@team.stats[stat['col_name']], stat['summary_title']) 					
+	
+	
+	
+	= render :partial => 'endorsements/endorsements', :locals=> {:print=>true}
+

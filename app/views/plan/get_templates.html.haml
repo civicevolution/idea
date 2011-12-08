@@ -65,7 +65,7 @@
 			);
 			realtime_data_update_functions['Comment'] =
 				function(data){
-					console.log("insert a comment v7");
+					//console.log("insert a comment v7");
 					// testing mode, change the id of the existing element in the page
 					//$('div.Comment[id="' + data.data.comment.id + '"]').attr('id', '123123');
 					
@@ -74,7 +74,7 @@
 					var old_com = $('div.Comment[id="' + data.data.comment.id + '"]');
 					if(old_com.size()>0){
 						// replace the text only
-						console.log("replace the text only");
+						//console.log("replace the text only");
 					  old_com.find('div.comment_text').replaceWith( $(com).find('div.comment_text'));
 						reformat_comment_quote(old_com);
 					}else{
@@ -116,7 +116,7 @@
 						}catch(e){}
 					}
 				}
-			console.log("Comment template is ready");
+			//console.log("Comment template is ready");
 
 
 
@@ -138,7 +138,7 @@
 			);
 			realtime_data_update_functions['TalkingPoint'] =
 				function(data){
-					console.log("insert a TalkingPoint v2 with id: " + data.data.talking_point.id);
+					//console.log("insert a TalkingPoint v2 with id: " + data.data.talking_point.id);
 					temp.tp_data = data;
 
 					tp = template_functions['TalkingPoint'](data);
@@ -154,13 +154,13 @@
 						var old_tp = par_div.find('div.talking_point_entry[id="' + data.data.talking_point.id + '"]');
 						if(old_tp.size()>0){
 							// replace the text only
-							console.log("replace the text only");
+							//console.log("replace the text only");
 						  old_tp.find('p.talking_point').html(data.data.talking_point.text);
 							// update the versions link
 							temp.old_tp = old_tp
 							old_tp.find('a.versions').removeClass('hide').html( (data.data.talking_point.version - 1) + ((data.data.talking_point.version-1) == 1 ? ' version' : ' versions'));
 						}else{
-							console.log("insert a new TP")
+							//console.log("insert a new TP")
 							// insert a new tp
 							tp = $(tp).insertBefore( par_div.find('p.new_tp_insert_point') );
 							temp.tp = tp;
@@ -186,19 +186,19 @@
 					}
 				}
 
-			console.log("TalkingPoint template is ready");
+			//console.log("TalkingPoint template is ready");
 			
 			realtime_data_update_functions['TalkingPointPreference'] =
 				function(data){
 					//console.log("insert a TalkingPointPreference v1 with id: " + data.data.id) ;
 					$('div.talking_point_entry[id="' + data.data.id + '"] span.fav_cnt').html(data.data.count);
 				}	
-			console.log("TalkingPointPreference function is ready")
+			//console.log("TalkingPointPreference function is ready")
 
 
 			realtime_data_update_functions['TalkingPointAcceptableRating'] =
 				function(data){
-					console.log("insert a TalkingPointAcceptableRating v2 with id: " + data.data.id);
+					//console.log("insert a TalkingPointAcceptableRating v2 with id: " + data.data.id);
 					
 					var vote_max = 0
 					var num_votes = 0
@@ -223,4 +223,193 @@
 					
 					$('div.talking_point_entry[id="' + data.data.id + '"] p.talking_point_ratings').html(num_votes + (num_votes == 1 ? ' rating' : ' ratings'));
 				}
-			console.log("TalkingPointAcceptableRating function is ready")
+				
+			//console.log("TalkingPointAcceptableRating function is ready")
+
+	%script#curated_talking_points_template{:type=>'text/html'}
+		:plain
+			#{render( :partial => 'plan/curated_talking_points.html')}
+		
+	%script#create_curated_talking_points_template
+		:plain
+			templates['curated_talking_points'] = $('<div></div>').html($.trim( $('script#curated_talking_points_template').html() )).find('div:first');
+			template_functions['curated_talking_points'] = templates['curated_talking_points'].compile(
+				{
+					'@id' : 'id',
+					'p.question' : 'question',
+					'div.curated@class+' : 'hide.curated',
+					'div.non_curated@class+' : 'hide.non_curated',				
+					'div.curator@class+' : 'hide.curator'
+				}
+			);
+			
+			function open_question_worksheet(el){
+				//console.log("insert a curated_talking_points list v2");
+				el = $(el);
+				var question_id = el.closest('div.question_summary').attr('id');
+				//console.log("open_question_worksheet v2 ")
+				// scroll to top
+				$.scrollTo(el,1000);
+				$('div.right_side').fadeTo(2000,.2);
+
+				var tp_sec = el.closest('div.question_summary').find('div.talking_points_list');
+				var ul = el.closest('div.question_summary').find('ul');
+				
+				var curated_tps_exist = ul.attr('curated_tp_ids') && ul.attr('curated_tp_ids') != ''
+
+				var data = {
+					question: el.html(),
+					id: question_id, 
+					hide:{ 
+						curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 't' ? '' : ' hide',
+						non_curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 'f' ? '' : ' hide',
+						curator: am_curator && curated_tps_exist ? '' : ' hide'
+					}
+				}
+				
+				//	no_tp: ul.find('li').size()>0 ? ' hide' : '',
+				//	curator_instr: am_curator ? '' : ' hide',
+				//	non_curator_instr: am_curator ? ' hide' : ''
+				
+				
+				if(!curated_tps_exist) data.hide.non_curator_instr = ' hide'
+
+				var ul_offset = ul.offset();
+				
+				var list_div = $(template_functions['curated_talking_points'](data)).appendTo('body');
+				
+				// only replace UL with a curated list
+				if( curated_tps_exist ){
+					list_div.find('ul.talking_points').replaceWith(ul.clone());
+				}else{
+					list_div.find('ul.talking_points').attr('id',question_id);
+				}
+				
+				list_div.find('ul div').remove();
+				list_div.addClass('curated_list corner')
+
+				list_div.css({top: ul_offset.top, left: ul_offset.left, width: ul.width()});
+
+				$('<div class="msg"><h2>...loading the talking points worksheet</h2></div>').insertAfter(tp_sec);
+				tp_sec.hide(1000);
+
+				list_div.animate({top: el.parent().offset().top + 20 +'px', left: ul_offset.left + 620 + 'px', width: '360px', 'font-size': '.9em'},1000,
+					function(){
+						$(this).css( {position: 'fixed', top: '4px'});
+					}
+				);
+
+				init_currated_list(question_id);
+				return false;
+			}
+
+			
+			function close_question_worksheet(el){
+				$('div.right_side').fadeTo(2000,1)
+				el = $(el);
+				var worksheet = el.closest('div.worksheet');
+				worksheet.slideUp(2000);
+				
+				// scroll to top of question
+				$.scrollTo(el.closest('div.question_summary'),1000);
+
+				q = worksheet.closest('div.question_summary').children('p.question');
+				var new_top = q.offset().top + q.height();
+				var new_left = q.offset().left;
+			
+				var div_list = $('div.curated_list[id="' + worksheet.attr('id') + '"]');
+				
+				var inner_list = div_list.find('div.talking_points_list');
+				inner_list.attr('position','relative');
+				msg = $('<div class="msg"><p>Verifying current talking points</p></div>').appendTo(inner_list);
+				msg.fadeTo(500,.7);
+				
+				div_list.css({position: 'absolute', top: document.body.scrollTop})
+				div_list.find('p.question').remove();
+				div_list.find('div.hint').slideUp(1000)
+				div_list.animate({top: new_top+'px', left: new_left + 'px', width: q.width() + 'px', 'font-size': '1.2em'},1000);
+			}
+			
+			
+			function init_currated_list(question_id){
+				if( !am_curator ) return;
+				//console.log("init_currated_list for " + question_id);
+				$('div.curated_list[id="' + question_id + '"] li.talking_point img').die('click').live('click',
+					function(){
+						$(this).closest('li').slideUp(800,
+							function(){ 
+								var ul = $(this).closest('ul');
+								$(this).remove();
+								update_curated_tp_ids( ul )
+							}
+						);
+					}
+				);
+
+				$('div.curated_list[id="' + question_id + '"] ul.talking_points').sortable(
+					{
+						start: function(event,ui){
+							$(this).find('img').removeClass('show');
+						},
+						stop: function(event,ui){
+							li = $('<li class="talking_point" id="' + ui.item.attr('id') + '">' + ui.item.html() + 
+								'<img src="/images/delete_icon_16.gif" title="Click to delete"></li>')
+							ui.item.replaceWith(li);
+							if( li.parent().find('li[id="' + li.attr('id') + '"]').size() > 1 ){
+								li.html('<h3>Duplicate!</h3>');
+								li.fadeOut(1400,function(){$(this).remove()})
+							}
+							li.parent().find('li.talking_point[id="0"]').remove();
+							update_curated_tp_ids( $(this) );
+						},
+						cursor: 'pointer',
+						placeholder: 'curated_list_placeholder'
+					}
+				);
+				
+				function update_curated_tp_ids($ul){
+					var question_id = $ul.attr('id');
+					var curated_ids = $ul.attr('curated_tp_ids')
+					var new_ids = $ul.sortable('toArray').toString();
+					if(curated_ids == new_ids){
+						//console.log("Curated_tp_ids hasn't changed, do not send");
+					}else{
+						//console.log("Send these ids to the server: " + new_ids + " for question_id: " + question_id);
+						$.post('/questions/' + question_id + '/curate_tps', {tp_ids: new_ids}, 
+							function(){
+								$('div.curated_list[id="' + question_id + '"] ul.talking_points').attr('curated_tp_ids',new_ids);
+							}, 
+							"script"
+						);
+					}
+					$ul.sortable('refresh');
+					tp_delete_hover( question_id );
+				}
+
+				function tp_delete_hover(question_id){
+					//console.log("tp_delete_hover for id: " + question_id)
+					$('div.curated_list[id="' + question_id + '"] li.talking_point').hover(
+						function(){
+							$(this).find('img').addClass('show');
+							//console.log("show trash can");
+						},
+						function(){
+							//console.log("hide trash can");
+							$(this).find('img').removeClass('show');
+						}
+					);
+				}
+
+				tp_delete_hover(question_id);
+			}
+
+			
+			
+			//console.log("Curated_talking_points template is ready");
+	
+
+				
+				
+				
+				
+			

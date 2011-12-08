@@ -107,7 +107,8 @@ G3::Application.routes.draw do |map|
   match "/idea/bsd/:id" => redirect("/questions/%{id}/worksheet"), :requirements => { :id => /\d+/ }
   match "/idea/index/:id" => redirect("/plan/%{id}"), :requirements => { :id => /\d+/ }
 
-    
+  match "questions/:question_id/curate_tps" => "questions#curate_tps", :as => :curate_question_tps  
+  
   post "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think", :as => 'what_do_you_think'
   get "questions/:question_id/what_do_you_think", :to => "questions#what_do_you_think_form", :as => 'what_do_you_think'
   

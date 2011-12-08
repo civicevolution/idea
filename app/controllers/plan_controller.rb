@@ -6,6 +6,7 @@ class PlanController < ApplicationController
     logger.debug "\n\n******************************************\nStart plan/summary\n"
     begin
       @team = Team.includes(:questions).find(params[:team_id])
+      #@team = Team.includes(:questions => :curated_talking_points).find(params[:team_id])
       raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
     rescue
       render :template => 'team/proposal_not_found', :layout=> 'plan'
@@ -26,8 +27,14 @@ class PlanController < ApplicationController
       return
     end
     
-    @team.get_talking_point_ratings(@member)
+    #@team.get_talking_point_ratings(@member)
+    # eager load the curated talking points and attach them to the questions in order as question.curated_talking_points
+    @team.include_curated_talking_points
 
+    # get default answers if needed
+    def_ids = @team.questions.select{|q| q.curated_tp_ids.nil? || q.curated_tp_ids.strip == ''}.map(&:default_answer_id)
+    @default_answers = DefaultAnswer.select('id,checklist').where(:id=>def_ids) unless def_ids.size == 0
+    
     @participant_stats = ParticipantStats.find_by_member_id_and_team_id(@member.id,@team.id) || ParticipantStats.new
 
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])

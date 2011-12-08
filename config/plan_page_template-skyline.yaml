@@ -5,7 +5,7 @@
 what_page:
   question:         What is the change you want to make? 
   order_id: 1
-  default_answer_id: 1
+  default_answer_id: 5
   num_answers:      1
   answer_criteria:  5..4000
   talking_point_criteria: 20..200
@@ -14,7 +14,7 @@ what_page:
 why_page:
   question:         Why is this important to your community?
   order_id: 2
-  default_answer_id: 2
+  default_answer_id: 6
   num_answers:      1
   answer_criteria:  5..4000
   talking_point_criteria: 20..200  
@@ -23,7 +23,7 @@ why_page:
 how_page:
   question:         How can this change be made?
   order_id: 3
-  default_answer_id: 3
+  default_answer_id: 7
   num_answers:      1
   answer_criteria:  5..4000
   talking_point_criteria: 20..200
@@ -32,7 +32,7 @@ how_page:
 who_page:
   question:         Who will be involved in making the change?
   order_id: 4
-  default_answer_id: 4
+  default_answer_id: 8
   num_answers:      1
   answer_criteria:  5..4000
   talking_point_criteria: 20..200
@@ -41,7 +41,7 @@ who_page:
 where_page:
   question:         Where do we start?
   order_id: 5
-  default_answer_id: 5
+  default_answer_id: 9
   num_answers:      1
   answer_criteria:  5..4000
   talking_point_criteria: 20..200
