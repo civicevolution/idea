@@ -12,7 +12,7 @@
 		
 		%title= title
 		:javascript
-			var am_curator = #{(@team.org_id == @member.id || (!@participant_stats.nil? && @participant_stats.level >= 3)) ? true : false};
+			var am_curator = #{(!@team.nil? && @team.org_id == @member.id || (!@participant_stats.nil? && @participant_stats.level >= 3)) ? true : false};
 		-#:javascript
 			var _load_times = { start: new Date()}	
 			var AUTH_TOKEN = #{protect_against_forgery? ? form_authenticity_token.inspect : ''}
