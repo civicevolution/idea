@@ -250,7 +250,8 @@
 				//console.log("open_question_worksheet v2 ")
 				// scroll to top
 				$.scrollTo(el,1000);
-				$('div.right_side').fadeTo(2000,.2);
+				//$('div.right_side').fadeTo(2000,.2);
+				$('div.right_side').hide(2000);
 
 				var tp_sec = el.closest('div.question_summary').find('div.talking_points_list');
 				var ul = el.closest('div.question_summary').find('ul');
@@ -305,7 +306,8 @@
 
 			
 			function close_question_worksheet(el){
-				$('div.right_side').fadeTo(2000,1)
+				//$('div.right_side').fadeTo(2000,1)
+				$('div.right_side').show(2000)
 				el = $(el);
 				var worksheet = el.closest('div.worksheet');
 				worksheet.slideUp(2000);
