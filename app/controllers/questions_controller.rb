@@ -251,6 +251,10 @@ class QuestionsController < ApplicationController
     
     @question['talking_points_to_display'] = params[:all] == 't' ? @question.all_talking_points : @question.top_talking_points
     @question.get_talking_point_ratings(@member)
+    
+    # FIX this to be done only when needed
+    @default_answers = DefaultAnswer.select('id,checklist').where(:id=>@question.default_answer_id)
+    
     			
     render :template=>'questions/summary.js', :layout => false, :locals=>{:question=>@question}
   end
