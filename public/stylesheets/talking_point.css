@@ -938,6 +938,13 @@ div.curated_list {
   position: absolute;
   background-color: white;
   border: 2px solid #e1e8c4; }
+  div.curated_list div.header img {
+    display: block;
+    float: right;
+    margin: 10px 10px 0 0; }
+  div.curated_list div.header p.question {
+    float: left;
+    max-width: 322px; }
   div.curated_list div.summary {
     margin-right: 0; }
   div.curated_list div.talking_point_form.hint p {

@@ -237,6 +237,8 @@
 				{
 					'@id' : 'id',
 					'p.question' : 'question',
+					'div.header a@id' : 'id',
+					'div.header a@href' : 'close_href',
 					'div.curated@class+' : 'hide.curated',
 					'div.non_curated@class+' : 'hide.non_curated',				
 					'div.curator@class+' : 'hide.curator'
@@ -261,17 +263,13 @@
 				var data = {
 					question: el.html(),
 					id: question_id, 
+					close_href: templates['curated_talking_points'].find('a.close_worksheet').attr('href').replace(/\d+/,question_id),
 					hide:{ 
 						curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 't' ? '' : ' hide',
 						non_curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 'f' ? '' : ' hide',
 						curator: am_curator && curated_tps_exist ? '' : ' hide'
 					}
 				}
-				
-				//	no_tp: ul.find('li').size()>0 ? ' hide' : '',
-				//	curator_instr: am_curator ? '' : ' hide',
-				//	non_curator_instr: am_curator ? ' hide' : ''
-				
 				
 				if(!curated_tps_exist) data.hide.non_curator_instr = ' hide'
 
@@ -309,6 +307,11 @@
 				//$('div.right_side').fadeTo(2000,1)
 				$('div.right_side').show(2000)
 				el = $(el);
+
+				if(el.attr('id')){ 
+					// close comes from out of worksheet like curated list
+					el = $('div.question_summary[id="' + el.attr('id') + '"] a.close_worksheet');
+				}
 				var worksheet = el.closest('div.worksheet');
 				worksheet.slideUp(2000);
 				

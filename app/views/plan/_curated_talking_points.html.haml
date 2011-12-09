@@ -1,6 +1,9 @@
 %div.talking_point_sec.corner
-
-	%p.question Insert question here
+	
+	%div.header
+		%p.question Insert question here
+		= link_to image_tag('close_icon_16.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(0), :remote=>true, :class=>'close_worksheet'
+		%p.clear_both
 
 	%div.talking_points_list.summary.corner
 		-#%p.no_talking_points No talking points have been created for this answer
