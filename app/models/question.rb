@@ -216,11 +216,9 @@ class Question < ActiveRecord::Base
     
   end
 
-protected
-
   def update_curate_fields(tp_ids,mode)
     if tp_ids.strip != ''
-      self.curated_tp_ids = tp_ids
+      self.curated_tp_ids = tp_ids.scan(/\d+/).uniq.join(',')
       self.auto_curated = mode == 'auto' ? true : false
       self.save(:validate => false)
     else
