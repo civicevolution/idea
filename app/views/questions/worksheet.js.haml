@@ -43,8 +43,16 @@
 	
 	function make_talking_points_draggable($talking_points){
 		$talking_points.draggable( {
-			revert: true,
-			revertDuration: 200,
+			revert: function(socketObj) {
+			    if (socketObj === false) {
+			        // Drop was rejected, revert the helper.
+			        return true;
+			    } else {
+			        // Drop was accepted, don't revert.
+			        return false;
+			    }
+			},
+			revertDuration: 600,
 			//start: function(event,ui){temp.drag_ui = ui},
 			connectToSortable: $('div.curated_list[id="#{question.id}"] ul.talking_points'),
 			helper: 'clone'

@@ -248,8 +248,8 @@
 				el = $(el);
 				var question_id = el.closest('div.question_summary').attr('id');
 				//console.log("open_question_worksheet v2 ")
-				// scroll to top
-				$.scrollTo(el,1000);
+				// scroll to top of question
+				$.scrollTo(el.closest('div.question_summary'),1000);				
 				//$('div.right_side').fadeTo(2000,.2);
 				$('div.right_side').hide(2000);
 
