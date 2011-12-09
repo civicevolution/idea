@@ -969,8 +969,11 @@ div.curated_list {
     div.curated_list li.talking_point img.show {
       display: block;
       cursor: pointer; }
+    div.curated_list li.talking_point a.tp_details {
+      display: inline;
+      font-size: 0.8em; }
 
-li.talking_point img {
+li.talking_point img, li.talking_point a.tp_details {
   display: none; }
 
 div.left_side {

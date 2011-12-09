@@ -372,6 +372,17 @@
 					}
 				);
 				
+				$('div.curated_list[id="' + question_id + '"] a.tp_details').live('click',
+					function(){
+						var li = $(this).closest('li');
+						var id = li.attr('id');
+						console.log("show details for li: " + id)
+						$.scrollTo( $('div.worksheet div.talking_point_entry[id="' + id + '"]'),1000);	
+						return false;
+					}
+				);
+				
+				
 				function update_curated_tp_ids($ul){
 					var question_id = $ul.attr('id');
 					var curated_ids = $ul.attr('curated_tp_ids')

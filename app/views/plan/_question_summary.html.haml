@@ -29,6 +29,7 @@
 						%li.talking_point{:id=>talking_point.id}
 							= talking_point.text
 							= image_tag 'delete_icon_16.gif',{:title=>'Click to delete'}
+							= link_to "details",{},{:class=>'tp_details'}
 					-# if question.talking_points.size - question.curated_talking_points.size > 0
 						%div#add_tp.talking_point_form.hint.corner
 							%div.form.cta
