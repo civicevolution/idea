@@ -2,8 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.5'
 
-gem 'bundler', '~> 1.0.15'
-
 # Use unicorn as the web server
 gem 'unicorn'
 
