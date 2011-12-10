@@ -8,6 +8,7 @@ class EndorsementsController < ApplicationController
     endorsement = Endorsement.find_by_member_id_and_team_id(@member.id,params[:team_id])
     endorsement = Endorsement.new :member_id => @member.id, :team_id => params[:team_id] if endorsement.nil?
     endorsement.text = params[:text]
+    endorsement.member = @member
     respond_to do |format|
       if endorsement.save
         format.html { redirect_to plan_path(params[:team_id]) }
