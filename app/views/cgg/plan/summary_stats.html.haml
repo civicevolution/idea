@@ -45,6 +45,9 @@
 		-# if params[:rt] == 't'
 			%p.cta
 				= link_to "Chat", chat_form_path(@team.id), {:class=>'invite', :remote=>true}
+
+		%p.cta
+			= link_to "Print this proposal", print_proposal_path(@team)	
 			
 		%div.tools	
 			/AddThis Button BEGIN

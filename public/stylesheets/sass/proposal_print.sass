@@ -1,0 +1,39 @@
+@media print	
+	body
+		width: 100%
+		margin: 0 
+		float: none	
+		
+	.page-break
+		page-break-before: always
+
+	p.no_talking_points
+		font-style: italic
+		margin-left: 20px
+		margin-bottom: 2em	
+	p.participant
+		margin: 0 0 .5em 0
+	div.no_print
+		display: none
+		
+@media screen
+	body
+		width: 600px
+		margin: 2em
+		div.page
+			width: 600px
+	div.summary
+		margin: 0 40px 0 40px
+	ul
+		margin-bottom: 0
+		li	
+			font-size: 1em
+	p.no_talking_points
+		font-style: italic
+		margin-left: 20px
+		margin-bottom: 2em	
+
+	div.participants
+		margin-bottom: 4em
+	p.participant
+		margin: 0 0 .5em 0

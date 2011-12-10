@@ -1,0 +1,68 @@
+- @css_name = 'proposal_print'
+
+%div.proposal_page
+	%div.no_print
+		%button{:onclick=>'window.print();'} Print this page
+
+
+
+	%div.intro
+		%h2.home_title 
+			%span #{team.title}
+
+		%div.summary
+			= simple_format h team.solution_statement
+
+	- team.questions.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
+		%h4.question
+			Q#{question.order_id}: #{question.text}
+			
+		- if question.curated_talking_points.size == 0
+			%p.no_talking_points No talking points have been selected for this answer
+		- else
+			%ul.talking_points
+				- question.curated_talking_points.each do |talking_point|
+					%li.talking_point{:id=>talking_point.id}
+						= talking_point.text
+
+%div.page-break
+	%h3 #{@endorsements.size} Community endorsements
+	
+	%table
+		%tr
+			%th Name
+			%th Comment
+			%th When
+		- @endorsements.each do |e|
+			%tr{:class=> cycle('','stripe'), :id=>e.member.ape_code}
+				%td.name
+					%span.member& #{e.member.first_name} #{e.member.last_name}
+				%td.text= simple_format( e.text )
+				%td.time
+					%abbr.timeago{:title=>e.updated_at}= time_ago_in_words(e.updated_at) + ' ago'
+
+%div.page-break
+	%h3 Proposal development details
+
+	%h4 This proposal was developed by 
+	%div.participants
+		%p #{team.organizer.first_name} #{team.organizer.last_name}, who initially suggested this idea for change, working with
+		- team.participants.select{|p| p.id  != team.org_id}.sort{|x,y| x.first_name <=> y.first_name || x.last_name <=> y.last_name}.each do |participant|
+			%p.participant
+				= participant.first_name
+				= participant.last_name
+	
+	
+	
+	%h4 Participation statistics for developing this proposal
+	%table
+		%tbody
+			%tr.stripe
+				%td Participants
+				%td= team.participants.size
+			- if team.stats
+				-	PARTICIPATION_EVENT_POINTS.values.find_all{|pep| pep['summary_order'] && pep['summary_order'].to_i != 0}.sort{|a,b| a['summary_order'].to_i<=>b['summary_order'].to_i}.each do |stat|
+					%tr{:class=>cycle('','stripe')}
+						%td= stat['summary_title'].pluralize.capitalize
+						%td= team.stats[stat['col_name']]
+						-#= pluralize(team.stats[stat['col_name']], stat['summary_title']) 					
