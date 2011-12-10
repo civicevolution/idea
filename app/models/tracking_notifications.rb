@@ -242,7 +242,7 @@ class TrackingNotifications
         col_name = PARTICIPATION_EVENT_POINTS["item#{participation_event.event_id}"]['col_name']
         if !col_name.nil? && col_name != ''
           part_stats_rec = ParticipantStats.find_by_member_id_and_team_id(participation_event.member_id, participation_event.team_id) || ParticipantStats.new(:member_id => participation_event.member_id, :team_id => participation_event.team_id)
-          part_stats_rec[col_name] += 1
+          part_stats_rec[col_name] += 1 unless part_stats_rec[col_name].nil?
           part_stats_rec['points_total'] += participation_event.points
           
           if participation_event.event_id == 100
