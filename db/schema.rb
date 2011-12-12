@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111206173029) do
+ActiveRecord::Schema.define(:version => 20111212221824) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -229,6 +229,7 @@ ActiveRecord::Schema.define(:version => 20111206173029) do
     t.boolean  "publish"
     t.integer  "parent_type"
     t.integer  "parent_id"
+    t.integer  "question_id"
   end
 
   create_table "content_reports", :force => true do |t|

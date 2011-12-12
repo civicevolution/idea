@@ -106,7 +106,7 @@ class QuestionsController < ApplicationController
   
   def add_comment
     logger.debug "Create question comment with text: #{params[:text]}"
-    @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id])
+    @comment = Question.find(params[:question_id]).comments.create(:member=> @member, :text => params[:text], :parent_type => 1, :parent_id => params[:question_id], :question_id => params[:question_id])
     respond_to do |format|
       if @comment.errors.empty?
         format.js { render 'comments/comment_for_question', :locals=>{:comment=>@comment, :members => [@member], :question_id => @comment.parent_id} }

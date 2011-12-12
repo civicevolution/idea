@@ -248,7 +248,7 @@ class CommentsController < ApplicationController
     end
     
     
-    @comment = talking_point.comments.create(:member=> @member, :text => params[:text], :parent_type => 13, :parent_id => params[:talking_point_id])
+    @comment = talking_point.comments.create(:member=> @member, :text => params[:text], :parent_type => 13, :parent_id => params[:talking_point_id], :question_id => talking_point.question_id)
     
     respond_to do |format|
       if @comment.errors.empty?
@@ -284,9 +284,9 @@ class CommentsController < ApplicationController
     end
 
     if par_com.parent_type == 1 # if parent is a comment under a question, then make this a child to that comment
-      @comment = par_com.comments.create(:member=> @member, :text => params[:text], :parent_type => 3, :parent_id => params[:comment_id])
+      @comment = par_com.comments.create(:member=> @member, :text => params[:text], :parent_type => 3, :parent_id => params[:comment_id], :question_id => par_com.question_id)
     else # otherwise, make this a sibling to the parent, a child to the parent's parent
-      @comment = par_com.comments.create(:member=> @member, :text => params[:text], :parent_type => par_com.parent_type, :parent_id => par_com.parent_id )
+      @comment = par_com.comments.create(:member=> @member, :text => params[:text], :parent_type => par_com.parent_type, :parent_id => par_com.parent_id, :question_id => par_com.question_id )
     end
     respond_to do |format|
       if @comment.errors.empty?
