@@ -3,13 +3,10 @@
 		:sass
 			div#help_endorse_proposal
 				width: 505px
-				li, p
-					font-size: 1.2em
 				li
 					margin-bottom: .5em
 
-	%h2 How to endorse a proposal
-	%p This explains how you can endorse a proposal to show your support. 
+	%h2 You can endorse a proposal to show your support
 	
 	%ol
 		%li 
@@ -17,7 +14,7 @@
 			= link_to 'home page', home_path
 			and click the link that says 
 			%b Help us make a difference
-		%li You'll see the four questions that make up a proposal and the talking points that have already been developed
+		%li You'll see the questions and talking points that make up the proposal
 		%li Below the questions and talking points, you'll see the Endorsement form and a list of people that have endorsed this proposal
 		%li 
 			Enter your endorsement in the form and click the 
@@ -32,12 +29,15 @@
 		= link_to 'details', help_develop_path, {:remote=>true}
 		about how you can help develop a proposal.
 
+	- if @member.first_name.nil?
+		%h3 We need to know what you think!	
+	- else
+		%h3 #{@member.first_name}, we need to know what you think!	
+
 	%p 
 		You can also watch our
 		= link_to 'intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 		or visit our
 		#{link_to "visual help page", visual_help_path, {:remote=>true}}
-	
-	%h3 We need to know what you think!	
 		
 	= link_to "Return to home page", home_path, {:class=>'cancel'}

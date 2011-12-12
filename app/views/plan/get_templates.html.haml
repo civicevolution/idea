@@ -417,6 +417,10 @@
 				}
 
 				tp_delete_hover(question_id);
+				
+				var list = $('div.curated_list[id="' + question_id + '"]')
+				setTimeout(function(){this.find('div.curator').find('h4,ul').hide(2000)}.bind(list),5000);
+				
 			}
 
 			

@@ -1,0 +1,50 @@
+%div#help_curate_show
+	%style
+		:sass
+			div#help_curate_show
+				width: 505px
+				li
+					margin-bottom: .5em
+				img.screenshot
+					float: right
+					margin-left: 4px
+					
+	%ul
+		%li Each question in the proposal is answered by a hand selected set of talking points
+		%li Anyone can suggest a talking point&mdash;a short sentence that clearly states a single idea
+		%li The complete set of talking points is always available on the left side of the worksheet beneath each question
+		%li Talking points are suggested, discussed, rated and refined to capture the essence of the participants' conversations and ideas about each of the questions
+		%li But not all talking points need to be included in the final answer–some may be duplicates and others may better express important ideas
+		%li Trusted participants hand select a set of talking points to summarize the preferences of the group
+		%li The summary should be true to the ratings and preferences expressed by the participants in the worksheet
+		%li Participants can earn this trust by contributing regularly, discussing ideas with others and keeping their ratings and preferences up-to-date
+		%li If the summary is out-of-date, it will be replaced by the top rated talking points
+		
+		
+	%p Hand selecting the talking points can be done by clicking a question's link to display its worksheet
+	
+	= image_tag 'vhelp/help_curate_worksheet.jpg', :class=>'screenshot'
+	%ul.worksheet
+		%li All of the talking points are displayed on the left of the worksheet and the hand selected list is displayed on the right
+		%li To add a talking point to the hand selected list, click on its text in the worksheet on the left and drag it onto the list on the right
+		%li To arrange the talking points in the hand selected list, click on its text and drag it up or down
+		%li 
+			To remove a talking point from the hand selected list, move the mouse over the talking point in the list to expose the red delete button
+			= image_tag('delete_icon_16.gif')
+			Click it to remove it from the list.
+			
+		%li Removing a talking point from the hand selected list will not delete it from the worksheet and you can drag it back onto the list if desired
+		-#%li Watch this brief video for more information
+		%li Remember, the hand selected list should be a true reflection of the ideas expressed  by the participants in the worksheet and not the bias of the editor
+		%li The participants entrusted with selecting the summary should review the worksheet regularly to keep the list current and openly discuss questions and concerns with others	
+		
+	%p
+		You can also watch our
+		= link_to 'intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
+		or visit our
+		#{link_to "visual help page", visual_help_path, {:remote=>true}}
+
+	%p 
+		= link_to "Return to home page", home_path, {:class=>'cancel'}
+		
+	

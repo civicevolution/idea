@@ -5,7 +5,7 @@
 		render( :template => 'help/visual_help.html' )
 	)}");
 	
-	var dialog = help.dialog( {title : 'CivicEvolution Help', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+	var dialog = help.dialog( {title : 'CivicEvolution Help', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();$.scrollTo($('body'),1000);} });
 	
 	$('div#visual_help a.cancel').die('click').live('click',
 		function(){

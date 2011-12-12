@@ -3,12 +3,12 @@
 	$('div#help_endorse_proposal').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	
 	var help = $("#{escape_javascript(
-		render( :template => 'help/help_develop_proposal.html' )
+		render( :template => 'help/help_answer_question.html' )
 	)}");
 	
-	var dialog = help.dialog( {title : 'CivicEvolution Help: Help develop a proposal', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();} });
+	var dialog = help.dialog( {title : 'CivicEvolution Help: Help answer the proposal questions', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();} });
 	
-	$('div#help_develop_proposal a.cancel').html('Close').die('click').live('click',
+	$('div#help_answer_question a.cancel').html('Close').die('click').live('click',
 		function(){
 			$(this).closest('div.ui-dialog').dialog('destroy').remove();
 			return false;

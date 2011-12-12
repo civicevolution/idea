@@ -29,7 +29,7 @@
 			= link_to "Learn more", help_develop_path, {:remote=>true}
 		
 		%p.cta
-			= link_to "Help answer the questions", help_develop_path, {:remote=>true}
+			= link_to "Help answer these questions", help_answer_question_path, {:remote=>true}
 		
 		%p.cta
 			= link_to "Invite friends to participate", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}
@@ -38,7 +38,7 @@
 			= link_to "Follow this proposal", notification_settings_form_path(@team.id), {:remote=>true}
 
 		%p.cta
-			= link_to "Endorse this proposal", help_endorse_path, {:remote=>true}
+			= link_to "Endorse this proposal",{},{:class=>'endorse_this_proposal'}
 
 		-# if params[:rt] == 't'
 			%p.cta

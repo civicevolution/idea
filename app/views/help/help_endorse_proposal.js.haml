@@ -6,7 +6,7 @@
 		render( :template => 'help/help_endorse_proposal.html' )
 	)}");
 	
-	var dialog = help.dialog( {title : 'CivicEvolution Help: Endorse a proposal', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+	var dialog = help.dialog( {title : 'CivicEvolution Help: Endorse a proposal', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();} });
 	
 	$('div#help_endorse_proposal a.cancel').html('Close').die('click').live('click',
 		function(){

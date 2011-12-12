@@ -18,15 +18,15 @@
 	%div#add_tp.talking_point_form.hint.corner.curated
 		%div.form.cta
 			%p 
-				These talking points were selected and ordered to reflect the preferences of the group
-				-#= link_to "Learn more"
+				These talking points were hand selected and ordered to reflect the preferences of the group
+			%p= link_to "Learn more about this hand selected list", help_curate_show_path, {:remote=>true}
 		%p.clear_both
 
 	%div#add_tp.talking_point_form.hint.corner.non_curated
 		%div.form.cta
 			%p 
 				These are the top talking points from the group
-				-#= link_to "Learn more"
+			%p= link_to "Learn more about this hand selected list", help_curate_show_path, {:remote=>true}
 		%p.clear_both
 
 	%div#add_tp.talking_point_form.hint.corner.curator
@@ -35,10 +35,9 @@
 			%ul
 				%li 
 					Select talking points from the left by dragging them into the list above
-					-#= link_to "Show me how"
 				%li Arrange the list items by dragging them up or down
 				%li This list should reflect the ratings and favorites of the group
-				-#%li This list should answer the question in a way that is acceptable to most of your community.
+			%p= link_to "Show me how to edit this list", help_curate_show_path, {:remote=>true}
 			-#%p.close
 				= check_box_tag :hide_help
 				Don't show this help panel again

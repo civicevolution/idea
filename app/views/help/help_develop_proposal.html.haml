@@ -3,40 +3,46 @@
 		:sass
 			div#help_develop_proposal
 				width: 505px
-				li, p
-					font-size: 1.2em
 				li
 					margin-bottom: .5em
 			
-	%h2 How to help develop a proposal
-	%p This explains how you can work together with your friends and community members to develop a community written and supported proposal for constructive change.
-	%p Getting started is easy
+	%h2 You can help develop a proposal
+	%p Work together with your friends and community members to develop a community written and supported proposal for constructive change.
+	%p Helping is easy and rewarding
 	%ol
 		%li 
 			Select a proposal from the list on the left side of the
 			= link_to 'home page', home_path
 			and click the link that says 
 			%b Help us make a difference
-		%li You'll see the four questions that make up a proposal and the talking points that have already been developed
-		%li Click one of the questions to see the question worksheet where people discuss the question and suggest talking points to answer it. You can:
+		%li You'll see the questions and talking points that make up the proposal
+		%li Click one of the questions to see the worksheet where you can work with others to:
 		%ul
 			%li Discuss the question
-			%li Rate talking points
+			%li Rate the talking points
 			%li Select up to 5 talking points you most prefer
-			%li Discuss a specific talking point
+			%li Discuss specific talking points
 			%li Suggest a talking point
-			%li Edit the talking points created by others, once you demonstrate a history of helpful team behavior
-		%li This process of suggesting, discussing, revising, rating, and preferring helps us to think together so we can find and express common ground.
-		%li Your participation will be convenient and productive with email notifications and a page that displays the new content since your last visit so you can quickly browse, rate or reply to it
+			%li Edit the talking points created by others
+		%li This process of suggesting, discussing, revising, rating, and preferring helps us to think together
+		%li Your participation will be convenient and productive with email notifications and the highlighting of new talking points and comments
 	%p 
 		Click the link that says 
 		%b Help us make a difference
 		under a proposal that interests you
 		
-	%p 
+	- if @member.first_name.nil?
+		%h3 We need to know what you think!	
+	- else
+		%h3 #{@member.first_name}, we need to know what you think!	
+
+	%p
 		You can also watch our
 		= link_to 'intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 		or visit our
 		#{link_to "visual help page", visual_help_path, {:remote=>true}}
+
+	%p 
+		= link_to "Return to home page", home_path, {:class=>'cancel'}
 		
-	= link_to "Return to home page", home_path, {:class=>'cancel'}
+	

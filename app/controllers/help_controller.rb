@@ -7,12 +7,21 @@ class HelpController < ApplicationController
   end
 
   def help_endorse_proposal
-    
+
   end
   
   def help_develop_proposal
     
   end
+
+  def help_answer_question
+    
+  end
+  
+  def help_curate_show_path
+    
+  end
+  
   
 end
 

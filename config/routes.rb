@@ -205,6 +205,9 @@ G3::Application.routes.draw do |map|
 
   get 'visual_help' => 'help#visual_help'
   get 'help_develop' => 'help#help_develop_proposal'
+  get 'help_answer_question' => 'help#help_answer_question'
+  get 'help_curate_show' => 'help#help_curate_show'
+  
   get 'help_endorse' => 'help#help_endorse_proposal'
 
   get 'admin/team/:team_id/stats' => 'admin#team_stats', :as => 'team_stats'
