@@ -265,8 +265,8 @@
 					id: question_id, 
 					close_href: templates['curated_talking_points'].find('a.close_worksheet').attr('href').replace(/\d+/,question_id),
 					hide:{ 
-						curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 't' ? '' : ' hide',
-						non_curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 'f' ? '' : ' hide',
+						curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 'f' ? '' : ' hide',
+						non_curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 't' ? '' : ' hide',
 						curator: am_curator && curated_tps_exist ? '' : ' hide'
 					}
 				}
