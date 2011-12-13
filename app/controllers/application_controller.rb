@@ -126,9 +126,9 @@ class ApplicationController < ActionController::Base
        request.session_options[:expire_after]= 30.days
        #request.session_options.freeze
       end
-
+      
+      session[:last_visits] ||= {}
       if flash[:params] && flash[:params][:team_id] # I can only set the last_visit for a team if I know the team_id
-        session[:last_visits] = {} if session[:last_visits].nil?
         if params[:date]
           time_stamp = params[:date].split('-') # 11-21-2011
           session[:last_visits][flash[:params][:team_id]] = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
@@ -137,7 +137,7 @@ class ApplicationController < ActionController::Base
           session[:last_visits][flash[:params][:team_id]] = last_event[0].nil? ? Time.now - 7.days : last_event[0].updated_at
         end
       end
-      @member.last_visits = session[:last_visits] || {}
+      @member.last_visits = session[:last_visits]
       
       respond_to do |format|
         format.html{
@@ -250,7 +250,7 @@ class ApplicationController < ActionController::Base
         else
           @member = Member.find_by_id(session[:member_id]);
         end
-        
+        session[:last_visits] ||= {}
         if @member.nil?
           # session is no good
           session[:member_id] = nil
@@ -273,7 +273,7 @@ class ApplicationController < ActionController::Base
             end
           end
         end
-        @member.last_visits = session[:last_visits] || {}
+        @member.last_visits = session[:last_visits]
       end
     end
 
