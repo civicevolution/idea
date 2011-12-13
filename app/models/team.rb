@@ -87,6 +87,23 @@ class Team < ActiveRecord::Base
     self.title
   end
   
+  def assign_question_stats(last_visit_ts)
+    stats  = ActiveRecord::Base.connection.select_all(%Q|select q_id,
+    (SELECT count(id) from comments where question_id = q_id) AS coms,
+    (SELECT count(id) from comments where question_id = q_id AND created_at > '#{last_visit_ts}') AS new_coms,
+    (SELECT count(id) from talking_points where question_id = q_id) AS tps,
+    (SELECT count(id) from talking_points where question_id = q_id AND created_at > '#{last_visit_ts}') AS new_tps
+    FROM ( VALUES #{ self.questions.map{|q| "(#{q.id})" }.join(',') } ) AS q (q_id)|)
+    
+    self.questions.each do|question|
+      stat = stats.detect{|s| s['q_id'].to_i == question.id}
+      question.coms = stat['coms']
+      question.new_coms = stat['new_coms']
+      question.num_talking_points = stat['tps']
+      question.num_new_talking_points = stat['new_tps']
+    end
+  end
+  
   def bs_ideas_with_ratings(memberId)
     BsIdeaRating.find_by_sql([ %q|SELECT bsi.id, 
     AVG(rating) AS average, 

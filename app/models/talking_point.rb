@@ -99,6 +99,7 @@ class TalkingPoint < ActiveRecord::Base
   end
 
   def self.get_and_assign_stats( question, talking_points_to_display, member )
+    member.last_visits[question.team_id.to_s] ||= Time.now - 7.days
     
     question.talking_points_to_display = talking_points_to_display
     talking_point_ids = []
@@ -111,7 +112,8 @@ class TalkingPoint < ActiveRecord::Base
     tpr = TalkingPointAcceptableRating.sums(talking_point_ids)
     my_preferences = TalkingPointPreference.my_votes(talking_point_ids, member.id)
     my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, member.id)
-    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, member.last_visit_ts)
+
+    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, member.last_visits[question.team_id.to_s])
 
     self.assign_stats( 
       :questions => [question],

@@ -5,13 +5,16 @@ module LibGetTalkingPointsRatings
   
   def get_talking_point_ratings(member)
     self.member = member
-
+    
     case self.type_text
       when 'team'
         questions = self.questions
+        team_id = self.id
       when 'question'
         questions = [self]
+        team_id = self.team_id
     end
+    self.member.last_visits[team_id.to_s] ||= Time.now - 7.days
     
     question_ids = questions.map{|q| q.id}
     talking_point_ids = []
@@ -32,9 +35,9 @@ module LibGetTalkingPointsRatings
     my_preferences = TalkingPointPreference.my_votes(talking_point_ids, self.member.id)
     my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, self.member.id)
 
-    question_coms = Question.com_counts(question_ids, self.member.last_visit_ts)
-    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, self.member.last_visit_ts)
-    comment_coms = Comment.com_counts(comment_ids, self.member.last_visit_ts)
+    question_coms = Question.com_counts(question_ids, self.member.last_visits[team_id.to_s])
+    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, self.member.last_visits[team_id.to_s])
+    comment_coms = Comment.com_counts(comment_ids, self.member.last_visits[team_id.to_s])
 
     assign_stats( 
       :questions => questions,

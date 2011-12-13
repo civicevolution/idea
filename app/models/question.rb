@@ -116,7 +116,7 @@ class Question < ActiveRecord::Base
   end
 
   def new_comments(last_visit_ts)
-    Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
+    Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => last_visit_ts )
   end
 
   def remaining_new_comments(ids, last_visit_ts)

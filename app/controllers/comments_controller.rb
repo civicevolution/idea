@@ -60,7 +60,7 @@ class CommentsController < ApplicationController
     @comments = question.remaining_comments(params[:comment_ids])
     @resources = []
     
-    comment_coms = Comment.com_counts(@comments.map(&:id), @member.last_visit_ts)
+    comment_coms = Comment.com_counts(@comments.map(&:id), @member.last_visits[question.team_id.to_s])
     @comments.each do |c|
       ccom = comment_coms.detect{|cc| cc['comment_id'].to_i == c.id}
       c.coms = ccom['coms'].to_i

@@ -141,10 +141,10 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:question_id])
     if !request.xhr?
       @question['talking_points_to_display'] = @question.top_talking_points
-      @question['talking_points_to_display'] += @question.remaining_new_talking_points( @question['talking_points_to_display'].map(&:id), @member.last_visit_ts)
+      @question['talking_points_to_display'] += @question.remaining_new_talking_points( @question['talking_points_to_display'].map(&:id), @member.last_visits[@question.team_id.to_s])
       worksheet
     else
-      talking_points_to_display = @question.remaining_new_talking_points( params[:ids].split('-'), @member.last_visit_ts)
+      talking_points_to_display = @question.remaining_new_talking_points( params[:ids].split('-'), @member.last_visits[@question.team_id.to_s])
       TalkingPoint.get_and_assign_stats( @question, talking_points_to_display, @member )
       
       render :question_talking_points, :layout => false
@@ -195,10 +195,10 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:question_id])
     if !request.xhr?
       @question['comments_to_display'] = 
-        Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
+        Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visits[@question.team_id.to_s] )
       worksheet
     else
-      @question['comments_to_display'] = @question.remaining_new_comments( params[:ids].split('-'), @member.last_visit_ts)
+      @question['comments_to_display'] = @question.remaining_new_comments( params[:ids].split('-'), @member.last_visits[@question.team_id.to_s])
       @question.get_talking_point_ratings(@member)
       render :question_comments, :layout => false
     end
@@ -293,7 +293,7 @@ class QuestionsController < ApplicationController
       if !tp_ids.include?(params[:id].to_i)
         #logger.debug "********* Include talking_point #{params[:id]} and its new siblings"
         @new_talking_points = TalkingPoint.where("question_id = :question_id AND id NOT IN (:current_tp_ids) AND updated_at >= :last_visit", 
-          :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.last_visit_ts )
+          :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.last_visits[@question.team_id.to_s] )
         @question['talking_points_to_display'] += @new_talking_points
         # make sure I have the target now, if not, add it explicitly
         if !@question['talking_points_to_display'].map(&:id).include?(params[:id].to_i)
@@ -313,7 +313,7 @@ class QuestionsController < ApplicationController
         case new_comment.parent_type 
           when 1 # question comment
             @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND id NOT IN (:current_c_ids) AND updated_at >= :last_visit", 
-              :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.last_visit_ts )
+              :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.last_visits[@question.team_id.to_s] )
             @question['comments_to_display'] += @new_comments
             # make sure I have the target now, if not, add it explicitly
             if !@question['comments_to_display'].map(&:id).include?(params[:id].to_i)
@@ -331,7 +331,7 @@ class QuestionsController < ApplicationController
 
             # load the new_comment sibling comments
             @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND id NOT IN (:current_c_ids) AND updated_at >= :last_visit", 
-              :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.last_visit_ts )
+              :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.last_visits[@question.team_id.to_s] )
             # make sure I have the target now, if not, add it explicitly
             if !@new_comments.map(&:id).include?(params[:id].to_i)
               @new_comments += [ Comment.find(params[:id]) ]
@@ -352,7 +352,7 @@ class QuestionsController < ApplicationController
             if !tp_ids.include?( new_comment.parent_id )
               #logger.debug "********* Include talking_point #{params[:id]} and its new siblings"
               @new_talking_points = TalkingPoint.where("question_id = :question_id AND id NOT IN (:current_tp_ids) AND updated_at >= :last_visit", 
-                :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.last_visit_ts )
+                :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.last_visits[@question.team_id.to_s] )
               @question['talking_points_to_display'] += @new_talking_points
               # make sure I have the target now, if not, add it explicitly
               if !@question['talking_points_to_display'].map(&:id).include?(params[:id].to_i)
@@ -364,7 +364,7 @@ class QuestionsController < ApplicationController
 
             # get the comments
             @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND updated_at >= :last_visit", 
-              :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :last_visit => @member.last_visit_ts )
+              :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :last_visit => @member.last_visits[@question.team_id.to_s] )
             # make sure I have the target now, if not, add it explicitly
             if !@new_comments.map(&:id).include?(params[:id].to_i)
               @new_comments += [ Comment.find(params[:id]) ]
@@ -392,10 +392,10 @@ class QuestionsController < ApplicationController
       end
     end
     
-    new_talking_point_ids = TalkingPoint.select('id').where("question_id = :question_id AND updated_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
+    new_talking_point_ids = TalkingPoint.select('id').where("question_id = :question_id AND updated_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visits[@question.team_id.to_s] )
     @question.num_new_talking_points = (new_talking_point_ids.map(&:id) - @question['talking_points_to_display'].map(&:id)).size
 
-    new_comment_ids = Comment.select('id').where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visit_ts )
+    new_comment_ids = Comment.select('id').where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visits[@question.team_id.to_s] )
     @question.new_coms = (new_comment_ids.map(&:id) - @question['comments_to_display'].map(&:id)).size
 
     @channels = ["_auth_team_#{@team.id}", "_auth_inititive_#{params[:_initiative_id]}"]
