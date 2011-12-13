@@ -15,6 +15,11 @@
 				
 					%div#add_tp.talking_point_form.hint.corner
 						%div.form.cta
+							- if question.coms.to_i > 0
+								- if (@member.nil? || @member.id == 0)
+									%p #{link_to 'Explore', question_worksheet_path(question), {:remote=> true}} #{pluralize(question.coms, 'comment')}
+								- else
+									%p #{link_to 'Review', question_worksheet_path(question), {:remote=> true}} #{pluralize(question.coms, 'new comment')}
 							%p 
 								Click to 
 								#{link_to 'suggest a talking point', question_worksheet_path(question), {:remote=> true}} or
@@ -44,6 +49,23 @@
 			
 					%div#add_tp.talking_point_form.hint.corner
 						%div.form.cta
+							- if (@member.nil? || @member.id == 0)
+								- cta = "#{link_to 'Explore', question_worksheet_path(question), {:remote=> true}} "
+								- if question.num_talking_points.to_i > 0 
+									- cta += "#{pluralize(question.num_talking_points, 'talking point')} "
+									- cta += 'and ' if question.coms.to_i > 0
+								- if question.coms.to_i > 0
+									- cta += "#{pluralize(question.coms, 'comment')}"
+							- else 
+								- cta = "#{link_to 'Review', question_worksheet_path(question), {:remote=> true}} "
+								- if question.num_talking_points.to_i > 0 
+									- cta += "#{pluralize(question.num_talking_points, 'new talking point')} "
+									- cta += 'and ' if question.coms.to_i > 0
+								- if question.coms.to_i > 0
+									- cta += "#{pluralize(question.coms, 'new comment')}"
+
+							- if cta
+								%p!= cta
 							%p 
 								We need to hear from you. Please 
 								= link_to 'rate', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}
@@ -66,4 +88,3 @@
 				- elsif question.num_talking_points == 0
 					%p There are no talking points for this question, please add one with the form below.
 
-	%p Coms: #{question.coms}, New coms: #{question.new_coms}, TPs: #{question.num_talking_points}, New TPs: #{question.num_new_talking_points}
