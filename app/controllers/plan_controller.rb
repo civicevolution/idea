@@ -225,6 +225,7 @@ class PlanController < ApplicationController
   end
 
   def get_templates
+    flash.keep
     # Set up all of the data I need for the templates to run
     # Build the templates in the templates.js template which will insert the HTML in script blocks text/html to hide them from browser processing
     # Add the directives to templates.js
