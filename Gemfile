@@ -18,6 +18,9 @@ end
 #   gem 'webrat'
 # end
 
+group :production do
+	gem 'newrelic_rpm'
+end
 
 gem "bluecloth"
 gem "daemons"
@@ -44,5 +47,3 @@ gem "juggernaut"
 gem 'SystemTimer', :platforms => [:ruby_18]
 
 gem "redis"
-
-gem 'newrelic_rpm'
