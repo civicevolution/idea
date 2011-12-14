@@ -18,9 +18,9 @@ end
 #   gem 'webrat'
 # end
 
-#group :production do
-#	gem 'newrelic_rpm'
-#end
+group :production do
+	gem 'newrelic_rpm'
+end
 
 gem "bluecloth"
 gem "daemons"
