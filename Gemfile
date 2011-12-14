@@ -44,3 +44,5 @@ gem "juggernaut"
 gem 'SystemTimer', :platforms => [:ruby_18]
 
 gem "redis"
+
+gem 'newrelic_rpm'
