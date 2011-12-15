@@ -1,5 +1,5 @@
 - item = 'comment'
-- case params[:action] when /rate/: item = 'rating'; when /prefer/:  item = 'preference'
+- case params[:action] when /rate/ then item = 'rating'; when /prefer/ then  item = 'preference' end
 - item = 'talking point' if params[:input_type] == "talking_point"
 
 
