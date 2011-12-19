@@ -1,6 +1,6 @@
 - text ||= ''
 - type ||= 'comments'
-%div.comment_comments.discussion{:id=>comment.id}
+%div.comment_comments.discussion{:id=>comment.id, :num_coms => comment.coms}
 	= render :partial=> 'plan/comment', :collection => comments
 	- if comment.parent_type == 3 || comment.parent_type == 13
 		- comment.id = @parent.id

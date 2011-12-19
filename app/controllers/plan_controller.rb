@@ -26,7 +26,7 @@ class PlanController < ApplicationController
       end
       return
     end
-    
+
     @team.assign_question_stats(@member.last_visits[params[:team_id]])
 
     #@team.get_talking_point_ratings(@member)
@@ -36,7 +36,7 @@ class PlanController < ApplicationController
     # get default answers if needed
     def_ids = @team.questions.select{|q| q.curated_tp_ids.nil? || q.curated_tp_ids.strip == ''}.map(&:default_answer_id)
     @default_answers = DefaultAnswer.select('id,checklist').where(:id=>def_ids) unless def_ids.size == 0
-    
+
     @participant_stats = ParticipantStats.find_by_member_id_and_team_id(@member.id,@team.id) || ParticipantStats.new
 
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])

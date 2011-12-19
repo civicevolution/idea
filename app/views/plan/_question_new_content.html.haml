@@ -1,45 +1,41 @@
-%tr.question
-	%td{:colspan=>3}
-		%p{:id=>question.id}
-			= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}
-
-- talking_points = @talking_points.find_all{|tp| tp.question_id == question.id}.sort{|a,b| a.id<=>b.id}
-- talking_points.each do |talking_point|
-	%tr.talking_point
-		%td.level1.talking_point_entry{:colspan=>2, :id=>talking_point.id}
-			%div.talking_point_entry{:id=>talking_point.id}
+%table.question_new_content
+	- talking_points = @team.new_talking_points.find_all{|tp| tp.question_id == question.id}.sort{|a,b| a.id<=>b.id}
+	- talking_points.each do |talking_point|
+		%tr.talking_point
+			%td.level1.talking_point_entry{:colspan=>2, :id=>talking_point.id}
+				%div.talking_point_entry{:id=>talking_point.id}
 		
-				= link_to question_worksheet_path(question, :t=>'tp', :id=>talking_point.id), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id, :remote => true do
-					= talking_point.text
-					-# if talking_point['new'].nil?
-						%span.tp_reference For reference
+					= link_to question_worksheet_path(question, :t=>'tp', :id=>talking_point.id), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id, :remote => true do
+						= talking_point.text
+						-# if talking_point['new'].nil?
+							%span.tp_reference For reference
 			
-				= render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point, :mode => 'new_'}	
-				= render :partial => 'talking_point_preferences/preference', :locals => {:talking_point => talking_point, :mode => 'new_'}
+					= render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point, :mode => 'new_'}	
+					= render :partial => 'talking_point_preferences/preference', :locals => {:talking_point => talking_point, :mode => 'new_'}
 						
-		%td
-			%abbr.timeago{:title=>talking_point.created_at}= time_ago_in_words(talking_point.created_at) + ' ago'
+			%td
+				%abbr.timeago{:title=>talking_point.created_at}= time_ago_in_words(talking_point.created_at) + ' ago'
+
+		- stripe = false
+		- comments = @team.new_comments.find_all{|c| c.parent_id == talking_point.id && c.parent_type == 13}.sort{|a,b| a.id<=>b.id}.each do |comment|
+			- stripe = !stripe
+			= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>2, :stripe => stripe, :q_id=>question.id }
+
+	- question_coms = @team.new_comments.find_all{|c| c['question_id'] == question.id}
+	- children_to_delete = []
+	- stripe = false
+	- @team.new_comments.find_all{|c| c.parent_id == question.id && c.parent_type == 1}.sort{|a,b| a.id<=>b.id}.each do |comment|
+		- stripe = !stripe
+		= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>1, :stripe => stripe, :q_id=>question.id }
+
+		- question_coms.find_all{|c| c.parent_id == comment.id && c.parent_type == 3}.sort{|a,b| a.id<=>b.id}.each do |child_comment|
+			- stripe = !stripe
+			= render :partial=>'plan/comment_compressed', :locals=>{:comment=>child_comment, :indent=>2, :stripe => stripe, :q_id=>question.id }
+			- children_to_delete.push(child_comment)
+		
+	- children_to_delete.each{|c| question_coms.delete(c) }	
 
 	- stripe = false
-	- comments = @comments.find_all{|c| c.parent_id == talking_point.id && c.parent_type == 13}.sort{|a,b| a.id<=>b.id}.each do |comment|
+	- question_coms.sort{|a,b| a.id<=>b.id}.each do |comment|
 		- stripe = !stripe
-		= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>2, :stripe => stripe, :q_id=>question.id }
-
-- question_coms = @comments.find_all{|c| c['question_id'] == question.id}
-- children_to_delete = []
-- stripe = false
-- @comments.find_all{|c| c.parent_id == question.id && c.parent_type == 1}.sort{|a,b| a.id<=>b.id}.each do |comment|
-	- stripe = !stripe
-	= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>1, :stripe => stripe, :q_id=>question.id }
-
-	- question_coms.find_all{|c| c.parent_id == comment.id && c.parent_type == 3}.sort{|a,b| a.id<=>b.id}.each do |child_comment|
-		- stripe = !stripe
-		= render :partial=>'plan/comment_compressed', :locals=>{:comment=>child_comment, :indent=>2, :stripe => stripe, :q_id=>question.id }
-		- children_to_delete.push(child_comment)
-		
-- children_to_delete.each{|c| question_coms.delete(c) }	
-
-- stripe = false
-- question_coms.sort{|a,b| a.id<=>b.id}.each do |comment|
-	- stripe = !stripe
-	= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>1, :stripe => stripe, :q_id=>question.id }
+		= render :partial=>'plan/comment_compressed', :locals=>{:comment=>comment, :indent=>1, :stripe => stripe, :q_id=>question.id }

@@ -21,19 +21,21 @@
 			var el = $(this);
 			el.unbind('ajax:beforeSend').unbind('click');
 			var disc = el.closest('div.Comment').next('div.comment_comments');
-			var com_cnt = disc.find('div.Comment').size();
-			switch(com_cnt){
-				case 0:
-					el.html('Reply');
-					break;
-				case 1:
-					el.html('Show 1 comment');
-					break;
-				default:
-					el.html('Show ' + com_cnt + ' comments' );
-					break;
+			if(disc.size() > 0){
+				var com_cnt = disc.find('div.Comment').size();
+				switch(com_cnt){
+					case 0:
+						el.html('Reply');
+						break;
+					case 1:
+						el.html('Show 1 comment');
+						break;
+					default:
+						el.html('Show ' + com_cnt + ' comments' );
+						break;
+				}
+				disc.remove();
 			}
-			disc.remove();
 			return false;
 		}
 	)

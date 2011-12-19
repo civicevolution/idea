@@ -1,5 +1,5 @@
 %div.talking_point_entry.corner{:id=>talking_point.id, :class => talking_point['highlight'] ? 'highlight' : ''}
-	%div.talking_point_body
+	%div.talking_point_body{:class => talking_point['new'] ? 'new' : ''}
 		- if talking_point.id == 0
 			%p.talking_point
 				%b This is an example of a talking point
@@ -7,7 +7,9 @@
 		%p.talking_point{:id=>talking_point.id}= talking_point.text
 
 		%div.talking_point_controls
-			- if talking_point['comments']
+			- if talking_point['comments'] && talking_point.new_coms > 0
+				- link_text = "Hide new comments"
+			- elsif talking_point['comments']
 				- link_text = "Hide discussion"
 			- elsif talking_point.new_coms > 0
 				- link_text = "Show #{pluralize(talking_point.new_coms, 'new comment')}"

@@ -1,4 +1,8 @@
-%div.talking_point_comments.discussion{:id=> talking_point.id }
+%div.talking_point_comments.discussion{:id=> talking_point.id, :num_coms => talking_point.coms }
+
+	- if talking_point.coms > comments.size
+		= link_to "Display all #{pluralize(talking_point.coms,'comment')}", talking_point_comments_path(talking_point), { :class=> 'tp_show_coms', :remote=>true}
+
 	= render :partial=> 'plan/comment', :collection => comments
 	
 	= render :partial => 'plan/comment_form', :locals => {:id=>talking_point.id, :type=>'talking_points', :criteria => com_criteria}

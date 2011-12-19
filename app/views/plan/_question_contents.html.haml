@@ -12,7 +12,7 @@
 		= render :partial=> 'plan/talking_point', :collection => question['talking_points_to_display']
 
 		%p.clear_both.new_tp_insert_point
-		%p.show_more_link
+		-#%p.show_more_link
 			- if question.num_new_talking_points > 0
 				= link_to "Show #{ pluralize(question.num_new_talking_points, 'more new talking point')}", question_new_talking_points_path(question, :ids => question['talking_points_to_display'].map(&:id).join('-') ), { :class=> 'show_new_talking_points', :id=>question.id, :remote => true }
 			- if question.num_talking_points > question['talking_points_to_display'].length

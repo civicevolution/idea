@@ -63,3 +63,54 @@
 	}
 	
 	
+	// this code applies to talking points and comments that are displaying their new comments
+	// Get the links in TP with new open discussion
+	var links = []
+	$('div.talking_point_comments').each( 
+		function(){
+			console.log("talking_point_comments id: " + this.id)
+			links.push( $('div.talking_point_entry[id="' + this.id + '"] a.tp_show_coms') )
+		}
+	);	
+	$('div.comment_comments').each( 
+		function(){
+			console.log("comment_comments id: " + this.id)
+			links.push( $('div.Comment[id="' + this.id + '"] a.reply') )
+		}
+	);	
+	$.each(links,
+		function(){
+			var link = $(this);
+			link.removeData('ujs:enable_with'); 
+			// activate the link to hide the discussion
+			link.bind('ajax:beforeSend', 
+				function(){
+					return false;
+				}).bind('click', 
+				function(){
+					var el = $(this);
+					el.unbind('ajax:beforeSend').unbind('click');
+					var disc = el.closest('div[id]').next('div.discussion')
+					if(disc.size()>0){
+						var num_coms = disc.attr('num_coms');
+						var com_cnt = disc.find('div.Comment').size();
+						com_cnt = num_coms > com_cnt ? num_coms : com_cnt;
+						switch(com_cnt){
+							case 0:
+								el.html('Reply');
+								break;
+							case 1:
+								el.html('Show 1 comment');
+								break;
+							default:
+								el.html('Show ' + com_cnt + ' comments' );
+								break;
+						}
+						disc.remove();
+					}
+					return false;
+				}
+			);
+		}
+	);
+

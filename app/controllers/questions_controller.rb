@@ -230,8 +230,8 @@ class QuestionsController < ApplicationController
   end
 
   def summary
-    @question ||= Question.find_by_id(params[:question_id])
-    if @question.nil?
+    question ||= Question.find_by_id(params[:question_id])
+    if question.nil?
       render :template => 'team/proposal_not_found', :layout=> 'plan'
       return
     end    
@@ -249,14 +249,14 @@ class QuestionsController < ApplicationController
       return
     end
     
-    @question['talking_points_to_display'] = params[:all] == 't' ? @question.all_talking_points : @question.top_talking_points
-    @question.get_talking_point_ratings(@member)
-    
+    #question['talking_points_to_display'] = params[:all] == 't' ? question.all_talking_points : question.top_talking_points
+    #question.get_talking_point_ratings(@member)
+
     # FIX this to be done only when needed
-    @default_answers = DefaultAnswer.select('id,checklist').where(:id=>@question.default_answer_id)
+    @default_answers = DefaultAnswer.select('id,checklist').where(:id=>question.default_answer_id) if question.curated_talking_points.size == 0
     
     			
-    render :template=>'questions/summary.js', :layout => false, :locals=>{:question=>@question}
+    render :template=>'questions/summary.js', :layout => false, :locals=>{:question=>question}
   end
   
   
@@ -283,9 +283,12 @@ class QuestionsController < ApplicationController
       end
       return
     end
+
+    @question.member = @member
+    @question.assign_new_content unless @member.nil? || @member.id == 0
     
-    @question['talking_points_to_display'] ||= @question.top_talking_points
-    @question['comments_to_display'] ||= @question.recent_comments
+    @question['talking_points_to_display'] ||= @question.show_new ? @question.new_talking_points : @question.top_talking_points
+    @question['comments_to_display'] ||= @question.show_new ? @question.new_comments : @question.recent_comments
     
     # is this a request to highlight a specific item? If so, make sure it is present or add it
     if params[:t] == 'tp'
@@ -392,11 +395,11 @@ class QuestionsController < ApplicationController
       end
     end
     
-    new_talking_point_ids = TalkingPoint.select('id').where("question_id = :question_id AND updated_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visits[@question.team_id.to_s] )
-    @question.num_new_talking_points = (new_talking_point_ids.map(&:id) - @question['talking_points_to_display'].map(&:id)).size
-
-    new_comment_ids = Comment.select('id').where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visits[@question.team_id.to_s] )
-    @question.new_coms = (new_comment_ids.map(&:id) - @question['comments_to_display'].map(&:id)).size
+    #new_talking_point_ids = TalkingPoint.select('id').where("question_id = :question_id AND updated_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visits[@question.team_id.to_s] )
+    #@question.num_new_talking_points = (new_talking_point_ids.map(&:id) - @question['talking_points_to_display'].map(&:id)).size
+    #
+    #new_comment_ids = Comment.select('id').where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visits[@question.team_id.to_s] )
+    #@question.new_coms = (new_comment_ids.map(&:id) - @question['comments_to_display'].map(&:id)).size
 
     @channels = ["_auth_team_#{@team.id}", "_auth_inititive_#{params[:_initiative_id]}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )

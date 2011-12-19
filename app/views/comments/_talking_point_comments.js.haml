@@ -12,7 +12,7 @@
 	newNode.find('abbr').timeago();
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
 	// activate the link to hide the discussion
-	link.bind('ajax:beforeSend', 
+	link.unbind('ajax:beforeSend').bind('ajax:beforeSend', 
 		function(){
 			return false;
 		}).bind('click', 
@@ -20,19 +20,23 @@
 			var el = $(this);
 			el.unbind('ajax:beforeSend').unbind('click');
 			var disc = el.closest('div.talking_point_entry').next('div.talking_point_comments');
-			var com_cnt = disc.find('div.Comment').size();
-			switch(com_cnt){
-				case 0:
-					el.html('Reply');
-					break;
-				case 1:
-					el.html('Show 1 comment');
-					break;
-				default:
-					el.html('Show ' + com_cnt + ' comments' );
-					break;
+			if(disc.size() > 0){
+				var num_coms = disc.attr('num_coms');
+				var com_cnt = disc.find('div.Comment').size();
+				com_cnt = num_coms > com_cnt ? num_coms : com_cnt;
+				switch(com_cnt){
+					case 0:
+						el.html('Reply');
+						break;
+					case 1:
+						el.html('Show 1 comment');
+						break;
+					default:
+						el.html('Show ' + com_cnt + ' comments' );
+						break;
+				}
+				disc.remove();
 			}
-			disc.remove();
 			return false;
 		}
 	)

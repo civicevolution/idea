@@ -1,11 +1,6 @@
 %div.worksheet.page_content_div
 	%div.question_worksheet.notebookX.corner{:id=>question.id, :ans_criteria=>question.answer_criteria, :talking_point_criteria=>question.talking_point_criteria}
-	
-		-#%h2.worksheet_team= question.team.title
-		-#= render :partial => 'plan/question_navigation', :locals=>{:question=>question, :questions=>questions, :counter => question_counter}
 
-		-#%h2.question{:id=>question.id} Q#{question.order_id}: #{question.text}
-		
 		- if question.inactive
 			%h2.warn This question has been marked as inactive
 			%p.warn 
@@ -22,7 +17,6 @@
 						
 					%p.clear_both
 				
-				-#%p.worksheet_intro Please create, discuss, rate and refine talking points to answer this question and find those that are acceptable to most of our community. #{link_to "Close talking points worksheet", question_summary_path(question.id), :remote=>true}
 				%div
 				
 					= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
@@ -80,11 +74,11 @@
 				-#%h3.ques_sub_hdg Recent comments posted by your community
 
 				- if question['comments_to_display'].size > 0
-					= render :partial=> 'plan/comment', :collection => question['comments_to_display'].sort{|a,b| a.id<=>b.id}
+					= render :partial=> 'plan/comment', :collection => question['comments_to_display'].select{|c| c.parent_type == 1}.sort{|a,b| a.id<=>b.id}
 				- else
 					%div.Comment.hide
 			
-			%p.show_more_link.clear_both
+			-#%p.show_more_link.clear_both
 				- if question.new_coms > 0
 					= link_to "Show #{ pluralize(question.new_coms, 'more new comment')}", question_new_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_new_comments', :id=>question.id, :remote => true }
 								

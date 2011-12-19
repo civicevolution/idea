@@ -393,6 +393,9 @@ div.talking_point_body {
     div.talking_point_body div.talking_point_controls p.other {
       float: right; }
 
+div.talking_point_body.new {
+  background: url(/images/red_bulb_new_sm.gif) no-repeat 8px 20px; }
+
 div.talking_point_preferable {
   background-color: #c8bcd1;
   float: left;
@@ -1015,3 +1018,7 @@ div.talking_point_form div.instr.icon {
 
 a.close_worksheet img {
   margin-right: 8px; }
+
+span.new_com {
+  color: #cf725f;
+  font-weight: bold; }

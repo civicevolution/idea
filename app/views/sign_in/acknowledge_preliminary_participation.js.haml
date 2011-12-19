@@ -11,8 +11,12 @@
 	- when params[:action].match(/create_talking_point_comment/)
 		:plain
 			$('div.talking_point_comments[id="#{params[:talking_point_id]}"] form.orig textarea').val('')
-	- when params[:action].match(/add_endorsement/)		
+	- when params[:action].match(/add_endorsement/)		 
 		$('div.endorsements textarea').val('');
+	- when params[:action].match(/prefer/)
+		:plain
+			$('div.talking_point_entry[id="#{params[:talking_point_id]}"] div.favorite img').attr('src','/images/tp-star-g.gif')
+
 
 
 :plain

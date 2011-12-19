@@ -47,6 +47,9 @@ class Question < ActiveRecord::Base
   attr_accessor :previousText
   attr_accessor :previousVer
   attr_accessor :previousUpdated_at
+  attr_accessor :new_talking_points
+  attr_accessor :new_comments
+  attr_accessor_with_default :show_new, false
   
   def self.update_curated_talking_point_ids(question_id, tp_ids, mode, member)
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => question_id}, 'curate_talking_points', member)
@@ -86,6 +89,51 @@ class Question < ActiveRecord::Base
     self.curated_talking_points_set
   end
 
+  def assign_new_content
+    #self.new_talking_points = TalkingPoint.where("question_id IN (:question_ids) AND updated_at >= :last_visit", :question_ids => self.questions.map(&:id), :last_visit => member.last_visits[self.id.to_s] )
+    self.new_talking_points = TalkingPoint.select('tp.*')
+      .joins(" AS tp LEFT JOIN talking_point_acceptable_ratings AS tpar ON tp.id=tpar.talking_point_id AND tpar.member_id = #{self.member.id}",)
+      .where("tpar.id IS NULL AND question_id = #{self.id}")
+    
+    self.new_talking_points.each{|tp| tp['new'] = true }
+
+    self.new_comments = Comment.includes(:author).where("question_id = :question_id AND created_at >= :last_visit", :question_id => self.id, :last_visit => member.last_visits[self.team_id.to_s])
+    self.new_comments.each{|com| com['new'] = true }
+    
+  
+    tps_i_need = self.new_comments.map{ |c| c.parent_type == 13 ? c.parent_id : nil}.compact.uniq - self.new_talking_points.map(&:id)
+
+    if tps_i_need.size > 0
+      needed_tps = TalkingPoint.find(tps_i_need)
+      TalkingPoint.add_my_ratings_and_prefs(needed_tps,self.member)
+      self.new_talking_points = self.new_talking_points + needed_tps
+    end  
+    
+    # Do I need to load any parent comments to give context to a child comment?
+    # get all the com parent_ids
+    com_ids_i_need = self.new_comments.map{ |c| c.parent_type == 3 ? c.parent_id : nil}.compact.uniq - self.new_comments.map(&:id)
+
+    if com_ids_i_need.size > 0
+      self.new_comments = self.new_comments + Comment.find(com_ids_i_need)
+    end  
+    
+    # Assign child comments to parent tp and coms
+    self.new_comments.each do |c|
+      if c.parent_type == 13
+        logger.debug "assign new coms to TP is: #{c.parent_id}"
+        tp = self.new_talking_points.detect{|tp| tp.id == c.parent_id }
+        tp['comments'] ||= []
+        tp['comments'].push(c)
+      elsif c.parent_type == 3
+        com = self.new_comments.detect{|com| com.id == c.parent_id }
+        com['comments'] ||= []
+        com['comments'].push(c)
+      end
+    end
+
+    self.show_new = self.new_talking_points.size > 0 || self.new_comments.size > 0 
+  end
+  
   def remaining_talking_points(ids)
     # process ids to make sure they are just numbers
     ids = ids.map{|i| i.to_i }
@@ -115,9 +163,9 @@ class Question < ActiveRecord::Base
       ORDER BY count(tpar.member_id) DESC, id DESC|,self.id])
   end
 
-  def new_comments(last_visit_ts)
-    Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => last_visit_ts )
-  end
+  #def new_comments(last_visit_ts)
+  #  Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => last_visit_ts )
+  #end
 
   def remaining_new_comments(ids, last_visit_ts)
     # process ids to make sure they are just integers

@@ -29,6 +29,8 @@ class CommentsController < ApplicationController
     
     @talking_point = TalkingPoint.find(params[:talking_point_id])
     @comments = @talking_point.comments
+    # mark new comments as new ['new']
+    @comments.each{|c| c['new'] = true if c.created_at >  @member.last_visits[team_id.to_s]}
     
     respond_to do |format|
       format.js { render :partial => 'talking_point_comments', :locals=> {:talking_point => @talking_point, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => false}
@@ -100,6 +102,9 @@ class CommentsController < ApplicationController
     @team = Team.find(team_id)
     
     @comments = @comment.comments
+    # mark new comments as new ['new']
+    @comments.each{|c| c['new'] = true if c.created_at >  @member.last_visits[team_id.to_s]}
+    
 
     respond_to do |format|
       format.js { render :partial => 'comment_comments', :locals=> {:comment => @comment, :comments => @comments, :com_criteria => @team.com_criteria }, :layout => false}

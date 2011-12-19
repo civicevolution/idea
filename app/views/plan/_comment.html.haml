@@ -9,27 +9,12 @@
 		- name = comment.author.first_name + ' ' + comment.author.last_name
 		- pic_src = comment.author.photo.url('36')
 
-	- @last_ts = Time.local(2010,1,20)
-	- if comment.created_at > @last_ts
-		- class_str = 'entry Comment_entry new_com full_comment_display'
-		- new_str = 1
-	- elsif comment.updated_at > @last_ts
-		- class_str = 'entry Comment_entry new_com full_comment_display'
-		- new_str = 2
-	- else
-		- class_str = 'entry Comment_entry one_line_comment'
-		- new_str = 0
-
-
 	%div.Comment{:id => comment.id, :class => comment['highlight'] ? 'highlight' : '' }
-		%div{:class=>class_str, :id => "com_#{comment.id}" }
+		%div{:class=>'entry Comment_entry full_comment_display' }
+			- if comment['new']
+				%span.new_com New
 			%img{:src=>pic_src,:class=>'i36'}
 			%div.comment
-				-#- if new_str == 1
-				-#	%span.new._comment New 
-				-#- elsif new_str == 2
-				-#	%span.new._comment Updated
-				
 				%div.comment_text!= show_author_comment(name, comment.author.ape_code, comment.text)
 				-# if !resource.nil?
 					%div{:class => "resource #{resource.link_url ? 'link' : 'upload'}"}
@@ -46,7 +31,9 @@
 				%div.comment_controls
 					- if comment.publish
 						- if show_reply
-							- if comment['comments']
+							- if comment['comments'] && comment.new_coms > 0
+								- link_text = "Hide new comments"
+							- elsif comment['comments']
 								- link_text = "Hide discussion"
 							- elsif comment.new_coms > 0
 								- link_text = "Show #{ pluralize(comment.new_coms, 'new comment')}"
