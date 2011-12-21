@@ -1,0 +1,6 @@
+%div.cta.corner{:class=>custom_locals[:custom_class].nil? ? '' : custom_locals[:custom_class]}
+	%div.primary
+		= render :inline=> primary, :type => :haml, :locals=>custom_locals
+	%div.secondary
+		= render :inline=> secondary, :type => :haml, :locals=>custom_locals unless secondary.nil?
+	%p.clear_both

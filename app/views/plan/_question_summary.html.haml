@@ -4,8 +4,8 @@
 		
 	%div.talking_point_sec
 		%div.talking_points_list.summary.corner{:id=>question.id}
-			%ul.talking_points{:id=>question.id, :curated_tp_ids=>question.curated_tp_ids, :auto_curated=> question.auto_curated ? 't' : 'f'}
-				- if question.curated_talking_points.size == 0
+			- if question.curated_talking_points.size == 0
+				%ul.talking_points{:id=>question.id, :curated_tp_ids=>question.curated_tp_ids, :auto_curated=> question.auto_curated ? 't' : 'f'}
 					- da = @default_answers.detect{|da| da.id == question.default_answer_id}
 					- if da
 						- da.checklist.split(/\n/).each do |point|
@@ -13,78 +13,15 @@
 					- else
 						%li Click the question link above to help answer this question
 				
-					%div#add_tp.talking_point_form.hint.corner
-						%div.form.cta
-							- if question.coms.to_i > 0
-								- if (@member.nil? || @member.id == 0)
-									%p #{link_to 'Explore', question_worksheet_path(question), {:remote=> true}} #{pluralize(question.coms, 'comment')}
-								- else
-									%p #{link_to 'Review', question_worksheet_path(question), {:remote=> true}} #{pluralize(question.coms, 'new comment')}
-							%p 
-								Click to 
-								#{link_to 'suggest a talking point', question_worksheet_path(question), {:remote=> true}} or
-								#{link_to 'discuss this question', question_worksheet_path(question), {:remote=> true}}
-								-# by opening the talking points worksheet
-						%div.instr
-							%p 
-						%p.clear_both
-
-				- else
+				= add_call_to_action(:id=>'question_summary_below_default_list', :question=>question)	
+				
+			- else # show the curated talking points
+				%ul.talking_points{:id=>question.id, :curated_tp_ids=>question.curated_tp_ids, :auto_curated=> question.auto_curated ? 't' : 'f'}
 					- question.curated_talking_points.each do |talking_point|
 						%li.talking_point{:id=>talking_point.id}
 							= talking_point.text
 							= image_tag 'delete_icon_16.gif',{:title=>'Click to delete'}
 							= link_to "details",{},{:class=>'tp_details'}
-					-# if question.talking_points.size - question.curated_talking_points.size > 0
-						%div#add_tp.talking_point_form.hint.corner
-							%div.form.cta
-								%p Click here to display #{link_to pluralize( question.talking_points.size - question.curated_talking_points.size, 'more talking point'), question_summary_path(question.id, :all=>'t'), :remote=>true}
-							%div.instr
-								%p 
-							%p.clear_both
-						
+							
+				= add_call_to_action(:id=>'question_summary_below_curated_list', :question=>question)
 					
-						-#%li= link_to pluralize( question.talking_points.size - question.curated_talking_points.size, 'more talking point'), question_summary_path(question.id, :all=>'t'), :remote=>true						
-			
-			
-					%div#add_tp.talking_point_form.hint.corner
-						%div.form.cta
-							- if (@member.nil? || @member.id == 0)
-								- cta = "#{link_to 'Explore', question_worksheet_path(question), {:remote=> true}} "
-								- if question.num_talking_points.to_i > 0 
-									- cta += "#{pluralize(question.num_talking_points, 'talking point')} "
-									- cta += 'and ' if question.coms.to_i > 0
-								- if question.coms.to_i > 0
-									- cta += "#{pluralize(question.coms, 'comment')}"
-							- else 
-								- cta = "#{link_to 'Review', question_worksheet_path(question), {:remote=> true}} "
-								- if question.num_talking_points.to_i > 0 
-									- cta += "#{pluralize(question.num_talking_points, 'new talking point')} "
-									- cta += 'and ' if question.coms.to_i > 0
-								- if question.coms.to_i > 0
-									- cta += "#{pluralize(question.coms, 'new comment')}"
-
-							- if cta
-								%p!= cta
-							%p 
-								We need to hear from you. Please 
-								= link_to 'rate', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}
-								these talking points and 
-								= link_to 'tell us', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}
-								what you think
-						%div.instr
-							%p 
-						%p.clear_both
-					
-				-# if question.answers.size > 0 || question.bs_ideas.size > 0
-					%p= link_to 'Show old answers and ideas', question_old_data_path(question.id), {:remote=>true}
-			
-		
-			-#
-				- if question.num_new_talking_points > 0
-					%p #{question.num_new_talking_points} new talking points
-				- elsif question.num_talking_points > question.top_talking_points.length
-					%p.show_more_link= link_to "Show #{question.num_talking_points - question.top_talking_points.length} more talking points", {}, { :class=> 'question_show_talking_points', :id=>question.id }
-				- elsif question.num_talking_points == 0
-					%p There are no talking points for this question, please add one with the form below.
-

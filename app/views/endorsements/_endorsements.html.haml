@@ -44,16 +44,9 @@
 								= submit_tag "Delete", :class => 'link'
 			
 		- if !print			
-			%div#add_tp.talking_point_form.hint.corner
-				%div.form.cta
-					%p 
-						If you agree with this proposal, show your support by endorsing it. Add a statement of support in the form below and click the button.
-				%div.instr
-					%p 
-						If you disagree, join the discussion to share your concerns and suggest improvements.
-						= link_to "Here's how", help_develop_path, {:remote=>true}
-				%p.clear_both
 			
+			= add_call_to_action(:id=>'endorsement', :endorsed=>endorsed)	
+					
 			= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form' + ( endorsed ? ' hide' : '' ) do 
 				%div.add_answer
 					%p

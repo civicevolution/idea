@@ -9,14 +9,8 @@
 		- else
 			
 			- if request.xhr?
-				%div#add_tp.talking_point_form.hint.corner
-					%div.form.cta
-						%p Please create, discuss, rate and refine the talking points below to answer this question and find those that are acceptable to most of our community
-					%div.instr.icon
-						%p= link_to image_tag('close_icon_16.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}) + "Close this talking points worksheet", question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
-						
-					%p.clear_both
-				
+				= add_call_to_action(:id=>'worksheet_top', :question=>question, :custom_class=>'close_icon')	
+								
 				%div
 				
 					= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }

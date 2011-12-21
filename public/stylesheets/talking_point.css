@@ -929,10 +929,8 @@ div.worksheet {
   div.worksheet p.worksheet_intro {
     font-size: 1em; }
 
-div.endorsements div#add_tp.talking_point_form.hint.corner {
+div.endorsements div.cta {
   margin: 32px 0 32px 0; }
-  div.endorsements div#add_tp.talking_point_form.hint.corner div.cta p {
-    font-size: 1em; }
 
 div#submit {
   margin-top: 60px; }
@@ -1022,3 +1020,42 @@ a.close_worksheet img {
 span.new_com {
   color: #cf725f;
   font-weight: bold; }
+
+div.cta {
+  background: #e1e8c4 url(/images/rate-bg-gr.gif) repeat-y 380px;
+  width: 100%;
+  border: 1px solid #bcc3d0;
+  margin-bottom: 16px; }
+  div.cta div.primary {
+    background: url(/images/hand3-gr2.gif) no-repeat 8px 10px;
+    float: left;
+    width: 400px;
+    padding: 0 10px; }
+    div.cta div.primary p {
+      margin-left: 40px;
+      font-size: 13px; }
+  div.cta div.secondary {
+    float: left;
+    width: 160px; }
+    div.cta div.secondary p {
+      font-size: 13px;
+      margin: 1em 0 0 1em 22px; }
+
+div.curated_list div.cta {
+  margin-bottom: 0; }
+  div.curated_list div.cta h4 {
+    margin-left: 34px; }
+div.curated_list div.primary {
+  width: auto; }
+
+div.cta.close_icon div.secondary {
+  position: relative; }
+  div.cta.close_icon div.secondary img {
+    position: absolute;
+    top: 16px;
+    left: 0; }
+  div.cta.close_icon div.secondary p {
+    margin-left: 22px; }
+
+div.form.cta {
+  border: none; }

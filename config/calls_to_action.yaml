@@ -1,0 +1,140 @@
+# Format notes
+# haml string formatting is critical
+#   Always follow these two examples
+#      haml: |
+#        %p We need to hear from you!
+#
+#      haml: |
+#        %p 
+#          We need to hear from you. Please #{link_to 'rate', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}}
+#          these talking points and #{link_to 'tell us', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}} what you think
+#
+#   Always use a pipe '|' after haml:
+#   Always indent multiline haml nodes
+#
+
+init_1: 
+  
+  question_top:
+    option_1:
+      test: 'true'
+      haml_strings:
+        primary:
+          haml: |
+            %p #{@member.first_name}, V2 these talking points were hand selected and ordered to reflect the preferences of the group |
+            %p= link_to "Learn more about this hand selected list", help_curate_show_path, {:remote=>true}
+        secondary: 
+          haml: |
+            %p We need to hear from you!
+      
+  question_summary_below_curated_list:
+    option_1:
+      test: data[:question].num_talking_points.to_i>0 && data[:question].coms.to_i>0
+      haml_strings:
+        primary:
+          haml: |
+            %p 
+              #{link_to (@member.nil? || @member.id == 0 ? 'Explore' : 'Review'), question_worksheet_path(question), {:remote=> true}} 
+              #{question.num_talking_points.to_i>0 ? pluralize(question.num_talking_points, 'talking point') : ''} 
+              #{question.num_talking_points.to_i>0 && question.coms.to_i>0 ? 'and ' : ''}
+              #{question.coms.to_i>0 ? pluralize(question.coms, 'comment') : ''}
+            %p 
+              We need to hear from you. Please #{link_to 'rate', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}}
+              these talking points and #{link_to 'tell us', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}} what you think
+      
+
+  question_summary_below_default_list:
+    option_1:
+      test: 'true'
+      haml_strings:
+        primary_1:
+          test: data[:question].coms.to_i > 0 && (@member.nil? || @member.id == 0)
+          haml: |
+            %p #{link_to 'Explore', question_worksheet_path(question), {:remote=> true}} #{pluralize(question.coms, 'comment')}
+        primary_2:
+          test: data[:question].coms.to_i > 0 && (!@member.nil? && @member.id != 0)
+          haml: |
+            %p #{link_to 'Review', question_worksheet_path(question), {:remote=> true}} #{pluralize(question.coms, 'new comment')}
+        primary_3: 
+          haml: |
+            %p 
+              Click to #{link_to 'suggest a talking point', question_worksheet_path(question), {:remote=> true}} 
+              or #{link_to 'discuss this question', question_worksheet_path(question), {:remote=> true}}
+
+  endorsement:
+    option_1:
+      test: data[:endorsed] != true
+      haml_strings:
+        primary:
+          haml: |
+            %p If you agree with this proposal, show your support by endorsing it. Add a statement of support in the form below and click the button.
+        secondary:
+          haml: |
+            %p 
+              If you disagree, join the discussion to share your concerns and suggest improvements. 
+              #{link_to "Here's how", help_develop_path, {:remote=>true}}
+    option_2:
+      test: data[:endorsed] == true
+      haml_strings:
+        primary:
+          haml: |
+            %p You can update or delete your endorsement at any time
+            %p Please invite your friends and share this idea with your community
+        secondary:
+          haml: |
+            %p 
+              If you disagree, join the discussion to share your concerns and suggest improvements. 
+              #{link_to "Here's how", help_develop_path, {:remote=>true}}
+
+  end_summary_print:
+    option_1:
+      haml_strings:
+        primary:
+          haml: |
+            %p= link_to "Print this proposal", print_proposal_path(@team)			
+
+  summary_page_submit:
+    option_1:
+      haml_strings:
+        primary:
+          haml: |
+            %p #{link_to 'Request pre-submission review', submit_proposal_path(@team.id, :act => 'pre_review'), {:class=>"pre_review_proposal", :rel=>'nofollow', :remote=>true}} (Recommended)
+            %p= link_to "Submit this proposal to the #{sponsor}", submit_proposal_path(@team.id, :act => 'submit'), {:class=>"submit_proposal", :rel=>'nofollow', :remote=>true}
+
+  curated_talking_points_list:
+    option_1:
+      test: data[:custom_class] == 'curated'
+      haml_strings:
+        primary:
+          haml: |
+            %p These talking points were hand selected and ordered to reflect the preferences of the group
+            %p= link_to "Learn more about this hand selected list", help_curate_show_path, {:remote=>true}
+    option_2:
+      test: data[:custom_class] == 'non_curated'
+      haml_strings:
+        primary:
+          haml: |
+            %p These are the top talking points from the group
+            %p= link_to "Learn about hand selecting this list", help_curate_show_path, {:remote=>true}
+    option_3:
+      test: data[:custom_class] == 'curator'
+      haml_strings:
+        primary:
+          haml: |
+            %h4 You can help create this list
+            %ul
+              %li Select talking points from the left by dragging them into the list above
+              %li Arrange the list items by dragging them up or down
+              %li This list should reflect the ratings and favorites of the group
+            %p= link_to "Show me how to edit this list", help_curate_show_path, {:remote=>true}
+
+  worksheet_top:
+    option_1:
+      test: 'true'
+      haml_strings:
+        primary:
+          haml: |
+            %p Please create, discuss, rate and refine the talking points below to answer this question and find those that are acceptable to most of our community
+        secondary:
+          haml: |
+            %p= link_to image_tag('close_icon_16.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}) + "Close this talking points worksheet", question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
