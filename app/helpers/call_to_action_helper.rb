@@ -8,7 +8,7 @@ module CallToActionHelper
     secondary_haml = ''
     
     debug = false
-    #debug = true if data[:id] == 'end_summary_print'
+    #debug = true if data[:id] == 'worksheet_cta'
     
     # find a set that applies, or use the set if only one
     conf['init_1'][data[:id]].each_value do |option|

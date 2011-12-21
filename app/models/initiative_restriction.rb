@@ -41,14 +41,14 @@ class InitiativeRestriction < ActiveRecord::Base
 
     
     logger.debug "InitiativeRestrictions initiative_id #{initiative_id}, action: #{action}, for member: #{member.inspect}"
-    if initiative_id.nil?
+    if initiative_id.nil? || initiative_id == 0
       logger.debug 'No initiative_id was specified'
-      return false, 'No initiative_id was specified', team_id
+      return false, 'This is not a valid proposal - no initiative_id was specified', team_id
     end
     
     #irs = YAML.load_file("#{Rails.root}/config/initiative_restrictions.yaml")
     irs = INITIATIVE_RESTRICTIONS
-    
+
     action_rules = irs["init_#{initiative_id}"]['action_rules'][action]
 
     if action_rules.nil?

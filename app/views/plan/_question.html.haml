@@ -23,45 +23,8 @@
 					= submit_tag "Save your ratings and preferences", :class=>'submit_ratings'
 					%p.clear_both
 					
-			-# Calls to action
-			- if @add_tp
-				%div#add_tp.talking_point_form.hint.corner
-					%div.form.cta
-						%p If you have a specific idea for answering this question, please add a talking point in the form below 
-					%div.instr
-						%p Or you can share your thoughts in a comment
-						
-					%p.clear_both
-				
-			- if @rate_tp
-				%div#rate_tp.talking_point_form.hint.corner
-					%div.form.cta
-						%p Click the circle below the colored bar to indicate how you feel about each talking point. Your choices range from perfectly acceptable (dark green) to completely unacceptable (dark red)
-					%div.instr
-						%p 
-
-					%p.clear_both
-
-			- if @fav_tp
-				%div#fav_tp.talking_point_form.hint.corner
-					%div.form.cta
-						%p Click the star to mark the talking points your prefer. If you click more than 5 talking points for one question, you will be prompted to choose your 5 most favorite.
-					%div.instr
-						%p 
-
-					%p.clear_both
-
-			- if @com_tp
-				%div#com_tp.talking_point_form.hint.corner
-					%div.form.cta
-						%p You can comment on the talking points by clicking the Reply/Comments under each talking point
-					%div.instr
-						%p Add questions and offer suggestions
-
-					%p.clear_both
-
-					
-
+			= add_call_to_action(:id=>'worksheet_cta')			
+			
 			= render :partial => 'plan/talking_point_form', :locals => {:question_id=>question.id}
 			
 			%div.ques_discussion.discussion{:id=>question.id}

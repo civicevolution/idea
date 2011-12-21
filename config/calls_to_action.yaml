@@ -138,3 +138,25 @@ init_1:
         secondary:
           haml: |
             %p= link_to image_tag('close_icon_16.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}) + "Close this talking points worksheet", question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
+
+  worksheet_cta:
+    option_1:
+      test: 'true'
+      haml_strings:
+        primary_1:
+          test: @add_tp == true
+          haml: |
+            %p If you have a specific idea for answering this question, please add a talking point in the form below, Or you can share your thoughts in a comment
+        primary_2:
+          test: @rate_tp == true
+          haml: |
+            %p Click the circle below the colored bar to indicate how you feel about each talking point. Your choices range from perfectly acceptable (dark green) to completely unacceptable (dark red)
+        primary_3:
+          test: @fav_tp == true
+          haml: |
+            %p Click the star to mark the talking points your prefer. If you click more than 5 talking points for one question, you will be prompted to choose your 5 most favorite.
+        primary_4:
+          test: @com_tp == true
+          haml: |
+            %p You can comment on the talking points by clicking the Reply/Comments under each talking point
+

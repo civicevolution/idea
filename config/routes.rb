@@ -76,8 +76,6 @@ G3::Application.routes.draw do |map|
 
   get "registration/confirm_registration"
 
-  get "plan/index"
-  
   get "plan/suggest_new_idea"
   
   match "plan/:team_id/submit", :to => 'plan#submit_proposal', :as => 'submit_proposal'
@@ -96,7 +94,7 @@ G3::Application.routes.draw do |map|
   post 'endorsements/:team_id/edit', :to => 'endorsements#edit', :as => 'edit_plan_endorsement'
   match 'endorsements/:team_id/update', :to => 'endorsements#update', :via => [:put, :post], :as => 'update_plan_endorsement'
 
-  get 'plan/:team_id/new_content(/:time_stamp)' => 'plan#new_content', :as => 'new_content'
+  get 'plan/:team_id/new_content(/:time_stamp)' => 'plan#summary', :as => 'new_content'
 
   #match 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }
   match 'plan/:team_id', :to => 'plan#summary', :requirements => { :team_id => /\d+/ }, :as => 'plan'
@@ -119,7 +117,7 @@ G3::Application.routes.draw do |map|
   get "questions/:question_id/new_talking_points" => "questions#new_talking_points", :as => :question_new_talking_points
   get "questions/:question_id/all_talking_points" => "questions#all_talking_points", :as => :question_all_talking_points
 
-  get "questions/:question_id/old_data" => "questions#old_data", :as => :question_old_data
+  get "questions/:question_id/old_data" => "questions#worksheet", :as => :question_old_data
 
   post "questions/:question_id/update_worksheet_ratings" => "questions#update_worksheet_ratings", :as => :update_worksheet_ratings
 
