@@ -133,6 +133,7 @@ DEPENDENCIES
   aws-s3
   aws-ses
   bluecloth
+  bundler (~> 1.0.15)
   daemons
   delayed_job
   diff-lcs
