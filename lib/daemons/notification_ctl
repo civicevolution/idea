@@ -12,12 +12,37 @@ require 'active_support'
 require "active_support/core_ext/object"
 require "active_support/core_ext/hash"
 
-options = YAML.load(
-  ERB.new(
-    IO.read(
-      File.dirname(__FILE__) + "/../../config/daemons.yml"
-  )).result).with_indifferent_access
+
+# Options from daemons.yml
+# dir_mode: script
+# dir: ../../log
+# multiple: false
+# backtrace: true
+# monitor: false
+# ontop: false
+
+#options = YAML.load(
+#  ERB.new(
+#    IO.read(
+#      File.dirname(__FILE__) + "/../../config/daemons.yml"
+#  )).result).with_indifferent_access
+#options[:dir_mode] = options[:dir_mode].to_sym    
     
-options[:dir_mode] = options[:dir_mode].to_sym
+#	Options:
+#	:app_name:	The name of the application. This will be used to contruct the name of the pid files and log files. Defaults to the basename of the script.
+#	:dir_mode:	Either :script (the directory for writing files to given by :dir is interpreted relative to the script location given by script, the default) or :normal (the directory given by :dir is interpreted as a (absolute or relative) path) or :system (/var/run is used as the file directory)
+#	:dir:	Used in combination with :dir_mode (description above)
+#	:log_dir:	A specific directory to put the log files into (when not given, resort to the default location as derived from the :dir_mode and :dir options
+
+  options = {
+    :app_name   => "notify_d_tp",
+    :dir_mode   => :normal,
+    :dir        => '/var/run',
+    :log_dir    => '../../log',
+    :multiple   => false,
+    :ontop      => false,
+    :backtrace  => true,
+    :monitor    => false
+  }
 
 Daemons.run File.dirname(__FILE__) + "/notification.rb", options
