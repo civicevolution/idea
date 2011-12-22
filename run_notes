@@ -189,13 +189,16 @@ Upload and apply custom recipes
 	attach chef recipes
 	  cd /ce_development/Rails/ey-cloud-recipes
 	
+	YOU MUST DO THIS FROM THE ey-recipes DIRECTORY!
+	
 	Upload
 	  ey recipes upload -e civic_west
 	
 	Apply
 	  ey recipes apply -e civic_west
 	
-	
+Deploy with migration:
+	$ ey deploy -e cw -a tp -r tp -m 'bundle exec rake db:migrate'
 	
 	
 ***********************************************************************************
