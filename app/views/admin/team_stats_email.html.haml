@@ -1,0 +1,184 @@
+- content_for (:script) do
+	= javascript_include_tag "jquery.tablesorter.min.js"
+	:javascript
+		$(function(){
+		
+			//// add new widget called indexFirstColumn
+			//$.tablesorter.addWidget({
+			//    // give the widget a id
+			//    id: "indexFirstColumn",
+			//    // format is called when the on init and when a sorting has finished
+			//    format: function(table) {                               
+			//            // loop all tr elements and set the value for the first column  
+			//            for(var i=0; i <= table.tBodies[0].rows.length; i++) {
+			//                    $("tbody tr:eq(" + (i - 1) + ") td:first",table).html(i);
+			//            }                                                               
+			//    }
+			//});
+
+			//$("#teams").tablesorter( {widgets: ['zebra','indexFirstColumn'] });
+			//$("#members").tablesorter( {widgets: ['zebra','indexFirstColumn'] }); 
+			
+			if(false){ //if(#{@set_cta}){
+				//$('table.tablesorter tr').die('click').live('click',
+				//	function(e){
+				//		ids = this.id.split('-');
+				//		member_id = ids[0]
+				//		team_id = ids[1]
+				//		//console.log("click on row member_id: " + member_id + ", team_id: " + team_id)
+				//		//console.log("x: " + e.pageX + ", y: " + e.pageY)
+				//		var dialog = $('<div id="select_cta"><div>').dialog( {title : false, modal : true, position : [e.pageX,e.pageY - pageYOffset - 50] } )
+				//		$('div#select_cta').load('/call_to_action/load_cta_options',{member_id:member_id, team_id: team_id})
+				//		dialog.siblings('div.ui-dialog-titlebar').remove();
+				//	}
+				//)
+			
+				//$(':radio').die('click').live('click',
+				//	function(e){
+				//		var el = $(this)
+				//		ids = el.closest('table').attr('id').split('-');
+				//		member_id = ids[0]
+				//		team_id = ids[1]
+				//		scenario = el.val()
+				//		console.log("clicked on scenario: " + scenario + " for member_id: " + member_id + " and team_id: " + team_id)
+				//		// submit to the server
+				//		$.ajax	({ 					
+				//		  type: "POST", 
+				//			url: 'http://' + document.location.host + '/call_to_action/save_to_queue',
+				//			data: {member_id: member_id, team_id: team_id, scenario: scenario},
+				//		  success: function(data,status){ 
+				//				console.log("/call_to_action/save_to_queue submit success");
+				//				//debugger
+				//				$('tr#' + member_id + '-' + team_id).find('td:last').html(data)
+				//				el.closest('div.ui-dialog').dialog('destroy').remove();
+				//		  },
+				//			error : function(xhr,errorString,exceptionObj){
+				//				console.log("error updating call to action")
+				//			}
+				//		});			
+				//	  return false;
+				//	}
+				//)
+			}
+		});
+	%style
+		:sass
+			div.page
+				width: auto
+				margin-bottom: 200px
+			table td 
+				padding: 3px
+			table tr.odd td
+				background: #e6f2ff
+			span.sort_time
+				width: 20px
+				display: none
+			td.title 
+				max-width: 200px
+			td.pts
+				background-color: #ccc
+			td.mems
+				background-color: #ddd
+			td.tp
+				background-color: #c00
+			td.com
+				background-color: #d66
+			div#team_participant_stats
+				margin-bottom: 40px
+					
+
+%h3 Team participation statistics
+-#%ul
+	%li Top table shows every team member on every team and the content they have contributed and the last call to action email they received.
+	%li Lower table shows all people registered to 2029/CGG that have not joined a team
+	%li Click column headers to sort (To sort date "..ago" columns click the adjacent column marked "v^")
+
+-#
+	team_stats = Team.includes(:proposal_stats).where(:initiative_id => 1..2).order('initiative_id DESC, title ASC')
+	team.stats[0].each{|key,value| puts key}
+	
+%p Legend
+%ul
+	%li I - The id for the initiative, CGG Staff proposals are init = 1 and 2029 proposals are init 2
+	%li Team - click link to open the proposal in a new browser tab
+	%li Score - the total number of point based on contributions and activity
+	%li View - how many times the page has been viewed SINCE we started tracking in the late fall
+	%li Mem - # of participants
+	%li Inv - # of invites that were sent
+	%li foll - # of people following this proposal with email notifications
+	%li end - # of endorsements for this proposal
+	%li Com - # of comments
+	%li TP - # of talking points
+	%li Edit - # of talking point edits
+	%li Rate - # of talking point preferences recorded
+	%li Pref - # of talking point preferences recorded
+	%li P1 - P90 - the # of points earned in each period, last 1 day, last 3 days, last 7 days etc
+	%li Tot - the total number of points earned since the proposal was started
+	%li Rep. - the # of items that have been reported as off-topic or abusive, etc on this proposal
+	%li Participants - Click link to list all of the participants
+
+
+
+%table#teams{:class=>"tablesorter"}
+	%thead
+		%tr.stripe
+			%th I
+			%th Team
+			%th Score
+			-#%th Init
+			%th View
+			-#%th Q views
+			%th Mem
+			%th Inv
+			%th foll
+			%th end
+			%th Com
+			%th TP
+			%th Edit
+			%th Rate
+			%th Pref
+			%th P1
+			%th P3
+			%th P7
+			%th P14
+			%th P28
+			%th P90
+			%th Tot
+			%th Rep.
+			-#%th Vw base
+			-#%th Q base
+			%th Participants
+			
+			
+	%tbody	
+		- @team_stats.each do |m|
+			%tr{:id=>"#{m['id']}", :class=>cycle('','stripe')}
+				%td= m['initiative_id'] 
+				-#%td.title= m['title']
+				%td.title= link_to m['title'], proposal_path(m['id']), {:target=>'_blank'}
+				%td.pts= m.proposal_stats['points_total']
+				-#%td= m['initiative_id']
+				%td= m.proposal_stats['proposal_views']
+				-#%td= m.proposal_stats['question_views']
+				%td.mems= m.proposal_stats['participants']
+				%td= m.proposal_stats['friend_invites']
+				%td= m.proposal_stats['followers']
+				%td= m.proposal_stats['endorsements']
+				%td.com= m.proposal_stats['comments']
+				%td.tp= m.proposal_stats['talking_points']
+				%td= m.proposal_stats['talking_point_edits']
+				%td= m.proposal_stats['talking_point_ratings']
+				%td= m.proposal_stats['talking_point_preferences']
+				%td.pts= m.proposal_stats['points_days1']
+				%td.pts= m.proposal_stats['points_days3']
+				%td.pts= m.proposal_stats['points_days7']
+				%td.pts= m.proposal_stats['points_days14']
+				%td.pts= m.proposal_stats['points_days28']
+				%td.pts= m.proposal_stats['points_days90']
+				%td.pts= m.proposal_stats['points_total']
+				%td= m.proposal_stats['content_reports']
+				-#%td= m.proposal_stats['proposal_views_base']
+				-#%td= m.proposal_stats['question_views_base']
+				%td= link_to 'Participants', team_participant_stats_ermail_path(m['id']), :remote=>true
+				
+				

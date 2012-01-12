@@ -196,7 +196,7 @@ namespace :seed_specific_tables do
       puts "Processing teams id: #{team.id}"
 
       stats_rec = ProposalStats.find_by_team_id(team.id) || ProposalStats.new(:team_id => team.id)
-      stats_rec.participants = ActiveRecord::Base.connection.select_value("SELECT COUNT(DISTINCT(member_id)) FROM participation_events WHERE team_id = #{team.id};").to_i
+      stats_rec.participants = ActiveRecord::Base.connection.select_value("SELECT COUNT(DISTINCT(member_id)) FROM participation_events WHERE team_id = #{team.id} AND member_id > 15").to_i
       
       participation_counts = ActiveRecord::Base.connection.select_all(
       %Q|SELECT SUM(points_total) AS points_total, SUM(points_days1) AS points_days1, SUM(points_days3) AS points_days3, SUM(points_days7) AS points_days7, 
@@ -304,7 +304,7 @@ namespace :seed_specific_tables do
         stats_rec.points_days28 = participation_counts['points_days28'].to_i
         stats_rec.points_days90 = participation_counts['points_days90'].to_i
 
-        last_visit = ParticipationEvent.where(:member_id => 1, :team_id => team.id).last
+        last_visit = ParticipationEvent.where(:member_id => participant.id, :team_id => team.id).last
         stats_rec.last_visit = last_visit.nil? ? nil : last_visit.created_at
         
         

@@ -151,7 +151,7 @@ Running on DEV
 
 			Run regular mode
 			
-				cd /ce_development/node/chat1/node_modules/juggernaut	
+				cd /usr/local/lib/node_modules/juggernaut
 				juggernaut
 	
 			Run in debug mode

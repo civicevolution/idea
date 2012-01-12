@@ -210,6 +210,7 @@ G3::Application.routes.draw do |map|
 
   get 'admin/team/:team_id/stats' => 'admin#team_stats', :as => 'team_stats'
   get 'admin/team/:team_id/team_participant_stats' => 'admin#team_participant_stats', :as => 'team_participant_stats'
+  get 'admin/team/:team_id/team_participant_stats_email' => 'admin#team_participant_stats_email', :as => 'team_participant_stats_ermail'
 
   get 'test' => 'plan#test'
 

@@ -1,3 +1,4 @@
+- email ||= false
 - if standalone
 	- content_for (:script) do
 		= javascript_include_tag "jquery.tablesorter.min.js"
@@ -61,6 +62,12 @@
 					//	}
 					//)
 				}
+				$('div#team_participant_stats a.close_team_stats').live('click',
+					function(){
+						$(this).closest('div#team_participant_stats').remove();
+						return false;
+					}
+				);
 			});
 		%style
 			:sass
@@ -86,7 +93,9 @@
 					background-color: #d66
 					
 %div#team_participant_stats
-	%h3 Team participation statistics
+	%h3 
+		Team participation statistics
+		%a.close_team_stats Close
 	-#%ul
 		%li Top table shows every team member on every team and the content they have contributed and the last call to action email they received.
 		%li Lower table shows all people registered to 2029/CGG that have not joined a team
@@ -104,14 +113,15 @@
 				%th #
 				%th First
 				%th Last
+				%th Score
 				%th View
-				%th Q views
-				%th Inv.
+				-#%th Q views
+				%th Inv
 				%th foll
 				%th end
-				%th Coms
+				%th Com
 				%th TP
-				%th TP edits
+				%th Edit
 				%th Rate
 				%th Pref
 				%th Rep
@@ -123,16 +133,21 @@
 				%th P90
 				%th Tot
 				%th Last visit
+				- if email
+					%th Email
 			
 			
 		%tbody	
 			- @team_participant_stats.sort{ |a,b| a.member.first_name <=> b.member.first_name && a.member.last_name <=> b.member.last_name}.each do |m|
 				%tr{:id=>"#{m['id']}-#{m['team_id']}", :class=>cycle('','stripe')}
 					%td
-					%td.title= m.member['first_name']
+					%td.title
+						= m.member['id']
+						= m.member['first_name']
 					%td= m.member['last_name']
+					%td.pts= m['points_total']
 					%td= m['proposal_views']
-					%td= m['question_views']
+					-#%td= m['question_views']
 					%td= m['friend_invites']
 					%td= m['following']
 					%td= m['endorse']
@@ -149,4 +164,9 @@
 					%td.pts= m['points_days28']
 					%td.pts= m['points_days90']
 					%td.pts= m['points_total']
-					%td.pts= m['last_visit']
+					%td.pts= m['last_visit'].nil? ? 'Not recent' : time_ago_in_words(m['last_visit'])
+					- if email
+						%td= m.member['email']
+
+	%p
+		%a.close_team_stats Close

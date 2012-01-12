@@ -1,8 +1,16 @@
 :plain
 	var participants = $("<td colspan='20'>#{escape_javascript(
-		render( :template => 'admin/team_participant_stats.html', :locals => {:standalone => false})
+		render( :template => 'admin/team_participant_stats.html', :locals => {:standalone => false, :email=>email})
 	)}</td>");
 	
 	var tr = $('tr[id="#{params[:team_id]}"]');
-	tr.clone().html(participants).insertAfter(tr)
+	tr.clone().html(participants).insertAfter(tr);
+	
+	$('div#team_participant_stats a.close_team_stats').live('click',
+		function(){
+			$(this).closest('div#team_participant_stats').closest('tr').remove();
+			return false;
+		}
+	);
+	
 	

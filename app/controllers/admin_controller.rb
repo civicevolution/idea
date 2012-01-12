@@ -337,10 +337,21 @@ class AdminController < ApplicationController
   def team_stats
     @team_stats = Team.includes(:proposal_stats).where(:initiative_id => 1..2).order('initiative_id DESC, title ASC')
   end    
+
+  def team_stats_email
+    @team_stats = Team.includes(:proposal_stats).where(:initiative_id => 1..2).order('initiative_id DESC, title ASC')
+  end    
   
   def team_participant_stats
     @team_participant_stats = Team.includes(:participant_stats, {:participant_stats => :member}).find(params[:team_id]).participant_stats
+    @team_participant_stats.delete_if{|p| p.member_id < 15} if Team.find(params[:team_id]).initiative_id < 3
     render( :template => 'admin/team_participant_stats', :locals => {:standalone => true})
+  end
+
+  def team_participant_stats_email
+    @team_participant_stats = Team.includes(:participant_stats, {:participant_stats => :member}).find(params[:team_id]).participant_stats
+    @team_participant_stats.delete_if{|p| p.member_id < 15} if Team.find(params[:team_id]).initiative_id < 3
+    render( :template => 'admin/team_participant_stats', :locals => {:standalone => true, :email=>true})
   end
   
   def participant_stats 

@@ -16,6 +16,8 @@
 	- if @privileges.include? 'team_stats'
 		%li= link_to "Team stats", {:action=>'team_stats'}
 
+	- if @privileges.include? 'team_stats_email'
+		%li= link_to "Team stats with emails", {:action=>'team_stats_email'}
 
 	- if @privileges.include? 'participant_stats'
 		%li= link_to "Participant stats", {:action=>'participant_stats'}
