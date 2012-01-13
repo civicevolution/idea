@@ -151,7 +151,7 @@ class ApplicationController < ActionController::Base
               send params[:action] # this will execute the method stored in params[:action]
             end
           else
-            redirect_to home_path
+            redirect_to params[:controller] != "admin" ? home_path : admin_path
           end
         }
         format.js{

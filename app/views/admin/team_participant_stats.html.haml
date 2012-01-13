@@ -106,11 +106,10 @@
 		team.stats[0].each{|key,value| puts key}
 
 
-
 	%table#teams{:class=>"tablesorter"}
 		%thead
 			%tr.stripe
-				%th #
+				%th 
 				%th First
 				%th Last
 				%th Score
@@ -140,7 +139,7 @@
 		%tbody	
 			- @team_participant_stats.sort{ |a,b| a.member.first_name <=> b.member.first_name && a.member.last_name <=> b.member.last_name}.each do |m|
 				%tr{:id=>"#{m['id']}-#{m['team_id']}", :class=>cycle('','stripe')}
-					%td
+					%td= @org_id.to_i == m.member['id'].to_i ? 'Org' : ''
 					%td.title
 						= m.member['first_name']
 					%td= m.member['last_name']

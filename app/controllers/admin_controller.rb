@@ -1,7 +1,7 @@
 require 'bluecloth'
 class AdminController < ApplicationController
-  layout "plan"
-  append_before_filter :get_admin_privileges
+  layout "home"
+  append_before_filter :get_admin_privileges, :except => [:sign_in_form, :sign_in_post]
 
   def index
     @initiative = Initiative.find(params[:_initiative_id])
@@ -351,6 +351,7 @@ class AdminController < ApplicationController
   def team_participant_stats_email
     @team_participant_stats = Team.includes(:participant_stats, {:participant_stats => :member}).find(params[:team_id]).participant_stats
     @team_participant_stats.delete_if{|p| p.member_id < 15} if Team.find(params[:team_id]).initiative_id < 3
+    @org_id = Team.find(params[:team_id]).org_id
     render( :template => 'admin/team_participant_stats', :locals => {:standalone => true, :email=>true})
   end
   
