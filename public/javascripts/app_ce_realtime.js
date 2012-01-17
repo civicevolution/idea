@@ -58,7 +58,7 @@ function custom_subscribe(channel, callback){
 function init_juggernaut(){
 		Juggernaut.fn.subscribe = custom_subscribe;
 		log = function(data){
-			console.log("juggernaut log: " + data)
+			//console.log("juggernaut log: " + data)
 		}
 
 		jug = new Juggernaut({
@@ -83,13 +83,13 @@ function init_juggernaut(){
 }
 function init_juggernaut_subscribe(){		
 	for(var i in pub_sub_channels){
-		console.log("subscribe to " + pub_sub_channels[i]);
+		//console.log("subscribe to " + pub_sub_channels[i]);
 		jug.subscribe(pub_sub_channels[i], function(data){
 		  log("data for pub_sub_channel " + pub_sub_channels[i] +": " + data);
 			process_juggernaut_input(data)
 		});
 	}
-	$.getScript('/chat_form/' + team_id,null,null,'script');	
+	//$.getScript('/chat_form/' + team_id,null,null,'script');	
 }
 
 function process_juggernaut_input(data){
@@ -107,9 +107,30 @@ function process_juggernaut_input(data){
 			}
 			break;
 		case 'update_roster':
-			console.log("Update the roster data.roster: " + data.roster)
+			//console.log("Update the roster data.roster: " + data.roster)
 			temp.roster = data.roster
 			break;
 	}
 }
 
+
+var chat_form = $('form.chat_form');
+
+chat_form.bind('ajax:beforeSend', 
+	function() {
+		$('div#chat_log').append("<p>Me: " + this['msg'].value + "</p>").scrollTop(99999999);
+		this['msg'].value = ''
+	}
+);
+
+chat_form.find('a.cancel').die('click').live('click', 
+	function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
+);
+
+//activate_text_counters_grow( form.find('textarea'), 120 )
+chat_form.find(' a.cancel').die('click').live('click',
+	function(){
+		$(this).closest('div.ui-dialog').dialog('destroy').remove();
+		return false;
+	}
+);

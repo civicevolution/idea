@@ -138,7 +138,7 @@ class ApplicationController < ActionController::Base
         end
       end
       @member.last_visits = session[:last_visits]
-      
+
       respond_to do |format|
         format.html{
           if flash[:params]

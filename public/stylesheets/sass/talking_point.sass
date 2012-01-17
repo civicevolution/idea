@@ -1092,8 +1092,8 @@ div.talking_points_page
 	p.show_more_link
 		margin: 0 0 0 40px
 	div.intro
-		h3
-			margin-top: -7px
+		//h3
+		//	margin-top: -7px
 		div.resources
 			height: 50px
 	div.proposal
@@ -1213,7 +1213,8 @@ div.left_side
 	width: 620px
 div.right_side
 	width: 340px
-div.talking_points_list
+ul.talking_points
+	position: relative
 	div.msg
 		position: absolute
 		top: 0
@@ -1293,3 +1294,76 @@ div.cta.close_icon
 // to keep old cta formatted temporarily
 div.form.cta
 	border: none
+	
+// CSS for the accordion
+div#guideAccordion
+	h3 > span.ui-icon
+		float: left
+	div.member_info
+		float: none
+		width: auto
+		margin: 6px
+	h3#curated_list
+		//display: none
+	h3#member
+		position: relative
+		a.sign_out
+			position: absolute
+			top: 2px
+			right: 8px
+			font-size: .7em
+			text-decoration: underline
+	a.addthis_button.share_community
+		font-size: 13px
+	h3.ui-accordion-header a
+		font-size: .8em
+		padding: .1em .1em .1em 2em
+		
+	.ui-tabs .ui-tabs-nav li a 
+		padding: .1em 1em
+		font-size: .9em
+		font-weight: normal
+
+	div.ui-accordion-content
+		padding: 0em //1em 2.2em;
+		
+	.ui-tabs
+		.ui-tabs-panel
+			padding: 1em
+		.ui-tabs-panel.hide
+			display: none
+	
+	div.content
+		font-size: .8em
+		div.help_intro img
+			width: 60px
+		ul.talking_points
+			padding-left: 6px
+	div.curated_list li a.q_tab
+		padding: 1px 6px 1px 12px
+	div.curated_list li a.close_worksheet
+		padding: 2px 0
+	div.form_controls span.char_ctr 
+		left: 120px
+
+			
+			
+		
+div.talking_points_page
+	padding-top: 0px		
+
+div.talking_points_page
+	div.right_side
+		position: fixed
+		top: 6px
+		left: 720px
+		margin-left: 0
+	
+div.member_info
+	height: 35px
+	div.member
+		float: left
+	div.member_links
+		float: right
+		p
+			margin: 0

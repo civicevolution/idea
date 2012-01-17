@@ -1,0 +1,39 @@
+%div#sign_in_form
+	%p.error= flash[:notice]
+	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form', :remote=>true}) do
+		%table{:border=>0, :cellspacing=>0}
+			%tr
+				%td 
+					Sign in if you're already a member
+			%tr
+				%td
+
+			%tr
+				%td.lbl
+					%label{:for=>"email"} Email:
+
+			%tr		
+				%td
+					= text_field_tag :email, params[:email], :tabindex => 1
+
+			%tr
+				%td.lbl
+					%label{:for=>"password"} Password:
+					= link_to 'I forgot my password', reset_password_form_path(:email=>params[:email]), {:class=>'reset_password', :rel=>'nofollow', :tabindex => 0}
+					
+			%tr		
+				%td
+					= password_field_tag :password, params[:password], :tabindex => 2
+				
+			%tr
+				%td
+					= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)', :tabindex => 3
+					Stay signed in 
+					%p.signin_warn.hide
+						We'll keep you signed in
+						%br
+						Don't use this on a public computer
+			%tr
+				%td.lbl
+					= submit_tag "Sign In", :name=>'sign_in', :tabindex => 4
+					= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow', :tabindex => 5}

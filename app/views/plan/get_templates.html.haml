@@ -228,20 +228,20 @@
 
 	%script#curated_talking_points_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'plan/curated_talking_points.html')}
+			#{render( :partial => 'plan/curated_talking_points2.html')}
 		
 	%script#create_curated_talking_points_template
 		:plain
 			templates['curated_talking_points'] = $('<div></div>').html($.trim( $('script#curated_talking_points_template').html() )).find('div:first');
 			template_functions['curated_talking_points'] = templates['curated_talking_points'].compile(
 				{
-					'@id' : 'id',
-					'p.question' : 'question',
-					'div.header a@id' : 'id',
-					'div.header a@href' : 'close_href',
-					'div.curated@class+' : 'hide.curated',
-					'div.non_curated@class+' : 'hide.non_curated',				
-					'div.curator@class+' : 'hide.curator'
+					'@id' : 'id'
+					//'p.question' : 'question',
+					//'div.header a@id' : 'id',
+					//'div.header a@href' : 'close_href',
+					//'div.curated@class+' : 'hide.curated',
+					//'div.non_curated@class+' : 'hide.non_curated',				
+					//'div.curator@class+' : 'hide.curator'
 				}
 			);
 			
@@ -249,11 +249,37 @@
 				//console.log("insert a curated_talking_points list v2");
 				el = $(el);
 				var question_id = el.closest('div.question_summary').attr('id');
-				//console.log("open_question_worksheet v2 ")
+				var order_id = Number(el.html().match(/Q(\d+)/)[1]); 
+				var question_text = el.html().replace(/Q\d+: /,'');
+				
+				if ( !$('h3#curated_list').attr('class').match(/active/) ) $('h3#curated_list').click();
+				
+				var q_tabs = $('div.curated_list div.tabs');
+				
+				var get_tab = true;
+				while(get_tab){
+					q_tabs.tabs("add", '#curated_list_' + order_id, 'Q' + order_id,0);
+					new_tab_close = q_tabs.find('a.close_worksheet').eq(0);
+					if(new_tab_close.size() > 0 ) get_tab = false;
+				}				
+				new_tab_close.attr('id',question_id);
+				new_tab_close.attr('href',new_tab_close.attr('href').replace(/0/,question_id));
+				q_tabs.tabs('select',0);
+				
+				//move the new tab to the correct position if there is more than one tab
+				if(q_tabs.find('a.q_tab').size()>1){
+					insert_index = 0;
+					q_tabs.find('a.q_tab').each(function(){
+						var a = $(this);
+						var id = Number(a.html().match(/(\d+)/)[1]);
+						if(order_id > id) ++insert_index;
+						console.log("html: " + a.html() + ", id: " + id );
+					});
+					q_tabs.find('ul#list_tabs li').eq(insert_index).after(q_tabs.find('ul#list_tabs li').eq(0))
+				}
+				
 				// scroll to top of question
-				$.scrollTo(el.closest('div.question_summary'),1000);				
-				//$('div.right_side').fadeTo(2000,.2);
-				$('div.right_side').hide(2000);
+				//$.scrollTo(el.closest('div.question_summary'),1000);				
 
 				var tp_sec = el.closest('div.question_summary').find('div.talking_points_list');
 				var ul = el.closest('div.question_summary').find('ul');
@@ -263,7 +289,7 @@
 				var data = {
 					question: el.html(),
 					id: question_id, 
-					close_href: templates['curated_talking_points'].find('a.close_worksheet').attr('href').replace(/\d+/,question_id),
+					//close_href: templates['curated_talking_points'].find('a.close_worksheet').attr('href').replace(/\d+/,question_id),
 					hide:{ 
 						curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 'f' ? '' : ' hide',
 						non_curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 't' ? '' : ' hide',
@@ -292,9 +318,22 @@
 				$('<div class="msg"><h2>...loading the talking points worksheet</h2></div>').insertAfter(tp_sec);
 				tp_sec.hide(1000);
 
-				list_div.animate({top: el.parent().offset().top + 20 +'px', left: ul_offset.left + 620 + 'px', width: '360px', 'font-size': '.9em'},1000,
+				var list_header = $('div#guideAccordion h3#curated_list');
+				//list_header.slideDown('fast');
+				list_header.show();
+				var new_left = $('div.right_side').position().left;
+				var new_top = list_header.position().top + list_header.outerHeight() + $('body').scrollTop() + 31;
+				console.log("XXX 1: " + list_header.position().top + ", 2: " + list_header.outerHeight() + ", 3: " + $('body').scrollTop() )
+				console.log("new_top: " + new_top + ", new_left: " + new_left)
+
+				//list_div.animate({width: '300px', 'font-size': '.9em'},1000,
+				list_div.animate({top: new_top + 'px', left: new_left + 'px', width: '300px', 'font-size': '.9em'},1000,
 					function(){
-						$(this).css( {position: 'fixed', top: '4px'});
+						//$(this).css( {position: 'fixed', top: '4px'});
+						//$('div.curated_list div#tab_curated_q1').append(list_div.find('ul'));
+						
+						$('div#curated_list_' + order_id).html('<p class="question">' + question_text + '</p>').append(list_div.find('ul') );
+						list_div.remove();
 					}
 				);
 
@@ -304,34 +343,71 @@
 
 			
 			function close_question_worksheet(el){
-				//$('div.right_side').fadeTo(2000,1)
-				$('div.right_side').show(2000)
 				el = $(el);
-
+				temp.el = el;
+				
 				if(el.attr('id')){ 
 					// close comes from out of worksheet like curated list
 					el = $('div.question_summary[id="' + el.attr('id') + '"] a.close_worksheet');
 				}
 				var worksheet = el.closest('div.worksheet');
+				var question_id = worksheet.attr('id');
 				worksheet.slideUp(2000);
 				
 				// scroll to top of question
 				$.scrollTo(el.closest('div.question_summary'),1000);
 
-				q = worksheet.closest('div.question_summary').children('p.question');
+				var q = worksheet.closest('div.question_summary').children('p.question');
 				var new_top = q.offset().top + q.height();
 				var new_left = q.offset().left;
-			
-				var div_list = $('div.curated_list[id="' + worksheet.attr('id') + '"]');
+
+				var div_list = $('ul.talking_points[id="' + question_id + '"]').closest('div.ui-tabs-panel');
+				div_list.find('p.question').remove();
 				
-				var inner_list = div_list.find('div.talking_points_list');
-				inner_list.attr('position','relative');
-				msg = $('<div class="msg"><p>Verifying current talking points</p></div>').appendTo(inner_list);
+				var q_tabs = $('div.curated_list div.tabs');
+				var tab = q_tabs.find('a.close_worksheet[id="' + question_id +'"]').closest('li');
+
+				// get the next tab
+					var next_tab = tab.prev('li');
+					if(next_tab.size() == 0)next_tab = tab.next('li');
+				// remove this tab
+				tab.remove();
+
+				if(next_tab.size() == 0){
+					// if no more tabs, close this accordion panel and hide the accordion tab
+					$('h3#curated_list').click();
+				}else{
+					// get the index to the next_tab
+					var index = 0;
+					q_tabs.find('ul#list_tabs li').each(
+						function(){
+							if($(this).find('a:first').html() == next_tab.find('a:first').html()){
+								return;
+							}else{
+								++index;
+							}
+						}
+					);
+					q_tabs.tabs('select',index);
+				
+				}
+				// put up the verify message
+				ul = div_list.find('ul');
+				msg = $('<div class="msg"><p>Verifying current talking points</p></div>').appendTo(ul);
 				msg.fadeTo(500,.7);
 				
-				div_list.css({position: 'absolute', top: document.body.scrollTop})
-				div_list.find('p.question').remove();
-				div_list.find('div.hint').slideUp(1000)
+				// slide the list back to the summary
+				
+				var offset = div_list.offset();
+				var width = div_list.width();
+				
+				div_list.remove();
+				div_list.attr('id',question_id);
+				div_list.addClass('curated_list')
+				$('body').append(div_list);
+				div_list.css(offset);
+				div_list.css({position: 'absolute', width: width});
+				
 				div_list.animate({top: new_top+'px', left: new_left + 'px', width: q.width() + 'px', 'font-size': '1.2em'},1000);
 			}
 			
@@ -422,14 +498,5 @@
 				setTimeout(function(){this.find('div.curator').find('h4,ul').hide(2000)}.bind(list),5000);
 				
 			}
-
-			
 			
 			//console.log("Curated_talking_points template is ready");
-	
-
-				
-				
-				
-				
-			

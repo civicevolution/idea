@@ -73,6 +73,7 @@ $('a.display_worksheet').live('ajax:beforeSend',
 $('a.close_worksheet').live('ajax:beforeSend', 
 	function(){
 		close_question_worksheet(this);
+		//return false;
 	}
 )
 
@@ -90,9 +91,15 @@ $('a[data-remote]').live('ajax:beforeSend',
 
 function init_page(){
 	//console.log("init_page")
-	remove_worksheet_form();
-	reformat_talking_point_entries();
-	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
+	init_worksheet();
+	init_accordion();
+	var q_tabs = $('div.curated_list div.tabs');
+	if(q_tabs.size()>0){
+		var tab_template = q_tabs.find('ul').html();
+		q_tabs.find('ul').html(''); // remove the tab model
+		tab_template = tab_template.replace('#tab_curated_q1','#{href}').replace('Q1','#{label}');
+		$("div.tabs").tabs({tabTemplate: tab_template});
+	}
 	if(!$.support.borderRadius){ 
 		console.log("load corner support script and activate");
 		$.getScript('/javascripts/jquery.corner.js', 
@@ -115,7 +122,12 @@ function init_page(){
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 		//console.log("pretty photo is okay")
 	}catch(e){}
-	$('a.new_tag, a.help_tag').html('');
+}
+
+function init_worksheet(){
+	remove_worksheet_form();
+	reformat_talking_point_entries();
+	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
 }
 
 function remove_worksheet_form(){
@@ -260,3 +272,23 @@ jQuery(function() {
 		return (!jQuery.support.borderRadius);
 	});
 });
+
+
+function init_accordion(){
+	$('div#guideAccordion').multiOpenAccordion({
+		click: function(event, ui) {
+		        //console.log('clicked')
+		},
+		init: function(event, ui) {
+		        //console.log('whoooooha')
+		},
+		tabShown: function(event, ui) {
+		        //console.log('shown')
+		},
+		tabHidden: function(event, ui) {
+		        //console.log('hidden')
+		}
+	});
+	$('div#guideAccordion').multiOpenAccordion({active: [0,5] }); 
+}
+$('div#guideAccordion a.sign_out').die('click').live('click', function(){document.location = $(this).attr('href');})

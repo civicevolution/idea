@@ -1,0 +1,6 @@
+%div.tools_info.corner
+	%div.videos	
+		%p= link_to 'Watch our Introduction to CivicEvolution', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
+		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
+			= image_tag 'vhelp/2029_video_placeholder.jpg', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
+		%p= link_to "Visit our help page", visual_help_path, {:remote=>true}

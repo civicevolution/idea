@@ -869,8 +869,6 @@ div.talking_points_page div.question_com_form {
   margin-left: 40px; }
 div.talking_points_page p.show_more_link {
   margin: 0 0 0 40px; }
-div.talking_points_page div.intro h3 {
-  margin-top: -7px; }
 div.talking_points_page div.intro div.resources {
   height: 50px; }
 div.talking_points_page div.proposal {
@@ -983,16 +981,18 @@ div.left_side {
 div.right_side {
   width: 340px; }
 
-div.talking_points_list div.msg {
-  position: absolute;
-  top: 0;
-  background-color: white;
-  display: none;
-  height: 100%;
-  width: 100%; }
-  div.talking_points_list div.msg p {
-    font-size: 1.2em;
-    margin: 20px; }
+ul.talking_points {
+  position: relative; }
+  ul.talking_points div.msg {
+    position: absolute;
+    top: 0;
+    background-color: white;
+    display: none;
+    height: 100%;
+    width: 100%; }
+    ul.talking_points div.msg p {
+      font-size: 1.2em;
+      margin: 20px; }
 
 div.talking_point_sec h2 {
   margin: 2em 0 3em 1em; }
@@ -1059,3 +1059,63 @@ div.cta.close_icon div.secondary {
 
 div.form.cta {
   border: none; }
+
+div#guideAccordion h3 > span.ui-icon {
+  float: left; }
+div#guideAccordion div.member_info {
+  float: none;
+  width: auto;
+  margin: 6px; }
+div#guideAccordion h3#member {
+  position: relative; }
+  div#guideAccordion h3#member a.sign_out {
+    position: absolute;
+    top: 2px;
+    right: 8px;
+    font-size: 0.7em;
+    text-decoration: underline; }
+div#guideAccordion a.addthis_button.share_community {
+  font-size: 13px; }
+div#guideAccordion h3.ui-accordion-header a {
+  font-size: 0.8em;
+  padding: 0.1em 0.1em 0.1em 2em; }
+div#guideAccordion .ui-tabs .ui-tabs-nav li a {
+  padding: 0.1em 1em;
+  font-size: 0.9em;
+  font-weight: normal; }
+div#guideAccordion div.ui-accordion-content {
+  padding: 0em; }
+div#guideAccordion .ui-tabs .ui-tabs-panel {
+  padding: 1em; }
+div#guideAccordion .ui-tabs .ui-tabs-panel.hide {
+  display: none; }
+div#guideAccordion div.content {
+  font-size: 0.8em; }
+  div#guideAccordion div.content div.help_intro img {
+    width: 60px; }
+  div#guideAccordion div.content ul.talking_points {
+    padding-left: 6px; }
+div#guideAccordion div.curated_list li a.q_tab {
+  padding: 1px 6px 1px 12px; }
+div#guideAccordion div.curated_list li a.close_worksheet {
+  padding: 2px 0; }
+div#guideAccordion div.form_controls span.char_ctr {
+  left: 120px; }
+
+div.talking_points_page {
+  padding-top: 0px; }
+
+div.talking_points_page div.right_side {
+  position: fixed;
+  top: 6px;
+  left: 720px;
+  margin-left: 0; }
+
+div.member_info {
+  height: 35px; }
+  div.member_info div.member {
+    float: left; }
+  div.member_info div.member_links {
+    float: right; }
+    div.member_info div.member_links p {
+      margin: 0; }

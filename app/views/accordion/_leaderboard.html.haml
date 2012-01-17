@@ -1,0 +1,12 @@
+%div.leaderboard	
+	%p These are some of the top contributors to this proposal
+	%table
+		%tbody
+			- @team.participants.sort{|a,b| b[:points]<=>a[:points]}.each do |participant|
+				%tr
+					%td
+						%img{:src=>participant.photo.url('36'),:class=>'i36'}	
+					%td	
+						%b= participant.first_name
+						%br
+							#{participant[:points]} points

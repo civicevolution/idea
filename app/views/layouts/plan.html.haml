@@ -32,53 +32,10 @@
 				})();
 			
 	%body
-		= link_to "Help", request_help_path, {:class=>'help_tag request_help', :remote => true}
-		-# if !@team.nil?
-			= link_to "New", new_content_path(@team, :date=>params[:date]),{:class=>'new_tag request_new', :remote => true}
-		
-		%div#load_mask
-	
+
 		%div.page
-			%div.logo
-				%a{ :href=> '/'}
-					= image_tag("2029_logo_tag.gif")
-
-			- if !@member.nil? && !@member.id.nil? && @member.id != 0	
-				= render :partial => 'sign_in/member_info'		
-			- else
-				%div.join_com
-					#{link_to 'Sign in', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}} /
-					= link_to 'Join', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
-					
-			%hr.top
-			%h2#load_message
-				%img{:src=>"/images/rotating_arrow.gif"}
-				Please wait while the page finishes loading
-
-			-#:javascript
-				var mask = document.getElementById('load_mask');
-				mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
-				mask.style.display = 'block';
-				document.getElementById('load_message').style.display = 'block';
-			
 			= yield
-			
-			%hr.bottom
 
-			%div.ce_credit
-				%div.powered
-					= link_to :ce_home do
-						%h3 Powered by
-						= image_tag("ce_logo_20c.gif")
-						%p.tag_line Think together to act together
-				%div.lottery
-					= image_tag("Lottwest_sup_col_pos.gif")
-				
-		-#:javascript
-			var mask = document.getElementById('load_mask');
-			mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
-			mask.style.height = (document.height ? document.height : document.body.clientHeight) + 'px';
-		
 		:javascript
 			//_load_times.page_loaded = new Date()
 			var client;
@@ -93,10 +50,10 @@
 	
 		= javascript_include_tag :defaults
 		
-		= javascript_include_tag 'app_ce_realtime.js','jquery.scrollTo-min.js','jquery.autogrow.js','jquery.isonscreen.js',"jquery.show_char_limit-1.1.1.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js',"jquery.timeago.js"
+		= javascript_include_tag 'app_ce_realtime.js','jquery.scrollTo-min.js','jquery.autogrow.js','jquery.isonscreen.js',"jquery.show_char_limit-1.1.1.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js',"jquery.timeago.js", "jquery.multi-open-accordion-1.5.3.js"
 		
 		
-		= stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.16.custom.css', '../plugins/prettyPhoto/css/prettyPhoto.css'
+		= stylesheet_link_tag 'cupertino/jquery-ui-1.8.17.custom.css', '../plugins/prettyPhoto/css/prettyPhoto.css'
 
 		= yield :script
 		

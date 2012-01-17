@@ -1,0 +1,50 @@
+- if @member.id == 0
+	- @member.first_name = @member.last_name = ''
+%div#request_help
+	%div.help_intro
+		%img{:src=>'/images/help_bs.jpg', :class=>"me"}	
+		%h3 How can I help you?
+		%p I'm Brian Sullivan, the developer of CivicEvolution and I am committed to helping citizens make change in their community
+		%p Your ideas and community are important and we very much appreciate your participation, commitment, and patience
+
+		%p 
+			Have you watched our
+			= link_to 'intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
+			or visited our
+			#{link_to "help page", visual_help_path, {:remote=>true}}?
+			
+	= form_for :request_help, :url => request_help_path, :html=> {:class=>'request_help std_form', :remote=>true } do |form| 
+		%p
+			= form.select( :category,[['Please select the assistance you need',0],['Report a bug',1],['I need help using CivicEvolution',2],['I need assistance with my proposal',3],['I need help dealing with other participants',4],['I need technical assistance with my proposal',5],['I have a suggestion',6]])
+	
+		%div{:class=> @member.id != 0	? 'hide' : ''}
+			= form.label :name, "Your name:"
+			= form.text_field :name, :value=>"#{@member.first_name} #{@member.last_name}"
+   
+			= form.label :email, "Your email:"
+			= form.text_field :email, :value=>@member.email
+	
+		%p Please provide a clear message about the assistance you require
+		%div
+			= form.text_area :message, {:class=>'autosize'}
+			
+		%div.form_controls
+			= submit_tag "Send", :name=>'send', 'data-disable-with'=>'Submitting...'
+	
+			%span.char_ctr
+				1000
+				characters
+
+			= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
+			
+			
+-#			
+	%div.control_line
+		%div.controls
+			%span.char_ctr 
+				1000
+				characters
+
+	%p	
+		= submit_tag "Send", :name=>'send', 'data-disable-with'=>'Submitting...'
+		= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}
