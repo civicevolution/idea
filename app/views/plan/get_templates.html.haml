@@ -258,13 +258,13 @@
 				
 				var get_tab = true;
 				while(get_tab){
-					q_tabs.tabs("add", '#curated_list_' + order_id, 'Q' + order_id,0);
-					new_tab_close = q_tabs.find('a.close_worksheet').eq(0);
+					q_tabs.tabs("add", '#curated_list_' + order_id, 'Q' + order_id);
+					new_tab_close = q_tabs.find('a.close_worksheet:last');
 					if(new_tab_close.size() > 0 ) get_tab = false;
 				}				
 				new_tab_close.attr('id',question_id);
-				new_tab_close.attr('href',new_tab_close.attr('href').replace(/0/,question_id));
-				q_tabs.tabs('select',0);
+				new_tab_close.attr('href',new_tab_close.attr('href').replace(/\d+/,question_id));
+				q_tabs.tabs('select','#curated_list_' + order_id);
 				
 				//move the new tab to the correct position if there is more than one tab
 				if(q_tabs.find('a.q_tab').size()>1){
@@ -273,9 +273,15 @@
 						var a = $(this);
 						var id = Number(a.html().match(/(\d+)/)[1]);
 						if(order_id > id) ++insert_index;
-						console.log("html: " + a.html() + ", id: " + id );
+						//console.log("html: " + a.html() + ", id: " + id );
 					});
-					q_tabs.find('ul#list_tabs li').eq(insert_index).after(q_tabs.find('ul#list_tabs li').eq(0))
+					//debugger
+					
+					// don't swap the tabs if they are the same
+					if (q_tabs.find('ul#list_tabs li').eq(insert_index).find('a.q_tab').html() != 
+						q_tabs.find('ul#list_tabs li:last').find('a.q_tab').html() ){
+							q_tabs.find('ul#list_tabs li').eq(insert_index).before(q_tabs.find('ul#list_tabs li:last'))
+						}
 				}
 				
 				// scroll to top of question
@@ -323,11 +329,11 @@
 				list_header.show();
 				var new_left = $('div.right_side').position().left;
 				var new_top = list_header.position().top + list_header.outerHeight() + $('body').scrollTop() + 31;
-				console.log("XXX 1: " + list_header.position().top + ", 2: " + list_header.outerHeight() + ", 3: " + $('body').scrollTop() )
-				console.log("new_top: " + new_top + ", new_left: " + new_left)
+				//console.log("XXX 1: " + list_header.position().top + ", 2: " + list_header.outerHeight() + ", 3: " + $('body').scrollTop() )
+				//console.log("new_top: " + new_top + ", new_left: " + new_left)
 
 				//list_div.animate({width: '300px', 'font-size': '.9em'},1000,
-				list_div.animate({top: new_top + 'px', left: new_left + 'px', width: '300px', 'font-size': '.9em'},1000,
+				list_div.animate({top: new_top + 'px', left: new_left + 'px', width: '300px', 'font-size': '.9em'},600,
 					function(){
 						//$(this).css( {position: 'fixed', top: '4px'});
 						//$('div.curated_list div#tab_curated_q1').append(list_div.find('ul'));
@@ -352,7 +358,7 @@
 				}
 				var worksheet = el.closest('div.worksheet');
 				var question_id = worksheet.attr('id');
-				worksheet.slideUp(2000);
+				worksheet.slideUp(800);
 				
 				// scroll to top of question
 				$.scrollTo(el.closest('div.question_summary'),1000);
