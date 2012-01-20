@@ -1101,6 +1101,24 @@ div#guideAccordion div.curated_list li a.close_worksheet {
   padding: 2px 0; }
 div#guideAccordion div.form_controls span.char_ctr {
   left: 120px; }
+div#guideAccordion div#activity_chat div#presence {
+  height: 36px;
+  border: 1px solid #cccccc;
+  padding: 4px 0; }
+  div#guideAccordion div#activity_chat div#presence img {
+    margin: 0 2px; }
+div#guideAccordion div#activity_chat div#chat_log {
+  overflow: auto;
+  overflow-y: scroll;
+  height: 50px;
+  border: 1px solid black;
+  padding: 0.2em 0; }
+  div#guideAccordion div#activity_chat div#chat_log p {
+    margin: 0 1em; }
+div#guideAccordion div#activity_chat form#chat_form {
+  padding: 4px 0; }
+  div#guideAccordion div#activity_chat form#chat_form input[type=text] {
+    width: 240px; }
 
 div.talking_points_page {
   padding-top: 0px; }

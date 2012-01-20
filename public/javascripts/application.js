@@ -98,7 +98,7 @@ function init_page(){
 		var tab_template = q_tabs.find('ul').html();
 		q_tabs.find('ul').html(''); // remove the tab model
 		tab_template = tab_template.replace('#tab_curated_q1','#{href}').replace('Q1','#{label}');
-		$("div.tabs").tabs({tabTemplate: tab_template});
+		$("div.tabs").tabs({tabTemplate: tab_template, select: tab_select});
 	}
 	if(!$.support.borderRadius){ 
 		console.log("load corner support script and activate");
@@ -122,6 +122,10 @@ function init_page(){
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 		//console.log("pretty photo is okay")
 	}catch(e){}
+}
+
+function tab_select(event,ui){
+	setTimeout(accordion_resize,100);
 }
 
 function init_worksheet(){
@@ -277,18 +281,43 @@ jQuery(function() {
 function init_accordion(){
 	$('div#guideAccordion').multiOpenAccordion({
 		click: function(event, ui) {
-		        //console.log('clicked')
+			//console.log('clicked');
+			try{  
+				setTimeout(accordion_resize,500);
+			}catch(e){}
 		},
 		init: function(event, ui) {
-		        //console.log('whoooooha')
+       //console.log('whoooooha')
 		},
 		tabShown: function(event, ui) {
-		        //console.log('shown')
+		  //console.log('shown')
+			try{
+				console.log("Make " + 'div#' + ui.tab.attr('id') + ' visible = true')
+				accordion_elements['div#' + ui.tab.attr('id') ].visible = true;
+				setTimeout(accordion_resize,500);
+			}catch(e){}
 		},
 		tabHidden: function(event, ui) {
-		        //console.log('hidden')
+      //console.log('hidden')
+			try{
+				console.log("Make " + 'div#' + ui.tab.attr('id') + ' visible = false')
+				accordion_elements['div#' + ui.tab.attr('id') ].visible = false;
+				setTimeout(accordion_resize,500);
+			}catch(e){}
+
 		}
+		//,
+		//change: accordion_resize
 	});
 	$('div#guideAccordion').multiOpenAccordion({active: [0,5] }); 
+	console.log("load app_resize.js")
+	$.getScript('/javascripts/app_resize.js',function(){accordion_resize();})
 }
+$(window).resize(function(){
+		try{  
+			setTimeout(accordion_resize,500);
+		}catch(e){}
+		
+	}
+);
 $('div#guideAccordion a.sign_out').die('click').live('click', function(){document.location = $(this).attr('href');})

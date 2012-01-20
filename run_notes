@@ -137,10 +137,11 @@ Tue Oct 18 10:21:36 PDT 2011
 
 Running on DEV
 
-	rake log:clear
+	
 
 1)	Start rails
 		cd /ce_development/Rails/tp
+		rake log:clear
 		rails s --debugger --port=8001
 
 2) 	Start redis
