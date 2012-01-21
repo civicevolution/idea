@@ -421,7 +421,7 @@
 			function init_currated_list(question_id){
 				if( !am_curator ) return;
 				//console.log("init_currated_list for " + question_id);
-				$('div.curated_list[id="' + question_id + '"] li.talking_point img').die('click').live('click',
+				$('div.curated_list ul[id="' + question_id + '"] li.talking_point img').die('click').live('click',
 					function(){
 						$(this).closest('li').slideUp(800,
 							function(){ 
@@ -433,13 +433,13 @@
 					}
 				);
 
-				$('div.curated_list[id="' + question_id + '"] ul.talking_points').sortable(
+				$('div.curated_list ul[id="' + question_id + '"]').sortable(
 					{
 						start: function(event,ui){
 							$(this).find('img').removeClass('show');
 						},
 						stop: function(event,ui){
-							li = $('<li class="talking_point" id="' + ui.item.attr('id') + '">' + ui.item.html() + 
+							li = $('<li class="talking_point" id="' + ui.item.attr('tp_id') + '">' + ui.item.html() + 
 								'<img src="/images/delete_icon_16.gif" title="Click to delete"></li>')
 							ui.item.replaceWith(li);
 							if( li.parent().find('li[id="' + li.attr('id') + '"]').size() > 1 ){
@@ -454,12 +454,13 @@
 					}
 				);
 				
-				$('div.curated_list[id="' + question_id + '"] a.tp_details').live('click',
+				$('div.curated_list ul[id="' + question_id + '"] a.tp_details').live('click',
 					function(){
-						var li = $(this).closest('li');
-						var id = li.attr('id');
-						console.log("show details for li: " + id)
-						$.scrollTo( $('div.worksheet div.talking_point_entry[id="' + id + '"]'),1000);	
+						try{
+							var id = $(this).closest('li').attr('id')
+							console.log("show details for li: " + id)
+							$.scrollTo( $('div.worksheet div.talking_point_entry[id="' + id + '"]'),700);	
+						}catch(e){}
 						return false;
 					}
 				);

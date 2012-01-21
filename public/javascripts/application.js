@@ -227,11 +227,13 @@ function activate_text_counters_grow(els, height){
 			}
 			if(span.size() == 1){
 				el = $(this);
+				try{
 				var cnt = Number(span.html().match(/\d+/));
 				el.show_char_limit(cnt, {
 			    error_element: span,
 					status_element: span
 			  });
+			}catch(e){}
 				if(el[0].nodeName == 'TEXTAREA'){
 					// if the el is not displayed, IE gives it a width of 0 and the el cannot be setup to grow
 					if(el[0].offsetWidth > 0){
@@ -276,48 +278,3 @@ jQuery(function() {
 		return (!jQuery.support.borderRadius);
 	});
 });
-
-
-function init_accordion(){
-	$('div#guideAccordion').multiOpenAccordion({
-		click: function(event, ui) {
-			//console.log('clicked');
-			try{  
-				setTimeout(accordion_resize,500);
-			}catch(e){}
-		},
-		init: function(event, ui) {
-       //console.log('whoooooha')
-		},
-		tabShown: function(event, ui) {
-		  //console.log('shown')
-			try{
-				console.log("Make " + 'div#' + ui.tab.attr('id') + ' visible = true')
-				accordion_elements['div#' + ui.tab.attr('id') ].visible = true;
-				setTimeout(accordion_resize,500);
-			}catch(e){}
-		},
-		tabHidden: function(event, ui) {
-      //console.log('hidden')
-			try{
-				console.log("Make " + 'div#' + ui.tab.attr('id') + ' visible = false')
-				accordion_elements['div#' + ui.tab.attr('id') ].visible = false;
-				setTimeout(accordion_resize,500);
-			}catch(e){}
-
-		}
-		//,
-		//change: accordion_resize
-	});
-	$('div#guideAccordion').multiOpenAccordion({active: [0,5] }); 
-	console.log("load app_resize.js")
-	$.getScript('/javascripts/app_resize.js',function(){accordion_resize();})
-}
-$(window).resize(function(){
-		try{  
-			setTimeout(accordion_resize,500);
-		}catch(e){}
-		
-	}
-);
-$('div#guideAccordion a.sign_out').die('click').live('click', function(){document.location = $(this).attr('href');})

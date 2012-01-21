@@ -41,7 +41,7 @@
 	worksheet.hide();
 	worksheet.slideDown(800);
 	
-	function make_talking_points_draggable($talking_points){
+	function make_talking_points_draggable($talking_points, sortable_destination){
 		$talking_points.draggable( {
 			revert: function(socketObj) {
 			    if (socketObj === false) {
@@ -54,12 +54,12 @@
 			},
 			revertDuration: 600,
 			//start: function(event,ui){temp.drag_ui = ui},
-			connectToSortable: $('div.curated_list[id="#{question.id}"] ul.talking_points'),
+			connectToSortable: sortable_destination,
 			helper: 'clone'
 		});
 	}
 	if(am_curator){
-		make_talking_points_draggable( $('div.talking_points_list[id="#{question.id}"] p.talking_point') );
+		make_talking_points_draggable( $('div.talking_points_list[id="#{question.id}"] p.talking_point'), $('div.curated_list ul[id="#{question.id}"]') );
 	}
 	
 	

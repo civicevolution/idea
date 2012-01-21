@@ -4,7 +4,7 @@
 			%p.talking_point
 				%b This is an example of a talking point
 			
-		%p.talking_point{:id=>talking_point.id}= talking_point.text
+		%p.talking_point{:id=>talking_point.id,:tp_id=>talking_point.id}= talking_point.text
 
 		%div.talking_point_controls
 			- if talking_point['comments'] && talking_point.new_coms > 0
