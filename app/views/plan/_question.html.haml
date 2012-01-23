@@ -9,7 +9,7 @@
 		- else
 			
 			- if request.xhr?
-				= add_call_to_action(:id=>'worksheet_top', :question=>question, :custom_class=>'close_icon')	
+				-#= add_call_to_action(:id=>'worksheet_top', :question=>question, :custom_class=>'close_icon')	
 								
 				%div
 				
@@ -23,7 +23,7 @@
 					= submit_tag "Save your ratings and preferences", :class=>'submit_ratings'
 					%p.clear_both
 					
-			= add_call_to_action(:id=>'worksheet_cta')			
+			-#= add_call_to_action(:id=>'worksheet_cta')			
 			
 			= render :partial => 'plan/talking_point_form', :locals => {:question_id=>question.id}
 			

@@ -266,6 +266,8 @@
 				new_tab_close.attr('href',new_tab_close.attr('href').replace(/\d+/,question_id));
 				q_tabs.tabs('select','#curated_list_' + order_id);
 				
+				$('div#curated_list_' + order_id).addClass('tab_content')
+				
 				//move the new tab to the correct position if there is more than one tab
 				if(q_tabs.find('a.q_tab').size()>1){
 					insert_index = 0;
@@ -284,9 +286,6 @@
 						}
 				}
 				
-				// scroll to top of question
-				//$.scrollTo(el.closest('div.question_summary'),1000);				
-
 				var tp_sec = el.closest('div.question_summary').find('div.talking_points_list');
 				var ul = el.closest('div.question_summary').find('ul');
 				
@@ -338,8 +337,10 @@
 						//$(this).css( {position: 'fixed', top: '4px'});
 						//$('div.curated_list div#tab_curated_q1').append(list_div.find('ul'));
 						
-						$('div#curated_list_' + order_id).html('<p class="question">' + question_text + '</p>').append(list_div.find('ul') );
+						$('div#curated_list_' + order_id).html('<p>' + question_text + '</p>').append(list_div.find('ul') );
 						list_div.remove();
+						// scroll to top of question
+						$.scrollTo($('div.question_summary[id="' + question_id + '"] p.question'), 600)
 					}
 				);
 
@@ -420,7 +421,7 @@
 			
 			function init_currated_list(question_id){
 				if( !am_curator ) return;
-				//console.log("init_currated_list for " + question_id);
+				console.log("init_currated_list for " + question_id);
 				$('div.curated_list ul[id="' + question_id + '"] li.talking_point img').die('click').live('click',
 					function(){
 						$(this).closest('li').slideUp(800,
@@ -503,7 +504,8 @@
 				
 				var list = $('div.curated_list[id="' + question_id + '"]')
 				setTimeout(function(){this.find('div.curator').find('h4,ul').hide(2000)}.bind(list),5000);
-				
+			
+				setTimeout(set_inner_tab_content_height,600);
 			}
 			
 			//console.log("Curated_talking_points template is ready");

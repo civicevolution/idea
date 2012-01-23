@@ -1332,17 +1332,23 @@ div#guideAccordion
 			padding: 1em
 		.ui-tabs-panel.hide
 			display: none
-	
+	div.tab_content
+		overflow-y: scroll
+		margin-bottom: 20px
 	div.content
+		overflow: hidden
 		font-size: .8em
 		div.help_intro img
 			width: 60px
 		ul.talking_points
 			padding-left: 6px
-	div.curated_list li a.q_tab
-		padding: 1px 6px 1px 12px
-	div.curated_list li a.close_worksheet
-		padding: 2px 0
+	div.curated_list 
+		p
+			margin: 0
+		li a.q_tab
+			padding: 1px 6px 1px 12px
+		li a.close_worksheet
+			padding: 2px 0
 	div.form_controls span.char_ctr 
 		left: 120px
 	div#activity_chat
@@ -1366,7 +1372,7 @@ div#guideAccordion
 				width: 240px
 	div#tab_member_sign_in
 		padding-top: 0
-		margin-top: -8px
+		margin-top: -px
 	
 
 			

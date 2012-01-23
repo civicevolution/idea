@@ -163,6 +163,12 @@ function accordion_resize(){
 			if(rec.visible){
 				rec.$el.show();
 				rec.$el.height(rec.height);
+				//console.log("el " + el + " height is " + rec.height + " and child tab_content height is " + (rec.height-30));
+				if(el=='div#curated_list'){
+					rec.$el.children('div.tab_content').height( (rec.height-50) );
+				}else{
+					rec.$el.children('div.tab_content').height( (rec.height-30) );
+				}
 			}else{
 				rec.$el.hide();
 			}
@@ -188,6 +194,8 @@ function accordion_resize(){
 	// reset the horizontal position
 	$('div.right_side').css('left', $('div.page').position().left + $('div.left_side').width() + 20 );
 	
+	setTimeout(set_inner_tab_content_height,600);
+	
 }
 
 
@@ -206,4 +214,11 @@ function accordion_heights(){
 	}
 	if(show_acc_height) console.log("calc_height: " + calc_height + " act_height: " + act_height );
 	return act_height;
+}
+
+function set_inner_tab_content_height(){
+	var rec = accordion_elements['div#curated_list'];
+	rec.$el.height(rec.height);
+	//console.log(" height is " + rec.height + " and child tab_content height is " + (rec.height-50));
+	rec.$el.find('div.tab_content').height( (rec.height-50) );
 }

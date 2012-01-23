@@ -54,7 +54,6 @@ function custom_subscribe(channel, callback){
   }
 };
 
-
 function init_juggernaut(){
 		Juggernaut.fn.subscribe = custom_subscribe;
 		log = function(data){
@@ -79,7 +78,6 @@ function init_juggernaut(){
 		$(document).ajaxSend(function(e, xhr, options) {
 		  xhr.setRequestHeader("X-Juggernaut-Id", jug.sessionID);
 		});	
-		
 }
 function init_juggernaut_subscribe(){		
 	for(var i in pub_sub_channels){
@@ -135,6 +133,8 @@ chat_form.find(' a.cancel').die('click').live('click',
 	}
 );
 
+var chat_announcement_msg = " is present in this chat";
+setTimeout('chat_announcement_msg = " has entered the chat"', 15000);
 function update_presence(roster){
 	// get list of current ape_codes in the roster
 	var new_roster_ape_codes = {};
@@ -179,7 +179,7 @@ function update_presence(roster){
 			new_presence_img.attr('src',src);
 			$('div#presence').append(new_presence_img);
 			//console.log("Announce new member presence: " + mem.name);
-			$('div#chat_log').append("<p>" + mem.name + " has entered the chat</p>").scrollTop(99999999);
+			$('div#chat_log').append("<p>" + mem.name + chat_announcement_msg + "</p>").scrollTop(99999999);
 			
 		}
 	}

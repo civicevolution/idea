@@ -1089,12 +1089,18 @@ div#guideAccordion .ui-tabs .ui-tabs-panel {
   padding: 1em; }
 div#guideAccordion .ui-tabs .ui-tabs-panel.hide {
   display: none; }
+div#guideAccordion div.tab_content {
+  overflow-y: scroll;
+  margin-bottom: 20px; }
 div#guideAccordion div.content {
+  overflow: hidden;
   font-size: 0.8em; }
   div#guideAccordion div.content div.help_intro img {
     width: 60px; }
   div#guideAccordion div.content ul.talking_points {
     padding-left: 6px; }
+div#guideAccordion div.curated_list p {
+  margin: 0; }
 div#guideAccordion div.curated_list li a.q_tab {
   padding: 1px 6px 1px 12px; }
 div#guideAccordion div.curated_list li a.close_worksheet {
@@ -1121,7 +1127,7 @@ div#guideAccordion div#activity_chat form#chat_form {
     width: 240px; }
 div#guideAccordion div#tab_member_sign_in {
   padding-top: 0;
-  margin-top: -8px; }
+  margin-top: -px; }
 
 div.talking_points_page {
   padding-top: 0px; }
