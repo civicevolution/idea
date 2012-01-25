@@ -14,7 +14,6 @@ module LibGetTalkingPointsRatings
         questions = [self]
         team_id = self.team_id
     end
-    self.member.last_visits[team_id.to_s] ||= Time.now - 7.days
     
     question_ids = questions.map{|q| q.id}
     talking_point_ids = []
@@ -35,13 +34,13 @@ module LibGetTalkingPointsRatings
     my_preferences = TalkingPointPreference.my_votes(talking_point_ids, self.member.id)
     my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, self.member.id)
 
-    question_coms = Question.com_counts(question_ids, self.member.last_visits[team_id.to_s])
-    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, self.member.last_visits[team_id.to_s])
-    comment_coms = Comment.com_counts(comment_ids, self.member.last_visits[team_id.to_s])
+    #question_coms = Question.com_counts(question_ids)
+    talking_point_coms = TalkingPoint.com_counts(talking_point_ids)
+    comment_coms = Comment.com_counts(comment_ids)
 
     assign_stats( 
       :questions => questions,
-      :question_coms => question_coms, 
+      #:question_coms => question_coms, 
       :talking_point_coms => talking_point_coms,
       :comment_coms => comment_coms,
       :tpp => tpp,
@@ -55,17 +54,17 @@ module LibGetTalkingPointsRatings
   
 
   def assign_stats stats
-    stats[:question_coms] ||= []
+    #stats[:question_coms] ||= []
     stats[:comment_coms] ||= []
     
     stats[:questions].each do |q| 
-      qcom = stats[:question_coms].detect{|qc| qc['ques_id'].to_i == q.id}
-      if !qcom.nil?
-        q.coms = qcom['coms'].to_i
-        q.new_coms = qcom['new_coms'].to_i
-        q.num_talking_points = qcom['num_talking_points'].to_i
-        q.num_new_talking_points = qcom['num_new_talking_points'].to_i
-      end
+      #qcom = stats[:question_coms].detect{|qc| qc['ques_id'].to_i == q.id}
+      #if !qcom.nil?
+      #  q.coms = qcom['coms'].to_i
+      #  q.new_coms = qcom['new_coms'].to_i
+      #  q.num_talking_points = qcom['num_talking_points'].to_i
+      #  q.num_new_talking_points = qcom['num_new_talking_points'].to_i
+      #end
 
       q.talking_points_to_display.each do |tp| 
         pref = stats[:tpp].detect{|p| p.talking_point_id == tp.id}
@@ -85,17 +84,17 @@ module LibGetTalkingPointsRatings
         tpcom = stats[:talking_point_coms].detect{|tpc| tpc['talking_point_id'].to_i == tp.id}
         if !tpcom.nil?
           tp.coms = tpcom['coms'].to_i
-          tp.new_coms = tpcom['new_coms'].to_i
+          #tp.new_coms = tpcom['new_coms'].to_i
         else
           tp.coms = 0
-          tp.new_coms = 0
+          #tp.new_coms = 0
         end
       end
       
       q['comments_to_display'].each do |c|
         ccom = stats[:comment_coms].detect{|cc| cc['comment_id'].to_i == c.id}
         c.coms = ccom['coms'].to_i
-        c.new_coms = ccom['new_coms'].to_i
+        #c.new_coms = ccom['new_coms'].to_i
       end
       
     end

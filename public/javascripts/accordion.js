@@ -192,7 +192,13 @@ function accordion_resize(){
 	$('div#chat_log').height( accordion_elements['div#activity_chat'].height - accordion_elements['div#activity_chat'].offset );
 	
 	// reset the horizontal position
-	$('div.right_side').css('left', $('div.page').position().left + $('div.left_side').width() + 20 );
+	var win_width = $(window).width() - 10;
+	var left = $('div.page').position().left + $('div.left_side').width() + 20;
+	var acc_width = $('div.right_side').width();
+	if( left + acc_width > win_width){
+		left = win_width - acc_width;
+	}
+	$('div.right_side').css('left', left );
 	
 	setTimeout(set_inner_tab_content_height,600);
 	

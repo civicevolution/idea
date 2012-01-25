@@ -22,7 +22,7 @@ class Member < ActiveRecord::Base
   validates_confirmation_of :password
   attr_accessor :domain
   
-  attr_accessor :last_visits
+  attr_accessor :question_last_visit_ts
   
   #validate :email_for_cgg_ce
   before_save :strip_email

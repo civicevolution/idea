@@ -49,6 +49,8 @@ class Question < ActiveRecord::Base
   attr_accessor :previousUpdated_at
   attr_accessor :new_talking_points
   attr_accessor :new_comments
+  attr_accessor :unrated_talking_points
+  attr_accessor :updated_talking_points
   attr_accessor_with_default :show_new, false
   
   def self.update_curated_talking_point_ids(question_id, tp_ids, mode, member)
@@ -90,14 +92,23 @@ class Question < ActiveRecord::Base
   end
 
   def assign_new_content
-    #self.new_talking_points = TalkingPoint.where("question_id IN (:question_ids) AND updated_at >= :last_visit", :question_ids => self.questions.map(&:id), :last_visit => member.last_visits[self.id.to_s] )
+    # gets the unrated TP    
     self.new_talking_points = TalkingPoint.select('tp.*')
       .joins(" AS tp LEFT JOIN talking_point_acceptable_ratings AS tpar ON tp.id=tpar.talking_point_id AND tpar.member_id = #{self.member.id}",)
       .where("tpar.id IS NULL AND question_id = #{self.id}")
     
     self.new_talking_points.each{|tp| tp['new'] = true }
+    new_tp_ids = new_talking_points.map{|tp| tp.id.to_i }
+    new_tp_ids = [0] if new_tp_ids.size == 0
+    # now there may be some TP that have been updated since I rated them
+    updated_talking_points = TalkingPoint.where("question_id = :question_id AND version > 1 AND updated_at >= :last_visit AND id NOT IN (:new_tp_ids)",
+      :question_id => self.id, :new_tp_ids => new_tp_ids, :last_visit => member.question_last_visit_ts)
 
-    self.new_comments = Comment.includes(:author).where("question_id = :question_id AND created_at >= :last_visit", :question_id => self.id, :last_visit => member.last_visits[self.team_id.to_s])
+    updated_talking_points.each{|tp| tp['updated'] = true }
+
+    self.new_talking_points += updated_talking_points
+
+    self.new_comments = Comment.includes(:author).where("question_id = :question_id AND created_at >= :last_visit", :question_id => self.id, :last_visit => member.question_last_visit_ts)
     self.new_comments.each{|com| com['new'] = true }
     
   
@@ -163,10 +174,6 @@ class Question < ActiveRecord::Base
       ORDER BY count(tpar.member_id) DESC, id DESC|,self.id])
   end
 
-  #def new_comments(last_visit_ts)
-  #  Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => last_visit_ts )
-  #end
-
   def remaining_new_comments(ids, last_visit_ts)
     # process ids to make sure they are just integers
     ids = ids.map{|i| i.to_i }
@@ -231,17 +238,6 @@ class Question < ActiveRecord::Base
       FROM answers a LEFT OUTER JOIN answer_ratings ar ON a.id = ar.answer_id
       WHERE question_id = ?
       GROUP BY a.id, a.question_id, a.member_id,a.text, a.ver, a.created_at, a.updated_at|, memberId, self.id ]
-    )
-  end
-  
-  def self.com_counts(question_ids, last_visit_ts)
-    ActiveRecord::Base.connection.select_all(
-      %Q|select ques_id,
-      (select count(id) from comments where parent_type=1 and parent_id = ques_id) AS coms,
-      (SELECT count(id) from comments where parent_type=1 and parent_id = ques_id AND created_at > '#{last_visit_ts}') AS new_coms,
-      (select count(id) from talking_points where question_id = ques_id) AS num_talking_points,
-      (SELECT count(id) from talking_points where question_id = ques_id AND updated_at > '#{last_visit_ts}') AS num_new_talking_points
-      FROM ( VALUES #{ question_ids.map{ |id| "(#{id})" }.join(',')	 } ) AS q (ques_id)|
     )
   end
   

@@ -91,13 +91,11 @@ class Comment < ActiveRecord::Base
     true
   end
   
-  def self.com_counts(comment_ids, last_visit_ts)
+  def self.com_counts(comment_ids)
     return [] if comment_ids.size == 0
-    last_visit_ts ||= Time.now - 20.years
     ActiveRecord::Base.connection.select_all(
     %Q|select comment_id,
-    (select count(id) from comments where parent_type=3 and parent_id = comment_id) AS coms,
-    (SELECT count(id) from comments where parent_type=3 and parent_id = comment_id AND created_at > '#{last_visit_ts}') AS new_coms
+    (select count(id) from comments where parent_type=3 and parent_id = comment_id) AS coms
     FROM ( VALUES #{ comment_ids.map{ |id| "(#{id})" }.join(',') } ) AS t (comment_id)|
     )
   end

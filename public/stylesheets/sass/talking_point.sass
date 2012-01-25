@@ -269,7 +269,7 @@ div.talking_points_list
 		li
 			margin-bottom: 8px
 	div.talking_point_placeholder
-		background: $talking_point_bg url(/images/white_bulb_sm.gif) no-repeat 8px 20px
+		background: $talking_point_bg url(/images/white_bulb_sm.gif) no-repeat 8px 10px
 		width: $talking_point_width
 		padding-left: 50px
 		padding-bottom: 20px
@@ -333,7 +333,6 @@ div.tools_info
 			width: 50px
 		p,div
 			margin: 10px 0 0 0
-			//white-space: nowrap
 		a
 			height: 16px
 	div.videos
@@ -469,20 +468,22 @@ div.comment_comments
 div.talking_point_entry		
 	clear: both
 	margin-bottom: 15px
-	margin-top: 25px
+	margin-top: 16px
 
 div.talking_point_body
 	//background-color: $talking_point_bg
-	background: $talking_point_bg url(/images/white_bulb_sm.gif) no-repeat 8px 20px
+	//background: $talking_point_bg url(/images/white_bulb_sm.gif) no-repeat 8px 10px
 	float: left
 	width: $talking_point_width
 	padding: 0 10px
-	> *
-		margin-left: 40px
+	min-height: 40px
+	//> *
+	//	margin-left: 40px
 	p.talking_point
 		font-size: 1.28em
 		margin-right: 10px
 	div.talking_point_controls
+		display: none
 		margin-right: 10px
 		p
 			margin-top: -4px
@@ -491,8 +492,8 @@ div.talking_point_body
 		p.other
 			float: right
 	
-div.talking_point_body.new
-	background: url(/images/red_bulb_new_sm.gif) no-repeat 8px 20px
+//div.talking_point_body.new
+//	background: url(/images/red_bulb_new_sm.gif) no-repeat 8px 10px
 
 
 div.talking_point_preferable
@@ -520,7 +521,7 @@ div.talking_point_acceptable
 	//margin: 0 15px
 	padding: 10px 10px 10px 0
 	p.suggest
-		margin: 2em 0 0 1em
+		margin: 1em 0 0 0em
 	div.my_rating
 		width: 160px
 		float: left
@@ -532,8 +533,8 @@ div.talking_point_acceptable
 			margin: 0 0 7px 0
 		div.radios
 			//margin: 0 15px
-			font-size: 75%
-			white-space: nowrap
+			//font-size: 75%
+			//white-space: nowrap
 			input, label
 				cursor: pointer
 			label
@@ -573,17 +574,17 @@ div.talking_point_acceptable
 				display: none
 			p.clear_both
 				margin: 0
-		p.option
-			margin: 4px 0 0 0px
-			//font-size: 75%
-			clear: both  
-			text-align: center
-			display: block
-		p.please_rate
-			font-size: 1.12em
-			color: red
-			font-weight: bold
-			clear: both  
+			p.option
+				margin: 4px 0 0 0px
+				//font-size: 75%
+				clear: both  
+				text-align: center
+				display: block
+			p.please_rate
+				//font-size: 1.12em
+				color: red
+				//font-weight: bold
+				clear: both  
 		
 div.community_rating
 	//width: 150px
@@ -597,6 +598,8 @@ div.community_rating
 		height: 37px
 	div.graph.no_js
 		display: none
+	div.mine
+		background: url(/images/dot.gif) no-repeat center 20px
 	div.bar
 		width: 13px
 		bottom: 0
@@ -615,8 +618,6 @@ div.community_rating
 		
 	div.bar.zero
 		background-color: #fff
-	p.talking_point_ratings
-		margin: 0 0 8px 0
 		
 div.community_rating.no_js
 	position: absolute
@@ -968,7 +969,6 @@ div.talking_point_acceptable
 	div.my_rating.js
 		//width: 147px
 		p.option
-			//white-space: nowrap
 			height: 36px
 			font-size: .9em
 			margin-top: 4px
@@ -977,7 +977,7 @@ div.talking_point_acceptable
 	p.talking_point_ratings
 		text-align: center
 		font-size: .9em
-		margin: 0 0 4px 0
+		margin: 6px 0 0 0
 	p.suggest
 		margin-right: -60px
 		width: 200px
@@ -986,9 +986,9 @@ div.talking_point_acceptable
 div.favorite
 	float: left
 	//margin-left: -20px
-	margin-top: 26px
+	margin-top: 8px
 	span.fav_cnt
-		font-size: 2em
+		font-size: 1.4em
 	button
 		cursor: pointer
 		img
@@ -997,7 +997,7 @@ div.favorite
 			margin-right: auto
 div.talking_point_body
 	background: none
-	background: url(/images/white_bulb_sm.gif) no-repeat 8px 20px
+	//background: url(/images/white_bulb_sm.gif) no-repeat 8px 10px
 	//border: 1px solid red
 	a.tp_show_coms
 		font-size: 1.24em
@@ -1014,7 +1014,7 @@ div.talking_point_sec
 	margin-left: 0
 div.question_worksheet
 	padding: 0
-	width: 600px
+	width: 610px
 form.talking_point_form
 	width: 320px
 	div.form_controls 
@@ -1101,6 +1101,8 @@ div.talking_points_page
 		
 div.talking_point_body p.talking_point
 	font-size: 1em
+	margin-top: 6px
+	margin-bottom: 6px
 	
 div.question_summary
 	p.question
@@ -1396,3 +1398,52 @@ div.member_info
 		float: right
 		p
 			margin: 0
+	
+div.talking_point_details
+	float: left
+	width: 30px
+	text-align: center
+	margin-right: 8px
+	div.talking_point_com_count
+		//border: 1px solid red
+		width: 30px
+		height: 32px
+		background: url(/images/tbubble.gif) no-repeat 0 0px
+		cursor: pointer
+		p 
+			margin-top: 10px
+			font-weight: bold
+			padding-top: 1px
+div.talking_point_body
+	padding-right: 0
+	width: 352px
+	a
+		font-size: .8em
+	img
+		vertical-align: text-top
+		
+div.talking_point_icon 
+	float: left
+	width: 40px
+	height: 52px
+	text-align: center
+	background: url(/images/white_bulb_sm.gif) no-repeat 8px 10px
+	a
+		display: block
+		margin-top: 44px
+		font-size: .8em
+		margin-left: 6px
+		img
+			display: none
+			margin-left: 10px
+div.talking_point_entry.mouseover
+	div.talking_point_icon 
+		img
+			display: block
+div.talking_point_icon.new
+	background: url(/images/red_bulb_new_sm.gif) no-repeat 8px 10px
+		
+div.talking_point_entry
+	a:link
+		text-decoration: none
+		

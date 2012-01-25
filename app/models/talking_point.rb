@@ -88,19 +88,16 @@ class TalkingPoint < ActiveRecord::Base
   end
   
 
-  def self.com_counts(talking_point_ids, last_visit_ts)
+  def self.com_counts(talking_point_ids)
     return [] if talking_point_ids.size == 0
     ActiveRecord::Base.connection.select_all(
     %Q|select talking_point_id,
-    (select count(id) from comments where parent_type=13 and parent_id = talking_point_id) AS coms,
-    (SELECT count(id) from comments where parent_type=13 and parent_id = talking_point_id AND created_at > '#{last_visit_ts}') AS new_coms
+    (select count(id) from comments where parent_type=13 and parent_id = talking_point_id) AS coms
     FROM ( VALUES #{ talking_point_ids.map{ |id| "(#{id})" }.join(',') } ) AS t (talking_point_id)|
     )
   end
 
   def self.get_and_assign_stats( question, talking_points_to_display, member )
-    member.last_visits[question.team_id.to_s] ||= Time.now - 7.days
-    
     question.talking_points_to_display = talking_points_to_display
     talking_point_ids = []
     comment_member_ids = []
@@ -113,7 +110,7 @@ class TalkingPoint < ActiveRecord::Base
     my_preferences = TalkingPointPreference.my_votes(talking_point_ids, member.id)
     my_ratings = TalkingPointAcceptableRating.my_votes(talking_point_ids, member.id)
 
-    talking_point_coms = TalkingPoint.com_counts(talking_point_ids, member.last_visits[question.team_id.to_s])
+    talking_point_coms = TalkingPoint.com_counts(talking_point_ids)
 
     self.assign_stats( 
       :questions => [question],

@@ -4,5 +4,5 @@
 		render( :template => 'talking_point_versions/history.html', :locals => {:talking_point => talking_point, :diffs=>diffs} )
 	)}");
 	
-	var dialog = history_form.dialog( {title : 'Edit history for this talking point', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+	var dialog = history_form.dialog( {title : 'Edit history for this talking point', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
 		

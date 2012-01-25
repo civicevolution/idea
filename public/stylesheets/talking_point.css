@@ -196,7 +196,7 @@ div.talking_points_list ul.talking_points {
   div.talking_points_list ul.talking_points li {
     margin-bottom: 8px; }
 div.talking_points_list div.talking_point_placeholder {
-  background: #c7c7c7 url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
+  background: #c7c7c7 url(/images/white_bulb_sm.gif) no-repeat 8px 10px;
   width: 400px;
   padding-left: 50px;
   padding-bottom: 20px; }
@@ -372,19 +372,18 @@ div.comment_comments {
 div.talking_point_entry {
   clear: both;
   margin-bottom: 15px;
-  margin-top: 25px; }
+  margin-top: 16px; }
 
 div.talking_point_body {
-  background: #c7c7c7 url(/images/white_bulb_sm.gif) no-repeat 8px 20px;
   float: left;
   width: 400px;
-  padding: 0 10px; }
-  div.talking_point_body > * {
-    margin-left: 40px; }
+  padding: 0 10px;
+  min-height: 40px; }
   div.talking_point_body p.talking_point {
     font-size: 1.28em;
     margin-right: 10px; }
   div.talking_point_body div.talking_point_controls {
+    display: none;
     margin-right: 10px; }
     div.talking_point_body div.talking_point_controls p {
       margin-top: -4px; }
@@ -392,9 +391,6 @@ div.talking_point_body {
       float: left; }
     div.talking_point_body div.talking_point_controls p.other {
       float: right; }
-
-div.talking_point_body.new {
-  background: url(/images/red_bulb_new_sm.gif) no-repeat 8px 20px; }
 
 div.talking_point_preferable {
   background-color: #c8bcd1;
@@ -419,7 +415,7 @@ div.talking_point_acceptable {
   width: 222px;
   padding: 10px 10px 10px 0; }
   div.talking_point_acceptable p.suggest {
-    margin: 2em 0 0 1em; }
+    margin: 1em 0 0 0em; }
   div.talking_point_acceptable div.my_rating {
     width: 160px;
     float: left; }
@@ -429,34 +425,31 @@ div.talking_point_acceptable {
       width: 100%;
       text-align: center;
       margin: 0 0 7px 0; }
-    div.talking_point_acceptable div.my_rating div.radios {
-      font-size: 75%;
-      white-space: nowrap; }
-      div.talking_point_acceptable div.my_rating div.radios input, div.talking_point_acceptable div.my_rating div.radios label {
-        cursor: pointer; }
-      div.talking_point_acceptable div.my_rating div.radios label {
-        vertical-align: 25%;
-        margin-left: 2px; }
-      div.talking_point_acceptable div.my_rating div.radios div.bar1 {
-        background-color: #cf725f; }
-      div.talking_point_acceptable div.my_rating div.radios div.bar2 {
-        background-color: #e2b68c; }
-      div.talking_point_acceptable div.my_rating div.radios div.bar3 {
-        background-color: #f0ecc1; }
-      div.talking_point_acceptable div.my_rating div.radios div.bar4 {
-        background-color: #cdd89d; }
-      div.talking_point_acceptable div.my_rating div.radios div.bar5 {
-        background-color: #759564; }
-      div.talking_point_acceptable div.my_rating div.radios div {
-        height: 22px;
-        width: 20px;
-        cursor: pointer;
-        position: relative; }
-        div.talking_point_acceptable div.my_rating div.radios div input.rating {
-          height: 16px;
-          width: 16px;
-          margin: 3px 0 0 3px;
-          padding: 0; }
+    div.talking_point_acceptable div.my_rating div.radios input, div.talking_point_acceptable div.my_rating div.radios label {
+      cursor: pointer; }
+    div.talking_point_acceptable div.my_rating div.radios label {
+      vertical-align: 25%;
+      margin-left: 2px; }
+    div.talking_point_acceptable div.my_rating div.radios div.bar1 {
+      background-color: #cf725f; }
+    div.talking_point_acceptable div.my_rating div.radios div.bar2 {
+      background-color: #e2b68c; }
+    div.talking_point_acceptable div.my_rating div.radios div.bar3 {
+      background-color: #f0ecc1; }
+    div.talking_point_acceptable div.my_rating div.radios div.bar4 {
+      background-color: #cdd89d; }
+    div.talking_point_acceptable div.my_rating div.radios div.bar5 {
+      background-color: #759564; }
+    div.talking_point_acceptable div.my_rating div.radios div {
+      height: 22px;
+      width: 20px;
+      cursor: pointer;
+      position: relative; }
+      div.talking_point_acceptable div.my_rating div.radios div input.rating {
+        height: 16px;
+        width: 16px;
+        margin: 3px 0 0 3px;
+        padding: 0; }
   div.talking_point_acceptable div.my_rating.js {
     width: 105px; }
     div.talking_point_acceptable div.my_rating.js div.radios div {
@@ -469,15 +462,13 @@ div.talking_point_acceptable {
       display: none; }
     div.talking_point_acceptable div.my_rating.js div.radios p.clear_both {
       margin: 0; }
-    div.talking_point_acceptable div.my_rating.js p.option {
+    div.talking_point_acceptable div.my_rating.js div.radios p.option {
       margin: 4px 0 0 0px;
       clear: both;
       text-align: center;
       display: block; }
-    div.talking_point_acceptable div.my_rating.js p.please_rate {
-      font-size: 1.12em;
+    div.talking_point_acceptable div.my_rating.js div.radios p.please_rate {
       color: red;
-      font-weight: bold;
       clear: both; }
 
 div.community_rating {
@@ -491,6 +482,8 @@ div.community_rating {
     height: 37px; }
   div.community_rating div.graph.no_js {
     display: none; }
+  div.community_rating div.mine {
+    background: url(/images/dot.gif) no-repeat center 20px; }
   div.community_rating div.bar {
     width: 13px;
     bottom: 0;
@@ -507,8 +500,6 @@ div.community_rating {
     background-color: #759564; }
   div.community_rating div.bar.zero {
     background-color: white; }
-  div.community_rating p.talking_point_ratings {
-    margin: 0 0 8px 0; }
 
 div.community_rating.no_js {
   position: absolute;
@@ -760,7 +751,7 @@ div.talking_point_acceptable {
   div.talking_point_acceptable p.talking_point_ratings {
     text-align: center;
     font-size: 0.9em;
-    margin: 0 0 4px 0; }
+    margin: 6px 0 0 0; }
   div.talking_point_acceptable p.suggest {
     margin-right: -60px;
     width: 200px; }
@@ -769,9 +760,9 @@ div.talking_point_acceptable {
 
 div.favorite {
   float: left;
-  margin-top: 26px; }
+  margin-top: 8px; }
   div.favorite span.fav_cnt {
-    font-size: 2em; }
+    font-size: 1.4em; }
   div.favorite button {
     cursor: pointer; }
     div.favorite button img {
@@ -780,8 +771,7 @@ div.favorite {
       margin-right: auto; }
 
 div.talking_point_body {
-  background: none;
-  background: url(/images/white_bulb_sm.gif) no-repeat 8px 20px; }
+  background: none; }
   div.talking_point_body a.tp_show_coms {
     font-size: 1.24em; }
   div.talking_point_body a.edit, div.talking_point_body a.versions, div.talking_point_body a.report {
@@ -800,7 +790,7 @@ div.talking_point_sec {
 
 div.question_worksheet {
   padding: 0;
-  width: 600px; }
+  width: 610px; }
 
 form.talking_point_form {
   width: 320px; }
@@ -875,7 +865,9 @@ div.talking_points_page div.proposal {
   margin-top: 60px; }
 
 div.talking_point_body p.talking_point {
-  font-size: 1em; }
+  font-size: 1em;
+  margin-top: 6px;
+  margin-bottom: 6px; }
 
 div.question_summary p.question {
   margin-top: 0; }
@@ -1146,3 +1138,50 @@ div.member_info {
     float: right; }
     div.member_info div.member_links p {
       margin: 0; }
+
+div.talking_point_details {
+  float: left;
+  width: 30px;
+  text-align: center;
+  margin-right: 8px; }
+  div.talking_point_details div.talking_point_com_count {
+    width: 30px;
+    height: 32px;
+    background: url(/images/tbubble.gif) no-repeat 0 0px;
+    cursor: pointer; }
+    div.talking_point_details div.talking_point_com_count p {
+      margin-top: 10px;
+      font-weight: bold;
+      padding-top: 1px; }
+
+div.talking_point_body {
+  padding-right: 0;
+  width: 352px; }
+  div.talking_point_body a {
+    font-size: 0.8em; }
+  div.talking_point_body img {
+    vertical-align: text-top; }
+
+div.talking_point_icon {
+  float: left;
+  width: 40px;
+  height: 52px;
+  text-align: center;
+  background: url(/images/white_bulb_sm.gif) no-repeat 8px 10px; }
+  div.talking_point_icon a {
+    display: block;
+    margin-top: 44px;
+    font-size: 0.8em;
+    margin-left: 6px; }
+    div.talking_point_icon a img {
+      display: none;
+      margin-left: 10px; }
+
+div.talking_point_entry.mouseover div.talking_point_icon img {
+  display: block; }
+
+div.talking_point_icon.new {
+  background: url(/images/red_bulb_new_sm.gif) no-repeat 8px 10px; }
+
+div.talking_point_entry a:link {
+  text-decoration: none; }

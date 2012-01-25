@@ -120,24 +120,11 @@ class ApplicationController < ActionController::Base
       session[:member_id] = @member.id
       session.delete :code
       session.delete :_mlc
-      session.delete :last_visits
       if params[:stay_signed_in]
        request.session_options = request.session_options.dup
        request.session_options[:expire_after]= 30.days
        #request.session_options.freeze
       end
-      
-      session[:last_visits] ||= {}
-      if flash[:params] && flash[:params][:team_id] # I can only set the last_visit for a team if I know the team_id
-        if params[:date]
-          time_stamp = params[:date].split('-') # 11-21-2011
-          session[:last_visits][flash[:params][:team_id]] = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
-        else
-          last_event = ParticipantStats.where(:member_id => @member.id, :team_id => flash[:params][:team_id])
-          session[:last_visits][flash[:params][:team_id]] = last_event[0].nil? ? Time.now - 7.days : last_event[0].updated_at
-        end
-      end
-      @member.last_visits = session[:last_visits]
 
       respond_to do |format|
         format.html{
@@ -182,7 +169,6 @@ class ApplicationController < ActionController::Base
     session.delete :member_id
     session.delete :code
     session.delete :_mlc
-    session.delete :last_visits
     flash[:notice] = "Signed out"
     redirect_to :controller=> 'welcome', :action => "index"
   end
@@ -250,30 +236,13 @@ class ApplicationController < ActionController::Base
         else
           @member = Member.find_by_id(session[:member_id]);
         end
-        session[:last_visits] ||= {}
         if @member.nil?
           # session is no good
           session[:member_id] = nil
           @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
           @member.id = 0
           @member.email = ''
-          session[:last_visits][params[:team_id]] = Time.now - 7.days unless params[:team_id].nil?
-        else
-          if params[:team_id] # I can only set the last_visit for a team if I know the team_id
-            session[:last_visits] = {} if session[:last_visits].nil?
-            if params[:date]
-              time_stamp = params[:date].split('-') # 11-21-2011
-              session[:last_visits][params[:team_id]] = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
-            else
-              # update last visit for this team only if there is no current timestamp
-              if session[:last_visits][params[:team_id]].nil?
-                last_event = ParticipantStats.where(:member_id => @member.id, :team_id => params[:team_id])
-                session[:last_visits][params[:team_id]] = last_event[0].nil? ? Time.now - 7.days : last_event[0].updated_at
-              end
-            end
-          end
         end
-        @member.last_visits = session[:last_visits]
       end
     end
 

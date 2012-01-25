@@ -7,4 +7,7 @@
 			= image_tag('tp-star-g.gif')
 		- else
 			= image_tag('tp-star-e.gif')
-		%span.fav_cnt= mode != 'new_' ? votes : ''
+		- if talking_point.my_rating.nil?
+			%span.fav Fave?
+		- else
+			%span.fav_cnt= votes

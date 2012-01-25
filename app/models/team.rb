@@ -87,20 +87,35 @@ class Team < ActiveRecord::Base
     self.title
   end
   
-  def assign_question_stats(last_visit_ts)
-    stats  = ActiveRecord::Base.connection.select_all(%Q|select q_id,
+  def assign_question_stats(member_id)
+    # get the question ids
+    q_ids = self.questions.map(&:id)
+    q_ids = [0] if q_ids.size == 0
+    # get the load time for each question
+    qlts = QuestionLoadTime.where(:member_id=>member_id, :question_id=>q_ids)
+    # find missing load time records and create them and append them to the array
+    (q_ids - qlts.map(&:question_id)).each{|i| qlts += [ QuestionLoadTime.find_or_create_by_member_id_and_question_id(member_id,i) ] }
+    # use the array of load time objects to query for the stats
+
+    stats  = ActiveRecord::Base.connection.select_all(%Q|select q_id, last_visit_ts,
     (SELECT count(id) from comments where question_id = q_id) AS coms,
-    (SELECT count(id) from comments where question_id = q_id AND created_at > '#{last_visit_ts}') AS new_coms,
+    (SELECT count(id) from comments where question_id = q_id AND created_at > last_visit_ts) AS new_coms,
     (SELECT count(id) from talking_points where question_id = q_id) AS tps,
-    (SELECT count(id) from talking_points where question_id = q_id AND created_at > '#{last_visit_ts}') AS new_tps
-    FROM ( VALUES #{ self.questions.map{|q| "(#{q.id})" }.join(',') } ) AS q (q_id)|)
+    (SELECT count(id) from talking_points where question_id = q_id AND updated_at > last_visit_ts) AS new_tps,
+    (SELECT COUNT(tp.id) FROM talking_points AS tp LEFT JOIN talking_point_acceptable_ratings AS tpar ON tp.id=tpar.talking_point_id 
+    AND tpar.member_id = #{member_id} WHERE (tpar.id IS NULL AND question_id = q_id)) AS unrated
+    FROM (  VALUES #{qlts.map{|qlt| "(#{qlt.question_id},'#{qlt.updated_at.localtime}'::timestamptz)"}.join(',')}) AS q (q_id,last_visit_ts)|)
     
+    # attach the stats to the questions    
     self.questions.each do|question|
       stat = stats.detect{|s| s['q_id'].to_i == question.id}
       question.coms = stat['coms']
       question.new_coms = stat['new_coms']
       question.num_talking_points = stat['tps']
       question.num_new_talking_points = stat['new_tps']
+      question.unrated_talking_points = stat['unrated']
+      question.updated_talking_points = stat['new_tps'].to_i > stat['unrated'].to_i ? stat['new_tps'].to_i - stat['unrated'].to_i : 0
+      
     end
   end
   
@@ -176,10 +191,6 @@ class Team < ActiveRecord::Base
       :joins => 'as li inner join items as i on i.o_id = li.list_id',
       :order => '"order"' 
     )
-  end
-  
-  def last_visit(member_id)
-    Activity.maximum(:created_at, :conditions => ['member_id = ? AND team_id = ? AND action = \'team index\'', member_id, self.id]) || Time.now
   end
   
   def public_disc_data(memberId)

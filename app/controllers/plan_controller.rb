@@ -31,9 +31,8 @@ class PlanController < ApplicationController
       return
     end
 
-    @team.assign_question_stats(@member.last_visits[params[:team_id]])
+    @team.assign_question_stats(@member.id)
 
-    #@team.get_talking_point_ratings(@member)
     # eager load the curated talking points and attach them to the questions in order as question.curated_talking_points
     @team.include_curated_talking_points
 
@@ -45,7 +44,7 @@ class PlanController < ApplicationController
 
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
 
-    @channels = ["_auth_team_#{@team.id}", "_auth_inititive_#{params[:_initiative_id]}"]
+    @channels = ["_auth_team_#{@team.id}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
     render :summary, :layout => 'plan'
@@ -55,54 +54,6 @@ class PlanController < ApplicationController
     logger.flush
     #logger.auto_flushing = 1
   end
-  
-  #def new_content
-  #  
-  #  # verify acccess to this team
-  #  allowed,message = InitiativeRestriction.allow_actionX({:team_id => params[:team_id]}, 'view_idea_page', @member)
-  #  if !allowed
-  #    if @member.id == 0
-  #      force_sign_in
-  #    else
-  #      respond_to do |format|
-  #        format.js { render 'shared/private' }
-  #        format.html { render 'shared/private', :layout => 'plan' }
-  #      end
-  #    end
-  #    return
-  #  end
-  #  
-  #  time_stamp = params[:date] 
-  #  if time_stamp
-  #    time_stamp = time_stamp.split('-')
-  #    session[:last_visit_ts] = 
-  #    @last_visit = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
-  #  else
-  #    @last_visit = @member.last_visit_ts      
-  #    @last_visit= @last_visit.advance(:days => -7) unless @member.id != 0
-  #  end
-  #
-  #  @team = Team.includes(:questions).find(params[:team_id])
-  #  #@questions = Question.where("team_id = :team_id", :team_id => params[:team_id])
-  #  
-  #  @talking_points = TalkingPoint.where("question_id IN (:question_ids) AND updated_at >= :last_visit", :question_ids => @team.questions.map(&:id), :last_visit => @last_visit )
-  #  @talking_points.each{|tp| tp['new'] = true }
-  #  
-  #  @comments = Comment.includes(:author).where("team_id = :team_id AND created_at >= :last_visit", :team_id => params[:team_id], :last_visit => @last_visit)
-  #  
-  #  tps_i_need = @comments.map{ |c| c.parent_type == 13 ? c.parent_id : nil}.compact.uniq - @talking_points.map(&:id)
-  #
-  #  if tps_i_need.size > 0
-  #    @talking_points  = @talking_points + TalkingPoint.find(tps_i_need)
-  #  end
-  #  
-  #  TalkingPoint.add_my_ratings_and_prefs(@talking_points,@member)
-  #
-  #  Comment.set_question_id_child_comments(@comments)
-  #  
-  #  render :new_content, :layout => 'plan'
-  #  ActiveSupport::Notifications.instrument( 'tracking', :event => 'New content page', :params => params.merge(:member_id => @member.id)) unless @member.nil? || @member.id == 0
-  #end
   
   def suggest_new_idea
     logger.debug "show form for suggest_new_idea"

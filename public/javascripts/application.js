@@ -170,6 +170,26 @@ $('div.radios div').live('mouseover mouseout', function(event) {
   }
 });
 
+$('div.talking_point_acceptable.rated').live('mouseover mouseout', function(event) {
+	var com_rate = $(this).find('div.community_rating');
+	var radios = com_rate.next('div.radios');
+  if (event.type == 'mouseover') {
+		com_rate.addClass('hide');
+		radios.removeClass('hide');
+  } else {
+		com_rate.removeClass('hide');
+		radios.addClass('hide');
+  }
+});
+
+$('div.talking_point_entry').live('mouseover mouseout', function(event) {
+  if (event.type == 'mouseover') {
+		$(this).addClass('mouseover');
+  } else {
+  	$(this).removeClass('mouseover');
+	}
+});
+
 $('div.radios label').live('click', function() {
 	var el = $(this);
 	var p = el.closest('div.my_rating').find('p.option');

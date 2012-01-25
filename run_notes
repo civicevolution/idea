@@ -232,3 +232,27 @@ r.recognize_path "/talking_points/2/comments"
 	
 	
 http://jscompress.com/	http://www.minifyjavascript.com/
+
+***********************************************************************************
+
+Wed Jan 25 10:22:58 PST 2012
+
+***********************************************************************************
+
+debugging startup issues with logs
+
+/var/log/engineyard/apps/tp
+	delayed_job.log
+	mail.sent.log
+	newrelic_agent.log
+	newrelic_agent_store.db
+	newrelic_agent_store.pid
+	notification.rb.log
+	production.log
+	unicorn.log
+	unicorn.stderr.log
+	unicorn.stdout.log
+	
+sudo monit status
+
+	unicorn.stderr.log

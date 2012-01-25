@@ -90,7 +90,7 @@
 				%a{:href=>"#tab_suggest_general"} General
 
 		%div#tab_suggest_you.tab_content
-			%p Actions specifically for you right now
+			= render :partial=> 'accordion/actions_just_for_you'
 		%div#tab_suggest_general.tab_content
 			= render :partial=> 'accordion/suggested_actions'
 		
