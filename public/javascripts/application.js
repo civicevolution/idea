@@ -221,6 +221,13 @@ $('a.endorse_this_proposal').live('click',function(){
 	return false;
 });
 
+$('form#talking_point_form a.clear').live('click',
+	function(){
+		$(this).closest('form').find('textarea').val('');
+		return false;
+	}
+);
+
 function getUrlVars()
 {
     var vars = [], hash;

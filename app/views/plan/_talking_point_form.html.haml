@@ -28,7 +28,7 @@
 				- if 	params[:action] == "what_do_you_think_form"
 					= link_to 'Cancel', question_worksheet_path(question_id), {:class=>'clear', :rel=>'nofollow'}
 				- else
-					= link_to 'Clear', {:action => 'index'}, {:class=>'clear', :rel=>'nofollow'}
+					= link_to 'Clear', {}, {:class=>'clear', :rel=>'nofollow'}
 			
 				-#
 					= image_tag('icon_linkc.gif',{:class=>'show_add_link',:title=>'Add a link'})

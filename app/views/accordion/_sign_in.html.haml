@@ -1,13 +1,8 @@
 %div#sign_in_form
-	%p.error= flash[:notice]
+	- if flash[:notice]
+		%p.error= flash[:notice]
 	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form', :remote=>true}) do
 		%table{:border=>0, :cellspacing=>0}
-			%tr
-				%td 
-					Sign in if you're already a member
-			%tr
-				%td
-
 			%tr
 				%td.lbl
 					%label{:for=>"email"} Email:

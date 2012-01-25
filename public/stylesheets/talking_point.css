@@ -797,7 +797,7 @@ form.talking_point_form {
   form.talking_point_form div.form_controls {
     width: 320px; }
     form.talking_point_form div.form_controls span.char_ctr {
-      left: 120px; }
+      left: 80px; }
 
 div.talking_point_form {
   background: #e1e8c4 url(/images/rate-bg-gr.gif) repeat-y 380px;
@@ -1092,7 +1092,8 @@ div#guideAccordion div.content {
   div#guideAccordion div.content ul.talking_points {
     padding-left: 6px; }
 div#guideAccordion div.curated_list p {
-  margin: 0; }
+  margin: -10px 0;
+  font-style: italic; }
 div#guideAccordion div.curated_list li a.q_tab {
   padding: 1px 6px 1px 12px; }
 div#guideAccordion div.curated_list li a.close_worksheet {
@@ -1120,6 +1121,9 @@ div#guideAccordion div#activity_chat form#chat_form {
 div#guideAccordion div#tab_member_sign_in {
   padding-top: 0;
   margin-top: -px; }
+div#guideAccordion div#tab_suggest_you p {
+  margin: -10px 0;
+  font-style: italic; }
 
 div.talking_points_page {
   padding-top: 0px; }

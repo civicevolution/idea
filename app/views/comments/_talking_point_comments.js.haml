@@ -5,41 +5,41 @@
 	)}");
 	var tp = $('div.talking_point_entry[id="#{talking_point.id}"]')
 	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').remove();
-	var link = tp.find('a.tp_show_coms').html('Hide discussion');	
+	//var link = tp.find('a.tp_show_coms').html('Hide discussion');	
 	// override the ajax Complete function to restore the link text
-	link.removeData('ujs:enable_with'); 
+	//link.removeData('ujs:enable_with'); 
 	var newNode = $(tp_coms).insertAfter(tp);
 	newNode.find('abbr').timeago();
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
 	// activate the link to hide the discussion
-	link.unbind('ajax:beforeSend').bind('ajax:beforeSend', 
-		function(){
-			return false;
-		}).bind('click', 
-		function(){
-			var el = $(this);
-			el.unbind('ajax:beforeSend').unbind('click');
-			var disc = el.closest('div.talking_point_entry').next('div.talking_point_comments');
-			if(disc.size() > 0){
-				var num_coms = disc.attr('num_coms');
-				var com_cnt = disc.find('div.Comment').size();
-				com_cnt = num_coms > com_cnt ? num_coms : com_cnt;
-				switch(com_cnt){
-					case 0:
-						el.html('Reply');
-						break;
-					case 1:
-						el.html('Show 1 comment');
-						break;
-					default:
-						el.html('Show ' + com_cnt + ' comments' );
-						break;
-				}
-				disc.remove();
-			}
-			return false;
-		}
-	)
+	//link.unbind('ajax:beforeSend').bind('ajax:beforeSend', 
+	//	function(){
+	//		return false;
+	//	}).bind('click', 
+	//	function(){
+	//		var el = $(this);
+	//		el.unbind('ajax:beforeSend').unbind('click');
+	//		var disc = el.closest('div.talking_point_entry').next('div.talking_point_comments');
+	//		if(disc.size() > 0){
+	//			var num_coms = disc.attr('num_coms');
+	//			var com_cnt = disc.find('div.Comment').size();
+	//			com_cnt = num_coms > com_cnt ? num_coms : com_cnt;
+	//			switch(com_cnt){
+	//				case 0:
+	//					el.html('Reply');
+	//					break;
+	//				case 1:
+	//					el.html('Show 1 comment');
+	//					break;
+	//				default:
+	//					el.html('Show ' + com_cnt + ' comments' );
+	//					break;
+	//			}
+	//			disc.remove();
+	//		}
+	//		return false;
+	//	}
+	//)
 	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').find('a.clear').html('Clear').die('click').live('click',
 		function(){
 			$(this).closest('form').find('textarea').val('');

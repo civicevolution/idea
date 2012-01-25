@@ -3,7 +3,7 @@ console.log("loading accordion.js");
 var show_acc_height = false;
 var accordion_elements = {
 	'h3#member': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
-	'div#member': {visible: false, min: 60, max: 300, pct: 0, height: 0 },
+	'div#member': {visible: false, min: 60, max: 250, pct: 0, height: 0 },
 	'h3#curated_list': {visible: false, min: 0, max: 0, pct: 0, height: 0 },
 	'div#curated_list': {visible: false, min: 160, max: 400, pct: 0, height: 0 },
 	'h3#help': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
@@ -32,7 +32,7 @@ function adjust_accordion_state(){
 		case 'visitor':
 			accordion_elements['div#member'].visible = true;
 			accordion_elements['div#help'].visible = true;
-			accordion_elements['div#activity_chat'].visible = true;
+			accordion_elements['div#activity_chat'].visible = false;
 			break;
 	}
 }
