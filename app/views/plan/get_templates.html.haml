@@ -251,7 +251,7 @@
 				var order_id = Number(el.html().match(/Q(\d+)/)[1]); 
 				var question_text = el.html().replace(/Q\d+: /,'');
 				
-				if ( !$('h3#curated_list').attr('class').match(/active/) ) $('h3#curated_list').click();
+				if ( !$('h3#curated_list_t').attr('class').match(/active/) ) $('h3#curated_list_t').click();
 				
 				var q_tabs = $('div.curated_list div.tabs');
 				
@@ -322,7 +322,7 @@
 				$('<div class="msg"><h2>...loading the talking points worksheet</h2></div>').insertAfter(tp_sec);
 				tp_sec.hide(1000);
 
-				var list_header = $('div#guideAccordion h3#curated_list');
+				var list_header = $('div#guideAccordion h3#curated_list_t');
 				//list_header.slideDown('fast');
 				list_header.show();
 				var new_left = $('div.right_side').position().left;
@@ -381,7 +381,7 @@
 
 				if(next_tab.size() == 0){
 					// if no more tabs, close this accordion panel and hide the accordion tab
-					$('h3#curated_list').click();
+					$('h3#curated_list_t').click();
 				}else{
 					// get the index to the next_tab
 					var index = 0;

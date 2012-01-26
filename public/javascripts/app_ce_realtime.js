@@ -184,3 +184,7 @@ function update_presence(roster){
 		}
 	}
 }
+
+//console.log = function(msg){
+//	$('div#chat_log').append("<p>" + msg + "</p>").scrollTop(99999999);
+//}

@@ -1058,9 +1058,9 @@ div#guideAccordion div.member_info {
   float: none;
   width: auto;
   margin: 6px; }
-div#guideAccordion h3#member {
+div#guideAccordion h3#member_t {
   position: relative; }
-  div#guideAccordion h3#member a.sign_out {
+  div#guideAccordion h3#member_t a.sign_out {
     position: absolute;
     top: 2px;
     right: 8px;
