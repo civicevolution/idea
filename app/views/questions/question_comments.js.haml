@@ -2,25 +2,10 @@
 :plain
 	//console.log("processing question talking points")
 	var comments = $("#{escape_javascript(
+		'<h4 class="ques_sub_hdg">All comments about this question and talking points</h4>' + 
 		'<div>' + render( :partial=> 'plan/comment', :collection => @question['comments_to_display'] ) + '</div>'
 	)}");
 	console.log("load comments");
 	var ques_disc = $('div.ques_discussion[id="#{@question.id}"]');
-	var comment_insert_point = ques_disc.find('div.Comment:first');
-	var new_com_ids = [];
-	comments.find('div.Comment').each( function(){ new_com_ids.push(this.id); comment_insert_point.before(this) });
-	ques_disc.find('a.show_new_comments').remove();
-	if(#{params[:action] == "all_comments" ? true : false}){
-		$('a.show_all_comments[id="#{@question.id}"]').remove();
-	}else{
-		var link = $('a.show_all_comments[id="#{@question.id}"]').remove();
-		var href = link.attr('href');
-		var text = link.html();
-		var cnt = Number(text.match(/\d+/));
-		$.map(new_com_ids, function(i){href += '-' + i; --cnt});
-		link.attr('href',href);
-		text = text.replace(/\d+/,cnt);
-		if(cnt == 1)text = text.replace(/s$/,'')
-		link.html(text)
-	} 
+	ques_disc.html(comments);
 	ques_disc.find('abbr').timeago();

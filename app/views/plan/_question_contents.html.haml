@@ -1,6 +1,4 @@
 %div.talking_point_sec
-	%h3.ques_sub_hdg 
-
 	- if flash[:unrecorded_talking_point_preferences]
 		%p.warn You checked "I prefer this" on more than 5 talking points
 		%p.warn Each participant is limited to 5 preferences per question
@@ -8,6 +6,20 @@
 
 
 	%div.talking_points_list{:id=>question.id}
+		- if @question.show_new
+			%h4.ques_sub_hdg 
+				New and updated talking points to review and rate
+				= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
+				
+		- elsif @question.num_talking_points == 0
+			%h4.ques_sub_hdg 
+				Help us answer this question by suggesting a talking point
+				= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
+
+		- else
+			%h4.ques_sub_hdg 
+				Question talking points in order of popularity
+				= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
 
 		= render :partial=> 'plan/talking_point', :collection => question['talking_points_to_display']
 

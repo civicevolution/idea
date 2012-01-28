@@ -1,7 +1,9 @@
 %div#sign_in_form
 	- if flash[:notice]
 		%p.error= flash[:notice]
+
 	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form', :remote=>true}) do
+		= hidden_field_tag :in_accordion, 1
 		%table{:border=>0, :cellspacing=>0}
 			%tr
 				%td.lbl
@@ -30,5 +32,5 @@
 						Don't use this on a public computer
 			%tr
 				%td.lbl
-					= submit_tag "Sign In", :name=>'sign_in', :tabindex => 4
+					= submit_tag "Sign In", :name=>'sign_in', :tabindex => 4, :disable_with => 'Submitting…'
 					= link_to 'Cancel', {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow', :tabindex => 5}

@@ -109,13 +109,13 @@ class Team < ActiveRecord::Base
     # attach the stats to the questions    
     self.questions.each do|question|
       stat = stats.detect{|s| s['q_id'].to_i == question.id}
-      question.coms = stat['coms']
-      question.new_coms = stat['new_coms']
-      question.num_talking_points = stat['tps']
-      question.num_new_talking_points = stat['new_tps']
-      question.unrated_talking_points = stat['unrated']
+      question.coms = stat['coms'].to_i
+      question.new_coms = stat['new_coms'].to_i
+      question.num_talking_points = stat['tps'].to_i || 0
+      question.num_new_talking_points = stat['new_tps'].to_i || 0
+      question.unrated_talking_points = stat['unrated'].to_i
       question.updated_talking_points = stat['new_tps'].to_i > stat['unrated'].to_i ? stat['new_tps'].to_i - stat['unrated'].to_i : 0
-      
+      question.show_new = question.unrated_talking_points > 0 || question.updated_talking_points > 0 || question.new_coms > 0 ? true : false
     end
   end
   

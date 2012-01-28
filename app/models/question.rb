@@ -98,6 +98,8 @@ class Question < ActiveRecord::Base
       .where("tpar.id IS NULL AND question_id = #{self.id}")
     
     self.new_talking_points.each{|tp| tp['new'] = true }
+    self.unrated_talking_points = self.new_talking_points.size
+    
     new_tp_ids = new_talking_points.map{|tp| tp.id.to_i }
     new_tp_ids = [0] if new_tp_ids.size == 0
     # now there may be some TP that have been updated since I rated them
@@ -105,8 +107,10 @@ class Question < ActiveRecord::Base
       :question_id => self.id, :new_tp_ids => new_tp_ids, :last_visit => member.question_last_visit_ts)
 
     updated_talking_points.each{|tp| tp['updated'] = true }
+    self.updated_talking_points = updated_talking_points.size
 
     self.new_talking_points += updated_talking_points
+    self.num_new_talking_points = self.new_talking_points.size
 
     self.new_comments = Comment.includes(:author).where("question_id = :question_id AND created_at >= :last_visit", :question_id => self.id, :last_visit => member.question_last_visit_ts)
     self.new_comments.each{|com| com['new'] = true }
@@ -141,8 +145,10 @@ class Question < ActiveRecord::Base
         com['comments'].push(c)
       end
     end
-
+    self.coms = Comment.where(:parent_id => self.id, :parent_type => 1).count
+    self.num_talking_points = TalkingPoint.where(:question_id => self.id).count
     self.show_new = self.new_talking_points.size > 0 || self.new_comments.size > 0 
+    self.new_coms = self.new_comments.size
   end
   
   def remaining_talking_points(ids)

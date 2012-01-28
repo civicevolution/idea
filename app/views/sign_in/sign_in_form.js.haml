@@ -1,11 +1,15 @@
-:plain
-	var sign_in_form = $("#{escape_javascript(
-		render( :template => 'sign_in/sign_in_form.html')
-	)}");
-	sign_in_form.find('form, a.reset_password').attr('data-remote','true');
-	$('div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
-	$('div#sign_in_form a.cancel').die('click').live('click', 
-		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
-	);
+- if params[:in_accordion] && flash[:notice]
+	$('div#sign_in_form').find('p.error').remove();
+	$('div#sign_in_form').prepend("<p class='error'>#{flash[:notice]}</p>")
+- else
+	:plain
+		var sign_in_form = $("#{escape_javascript(
+			render( :template => 'sign_in/sign_in_form.html')
+		)}");
+		sign_in_form.find('form, a.reset_password').attr('data-remote','true');
+		$('div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
+		$('div#sign_in_form a.cancel').die('click').live('click', 
+			function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
+		);
 	
-	var dialog = sign_in_form.dialog( {title : 'Please sign in or join to continue', modal : true, width : '650px', closeOnEscape: true, close: function(){$(this).remove()} });
+		var dialog = sign_in_form.dialog( {title : 'Please sign in or join to continue', modal : true, width : '650px', closeOnEscape: true, close: function(){$(this).remove()} });

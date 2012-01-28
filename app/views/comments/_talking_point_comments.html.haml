@@ -1,5 +1,7 @@
 %div.talking_point_comments.discussion{:id=> talking_point.id, :num_coms => talking_point.coms }
 
+	= link_to "Hide comments", {}, { :class=> 'tp_hide_coms'}
+	
 	- if talking_point.coms > comments.size
 		= link_to "Display all #{pluralize(talking_point.coms,'comment')}", talking_point_comments_path(talking_point), { :class=> 'tp_show_coms', :remote=>true}
 

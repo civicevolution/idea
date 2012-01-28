@@ -28,7 +28,7 @@ module CallToActionHelper
     end #options
     debugger if debug
     if primary_haml != '' || secondary_haml != ''
-      render :partial => 'shared/cta', :locals => { :primary => primary_haml, :secondary => secondary_haml, :custom_locals=>data }
+      render :partial => 'shared/cta1', :locals => { :primary => primary_haml, :secondary => secondary_haml, :custom_locals=>data }
     end
     
   end

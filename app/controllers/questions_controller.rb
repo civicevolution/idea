@@ -223,7 +223,7 @@ class QuestionsController < ApplicationController
       @question['comments_to_display'] = @question.comments
       worksheet
     else
-      @question['comments_to_display'] = @question.remaining_comments( params[:ids].split('-') )
+      @question['comments_to_display'] = @question.comments
       @question.get_talking_point_ratings(@member)
       render :question_comments, :layout => false
     end
@@ -249,9 +249,12 @@ class QuestionsController < ApplicationController
       return
     end
     
+    # I might want to trim this back to just get the stats I need
+    question.member = @member
+    question.assign_new_content unless @member.nil? || @member.id == 0
+    
     # FIX this to be done only when needed
     @default_answers = DefaultAnswer.select('id,checklist').where(:id=>question.default_answer_id) if question.curated_talking_points.size == 0
-    
     			
     render :template=>'questions/summary.js', :layout => false, :locals=>{:question=>question}
   end
@@ -289,7 +292,7 @@ class QuestionsController < ApplicationController
     @question.member = @member
     @question.assign_new_content unless @member.nil? || @member.id == 0
     
-    @question['talking_points_to_display'] ||= @question.show_new ? @question.new_talking_points : @question.top_talking_points
+    @question['talking_points_to_display'] ||= @question.show_new ? @question.new_talking_points : @question.all_talking_points
     @question['comments_to_display'] ||= @question.show_new ? @question.new_comments : @question.recent_comments
     
     # is this a request to highlight a specific item? If so, make sure it is present or add it

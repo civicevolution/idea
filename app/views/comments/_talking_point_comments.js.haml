@@ -5,41 +5,9 @@
 	)}");
 	var tp = $('div.talking_point_entry[id="#{talking_point.id}"]')
 	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').remove();
-	//var link = tp.find('a.tp_show_coms').html('Hide discussion');	
-	// override the ajax Complete function to restore the link text
-	//link.removeData('ujs:enable_with'); 
 	var newNode = $(tp_coms).insertAfter(tp);
 	newNode.find('abbr').timeago();
 	activate_text_counters_grow( newNode.find('textarea'), 30 );
-	// activate the link to hide the discussion
-	//link.unbind('ajax:beforeSend').bind('ajax:beforeSend', 
-	//	function(){
-	//		return false;
-	//	}).bind('click', 
-	//	function(){
-	//		var el = $(this);
-	//		el.unbind('ajax:beforeSend').unbind('click');
-	//		var disc = el.closest('div.talking_point_entry').next('div.talking_point_comments');
-	//		if(disc.size() > 0){
-	//			var num_coms = disc.attr('num_coms');
-	//			var com_cnt = disc.find('div.Comment').size();
-	//			com_cnt = num_coms > com_cnt ? num_coms : com_cnt;
-	//			switch(com_cnt){
-	//				case 0:
-	//					el.html('Reply');
-	//					break;
-	//				case 1:
-	//					el.html('Show 1 comment');
-	//					break;
-	//				default:
-	//					el.html('Show ' + com_cnt + ' comments' );
-	//					break;
-	//			}
-	//			disc.remove();
-	//		}
-	//		return false;
-	//	}
-	//)
 	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').find('a.clear').html('Clear').die('click').live('click',
 		function(){
 			$(this).closest('form').find('textarea').val('');
@@ -48,3 +16,34 @@
 		}
 	);
 	setTimeout( function(){	$('.corner').corner()},100);
+	
+	if(tp_coms.height()>400){
+		tp_coms.append(tp_coms.find('a.tp_hide_coms').clone());
+	}
+	
+	$('a.tp_hide_coms').die('click').live('click',
+		function(){
+			// update the number of comments
+			var disc = $(this).closest('div.talking_point_comments');
+			if(disc.size() > 0){
+				var p = disc.prev('div.talking_point_entry').find('div.talking_point_com_count p');
+		  	var com_cnt = disc.find('div.Comment').size();
+		  	switch(com_cnt){
+		  		case 0:
+		  			p.html('+');
+						p.attr('title','Click to add a comment');
+		  			break;
+		  		case 1:
+		  			p.html('1');
+						p.attr('title','Click to see 1 comment');
+		  			break;
+		  		default:
+		  			p.html(com_cnt);
+						p.attr('title','Click to see ' + com_cnt + ' comments');
+		  			break;
+		  	}
+		  	disc.remove();
+		  }
+			return false;
+		}
+	);

@@ -1,0 +1,4 @@
+%div.cta1{:class=>custom_locals[:custom_class].nil? ? '' : custom_locals[:custom_class]}
+	%div.primary
+		= render :inline=> primary, :type => :haml, :locals=>custom_locals
+	%p.clear_both

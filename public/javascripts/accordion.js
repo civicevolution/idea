@@ -24,17 +24,27 @@ function adjust_accordion_state(){
 
 	switch(state){
 		case 'signed_in':
-			accordion_elements['div#member'].visible = false;
-			accordion_elements['div#help'].visible = false;
-			accordion_elements['div#suggested_actions'].visible = true;
-			accordion_elements['div#activity_chat'].visible = true;
+			closePanel('#member');
+			closePanel('#help');
+			openPanel('#suggested_actions');
+			openPanel('#activity_chat');
 			break;
 		case 'visitor':
-			accordion_elements['div#member'].visible = true;
-			accordion_elements['div#help'].visible = true;
-			accordion_elements['div#activity_chat'].visible = false;
+			openPanel('#member');
+			openPanel('#help');
+			closePanel('#activity_chat');
 			break;
 	}
+}
+
+function closePanel(id){
+	accordion_elements['div' + id].visible = false;
+	$('h3' + id + '_t').addClass('ui-state-active').removeClass('ui-state-default').click();
+}
+
+function openPanel(id){
+	accordion_elements['div' + id].visible = true;
+	$('h3' + id + '_t').removeClass('ui-state-active').addClass('ui-state-default').click();
 }
 
 function init_accordion(){
@@ -42,9 +52,9 @@ function init_accordion(){
 		tabShown: function(event, ui) {
 		  //console.log('shown');
 			try{
-				console.log("Make " + 'div#' + ui.tab.attr('id').replace(/_t$/,'') + ' visible = true')
+				//console.log("Make " + 'div#' + ui.tab.attr('id').replace(/_t$/,'') + ' visible = true')
 				accordion_elements['div#' + ui.tab.attr('id').replace(/_t$/,'') ].visible = true;
-				setTimeout(accordion_resize,500);
+				setTimeout(accordion_resize,800);
 			}catch(e){}
 		},
 		tabHidden: function(event, ui) {
@@ -52,7 +62,7 @@ function init_accordion(){
 			try{
 				//console.log("Make " + 'div#' + ui.tab.attr('id').replace(/_t$/,'') + ' visible = false')
 				accordion_elements['div#' + ui.tab.attr('id').replace(/_t$/,'') ].visible = false;
-				setTimeout(accordion_resize,500);
+				setTimeout(accordion_resize,800);
 			}catch(e){}
 		}
 	});
@@ -61,7 +71,7 @@ function init_accordion(){
 }
 $(window).resize(function(){
 		try{  
-			setTimeout(accordion_resize,500);
+			setTimeout(accordion_resize,800);
 		}catch(e){}
 	}
 );

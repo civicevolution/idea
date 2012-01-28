@@ -446,9 +446,9 @@ div.talking_points_list
 div.ques_discussion
 	//border: 1px solid red
 	margin-top: 50px
-	margin-left: $page_indent
+	margin-left: 0 // $page_indent
 	div.Comment
-		margin-left: $page_indent
+		//margin-left: $page_indent
 	p.count_link
 		margin-left: $page_indent
 	div.question_discussion_placeholder
@@ -1109,7 +1109,7 @@ div.question_summary
 		margin-top: 0
 	div.talking_points_list.summary
 		//background: $talking_points_list
-		padding: 1em
+		padding: 16px
 		ul.talking_points
 			margin-top: 0
 			li
@@ -1254,7 +1254,21 @@ span.new_com
 	color: $graph_red
 	font-weight: bold
 	
-
+div.question_summary	
+	div.cta1
+		background: url(/images/cta_icon1.gif) no-repeat 0px 0px
+		min-height: 30px
+		margin-bottom: 20px
+		margin-top: -30px
+		div.primary
+			margin-top: 2px
+			margin-left: 30px
+			p
+				//padding-top: 4px
+				margin-bottom: 0
+			ul
+				margin-top: 4px
+				padding-left: 24px
 div.cta
 	background: $cta_bg_left url(/images/rate-bg-gr.gif) repeat-y 380px
 	width: 100%
@@ -1451,4 +1465,46 @@ div.talking_point_icon.new
 div.talking_point_entry
 	a:link
 		text-decoration: none
+	
+div.talking_point_comments
+	margin: 0 0 0 50px
+	a.tp_hide_coms
+		font-size: .8em
+		margin-left: -50px
+		color: #CCC
+	a.tp_show_coms
+		font-size: .8em
+		margin-left: 10px
+		color: #AAA
+
 		
+div.comment_comments
+	//margin: 0 0 0 50px
+	margin-left: 20px
+	a.com_hide_coms
+		font-size: .8em
+		margin-left: -20px
+		color: #CCC
+		
+div.talking_point_sec
+	h4.ques_sub_hdg
+		position: relative
+		margin-right: -20px
+		a.close_worksheet
+			position: absolute
+			top: 0
+			right: 0
+div.worksheet
+	background: url(/images/up_rt_close.gif) no-repeat top right
+	width: 630px
+div.question_worksheet
+	background: url(/images/lw_lt_close.gif) no-repeat bottom left	
+h4.ques_sub_hdg
+	a.close_worksheet
+		img
+			margin: 0
+			
+div.curated_list
+	a.close_worksheet
+		img
+			vertical-align: text-bottom

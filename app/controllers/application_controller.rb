@@ -115,7 +115,6 @@ class ApplicationController < ActionController::Base
   
   def process_sign_in_post
     @member = Member.authenticate(params[:email], params[:password])
-
     if @member
       session[:member_id] = @member.id
       session.delete :code

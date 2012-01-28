@@ -10,7 +10,7 @@
 	- path = add_question_comment_path(id)
 
 = form_tag( path, :remote=>true, :id=> id, :class=>'comment_form orig') do
-	%h3= title
+	%h4= title
 
 	= text_area_tag :text, "#{text}", {:class=>'autosize', :rows => 8}
 
@@ -20,7 +20,7 @@
 		%span.char_ctr
 			= criteria.match(/..(\d+)/)[1]
 			characters
-		= link_to 'Cancel',  cancel_comment_form_path(:t=>type, :id=>id, :act=>params[:action]), {:class=>'clear', :rel=>'nofollow'}
+		= link_to 'Clear',  cancel_comment_form_path(:t=>type, :id=>id, :act=>params[:action]), {:class=>'clear', :rel=>'nofollow'}
 			
 		-#
 			= image_tag('icon_linkc.gif',{:class=>'show_add_link',:title=>'Add a link'})

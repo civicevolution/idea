@@ -1,2 +1,4 @@
 :plain
-	document.location.reload();
+	setTimeout(function(){$('form.signin_form input[name="sign_in"]').val("Reloading page...");},10);
+	console.log("update button");
+	setTimeout("document.location.reload()",100);

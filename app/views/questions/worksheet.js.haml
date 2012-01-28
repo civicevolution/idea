@@ -9,8 +9,19 @@
 	worksheet.find('div.community_rating').removeClass('no_js');
 	worksheet.attr('id',#{question.id});
 	
-	$('div.new_content').closest('div.ui-dialog').hide();
-
+	if(#{!question.show_new}){
+		var tps = worksheet.find('div.talking_point_entry:eq(7) ~ div.talking_point_entry');
+		tps.hide();
+		$('<a class="display_all_tp" href="#">Display ' + tps.size() + ' more talking point' + (tps.size()>1 ? 's' : '' ) + '</a>').insertAfter(tps.last())
+		$('a.display_all_tp').die('click').live('click',
+			function(){
+				$(this).closest('div.question_worksheet').find('div.talking_point_entry').show(1000);
+				$(this).remove();
+				return false;
+			}
+		);
+	}
+	
 	function scrollToElement(){
 		var highlight = $('.highlight');
 		//console.log("highlight.size(): " + highlight.size())

@@ -1,10 +1,11 @@
 %div.question_summary{:id=>question.id}
 	%p.question
 		= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}
-		
+	
 	%div.talking_point_sec
 		%div.talking_points_list.summary.corner{:id=>question.id}
-			- if question.curated_talking_points.size == 0
+			- if question.curated_talking_points.size == 0 # show the default talking points
+				= add_call_to_action(:id=>'question_summary_above_default_list', :question=>question)	
 				%ul.talking_points{:id=>question.id, :curated_tp_ids=>question.curated_tp_ids, :auto_curated=> question.auto_curated ? 't' : 'f'}
 					- da = @default_answers.detect{|da| da.id == question.default_answer_id}
 					- if da
@@ -13,9 +14,8 @@
 					- else
 						%li Click the question link above to help answer this question
 				
-				= add_call_to_action(:id=>'question_summary_below_default_list', :question=>question)	
-				
 			- else # show the curated talking points
+				= add_call_to_action(:id=>'question_summary_above_curated_list', :question=>question)
 				%ul.talking_points{:id=>question.id, :curated_tp_ids=>question.curated_tp_ids, :auto_curated=> question.auto_curated ? 't' : 'f'}
 					- question.curated_talking_points.each do |talking_point|
 						%li.talking_point{:id=>talking_point.id}
@@ -23,5 +23,5 @@
 							= image_tag 'delete_icon_16.gif',{:title=>'Click to delete'}
 							= link_to "details",{},{:class=>'tp_details'}
 							
-				= add_call_to_action(:id=>'question_summary_below_curated_list', :question=>question)
+				
 					

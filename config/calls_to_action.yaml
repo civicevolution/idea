@@ -26,7 +26,134 @@ init_1:
         secondary: 
           haml: |
             %p We need to hear from you!
-      
+
+  question_summary_above_curated_list:
+    option_member_new:
+      test: (!@member.nil? && @member.id != 0 && data[:question].show_new)
+      haml_strings:
+        primary:
+          haml: |
+            %p #{@member.first_name}, please
+            %ul
+              - if question.unrated_talking_points > 0
+                %li 
+                  = link_to 'Rate', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.unrated_talking_points, ' new talking point')
+              - if question.updated_talking_points > 0
+                %li 
+                  = link_to 'Review', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.updated_talking_points, ' updated talking point')
+              - if question.new_coms > 0
+                %li 
+                  = link_to 'Read', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.new_coms, ' new comment')
+
+    option_member_no_new:
+      test: (!@member.nil? && @member.id != 0 && !data[:question].show_new)
+      haml_strings:
+        primary:
+          haml: |
+            %p #{@member.first_name}, please
+            %ul
+              - if question.num_talking_points > 0
+                %li 
+                  = link_to 'Review', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.num_talking_points, ' talking point') 
+                  and compare to this list of answers
+                %li 
+                  = link_to 'Add', question_worksheet_path(question), {:class => 'cta'}
+                  a talking point for this question
+                
+              - elsif question.num_talking_points == 0
+                %li 
+                  = link_to 'Add', question_worksheet_path(question), {:class => 'cta'}
+                  a talking point for this question
+                  
+    option_visitor:
+      test: (@member.nil? || @member.id == 0)
+      #data[:question].num_talking_points.to_i>0 && data[:question].coms.to_i>0
+      haml_strings:
+        primary:
+          haml: |
+            %p
+              We'd like to hear from you
+            %ul
+              %li Help us create a set of talking points to answer this question.
+              - if question.num_talking_points > 0
+                %li 
+                  = link_to 'Review', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.unrated_talking_points, ' talking point') 
+              - if question.coms > 0
+                %li 
+                  = link_to 'Browse', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.coms, ' comment') 
+
+  question_summary_above_default_list:
+    option_member_new:
+      test: (!@member.nil? && @member.id != 0 && data[:question].show_new)
+      haml_strings:
+        primary:
+          haml: |
+            %p #{@member.first_name}, please
+            %ul
+              - if question.unrated_talking_points > 0
+                %li 
+                  = link_to 'Rate', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.unrated_talking_points, ' new talking point')
+              - if question.updated_talking_points > 0
+                %li 
+                  = link_to 'Review', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.updated_talking_points, ' updated talking point')
+              - if question.new_coms > 0
+                %li 
+                  = link_to 'Read', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.new_coms, ' new comment')
+
+    option_member_no_new:
+      test: (!@member.nil? && @member.id != 0 && !data[:question].show_new)
+      haml_strings:
+        primary:
+          haml: |
+            %p #{@member.first_name}, please
+            %ul
+              - if question.num_talking_points > 0
+                %li 
+                  = link_to 'Review', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.num_talking_points, ' talking point') 
+                %li 
+                  = link_to 'Add', question_worksheet_path(question), {:class => 'cta'}
+                  a talking point for this question
+                
+              - elsif question.num_talking_points == 0
+                %li 
+                  = link_to 'Add', question_worksheet_path(question), {:class => 'cta'}
+                  a talking point for this question
+                  
+    option_visitor:
+      test: (@member.nil? || @member.id == 0)
+      #data[:question].num_talking_points.to_i>0 && data[:question].coms.to_i>0
+      haml_strings:
+        primary:
+          haml: |
+            %p
+              We'd like to hear from you
+            %ul
+              %li Help us create a set of talking points to answer this question.
+              - if question.num_talking_points > 0
+                %li 
+                  = link_to 'Review', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.unrated_talking_points, ' talking point') 
+              - if question.coms > 0
+                %li 
+                  = link_to 'Browse', question_worksheet_path(question), {:class => 'cta'}
+                  = pluralize(question.coms, ' comment') 
+    
+              
+              
+              
+              
+              
+  
   question_summary_below_curated_list:
     option_1:
       test: data[:question].num_talking_points.to_i>0 && data[:question].coms.to_i>0

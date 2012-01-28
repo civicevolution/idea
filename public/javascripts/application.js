@@ -228,6 +228,26 @@ $('form#talking_point_form a.clear').live('click',
 	}
 );
 
+$('form.comment_form a.clear').live('click',
+	function(){
+		$(this).closest('form').find('textarea').val('');
+		return false;
+	}
+);
+
+$('div.cta1 a.cta').die('click').live('click',
+	function(){
+		$(this).closest('div.question_summary').find('a.display_worksheet').click();
+		return false;
+	}
+);
+
+$('form.signin_form').live('ajax:beforeSend', 
+	function(){
+		$(this).closest('div.tab_content').find('p.error').remove();
+	}
+);
+
 function getUrlVars()
 {
     var vars = [], hash;

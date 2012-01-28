@@ -9,8 +9,6 @@
 		- else
 			
 			- if request.xhr?
-				-#= add_call_to_action(:id=>'worksheet_top', :question=>question, :custom_class=>'close_icon')	
-								
 				%div
 				
 					= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
@@ -28,20 +26,19 @@
 			= render :partial => 'plan/talking_point_form', :locals => {:question_id=>question.id}
 			
 			%div.ques_discussion.discussion{:id=>question.id}
-				-#%h3.ques_sub_hdg Recent comments posted by your community
+				- if @question.show_new && question['comments_to_display'].length > 0
+					%h4.ques_sub_hdg New comments about this question and talking points
+				- elsif !@question.show_new
+					%h4.ques_sub_hdg Latest comments about this question and talking points
+					- if question.coms > question['comments_to_display'].length
+						= link_to "Show #{ pluralize((question.coms - question['comments_to_display'].length), 'more comment')}", question_all_comments_path(question), { :class=> 'show_new_comments', :id=>question.id, :remote => true }
+					
 
 				- if question['comments_to_display'].size > 0
 					= render :partial=> 'plan/comment', :collection => question['comments_to_display'].select{|c| c.parent_type == 1}.sort{|a,b| a.id<=>b.id}
 				- else
 					%div.Comment.hide
-			
-			-#%p.show_more_link.clear_both
-				- if question.new_coms > 0
-					= link_to "Show #{ pluralize(question.new_coms, 'more new comment')}", question_new_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_new_comments', :id=>question.id, :remote => true }
-								
-				- if question.coms > question['comments_to_display'].length
-					= link_to "Show #{ pluralize(question.coms - question['comments_to_display'].length, 'earlier comment')}", question_all_comments_path(question, :ids => question['comments_to_display'].map(&:id).join('-') ), { :class=> 'show_all_comments', :id=>question.id, :remote => true }
-			
+						
 				-# if question.coms == 0
 					%div.question_discussion_placeholder
 						%p Please start the conversation about this question.
@@ -54,5 +51,5 @@
 		
 		- if request.xhr?
 			%p.worksheet_intro
-				= link_to image_tag('close_icon_16.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}) + "Close this talking points worksheet", question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
+				= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
 			
