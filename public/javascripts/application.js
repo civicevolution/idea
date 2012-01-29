@@ -155,6 +155,7 @@ $('div.my_rating :radio').die('change').live('change',
 			alert('This is an example of a talking point and you cannot act on it.'); 
 		}else{
 			$.post('/talking_points/' + id + '/rate', {rating: this.value}, function(){}, "script");
+			$(this).closest('div.radios').find('p.option').html('Saving...');
 		}
 	}
 );

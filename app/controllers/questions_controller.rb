@@ -251,7 +251,7 @@ class QuestionsController < ApplicationController
     
     # I might want to trim this back to just get the stats I need
     question.member = @member
-    question.assign_new_content unless @member.nil? || @member.id == 0
+    question.assign_new_content
     
     # FIX this to be done only when needed
     @default_answers = DefaultAnswer.select('id,checklist').where(:id=>question.default_answer_id) if question.curated_talking_points.size == 0
@@ -290,7 +290,7 @@ class QuestionsController < ApplicationController
     qlt.touch
 
     @question.member = @member
-    @question.assign_new_content unless @member.nil? || @member.id == 0
+    @question.assign_new_content
     
     @question['talking_points_to_display'] ||= @question.show_new ? @question.new_talking_points : @question.all_talking_points
     @question['comments_to_display'] ||= @question.show_new ? @question.new_comments : @question.recent_comments

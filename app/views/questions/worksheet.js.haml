@@ -64,7 +64,10 @@
 			    }
 			},
 			revertDuration: 600,
-			//start: function(event,ui){temp.drag_ui = ui},
+			start: function(event,ui){
+				// refresh your sortable -- so you can drop
+				$('div.curated_list ul.talking_points[id="#{question.id}"]').sortable('refresh');
+			},
 			connectToSortable: sortable_destination,
 			helper: 'clone'
 		});

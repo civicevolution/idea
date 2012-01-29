@@ -276,7 +276,6 @@
 						if(order_id > id) ++insert_index;
 						//console.log("html: " + a.html() + ", id: " + id );
 					});
-					//debugger
 					
 					// don't swap the tabs if they are the same
 					if (q_tabs.find('ul#list_tabs li').eq(insert_index).find('a.q_tab').html() != 
@@ -284,9 +283,9 @@
 							q_tabs.find('ul#list_tabs li').eq(insert_index).before(q_tabs.find('ul#list_tabs li:last'))
 						}
 				}
-				
+
 				var tp_sec = el.closest('div.question_summary').find('div.talking_points_list');
-				var ul = el.closest('div.question_summary').find('ul');
+				var ul = el.closest('div.question_summary').find('ul.talking_points');
 				
 				var curated_tps_exist = ul.attr('curated_tp_ids') && ul.attr('curated_tp_ids') != ''
 
@@ -443,12 +442,16 @@
 							$(this).find('img').removeClass('show');
 						},
 						stop: function(event,ui){
-							li = $('<li class="talking_point" id="' + ui.item.attr('tp_id') + '">' + ui.item.html() + 
-								'<img src="/images/delete_icon_16.gif" title="Click to delete"></li>')
-							ui.item.replaceWith(li);
-							if( li.parent().find('li[id="' + li.attr('id') + '"]').size() > 1 ){
-								li.html('<h3>Duplicate!</h3>');
-								li.fadeOut(1400,function(){$(this).remove()})
+							if( !ui.item[0].nodeName.match(/li/i) ){
+								var li = $('<li class="talking_point" id="' + ui.item.attr('tp_id') + '">' + ui.item.html() + 
+									'<img src="/images/delete_icon_16.gif" title="Click to delete"></li>')
+								ui.item.replaceWith(li);
+								if( li.parent().find('li[id="' + li.attr('id') + '"]').size() > 1 ){
+									li.html('<h3>Duplicate!</h3>');
+									li.fadeOut(1400,function(){$(this).remove()})
+								}
+							}else{
+								var li = ui.item;
 							}
 							li.parent().find('li.talking_point[id="0"]').remove();
 							update_curated_tp_ids( $(this) );

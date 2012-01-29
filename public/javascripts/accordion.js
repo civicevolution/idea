@@ -3,7 +3,7 @@ console.log("loading accordion.js");
 var show_acc_height = false;
 var accordion_elements = {
 	'h3#member_t': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
-	'div#member': {visible: false, min: 60, max: 250, pct: 0, height: 0 },
+	'div#member': {visible: false, min: 180, max: 250, pct: 0, height: 0 },
 	'h3#curated_list_t': {visible: false, min: 0, max: 0, pct: 0, height: 0 },
 	'div#curated_list': {visible: false, min: 160, max: 400, pct: 0, height: 0 },
 	'h3#help_t': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
@@ -75,7 +75,12 @@ $(window).resize(function(){
 		}catch(e){}
 	}
 );
-$('div#guideAccordion a.sign_out').die('click').live('click', function(){document.location = $(this).attr('href');})
+$('div#guideAccordion a.sign_out').die('click').live('click', 
+	function(){
+		$(this).html('Signing out...')
+		document.location = $(this).attr('href');
+	}
+);
 
 var presence_img;
 function init_accordion_elements(){
