@@ -29,6 +29,9 @@
 		%h3 Be part of the solution!
 		
 		%p.cta We need your help to create the best plans for change in our community, please&hellip;
+		
+		%p.cta= link_to "Contact us for help", request_help_path, { :remote => true}
+		
 		%p.cta= link_to "Suggest a proposal", {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
 			
 		%p.cta= link_to "Help develop a proposal", help_develop_path, {:remote=>true}

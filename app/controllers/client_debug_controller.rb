@@ -123,8 +123,10 @@ class ClientDebugController < ApplicationController
       rescue
         @mail_error = true
       end
-      
-      ActiveSupport::Notifications.instrument( 'tracking', :event => 'Request help', :params => params.merge(:member_id => @member.id, :team_id => team_id ))
+
+      if(!@member.nil? && !@member['id'].nil? && @member['id'] > 0)
+        ActiveSupport::Notifications.instrument( 'tracking', :event => 'Request help', :params => params.merge(:member_id => @member.id, :team_id => team_id ))
+      end
     end
     
     respond_to do |format|

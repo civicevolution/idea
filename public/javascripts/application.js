@@ -92,7 +92,9 @@ $('a[data-remote]').live('ajax:beforeSend',
 function init_page(){
 	//console.log("init_page")
 	init_worksheet();
-	init_accordion();
+	if(typeof init_accordion != "undefined"){
+		init_accordion();
+	}
 	var q_tabs = $('div.curated_list div.tabs');
 	if(q_tabs.size()>0){
 		var tab_template = q_tabs.find('ul').html();
