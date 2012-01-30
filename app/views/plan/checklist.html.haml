@@ -59,12 +59,17 @@
 			%td	#{cnt += 1}.
 			%td Openly communicate with the community via online public access as well as community outreach, and demonstrate appropriate consideration of feedback		
 			
-	%h3 Submit your proposal
+	- if params[:submittor]		
+		- sponsor = params[:_initiative_id] == 1 ? 'Executive Management Team' : 'Alliance Governance Group'
+		- @team = Team.find(params[:team_id])
+		
+		%h3 Submit your proposal
 	
-	%p If you think your proposal satisfies this checklist, please submit your proposal.		
-	- sponsor = params[:_initiative_id] == 1 ? 'Executive Management Team' : 'Alliance Governance Group'
-	- @team = Team.find(params[:team_id])
-	= add_call_to_action(:id=>'summary_page_submit', :sponsor=> sponsor)	
+		%p 
+			If you think your proposal satisfies this checklist, please submit your proposal.		
+			We strongly recommend that you request a pre-submission review from CivicEvolution before submitting your proposal to the #{sponsor}.
+		
+		= add_call_to_action(:id=>'summary_page_submit', :sponsor=> sponsor)	
 			
 	%h3 We are here to help you. 
 	%p If you have any questions about this checklist and how it applies to your proposal, please contact us support@civicevolution.org.				

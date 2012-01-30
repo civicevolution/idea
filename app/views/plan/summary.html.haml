@@ -39,8 +39,7 @@
 
 			= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}
 			
-			- if @team.org_id == @member.id || @participant_stats.level >= 4
-				= render :partial => 'submit'
+			= render :partial => 'submit'
 				
 			= add_call_to_action(:id=>'end_summary_print')	
 			

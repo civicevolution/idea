@@ -3,15 +3,20 @@
 		%h3 Proposal review and submission
 		- sponsor = @team.initiative_id == 1 ? 'Executive Management Team' : 'Alliance Governance Group';
 		%p.desc
-			Committed participants for this proposal and the idea originator can submit this proposal for review by the #{sponsor}.
-		-# when they think the idea has been developed completely enough to warrant review. 
+			Completed proposals will be submitted to the #{sponsor} for official review. 
+			- if @team.org_id == @member.id || @participant_stats.level >= 4
+				Committed participants, such as yourself, can submit this proposal when you think it is ready.
+			- else
+				The person who proposed this idea can submit it when it is ready. 
+				If you continue to participate, you may earn this privilege as well.
+		
 		%p.desc	
 			%b
 				Please review this 
-				= link_to 'checklist', checklist_path(:team_id=>@team.id), {:class=>"2029_guidelines", :remote=>true} 
+				= link_to 'checklist', checklist_path(:team_id=>@team.id, :submittor => (@team.org_id == @member.id || @participant_stats.level >= 4) ), {:class=>"2029_guidelines", :remote=>true} 
 				to determine if your proposal is ready for submission. 
-			We strongly recommend that you request a pre-submission review from CivicEvolution before submitting
-			your proposal to the #{sponsor}.
 		
-			= add_call_to_action(:id=>'summary_page_submit', :sponsor=> sponsor)	
+			- if @team.org_id == @member.id || @participant_stats.level >= 4
+				The checklist also tells you how to submit your proposal for review.
+				-#= link_to 'Review checklist and submit proposal', checklist_path(:team_id=>@team.id, :submittor => (@team.org_id == @member.id || @participant_stats.level >= 4) ), {:class=>"2029_guidelines", :remote=>true} 
 			
