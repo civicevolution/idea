@@ -10,7 +10,12 @@
 		$('div.talking_point_entry[id="#{talking_point.id}"]').replaceWith(tp);
 	}else{
 		// insert this one
-		$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last').after(tp);
+		var last_tp = $('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last')
+		if(last_tp.size>0){
+			last_tp.after(tp);
+		}else{
+			$('div.question_worksheet[id="#{question_id}"] div.talking_points_list').append(tp);
+		}
 	}
 	
 	$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry[id="0"]').remove();
