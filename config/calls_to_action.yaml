@@ -190,26 +190,12 @@ init_1:
 
   endorsement:
     option_1:
-      test: data[:endorsed] != true
+      test: data[:endorsed] == false
       haml_strings:
         primary:
           haml: |
-            %p If you agree with this proposal, show your support by endorsing it. Add a statement of support in the form below and click the button.
-        secondary:
-          haml: |
             %p 
-              If you disagree, join the discussion to share your concerns and suggest improvements. 
-              #{link_to "Here's how", help_develop_path, {:remote=>true}}
-    option_2:
-      test: data[:endorsed] == true
-      haml_strings:
-        primary:
-          haml: |
-            %p You can update or delete your endorsement at any time
-            %p Please invite your friends and share this idea with your community
-        secondary:
-          haml: |
-            %p 
+              If you agree with this proposal, show your support by endorsing it. Add a statement of support in the form below and click the button.
               If you disagree, join the discussion to share your concerns and suggest improvements. 
               #{link_to "Here's how", help_develop_path, {:remote=>true}}
 

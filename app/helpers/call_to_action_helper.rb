@@ -15,6 +15,7 @@ module CallToActionHelper
       debugger if debug
       # iterate through the options to find the one(s) that match
       if option['test'].nil? || eval(option['test'])
+        #logger.debug "CTA CTA CTA CTA CTA Build CTA from option #{data[:id]}"
         option['haml_strings'].each_pair do |key,haml_string|
           if haml_string['test'].nil? || eval(haml_string['test'])
             if key.match(/primary/) 

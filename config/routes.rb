@@ -4,6 +4,7 @@ G3::Application.routes.draw do |map|
   match 'teams(/:team_id)/update_setup' => 'teams#update_setup', :via => [:put, :post], :as => 'setup_team_post'
 
   match 'plan/get_templates' => 'plan#get_templates'
+  match 'plan/checklist' => 'plan#checklist', :as=> 'checklist'
   
   match 'jug' => 'chat#jug'
 

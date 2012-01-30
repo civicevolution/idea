@@ -1,0 +1,70 @@
+%div#checklist
+	%h3 Proposal review checklist
+	%p Please review the following items to determine if your proposal is ready to be submitted for review. Your proposal should&hellip;
+	- cnt = 0
+	%table
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Be legal
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Not be insulting of any individuals or groups
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Help create a more sustainable future for our city region in terms of our environment, economic development, social, and cultural affairs.
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Demonstrate effective use of rate payer funds, if appropriate
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Answer all questions in the proposal outline
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Be written by a team with at least 4 active residents of the city region
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Be endorsed by at least 10 community members
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Maintain an open and inclusive team
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Ensure a respectful team environment
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Engage in adequate discussion, collaboration and consensus on each question
+		%tr
+			%td 
+				= check_box_tag :legal, true 
+			%td	#{cnt += 1}.
+			%td Openly communicate with the community via online public access as well as community outreach, and demonstrate appropriate consideration of feedback		
+			
+	%h3 Submit your proposal
+	
+	%p If you think your proposal satisfies this checklist, please submit your proposal.		
+	- sponsor = params[:_initiative_id] == 1 ? 'Executive Management Team' : 'Alliance Governance Group'
+	- @team = Team.find(params[:team_id])
+	= add_call_to_action(:id=>'summary_page_submit', :sponsor=> sponsor)	
+			
+	%h3 We are here to help you. 
+	%p If you have any questions about this checklist and how it applies to your proposal, please contact us support@civicevolution.org.				

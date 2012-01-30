@@ -1,0 +1,7 @@
+:plain
+	console.log("show checklist")
+	var checklist = $("#{escape_javascript(
+		render( :template => 'plan/checklist.html' )
+	)}");
+	
+	var dialog = checklist.dialog( {title : '2029 and Beyond Proposal Checklist', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$(':checkbox').blur();} });

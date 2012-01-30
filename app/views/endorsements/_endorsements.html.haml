@@ -18,6 +18,11 @@
 		- else
 			%h3 Proposal is endorsed by #{pluralize(@endorsements.size, 'community member')}
 	
+		%p 
+			A proposal must be endorsed by at least 10 community members before it can be submitted for review. You can endorse your own proposal and invite your friends and neighbors to endorse it as well. You can update or delete your endorsement at any time
+			-# participant_stats.endorse doesn't seem to be correct
+			-#= add_call_to_action(:id=>'endorsement', :endorsed=>@participant_stats.endorse)	
+			= add_call_to_action(:id=>'endorsement', :endorsed=>false)	
 
 		%table{:class => @endorsements.size == 0 ? 'hide' : ''}
 			%tr
@@ -44,8 +49,6 @@
 								= submit_tag "Delete", :class => 'link'
 			
 		- if !print			
-			
-			= add_call_to_action(:id=>'endorsement', :endorsed=>endorsed)	
 					
 			= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form' + ( endorsed ? ' hide' : '' ) do 
 				%div.add_answer

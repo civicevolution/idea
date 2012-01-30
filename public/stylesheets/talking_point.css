@@ -203,6 +203,8 @@ div.talking_points_list div.talking_point_placeholder {
   div.talking_points_list div.talking_point_placeholder p {
     font-size: 1.2em;
     width: 400px; }
+div.talking_points_list h2.ellipsis {
+  margin: 1em; }
 
 div.resources {
   margin-left: 40px;

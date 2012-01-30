@@ -16,6 +16,7 @@
 		$('a.display_all_tp').die('click').live('click',
 			function(){
 				$(this).closest('div.question_worksheet').find('div.talking_point_entry').show(1000);
+				$(this).closest('div.question_worksheet').find('h2.ellipsis').remove();
 				$(this).remove();
 				return false;
 			}
