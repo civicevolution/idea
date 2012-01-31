@@ -1242,3 +1242,16 @@ h4.ques_sub_hdg a.close_worksheet img {
 
 div.curated_list a.close_worksheet img {
   vertical-align: text-bottom; }
+
+div#visual_help img {
+  border: 4px outset #eeeeee;
+  padding: 10px;
+  margin-bottom: 20px; }
+div#visual_help p.tgl_full_proposal {
+  margin-bottom: 30px; }
+div#visual_help p {
+  width: 600px; }
+div#visual_help ul {
+  width: 540px; }
+  div#visual_help ul li {
+    margin-bottom: 0.3em; }

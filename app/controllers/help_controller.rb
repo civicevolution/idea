@@ -3,6 +3,7 @@ class HelpController < ApplicationController
   skip_before_filter :authorize
    
   def visual_help
+    render :template=>'help/visual_help', :layout => 'plan'
     
   end
 
