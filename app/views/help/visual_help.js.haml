@@ -6,12 +6,24 @@
 	)}");
 	
 	var dialog = help.dialog( {title : 'CivicEvolution Help', modal : false, width : '1000px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();$.scrollTo($('body'),1000);} });
-	
+
 	$('div#visual_help a.cancel').die('click').live('click',
 		function(){
 			$(this).closest('div.ui-dialog').dialog('destroy').remove();
 			return false;
 		}
 	);
-
-	
+	$('a.tgl_full_proposal').die('click').live('click',
+		function(){
+			var div = $('div.full_proposal');
+			if(div.height() < 800){
+				div.css({height: 'auto', overflow: 'hidden'});
+				$(this).html('Close this proposal');
+			}else{
+				div.css({height: 750, overflow: 'hidden'});
+				$(this).html('View the entire proposal')
+			}
+			return false;
+		}
+	);
+	$('div#visual_help div.full_proposal').css({height: 750, overflow: 'hidden'});
