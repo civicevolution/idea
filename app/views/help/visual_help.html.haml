@@ -106,6 +106,10 @@
 	%h3 Endorse the proposal
 	%p Participants and visitors can endorse the proposal at anytime. You'll need at least 10 endorsements for your proposal to qualify for review, so tell your friends and neighbors about your proposal and ask them to endorse it.
 	= image_tag 'vhelp1/endorsement_form.jpg'
+
+	%h3 Invite your friends
+	%p You should invite your friends, neighbors, and colleagues to help create and endorse this proposal. Your goal is to create a community written and supported proposal, so be sure to invite them.
+	= image_tag 'vhelp1/invite.gif'
 	
 	%h3 Submit proposal for review
 	%p When the proposal is completed and endorsed, it can be submitted for official review. We provide a checklist that helps you review your proposal and determine if it is ready for review by the Alliance Governance Group.
@@ -128,6 +132,18 @@
 	%p Solving community problems is a social activity so we make it easy to interact with others through chat and page updates so you can work together online at the same time. You can also see who is online at the same time with you.
 	= image_tag 'vhelp1/chat_w_msg.jpg'
 	
-	%p If you have any questions, or need any assistance, please contact us with the help form or email us at support@civicevolution.org
-	= link_to "Contact us", request_help_path, { :remote => true}
+	%h3 Get started by suggesting your own idea for change
+	%p Anyone can suggest an idea for change in the community. 
+	%ul
+		%li Go to the 2029 and Beyond home page at http://2029.civicevolution.org and click the "Suggest a proposal" link.
+		%li Please check the ideas listed on the home page to see if someone else has already proposed a similar idea.
+		%li All new ideas have 4 weeks to get up-to-speed, so please, invite your friends and others right away.
+	= image_tag 'vhelp1/suggest_idea.jpg'
+	
+	
+	%h3 Getting help
 	%p 
+		If you have any questions, or need any assistance, please 
+		= link_to "Contact us", request_help_path, { :remote => true}
+		email us at support@civicevolution.org
+

@@ -123,7 +123,7 @@ function accordion_resize(){
 		if(el.match(/^h3/)) tabs_height += accordion_elements[el].height
 	}
 
-	var win_height = $(window).height() - 6 - 10;
+	var win_height = $(window).height() - 6 - 30;
 	$('div#guideAccordion').css({ height: win_height, overflow: 'hidden'});	
 	
 	var panels_height = win_height - tabs_height;
