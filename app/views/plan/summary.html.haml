@@ -18,19 +18,25 @@
 						%span #{@team.title}
 						- if @member.id == @team.org_id
 							= link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"}
+					%div.summary_block
+						%div.summary.text
+							- if @member.id == @team.org_id
+								= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"} ) + '</p>')
+							- else
+								= simple_format h @team.solution_statement
 
-					%div.summary
-						- if @member.id == @team.org_id
-							= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"} ) + '</p>')
-						- else
-							= simple_format h @team.solution_statement
-
-					- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
-					%div.resources
-						= link_to proposal_pic_path(@team.id), {:rel=>'nofollow'} do
-							- pics_array.each do |pic|
-								%div= image_tag("misc/48/#{pic}.jpg")
+							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
+							%div.resources
+								= link_to proposal_pic_path(@team.id), {:rel=>'nofollow'} do
+									- pics_array.each do |pic|
+										%div= image_tag("misc/48/#{pic}.jpg")
+								%p.clear_both
+							
+						= render :partial => 'plan/proposal_tools'
+						%p.clear_both
 					%p.clear_both
+				%p.clear_both
+				
 
 				- questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 				%div.proposal

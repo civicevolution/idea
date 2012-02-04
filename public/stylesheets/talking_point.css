@@ -1355,3 +1355,47 @@ div#visual_help {
     width: 540px; }
     div#visual_help ul li {
       margin-bottom: 0.3em; }
+
+div.summary.text {
+  float: left;
+  width: 420px;
+  margin: 8px 16px 0 41px; }
+  div.summary.text p {
+    margin: 0 0 12px 0; }
+
+div.resources {
+  width: 420px;
+  margin: 16px 0 0 0; }
+
+div.proposal_tools {
+  float: left;
+  margin-top: 8px;
+  width: 140px;
+  border: 1px solid #dddddd; }
+  div.proposal_tools ul {
+    padding-left: 10px; }
+    div.proposal_tools ul li {
+      list-style: none;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #dddddd;
+      padding-bottom: 8px;
+      padding-right: 10px;
+      padding-left: 30px; }
+    div.proposal_tools ul li.invite {
+      background: url(/images/tools/invite_friend.gif) no-repeat 0px 0px; }
+    div.proposal_tools ul li.follow {
+      background: url(/images/tools/follow.gif) no-repeat 0px 0px; }
+    div.proposal_tools ul li.endorse {
+      background: url(/images/tools/endorse.gif) no-repeat 0px 0px; }
+    div.proposal_tools ul li.participate {
+      background: url(/images/tools/participate.gif) no-repeat 0px 0px; }
+    div.proposal_tools ul li.print {
+      background: url(/images/tools/print.gif) no-repeat 0px 0px; }
+    div.proposal_tools ul li.share {
+      background: url(/images/tools/share.gif) no-repeat 0px 0px;
+      border: none;
+      margin-bottom: 0;
+      padding-bottom: 0; }
+
+div.tools a.addthis_button {
+  font-size: 13px; }
