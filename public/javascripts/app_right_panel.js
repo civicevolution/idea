@@ -1,5 +1,6 @@
 console.log("Loading rightpanel.js");
 
+var presence_img;
 function right_panel_init(){
 	// move the Select taling points label into the tab header
 	var lt = $('div.list_tabs')
@@ -12,7 +13,7 @@ function right_panel_init(){
 		}
 	);
 	setTimeout(	right_panel_resize, 200);
-	
+	presence_img = $('div#presence img:first').clone();
 	
 }
 
@@ -53,6 +54,8 @@ function right_panel_resize(){
 	}
 	$('div.right_side').css('left', left );
 	
+	set_inner_tab_content_height();
+	
 }
 
 function update_suggested_action(){
@@ -80,9 +83,9 @@ function update_right_panel_context(page_state){
 }
 
 function set_inner_tab_content_height(){
-	return 
-	var rec = accordion_elements['div#curated_list'];
-	rec.$el.height(rec.height);
-	//console.log(" height is " + rec.height + " and child tab_content height is " + (rec.height-50));
-	rec.$el.find('div.tab_content').height( (rec.height-50) );
+	var div = $('div.list_tabs');
+	var sel_tp_list = div.find('div.selected_tp_list');
+	var tp_list_margin = sel_tp_list.outerHeight() - sel_tp_list.height();
+	var tabs_height = div.find('ul.list_tabs').outerHeight();
+	sel_tp_list.height( div.height() - tabs_height - tp_list_margin - 10 );
 }
