@@ -251,9 +251,9 @@
 				var order_id = Number(el.html().match(/Q(\d+)/)[1]); 
 				var question_text = el.html().replace(/Q\d+: /,'');
 				
-				if ( !$('h3#curated_list_t').attr('class').match(/active/) ) $('h3#curated_list_t').click();
+				//if ( !$('h3#curated_list_t').attr('class').match(/active/) ) $('h3#curated_list_t').click();
 				
-				var q_tabs = $('div.curated_list div.tabs');
+				var q_tabs = $('div.list_tabs');
 				
 				var get_tab = true;
 				while(get_tab){
@@ -265,7 +265,7 @@
 				new_tab_close.attr('href',new_tab_close.attr('href').replace(/\d+/,question_id));
 				q_tabs.tabs('select','#curated_list_' + order_id);
 				
-				$('div#curated_list_' + order_id).addClass('tab_content')
+				$('div#curated_list_' + order_id).addClass('tab_content selected_tp_list');
 				
 				//move the new tab to the correct position if there is more than one tab
 				if(q_tabs.find('a.q_tab').size()>1){
@@ -278,11 +278,12 @@
 					});
 					
 					// don't swap the tabs if they are the same
-					if (q_tabs.find('ul#list_tabs li').eq(insert_index).find('a.q_tab').html() != 
-						q_tabs.find('ul#list_tabs li:last').find('a.q_tab').html() ){
-							q_tabs.find('ul#list_tabs li').eq(insert_index).before(q_tabs.find('ul#list_tabs li:last'))
+					if (q_tabs.find('ul.list_tabs li').eq(insert_index).find('a.q_tab').html() != 
+						q_tabs.find('ul.list_tabs li:last').find('a.q_tab').html() ){
+							q_tabs.find('ul.list_tabs li').eq(insert_index).before(q_tabs.find('ul.list_tabs li:last'))
 						}
 				}
+				update_right_panel_context('worksheet');
 
 				var tp_sec = el.closest('div.question_summary').find('div.talking_points_list');
 				var ul = el.closest('div.question_summary').find('ul.talking_points');
@@ -321,11 +322,13 @@
 				$('<div class="msg"><h2>...loading the talking points worksheet</h2></div>').insertAfter(tp_sec);
 				tp_sec.hide(1000);
 
-				var list_header = $('div#guideAccordion h3#curated_list_t');
+				//var list_header = $('div#guideAccordion h3#curated_list_t');
 				//list_header.slideDown('fast');
-				list_header.show();
+				//list_header.show();
 				var new_left = $('div.right_side').position().left;
-				var new_top = list_header.position().top + list_header.outerHeight() + $('body').scrollTop() + 31;
+				//var new_top = list_header.position().top + list_header.outerHeight() + $('body').scrollTop() + 31;
+				var new_top = $('div.list_tabs').top + $('body').scrollTop() + 31;
+				
 				//console.log("XXX 1: " + list_header.position().top + ", 2: " + list_header.outerHeight() + ", 3: " + $('body').scrollTop() )
 				//console.log("new_top: " + new_top + ", new_left: " + new_left)
 
@@ -380,11 +383,11 @@
 
 				if(next_tab.size() == 0){
 					// if no more tabs, close this accordion panel and hide the accordion tab
-					$('h3#curated_list_t').click();
+					update_right_panel_context('proposal')
 				}else{
 					// get the index to the next_tab
 					var index = 0;
-					q_tabs.find('ul#list_tabs li').each(
+					q_tabs.find('ul.list_tabs li').each(
 						function(){
 							if($(this).find('a:first').html() == next_tab.find('a:first').html()){
 								return;

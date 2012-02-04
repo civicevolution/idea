@@ -4,14 +4,14 @@ var show_acc_height = false;
 var accordion_elements = {
 	'h3#member_t': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
 	'div#member': {visible: false, min: 180, max: 250, pct: 0, height: 0 },
-	'h3#curated_list_t': {visible: false, min: 0, max: 0, pct: 0, height: 0 },
-	'div#curated_list': {visible: false, min: 160, max: 400, pct: 0, height: 0 },
 	'h3#help_t': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
 	'div#help': {visible: false, min: 100, max: 500, pct: 0, height: 0 },
-	'h3#progress_t': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
-	'div#progress': {visible: false, min: 100, max: 300, pct: 0, height: 0 },
+	//'h3#progress_t': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
+	//'div#progress': {visible: false, min: 100, max: 300, pct: 0, height: 0 },
 	'h3#suggested_actions_t': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
-	'div#suggested_actions': {visible: false, min: 60, max: 300, pct: 0, height: 0 },
+	'div#suggested_actions': {visible: false, min: 60, max: 100, pct: 0, height: 0 },
+	'h3#curated_list_t': {visible: false, min: 0, max: 0, pct: 0, height: 0 },
+	'div#curated_list': {visible: false, min: 160, max: 400, pct: 0, height: 0 },
 	'h3#activity_chat_t': {visible: true, min: 0, max: 0, pct: 0, height: 0 },
 	'div#activity_chat': {visible: true, min: 120, max: 400, pct: 0, height: 0 }
 }	
@@ -156,6 +156,7 @@ function accordion_resize(){
 					rec.height = rec.max * ratio;
 					// 4 If any height is less than its min, steal from the other panels
 					if(rec.height < rec.min) rec.height = rec.min;
+					//if(rec.height > rec.max && rec.max > 0) rec.height = rec.max;
 					required_height += rec.height;
 					if(show_acc_height) console.log("el " + el + " height is " + rec.height);
 				}

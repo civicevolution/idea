@@ -181,11 +181,6 @@ p.question {
   margin-top: 2em;
   cursor: pointer; }
 
-div.right_side {
-  float: right;
-  width: 280px;
-  margin-left: 20px; }
-
 div.left_side {
   width: 680px;
   float: left;
@@ -1142,13 +1137,112 @@ div#guideAccordion div#request_help {
   margin-top: -20px; }
   div#guideAccordion div#request_help li {
     line-height: 1.6em; }
+div#guideAccordion div#suggested_actions {
+  padding: 0 1em; }
+
+div.right_master > div {
+  margin-bottom: 16px;
+  padding: 10px;
+  border: 1px solid #bbbbbb; }
+  div.right_master > div p.label {
+    font-style: italic;
+    font-weight: bold;
+    color: #bbbbbb;
+    margin: -6px 0 8px 0; }
+div.right_master div.help {
+  padding: 0 10px 0 0;
+  margin: 8px 0 8px 0;
+  border: none; }
+  div.right_master div.help p {
+    text-align: right;
+    margin: 0; }
+div.right_master div.member {
+  position: relative; }
+  div.right_master div.member p {
+    margin: 0 0 4px 0; }
+  div.right_master div.member div.name {
+    position: absolute;
+    top: 10px;
+    left: 54px; }
+  div.right_master div.member div.links {
+    position: absolute;
+    top: 10px;
+    right: 10px; }
+  div.right_master div.member td.input input {
+    width: 150px; }
+  div.right_master div.member td.lbl {
+    font-style: italic;
+    font-weight: bold;
+    text-align: right;
+    color: #bbbbbb;
+    width: 50px;
+    padding-right: 10px; }
+div.right_master div.suggested_action div.suggestion {
+  position: relative;
+  padding-left: 40px; }
+  div.right_master div.suggested_action div.suggestion img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer; }
+  div.right_master div.suggested_action div.suggestion p.action {
+    padding-top: 6px;
+    margin: 0;
+    font-weight: bold; }
+  div.right_master div.suggested_action div.suggestion p.controls {
+    height: 16px;
+    margin: 6px 0 6px 0; }
+    div.right_master div.suggested_action div.suggestion p.controls a.show_me {
+      display: block;
+      float: left; }
+    div.right_master div.suggested_action div.suggestion p.controls a.next {
+      display: block;
+      float: right; }
+div.right_master div.page_context {
+  overflow-y: scroll; }
+div.right_master div.list_tabs {
+  padding: 0; }
+  div.right_master div.list_tabs ul.list_tabs {
+    position: relative; }
+    div.right_master div.list_tabs ul.list_tabs a {
+      font-size: 12px;
+      padding: 0; }
+    div.right_master div.list_tabs ul.list_tabs p.label {
+      position: absolute;
+      top: 10px;
+      right: 10px; }
+  div.right_master div.list_tabs div.selected_tp_list {
+    margin: 0 10px 10px 10px; }
+    div.right_master div.list_tabs div.selected_tp_list p {
+      margin: -10px 0 6px -20px;
+      font-style: italic; }
+    div.right_master div.list_tabs div.selected_tp_list ul {
+      padding-left: 0; }
+div.right_master div.activity_chat div#presence {
+  height: 36px;
+  border: 1px solid #cccccc;
+  padding: 4px 0; }
+  div.right_master div.activity_chat div#presence img {
+    margin: 0 2px; }
+div.right_master div.activity_chat div#chat_log {
+  overflow: auto;
+  overflow-y: scroll;
+  height: 50px;
+  border: 1px solid black;
+  padding: 0.2em 0; }
+  div.right_master div.activity_chat div#chat_log p {
+    margin: 0 1em; }
+div.right_master div.activity_chat form#chat_form {
+  padding: 4px 0; }
+  div.right_master div.activity_chat form#chat_form input[type=text] {
+    width: 240px; }
 
 div.talking_points_page {
   padding-top: 0px; }
 
 div.talking_points_page div.right_side {
   position: fixed;
-  top: 6px;
+  top: 0px;
   left: 720px;
   margin-left: 0; }
 

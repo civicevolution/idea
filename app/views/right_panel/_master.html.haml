@@ -1,0 +1,57 @@
+%div.right_master
+	%div.help.fix_ht
+		%p
+			= link_to "Help", visual_help_path, {:remote=>true}
+			&bull;
+			= link_to "Contact us", request_help_path, { :remote => true}
+		
+	%div.member.corner.fix_ht
+		- if !@member.nil? && @member.id != 0
+			= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+			%div.name
+				%p= @member.first_name
+				%p= @member.last_name
+			%div.links
+				%p= link_to "Sign out", {:controller => "sign_in", :action=> "sign_out"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow'}
+				%p= link_to "Profile", edit_profile_form_path(@member.ape_code)
+		- else
+			= render :partial => 'right_panel/sign_in'
+			
+	%div.suggested_action.corner.fix_ht
+		%p.label
+			Suggested action for you
+		%div.suggestion
+			= image_tag 'completed_off.gif', :title => 'Click here when you have completed the task'
+			%p.action
+				Rate 3 new talking points and read 5 new comments
+			%p.controls
+				= link_to "Show me how", request_help_path, { :class=> 'show_me'}
+				= link_to "Next action", request_help_path, { :class=> 'next'}
+			
+	%div.page_context.corner
+		%p.label
+			Progress report for this proposal
+		%table
+			%tbody
+				%tr.stripe
+					%td= pluralize( @team.participants.size, 'participant')
+				- if @team.stats
+					-	PARTICIPATION_EVENT_POINTS.values.find_all{|pep| pep['summary_order'] && pep['summary_order'].to_i != 0}.sort{|a,b| a['summary_order'].to_i<=>b['summary_order'].to_i}.each do |stat|
+						%tr{:class=>cycle('','stripe')}
+							%td
+								= pluralize(@team.stats[stat['col_name']], stat['summary_title']) 					
+		
+			
+		
+	%div.list_tabs.tabs.hide
+		%p.label
+			Selected talking points
+		%ul.list_tabs
+			%li
+				%a.q_tab{:href=>"#tab_curated_q1"} Q1
+				= link_to image_tag('close_wh_bl1.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(0), :remote=>true, :class=>'close_worksheet'
+			
+	%div.activity_chat.corner
+		%p.label
+			Chat with these people
+		= render :partial=> 'right_panel/chat_form'

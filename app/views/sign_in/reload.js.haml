@@ -1,4 +1,8 @@
 :plain
-	setTimeout(function(){$('form.signin_form input[name="sign_in"]').val("Reloading page...");},10);
+	setTimeout(function(){
+			$('form.signin_form a.reset_password').hide();
+			$('form.signin_form input[name="sign_in"]').val("Reloading page...");
+		},10
+	);
 	console.log("update button");
 	setTimeout("document.location.reload()",100);

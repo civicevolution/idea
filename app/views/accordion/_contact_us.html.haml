@@ -5,9 +5,15 @@
 		%img{:src=>'/images/help_bs.jpg', :class=>"me"}	
 		%h3 How can I help you?
 		%p I'm Brian Sullivan, the developer of CivicEvolution and I am committed to helping citizens make change in their community
-		%p Your ideas and community are important and we very much appreciate your participation, commitment, and patience
-
-		%p 
+		%p Your ideas and community are important and we very much appreciate your participation, commitment, and patience. Try one of these options to let us help you:
+		%ul
+			%li
+				%b= link_to "Visit our help page", visual_help_path, {:remote=>true}
+			%li
+				%b= link_to 'Watch our intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
+			%li Contact us with the form below
+			%li Email us: support@civicevolution.org
+		-#%p 
 			Have you watched our
 			= link_to 'intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 			or visited our

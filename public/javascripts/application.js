@@ -92,16 +92,17 @@ $('a[data-remote]').live('ajax:beforeSend',
 function init_page(){
 	//console.log("init_page")
 	init_worksheet();
-	if(typeof init_accordion != "undefined"){
-		init_accordion();
-	}
-	var q_tabs = $('div.curated_list div.tabs');
+	var q_tabs = $('div.list_tabs');
 	if(q_tabs.size()>0){
 		var tab_template = q_tabs.find('ul').html();
 		q_tabs.find('ul').html(''); // remove the tab model
 		tab_template = tab_template.replace('#tab_curated_q1','#{href}').replace('Q1','#{label}');
-		$("div.tabs").tabs({tabTemplate: tab_template, select: tab_select});
+		$("div.list_tabs").tabs({tabTemplate: tab_template, select: tab_select});
 	}
+	if(typeof right_panel_init != "undefined"){
+		right_panel_init();
+	}
+	
 	if(!$.support.borderRadius){ 
 		console.log("load corner support script and activate");
 		$.getScript('/javascripts/jquery.corner.js', 
@@ -127,7 +128,7 @@ function init_page(){
 }
 
 function tab_select(event,ui){
-	setTimeout(accordion_resize,100);
+	setTimeout(right_panel_resize,100);
 }
 
 function init_worksheet(){
