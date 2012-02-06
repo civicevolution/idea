@@ -14,7 +14,9 @@ function right_panel_init(){
 	);
 	setTimeout(	right_panel_resize, 200);
 	presence_img = $('div#presence img:first').clone();
-	
+	if(presence_img.attr('id') == 0){
+		$('div#presence img:first').remove();
+	}
 }
 
 function right_panel_resize(){

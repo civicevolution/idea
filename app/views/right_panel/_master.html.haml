@@ -23,10 +23,11 @@
 		%div.suggestion
 			= image_tag 'completed_off.gif', :title => 'Click here when you have completed the task'
 			%p.action
-				Rate 3 new talking points and read 5 new comments
+				-#Rate 3 new talking points and read 5 new comments
+				Please rate all of the talking points in this proposal
 			%p.controls
 				= link_to "Show me how", request_help_path, { :class=> 'show_me'}
-				= link_to "Next action", request_help_path, { :class=> 'next'}
+				-#= link_to "Next action", request_help_path, { :class=> 'next'}
 			
 	%div.page_context.corner
 		%p.label

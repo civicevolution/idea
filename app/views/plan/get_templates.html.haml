@@ -340,6 +340,7 @@
 						
 						$('div#curated_list_' + order_id).html('<p>' + question_text + '</p>').append(list_div.find('ul') );
 						list_div.remove();
+						set_inner_tab_content_height();
 						// scroll to top of question
 						$.scrollTo($('div.question_summary[id="' + question_id + '"] p.question'), 600)
 					}

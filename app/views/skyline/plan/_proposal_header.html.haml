@@ -1,0 +1,21 @@
+%style
+	:sass
+		div.logo
+			margin-top: 10px
+		div.tagline
+			float: left
+			margin-left: 20px	
+			font-size: .8em
+			//margin-top: -16px
+			h3 a
+				text-decoration: none
+				color: black
+		
+%div.logo
+	%a{ :href=> '/'}
+		= image_tag("sky/skyline_logo_withTagline-90.gif")
+%div.tagline
+	%h3 
+		= link_to 'Skyline Students Step Up! 2012 Campaign', home_path
+	%h4 Participate, Collaborate, Vote, Invite, Inspire, Win!
+

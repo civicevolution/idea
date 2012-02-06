@@ -3,11 +3,7 @@ div.logo {
 
 div.tagline {
   float: left;
-  margin-left: 20px;
-  margin-top: -16px; }
-  div.tagline h1 a {
+  margin-left: 20px; }
+  div.tagline h3 a {
     text-decoration: none;
     color: black; }
-
-div.homepage_intro p.fine_print {
-  font-size: 0.8em; }

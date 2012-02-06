@@ -127,6 +127,21 @@ function init_page(){
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 		//console.log("pretty photo is okay")
 	}catch(e){}
+	
+	// temp init of suggested action call to action show me link
+	$('div.suggested_action a.show_me').die('click').live('click',
+		function(){
+			console.log("show how to rate");
+			$.getScript('/visual_help',function(){
+				setTimeout( function(){$.scrollTo('h3.rating_talking_points',600)}, 1000)
+			});
+			return false;
+		}
+	);
+	
+	
+	
+	
 }
 
 function tab_select(event,ui){

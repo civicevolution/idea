@@ -13,7 +13,7 @@
 		%title= title
 		:javascript
 			var am_curator = #{(!@team.nil? && @team.org_id == @member.id || (!@participant_stats.nil? && @participant_stats.level >= 3)) ? true : false};
-		=	stylesheet_link_tag 'plan.css', 'talking_point.css'
+		=	stylesheet_link_tag 'home.css'
 		- if params[:monitor] != 'true'
 			:javascript
 				var _gaq = _gaq || [];
@@ -28,9 +28,7 @@
 			
 	%body
 		%div.page
-			%div.logo
-				%a{ :href=> '/'}
-					= image_tag("2029_logo_tag.gif")
+			= render :partial=> 'plan/proposal_header'	
 
 			- if !@member.nil? && !@member.id.nil? && @member.id != 0	
 				= render :partial => 'sign_in/member_info'		
@@ -40,34 +38,13 @@
 					= link_to 'Join', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
 					
 			%hr.top
-			%h2#load_message
-				%img{:src=>"/images/rotating_arrow.gif"}
-				Please wait while the page finishes loading
-
-			-#:javascript
-				var mask = document.getElementById('load_mask');
-				mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
-				mask.style.display = 'block';
-				document.getElementById('load_message').style.display = 'block';
 			
 			= yield
 			
 			%hr.bottom
 
-			%div.ce_credit
-				%div.powered
-					= link_to :ce_home do
-						%h3 Powered by
-						= image_tag("ce_logo_20c.gif")
-						%p.tag_line Think together to act together
-				%div.lottery
-					= image_tag("Lottwest_sup_col_pos.gif")
+			= render :partial=> 'plan/proposal_footer'	
 				
-		-#:javascript
-			var mask = document.getElementById('load_mask');
-			mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
-			mask.style.height = (document.height ? document.height : document.body.clientHeight) + 'px';
-		
 		:javascript
 			//_load_times.page_loaded = new Date()
 			var client;
