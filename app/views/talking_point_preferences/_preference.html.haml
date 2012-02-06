@@ -1,13 +1,9 @@
-- mode = '' unless !defined?(mode).nil? && !mode.nil?
-%div.favorite		
-	- votes = talking_point.preference_votes.nil? ? 0 : talking_point.preference_votes
-	- my_fav = talking_point.my_preference.nil? ? 'true' : talking_point.my_preference ? 'false' : 'true'
-	%button.corner{:val=> my_fav}
-		- if talking_point.my_preference
-			= image_tag('tp-star-g.gif')
-		- else
-			= image_tag('tp-star-e.gif')
-		- if talking_point.my_rating.nil?
-			%span.fav Fave?
-		- else
-			%span.fav_cnt= votes
+%div.favorite{:id => talking_point.id}
+	- if talking_point.my_rating.nil?
+		- votes = 'Fave?'
+	- elsif talking_point.preference_votes.nil? 
+		- votes = 0
+	- else 
+		- votes = talking_point.preference_votes
+
+	%input.fav_button{:class=> talking_point.my_preference ? 'fav' : '', :type=>"button", :name=>"btnFav", :value=>votes, :title=>"Click to add or remove as favorite"}

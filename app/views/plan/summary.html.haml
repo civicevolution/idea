@@ -36,7 +36,6 @@
 						%p.clear_both
 					%p.clear_both
 				%p.clear_both
-				
 
 				- questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 				%div.proposal
@@ -47,8 +46,6 @@
 			
 			= render :partial => 'submit'
 				
-			= add_call_to_action(:id=>'end_summary_print')	
-			
 			%hr.bottom
 
 			%div.ce_credit

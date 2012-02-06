@@ -13,8 +13,9 @@ temp = {};
 console.log("Loading application.js");
 
 jQuery(function() {
+	console.log("********** Update support.borderRadius")
 	jQuery.support.borderRadius = false;
-	jQuery.each(['BorderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
+	jQuery.each(['BorderRadius','borderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
 		if(document.body.style[this] !== undefined) jQuery.support.borderRadius = true;
 		return (!jQuery.support.borderRadius);
 	});
@@ -108,10 +109,11 @@ function init_page(){
 		$.getScript('/javascripts/jquery.corner.js', 
 			function(){
 				//console.log("corner has been loaded")
-				var non_worksheet_corners = $('.corner');
-				if( non_worksheet_corners.size() > 0 ){
-					non_worksheet_corners.corner();
-				}
+				//var non_worksheet_corners = $('.corner');
+				//if( non_worksheet_corners.size() > 0 ){
+				//	non_worksheet_corners.corner();
+				//}
+				$('div.right_side div.corner').css('background-color','#eee').corner();
 			}
 		);
 	}else{
@@ -202,17 +204,53 @@ $('div.radios label').live('click', function() {
 	p.attr('title',title);
 });
 
-$('div.favorite button').die('click').live('click',
-	function(){
-		var button = $(this);
-		var id = button.closest('.talking_point_entry').attr('id');
-		if(id==0){
-			alert('This is an example of a talking point and you cannot act on it.'); 
-		}else{
-			$.post('/talking_points/' + id + '/prefer', {prefer: button.attr('val')}, function(){}, "script");
+$('input.fav_button').die('mouseup mousedown')
+	.live('mouseout',
+		function(){
+			$(this).removeClass('mousedown');
 		}
-	}
-);
+	)
+	.live('mouseup',
+		function(){
+			var button = $(this);
+			button.removeClass('mousedown');
+			var id = button.closest('.talking_point_entry').attr('id');
+			if(id==0){
+				alert('This is an example of a talking point and you cannot act on it.'); 
+			}else if( !button.hasClass('saving') ) {
+				var new_pref = button.hasClass('fav') ? 'false' : 'true';
+				button.addClass('saving');
+				$.post('/talking_points/' + id + '/prefer', {prefer: new_pref}, function(){}, "script");
+			}
+		}
+	)
+	.live('mousedown',
+		function(){
+			$(this).addClass('mousedown')
+			//var button = $(this);
+			//button.addClass('mousedown');
+			//var id = button.closest('.talking_point_entry').attr('id');
+			//if(id==0){
+			//	alert('This is an example of a talking point and you cannot act on it.'); 
+			//}else{
+			//	var new_pref = button.hasClass('fav') ? 'false' : 'true';
+			//	button.addClass('saving');
+			//	$.post('/talking_points/' + id + '/prefer', {prefer: new_pref}, function(){}, "script");
+			//}
+		}
+	);
+	
+//$('div.favorite button').die('click').live('click',
+//	function(){
+//		var button = $(this);
+//		var id = button.closest('.talking_point_entry').attr('id');
+//		if(id==0){
+//			alert('This is an example of a talking point and you cannot act on it.'); 
+//		}else{
+//			$.post('/talking_points/' + id + '/prefer', {prefer: button.attr('val')}, function(){}, "script");
+//		}
+//	}
+//);
 
 $('div.home_page table.proposal_stats').die('click').live('click',
 	function(){
@@ -317,15 +355,3 @@ function init_add_this(){
 	});
 	
 }
-
-// This tiny snippet was created by Rob Glazebrook (@robbyg) on April 15, 2010.
-// Original Article: http://www.cssnewbie.com/test-for-border-radius-support/
-// Use this snippet anywhere you wish, but I'd appreciate attribution (such as leaving this in place!)
-
-jQuery(function() {
-	jQuery.support.borderRadius = false;
-	jQuery.each(['BorderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
-		if(document.body.style[this] !== undefined) jQuery.support.borderRadius = true;
-		return (!jQuery.support.borderRadius);
-	});
-});

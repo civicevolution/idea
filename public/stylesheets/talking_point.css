@@ -727,6 +727,9 @@ table.talking_point_history td.ver {
 table.review_preferences td {
   padding-bottom: 10px; }
 
+div.review_preferences {
+  font-size: 13px; }
+
 /* Rules to alter the worksheet */
 div.talking_point_acceptable {
   background: none;
@@ -1204,9 +1207,18 @@ div.right_master div.list_tabs {
   padding: 0; }
   div.right_master div.list_tabs ul.list_tabs {
     position: relative; }
+    div.right_master div.list_tabs ul.list_tabs li {
+      background: #dceef9 url(/images/tab_close_lt.gif) no-repeat right center; }
+      div.right_master div.list_tabs ul.list_tabs li a {
+        color: #92cfef; }
+    div.right_master div.list_tabs ul.list_tabs li.ui-state-active {
+      background: #92cfef url(/images/tab_close_dk.gif) no-repeat right center; }
+      div.right_master div.list_tabs ul.list_tabs li.ui-state-active a {
+        color: white; }
     div.right_master div.list_tabs ul.list_tabs a {
       font-size: 12px;
-      padding: 0; }
+      padding: 0;
+      margin-left: 8px; }
     div.right_master div.list_tabs ul.list_tabs p.label {
       position: absolute;
       top: 10px;
@@ -1400,3 +1412,38 @@ div.proposal_tools {
 
 div.tools a.addthis_button {
   font-size: 13px; }
+
+input.fav_button {
+  background-image: url("/images/button_sprite3.gif");
+  background-position: -50px 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  height: 54px;
+  width: 44px;
+  padding-top: 30px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold; }
+
+input.fav_button.fav {
+  background-position: 0 0; }
+
+input.fav_button:hover {
+  background-position: -50px -60px; }
+
+input.fav_button.fav:hover {
+  background-position: 0 -60px; }
+
+input.fav_button.mousedown {
+  background-position: -50px -120px; }
+
+input.fav_button.mousedown.fav {
+  background-position: 0 -120px; }
+
+input.fav_button.saving {
+  background-position: -50px -180px; }
+
+input.fav_button.saving.fav {
+  background-position: 0 -180px; }

@@ -4,5 +4,9 @@
 %div#chat_log
 = form_tag( chat_path, {:id=>'chat_form', :class=>'chat_form', :remote=>true, :autocomplete=>'off'}) do
 	= hidden_field_tag :team_id, params[:team_id]
-	= text_field_tag :msg
-	= submit_tag 'Send', {:disable_with => 'Sending…'}
+	- if @member.nil? || @member.id == 0
+		= text_field_tag :msg, 'You must be signed in to chat', {:disabled=>true}
+		= submit_tag 'Send', {:disabled => true }
+	- else 
+		= text_field_tag :msg
+		= submit_tag 'Send', {:disable_with => 'Sending…'}

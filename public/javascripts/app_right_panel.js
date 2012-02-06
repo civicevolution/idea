@@ -47,7 +47,7 @@ function right_panel_resize(){
 
 	// reset the horizontal position
 	var win_width = $(window).width() - 10;
-	var left = $('div.page').position().left + $('div.left_side').width() + 20;
+	var left = $('div.page_content_div').position().left + $('div.left_side').width() + 20;
 	var right_width = $('div.right_side').width();
 	if( left + right_width > win_width){
 		left = win_width - right_width;

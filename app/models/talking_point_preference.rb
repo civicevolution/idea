@@ -58,17 +58,17 @@ class TalkingPointPreference < ActiveRecord::Base
     talking_point_ids.map!{|i| i.to_i}
     
     ids_to_add = talking_point_ids - current_ids
-
-    if ids_to_add.size > 0
-      #logger.debug "ids_to_add.inspect: #{ids_to_add.inspect}"
-      ids_to_add.each{ |id| TalkingPointPreference.find_or_create_by_member_id_and_talking_point_id(member.id, id) }
-    end
     
     ids_to_remove = current_ids - talking_point_ids
     logger.debug "ids_to_remove.inspect: #{ids_to_remove.inspect}"
     logger.debug("remove these ids: #{ids_to_remove.inspect}")
     if ids_to_remove.size > 0
       TalkingPointPreference.delete_all(:talking_point_id=> ids_to_remove, :member_id => member.id)
+    end
+    
+    if ids_to_add.size > 0
+      #logger.debug "ids_to_add.inspect: #{ids_to_add.inspect}"
+      ids_to_add.each{ |id| TalkingPointPreference.find_or_create_by_member_id_and_talking_point_id(member.id, id) }
     end
     
     @question = Question.find( question_id )

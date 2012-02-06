@@ -256,3 +256,20 @@ debugging startup issues with logs
 sudo monit status
 
 	unicorn.stderr.log
+	
+***********************************************************************************
+
+Sun Feb  5 08:41:47 PST 2012
+
+***********************************************************************************
+
+Add jquery to any page
+
+var GM_JQ = document.createElement('script');
+GM_JQ.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js';
+GM_JQ.type = 'text/javascript';
+document.getElementsByTagName('head')[0].appendChild(GM_JQ);
+$('div.title a').click()	
+
+Pallette
+	http://colorschemedesigner.com/#1m31T6eunw0w0

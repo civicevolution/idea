@@ -250,7 +250,7 @@
 				var question_id = el.closest('div.question_summary').attr('id');
 				var order_id = Number(el.html().match(/Q(\d+)/)[1]); 
 				var question_text = el.html().replace(/Q\d+: /,'');
-				
+
 				//if ( !$('h3#curated_list_t').attr('class').match(/active/) ) $('h3#curated_list_t').click();
 				
 				var q_tabs = $('div.list_tabs');
@@ -327,7 +327,7 @@
 				//list_header.show();
 				var new_left = $('div.right_side').position().left;
 				//var new_top = list_header.position().top + list_header.outerHeight() + $('body').scrollTop() + 31;
-				var new_top = $('div.list_tabs').top + $('body').scrollTop() + 31;
+				var new_top = $('div.list_tabs').position().top + $('body').scrollTop() + 31;
 				
 				//console.log("XXX 1: " + list_header.position().top + ", 2: " + list_header.outerHeight() + ", 3: " + $('body').scrollTop() )
 				//console.log("new_top: " + new_top + ", new_left: " + new_left)
@@ -372,7 +372,7 @@
 				var div_list = $('ul.talking_points[id="' + question_id + '"]').closest('div.ui-tabs-panel');
 				div_list.find('p.question').remove();
 				
-				var q_tabs = $('div.curated_list div.tabs');
+				var q_tabs = $('div.list_tabs ul.list_tabs');
 				var tab = q_tabs.find('a.close_worksheet[id="' + question_id +'"]').closest('li');
 
 				// get the next tab

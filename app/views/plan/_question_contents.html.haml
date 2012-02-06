@@ -18,7 +18,7 @@
 
 		- else
 			%h4.ques_sub_hdg 
-				Question talking points in order of popularity
+				Talking points in order of popularity
 				= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
 
 		= render :partial=> 'plan/talking_point', :collection => question['talking_points_to_display']

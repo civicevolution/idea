@@ -3,13 +3,15 @@
 	var new_preferences = $("#{escape_javascript(
 		'<div>' + render(:partial => 'talking_point_preferences/preference', :collection => question.talking_points, :as => :talking_point) + '</div>'
 	)}");
+	var tpp = $('div.question_worksheet[id="#{question.id}"] div.favorite')
 	temp.new_preferences = new_preferences
-	var tpp = $('div.question_worksheet[id="#{question.id}"] div.talking_point_preferable')
 	temp.tpp = tpp
+
 	tpp.each(function(){
 		var old_tpp = $(this);
+		old_tpp.removeClass('saving');
 		if( typeof old_tpp.attr('id') != 'undefined' ){
-			var new_tpp = new_preferences.find('div.talking_point_preferable[id="' + old_tpp.attr('id') + '"]');
+			var new_tpp = new_preferences.find('div.favorite[id="' + old_tpp.attr('id') + '"]');
 			new_tpp.height( old_tpp.height() )
 			old_tpp.replaceWith(new_tpp)
 		}

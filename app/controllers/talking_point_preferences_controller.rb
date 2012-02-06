@@ -85,6 +85,7 @@ class TalkingPointPreferencesController < ApplicationController
     logger.debug "prefer_talking_point #{params[:talking_point_id]} with the prefer #{params[:prefer]}"
     
     talking_point = TalkingPoint.find( params[:talking_point_id] )
+    talking_point.my_rating = 'fav_update'
 
     tpp = TalkingPointPreference.find_by_member_id_and_talking_point_id(@member.id, params[:talking_point_id])
     
@@ -117,7 +118,6 @@ class TalkingPointPreferencesController < ApplicationController
   
   def update_preferences
     #2011-08-31 15:30:20 [INFO ] Parameters: {"question_id"=>"350", "ids"=>["31", "8", "29", "28", "2"]} (pid:278)
-    
     params[:ids] ||= []
     
     question = TalkingPointPreference.update_question_preferred_talking_points( params[:question_id], params[:ids], @member )
