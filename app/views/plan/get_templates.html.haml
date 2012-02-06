@@ -322,12 +322,8 @@
 				$('<div class="msg"><h2>...loading the talking points worksheet</h2></div>').insertAfter(tp_sec);
 				tp_sec.hide(1000);
 
-				//var list_header = $('div#guideAccordion h3#curated_list_t');
-				//list_header.slideDown('fast');
-				//list_header.show();
 				var new_left = $('div.right_side').position().left;
-				//var new_top = list_header.position().top + list_header.outerHeight() + $('body').scrollTop() + 31;
-				var new_top = $('div.list_tabs').position().top + $('body').scrollTop() + 31;
+				var new_top = $('div.list_tabs').position().top + $(window).scrollTop() + 31;
 				
 				//console.log("XXX 1: " + list_header.position().top + ", 2: " + list_header.outerHeight() + ", 3: " + $('body').scrollTop() )
 				//console.log("new_top: " + new_top + ", new_left: " + new_left)
@@ -371,7 +367,11 @@
 				var new_left = q.offset().left;
 
 				var div_list = $('ul.talking_points[id="' + question_id + '"]').closest('div.ui-tabs-panel');
-				div_list.find('p.question').remove();
+				
+				div_list.find('p	').remove();
+				var offset = div_list.offset();
+				var width = div_list.width();
+				
 				
 				var q_tabs = $('div.list_tabs ul.list_tabs');
 				var tab = q_tabs.find('a.close_worksheet[id="' + question_id +'"]').closest('li');
@@ -406,10 +406,7 @@
 				msg.fadeTo(500,.7);
 				
 				// slide the list back to the summary
-				
-				var offset = div_list.offset();
-				var width = div_list.width();
-				
+								
 				div_list.remove();
 				div_list.attr('id',question_id);
 				div_list.addClass('selected_tp_list')
