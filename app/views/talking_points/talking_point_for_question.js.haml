@@ -27,7 +27,7 @@
 	form.find('div#errorExplanation').remove();	
 	
 	if(am_curator){
-		make_talking_points_draggable( tp.find('p.talking_point'), $('div.curated_list ul[id="#{question_id}"]') );
+		make_talking_points_draggable( tp.find('p.talking_point'), $('div.selected_tp_list ul[id="#{question_id}"]') );
 	}
 	
 = render :template => 'shared/clear_sign_in_form.js'

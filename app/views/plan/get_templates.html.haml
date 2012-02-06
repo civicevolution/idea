@@ -315,7 +315,7 @@
 				}
 				
 				list_div.find('ul div').remove();
-				list_div.addClass('curated_list corner')
+				list_div.addClass('selected_tp_list corner')
 
 				list_div.css({top: ul_offset.top, left: ul_offset.left, width: ul.width()});
 
@@ -412,7 +412,7 @@
 				
 				div_list.remove();
 				div_list.attr('id',question_id);
-				div_list.addClass('curated_list')
+				div_list.addClass('selected_tp_list')
 				$('body').append(div_list);
 				div_list.css(offset);
 				div_list.css({position: 'absolute', width: width});
@@ -428,7 +428,7 @@
 			function init_currated_list(question_id){
 				if( !am_curator ) return;
 				console.log("init_currated_list for " + question_id);
-				$('div.curated_list ul[id="' + question_id + '"] li.talking_point img').die('click').live('click',
+				$('div.selected_tp_list ul[id="' + question_id + '"] li.talking_point img').die('click').live('click',
 					function(){
 						$(this).closest('li').slideUp(800,
 							function(){ 
@@ -440,7 +440,7 @@
 					}
 				);
 
-				$('div.curated_list ul[id="' + question_id + '"]').sortable(
+				$('div.selected_tp_list ul[id="' + question_id + '"]').sortable(
 					{
 						start: function(event,ui){
 							$(this).find('img').removeClass('show');
@@ -465,7 +465,7 @@
 					}
 				);
 				
-				$('div.curated_list ul[id="' + question_id + '"] a.tp_details').die('click').live('click',
+				$('div.selected_tp_list ul[id="' + question_id + '"] a.tp_details').die('click').live('click',
 					function(){
 						try{
 							var id = $(this).closest('li').attr('id')
@@ -495,7 +495,7 @@
 						//console.log("Send these ids to the server: " + new_ids + " for question_id: " + question_id);
 						$.post('/questions/' + question_id + '/curate_tps', {tp_ids: new_ids}, 
 							function(){
-								$('div.curated_list[id="' + question_id + '"] ul.talking_points').attr('curated_tp_ids',new_ids);
+								$('div.selected_tp_list[id="' + question_id + '"] ul.talking_points').attr('curated_tp_ids',new_ids);
 							}, 
 							"script"
 						);
@@ -506,7 +506,7 @@
 
 				function tp_delete_hover(question_id){
 					//console.log("tp_delete_hover for id: " + question_id)
-					$('div.curated_list[id="' + question_id + '"] li.talking_point').hover(
+					$('div.selected_tp_list[id="' + question_id + '"] li.talking_point').hover(
 						function(){
 							$(this).find('img').addClass('show');
 							//console.log("show trash can");
@@ -520,7 +520,7 @@
 
 				tp_delete_hover(question_id);
 				
-				var list = $('div.curated_list[id="' + question_id + '"]')
+				var list = $('div.selected_tp_list[id="' + question_id + '"]')
 				setTimeout(function(){this.find('div.curator').find('h4,ul').hide(2000)}.bind(list),5000);
 			
 				setTimeout(set_inner_tab_content_height,600);

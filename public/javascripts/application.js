@@ -242,30 +242,9 @@ $('input.fav_button').die('mouseup mousedown')
 	.live('mousedown',
 		function(){
 			$(this).addClass('mousedown')
-			//var button = $(this);
-			//button.addClass('mousedown');
-			//var id = button.closest('.talking_point_entry').attr('id');
-			//if(id==0){
-			//	alert('This is an example of a talking point and you cannot act on it.'); 
-			//}else{
-			//	var new_pref = button.hasClass('fav') ? 'false' : 'true';
-			//	button.addClass('saving');
-			//	$.post('/talking_points/' + id + '/prefer', {prefer: new_pref}, function(){}, "script");
-			//}
 		}
 	);
 	
-//$('div.favorite button').die('click').live('click',
-//	function(){
-//		var button = $(this);
-//		var id = button.closest('.talking_point_entry').attr('id');
-//		if(id==0){
-//			alert('This is an example of a talking point and you cannot act on it.'); 
-//		}else{
-//			$.post('/talking_points/' + id + '/prefer', {prefer: button.attr('val')}, function(){}, "script");
-//		}
-//	}
-//);
 
 $('div.home_page table.proposal_stats').die('click').live('click',
 	function(){

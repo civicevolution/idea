@@ -41,7 +41,22 @@
 						%tr{:class=>cycle('','stripe')}
 							%td
 								= pluralize(@team.stats[stat['col_name']], stat['summary_title']) 					
-		
+
+
+	-#%div.page_context.corner
+		%p.label
+			Participants
+		%table
+			%tbody
+				- @team.participants.sort{|a,b| b[:points]<=>a[:points]}.each do |participant|
+					%tr
+						%td
+							%img{:src=>participant.photo.url('36'),:class=>'i36'}	
+						%td	
+							%b= participant.first_name
+							%br
+								#{participant[:points]} points
+	
 			
 		
 	%div.list_tabs.tabs.hide

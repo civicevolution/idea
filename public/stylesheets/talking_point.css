@@ -923,42 +923,42 @@ div.endorsements div.cta {
 div#submit {
   margin-top: 60px; }
 
-div.curated_list {
+div.selected_tp_list {
   position: absolute;
   background-color: white;
   border: 2px solid #e1e8c4; }
-  div.curated_list div.header img {
+  div.selected_tp_list div.header img {
     display: block;
     float: right;
     margin: 10px 10px 0 0; }
-  div.curated_list div.header p.question {
+  div.selected_tp_list div.header p.question {
     float: left;
     max-width: 322px; }
-  div.curated_list div.summary {
+  div.selected_tp_list div.summary {
     margin-right: 0; }
-  div.curated_list div.talking_point_form.hint p {
+  div.selected_tp_list div.talking_point_form.hint p {
     font-size: auto; }
-  div.curated_list div.cta {
+  div.selected_tp_list div.cta {
     width: auto; }
-  div.curated_list p {
+  div.selected_tp_list p {
     margin-left: 20px; }
-  div.curated_list p.question {
+  div.selected_tp_list p.question {
     margin: 10px 0 20px 10px;
     cursor: normal; }
-  div.curated_list li {
+  div.selected_tp_list li {
     margin: 0 10px 10px 10px; }
-  div.curated_list li.talking_point {
+  div.selected_tp_list li.talking_point {
     padding-right: 20px;
     position: relative; }
-    div.curated_list li.talking_point img {
+    div.selected_tp_list li.talking_point img {
       position: absolute;
       top: 4px;
       right: 0;
       display: none; }
-    div.curated_list li.talking_point img.show {
+    div.selected_tp_list li.talking_point img.show {
       display: block;
       cursor: pointer; }
-    div.curated_list li.talking_point a.tp_details {
+    div.selected_tp_list li.talking_point a.tp_details {
       display: inline;
       font-size: 0.8em; }
 

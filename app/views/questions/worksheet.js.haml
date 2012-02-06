@@ -67,14 +67,14 @@
 			revertDuration: 600,
 			start: function(event,ui){
 				// refresh your sortable -- so you can drop
-				$('div.curated_list ul.talking_points[id="#{question.id}"]').sortable('refresh');
+				$('div.selected_tp_list ul.talking_points[id="#{question.id}"]').sortable('refresh');
 			},
 			connectToSortable: sortable_destination,
 			helper: 'clone'
 		});
 	}
 	if(am_curator){
-		make_talking_points_draggable( $('div.talking_points_list[id="#{question.id}"] p.talking_point'), $('div.curated_list ul[id="#{question.id}"]') );
+		make_talking_points_draggable( $('div.talking_points_list[id="#{question.id}"] p.talking_point'), $('div.selected_tp_list ul[id="#{question.id}"]') );
 	}
 	
 	
