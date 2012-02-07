@@ -118,8 +118,7 @@ td:first-child, th:first-child {
   /* Hide empty cells when they're the first in the row */ }
 
 body, p, ol, ul, td, textarea {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px; }
+  font-family: verdana, arial, helvetica, sans-serif; }
 
 .corner {
   -webkit-border-radius: 10px;
@@ -241,7 +240,8 @@ div.notebook {
 
 div.home_page {
   position: relative;
-  padding-top: 30px; }
+  padding-top: 30px;
+  font-size: 13px; }
 
 div.homepage_intro {
   margin: 0 2em 0 1em; }
