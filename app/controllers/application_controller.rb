@@ -195,7 +195,7 @@ class ApplicationController < ActionController::Base
         when /^demo$/i
           params[:_initiative_id] = 3
           params[:_app_name] = 'CivicEvolution Demo'
-          self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
+          self.prepend_view_path([ Rails::root.to_s + "/app/views/civic" ])
         when /^skyline$/i
           params[:_initiative_id] = 5
           params[:_app_name] = 'Skyline Voices'
