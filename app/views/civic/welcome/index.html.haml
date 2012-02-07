@@ -1,357 +1,89 @@
-- content_for (:script) do
-	= javascript_include_tag "jquery-1.4.2.min.js", 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "ce/gen/forms.js", "ce/activate/act_welcome_layout.js", "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
-	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
-	
+- logger.debug "\n\n*************** Begin to render the plan page\n\n"
+%div.page_content_div
+	%div.home_page
+		%div.left_side
+			%div.book
+				%div.spiral 
+				%div.notebook.corner
+					%div.homepage_intro
 
-- team_ids = !@mem_teams.nil? ? @mem_teams.collect{ |mt| mt.id}.join(',') : ''
-:javascript
-	var member_id = #{ @member.nil? ? 0 : @member.id }
-	var my_team_ids = [ #{team_ids} ];
-	
-%div.mission
-	%h2 Welcome to CivicEvolution
-	-#%p 
-	-#	Our community is jointly creating a sustainable future for our city region in a project called
-	-#	%a{:href=>'http://www.cgg.wa.gov.au/2029andbeyond', :target=>'_blank', :class=>'mission_link 2029'} 2029 and Beyond.
-	-#%p 
-	-#	%a{:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}The Alliance Governance Group 
-	-#	and its chair, Mayor, Cr Ian Carpenter, encourage you to join our community effort and
-	-#	%span.promise 
-	-#		promise to review and respond to all actionable proposals that meet their 
-	-#		%a{:href=>'#', :class=>'2029_guidelines'}guidelines
-	-#		for relevance, completeness, evidence, and community support. 
-	-#%p This website will help you take advantage of this important opportunity. Please view these videos for more information about Civicevolution.
+						%div.mission
+							%h2 Do you have an idea to make your community a better place to live?
 
+							%p CivicEvolution helps citizens solve community problems through brainstorming and group decision-making–it helps us think together so we can act together.
 
-%div.videos	
-	%p 
-		%b 1: CivicEvolution Illustrated
-	-#%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=WS_EzJ0UW00'}
-	%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14851626', :title=>'CivicEvolution Illustrated'} 
-		= image_tag 'video_placeholder.jpg', :alt=>'CivicEvolution Illustrated video' 
-	%p.link
-		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14627369', :title=>'Getting started with CivicEvolution'} 2: Getting started 
-	%p.link
-		%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=tdA-xYEfw7s'} 3: CivicEvolution Demonstration 
-			
-	-#%select
-	-#	%option Please select a video topic
-	-#	%option Introduction to CivicEvolution
-	-#	%option CivicEvolution demonstration
-	-#	-#%option Getting started
-	-#	-#%option Planning together
-	-#	-#%option Developing your proposal
-	-#	-#%option Getting public feedback
-	-#	-#%option Completing your proposal	
-		
-%p.clear_both.tall
-
-%div.left_col
-
-	%h2.com_title Civicevolution Marketplace of Ideas
-	%ul.marketplace
-		%li Join a team to help transform an idea into an actionable proposal
-		%li Help teams develop ideas by sharing your experience and knowledge through comments		
-		%li Suggest a new idea and help form a team to transform it into a solution
-
-	%div.ideas_and_teams
-		%div.tabs
-			%ul
-				%li
-					%a{:href=>"#tab_teams"} Teams
-				%li
-					%a{:href=>"#tab_ideas"} Ideas
-				%li
-					%a{:href=>"#tab_most_active"} Most active
-				%li
-					%a{:href=>"#tab_completed"} Completed
-				%li
-					%a{:href=>"#tab_suggest_idea"} Suggest an idea
-
-
-			%div.tab_window{:id=>"tab_teams"}
-				%ul.categories
-					%li All
-					%li Environmental
-					%li Economic development
-					%li Social
-					%li Cultural
-		
-				%ul.team_list
-					- if  @teams_launched.size() == 0
-						%li No teams have started developing their proposals yet
-					- elsif  @teams_launched.size() == 0
-						%li This team is working on its proposal. Click the team title to learn more
-					- else
-						%li These #{@teams_launched.size()} teams are working on their proposal. Click a team title to learn more.
-
-	
-				- @teams_launched.each do |team|
-					%div.team_entry
-						= link_to team.title, {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'team_entry_title',:launched=>'t'}
-						%p.desc= team.solution_statement
-						%p.controls
-							-#%span 0 comments
-							%span= pluralize( team['members'], 'member')
-							-#%span active one day ago
-							-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
-
-						-#%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
-						-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
-
-			%div.tab_window{:id=>"tab_ideas"}
-				%ul.categories
-					%li All
-					%li Environmental
-					%li Economic development
-					%li Social
-					%li Cultural
-		
-				%ul.team_list
-					%li Ideas must recruit at least four committed members before they can begin working on their proposal
-					- if  @team_ideas.size() == 0
-						%li No teams are waiting for members
-					- elsif  @team_ideas.size() == 1
-						%li This team needs additional committed members before it can start working on its proposal. Click the team title to learn more.
-					- else
-						These #{@team_ideas.size()} teams need additional committed members before they can start working on their proposal. Click a team title to learn more.
-					%li You can suggest your own idea for proposal by clicking the "Suggest an idea" tab above
+							%p 
+								%span.promise This is your opportunity to make your idea happen!
+									
+				%p.clear_both
 					
+			%h2 Ideas proposed by your community		
+			%p
+				%b
+					If you have a new idea that's not listed, 
+					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
 	
-				- @team_ideas.each do |team|
-					%div.team_entry
-						= link_to team.title, {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'team_entry_title', :launched=>'f'}
-						%p.desc= team.solution_statement
-						%p.controls
-							-#%span 0 comments
-							%span= pluralize( team['members'], 'member')
-							-#%span active one day ago
-							-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
-				
-	
-			
+			-# i = 0		
+			- @init_teams.each do |team|
+				%div.book
+					%div.spiral 
+					%div.notebook.corner{:id=>team.team_id}
+						%div.team_entry{:class=> cycle('stripe_bg','')}
+							= link_to team.title, proposal_path(team.team_id), {:class=>'team_entry_title',:launched=>'t'}
 
-			%div.tab_window{:id=>"tab_most_active"}
-				%ul.categories
-					%li All
-					%li Environmental
-					%li Economic development
-					%li Social
-					%li Cultural
-		
-				-#%ul.team_list
+							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
+							%div.resources
+								= link_to proposal_pic_path(team.team_id), {:rel=>'nofollow'} do
+									- pics_array.each do |pic|
+										%div= image_tag("misc/48/#{pic}.jpg")
+							%p.clear_both
+
+							%p.desc= team.solution_statement
+							%p.controls
+								%table.proposal_stats
+									%tr
+										%td= pluralize(team.participants, 'participant')
+										%td= pluralize( (team.proposal_views + team.proposal_views_base), 'view')
+										%td= pluralize(team.points_total, 'point')
+								
+									%tr
+										%td= pluralize(team.comments, 'comment')
+										%td= pluralize(team.talking_points, 'talking point')
+										%td= pluralize(team.endorsements, 'endorsement')
+							
+							
+							
+								-# if team.comments.to_i == 0
+									= link_to "Please start this conversation", proposal_path(team.id)
+								-# else
+									= pluralize(team.comments, 'comment') unless team.comments.to_i == 0
+								-#= pluralize(team.bs_ideas, 'idea') unless team.bs_ideas.to_i == 0
+								-#= pluralize(team.answers, 'answer') unless team.answers.to_i == 0
+								-#= pluralize(team.talking_points, 'talking point')
+							
+							%p.controls
+								= link_to "Help us make a difference", proposal_path(team.team_id)
+								= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
+							-#%p.controls
+								-#%span 0 comments
+								%span= pluralize( team['members'], 'member')
+								-#%span active one day ago
+								-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
+
+
+
+							-#%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
+							-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
+				-# i += 1
+				-# break if i > 3 
+			%p
+				%b
+					If you have a new idea that's not listed, 
+					= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
 					
 
+		%div.right_side
+			= render :template => 'welcome/home_stats'
 
-				- @teams_launched.each do |team|
-					%div.team_entry
-						= link_to team.title, {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'team_entry_title'}
-						%p.desc= team.solution_statement
-						%p.controls
-							-#%span 0 comments
-							%span= pluralize( team['members'], 'member')
-							-#%span active one day ago
-							= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
-					
-
-			%div.tab_window{:id=>"tab_completed"}
-				%ul.categories
-					%li All
-					%li Environmental
-					%li Economic development
-					%li Social
-					%li Cultural
-	
-				%ul.team_list
-					%li No teams have completed their proposal yet
-
-
-			%div.tab_windowX.hide{:id=>"tab_suggest_idea_COMMUNITY"}
-				%h3 We invite you to suggest an idea to help our city region become more sustainable
-
-				%p 
-					All ideas need to meet these 
-					%b ground rules 
-					to be accepted and published:
-				%ul
-					%li Be legal
-					%li Not be insulting of any individuals or groups
-					%li Help create a more sustainable future for our city region in terms of our environment, economic development, social, and cultural affairs.
-					%li Demonstrate effective use of rate payer funds, if appropriate
-
-
-				%p 
-					%a{:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}The Alliance Governance Group 
-					promises to review and respond to all actionable proposals that meet their guidelines
-					for relevance, completeness, evidence, and community support.
-	
-				%p 
-					In short, anyone can suggest an idea, but the Alliance Governance Group
-					will only review ideas that have been developed into actionable
-					proposals.
-	
-				%p 
-					Proposals must meet these 
-					%b guidelines 
-					to earn official review:	
-
-				%ul
-					%li Comply with the general ground rules
-					%li Answer all questions in the proposal outline
-					%li Work in a team with at least 4 active residents of the city region
-					%li Maintain an open and inclusive team
-					%li Ensure a respectful team environment
-					%li Engage in adequate discussion, collaboration and consensus on each question
-					%li Openly communicate with the community via online public access as well as community outreach, and demonstrate appropriate consideration of feedback				
-
-				-#%p This opportunity to be reviewed requires you to earn your
-				-#	review by meeting the following guidelines. This website will help you each
-				-#	step of the way.
-				%p If you are committed to your idea, this website can help you form a team and develop your proposal.
-
-				= form_for( :proposal_idea, :url => { :controller=> :team, :action => :submit_proposal_idea}, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
-					%div.add_idea
-						= form.label :title, "Idea title"
-						= form.text_field :title, :class=>'title', :alias=>'Title'
-						%div.control_line.title
-							%div.controls
-								%span.char_ctr 255 characters left
-						
-
-						= form.label :text, "Please summarise your idea to improve our sustainability"
-						= form.text_area :text, :class=>'comment', :size=>"1x2", :alias=>'Proposal idea'
-						%div.control_line
-							%div.controls
-								%span.char_ctr 
-									1000
-									characters left
-									= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
-		
-						%p.acknowledge
-							%input{:type=>'checkbox', :name=>'accept_guidelines', :value=>'true', :alias=>'You'}
-							I agree to the ground rules guidelines above. I understand my idea will be reviewed for relevance before it is published.
-						%p
-							= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'
-
-
-			%div.tab_window{:id=>"tab_suggest_idea"}
-				%h3 We invite you to suggest an idea to help our city region become more sustainable
-		
-				%div.ground_rules
-					%p 
-						All ideas need to meet these 
-						%b ground rules 
-						to be accepted and published:
-					%ul
-						%li Be legal
-						%li Be consistent with the City of Greater Geraldton Organisational Values
-						%li Focus on organisational processes in order to help the City work better with the community
-						%li Demonstrate effective use of rate payer funds, if appropriate
-
-				%p
-					The Executive Management Team promises to review and respond to all actionable proposals that meet their guidelines
-					for relevance, completeness, evidence, and community support.
-			
-				%p 
-					In short, anyone can suggest an idea, but the Executive Management Team
-					will only review ideas that have been developed into actionable
-					proposals.
-
-				%div.guidelines
-					%p 
-						Proposals must meet these 
-						%b guidelines 
-						to earn official review:	
-
-					%ul
-						%li Comply with the general ground rules
-						%li Answer all questions in the proposal outline
-						%li Work in a team with at least 4 staff members of the City of Greater Geraldton
-						%li Maintain an open and inclusive team
-						%li Ensure a respectful team environment
-						%li Engage in adequate discussion, collaboration and consensus on each question
-						%li Openly communicate with the other staff via online public access as well as community outreach, and demonstrate appropriate consideration of feedback				
-
-				%p If you are committed to your idea, this website can help you form a team and develop your proposal.
-
-				- if @member && !@member.confirmed
-					%p.suggest_sign_in You must confirm your CivicEvolution account by email before you can suggest an idea. You can request a confirmation email on the right.
-				- elsif @member.nil?
-					%p.suggest_sign_in You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.
-				
-				= form_for( :proposal_idea, :url => { :controller=> :team, :action => :submit_proposal_idea}, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
-					= form.hidden_field :initiative_id, options = {:value=>1}
-					%div.add_idea
-						= form.label :title, "Idea title"
-						= form.text_field :title, :class=>'title', :alias=>'Title'
-						%div.control_line.title
-							%div.controls
-								%span.char_ctr 255 characters left
-						
-
-						= form.label :text, "Please summarise your idea to improve our sustainability"
-						= form.text_area :text, :class=>'comment', :size=>"1x2", :alias=>'Proposal idea'
-						%div.control_line
-							%div.controls
-								%span.char_ctr 
-									1000
-									characters left
-									= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
-				
-						%p.acknowledge
-							= form.check_box :accept_guidelines, {:value=>'true', :alias=>'You'}
-							I agree to the ground rules and guidelines above. I understand my idea will be reviewed for relevance before it is published.
-						%div#recaptcha_suggest_idea
-						%p
-							= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'
-
-%div.right_col
-	= render( :partial => 'welcome/signin_register' )
-
-
-	%div.stats
-		%p
-			%b Community achievements
-		%table
-			%tr
-				%td
-					Ideas
-				%td
-					2
-			%tr
-				%td
-					Participants
-				%td
-					5
-			%tr
-				%td
-					Teams
-				%td
-					2
-			%tr					
-				%td
-					Visitors
-				%td
-					12
-			%tr
-				%td
-					Team comments
-				%td
-					73
-			%tr					
-				%td
-					Public comments
-				%td
-					0
-			%tr
-				%td
-					Completed proposals
-				%td
-					0
-			%tr					
-				%td
-					Proposal endorsements
-				%td
-					0
-
-%p.clear_both
+	%p.clear_both
+	-#= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}

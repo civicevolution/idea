@@ -1,5 +1,5 @@
 - @member ||= Member.new :first_name=>'Unknown', :last_name=>'Visitor', :ape_code =>'unknown'
-- title ||= !@team.nil? ? "#{@team.title}" : title || 'Welcome to the 2029 and Beyond Sustainable Future City Project'
+- title ||= !@team.nil? ? "#{@team.title}" : title || params[:_app_page_title]
 !!!
 %html{html_attrs('en-en')}
 	%head

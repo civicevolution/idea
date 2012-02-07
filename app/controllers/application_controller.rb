@@ -183,30 +183,37 @@ class ApplicationController < ActionController::Base
         when /^2029-staff$/i, /^cgg$/
           params[:_initiative_id] = 1
           params[:_app_name] = '2029 and Beyond for Staff'
+          params[:_app_page_title] = 'Welcome to the 2029 and Beyond Sustainable Future City Project'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
         when /^2029$/	
           params[:_initiative_id] = 2
           params[:_app_name] = '2029 and Beyond'
+          params[:_app_page_title] = 'Welcome to the 2029 and Beyond Sustainable Future City Project'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
         when 'game'
           params[:_initiative_id] = 1
           params[:_app_name] = '2029 and Beyond Staff GAME'
+          params[:_app_page_title] = 'Welcome to the 2029 and Beyond Sustainable Future City Project'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
         when /^demo$/i
           params[:_initiative_id] = 3
           params[:_app_name] = 'CivicEvolution Demo'
+          params[:_app_page_title] = 'CivicEvolution -- Think together to act together'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/civic" ])
         when /^skyline$/i
           params[:_initiative_id] = 5
           params[:_app_name] = 'Skyline Voices'
+          params[:_app_page_title] = 'Skyline Students Step Up! 2012 Campaign @ CivicEvolution'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/skyline" ])
         when /^live$/i
           params[:_initiative_id] = 7
           params[:_app_name] = 'CivicEvolution Live'
+          params[:_app_page_title] = 'CivicEvolution Live'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/live" ])
         else	
           params[:_initiative_id] = 6
           params[:_app_name] = 'CivicEvolution'
+          params[:_app_page_title] = 'CivicEvolution'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/civic" ])
       end
     end
