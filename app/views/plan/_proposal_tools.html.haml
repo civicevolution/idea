@@ -1,5 +1,14 @@
 %div.proposal_tools
 	%ul
+		%li.organizer
+			%div.member
+				%p.sug Suggested by
+				= image_tag @team.organizer.photo.url('36'), {:class=>'i36'}
+				%div.name
+					%p= @team.organizer.first_name
+					%p= @team.organizer.last_name
+			
+	
 		%li.invite
 			= link_to "Invite friends ", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}
 

@@ -9,9 +9,6 @@
 			
 			%div.notebook.corner
 				%div.intro
-					%div.suggest_title
-						%img{:src=>@team.organizer.photo.url('36'),:class=>'i36'}
-						%h3 #{@team.organizer.first_name} #{@team.organizer.last_name} suggested this idea for change:
 					%h2.home_title 
 						%span #{@team.title}
 						- if @member.id == @team.org_id

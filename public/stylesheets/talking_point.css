@@ -142,14 +142,14 @@ div.suggest_title {
     margin-left: 40px; }
 
 h2.home_title {
-  margin: 18px 41px 0px 41px; }
+  margin: 18px 0 0px 0; }
   h2.home_title a {
     font-size: 0.6em;
     margin-left: 0px;
     font-weight: normal; }
 
 div.summary {
-  margin: -10px 41px 20px 41px;
+  margin: -10px 0 20px 0;
   font-size: 1.12em; }
 
 div.summary.collapse {
@@ -1371,8 +1371,8 @@ div#visual_help {
 
 div.summary.text {
   float: left;
-  width: 420px;
-  margin: 8px 16px 0 41px; }
+  width: 460px;
+  margin: 8px 16px 0 0; }
   div.summary.text p {
     margin: 0 0 12px 0; }
 
@@ -1394,6 +1394,20 @@ div.proposal_tools {
       padding-bottom: 8px;
       padding-right: 10px;
       padding-left: 30px; }
+    div.proposal_tools ul li.organizer {
+      position: relative;
+      padding-left: 0; }
+      div.proposal_tools ul li.organizer div.member {
+        position: relative; }
+        div.proposal_tools ul li.organizer div.member p.sug {
+          margin: -8px 0 4px 0;
+          color: #999999; }
+        div.proposal_tools ul li.organizer div.member div.name {
+          position: absolute;
+          top: 16px;
+          left: 46px; }
+          div.proposal_tools ul li.organizer div.member div.name p {
+            margin: 0; }
     div.proposal_tools ul li.invite {
       background: url(/images/tools/invite_friend.gif) no-repeat 0px 0px; }
     div.proposal_tools ul li.follow {
