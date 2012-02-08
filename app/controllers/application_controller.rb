@@ -56,12 +56,35 @@ class ApplicationController < ActionController::Base
 
   def sign_in_post
     logger.debug "sign_in_post"
-    if params[:sign_in] || params[:email].length > 0 && params[:password].length > 0
+    if params[:sign_in]
       process_sign_in_post
-    elsif params[:email_join].length > 0
+    elsif params[:join]
       process_join_post
+    elsif params['reset']
+      process_reset_post
     else
       process_sign_in_post
+    end
+  end
+
+  def process_reset_post
+    logger.debug "process_reset_post for #{params[:email_reset]}"
+
+    member = Member.find_by_email(params[:email_reset].downcase)
+    respond_to do |format|
+      if member.nil?
+        format.js { render 'sign_in/inpage_reset_password_not_found' }
+      else
+        # create and store a code for the member
+        mcode = MemberLookupCode.get_code(member.id, {:scenario=>'reset password'})
+        logger.debug "generate an email to #{member.email} with code: #{mcode}"
+        # generate an email to the member
+
+        MemberMailer.delay.reset_password(member,mcode, request.env["HTTP_HOST"]) 
+
+        format.html {render 'sign_in/reset_password_sent' }
+        format.js { render 'sign_in/reset_password_sent' }
+      end
     end
   end
   
@@ -70,7 +93,13 @@ class ApplicationController < ActionController::Base
     flash.keep
     respond_to do |format|
       if Member.email_in_use(params[:email_join])
-        format.js { render :template => "sign_in/join_email_address_in_use", :locals => {:email=>params[:email]} }
+        format.js { 
+          if params[:in_right_panel]
+            render :template => "sign_in/inpage_join_email_address_in_use", :locals => {:email=>params[:email_join]}
+          else
+            render :template => "sign_in/join_email_address_in_use", :locals => {:email=>params[:email]}
+          end
+          }
         format.html {render :template=> 'sign_in/join_email_address_in_use', :layout=>'plan', :locals => {:email=>params[:email]} }
       else  
         format.js { render :template => "sign_in/join_email_address_ok", :locals => {:email=>params[:email]} }

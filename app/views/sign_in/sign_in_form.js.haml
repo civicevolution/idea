@@ -1,4 +1,4 @@
-- if params[:in_accordion] && flash[:notice]
+- if params[:in_right_panel] && flash[:notice]
 	$('div#sign_in_form').find('p.error').remove();
 	$('div#sign_in_form').prepend("<p class='error'>#{flash[:notice]}</p>")
 - else

@@ -280,7 +280,27 @@ $('div.cta1 a.cta').die('click').live('click',
 
 $('form.signin_form').live('ajax:beforeSend', 
 	function(){
-		$(this).closest('div.tab_content').find('p.error').remove();
+		$(this).closest('div.member').find('p.error').remove();
+	}
+);
+
+$('a.tgl_sign_in').die('click').live('click',
+	function(){
+		var link = $(this);
+		link.closest('div.member').find('p.error').remove();
+		console.log("change form to " + link.attr('id') )
+	  switch(link.attr('id')){
+	  	case 'reset':
+	  		link.closest('table').find('tr').hide().end().find('tr.reset').show();
+	  		break;
+	  	case 'signin':
+	  		link.closest('table').find('tr').hide().end().find('tr.signin').show();
+	  		break;
+	  	case 'signup':
+	  		link.closest('table').find('tr').hide().end().find('tr.signup').show();
+	  		break;
+	  }
+		return false;
 	}
 );
 

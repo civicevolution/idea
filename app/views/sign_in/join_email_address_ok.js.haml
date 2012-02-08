@@ -1,12 +1,32 @@
-:plain
-	var form = $("#{escape_javascript(
-		render( :template => 'sign_in/join_email_address_ok.html')
-	)}");
-	form.find('form').attr('data-remote','true');
+- if params[:in_right_panel]
+	:plain
+		var form = $("#{escape_javascript(
+			render( :template => 'sign_in/join_email_address_ok.html')
+		)}");
+		form.find('form').attr('data-remote','true');
 	
-	$('div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
-	$('div#join_email_address_ok a.cancel').die('click').live('click', 
-		function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
-	);
+		$('div#join_email_address_ok a.cancel').die('click').live('click', 
+			function(){	
+				$(this).closest('div.ui-dialog').dialog('destroy').remove(); 
+				$('div#sign_in_form p.error').remove();
+				return false; 
+			}
+		);
 	
-	var dialog = form.dialog( {title : 'You have temporary access to this site', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} });
+		var dialog = form.dialog( {title : 'You have temporary access to this site', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+		
+		$('div#sign_in_form').prepend("<p class='error'>You have temporary access as #{params[:email_join]}</p>")
+		
+- else
+	:plain
+		var form = $("#{escape_javascript(
+			render( :template => 'sign_in/join_email_address_ok.html')
+		)}");
+		form.find('form').attr('data-remote','true');
+	
+		$('div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
+		$('div#join_email_address_ok a.cancel').die('click').live('click', 
+			function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
+		);
+	
+		var dialog = form.dialog( {title : 'You have temporary access to this site', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} });

@@ -1171,6 +1171,8 @@ div.right_master div.member {
     position: absolute;
     top: 10px;
     right: 10px; }
+  div.right_master div.member tr.signup, div.right_master div.member tr.reset {
+    display: none; }
   div.right_master div.member td.input input {
     width: 150px; }
   div.right_master div.member td.lbl {
@@ -1178,8 +1180,9 @@ div.right_master div.member {
     font-weight: bold;
     text-align: right;
     color: #bbbbbb;
-    width: 50px;
     padding-right: 10px; }
+  div.right_master div.member td.lbl.ta_left {
+    text-align: left; }
 div.right_master div.suggested_action div.suggestion {
   position: relative;
   padding-left: 40px; }
@@ -1249,6 +1252,10 @@ div.right_master div.activity_chat form#chat_form {
   padding: 4px 0; }
   div.right_master div.activity_chat form#chat_form input[type=text] {
     width: 240px; }
+div.right_master td.button {
+  padding: 6px 0; }
+div.right_master td.stay {
+  padding-top: 6px; }
 
 div.talking_points_page {
   padding-top: 0px; }
@@ -1383,6 +1390,7 @@ div.resources {
 div.proposal_tools {
   float: left;
   margin-top: 8px;
+  margin-bottom: 20px;
   width: 140px;
   border: 1px solid #dddddd; }
   div.proposal_tools ul {

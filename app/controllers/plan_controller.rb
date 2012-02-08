@@ -1,6 +1,6 @@
 class PlanController < ApplicationController
   layout "plan", :only => [:suggest_new_idea, :review_proposal_idea]
-  skip_before_filter :authorize, :only => [ :index, :summary, :suggest_new_idea, :new_content, :get_templates, :test, :checklist]
+  skip_before_filter :authorize, :only => [ :index, :summary, :suggest_new_idea, :get_templates, :test, :checklist]
 
   def test
     render :template=>'plan/test', :layout=> 'test'

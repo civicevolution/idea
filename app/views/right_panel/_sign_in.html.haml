@@ -3,31 +3,63 @@
 		%p.error= flash[:notice]
 
 	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form', :remote=>true}) do
-		= hidden_field_tag :in_accordion, 1
+		= hidden_field_tag :in_right_panel, 1
 		%table{:border=>0, :cellspacing=>0}
-			%tr
+			%tr.signin
 				%td.lbl
 					%label{:for=>"email"} Email:
-				%td.input
+				%td.input{:colspan=>2}
 					= text_field_tag :email, params[:email], :tabindex => 1
 
-			%tr
+			%tr.signin
 				%td.lbl
 					%label{:for=>"password"} Password:
-				%td.input
+				%td.input{:colspan=>2}
 					= password_field_tag :password, params[:password], :tabindex => 2
-				
-			%tr
+					= link_to 'Forgot?', {}, {:class=>'tgl_sign_in', :id=>'reset', :rel=>'nofollow', :tabindex => 0}
+			%tr.signin
 				%td
-				%td
+				%td.stay{:colspan=>2}
 					= check_box_tag 'stay_signed_in', 'stay_signed_in', false, :onclick => 'warn_sign_in(this)', :tabindex => 3
 					Stay signed in 
 					%p.signin_warn.hide
 						We'll keep you signed in
 						%br
 						Don't use this on a public computer
-			%tr
+			%tr.signin
 				%td
-				%td
+				%td.button
 					= submit_tag "Sign In", :name=>'sign_in', :tabindex => 4, :disable_with => 'Submitting…'
-					= link_to 'I forgot my password', reset_password_form_path(:email=>params[:email]), {:class=>'reset_password', :rel=>'nofollow', :tabindex => 0}
+					
+			%tr.signin
+				%td.lbl.ta_left{:colspan=>3}
+					New to CivicEvolution?
+					= link_to 'Sign up now', {}, {:class=>'tgl_sign_in', :id=>'signup', :rel=>'nofollow', :tabindex => 0}
+					
+			%tr.signup
+				%td.lbl
+					%label{:for=>"email_join"} Email:
+				%td.input{:colspan=>2}
+					= text_field_tag :email_join, params[:email_join], :tabindex => 1
+		
+			%tr.signup
+				%td
+				%td.button
+					= submit_tag "Create my account", :name=>'join', :tabindex => 4, :disable_with => 'Submitting…'
+				
+			%tr.signup
+				%td.lbl.ta_left{:colspan=>3}
+					Already have an account?
+					= link_to 'Sign in now', {}, {:class=>'tgl_sign_in', :id=>'signin', :rel=>'nofollow', :tabindex => 0}
+					
+			%tr.reset	
+				%td.lbl
+					%label{:for=>"email_reset"} Email:
+				%td.input{:colspan=>2}
+					= text_field_tag :email_reset, params[:email_reset], :tabindex => 1
+
+			%tr.reset
+				%td
+				%td.button
+					= submit_tag "Reset password", :name=>'reset', :tabindex => 4, :disable_with => 'Submitting…'
+					= link_to 'Cancel', {}, {:class=>'tgl_sign_in', :id=>'signin', :rel=>'nofollow', :tabindex => 0}

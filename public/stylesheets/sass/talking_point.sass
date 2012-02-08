@@ -1427,6 +1427,8 @@ div.right_master
 			position: absolute
 			top: 10px
 			right: 10px
+		tr.signup, tr.reset
+			display: none
 		td.input input
 			width: 150px
 		td.lbl
@@ -1434,8 +1436,9 @@ div.right_master
 			font-weight: bold
 			text-align: right
 			color: $right_panel_grey
-			width: 50px
 			padding-right: 10px
+		td.lbl.ta_left
+			text-align: left
 	div.suggested_action
 		div.suggestion
 			position: relative
@@ -1508,6 +1511,10 @@ div.right_master
 			padding: 4px 0
 			input[type=text]
 				width: 240px
+	td.button 
+		padding: 6px 0
+	td.stay
+		padding-top: 6px
 		
 		
 div.talking_points_page
@@ -1649,6 +1656,7 @@ div.resources
 div.proposal_tools			
 	float: left
 	margin-top: 8px
+	margin-bottom: 20px
 	width: 140px
 	border: 1px solid #ddd
 	ul
