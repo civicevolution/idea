@@ -1,10 +1,10 @@
 %div#notification_acknowledgment
-	%h3 Your notification request has been saved
+	%p Your notification request has been saved
 
-	%p 
+	%p.link
 		Return to 
 		= link_to "settings", notification_settings_form_path( team_id ), {:class=>'settings'}
 	
-	%p 
+	%p.link 
 		Return to 
 		= link_to "proposal", plan_path( team_id ), {:class=>'cancel'}

@@ -10,7 +10,7 @@
 	
 	cancel_link = $('div#notification_acknowledgment a.cancel');
 	
-	$('div#notification_acknowledgment p').remove();
+	$('div#notification_acknowledgment p.link').remove();
 	$('div#notification_acknowledgment').append(cancel_link);
 	
 	$('div#notification_acknowledgment a.cancel').html('Close').die('click').live('click',
