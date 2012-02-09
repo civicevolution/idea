@@ -356,12 +356,9 @@ table.tablesorter th {
 div#invite_friends {
   max-width: 500px;
   font-size: 1em; }
-  div#invite_friends form {
-    font-size: 0.8em; }
-    div#invite_friends form label p.instr {
-      color: #aaaaaa;
-      font-size: 0.8em;
-      font-style: normal; }
+  div#invite_friends form label p.instr {
+    color: #aaaaaa;
+    font-style: normal; }
 
 ul.teams_list li {
   margin-bottom: 8px; }

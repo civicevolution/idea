@@ -1,0 +1,322 @@
+# Format notes
+# haml string formatting is critical
+#   Always follow these two examples
+#      haml: |
+#        %p We need to hear from you!
+#
+#      haml: |
+#        %p
+#          We need to hear from you. Please #{link_to 'rate', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}}
+#          these talking points and #{link_to 'tell us', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}} what you think
+#
+#   Always use a pipe '|' after haml:
+#   Always indent multiline haml nodes
+# Remove trailing whitespace
+# Replace tabs with 2 spaces
+
+help:
+  Think_together_to_act_together:
+    opt1:
+      init_id: all
+      title: Think together to act together
+      haml: |
+        %p This help page will show you how  CivicEvolution helps you work together with others to create a community written and supported plan for change in your community
+        %p The Alliance Governance Group has committed to review every proposal for change that meets its guidelines. Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
+        %ul
+        	%li What is the change you want to make?
+        	%li Why is this important to your community?
+        	%li How can this change be made?
+        	%li Where do we start?
+        %p Your proposal also has to be endorsed by at least 10 members of the community. You can see the full checklist near the end of this help page and at the end of each proposal.
+        %p 
+        %p As you'll notice below, each question is answered with a set of talking points.
+        %ul
+        	%li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated. 
+        	%li Talking points capture the essence of your community’s conversations and ideas about each of the questions.
+        	%li Talking points are always displayed anonymously.
+        = image_tag 'vhelp1/cta_rate_read.jpg'
+        	
+  Example_of_a_proposal:      	
+    opt1:  	
+      init_id: [1,2]
+      title: Example of a proposal
+      haml: |
+        %p Here is an example of a proposal written by your community
+        = image_tag 'vhelp1/full_proposal.gif'
+    
+    opt1:  	
+      init_id: 5
+      title: Example of a proposal
+      haml: |
+        = image_tag 'vhelp1/full_proposal.gif'
+    
+    opt1:  	
+      init_id: all
+      title: Example of a proposal
+      haml: |
+        = image_tag 'vhelp1/full_proposal.gif'
+
+  Get_started_by_suggesting_your_own_idea_for_change:
+    opt1:
+      init_id: 1
+      title: Get started by suggesting your own idea for change
+      haml: |
+        %p Anyone can suggest an idea for change in the community. 
+        %ul
+        	%li Go to the 2029 and Beyond home page at http://cgg.civicevolution.org and click the "Suggest a proposal" link.
+        	%li Please check the ideas listed on the home page to see if someone else has already proposed a similar idea.
+        	%li All new ideas have 4 weeks to get up-to-speed, so please, invite your friends and others right away.
+        = image_tag 'vhelp1/suggest_idea_2029.jpg'
+    
+    opt2:
+      init_id: 2
+      title: Get started by suggesting your own idea for change
+      haml: |
+        %p Anyone can suggest an idea for change in the community. 
+        %ul
+        	%li Go to the 2029 and Beyond home page at http://2029.civicevolution.org and click the "Suggest a proposal" link.
+        	%li Please check the ideas listed on the home page to see if someone else has already proposed a similar idea.
+        	%li All new ideas have 4 weeks to get up-to-speed, so please, invite your friends and others right away.
+        = image_tag 'vhelp1/suggest_idea_2029.jpg'
+    
+    opt3:
+      init_id: 5
+      title: Get started by suggesting your own idea for change
+      haml: |
+        %p Anyone can suggest an idea for change in the community. 
+        %ul
+        	%li Go to the Skyline CivicEvolution home page at http://skyline.civicevolution.org and click the "Suggest a proposal" link.
+        	%li Please check the ideas listed on the home page to see if someone else has already proposed a similar idea.
+        	%li All new ideas have 4 weeks to get up-to-speed, so please, invite your friends and others right away.
+        = image_tag 'vhelp1/suggest_idea_skyline.jpg'
+    
+    opt4:
+      init_id: all
+      title: Get started by suggesting your own idea for change
+      haml: |
+        %p Anyone can suggest an idea for change in the community. 
+        %ul
+        	%li Go to the CivicEvolution home page at http://demo.civicevolution.org and click the "Suggest a proposal" link.
+        	%li Please check the ideas listed on the home page to see if someone else has already proposed a similar idea.
+        	%li All new ideas have 4 weeks to get up-to-speed, so please, invite your friends and others right away.
+        = image_tag 'vhelp1/suggest_idea_2029.jpg'
+  
+
+
+  Help_develop_proposal:
+    opt1:
+      init_id: all
+      title: Help develop a proposal
+      haml: |
+        %p Work together with your friends and community members to develop a community written and supported proposal for constructive change.
+        %p Helping is easy and rewarding
+        %ol
+          %li
+            Select a proposal from the list on the left side of the home page
+            and click the link that says
+            %b Help us make a difference
+          %li You'll see the questions and talking points that make up the proposal
+          %li Click one of the questions to see the worksheet where you can work with others to:
+        %ul
+          %li Discuss the question
+          %li Rate the talking points
+          %li Select up to 5 talking points you most prefer
+          %li Discuss specific talking points
+          %li Suggest a talking point
+          %li Edit the talking points created by others
+          %li This process of suggesting, discussing, revising, rating, and preferring helps us to think together
+          %li Your participation will be convenient and productive with email notifications and the highlighting of new talking points and comments
+        %p
+          Click the link that says
+          %b Help us make a difference
+          under a proposal that interests you.
+        %h3 We need to know what you think!
+        %p You can also watch our video by clicking the Video tab above
+
+  The_question_worksheet:
+    opt1:
+      init_id: 3
+      title: The question worksheet For Demo
+      haml: |
+        %p You work together in the question worksheet to answer each question by discussing it and capturing the best ideas as talking points. Click on the question link to open the question worksheet.
+        = image_tag 'vhelp1/reg_question_worksheet.gif'
+    
+    opt2:
+      init_id: all
+      title: The question worksheet
+      haml: |
+        %p You work together in the question worksheet to answer each question by discussing it and capturing the best ideas as talking points. Click on the question link to open the question worksheet.
+        = image_tag 'vhelp1/reg_question_worksheet.gif'
+
+  Adding_a_new_talking_point:
+    opt1:
+      init_id: all
+      title: Adding a new talking point
+      haml: |
+        %p Anyone can add a talking point. Remember, a talking point states a single idea to be rated and it will be displayed anonymously.
+        = image_tag 'vhelp1/tp_form_text.jpg'
+
+  Rating_talking_points:
+    opt1:
+      init_id: all
+      title: Rating talking points
+      haml: |
+        %p You rate each talking point to show how acceptable or unacceptable it is to you. Rating each talking point is important because it helps you identify which ideas are most acceptable to the community. 
+        %p Red and orange bars indicate concern and greenish bars indicate acceptance. The graph shows the relative distribution of ratings so it is important to consider the total number of ratings shown below the graph.
+        = image_tag 'vhelp1/rate_3tp.gif'
+
+  Help_others_understand_your_concerns:
+    opt1:
+      init_id: all
+      title: Help others understand your concerns
+      haml: |
+        %p When you rate a TP as unacceptable or neutral, you'll be asked to share why in a comment. Your comments help others understand your concerns and hopefully address them.
+        = image_tag 'vhelp1/neutral_comment.gif'
+
+  Selecting_your_favorite_talking_points:
+    opt1:
+      init_id: all
+      title: Selecting your favorite talking points
+      haml: |
+        %p Just as important as rating, we need to know which TP are your favorites. Select your favorite talking points by clicking the star on the right. If a talking point has a solid star, it is one of your favorites. If the star is an outline, it is not your favorite. You can select up to 5 favorite talking points for each question and you can change your selection at any time.
+        = image_tag 'vhelp1/select_favorite.gif'
+
+  Keep_your_favorites_fresh:
+    opt1:
+      init_id: all
+      title: Keep your favorites fresh
+      haml: |
+        %p Don't stop looking for favorites after you select 5. You can simply replace an old favorite with a newer one. When you have 6 favorites, we'll list your favorites for this question and let you remove one of them. It is important that you keep your list of favorites up-to-date.
+        = image_tag 'vhelp1/fav_remove_1_tp.gif'
+
+  Keeping_up-to-date:
+    opt1:
+      init_id: all
+      title: Keeping up-to-date
+      haml: |
+        %p Each time you return we will show you the new items that have been added since your last visit so you can stay up-to-date. Under each question you will see clearly marked links that will show you what is new.
+        %p You can choose to receive an email notification asking you to return to the site when new comments and talking points are ready to be reviewed. This reminder will save you time and keep you engaged with the other participants.
+        = image_tag 'vhelp1/proposal_cta.gif'
+
+  New_content_worksheet_view:
+    opt1:
+      init_id: all
+      title: New content worksheet view
+      haml: |
+        %p Click the link to open the question worksheet where you'll see all of the talking points and comments that are new or updated since your last visit. You should rate the new talking points and consider if they are your favorite. You should also read the new comments.
+        = image_tag 'vhelp1/new_question_worksheet2.gif'
+
+  Recognizing_the_best_talking_points:
+    opt1:
+      init_id: all
+      title: Recognizing the best talking points
+      haml: |
+        %p The purpose of rating and selecting favorites is to identify the ideas that are acceptable to and popular with the participants and the community. But the order of popularity doesn't necessarily lead to the best and most clear answers.
+        = image_tag 'vhelp1/tp_popularity.gif'
+
+  Select_talking_points_for_the_final_answer:
+    opt1:
+      init_id: all
+      title: Select talking points for the final answer
+      haml: |
+        %p The talking points that appear on the main page under the question, as shown below, don't necessarily match the list of popular talking points shown above. The talking points selected to appear under the question on the main page are the official answer to the question and they are selected from the complete set of talking points displayed in the worksheet.
+        = image_tag 'vhelp1/cta_rate_read.jpg'
+
+  Adjust_the_talking_points_in_the_final_answer:
+    opt1:
+      init_id: all
+      title: Adjust the talking points in the final answer
+      haml: |
+        %p Participants can select which talking points appear in the final answer and the order in which they appear. 
+        %ul
+        	%li You can drag talking points from the question worksheet into the selected list. 
+        	%li You can rearrange the talking points in the selected list
+        	%li You can delete talking points from the selected list(Deleting it only removes it from the list, not from the question worksheet)
+        %p In the image below, you can see a talking point dragged from the worksheet on the left and dropped into the selected list in the top right.
+        %p Of course, the selected talking points should mirror the intentions of the participants as expressed by their ratings and favorites. Everyone should keep an eye on the selected list and compare it with the raw list of popular ideas to make sure it is a fair representation of the group's intentions
+        = image_tag 'vhelp1/drag_drop_tp2.jpg'
+
+  Edit_talking_point:
+    opt1:
+      init_id: all
+      title: Edit talking point
+      haml: |
+        %p In addition to creating the final list of ideas to answer each question, participants can edit the talking points to make them more clear and fix typos.
+        = image_tag 'vhelp1/edit_tp.gif'
+
+  Talking_point_edit_history:
+    opt1:
+      init_id: all
+      title: Talking point edit history
+      haml: |
+        %p Be respectful to the previous authors when you edit a TP. If you want to change the meaning of a TP, please enter your idea as a new talking point and let the group rate your new idea. All edits are recorded in the edit history for each talking point so you can see how an idea evolves
+        = image_tag 'vhelp1/edit_tp_history.gif'
+
+  Endorse_the_proposal:
+    opt1:
+      init_id: all
+      title: Endorse the proposal
+      haml: |
+        %p Participants and visitors can endorse the proposal at anytime. You'll need at least 10 endorsements for your proposal to qualify for review, so tell your friends and neighbors about your proposal and ask them to endorse it.
+        = image_tag 'vhelp1/endorsement_form.jpg'
+
+  Invite_your_friends:
+    opt1:
+      init_id: all
+      title: Invite your friends
+      haml: |
+        %p You should invite your friends, neighbors, and colleagues to help create and endorse this proposal. Your goal is to create a community written and supported proposal, so be sure to invite them.
+        = image_tag 'vhelp1/invite.gif'
+
+  Submit_proposal_for_review:
+    opt1:
+      init_id: all
+      title: Submit proposal for review
+      haml: |
+        %p When the proposal is completed and endorsed, it can be submitted for official review. We provide a checklist that helps you review your proposal and determine if it is ready for review by the Alliance Governance Group.
+        = image_tag 'vhelp1/submit_checklist.gif'
+
+  Suggested_actions:
+    opt1:
+      init_id: all
+      title: Suggested actions
+      haml: |
+        %p We keep you focused at all times by suggesting the most effective actions you should take to maximize your voice and influence. The suggested actions are displayed under each question as well as in this window on the right side which will update as you use the site. The "Show me how" link will give you tips about how to perform the suggested action.
+        = image_tag 'vhelp1/suggested_actions.jpg'
+
+  Points_levels_and_privileges:
+    opt1:
+      init_id: all
+      title: Points, levels, and privileges
+      haml: |
+        %p As you participate you will earn points for your actions in the proposal. As you earn more points you will graduate to higher levels that offer more privileges such as editing talking points, modifying the final answer list, and submitting the proposal for review. You can see how many points you've earned and how you compare with your teammates.
+        = image_tag 'vhelp1/leaderboard.jpg'
+
+  Your_proposals_progress:
+    opt1:
+      init_id: all
+      title: Your proposal's progress
+      haml: |
+        %p You can also see the progress of your proposal
+        = image_tag 'vhelp1/progress.jpg'
+
+  Chatting_and_working_together:
+    opt1:
+      init_id: all
+      title: Chatting and working together
+      haml: |
+        %p Solving community problems is a social activity so we make it easy to interact with others through chat and page updates so you can work together online at the same time. You can also see who is online at the same time with you.
+        = image_tag 'vhelp1/chat_w_msg.jpg'
+
+
+
+  Getting_help:
+    opt1:
+      init_id: all
+      title: Getting help
+      haml: |
+        %p
+          If you have any questions, or need any assistance, please 
+          = link_to "Contact us", request_help_path, { :remote => true}
+          email us at support@civicevolution.org
+

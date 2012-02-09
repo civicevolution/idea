@@ -212,7 +212,6 @@ div.resources {
     cursor: pointer; }
 
 div.proposal {
-  margin-top: 40px;
   padding-right: 20px; }
 
 div.endorsements {
@@ -859,8 +858,6 @@ div.talking_points_page p.show_more_link {
   margin: 0 0 0 40px; }
 div.talking_points_page div.intro div.resources {
   height: 50px; }
-div.talking_points_page div.proposal {
-  margin-top: 60px; }
 
 div.talking_point_body p.talking_point {
   font-size: 1em;
@@ -1469,3 +1466,6 @@ input.fav_button.saving {
 
 input.fav_button.saving.fav {
   background-position: 0 -180px; }
+
+body div.ui-dialog {
+  font-size: 0.8em; }

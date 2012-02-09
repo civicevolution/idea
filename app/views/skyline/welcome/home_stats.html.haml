@@ -22,7 +22,7 @@
 		%p The Skyline student community works together to answer each of the questions through a process of suggesting, discussing and rating talking points.
 		%p The goal is to reach agreement on which talking points and ideas are the most preferred and acceptable to most of our community.
 		%p 
-			These talking points help us to find and express our common ground and provide the foundation for your Skyline Students Step Up project proposal for improving our campus and community. #{link_to "Learn more", visual_help_path, {:remote=>true}}
+			These talking points help us to find and express our common ground and provide the foundation for your Skyline Students Step Up project proposal for improving our campus and community. #{link_to "Learn more", help_path, {:remote=>true}}
 			
 	%p.clear_both
 	
@@ -58,7 +58,7 @@
 			/AddThis Button END
 
 		%p.cta
-			= link_to "Learn more", visual_help_path, {:remote=>true}
+			= link_to "Learn more", help_path, {:remote=>true}
 			-#= link_to 'Please watch our intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 		
 	%p.clear_both					
@@ -137,5 +137,5 @@
 		%p= link_to 'Watch our Introduction to CivicEvolution', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 		%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
 			= image_tag 'vhelp/skyline_video_placeholder.jpg', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
-		%p= link_to "Visit our help page", visual_help_path, {:remote=>true}
+		%p= link_to "Visit our help page", help_path, {:remote=>true}
 

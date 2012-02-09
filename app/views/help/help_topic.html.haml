@@ -1,0 +1,7 @@
+%div.help_topic
+	- if title
+		%h3= title
+		= render :inline=> haml, :type => :haml
+		
+	- else
+		%p We could not find the information you requested, please try again

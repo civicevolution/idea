@@ -10,10 +10,10 @@ var console_log='';
 if(typeof console == 'undefined') console = {log:function(str){console_log += str + '\n' }};
 temp = {};
 
-console.log("Loading application.js");
+//console.log("Loading application.js");
 
 jQuery(function() {
-	console.log("********** Update support.borderRadius")
+	//console.log("********** Update support.borderRadius")
 	jQuery.support.borderRadius = false;
 	jQuery.each(['BorderRadius','borderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
 		if(document.body.style[this] !== undefined) jQuery.support.borderRadius = true;
@@ -127,20 +127,6 @@ function init_page(){
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 		//console.log("pretty photo is okay")
 	}catch(e){}
-	
-	// temp init of suggested action call to action show me link
-	$('div.suggested_action a.show_me').die('click').live('click',
-		function(){
-			console.log("show how to rate");
-			$.getScript('/visual_help',function(){
-				setTimeout( function(){$.scrollTo('h3.rating_talking_points',600)}, 1000)
-			});
-			return false;
-		}
-	);
-	
-	
-	
 	
 }
 

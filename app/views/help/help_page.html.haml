@@ -1,0 +1,134 @@
+%div.help_page
+	- content_for(:script) do
+		:javascript
+			$(function(){
+				//console.log("init toc links")
+				$('div.toc a').die('click').live('click',
+					function(){
+						var id = this.id
+						console.log("Show the help for " + id);
+						$('div.viewer').load('help_topic?id=' + id, function(){$('div.viewer').scrollTop(0)});
+						$('div.toc a').removeClass('selected');
+						$(this).addClass('selected');
+						
+						return false;
+					}
+				)
+				var win_height = $(window).height();
+				$('div.help_page').height( win_height - 20)
+				$('div.help_page').children('div').height( win_height - 102 );
+				$('div.help_page div.viewer').width( $('div.help_page').width() - 222);
+				
+				$('div.help_tabs').tabs();
+			});
+	%style
+		:sass
+			div.help_page
+				//border: 1px solid blue
+				position: relative
+				div.help_tabs > ul > li
+					font-size: 12px
+					a
+						padding: .2em 1em
+				p, ul, ol
+					width: 500px
+				li
+					margin-bottom: .4em
+				div.toc
+					border: 1px solid #ccc
+					width: 180px
+					margin-right: 20px
+					position: absolute
+					top: 30px
+					left: 0
+					a.selected
+						font-weight: bold
+					overflow: hidden
+					overflow-y: scroll
+					padding: 10px
+				div.viewer
+					border: 1px solid #ccc
+					width: auto
+					position: absolute
+					top: 30px
+					left: 200px
+					overflow: scroll
+					padding: 10px
+					img
+						border: 4px outset #EEE
+						padding: 10px
+						margin-bottom: 20px
+			div.ui-dialog div.ui-dialog-content		
+				padding: 0
+			div.ui-dialog-titlebar
+				a.close_help_dialog
+					position: absolute
+					right: 30px
+					top: 5px
+			div.help_intro
+				width: 500px
+					
+										
+	%h3.title CivicEvolution help page
+	%div.help_tabs
+		%ul
+			%li
+				%a{:href=>"#tab_help_introduction"} Introduction
+			%li
+				%a{:href=>"#tab_help_toc"} Table of Contents
+			%li
+				%a{:href=>"#tab_help_videos"} Videos
+			%li
+				%a{:href=>"#tab_help_contact_us"} Contact us
+				
+				
+		%div#tab_help_introduction
+			- if @member.first_name.nil?
+				%h2 You can help answer these questions
+			- else
+				%h2 #{@member.first_name}, you can help answer these questions
+			%ul
+				%li The answer to each question is provided by a set of talking points created by the participants. 
+				%li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated by each of us.
+				%li Talking points capture the essence of the participants' conversations and ideas about each of the questions.
+
+			%p
+				%b Click a question link 
+				to expose the worksheet where you can create, discuss and refine the talking points	
+
+			= image_tag 'vhelp1/reg_question_worksheet.gif'
+			%ul.worksheet
+				%li All of the talking points are listed in the worksheet, on the left, in order of participant preference
+				%li On the right is the set of talking points that have been hand selected and ordered to reflect the preferences of the group. 
+				%li The selected talking points will appear in the proposal to express an answer to this question.
+				%li Trusted participants are allowed to edit this set by selecting from the talking points in the worksheet and ordering them in the list
+				%li Everyone should discuss the question and its talking points
+				%li Anyone can suggest a talking point 
+				%li Everyone should rate the acceptability of the talking points and select their favorites
+				%li Trusted participants can also edit the talking points to incorporate improvements	
+			
+			
+			
+		%div#tab_help_toc
+			%div.toc
+				- toc.each_pair do |key,value|
+					%p= link_to value, {}, {:id=>"#{key}", :class=> (key == default_page[:id]) ? 'selected' : '' }
+
+	
+			%div.viewer
+				%h3= default_page[:title]
+				= render :inline=> default_page[:haml], :type => :haml
+		
+		%div#tab_help_videos
+			-#%div.videos	
+				%p= link_to 'Watch our Introduction to CivicEvolution', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
+				%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
+					= image_tag 'vhelp/2029_video_placeholder.jpg', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
+			
+			<iframe src="http://player.vimeo.com/video/29348381?title=0&amp;byline=0&amp;portrait=0" width="400" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><a href="http://vimeo.com/29348381">Introduction to CivicEvolution Talking Points</a> from <a href="http://vimeo.com/civicevolution">Brian Sullivan</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+			
+			
+
+		%div#tab_help_contact_us
+			= render :template=>'client_debug/request_help.html', :locals=>{:in_help=>'yes'}
+		

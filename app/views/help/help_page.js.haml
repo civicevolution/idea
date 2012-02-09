@@ -1,0 +1,42 @@
+:plain
+	$('div.help_page').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+	
+	var help = $("#{escape_javascript(
+		render( :template => 'help/help_page.html', :locals => { :inc_js => 'none', :toc => toc, :default_page => default_page} )
+	)}");
+	
+	help.find('h3.title').remove();
+	
+	var win_width = $(window).width();
+	var win_height = $(window).height();
+	var dialog = help.dialog( {title : 'CivicEvolution Help', draggable: false, resizable: false, modal : false, width: win_width-10, height: win_height-10, closeOnEscape: true, close: function(){$("body").css({ overflow: 'inherit' }); $(this).remove()}, open: function(){$("body").css({ overflow: 'hidden' }); $('a').blur();} });
+
+	var win_height = $(window).height();
+	dialog.height( win_height - 80)
+	dialog.find('div.toc, div.viewer, div#tab_help_toc').height( win_height - 172 );
+	dialog.find('div.viewer').width( $('div.help_page').width() - 236);
+	
+	dialog.find('div.help_tabs').tabs();
+	if(#{params[:topic] ? true : false}){
+		dialog.find('div.help_tabs').tabs('select',1);
+	}
+
+	$('<a class="close_help_dialog" href="#">Close</a>').insertBefore( dialog.parent().find('a.ui-dialog-titlebar-close') )
+	$('a.close_help_dialog').die('click').live('click',
+		function(){
+			$(this).parent().find('a.ui-dialog-titlebar-close').click()
+			return false;
+		}
+	);
+	$('div.help_page').find('div.toc a').die('click').live('click',
+		function(){
+			var id = this.id
+			console.log("Show the help for " + id);
+			$('div.viewer').load('/help/help_topic?id=' + id, function(){$('div.viewer').scrollTop(0)});
+			$('div.toc a').removeClass('selected');
+			$(this).addClass('selected');
+			
+			return false;
+		}
+	);
+	

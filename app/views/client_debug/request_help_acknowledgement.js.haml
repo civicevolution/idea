@@ -3,7 +3,11 @@
 		render( :template => 'client_debug/request_help_acknowledgement.html' )
 	)}");
 	response.dialog({title : 'Thank you', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} })
-	$('form.request_help').closest('div.ui-dialog').dialog('destroy').remove();
+	
+	var dialog = $('form.request_help').closest('div.ui-dialog')
+	if(dialog.find('div.help_page').size() == 0){
+		dialog.dialog('destroy').remove();
+	}
 	$('textarea#request_help_message').val('');
 	$('select#request_help_category').val(0);
 	

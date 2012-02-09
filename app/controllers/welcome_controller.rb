@@ -22,7 +22,7 @@ class WelcomeController < ApplicationController
     @init_teams = Team.proposal_stats(params[:_initiative_id])
      
     respond_to do |format|
-      format.html { render 'index', :layout=>'home' }
+      format.html { render 'index', :layout=>'home', :locals => { :inc_js => 'home'} }
       format.text { render :text => 'http://2029.civicevolution.org is only available as HTML' }
     end
   end
@@ -30,7 +30,7 @@ class WelcomeController < ApplicationController
   def home  
     logger.debug "Show the CE home page"
     respond_to do |format|
-      format.html { render :template=>'welcome/home1.html', :layout=>'civicevolution' }
+      format.html { render :template=>'welcome/home1.html', :layout=>'civicevolution', :locals => { :inc_js => 'none'} }
       format.text { render :text => 'http://civicevolution.org is only available as HTML' }
     end
   end

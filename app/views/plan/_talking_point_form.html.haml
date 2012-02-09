@@ -37,21 +37,7 @@
 	%div.instr
 		%p 
 			Clearly state a single idea to be rated. It must be less than 200 characters long and will be posted anonymously.
-			= link_to "Help", visual_help_path, {:remote=>true}
+			= link_to "Help", help_path(:topic=>'Adding_a_new_talking_point'), {:remote=>true}
 		
 	%p.clear_both
 	
-
--#%div.talking_point_form.disc.corner
-	%div.form
-		%h4 What do you think?
-		%p Discuss this question and the talking points listed above
-
-	%div.instr
-		%p 
-			Comments can be up to 1500 characters long and will be posted with your name.
-			= link_to "Help", visual_help_path, {:remote=>true}
-				
-	%p.clear_both
-	
-

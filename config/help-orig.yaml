@@ -1,0 +1,61 @@
+# Format notes
+# haml string formatting is critical
+#   Always follow these two examples
+#      haml: |
+#        %p We need to hear from you!
+#
+#      haml: |
+#        %p
+#          We need to hear from you. Please #{link_to 'rate', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}}
+#          these talking points and #{link_to 'tell us', question_worksheet_path(question), {:class=> 'display_worksheet', :remote => true}} what you think
+#
+#   Always use a pipe '|' after haml:
+#   Always indent multiline haml nodes
+# Remove trailing whitespace
+#
+help:
+  Adding_a_new_talking_point:
+    opt1:
+      init_id: [3]
+      title: Adding a new talking point (Demo-3)
+      haml: |
+        %p Anyone can add a talking point. Remember, a talking point states a single idea to be rated and it will be displayed anonymously.
+        %ul
+          %li )Demo_What is the change you want to make?
+          %li Why is this important to your community?
+          %li How can this change be made?
+          %li Where do we start?
+        = image_tag 'vhelp1/tp_form_text.jpg'
+    opt2:  
+      init_id: all
+      title: Adding a new talking point (ALL)
+      haml: |
+        %p Anyone can add a talking point. Remember, a talking point states a single idea to be rated and it will be displayed anonymously.
+        %ul
+          %li (ALL) What is the change you want to make?
+          %li Why is this important to your community?
+          %li How can this change be made?
+          %li Where do we start?
+        = image_tag 'vhelp1/tp_form_text.jpg'
+  Rating_talking_points:
+    opt1:
+      init_id: [1,2]
+      title: Rating talking points (CGG)
+      haml: |
+        %p You rate each talking point to show how acceptable or unacceptable it is to you. Rating each talking point is important because it helps you identify which ideas are most acceptable to the community.
+        %p Red and orange bars indicate concern and greenish bars indicate acceptance. The graph shows the relative distribution of ratings so it is important to consider the total number of ratings shown below the graph.
+        = image_tag 'vhelp1/rate_3tp.gif'
+    opt2:
+      init_id: [3]
+      title: Rating talking points (Demo)
+      haml: |
+        %p You rate each talking point to show how acceptable or unacceptable it is to you. Rating each talking point is important because it helps you identify which ideas are most acceptable to the community.
+        %p Red and orange bars indicate concern and greenish bars indicate acceptance. The graph shows the relative distribution of ratings so it is important to consider the total number of ratings shown below the graph.
+        = image_tag 'vhelp1/rate_3tp.gif'
+    opt3:
+      init_id: [5]
+      title: Rating talking points (Skyline)
+      haml: |
+        %p You rate each talking point to show how acceptable or unacceptable it is to you. Rating each talking point is important because it helps you identify which ideas are most acceptable to the community.
+        %p Red and orange bars indicate concern and greenish bars indicate acceptance. The graph shows the relative distribution of ratings so it is important to consider the total number of ratings shown below the graph.
+        = image_tag 'vhelp1/rate_3tp.gif'
