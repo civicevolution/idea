@@ -2,24 +2,35 @@
 	- content_for(:script) do
 		:javascript
 			$(function(){
-				//console.log("init toc links")
-				$('div.toc a').die('click').live('click',
+
+				var win_width = $(window).width();
+				var win_height = $(window).height();
+
+				var dialog = $('div.help_page');
+				dialog.height( win_height - 30)
+				//dialog.find('div.toc, div.viewer, div#tab_help_toc').height( win_height - 142 );
+				
+				dialog.find('div.help_tabs > div, div.toc, div.viewer').height( win_height - 142 );
+				
+				dialog.find('div.viewer').width( $('div.help_page').width() - 236);
+
+				dialog.find('div.help_tabs').tabs();
+				if(#{params[:topic] ? true : false}){
+					dialog.find('div.help_tabs').tabs('select',1);
+				}
+
+				$('div.help_page').find('div.toc a').die('click').live('click',
 					function(){
 						var id = this.id
 						console.log("Show the help for " + id);
-						$('div.viewer').load('help_topic?id=' + id, function(){$('div.viewer').scrollTop(0)});
+						$('div.viewer').load('/help/help_topic?id=' + id, function(){$('div.viewer').scrollTop(0)});
 						$('div.toc a').removeClass('selected');
 						$(this).addClass('selected');
-						
+
 						return false;
 					}
-				)
-				var win_height = $(window).height();
-				$('div.help_page').height( win_height - 20)
-				$('div.help_page').children('div').height( win_height - 102 );
-				$('div.help_page div.viewer').width( $('div.help_page').width() - 222);
+				);
 				
-				$('div.help_tabs').tabs();
 			});
 	%style
 		:sass
@@ -41,6 +52,22 @@
 					position: absolute
 					top: 30px
 					left: 0
+					ul
+						width: auto
+						padding-left: 0
+						li.header
+							font-weight: bold
+							font-size: 1.2em
+							border-bottom: 1px solid black
+						li
+							list-style: none
+							width: auto
+							margin-bottom: 8px
+							a
+								text-decoration: none
+								&:hover
+									text-decoration: underline
+						
 					a.selected
 						font-weight: bold
 					overflow: hidden
@@ -67,6 +94,8 @@
 					top: 5px
 			div.help_intro
 				width: 500px
+			div.scroll
+				overflow: scroll
 					
 										
 	%h3.title CivicEvolution help page
@@ -82,8 +111,8 @@
 				%a{:href=>"#tab_help_contact_us"} Contact us
 				
 				
-		%div#tab_help_introduction
-			- if @member.first_name.nil?
+		%div#tab_help_introduction.scroll
+			- if @member.nil? || @member.first_name.nil? || @member.id == 0
 				%h2 You can help answer these questions
 			- else
 				%h2 #{@member.first_name}, you can help answer these questions
@@ -111,15 +140,17 @@
 			
 		%div#tab_help_toc
 			%div.toc
-				- toc.each_pair do |key,value|
-					%p= link_to value, {}, {:id=>"#{key}", :class=> (key == default_page[:id]) ? 'selected' : '' }
+				%ul
+					%li.header Help topics
+					- toc.each_pair do |key,value|
+						%li= link_to value, {}, {:id=>"#{key}", :class=> (key == default_page[:id]) ? 'selected' : '' }
 
 	
 			%div.viewer
 				%h3= default_page[:title]
 				= render :inline=> default_page[:haml], :type => :haml
 		
-		%div#tab_help_videos
+		%div#tab_help_videos.scroll
 			-#%div.videos	
 				%p= link_to 'Watch our Introduction to CivicEvolution', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 				%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
@@ -129,6 +160,6 @@
 			
 			
 
-		%div#tab_help_contact_us
+		%div#tab_help_contact_us.scroll
 			= render :template=>'client_debug/request_help.html', :locals=>{:in_help=>'yes'}
 		

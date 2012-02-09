@@ -127,7 +127,6 @@ function init_page(){
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 		//console.log("pretty photo is okay")
 	}catch(e){}
-	
 }
 
 function tab_select(event,ui){
@@ -305,6 +304,7 @@ function getUrlVars()
 var params = getUrlVars();
 
 function activate_text_counters_grow(els, height){
+	if(!$('body').autoGrow) return;
 	height = height? height : 50
 	els.each(
 		function(){

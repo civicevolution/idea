@@ -125,6 +125,9 @@ body, p, ol, ul, td, textarea {
   -moz-border-radius: 10px;
   border-radius: 10px; }
 
+div.ui-dialog {
+  font-size: 0.8em; }
+
 div.page {
   width: 980px;
   margin: auto; }

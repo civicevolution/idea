@@ -17,7 +17,7 @@
 help:
   Think_together_to_act_together:
     opt1:
-      init_id: all
+      init_id: 5
       title: Think together to act together
       haml: |
         %p This help page will show you how  CivicEvolution helps you work together with others to create a community written and supported plan for change in your community
@@ -27,7 +27,27 @@ help:
         	%li Why is this important to your community?
         	%li How can this change be made?
         	%li Where do we start?
-        %p Your proposal also has to be endorsed by at least 10 members of the community. You can see the full checklist near the end of this help page and at the end of each proposal.
+        %p Your proposal also has to be endorsed by at least 10 members of the community. You can see the full checklist by clicking on Checklist in topics list on the left and at the end of each proposal.
+        %p 
+        %p As you'll notice below, each question is answered with a set of talking points.
+        %ul
+        	%li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated. 
+        	%li Talking points capture the essence of your community’s conversations and ideas about each of the questions.
+        	%li Talking points are always displayed anonymously.
+        = image_tag 'vhelp1/cta_rate_read.jpg'
+
+    opt2:
+      init_id: [1,2]
+      title: Think together to act together
+      haml: |
+        %p This help page will show you how  CivicEvolution helps you work together with others to create a community written and supported plan for change in your community
+        %p The Alliance Governance Group has committed to review every proposal for change that meets its guidelines. Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
+        %ul
+        	%li What is the change you want to make?
+        	%li Why is this important to your community?
+        	%li How can this change be made?
+        	%li Where do we start?
+        %p Your proposal also has to be endorsed by at least 10 members of the community. You can see the full checklist by clicking on Checklist in topics list on the left and at the end of each proposal.
         %p 
         %p As you'll notice below, each question is answered with a set of talking points.
         %ul
@@ -36,6 +56,27 @@ help:
         	%li Talking points are always displayed anonymously.
         = image_tag 'vhelp1/cta_rate_read.jpg'
         	
+    opt3:
+      init_id: all
+      title: Think together to act together
+      haml: |
+        %p This help page will show you how  CivicEvolution helps you work together with others to create a community written and supported plan for change in your community
+        %p Basically, you should work together with at least 3 other community members to develop a proposal that answers four questions: 
+        %ul
+        	%li What is the change you want to make?
+        	%li Why is this important to your community?
+        	%li How can this change be made?
+        	%li Where do we start?
+        %p Your proposal should also be endorsed by at least 10 members of the community. You can see the full checklist by clicking on Checklist in topics list on the left and at the end of each proposal.
+        %p 
+        %p As you'll notice below, each question is answered with a set of talking points.
+        %ul
+        	%li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated. 
+        	%li Talking points capture the essence of your community’s conversations and ideas about each of the questions.
+        	%li Talking points are always displayed anonymously.
+        = image_tag 'vhelp1/cta_rate_read.jpg'
+    
+    
   Example_of_a_proposal:      	
     opt1:  	
       init_id: [1,2]
@@ -268,12 +309,52 @@ help:
         %p You should invite your friends, neighbors, and colleagues to help create and endorse this proposal. Your goal is to create a community written and supported proposal, so be sure to invite them.
         = image_tag 'vhelp1/invite.gif'
 
+  Proposal_checklist:
+    opt1:
+      init_id: [1,2]
+      title: Proposal checklist
+      haml: |
+        %p When you think your proposal is complete, you should consult the proposal checklist that helps you review your proposal and determine if it is ready for review by the Alliance Governance Group.
+        = image_tag 'vhelp1/submit_checklist.gif'
+    
+    opt2:
+      init_id: 5
+      title: Proposal checklist
+      haml: |
+        %p When you think your proposal is complete, you should consult the proposal checklist that helps you review your proposal and determine if it is ready for review.
+        = image_tag 'vhelp1/submit_checklist.gif'
+    
+    opt3:
+      init_id: all
+      title: Proposal checklist
+      haml: |
+        %p When you think your proposal is complete, you should consult the proposal checklist that helps you review your proposal and determine if it is ready for review.
+        = image_tag 'vhelp1/submit_checklist.gif'
+  
+
   Submit_proposal_for_review:
     opt1:
+      init_id: [1,2]
+      title: Submit proposal for review
+      haml: |
+        %p When the proposal is completed and endorsed, and you have consulted the checklist, it can be submitted for official review. 
+        %p Open the checklist with the link at the bottom of the proposal page and click the submit link. Your proposal will be forwarded for review by the Alliance Governance Group.
+        = image_tag 'vhelp1/submit_checklist.gif'
+    
+    opt2:
+      init_id: 5
+      title: Submit proposal for review
+      haml: |
+        %p When the proposal is completed and endorsed, and you have consulted the checklist, it can be submitted for official review. 
+        %p Open the checklist with the link at the bottom of the proposal page and click the submit link. Your proposal will be forwarded for review.
+        = image_tag 'vhelp1/submit_checklist.gif'
+    
+    opt3:
       init_id: all
       title: Submit proposal for review
       haml: |
-        %p When the proposal is completed and endorsed, it can be submitted for official review. We provide a checklist that helps you review your proposal and determine if it is ready for review by the Alliance Governance Group.
+        %p When the proposal is completed and endorsed, and you have consulted the checklist, it can be submitted for official review. 
+        %p Open the checklist with the link at the bottom of the proposal page and click the submit link. Your proposal will be forwarded for review.
         = image_tag 'vhelp1/submit_checklist.gif'
 
   Suggested_actions:

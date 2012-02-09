@@ -9,9 +9,8 @@
 	
 	var win_width = $(window).width();
 	var win_height = $(window).height();
-	var dialog = help.dialog( {title : 'CivicEvolution Help', draggable: false, resizable: false, modal : false, width: win_width-10, height: win_height-10, closeOnEscape: true, close: function(){$("body").css({ overflow: 'inherit' }); $(this).remove()}, open: function(){$("body").css({ overflow: 'hidden' }); $('a').blur();} });
+	var dialog = help.dialog( {title : 'CivicEvolution Help', draggable: false, resizable: false, modal : true, width: win_width-10, height: win_height-10, closeOnEscape: true, close: function(){$("body").css({ overflow: 'inherit' }); $(this).remove()}, open: function(){$("body").css({ overflow: 'hidden' }); $('a').blur();} });
 
-	var win_height = $(window).height();
 	dialog.height( win_height - 80)
 	dialog.find('div.toc, div.viewer, div#tab_help_toc').height( win_height - 172 );
 	dialog.find('div.viewer').width( $('div.help_page').width() - 236);
