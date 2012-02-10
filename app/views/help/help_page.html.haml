@@ -40,6 +40,8 @@
 				div.help_tabs
 					.ui-tabs-panel
 						padding: 0
+					ul
+						width: 100%
 				p, ul, ol
 					width: 500px
 				li
@@ -127,11 +129,10 @@
 				%p= link_to 'Watch our Introduction to CivicEvolution', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 				%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
 					= image_tag 'vhelp/2029_video_placeholder.jpg', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
-			Videos
-			<iframe src="http://player.vimeo.com/video/29348381?title=0&amp;byline=0&amp;portrait=0" width="400" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><a href="http://vimeo.com/29348381">Introduction to CivicEvolution Talking Points</a> from <a href="http://vimeo.com/civicevolution">Brian Sullivan</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
+			%p Introductory video
 			
+			<object width="700" height="595"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=29348381&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00adef&amp;fullscreen=1&amp;autoplay=0&amp;loop=0" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=29348381&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00adef&amp;fullscreen=1&amp;autoplay=0&amp;loop=0" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="700" height="595"></embed></object>
 			
-
 		%div#tab_help_contact_us.scroll
 			= render :template=>'client_debug/request_help.html', :locals=>{:in_help=>'yes'}
 		
