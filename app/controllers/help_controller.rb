@@ -18,7 +18,6 @@ class HelpController < ApplicationController
       end
     end
     
-    
     default_page = {:id => params[:topic] || 'Think_together_to_act_together'}
     conf['help'][ default_page[:id] ].each_value do |option|
       if (option['init_id'] == 'all') || ([ option['init_id'] ].flatten.include? init_id)
@@ -28,7 +27,16 @@ class HelpController < ApplicationController
       end
     end
     
-    render :template=>'help/help_page', :layout => 'plan', :locals => { :inc_js => 'none', :toc => toc, :default_page => default_page}
+    introduction_haml = 'Need to make introduction'
+    conf['help']['Introduction'].each_value do |option|
+      if (option['init_id'] == 'all') || ([ option['init_id'] ].flatten.include? init_id)
+        introduction_haml = option['haml']
+        break
+      end
+    end
+    
+    render :template=>'help/help_page', :layout => 'plan', 
+      :locals => { :inc_js => 'none', :toc => toc, :default_page => default_page, :introduction_haml => introduction_haml}
     
   end
     

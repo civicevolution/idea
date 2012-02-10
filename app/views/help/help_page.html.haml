@@ -7,12 +7,10 @@
 				var win_height = $(window).height();
 
 				var dialog = $('div.help_page');
-				dialog.height( win_height - 30)
-				//dialog.find('div.toc, div.viewer, div#tab_help_toc').height( win_height - 142 );
-				
-				dialog.find('div.help_tabs > div, div.toc, div.viewer').height( win_height - 142 );
-				
-				dialog.find('div.viewer').width( $('div.help_page').width() - 236);
+				$('div.help_tabs').height( win_height - 80)
+				dialog.find('div.help_tabs > div').height( win_height - 112 );
+				dialog.find('div.toc, div.viewer').height( win_height - 130 );
+				dialog.find('div.viewer').width( $('div.help_page').width() - $('div.toc').width() - 60 );
 
 				dialog.find('div.help_tabs').tabs();
 				if(#{params[:topic] ? true : false}){
@@ -22,7 +20,6 @@
 				$('div.help_page').find('div.toc a').die('click').live('click',
 					function(){
 						var id = this.id
-						console.log("Show the help for " + id);
 						$('div.viewer').load('/help/help_topic?id=' + id, function(){$('div.viewer').scrollTop(0)});
 						$('div.toc a').removeClass('selected');
 						$(this).addClass('selected');
@@ -35,12 +32,14 @@
 	%style
 		:sass
 			div.help_page
-				//border: 1px solid blue
 				position: relative
 				div.help_tabs > ul > li
 					font-size: 12px
 					a
 						padding: .2em 1em
+				div.help_tabs
+					.ui-tabs-panel
+						padding: 0
 				p, ul, ol
 					width: 500px
 				li
@@ -48,10 +47,7 @@
 				div.toc
 					border: 1px solid #ccc
 					width: 180px
-					margin-right: 20px
-					position: absolute
-					top: 30px
-					left: 0
+					float: left
 					ul
 						width: auto
 						padding-left: 0
@@ -74,11 +70,9 @@
 					overflow-y: scroll
 					padding: 10px
 				div.viewer
+					float: left
 					border: 1px solid #ccc
 					width: auto
-					position: absolute
-					top: 30px
-					left: 200px
 					overflow: scroll
 					padding: 10px
 					img
@@ -110,52 +104,30 @@
 			%li
 				%a{:href=>"#tab_help_contact_us"} Contact us
 				
-				
-		%div#tab_help_introduction.scroll
-			- if @member.nil? || @member.first_name.nil? || @member.id == 0
-				%h2 You can help answer these questions
-			- else
-				%h2 #{@member.first_name}, you can help answer these questions
-			%ul
-				%li The answer to each question is provided by a set of talking points created by the participants. 
-				%li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated by each of us.
-				%li Talking points capture the essence of the participants' conversations and ideas about each of the questions.
-
-			%p
-				%b Click a question link 
-				to expose the worksheet where you can create, discuss and refine the talking points	
-
-			= image_tag 'vhelp1/reg_question_worksheet.gif'
-			%ul.worksheet
-				%li All of the talking points are listed in the worksheet, on the left, in order of participant preference
-				%li On the right is the set of talking points that have been hand selected and ordered to reflect the preferences of the group. 
-				%li The selected talking points will appear in the proposal to express an answer to this question.
-				%li Trusted participants are allowed to edit this set by selecting from the talking points in the worksheet and ordering them in the list
-				%li Everyone should discuss the question and its talking points
-				%li Anyone can suggest a talking point 
-				%li Everyone should rate the acceptability of the talking points and select their favorites
-				%li Trusted participants can also edit the talking points to incorporate improvements	
-			
-			
-			
 		%div#tab_help_toc
 			%div.toc
 				%ul
 					%li.header Help topics
 					- toc.each_pair do |key,value|
-						%li= link_to value, {}, {:id=>"#{key}", :class=> (key == default_page[:id]) ? 'selected' : '' }
+						%li= link_to value, help_path(:topic=>key), {:id=>"#{key}", :class=> (key == default_page[:id]) ? 'selected' : '' }
 
 	
 			%div.viewer
 				%h3= default_page[:title]
 				= render :inline=> default_page[:haml], :type => :haml
+			
+			%p.clear_both
+		
+		%div#tab_help_introduction.scroll
+			= render :inline=> introduction_haml, :type => :haml
+		
 		
 		%div#tab_help_videos.scroll
 			-#%div.videos	
 				%p= link_to 'Watch our Introduction to CivicEvolution', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 				%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro', :id=>'play_intro_video'} 
 					= image_tag 'vhelp/2029_video_placeholder.jpg', :alt=>'2029 CivicEvolution Demo Video', :title=> 'Click to play this video'
-			
+			Videos
 			<iframe src="http://player.vimeo.com/video/29348381?title=0&amp;byline=0&amp;portrait=0" width="400" height="340" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><a href="http://vimeo.com/29348381">Introduction to CivicEvolution Talking Points</a> from <a href="http://vimeo.com/civicevolution">Brian Sullivan</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
 			
 			

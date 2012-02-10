@@ -2,19 +2,20 @@
 	$('div.help_page').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	
 	var help = $("#{escape_javascript(
-		render( :template => 'help/help_page.html', :locals => { :inc_js => 'none', :toc => toc, :default_page => default_page} )
+		render( :template => 'help/help_page.html', :locals => { :inc_js => 'none', :toc => toc, :default_page => default_page, :introduction_haml => introduction_haml} )
 	)}");
 	
 	help.find('h3.title').remove();
 	
 	var win_width = $(window).width();
 	var win_height = $(window).height();
-	var dialog = help.dialog( {title : 'CivicEvolution Help', draggable: false, resizable: false, modal : true, width: win_width-10, height: win_height-10, closeOnEscape: true, close: function(){$("body").css({ overflow: 'inherit' }); $(this).remove()}, open: function(){$("body").css({ overflow: 'hidden' }); $('a').blur();} });
+	var dialog = help.dialog( {title : 'CivicEvolution Help', draggable: false, resizable: false, modal : true, width: win_width-10, height: win_height-30, closeOnEscape: true, close: function(){$("body").css({ overflow: 'inherit' }); $(this).remove()}, open: function(){$("body").css({ overflow: 'hidden' }); $('a').blur();} });
 
-	dialog.height( win_height - 80)
-	dialog.find('div.toc, div.viewer, div#tab_help_toc').height( win_height - 172 );
-	dialog.find('div.viewer').width( $('div.help_page').width() - 236);
-	
+	dialog.find('div.help_tabs').height( win_height - 80)
+	dialog.find('div.help_tabs > div').height( win_height - 100 );
+	dialog.find('div.toc, div.viewer').height( win_height - 120 );
+	dialog.find('div.viewer').width( $('div.help_page').width() - $('div.toc').width() - 60 );
+
 	dialog.find('div.help_tabs').tabs();
 	if(#{params[:topic] ? true : false}){
 		dialog.find('div.help_tabs').tabs('select',1);
