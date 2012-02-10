@@ -339,3 +339,54 @@ div.tools_info {
       height: 16px; }
   div.tools_info div.videos p {
     font-weight: bold; }
+
+div#request_help {
+  width: 500px; }
+  div#request_help form.request_help textarea {
+    width: 500px;
+    font-size: 1.2em; }
+  div#request_help form.request_help label {
+    display: block;
+    font-weight: bold;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    clear: both;
+    font-weight: bold;
+    font-style: italic;
+    color: #888888; }
+  div#request_help form.request_help input {
+    display: block; }
+  div#request_help form.request_help select {
+    font-size: 1.28em; }
+  div#request_help form.request_help input[type="text"] {
+    width: 100%;
+    font-size: 1.2em;
+    background-color: #ececec; }
+  div#request_help form.request_help textarea {
+    height: 200px; }
+  div#request_help div.help_intro {
+    margin-top: 16px; }
+    div#request_help div.help_intro img.me {
+      float: left;
+      margin: 4px 10px 10px 0; }
+    div#request_help div.help_intro h3 {
+      margin: 0 0 6px 0; }
+    div#request_help div.help_intro p {
+      margin: 0 0 8px 0; }
+  div#request_help div.form_controls {
+    position: relative;
+    margin-top: 8px;
+    margin-bottom: 1em; }
+    div#request_help div.form_controls input[type="submit"] {
+      margin-left: 0; }
+    div#request_help div.form_controls span.char_ctr {
+      display: block;
+      position: absolute;
+      left: 120px;
+      top: 2px; }
+    div#request_help div.form_controls a {
+      position: absolute;
+      display: block;
+      right: 0;
+      top: 0;
+      margin: 0; }
