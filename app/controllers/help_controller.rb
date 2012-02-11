@@ -41,9 +41,10 @@ class HelpController < ApplicationController
   end
     
   def help_topic
+    topic_id = params[:id].size > 0 ? params[:id] : 'Think_together_to_act_together'
     conf = YAML.load_file("#{Rails.root}/config/help.yaml")		
     title = haml = nil
-    conf['help'][params[:id]].each_value do |option|
+    conf['help'][ topic_id ].each_value do |option|
       if (option['init_id'] == 'all') || ([ option['init_id'] ].flatten.include? params[:_initiative_id])
         title = option['title']
         haml = option['haml']
