@@ -11,9 +11,9 @@
 			%p CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
 			
 			%p{:style=>'margin-top: 48px'} 
-				We work with citizens and community leaders. Click the 
-				%b Get started
-				to find out how we can help your community
+				We work with citizens and community leaders. Click 
+				%b= link_to "Get started", :get_started
+				to find out how we can help your community.
 			
 		%div.video
 			-#<iframe src="http://player.vimeo.com/video/22453947?title=0&amp;byline=0&amp;portrait=0" width="400" height="310" frameborder="0"></iframe>
@@ -27,7 +27,7 @@
 			%p 
 				View the 
 				%span.bright= link_to "help page", help_path(:topic=>'Think_together_to_act_together')
-				for our new design
+				to learn more
 				
 			-#= link_to do
 				= image_tag "happy_idea_400.gif"
