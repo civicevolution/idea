@@ -28,7 +28,8 @@ class HelpController < ApplicationController
     end
     
     introduction_haml = 'Need to make introduction'
-    conf['help']['Introduction'].each_value do |option|
+    #conf['help']['Introduction'].each_value do |option|
+    conf['help']['Think_together_to_act_together'].each_value do |option|
       if (option['init_id'] == 'all') || ([ option['init_id'] ].flatten.include? init_id)
         introduction_haml = option['haml']
         break

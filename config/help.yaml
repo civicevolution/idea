@@ -20,20 +20,27 @@ help:
       init_id: 5
       title: Think together to act together
       haml: |
-        %p This help page will show you how  CivicEvolution helps you work together with others to create a community written and supported plan for change in your community
-        %p The Alliance Governance Group has committed to review every proposal for change that meets its guidelines. Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
+        %p This help page will show you how CivicEvolution helps you work together with other Skyline students to create a community written and supported plan for change in our community
+        %p To get started, organize at least 3 other students to develop a proposal that answers four questions:
         %ul
-        	%li What is the change you want to make?
-        	%li Why is this important to your community?
-        	%li How can this change be made?
-        	%li Where do we start?
-        %p Your proposal also has to be endorsed by at least 10 members of the community. You can see the full checklist by clicking on Checklist in topics list on the left and at the end of each proposal.
+          %li What is the change you want to make?
+          %li Why is this important to your community?
+          %li How can this change be made?
+          %li Where do we start?
         %p 
-        %p As you'll notice below, each question is answered with a set of talking points.
+          Your proposal should be compelling enough to inspire at least 10 other students to endorse it.  
+          You can see the full checklist of criteria in the table of contents under
+          %b Proposal checklist.
+        %p As you'll notice below, each question is answered with a set of talking points. 
         %ul
-        	%li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated. 
-        	%li Talking points capture the essence of your community’s conversations and ideas about each of the questions.
-        	%li Talking points are always displayed anonymously.
+          %li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated.
+          %li Talking points capture the essence of your community’s conversations and ideas about each of the questions.
+          %li Talking points are always displayed anonymously.
+          %li Anyone can contribute a talking point to an existing proposal
+        
+        %p 
+          You can learn how to suggest a new idea for a proposal by clicking this topic in the table of contents:
+          %b Get started by suggesting your own idea for change
         = image_tag 'vhelp1/cta_rate_read.jpg'
 
     opt2:
@@ -81,6 +88,17 @@ help:
       init_id: [1, 2]
       title: Introduction
       haml: |
+        %p 
+          %b CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
+        %ul
+          %li A plan explains what you want to change, why it is important, and how the change can be made
+          %li Creating a plan provides a constructive opportunity for community members to think together
+          %li You do this by listening to others respectfully and reflecting on what they say and think. 
+          %li It is essential that everyone is invited to participate and that the planning process is completely transparent
+          %li This ensures that all voices are heard and all perspectives are considered
+          %li People in your community will be instrumental in implementing, promoting, supporting, defending and funding your plan
+          %li The best way to mobilize them is to involve them in the planning as early as possible and listen to them throughout the process
+          %li Remember, your community can only move forward if everyone is pulling in the same direction
         - if @member.nil? || @member.first_name.nil? || @member.id == 0
           %h2 You can help answer these questions
         - else
@@ -109,10 +127,22 @@ help:
       init_id: 5
       title: Introduction
       haml: |
+        %p 
+          %b CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
+        %ul
+          %li A plan explains what you want to change, why it is important, and how the change can be made
+          %li Creating a plan provides a constructive opportunity for community members to think together
+          %li You do this by listening to others respectfully and reflecting on what they say and think. 
+          %li It is essential that everyone is invited to participate and that the planning process is completely transparent
+          %li This ensures that all voices are heard and all perspectives are considered
+          %li People in your community will be instrumental in implementing, promoting, supporting, defending and funding your plan
+          %li The best way to mobilize them is to involve them in the planning as early as possible and listen to them throughout the process
+          %li Remember, your community can only move forward if everyone is pulling in the same direction
+        
         - if @member.nil? || @member.first_name.nil? || @member.id == 0
           %h2 You can help answer these questions
         - else
-        %h2 #{@member.first_name}, you can help answer these questions
+          %h2 #{@member.first_name}, you can help answer these questions
         %ul
           %li The answer to each question is provided by a set of talking points created by the participants.
           %li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated by each of us.
@@ -137,6 +167,18 @@ help:
       init_id: all
       title: Introduction
       haml: |
+        %p 
+          %b CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
+        %ul
+          %li A plan explains what you want to change, why it is important, and how the change can be made
+          %li Creating a plan provides a constructive opportunity for community members to think together
+          %li You do this by listening to others respectfully and reflecting on what they say and think. 
+          %li It is essential that everyone is invited to participate and that the planning process is completely transparent
+          %li This ensures that all voices are heard and all perspectives are considered
+          %li People in your community will be instrumental in implementing, promoting, supporting, defending and funding your plan
+          %li The best way to mobilize them is to involve them in the planning as early as possible and listen to them throughout the process
+          %li Remember, your community can only move forward if everyone is pulling in the same direction
+        
         - if @member.nil? || @member.first_name.nil? || @member.id == 0
           %h2 You can help answer these questions
         - else
