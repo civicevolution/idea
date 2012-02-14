@@ -257,6 +257,8 @@ sudo monit status
 
 	unicorn.stderr.log
 	
+	SELECT current_TIMESTAMP AT TIME ZONE 'UTC';
+	
 ***********************************************************************************
 
 Sun Feb  5 08:41:47 PST 2012

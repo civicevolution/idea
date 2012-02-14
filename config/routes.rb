@@ -77,7 +77,7 @@ G3::Application.routes.draw do |map|
 
   get "registration/confirm_registration"
 
-  get "plan/suggest_new_idea"
+  get "plan/suggest_new_idea", :as => 'suggest_new_idea'
   
   match "plan/:team_id/submit", :to => 'plan#submit_proposal', :as => 'submit_proposal'
   

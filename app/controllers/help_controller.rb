@@ -18,7 +18,7 @@ class HelpController < ApplicationController
       end
     end
     
-    default_page = {:id => params[:topic] || 'Think_together_to_act_together'}
+    default_page = {:id => params[:topic] || 'Introduction'}
     conf['help'][ default_page[:id] ].each_value do |option|
       if (option['init_id'] == 'all') || ([ option['init_id'] ].flatten.include? init_id)
         default_page[:title]  = option['title']
@@ -28,8 +28,7 @@ class HelpController < ApplicationController
     end
     
     introduction_haml = 'Need to make introduction'
-    #conf['help']['Introduction'].each_value do |option|
-    conf['help']['Think_together_to_act_together'].each_value do |option|
+    conf['help']['Introduction'].each_value do |option|
       if (option['init_id'] == 'all') || ([ option['init_id'] ].flatten.include? init_id)
         introduction_haml = option['haml']
         break
@@ -42,7 +41,7 @@ class HelpController < ApplicationController
   end
     
   def help_topic
-    topic_id = params[:id].size > 0 ? params[:id] : 'Think_together_to_act_together'
+    topic_id = params[:id].size > 0 ? params[:id] : 'Introduction'
     conf = YAML.load_file("#{Rails.root}/config/help.yaml")		
     title = haml = nil
     conf['help'][ topic_id ].each_value do |option|

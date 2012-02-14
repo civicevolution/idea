@@ -1,5 +1,6 @@
 %div.help_page
 	- content_for(:script) do
+		= javascript_include_tag 'jquery.scrollTo-min.js'
 		:javascript
 			$(function(){
 
@@ -17,13 +18,43 @@
 					dialog.find('div.help_tabs').tabs('select',1);
 				}
 
-				$('div.help_page').find('div.toc a').die('click').live('click',
+				$('div.help_page').find('div.toc a, a.intro').die('click').live('click',
 					function(){
-						var id = this.id
-						$('div.viewer').load('/help/help_topic?id=' + id, function(){$('div.viewer').scrollTop(0)});
-						$('div.toc a').removeClass('selected');
-						$(this).addClass('selected');
-
+						try{
+							if( $('div#tab_help_toc').is(':visible') == false ){
+								$('a#help_toc').click();
+							}
+							var id = this.href.match(/topic=(\w+)/)[1]
+							var show_intro_link = $(this).hasClass('intro') ? true : false;
+							$('div.viewer').load('/help/help_topic?id=' + id, 
+								function(){
+									$('div.viewer').scrollTop(0);
+									if(show_intro_link){
+										$('div.viewer').append('<p><a href="#" id="'  + id + '" class="intro_return">Return to intro</a></p>');
+									}
+								}
+							);
+							$('div.toc a').removeClass('selected');
+							$('div.toc a[href$=' + id + ']').addClass('selected');
+						}catch(e){}
+						return false;
+					}
+				);
+				
+				$('div.help_page').find('a.intro_return').die('click').live('click',
+					function(){
+						try{
+							var id = this.id;
+							$('div.viewer').load('/help/help_topic?id=Introduction', 
+								function(){
+									var link = $('div.viewer').find('a[href$=' + id + ']');
+									$('div.viewer').scrollTo(link,300);
+									link.parent().effect('highlight',3000);
+								}
+							);
+							$('div.toc a').removeClass('selected');
+							$('div.toc a:first').addClass('selected');
+						}catch(e){}
 						return false;
 					}
 				);
@@ -33,6 +64,14 @@
 		:sass
 			div.help_page
 				position: relative
+				h1,h2,h3,h4 
+					width: 700px
+				h4.hdr
+					margin-top: 40px
+					span
+						font-size: .7em
+						font-style: italic
+						color: #888
 				div.help_tabs > ul > li
 					font-size: 12px
 					a
@@ -48,6 +87,10 @@
 					width: 500px
 				li
 					margin-bottom: .4em
+				img
+					border: 4px outset #EEE
+					padding: 10px
+					margin-bottom: 20px
 				div.toc
 					border: 1px solid #ccc
 					width: 180px
@@ -77,12 +120,8 @@
 					float: left
 					border: 1px solid #ccc
 					width: auto
-					overflow: scroll
+					overflow: scroll 
 					padding: 10px
-					img
-						border: 4px outset #EEE
-						padding: 10px
-						margin-bottom: 20px
 			div.ui-dialog div.ui-dialog-content		
 				padding: 0
 			div.ui-dialog-titlebar
@@ -102,7 +141,7 @@
 			%li
 				%a{:href=>"#tab_help_introduction"} Introduction
 			%li
-				%a{:href=>"#tab_help_toc"} Table of Contents
+				%a{:href=>"#tab_help_toc", :id=>'help_toc'} Table of Contents
 			%li
 				%a{:href=>"#tab_help_videos"} Videos
 			%li
@@ -113,7 +152,7 @@
 				%ul
 					%li.header Help topics
 					- toc.each_pair do |key,value|
-						%li= link_to value, help_path(:topic=>key), {:id=>"#{key}", :class=> (key == default_page[:id]) ? 'selected' : '' }
+						%li= link_to value, help_path(:topic=>key), {:class=> (key == default_page[:id]) ? 'selected' : '' }
 
 	
 			%div.viewer

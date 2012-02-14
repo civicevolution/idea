@@ -865,7 +865,9 @@ div.talking_point_body p.talking_point {
   margin-bottom: 6px; }
 
 div.question_summary p.question {
-  margin-top: 0; }
+  margin-top: 0;
+  text-indent: -2.3em;
+  margin-left: 2.3em; }
 div.question_summary div.talking_points_list.summary {
   padding: 16px; }
   div.question_summary div.talking_points_list.summary ul.talking_points {
