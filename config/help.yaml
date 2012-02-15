@@ -23,7 +23,8 @@ help:
         %h2 We want you to share your best ideas for improving the Greater Geraldton City Region
         
         %p 
-          The Alliance Governance Group has committed to review every proposal for change that meets its guidelines. 
+          The Alliance Governance Group has committed to review every proposal for change that meets its 
+          #{link_to 'guidelines', help_path(:topic=>'Proposal_guidelines'), {:class=>"intro"}}.
           Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
         %ul
           %li What is the change you want to make?
@@ -64,7 +65,10 @@ help:
           %span Click a link to learn more
         %ol
           %li A group answers a question by creating, discussing, editing, rating and selecting talking points
-          %li A talking point is a short sentence that clearly expresses a single idea
+          %li 
+            A 
+            = link_to 'talking point', help_path(:topic=>'What_is_a_talking_point'), {:class=>"intro"}
+            is a short sentence that clearly expresses a single idea
           %li Breaking the answer into small chunks makes it easier for people to discuss each idea and express their preferences through rating
           %li 
             Anyone can 
@@ -135,7 +139,10 @@ help:
           %span Click a link to learn more
         %ol
           %li A group answers a question by creating, discussing, editing, rating and selecting talking points
-          %li A talking point is a short sentence that clearly expresses a single idea
+          %li 
+            A 
+            = link_to 'talking point', help_path(:topic=>'What_is_a_talking_point'), {:class=>"intro"}
+            is a short sentence that clearly expresses a single idea
           %li Breaking the answer into small chunks makes it easier for people to discuss each idea and express their preferences through rating
           %li 
             Anyone can 
@@ -165,75 +172,76 @@ help:
       init_id: all
       title: Introduction
       haml: |
-        title: Introduction
-        haml: |
-          %h2 We want you to share your best ideas for improving your Community
+        %h2 We want you to share your best ideas for improving your Community
 
-          %p 
-            Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
-          %ul
-            %li What is the change you want to make?
-            %li Why is this important to your community?
-            %li How can this change be made?
-            %li Where do we start?
-          %p 
-            Your proposal should be compelling enough to inspire at least 10 members of the community to endorse it.  
-          %p 
-            You can see the full checklist of criteria in the
-            #{link_to 'Proposal checklist', help_path(:topic=>'Proposal_checklist'), {:class=>"intro"}}.
+        %p 
+          Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
+        %ul
+          %li What is the change you want to make?
+          %li Why is this important to your community?
+          %li How can this change be made?
+          %li Where do we start?
+        %p 
+          Your proposal should be compelling enough to inspire at least 10 members of the community to endorse it.  
+        %p 
+          You can see the full checklist of criteria in the
+          #{link_to 'Proposal checklist', help_path(:topic=>'Proposal_checklist'), {:class=>"intro"}}.
 
-          %p
-            %b
-              Join one of the ideas already suggested on the
-              = link_to "2029 CivicEvolution home page", :home
-          %p 
-            %b
-              You can also 
-              = link_to "suggest your own idea", :suggest_new_idea
+        %p
+          %b
+            Join one of the ideas already suggested on the
+            = link_to "2029 CivicEvolution home page", :home
+        %p 
+          %b
+            You can also 
+            = link_to "suggest your own idea", :suggest_new_idea
 
-          %h4.hdr CivicEvolution helps citizens think together to create a community written answer to a question like this:
-          = image_tag 'vhelp1/example_talking_points_edu_print.gif'  
+        %h4.hdr CivicEvolution helps citizens think together to create a community written answer to a question like this:
+        = image_tag 'vhelp1/example_talking_points_edu_print.gif'  
 
-          %h4.hdr Here are a few things to keep in mind
-          %ul
-            %li A plan explains what you want to change, why it is important, and how the change can be made
-            %li Creating a plan provides a constructive opportunity for the community to think together
-            %li You do this by listening to others, reflecting on what they say and responding respectfully
-            %li It is essential that everyone is invited to participate and that the planning process is completely transparent
-            %li This ensures that all voices are heard and all perspectives are considered
-            %li People in your community will be instrumental in promoting, supporting, implementing and funding your plan
-            %li The best way to mobilize them is to involve them in the planning as early as possible and consider their views throughout the process
-            %li Remember, your community can only move forward if everyone is pulling in the same direction
+        %h4.hdr Here are a few things to keep in mind
+        %ul
+          %li A plan explains what you want to change, why it is important, and how the change can be made
+          %li Creating a plan provides a constructive opportunity for the community to think together
+          %li You do this by listening to others, reflecting on what they say and responding respectfully
+          %li It is essential that everyone is invited to participate and that the planning process is completely transparent
+          %li This ensures that all voices are heard and all perspectives are considered
+          %li People in your community will be instrumental in promoting, supporting, implementing and funding your plan
+          %li The best way to mobilize them is to involve them in the planning as early as possible and consider their views throughout the process
+          %li Remember, your community can only move forward if everyone is pulling in the same direction
 
-          %h4.hdr 
-            Here's a quick look at how it works
-            %span Click a link to learn more
-          %ol
-            %li A group answers a question by creating, discussing, editing, rating and selecting talking points
-            %li A talking point is a short sentence that clearly expresses a single idea
-            %li Breaking the answer into small chunks makes it easier for people to discuss each idea and express their preferences through rating
-            %li 
-              Anyone can 
-              = link_to 'add a talking point', help_path(:topic=>'Adding_a_new_talking_point'), {:class=>"intro"}
-              at any time
-            %li
-              Every talking point has a discussion area where you can ask questions,
-              #{link_to 'express your concerns', help_path(:topic=>'Help_others_understand_your_concerns'), {:class=>"intro"}}
-              or suggest improvements
-            %li
-              Talking points can be
-              = link_to 'edited', help_path(:topic=>'Edit_talking_point'), {:class=>"intro"}
-            %li
-              Everyone should
-              = link_to 'rate each talking point', help_path(:topic=>'Rating_talking_points'), {:class=>"intro"}
-              to indicate if they think it is acceptable
-            %li
-              Each participant maintains a list of their
-              = link_to 'five most favorite talking points', help_path(:topic=>'Selecting_your_favorite_talking_points'), {:class=>"intro"}
-            %li
-              This combination of ratings and favorites helps the community
-              = link_to 'select', help_path(:topic=>'Select_talking_points_for_the_final_answer'), {:class=>"intro"}
-              its best ideas
+        %h4.hdr 
+          Here's a quick look at how it works
+          %span Click a link to learn more
+        %ol
+          %li A group answers a question by creating, discussing, editing, rating and selecting talking points
+          %li
+            A 
+            = link_to 'talking point', help_path(:topic=>'What_is_a_talking_point'), {:class=>"intro"}
+            is a short sentence that clearly expresses a single idea
+          %li Breaking the answer into small chunks makes it easier for people to discuss each idea and express their preferences through rating
+          %li 
+            Anyone can 
+            = link_to 'add a talking point', help_path(:topic=>'Adding_a_new_talking_point'), {:class=>"intro"}
+            at any time
+          %li
+            Every talking point has a discussion area where you can ask questions,
+            #{link_to 'express your concerns', help_path(:topic=>'Help_others_understand_your_concerns'), {:class=>"intro"}}
+            or suggest improvements
+          %li
+            Talking points can be
+            = link_to 'edited', help_path(:topic=>'Edit_talking_point'), {:class=>"intro"}
+          %li
+            Everyone should
+            = link_to 'rate each talking point', help_path(:topic=>'Rating_talking_points'), {:class=>"intro"}
+            to indicate if they think it is acceptable
+          %li
+            Each participant maintains a list of their
+            = link_to 'five most favorite talking points', help_path(:topic=>'Selecting_your_favorite_talking_points'), {:class=>"intro"}
+          %li
+            This combination of ratings and favorites helps the community
+            = link_to 'select', help_path(:topic=>'Select_talking_points_for_the_final_answer'), {:class=>"intro"}
+            its best ideas
 
   Example_of_a_proposal:        
     opt1:    
@@ -255,6 +263,154 @@ help:
       haml: |
         = image_tag 'vhelp1/full_proposal.gif'
 
+  Proposal_guidelines:
+    opt1:
+      init_id: 1
+      title: Proposal guidelines
+      haml: |
+        %h3 We invite you to suggest an idea to help our city region become more sustainable
+        %div.ground_rules
+        %p
+          All ideas need to meet these
+          %b ground rules
+          to be accepted and published:
+        %ul
+          %li Be legal
+          %li Be consistent with the City of Greater Geraldton Organisational Values
+          %li Focus on organisational processes in order to help the City work better with the community
+          %li Demonstrate effective use of rate payer funds, if appropriate
+        %p
+          The Executive Management Team promises to review and respond to all actionable proposals that meet their guidelines
+          for relevance, completeness, evidence, and community support.
+        %p
+          In short, anyone can suggest an idea, but the Executive Management Team
+          will only review ideas that have been developed into a proposal for action.
+        %div.guidelines
+          %p
+            Proposals must meet these
+            %b guidelines
+            to earn official review:
+          %ul
+            %li Comply with the general ground rules
+            %li Answer all questions in the proposal outline
+            %li Work in a team with at least 4 staff members of the City of Greater Geraldton
+            %li Maintain an open and inclusive team
+            %li Ensure a respectful team environment
+            %li Engage in adequate discussion, collaboration and consensus on each question
+            %li Openly communicate with the other staff via online public access as well as community outreach, and demonstrate appropriate consideration of feedback
+        %p If you are committed to your idea, this website can help you form a team and develop your proposal.
+    opt2:
+      init_id: 2
+      title: Proposal guidelines
+      haml: |
+        %h3 We invite you to suggest an idea to help our city region become more sustainable
+
+        %div.ground_rules
+          %p 
+            All ideas need to meet these 
+            %b ground rules 
+            to be accepted and published:
+          %ul
+            %li Be legal
+            %li Not be insulting of any individuals or groups
+            %li Help create a more sustainable future for our city region in terms of our environment, economic development, social, and cultural affairs.
+            %li Demonstrate effective use of rate payer funds, if appropriate
+
+          %p 
+            The Alliance Governance Group
+            -#%a{:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}The Alliance Governance Group 
+            promises to review and respond to all actionable proposals that meet their guidelines
+            for relevance, completeness, evidence, and community support.
+          %p 
+            In short, anyone can suggest an idea, but the Alliance Governance Group 
+            will only review ideas that have been developed into a proposal for action.
+
+        %div.guidelines
+          %p 
+            Proposals must meet these 
+            %b guidelines 
+            to earn official review:	
+
+          %ul
+            %li Comply with the general ground rules
+            %li Answer all questions in the proposal outline
+            %li Work in a team with at least 4 active residents of the city region
+            %li Be endorsed by at least 10 community members
+            %li Maintain an open and inclusive team
+            %li Ensure a respectful team environment
+            %li Engage in adequate discussion, collaboration and consensus on each question
+            %li Openly communicate with the community via online public access as well as community outreach, and demonstrate appropriate consideration of feedback				
+
+        %p If you are committed to your idea, this website can help you form a team and develop your proposal.
+
+
+    opt3:
+      init_id: 5
+      title: Proposal guidelines
+      haml: |
+        %h3 We invite you to suggest an idea to help "Bring out the Community in our College"
+        %div.ground_rules
+          %p
+            All ideas need to meet these
+            %b ground rules
+            to be accepted and published:
+          %ul
+            %li Be legal
+            %li Not be insulting of any individuals or groups
+            %li Propose an improvement to Skyline’s Campus & Community
+            %li Answer all the questions proposed on this site
+            %li Propose effective use of the grant
+          %p Step Up! Share your best ideas here for improving our Skyline Campus and Community. Collaborate! Your ideas are rated, commented on, and developed with your peers, so we can “Think Together.” SHARE your best ideas, RATE others’ ideas, INVITE friends to contribute, COLLABORATE together to vision the best possible projects.
+          %p In short, anyone can suggest an idea, but only ideas that have been developed into a proposal for action are eligible to compete for the grants.
+        %div.guidelines
+          %p
+            Proposals must meet these
+            %b guidelines
+            to earn review:
+          %ul
+            %li Work in a team with at least 4 active Skyline students.
+            %li Maintain an open and inclusive team that welcomes, shares, considers and incorporates others’ ideas.
+            %li Engage in adequate discussion, collaboration and consensus on each question.
+            %li Openly communicate with the community via this site and other forms of community outreach.
+            %li Ensure a respectful, collaborative environment.
+            %li Demonstrate appropriate consideration of feedback.
+            %li Meet all criteria specified here and in the application.  Email mairj@smccd.edu for an application.
+            %li Comply with the general ground rules.
+        %p Project applications due March 30, 2012. Email mairj@smccd.edu for application.
+        %p Qualifying project ideas will be presented to and voted on by students April 19, 2012.
+        %p If you are committed to your idea, this website can help you form a team and develop your proposal.
+    
+    opt4:
+      init_id: all
+      title: Proposal guidelines
+      haml: |
+        %h3 We invite you to suggest an idea to improve your community
+        %div.ground_rules
+          %p
+            All ideas need to meet these
+            %b ground rules
+            to be accepted and published:
+          %ul
+            %li Be legal
+            %li Not be insulting of any individuals or groups
+            %li Answer all the questions proposed on this site
+
+        %div.guidelines
+          %p
+            Proposals must meet these
+            %b guidelines
+            to earn review:
+          %ul
+            %li Work in a team with at least 4 active participants
+            %li Maintain an open and inclusive team that welcomes, shares, considers and incorporates others’ ideas.
+            %li Engage in adequate discussion, collaboration and consensus on each question.
+            %li Openly communicate with the community via this site and other forms of community outreach.
+            %li Ensure a respectful, collaborative environment.
+            %li Demonstrate appropriate consideration of feedback.
+            %li Comply with the general ground rules.
+
+        %p If you are committed to your idea, this website can help you form a team and develop your proposal.
+          
   Get_started_by_suggesting_your_own_idea_for_change:
     opt1:
       init_id: 1
@@ -266,6 +422,10 @@ help:
           %li Please check the ideas listed on the home page to see if someone else has already proposed a similar idea.
           %li All new ideas have 4 weeks to get up-to-speed, so please, invite your friends and others right away.
         = image_tag 'vhelp1/suggest_idea_2029.jpg'
+        %p.related
+          Related pages:
+          = link_to 'Proposal guidelines', help_path(:topic=>'Proposal_guidelines')
+        
     
     opt2:
       init_id: 2
@@ -331,7 +491,76 @@ help:
           under a proposal that interests you.
         %h3 We need to know what you think!
         %p You can also watch our video by clicking the Video tab above
+        %p.related
+          Related pages:
+          = link_to 'Introduction', help_path(:topic=>'Introduction')
+        
 
+  What_is_a_talking_point:
+    opt1:
+      init_id: all
+      title: What is a talking point
+      haml: |
+        %p Talking points are the basic building block for creating plans in CivicEvolution.
+          
+        %p Here is an example of a question and the four talking points that were selected as the answer.
+        = image_tag 'vhelp1/example_talking_points_edu_print.gif'  
+
+        %p 
+          Talking points let us break down the answer into small chunks that make it easier for people to discuss each idea and
+          express their preferences through rating. A group answers a question by creating, discussing, editing, rating and selecting talking points.
+        
+        %p So, what exactly is a talking point?
+        %ul
+          %li A talking point clearly expresses a single idea
+          %li The idea helps to answer the question
+          %li A talking point is a short sentence, less than 200 characters long
+          
+        %p 
+          Here are a few examples of good and bad talking points for the question:
+          %i What amenities should be included in the new park?
+          
+        %table{:border=>1}
+          %tr
+            %td The new park should have benches.
+            %td Good form: short and clear
+          %tr
+            %td The new park should have benches and a dog run.
+            %td Bad form: this is presenting two different options. How would you rate this if you only like part of the talking point?
+          %tr
+            %td Dogs aren't always friendly in a park setting, I don't think the owners pay enough attention.
+            %td Bad form: this is a comment, not a clear idea that helps answer a question
+          %tr 
+            %td Trees are nice
+            %td Bad form: this is an opinion and it is not clear how this clearly helps to answer the question
+        
+          
+        %p What can you do with a talking point?
+        %ul  
+          %li 
+            Any participant can
+            = link_to 'add a talking point', help_path(:topic=>'Adding_a_new_talking_point'), {:class=>"intro"}
+            at any time
+          %li
+            Every talking point has a discussion area where you can ask questions,
+            #{link_to 'express your concerns', help_path(:topic=>'Help_others_understand_your_concerns'), {:class=>"intro"}}
+            or suggest improvements
+          %li
+            Talking points can be
+            #{link_to 'edited', help_path(:topic=>'Edit_talking_point'), {:class=>"intro"}},
+            but only by well-recognized participants
+          %li
+            Everyone should
+            = link_to 'rate each talking point', help_path(:topic=>'Rating_talking_points'), {:class=>"intro"}
+            to indicate if they think it is acceptable
+          %li
+            Each participant maintains a list of their
+            = link_to 'five most favorite talking points', help_path(:topic=>'Selecting_your_favorite_talking_points'), {:class=>"intro"}
+          %li
+            This combination of ratings and favorites helps the community
+            = link_to 'select', help_path(:topic=>'Select_talking_points_for_the_final_answer'), {:class=>"intro"}
+            its best ideas
+        
   The_question_worksheet:
     opt1:
       init_id: 3

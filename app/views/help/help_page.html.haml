@@ -29,6 +29,7 @@
 							$('div.viewer').load('/help/help_topic?id=' + id, 
 								function(){
 									$('div.viewer').scrollTop(0);
+									$('div.viewer').append('<a href="/request_help?title=' + id + '&topic=improve" class="improve" data-remote="true">Help us improve this page</a>')
 									if(show_intro_link){
 										$('div.viewer').append('<p><a href="#" id="'  + id + '" class="intro_return">Return to intro</a></p>');
 									}
@@ -77,6 +78,13 @@
 					font-size: 12px
 					a
 						padding: .2em 1em
+				a.improve
+					color: #888
+					font-size: .8em
+					text-align: right
+					width: 100%
+					display: block
+					margin: 1em 0
 				div#tab_help_introduction
 					padding: 10px
 				div.help_tabs
@@ -161,11 +169,14 @@
 			%div.viewer
 				%h3= default_page[:title]
 				= render :inline=> default_page[:haml], :type => :haml
+				= link_to "Help us improve this page", request_help_path(:topic=>'improve', :title=>default_page[:title]), { :class=>'improve', :remote => true}
 			
 			%p.clear_both
 		
 		%div#tab_help_introduction.scroll
 			= render :inline=> introduction_haml, :type => :haml
+			= link_to "Help us improve this page", request_help_path(:topic=>'improve', :title=>'Introduction'), { :class=>'improve', :remote => true}
+			
 		
 		
 		%div#tab_help_videos.scroll
