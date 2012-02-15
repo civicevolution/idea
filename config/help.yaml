@@ -15,164 +15,80 @@
 # Replace tabs with 2 spaces
 
 help:
-  Think_together_to_act_together:
-    opt1:
-      init_id: 55
-      title: Think together to act together
-      haml: |
-        %p This help page will show you how CivicEvolution helps you work together with other Skyline students to create a community written and supported plan for change in our community
-        %p To get started, organize at least 3 other students to develop a proposal that answers four questions:
-        %ul
-          %li What is the change you want to make?
-          %li Why is this important to your community?
-          %li How can this change be made?
-          %li Where do we start?
-        %p 
-          Your proposal should be compelling enough to inspire at least 10 other students to endorse it.  
-          You can see the full checklist of criteria in the table of contents under
-          %b Proposal checklist.
-        %p As you'll notice below, each question is answered with a set of talking points. 
-        %ul
-          %li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated.
-          %li Talking points capture the essence of your community’s conversations and ideas about each of the questions.
-          %li Talking points are always displayed anonymously.
-          %li Anyone can contribute a talking point to an existing proposal
-        
-        %p 
-          You can learn how to suggest a new idea for a proposal by clicking this topic in the table of contents:
-          %b Get started by suggesting your own idea for change
-        = image_tag 'vhelp1/cta_rate_read.jpg'
-
-    opt2:
-      init_id: [1, 2]
-      title: Think together to act together
-      haml: |
-        %p This help page will show you how  CivicEvolution helps you work together with others to create a community written and supported plan for change in your community
-        %p The Alliance Governance Group has committed to review every proposal for change that meets its guidelines. Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
-        %ul
-          %li What is the change you want to make?
-          %li Why is this important to your community?
-          %li How can this change be made?
-          %li Where do we start?
-        %p Your proposal also has to be endorsed by at least 10 members of the community. You can see the full checklist by clicking on Checklist in topics list on the left and at the end of each proposal.
-        %p
-          %b CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
-        %ul
-          %li A plan explains what you want to change, why it is important, and how the change can be made
-          %li Creating a plan provides a constructive opportunity for community members to think together
-          %li You do this by listening to others respectfully and reflecting on what they say and think.
-          %li It is essential that everyone is invited to participate and that the planning process is completely transparent
-          %li This ensures that all voices are heard and all perspectives are considered
-          %li People in your community will be instrumental in implementing, promoting, supporting, defending and funding your plan
-          %li The best way to mobilize them is to involve them in the planning as early as possible and listen to them throughout the process
-          %li Remember, your community can only move forward if everyone is pulling in the same direction
-        %h3 Here's how it works
-        %ol
-          %li CivicEvolution helps communities think together to create a broadly acceptable answer to a question
-          %li 
-            The answer to a question is expressed with a set of talking points like this:
-            = image_tag 'vhelp1/example_talking_points_edu_print.gif'
-          %li A group answers a question by creating, discussing, rating, editing and selecting talking points
-          %li A talking point is a short sentence that clearly expresses a single idea relevant to answering the question
-          %li Like the example above, each talking point conveys part of the answer
-          %li Taken together, a carefully selected set of talking points outlines an answer
-          %li Breaking the answer into small chunks makes it easier for people to discuss each idea and express their preferences through rating
-          %li Anyone can add a talking point at any time
-          %li Every important idea that comes up in the discussion should be captured as a talking point
-          %li Talking points are always displayed anonymously, so it doesn't matter who enters it
-          %li So, if you see a good idea in someone else's comment, feel free to add it as a talking point.
-          %li Every talking point has a discussion area where you can ask questions, express your concerns, or suggest improvements
-          %li Everyone should rate the acceptability of each talking point
-          %li If you rate a talking point as unacceptable, we encourage you to share your concerns in a comment
-          %li Every time you visit the website, we will display all the new talking points and comments added since your last visit
-          %li Talking points can be edited by any recognized participant
-          %li The edit should improve the talking point without changing its meaning
-          %li The edit history is recorded so we can see how an idea has evolved
-          %li In addition to rating the talking points, every participant is encouraged to maintain a list of their five most favorite talking points
-          %li Just click the star next to a talking point to mark it as your favorite
-          %li If you select more than five favorites, we'll show you a list of your favorites so you can adjust it
-          %li The combination of ratings and favorites helps identify the most popular answers that are acceptable to most of the participants
-          %li More advanced participants help select and maintain a list of the talking points that provide the best answer to the question
-          %li Everyone can see all of the talking points as well as the selected talking points and discuss the choices that have been made on behalf of the group
-          %li This selected set of talking points is the result of thinking together and serves as a community written answer to the question
-
-    opt3:
-      init_id: none
-      title: Think together to act together
-      haml: |
-        %p This help page will show you how  CivicEvolution helps you work together with others to create a community written and supported plan for change in your community
-        %p Basically, you should work together with at least 3 other community members to develop a proposal that answers four questions: 
-        %ul
-          %li What is the change you want to make?
-          %li Why is this important to your community?
-          %li How can this change be made?
-          %li Where do we start?
-        %p Your proposal should also be endorsed by at least 10 members of the community. You can see the full checklist by clicking on Checklist in topics list on the left and at the end of each proposal.
-        %p
-          %b CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
-        %ul
-          %li A plan explains what you want to change, why it is important, and how the change can be made
-          %li Creating a plan provides a constructive opportunity for community members to think together
-          %li You do this by listening to others respectfully and reflecting on what they say and think.
-          %li It's essential that everyone is invited to participate and that the planning process is completely transparent
-          %li This ensures that all voices are heard and all perspectives are considered
-          %li People in your community will be instrumental in implementing, promoting, supporting, defending and funding your plan
-          %li The best way to mobilize them is to involve them in the planning as early as possible and listen to them throughout the process
-          %li Remember, your community can only move forward if everyone is pulling in the same direction
-        %h4 Here's how CivicEvolution helps citizens think together to create a community written answer to a question like this:
-        = image_tag 'vhelp1/example_talking_points_edu_print.gif'
-        %ol
-          %li A group answers a question by creating, discussing, rating, editing and selecting talking points
-          %li A talking point is a short sentence that clearly expresses a single idea
-          %li Breaking the answer into small chunks makes it easier for people to discuss each idea and express their preferences through rating
-          %li Anyone can add a talking point at any time
-          %li Every talking point has a discussion area where you can ask questions, express your concerns, or suggest improvements
-          %li Talking points can be edited by recognized participants
-          %li Everyone should rate each talking point to indicate if they think it is acceptable
-          %li Each participant maintains a list of their five most favorite talking points
-          %li This combination of ratings and favorites helps the community select its best ideas
-
-    
   Introduction:
     opt1:
       init_id: [1, 2]
       title: Introduction
       haml: |
+        %h2 We want you to share your best ideas for improving the Greater Geraldton City Region
+        
         %p 
-          %b CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
+          The Alliance Governance Group has committed to review every proposal for change that meets its guidelines. 
+          Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
+        %ul
+          %li What is the change you want to make?
+          %li Why is this important to your community?
+          %li How can this change be made?
+          %li Where do we start?
+        %p 
+          Your proposal should be compelling enough to inspire at least 10 members of the community to endorse it.  
+        %p 
+          You can see the full checklist of criteria in the
+          #{link_to 'Proposal checklist', help_path(:topic=>'Proposal_checklist'), {:class=>"intro"}}.
+          
+        %p
+          %b
+            Join one of the ideas already suggested on the
+            = link_to "2029 CivicEvolution home page", :home
+        %p 
+          %b
+            You can also 
+            = link_to "suggest your own idea", :suggest_new_idea
+          
+        %h4.hdr CivicEvolution helps citizens think together to create a community written answer to a question like this:
+        = image_tag 'vhelp1/example_talking_points_edu_print.gif'  
+          
+        %h4 Here are a few things to keep in mind
         %ul
           %li A plan explains what you want to change, why it is important, and how the change can be made
-          %li Creating a plan provides a constructive opportunity for community members to think together
-          %li You do this by listening to others respectfully and reflecting on what they say and think. 
+          %li Creating a plan provides a constructive opportunity for the community to think together
+          %li You do this by listening to others, reflecting on what they say and responding respectfully
           %li It is essential that everyone is invited to participate and that the planning process is completely transparent
           %li This ensures that all voices are heard and all perspectives are considered
-          %li People in your community will be instrumental in implementing, promoting, supporting, defending and funding your plan
-          %li The best way to mobilize them is to involve them in the planning as early as possible and listen to them throughout the process
+          %li People in your community will be instrumental in promoting, supporting, implementing and funding your plan
+          %li The best way to mobilize them is to involve them in the planning as early as possible and consider their views throughout the process
           %li Remember, your community can only move forward if everyone is pulling in the same direction
-        - if @member.nil? || @member.first_name.nil? || @member.id == 0
-          %h2 You can help answer these questions
-        - else
-          %h2 #{@member.first_name}, you can help answer these questions
-        %ul
-          %li The answer to each question is provided by a set of talking points created by the participants.
-          %li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated by each of us.
-          %li Talking points capture the essence of the participants' conversations and ideas about each of the questions.
+        
+        %h4.hdr 
+          Here's a quick look at how it works
+          %span Click a link to learn more
+        %ol
+          %li A group answers a question by creating, discussing, editing, rating and selecting talking points
+          %li A talking point is a short sentence that clearly expresses a single idea
+          %li Breaking the answer into small chunks makes it easier for people to discuss each idea and express their preferences through rating
+          %li 
+            Anyone can 
+            = link_to 'add a talking point', help_path(:topic=>'Adding_a_new_talking_point'), {:class=>"intro"}
+            at any time
+          %li
+            Every talking point has a discussion area where you can ask questions,
+            #{link_to 'express your concerns', help_path(:topic=>'Help_others_understand_your_concerns'), {:class=>"intro"}}
+            or suggest improvements
+          %li
+            Talking points can be
+            = link_to 'edited', help_path(:topic=>'Edit_talking_point'), {:class=>"intro"}
+          %li
+            Everyone should
+            = link_to 'rate each talking point', help_path(:topic=>'Rating_talking_points'), {:class=>"intro"}
+            to indicate if they think it is acceptable
+          %li
+            Each participant maintains a list of their
+            = link_to 'five most favorite talking points', help_path(:topic=>'Selecting_your_favorite_talking_points'), {:class=>"intro"}
+          %li
+            This combination of ratings and favorites helps the community
+            = link_to 'select', help_path(:topic=>'Select_talking_points_for_the_final_answer'), {:class=>"intro"}
+            its best ideas
 
-        %p
-          %b Click a question link
-          to expose the worksheet where you can create, discuss and refine the talking points
-
-        = image_tag 'vhelp1/reg_question_worksheet.gif'
-        %ul.worksheet
-          %li All of the talking points are listed in the worksheet, on the left, in order of participant preference
-          %li On the right is the set of talking points that have been hand selected and ordered to reflect the preferences of the group.
-          %li The selected talking points will appear in the proposal to express an answer to this question.
-          %li Trusted participants are allowed to edit this set by selecting from the talking points in the worksheet and ordering them in the list
-          %li Everyone should discuss the question and its talking points
-          %li Anyone can suggest a talking point
-          %li Everyone should rate the acceptability of the talking points and select their favorites
-          %li Trusted participants can also edit the talking points to incorporate improvements
-    
     opt2:
       init_id: 5
       title: Introduction
@@ -249,41 +165,75 @@ help:
       init_id: all
       title: Introduction
       haml: |
-        %p 
-          %b CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
-        %ul
-          %li A plan explains what you want to change, why it is important, and how the change can be made
-          %li Creating a plan provides a constructive opportunity for community members to think together
-          %li You do this by listening to others respectfully and reflecting on what they say and think. 
-          %li It is essential that everyone is invited to participate and that the planning process is completely transparent
-          %li This ensures that all voices are heard and all perspectives are considered
-          %li People in your community will be instrumental in implementing, promoting, supporting, defending and funding your plan
-          %li The best way to mobilize them is to involve them in the planning as early as possible and listen to them throughout the process
-          %li Remember, your community can only move forward if everyone is pulling in the same direction
-        
-        - if @member.nil? || @member.first_name.nil? || @member.id == 0
-          %h2 You can help answer these questions
-        - else
-          %h2 #{@member.first_name}, you can help answer these questions
-        %ul
-          %li The answer to each question is provided by a set of talking points created by the participants.
-          %li A talking point is a short sentence that clearly states a single idea to be considered, discussed and rated by each of us.
-          %li Talking points capture the essence of the participants' conversations and ideas about each of the questions.
+        title: Introduction
+        haml: |
+          %h2 We want you to share your best ideas for improving your Community
 
-        %p
-          %b Click a question link
-          to expose the worksheet where you can create, discuss and refine the talking points
+          %p 
+            Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
+          %ul
+            %li What is the change you want to make?
+            %li Why is this important to your community?
+            %li How can this change be made?
+            %li Where do we start?
+          %p 
+            Your proposal should be compelling enough to inspire at least 10 members of the community to endorse it.  
+          %p 
+            You can see the full checklist of criteria in the
+            #{link_to 'Proposal checklist', help_path(:topic=>'Proposal_checklist'), {:class=>"intro"}}.
 
-        = image_tag 'vhelp1/reg_question_worksheet.gif'
-        %ul.worksheet
-          %li All of the talking points are listed in the worksheet, on the left, in order of participant preference
-          %li On the right is the set of talking points that have been hand selected and ordered to reflect the preferences of the group.
-          %li The selected talking points will appear in the proposal to express an answer to this question.
-          %li Trusted participants are allowed to edit this set by selecting from the talking points in the worksheet and ordering them in the list
-          %li Everyone should discuss the question and its talking points
-          %li Anyone can suggest a talking point
-          %li Everyone should rate the acceptability of the talking points and select their favorites
-          %li Trusted participants can also edit the talking points to incorporate improvements
+          %p
+            %b
+              Join one of the ideas already suggested on the
+              = link_to "2029 CivicEvolution home page", :home
+          %p 
+            %b
+              You can also 
+              = link_to "suggest your own idea", :suggest_new_idea
+
+          %h4.hdr CivicEvolution helps citizens think together to create a community written answer to a question like this:
+          = image_tag 'vhelp1/example_talking_points_edu_print.gif'  
+
+          %h4 Here are a few things to keep in mind
+          %ul
+            %li A plan explains what you want to change, why it is important, and how the change can be made
+            %li Creating a plan provides a constructive opportunity for the community to think together
+            %li You do this by listening to others, reflecting on what they say and responding respectfully
+            %li It is essential that everyone is invited to participate and that the planning process is completely transparent
+            %li This ensures that all voices are heard and all perspectives are considered
+            %li People in your community will be instrumental in promoting, supporting, implementing and funding your plan
+            %li The best way to mobilize them is to involve them in the planning as early as possible and consider their views throughout the process
+            %li Remember, your community can only move forward if everyone is pulling in the same direction
+
+          %h4.hdr 
+            Here's a quick look at how it works
+            %span Click a link to learn more
+          %ol
+            %li A group answers a question by creating, discussing, editing, rating and selecting talking points
+            %li A talking point is a short sentence that clearly expresses a single idea
+            %li Breaking the answer into small chunks makes it easier for people to discuss each idea and express their preferences through rating
+            %li 
+              Anyone can 
+              = link_to 'add a talking point', help_path(:topic=>'Adding_a_new_talking_point'), {:class=>"intro"}
+              at any time
+            %li
+              Every talking point has a discussion area where you can ask questions,
+              #{link_to 'express your concerns', help_path(:topic=>'Help_others_understand_your_concerns'), {:class=>"intro"}}
+              or suggest improvements
+            %li
+              Talking points can be
+              = link_to 'edited', help_path(:topic=>'Edit_talking_point'), {:class=>"intro"}
+            %li
+              Everyone should
+              = link_to 'rate each talking point', help_path(:topic=>'Rating_talking_points'), {:class=>"intro"}
+              to indicate if they think it is acceptable
+            %li
+              Each participant maintains a list of their
+              = link_to 'five most favorite talking points', help_path(:topic=>'Selecting_your_favorite_talking_points'), {:class=>"intro"}
+            %li
+              This combination of ratings and favorites helps the community
+              = link_to 'select', help_path(:topic=>'Select_talking_points_for_the_final_answer'), {:class=>"intro"}
+              its best ideas
 
   Example_of_a_proposal:        
     opt1:    
