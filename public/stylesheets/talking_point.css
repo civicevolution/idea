@@ -1170,18 +1170,6 @@ div.right_master div.member {
     position: absolute;
     top: 10px;
     right: 10px; }
-  div.right_master div.member tr.signup, div.right_master div.member tr.reset {
-    display: none; }
-  div.right_master div.member td.input input {
-    width: 150px; }
-  div.right_master div.member td.lbl {
-    font-style: italic;
-    font-weight: bold;
-    text-align: right;
-    color: #bbbbbb;
-    padding-right: 10px; }
-  div.right_master div.member td.lbl.ta_left {
-    text-align: left; }
 div.right_master div.suggested_action div.suggestion {
   position: relative;
   padding-left: 40px; }
@@ -1255,6 +1243,19 @@ div.right_master td.button {
   padding: 6px 0; }
 div.right_master td.stay {
   padding-top: 6px; }
+
+div#sign_in_form tr.signup, div#sign_in_form tr.reset {
+  display: none; }
+div#sign_in_form td.input input {
+  width: 150px; }
+div#sign_in_form td.lbl {
+  font-style: italic;
+  font-weight: bold;
+  text-align: right;
+  color: #bbbbbb;
+  padding-right: 10px; }
+div#sign_in_form td.lbl.ta_left {
+  text-align: left; }
 
 div.talking_points_page {
   padding-top: 0px; }

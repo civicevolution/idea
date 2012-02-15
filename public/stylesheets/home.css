@@ -390,3 +390,54 @@ div#request_help {
       right: 0;
       top: 0;
       margin: 0; }
+
+div#sign_in_form tr.signup, div#sign_in_form tr.reset {
+  display: none; }
+div#sign_in_form td.input input {
+  width: 150px; }
+div#sign_in_form td.lbl {
+  font-style: italic;
+  font-weight: bold;
+  text-align: right;
+  color: #bbbbbb;
+  padding-right: 10px; }
+div#sign_in_form td.lbl.ta_left {
+  text-align: left; }
+
+form.reset_password_form, form.signin_form, form.register_form, div#join_email_address_ok {
+  max-width: 500px; }
+  form.reset_password_form label, form.signin_form label, form.register_form label, div#join_email_address_ok label {
+    font-weight: bold; }
+  form.reset_password_form input[type='text'], form.reset_password_form input[type='password'], form.signin_form input[type='text'], form.signin_form input[type='password'], form.register_form input[type='text'], form.register_form input[type='password'], div#join_email_address_ok input[type='text'], div#join_email_address_ok input[type='password'] {
+    width: 250px; }
+  form.reset_password_form input[type='submit'], form.signin_form input[type='submit'], form.register_form input[type='submit'], div#join_email_address_ok input[type='submit'] {
+    background-color: #f3973a;
+    color: #23238e;
+    font-size: 1.2em;
+    font-weight: bold; }
+  form.reset_password_form a.cancel, form.signin_form a.cancel, form.register_form a.cancel, div#join_email_address_ok a.cancel {
+    margin-left: 20px; }
+
+form.signin_form td.sign_in {
+  padding-right: 40px;
+  border-right: 1px solid black; }
+form.signin_form td.join {
+  padding-left: 40px; }
+form.signin_form td.hdr {
+  font-size: 1.2em;
+  font-weight: bold; }
+form.signin_form td.lbl {
+  padding-top: 8px; }
+form.signin_form td {
+  vertical-align: top; }
+form.signin_form p {
+  width: 240px;
+  margin: 0 20px 10px 40px; }
+form.signin_form p.signin_warn {
+  margin: 0;
+  padding: 4px;
+  border: 1px solid #f2583e;
+  width: 240px; }
+form.signin_form p.signin_action_warn {
+  color: red;
+  font-weight: bold; }

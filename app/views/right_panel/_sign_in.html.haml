@@ -2,7 +2,7 @@
 	- if flash[:notice]
 		%p.error= flash[:notice]
 
-	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form', :remote=>true}) do
+	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form'}) do
 		= hidden_field_tag :in_right_panel, 1
 		%table{:border=>0, :cellspacing=>0}
 			%tr.signin
@@ -16,7 +16,7 @@
 					%label{:for=>"password"} Password:
 				%td.input{:colspan=>2}
 					= password_field_tag :password, params[:password], :tabindex => 2
-					= link_to 'Forgot?', {}, {:class=>'tgl_sign_in', :id=>'reset', :rel=>'nofollow', :tabindex => 0}
+					= link_to 'Forgot?', {}, {:class=>'tgl_sign_in', :id=>'reset', :rel=>'nofollow', :tabindex => -1}
 			%tr.signin
 				%td
 				%td.stay{:colspan=>2}
@@ -34,32 +34,41 @@
 			%tr.signin
 				%td.lbl.ta_left{:colspan=>3}
 					New to CivicEvolution?
-					= link_to 'Sign up now', {}, {:class=>'tgl_sign_in', :id=>'signup', :rel=>'nofollow', :tabindex => 0}
+					= link_to 'Sign up now', {}, {:class=>'tgl_sign_in', :id=>'signup', :rel=>'nofollow', :tabindex => -1}
 					
 			%tr.signup
 				%td.lbl
 					%label{:for=>"email_join"} Email:
 				%td.input{:colspan=>2}
-					= text_field_tag :email_join, params[:email_join], :tabindex => 1
+					= text_field_tag :email_join, params[:email_join], :tabindex => 5
 		
 			%tr.signup
 				%td
 				%td.button
-					= submit_tag "Create my account", :name=>'join', :tabindex => 4, :disable_with => 'Submitting…'
+					= submit_tag "Create my account", :name=>'join', :tabindex => 6, :disable_with => 'Submitting…'
 				
-			%tr.signup
+			%tr.signup 
 				%td.lbl.ta_left{:colspan=>3}
 					Already have an account?
-					= link_to 'Sign in now', {}, {:class=>'tgl_sign_in', :id=>'signin', :rel=>'nofollow', :tabindex => 0}
+					= link_to 'Sign in now', {}, {:class=>'tgl_sign_in', :id=>'signin', :rel=>'nofollow', :tabindex => -1}
 					
 			%tr.reset	
 				%td.lbl
 					%label{:for=>"email_reset"} Email:
 				%td.input{:colspan=>2}
-					= text_field_tag :email_reset, params[:email_reset], :tabindex => 1
+					= text_field_tag :email_reset, params[:email_reset], :tabindex => 7
 
 			%tr.reset
 				%td
 				%td.button
-					= submit_tag "Reset password", :name=>'reset', :tabindex => 4, :disable_with => 'Submitting…'
-					= link_to 'Cancel', {}, {:class=>'tgl_sign_in', :id=>'signin', :rel=>'nofollow', :tabindex => 0}
+					= submit_tag "Reset password", :name=>'reset', :tabindex => 8, :disable_with => 'Submitting…'
+
+			%tr.reset 
+				%td.lbl.ta_left{:colspan=>3}
+					I remember, 
+					= link_to 'Sign in now', {}, {:class=>'tgl_sign_in', :id=>'signin', :rel=>'nofollow', :tabindex => -1}
+
+			%tr.reset
+				%td.lbl.ta_left{:colspan=>3}
+					New to CivicEvolution?
+					= link_to 'Sign up now', {}, {:class=>'tgl_sign_in', :id=>'signup', :rel=>'nofollow', :tabindex => -1}

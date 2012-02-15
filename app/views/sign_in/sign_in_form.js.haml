@@ -4,12 +4,9 @@
 - else
 	:plain
 		var sign_in_form = $("#{escape_javascript(
-			render( :template => 'sign_in/sign_in_form.html')
+			render( :partial => 'right_panel/sign_in.html')
 		)}");
-		sign_in_form.find('form, a.reset_password').attr('data-remote','true');
-		$('div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
-		$('div#sign_in_form a.cancel').die('click').live('click', 
-			function(){	$(this).closest('div.ui-dialog').dialog('destroy').remove(); return false; }
-		);
+		sign_in_form.find('form').attr('data-remote','true');
+		$('div.ui-dialog div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
 	
-		var dialog = sign_in_form.dialog( {title : 'Please sign in or join to continue', modal : true, width : '650px', closeOnEscape: true, close: function(){$(this).remove()} });
+		var dialog = sign_in_form.dialog( {title : 'Please sign in or join to continue', modal : true, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });

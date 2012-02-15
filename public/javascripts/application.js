@@ -263,6 +263,7 @@ $('div.cta1 a.cta').die('click').live('click',
 	}
 );
 
+$('div.right_side form.signin_form').attr('data-remote','true');
 $('form.signin_form').live('ajax:beforeSend', 
 	function(){
 		$(this).closest('div.member').find('p.error').remove();
@@ -273,16 +274,19 @@ $('a.tgl_sign_in').die('click').live('click',
 	function(){
 		var link = $(this);
 		link.closest('div.member').find('p.error').remove();
-		console.log("change form to " + link.attr('id') )
+		//console.log("change form to " + link.attr('id') );
 	  switch(link.attr('id')){
 	  	case 'reset':
 	  		link.closest('table').find('tr').hide().end().find('tr.reset').show();
+	  		link.closest('table').find('tr :submit').attr('disabled','disabled').end().find('tr.reset :submit').removeAttr('disabled');
 	  		break;
 	  	case 'signin':
 	  		link.closest('table').find('tr').hide().end().find('tr.signin').show();
+	  		link.closest('table').find('tr :submit').attr('disabled','disabled').end().find('tr.signin :submit').removeAttr('disabled');
 	  		break;
 	  	case 'signup':
 	  		link.closest('table').find('tr').hide().end().find('tr.signup').show();
+	  		link.closest('table').find('tr :submit').attr('disabled','disabled').end().find('tr.signup :submit').removeAttr('disabled');
 	  		break;
 	  }
 		return false;

@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.js { render :template => "errors/generic_error", :locals => {:member=>member, :exception => exception } }
         format.html {render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member, :exception => exception} } if request.xhr?
-        format.html {render :template=> 'errors/generic_error', :layout=>'plan', :locals => {:member=>member, :exception => exception} }
+        format.html {render :template=> 'errors/generic_error', :layout=>'plan', :locals => {:member=>member, :exception => exception, :inc_js=> 'none'} }
       end
       notify_airbrake(exception) unless Rails.env == 'development'
     rescue Exception => exception
@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
   def sign_in_form
     # show the sign in form
     flash.keep # keep the info I saved till I successfully process the sign in
-    render :template => 'sign_in/sign_in_form', :layout => 'plan'
+    render :template => 'right_panel/_sign_in', :layout => 'home', :locals => { :inc_js => 'none'}
   end
 
   def sign_in_post
