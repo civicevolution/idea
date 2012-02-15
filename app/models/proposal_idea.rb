@@ -1,7 +1,7 @@
 class ProposalIdea < ActiveRecord::Base
 
-  validates_length_of :title, :in => 10..255, :allow_blank => false
-  validates_length_of :text, :in => 50..1000, :allow_blank => false
+  validate :check_title_length
+  validate :check_text_length
   validates_presence_of :initiative_id
   validates_presence_of :member_id
   validates_presence_of :accept_guidelines, :message => "must accept the ground rules and guidelines"
@@ -17,6 +17,17 @@ class ProposalIdea < ActiveRecord::Base
     'proposal idea' #type for ProposalIdea
   end
   
+  def check_title_length
+    length = title.scan(/\S/).size
+    errors.add(:text, "must be at least 10 characters") unless length >= 10
+    errors.add(:text, "must be no longer than 255 characters") unless length <= 255
+  end
+  
+  def check_text_length
+    length = text.scan(/\S/).size
+    errors.add(:text, "must be at least 50 characters") unless length >= 50
+    errors.add(:text, "must be no longer than 1000 characters") unless length <= 1000
+  end
   
   private
 
