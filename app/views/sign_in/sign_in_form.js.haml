@@ -10,3 +10,12 @@
 		$('div.ui-dialog div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
 	
 		var dialog = sign_in_form.dialog( {title : 'Please sign in or join to continue', modal : true, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+
+		setTimeout(
+			function(){
+				if(#{params[:act] == 'join'}){
+					console.log("Make form show join");
+					$('div.ui-dialog a#signup:first').click();
+				}
+			},100
+		);

@@ -51,7 +51,10 @@ class ApplicationController < ActionController::Base
   def sign_in_form
     # show the sign in form
     flash.keep # keep the info I saved till I successfully process the sign in
-    render :template => 'right_panel/_sign_in', :layout => 'home', :locals => { :inc_js => 'none'}
+    respond_to do |format|
+      format.html {render :template => 'right_panel/_sign_in', :layout => 'home', :locals => { :inc_js => 'none'}}
+      format.js {render :template => 'sign_in/sign_in_form.js', :layout => false}
+    end
   end
 
   def sign_in_post
