@@ -48,7 +48,7 @@ help:
         %h4.hdr CivicEvolution helps citizens think together to create a community written answer to a question like this:
         = image_tag 'vhelp1/example_talking_points_edu_print.gif'  
           
-        %h4 Here are a few things to keep in mind
+        %h4.hdr Here are a few things to keep in mind
         %ul
           %li A plan explains what you want to change, why it is important, and how the change can be made
           %li Creating a plan provides a constructive opportunity for the community to think together
@@ -119,7 +119,7 @@ help:
         %h4.hdr CivicEvolution helps students think together to create a community written answer to a question like this:
         = image_tag 'vhelp1/example_talking_points_edu_print.gif'  
           
-        %h4 Here are a few things to keep in mind
+        %h4.hdr Here are a few things to keep in mind
         %ul
           %li A plan explains what you want to change, why it is important, and how the change can be made
           %li Creating a plan provides a constructive opportunity for the campus community to think together
@@ -194,7 +194,7 @@ help:
           %h4.hdr CivicEvolution helps citizens think together to create a community written answer to a question like this:
           = image_tag 'vhelp1/example_talking_points_edu_print.gif'  
 
-          %h4 Here are a few things to keep in mind
+          %h4.hdr Here are a few things to keep in mind
           %ul
             %li A plan explains what you want to change, why it is important, and how the change can be made
             %li Creating a plan provides a constructive opportunity for the community to think together
