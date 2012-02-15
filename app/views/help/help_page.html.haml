@@ -29,10 +29,11 @@
 							$('div.viewer').load('/help/help_topic?id=' + id, 
 								function(){
 									$('div.viewer').scrollTop(0);
-									$('div.viewer').append('<a href="/request_help?title=' + id + '&topic=improve" class="improve" data-remote="true">Help us improve this page</a>')
 									if(show_intro_link){
 										$('div.viewer').append('<p><a href="#" id="'  + id + '" class="intro_return">Return to intro</a></p>');
 									}
+									
+									$('div.viewer').append('<a href="/request_help?title=' + id + '&topic=improve" class="improve" data-remote="true">Help us improve this page</a>')
 								}
 							);
 							$('div.toc a').removeClass('selected');

@@ -108,8 +108,10 @@ help:
         %p 
           Your proposal should be compelling enough to inspire at least 10 other students to endorse it.  
         %p 
-          You can see the full checklist of criteria in the
-          #{link_to 'Proposal checklist'}.
+          You can see the Criteria for Acceptance of Proposal in the 
+          = link_to 'Proposal guidelines', help_path(:topic=>'Proposal_guidelines'), {:class=>"intro"}
+          and the full checklist of criteria in the
+          #{link_to 'Proposal checklist', help_path(:topic=>'Proposal_checklist'), {:class=>"intro"}}.
           
         %p
           %b
@@ -379,6 +381,71 @@ help:
         %p Project applications due March 30, 2012. Email mairj@smccd.edu for application.
         %p Qualifying project ideas will be presented to and voted on by students April 19, 2012.
         %p If you are committed to your idea, this website can help you form a team and develop your proposal.
+        
+        %h4 Criteria for Acceptance of Proposal
+
+
+        %p
+          %b Community Need 
+        %ul
+          %li Which issue or need did you choose in your Skyline College campus & community and why?
+          %li How do you know this is something the local community desires and will support? 
+
+        %p
+          %b Quality & Innovation 
+          %ul
+            %li Is the project well planned and achievable with the goal of making an impact on the specific issue you have identified in the community?  
+            %li How well is the project customized to address the campus & community’s need in a new or unique way? 
+            %li How can you use the technological resources available to you as a catalyst for social impact or change? 
+        
+        %p
+          %b Participation, Collaboration & Leadership 
+        %ul
+          %li What kind of participation and leadership do you have by students, club members, other youth, campus & community members? 
+          %li How effectively have you used the Skyline College Civic Evolution Online Platform to develop your ideas in collaboration with others?
+
+        %p
+          %b Community Partner Connection 
+        %ul
+          %li Have you identified a campus and/or community partner to work with? 
+          %li What effort have you made to reach out to your surrounding community to generate additional ideas and receive feedback for your project?  
+          %li How well have you been able to share your idea with others and gather support?
+
+        %p
+          %b Project Impact 
+        %ul
+          %li Who are the recipients, or those intended to benefit from this proposal?  
+          %li What is the intended impact for the campus & community, participants and recipients? 
+
+        %p
+          %b Budget 
+        %ul
+          %li How you will utilize the mini-grant funds?  (3 grant awards of $1200, 1 of $2500)
+
+        %p
+          %b Initiation or Implementation during spring semester 2012.
+
+
+        %h4 APPLICATION PROCESS  
+        %p Email mairj@smccd.edu for a copy of an application.  
+
+        %p DEADLINE:  Applications due Saturday, March 31st by email to mairj@smccd.edu or can be dropped off to the student activities office, room 6212 by Friday, March 30th at 4 pm.  
+
+        %p VIDEO: Please submit a short video (3-6 min) pitching your project along with your application.  Not required, but highly encouraged.
+
+        %p ONLINE COLLABORATION: Applicants must use Skyline College Civic Evolution Platform to develop their projects in an open and collaborative way with other participants.  Visit http://skyline.civicevolution.org/ to get started and for more information.  
+
+        %p SELECTION PROCESS:  Eight applicant groups will be selected for final presentation at Skyline Students Speak Campus Forum April 19, 2012.  Student vote will determine the final four winners.  Three grants of $1200 and one grant of $2500 will be awarded.
+
+        %h4 PLEASE NOTE
+        %p 
+          By signing the Skyline Students Step Up application, all participants and project applicants agree to abide and act 
+          according to the San Mateo County Community College District policies, guidelines, and regulations as outlined in 
+          the District Rules and Regulations.  You also agree to any guidelines outlined in the application packet.
+
+        %p Projects supported through Skyline College Center for Community & Student Engagement, Grants funded by Skyline College President Innovation Fund. 
+        
+        
     
     opt4:
       init_id: all
@@ -444,8 +511,14 @@ help:
       haml: |
         %p Anyone can suggest an idea for change in the community. 
         %ul
-          %li Go to the Skyline CivicEvolution home page at http://skyline.civicevolution.org and click the "Suggest a proposal" link.
+          %li 
+            Go to the Skyline CivicEvolution home page at 
+            #{link_to 'http://skyline.civicevolution.org', '/' }
+            
           %li Please check the ideas listed on the home page to see if someone else has already proposed a similar idea.
+          %li 
+            Suggest a proposal in the 
+            #{link_to 'new proposal form', '/plan/suggest_new_idea' }
           %li All new ideas have 4 weeks to get up-to-speed, so please, invite your friends and others right away.
         = image_tag 'vhelp1/suggest_idea_skyline.jpg'
     
