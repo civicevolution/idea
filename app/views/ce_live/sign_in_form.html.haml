@@ -8,6 +8,7 @@
 						
 	%p.error= flash[:notice]
 	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form'}) do
+		= hidden_field_tag :event_id, 1
 		%table{:border=>0, :cellspacing=>0}
 			%tr
 				%td.sign_in.hdr Sign in

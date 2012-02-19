@@ -1,7 +1,14 @@
 div.tagline {
   float: left;
   margin-left: 20px;
-  margin-top: -16px; }
-  div.tagline h1 a {
-    text-decoration: none;
-    color: black; }
+  margin-top: 11px; }
+  div.tagline h3 {
+    margin: 0; }
+
+div.join_com {
+  margin-top: 10px; }
+  div.join_com span.role {
+    margin-right: 30px; }
+
+div#sign_in_form td.lbl {
+  text-align: left; }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120124191528) do
+ActiveRecord::Schema.define(:version => 20120218073818) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -495,6 +495,12 @@ ActiveRecord::Schema.define(:version => 20120124191528) do
     t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "id_letter"
+    t.string   "target"
+    t.string   "type"
+    t.integer  "pos_votes"
+    t.integer  "neg_votes"
+    t.string   "status"
   end
 
   create_table "live_themes", :force => true do |t|

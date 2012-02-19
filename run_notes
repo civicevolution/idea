@@ -184,6 +184,20 @@ Running on DEV
 	cd /ce_development/src/redis-2.2.14
 	src/redis-cli
 
+		http://redis.io/commands
+			keys *
+			type _auth_event_1_theme
+			smembers _auth_event_1_theme
+			1) "c66440fd170c3c4a47b28b992c3752c0"
+		
+			2) "80355c5a9f2e568cb9a35a737b27e05c"
+		
+			hget session_id_channels c66440fd170c3c4a47b28b992c3752c0
+				"[\"_auth_event_1\", \"_auth_event_1_theme\", \"_auth_event_1_theme_2\"]"
+			hget session_id_channels 80355c5a9f2e568cb9a35a737b27e05c
+				"[\"_auth_event_1\", \"_auth_event_1_theme\"]"
+
+
 
 	
 Upload and apply custom recipes

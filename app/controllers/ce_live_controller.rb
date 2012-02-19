@@ -46,8 +46,8 @@ class CeLiveController < ApplicationController
     session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"
     session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
     authorize_juggernaut_channels(request.session_options[:id], @channels )
-
-    render :template => 'ce_live/themer', :layout => 'ce_live'
+    
+    render :template => 'ce_live/themer', :layout => 'ce_live', :locals=>{ :title=>'Theming page for CivicEvolution Live', :role=>'Themer'}
   end
   
   def table   
@@ -154,7 +154,7 @@ class CeLiveController < ApplicationController
   
   def get_tp_test_ids
     group_range = params[:group_range].split('..').map{|d| Integer(d)}
-    ltp_ids = LiveTalkingPoint.select('id').where(:live_session_id_id => params[:live_session_id], :group_id => group_range[0]..group_range[1] ).collect{|ltp| ltp.id}.shuffle
+    ltp_ids = LiveTalkingPoint.select('id').where(:live_session_id => params[:live_session_id], :group_id => group_range[0]..group_range[1] ).collect{|ltp| ltp.id}.shuffle
     render( :template => 'ce_live/get_tp_test_ids.js', :locals =>{:live_talking_point_ids => ltp_ids})
   end
   
@@ -215,18 +215,20 @@ class CeLiveController < ApplicationController
   
   def sign_in_post
     params[:event_id] = flash[:params][:event_id] if flash[:params]
-    params[:event_id] ||= 100
+    params[:event_id] ||= 1
     @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],params[:password],params[:user_name])
 
     if @live_node
       session[:live_node_id] = @live_node.id
       if flash[:fullpath]
         redirect_to flash[:fullpath]
+      else
+        redirect_to :live_coordinator
       end
     else # no live_event_staff was retrieved with password and email
       flash.keep # keep the info I saved till I successfully process the sign in
       logger.debug "No valid member for username/password"
-      flash[:notice] = "Invalid username/password combinationn for this event"
+      flash[:notice] = "Invalid username/password combination for this event"
       redirect_to sign_in_all_path(:controller=> params[:controller], :user_email=>params[:user_email])
     end # end if member
   end

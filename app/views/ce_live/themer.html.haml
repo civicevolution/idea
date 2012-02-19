@@ -1,22 +1,5 @@
 - content_for(:script) do
-	:javascript
-		$('a.new_live_talking_point').live('click', 
-			function(){
-				console.log("new_live_talking_point - add another form v1");
-				var tp = $('div.talking_point_block'); 
-				var tp_clone = tp.eq(0).clone();
-				if(tp.size() > 1){
-					$('a.new_live_talking_point').hide();
-
-				}else{
-
-				}
-				tp_clone.find('textarea').val('');
-				tp_clone.find('h3').html( tp_clone.find('h3').html().replace('Enter a ', 'Start a new ') );
-				tp.last().after(tp_clone)
-				return false;
-			}
-		)
+	
 
 	%style
 		:sass
@@ -42,33 +25,129 @@
 				input[type=text]
 					width: 360px
 
-			div#live_talking_points
-				div.inner
-					overflow: auto
-					overflow-y: scroll
-					width: 460px
-					height: 300px
-					border: 1px solid black
-					padding: 1em 0
-				input[type=text]
-					width: 360px
-
+			div.tables_ribbon
+				height: 20px
+				width: 100%
+				border: 1px solid #aaa
+			
+			div.live_talking_point
+				width: 240px
+				background-color: #FBE574
+				border: 1px solid #FADA38
+				padding: .5em 1em
+				margin: 0 20px 20px 0
+				p.text
+					font-size: .9em
+			div.workspace
+				position: relative
+				border: 1px solid #ccc
+				div.incoming_ideas
+					position: absolute
+					top: 0
+					left: 0
+					width: 280px
+					div#live_talking_points
+						div.inner
+							overflow: auto
+							overflow-y: scroll
+							width: 100%
+							height: 300px
+							border: 1px solid #bbb
+							padding: 10px
+				
+					h3 a.expand_incoming_ideas_window
+						font-size: .8em
+						font-weight: normal
+						display: block
+						float: right
+						
+				div.lists
+					position: absolute
+					top: 0
+					left: 320px
+				
+					div#lists
+						border: 1px solid #bbb
+				
+			div.join_com
+				a.test_mode
+					margin-right: 20px
+					font-weight: normal
+				
+			div.test_mode
+				padding: 10px
+				border: 1px solid #aaa
+				display: none
+				z-index: 100
+				background-color: white
+				position: absolute
+				top: 0
+				left: 0
+			
+			div.idea_list
+				width: 250px
+				margin: 20px 0 0 20px
+				div.header
+					border: 1px solid #bbb
+					p.theme
+						text-align: center
+						font-weight: bold
+				div.ideas
+					border: 1px solid #bbb
+					padding: 0 16px
+					div.idea
+						p.stats
+							display: none
+		
 %div#themer
 	:javascript
 		var pub_sub_channels = #{@channels}
 
-	- @title = 'Theme team page - CivicEvolution Live'
-	%h3 Theme team page @ CivicEvolution Live
+	%div.tables_ribbon
+		Show the table stats here
+		
 	
-	%h3 Talking points from the tables
-	%div#live_talking_points
-		%div.inner
+	%div.workspace
+		%div.incoming_ideas
+			%h3 
+				%span.cnt 0
+				Ideas to be sorted
+				= link_to 'Expand', {}, {:class=>'expand_incoming_ideas_window'}
+			%div#live_talking_points
+				%div.inner
+		%div.lists
+			%h3
+				%span.lists_cnt 0
+				Lists
+				%span.ideas_cnt 0
+				Ideas
+				%span.themes_cnt 0
+				Themes
+				%span.exmaples_cnt 0
+				Examples
 
+			%div#lists
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'List 1'}
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'List 2'}
 
-	%h3 Chat with your tables
-	%div#outer_chat			
-		%div#chat_log
-		= form_tag( live_chat_path, {:class=>'chat_form', :remote=>true}) do
-			= hidden_field_tag :type, 'table'
-			= text_field_tag :msg
-			= submit_tag 'Send', {:disable_with => 'Submitting…'}
+	= link_to 'Test',nil,:class=>'test_mode'
+	%div.test_mode
+		%h3 Test mode
+		= form_tag( live_test_ids_path, {:remote=>true}) do
+			%table
+				%tr
+					%td Live session id
+					%td= text_field_tag :live_session_id,22
+				%tr
+					%td Group range
+					%td= text_field_tag :group_range, '1..8'
+				%tr
+					%td Delay range
+					%td= text_field_tag :delay_range, '1..5'
+				%tr
+					%td Channel
+					%td= text_field_tag :theme_channel
+
+			= submit_tag 'Start test', {:disable_with => 'Submitting…'}
+			= link_to "Stop test", {}, {:class=>'stop_test'}
+			%h3.warn.hide Test in progress

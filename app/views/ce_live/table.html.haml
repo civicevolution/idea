@@ -111,9 +111,10 @@
 						%td= text_field_tag :delay_range, '1..5'
 					%tr
 						%td Channel
-						%td= text_field_tag :channel, 'theme1'
+						%td= text_field_tag :theme_channel
 				
 				= submit_tag 'Start test', {:disable_with => 'Submitting…'}
+				= link_to "Stop test", {}, {:class=>'stop_test'}
 				%h3.warn.hide Test in progress
 	
 		

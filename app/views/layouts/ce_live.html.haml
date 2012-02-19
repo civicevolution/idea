@@ -1,5 +1,6 @@
 - @member ||= Member.new :first_name=>'Unknown', :last_name=>'Visitor', :ape_code =>'unknown'
-- title ||= !@team.nil? ? "#{@team.title}" : title || @title.nil? ? 'CivicEvolution Live' : @title
+- title ||= @title.nil? ? 'CivicEvolution Live' : @title
+- inc_js ||= 'all'
 !!!
 %html{html_attrs('en-en')}
 	%head
@@ -11,31 +12,9 @@
 		
 		
 		%title= title
-		-#:javascript
-			var _load_times = { start: new Date()}	
-			var AUTH_TOKEN = #{protect_against_forgery? ? form_authenticity_token.inspect : ''}
 		=	stylesheet_link_tag 'plan.css', 'talking_point.css', 'ce_live.css'
-		-params[:monitor] = 'true'
-		- if params[:monitor] != 'true'
-			-#logger.debug "add google analytics code"
-			-#:javascript
-				var _gaq = _gaq || [];
-				_gaq.push(['_setAccount', "#{GOOGLE_ANALYTICS_ACCOUNT}"]);
-				_gaq.push(['_setDomainName', "#{GOOGLE_ANALYTICS_DOMAIN}"]);
-				_gaq.push(['_trackPageview']);
-				(function() {
-					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-				})();
 			
 	%body
-		= link_to "Help", request_help_path, {:class=>'help_tag request_help', :remote => true}
-		- if !@team.nil?
-			= link_to "New", new_content_path(@team, :date=>params[:date]),{:class=>'new_tag request_new', :remote => true}
-		
-		%div#load_mask
-	
 		%div.page
 			%div.logo
 				%a{ :href=> '/'}
@@ -45,68 +24,38 @@
 
 			- if !@live_node.nil? && !@live_node.id.nil? 
 				%div.join_com
+					%span.role
+						Role: #{role}
 					%b #{@live_node.name} -  
 					= link_to 'Sign out', {:action=>'sign_out'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false}
 			- else
 				%div.join_com
 					#{link_to 'Sign in', {:action=>'sign_out'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false}}
 
-			-#
-				- if !@member.nil? && !@member.id.nil? && @member.id != 0	
-					= render :partial => 'sign_in/member_info'		
-				- else
-					%div.join_com
-						#{link_to 'Sign in', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}} /
-						= link_to 'Join', sign_in_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
-							
 			%hr.top
-			%h2#load_message
-				%img{:src=>"/images/rotating_arrow.gif"}
-				Please wait while the page finishes loading
 
-			-#:javascript
-				var mask = document.getElementById('load_mask');
-				mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
-				mask.style.display = 'block';
-				document.getElementById('load_message').style.display = 'block';
-			
 			= yield
 			
-			%hr.bottom
+			-#%hr.bottom
 
-			%div.ce_credit
+			-#%div.ce_credit
 				%div.powered
 					= link_to :ce_home do
 						%h3 Powered by
 						= image_tag("ce_logo_20c.gif")
 						%p.tag_line Think together to act together
 				
-		-#:javascript
-			var mask = document.getElementById('load_mask');
-			mask.style.width = (document.width ? document.width : document.body.clientWidth) 	+ 'px';
-			mask.style.height = (document.height ? document.height : document.body.clientHeight) + 'px';
-		
 		:javascript
-			//_load_times.page_loaded = new Date()
 			var client;
 			var member = {first_name: "#{@member.first_name}", last_name: "#{@member.last_name}", ape_code: "#{@member.ape_code}" }
 			var page_channel = '#{@page_channel}';
-		- if !@team.nil?
-			:javascript
-				var team_id = #{@team.id};
-				var com_criteria = Number('#{@team.com_criteria}'.match(/\d+$/));
-				var res_criteria = Number('#{@team.res_criteria}'.match(/\d+$/));
-			
 	
 		= javascript_include_tag :defaults
-		
-		= javascript_include_tag 'app_live.js','jquery.scrollTo-min.js','jquery.autogrow.js','jquery.isonscreen.js',"jquery.show_char_limit-1.1.1.js", "jquery.corner.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js',"jquery.timeago.js"
-		
-		
-		= stylesheet_link_tag 'ui-lightness/jquery-ui-1.8.16.custom.css', '../plugins/prettyPhoto/css/prettyPhoto.css'
+
+		- if inc_js == 'all'
+			= javascript_include_tag 'app_live_realtime.js','app_ce_live.js','jquery.scrollTo-min.js','jquery.autogrow.js','jquery.isonscreen.js',"jquery.show_char_limit-1.1.1.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js',"jquery.timeago.js"
+	
+		= stylesheet_link_tag 'cupertino/jquery-ui-1.8.17.custom.css'
+		-# stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
 
 		= yield :script
-		
-		
-		-# 'jquery.MetaData.js', "pure.js", "jquery.timeago.js", "jquery.json-2.2.min.js"
-		
