@@ -85,16 +85,23 @@
 				left: 0
 			
 			div.idea_list
+				float: left
+				overflow: hidden
 				width: 250px
 				margin: 20px 0 0 20px
 				div.header
 					border: 1px solid #bbb
 					p.theme
+						margin: 0
 						text-align: center
 						font-weight: bold
+				p.instr
+					font-size: 1.2em
+					color: #AAA
 				div.ideas
 					border: 1px solid #bbb
 					padding: 0 16px
+					min-height: 60px
 					div.idea
 						p.stats
 							display: none
@@ -127,8 +134,8 @@
 				Examples
 
 			%div#lists
-				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'List 1'}
-				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'List 2'}
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New list', :class_name=>'new_list', :instr=>'Drop an idea here to start a new list'}
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'Miscellaneous ideas', :class_name=>'misc_list', :instr=>%q|Drop an idea here that doesn't fit anywhere else|}
 
 	= link_to 'Test',nil,:class=>'test_mode'
 	%div.test_mode
