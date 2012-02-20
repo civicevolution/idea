@@ -17,3 +17,13 @@ div.join_com {
 
 div#sign_in_form td.lbl {
   text-align: left; }
+
+.dragged_idea {
+  opacity: .40;
+  filter: alpha(opacity=40);
+  -ms-filter: "alpha(opacity=$value)";
+  -khtml-opacity: .40;
+  -webkit-opacity: .40;
+  -moz-opacity: .40; }
+  .dragged_idea p.stats {
+    display: none; }

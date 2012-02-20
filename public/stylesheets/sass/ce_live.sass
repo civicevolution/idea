@@ -16,4 +16,18 @@ div.join_com
 div#sign_in_form td.lbl
 	text-align: left
 	
+@mixin opacity($value)
+	opacity: #{"." + $value}
+	filter: alpha(opacity=$value)
+	-ms-filter: "alpha(opacity=$value)"
+	-khtml-opacity: #{"." + $value}
+	-webkit-opacity: #{"." + $value}
+	-moz-opacity: #{"." + $value}
+
+.dragged_idea
+	@include opacity(40)
+	p.stats
+		display: none
+
+
 	

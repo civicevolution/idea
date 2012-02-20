@@ -205,6 +205,9 @@ function make_idea_lists_sortable($idea_lists){
   		  if(ui.item.hasClass('live_talking_point')){
     		  ui.item.removeClass('live_talking_point ui-draggable');
           ui.item.addClass('idea');
+          //ui.item.append( '<img class="star" src="/images/star_outline.gif"/>');
+          ui.item.append( '<div class="star" />');
+          ui.item.append( '<img class="info" src="/images/info.gif"/>');
         }
   			//update_curated_tp_ids( $(this) );
   			if( idea_list.find('div.idea').size() == 0 ){
@@ -260,6 +263,7 @@ $('a.remove_list').live('click',
   }
 );
 
+var dragging_new_idea = false;
 // Drag new ideas from the left and drop them into lists on the right
 function make_new_ideas_draggable($ideas){
 	$ideas.draggable( {
@@ -275,11 +279,17 @@ function make_new_ideas_draggable($ideas){
 		revertDuration: 600,
 		delay: 50,
 		start: function(event,ui){
+		  dragging_new_idea = true;
+		  console.log("start drag make_new_ideas_draggable")
 			// refresh your sortable -- so you can drop
 			$('.sortable_ideas').sortable('refresh');
+			// collapse the incoming list so I can see the target lists
+			$('div.incoming_ideas').width( '' );
+			ui.helper.addClass('dragged_idea');
 		},
 		stop: function(event,ui){
 		  console.log("New Ideas stop");
+		  dragging_new_idea = false;
 		},
 		
 		connectToSortable: '.sortable_ideas',
@@ -287,23 +297,63 @@ function make_new_ideas_draggable($ideas){
 	});
 }
 
-$('div.idea_list div.ideas').live('mouseover mouseout', function(event) {
+$('div.idea_list div.ideas').live('mouseenter mouseleave', function(event) {
 	var list = $(this).closest('div.idea_list');
-  if (event.type == 'mouseover') {
+  if (event.type == 'mouseenter') {
     expand_idea_list(list);
   } else {
     collapse_idea_list(list);
   }
 });
 
-$('div.idea').live('mouseover mouseout', function(event) {
-	var idea = $(this);
-  if (event.type == 'mouseover') {
-    idea.find('p.stats').show();
+$('div.idea img.info').live('mouseenter mouseleave', function(event) {
+	var stats = $(this).closest('div.idea').find('p.stats');
+  if (event.type == 'mouseenter') {
+    stats.show();
   } else {
-    idea.find('p.stats').hide();
+    stats.hide();
   }
 });
+
+$('div.idea div.star').live('click', 
+  function(event) {
+  	var idea = $(this).closest('div.idea');
+  	if(idea.hasClass('example')){
+  	  idea.removeClass('example');
+      console.log("Clear idea as example for the theme/list")
+  	}else{
+  	  idea.addClass('example');
+      console.log("Save idea as example for the theme/list")
+    	
+  	}
+  }
+);
+
+
+$('div.incoming_ideas').live('mouseenter mouseleave', 
+  function(event) {
+  	var incoming_ideas = $(this);
+    var ws = $('div.workspace');
+    if (event.type == 'mouseenter') {
+      if(dragging_new_idea)return;
+      console.log("incoming ideas mouseenter")
+      incoming_ideas.width( ws.width() - 500 );
+    } else {
+      console.log("incoming ideas mouseleave")
+      incoming_ideas.width( '' );
+    }
+  }
+);
+
+
+
+$('div.lists').live('mouseenter', 
+  function(event) {
+  	console.log("mouseenter sorted lists, collapse incoming ideas");
+    //$('div.incoming_ideas').width( '' );
+  }
+);
+
 
 
 //$('a.new_live_talking_point').live('click', 
@@ -327,6 +377,3 @@ $('div.idea').live('mouseover mouseout', function(event) {
 
 
 
-// auto start the test  for 30 seconds
-setTimeout( "$('div.test_mode :submit').click()", 2000);
-setTimeout( "$('div.test_mode a.stop_test').click()", 30000);

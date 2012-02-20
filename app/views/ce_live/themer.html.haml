@@ -33,8 +33,8 @@
 			div.live_talking_point
 				width: 240px
 				background-color: #FBE574
-				border: 1px solid #FADA38
-				padding: .5em 1em
+				//border: 1px solid #FADA38
+				padding: 8px 10px
 				margin: 0 20px 20px 0
 				p.text
 					font-size: .9em
@@ -45,12 +45,15 @@
 					position: absolute
 					top: 0
 					left: 0
-					width: 280px
+					width: 290px
+					background-color: white
+					z-index: 10
 					div#live_talking_points
+						//float: left
 						div.inner
 							overflow: auto
 							overflow-y: scroll
-							width: 100%
+							//min-width: 280px
 							height: 300px
 							border: 1px solid #bbb
 							padding: 10px
@@ -65,7 +68,7 @@
 					position: absolute
 					top: 0
 					left: 320px
-				
+					background-color: white
 					div#lists
 						border: 1px solid #bbb
 				
@@ -105,16 +108,38 @@
 					color: #AAA
 				div.ideas
 					border: 1px solid #bbb
-					padding: 0 16px 10px 16px
+					padding: 0 6px 10px 0px
 					min-height: 60px
 					div.idea
 						margin-top: 10px
 						overflow: hidden	
+						position: relative
 						p.text
 							margin: 0
+							padding: 0 10px 0 20px
 							line-height: 1em
 						p.stats
 							display: none
+							padding: 0 10px 0 20px
+						img.info
+							position: absolute
+							right: 0
+							top: 0
+						div.star
+							position: absolute
+							left: 0
+							top: 2px
+							width: 20px
+							height: 18px
+							background: url('/images/star_sprite.gif') no-repeat 0 0 
+							&:hover
+								background-position: 0 -20px
+					div.idea.example
+						div.star
+							background-position: -20px 0
+							&:hover
+								background-position: -20px -20px
+						
 			div.idea_list_placeholder
 				border: 1px solid white
 			
