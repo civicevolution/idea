@@ -24,17 +24,98 @@ function live_resize(){
 	  //ltp.find('div.inner').height( ltp.height() - 4 - inner_padding);
 	  
 	  lists.width( ws.width() - lists.position().left - 10 )
+	  console.log("call adjust_lists from live_resize")
 	  adjust_lists();
 	}
 }
+
+setTimeout(live_resize,100);
+
 $(window).resize(function(){
 		try{  
-			//setTimeout(live_resize,800);
+			setTimeout(live_resize,800);
 		}catch(e){}
 	}
 );
 
-setTimeout(live_resize,100);
+function fix_list_overflow(list){
+	if(list.find('div.ideas').outerHeight() + list.find('div.header').outerHeight() > list.height()){
+		//console.log("Collapse the list to make it fit");
+		try{
+		  var line_height = parseInt(list.find('p.text:first').css('line-height'));
+		}catch(e){var line_height = 16;}
+		var num_ideas = list.find('div.idea').size();
+		var avl_height = list.height() - list.find('div.header').outerHeight(); 
+		var idea_margin = 12;
+		var height_per_idea = (avl_height - num_ideas * idea_margin)/num_ideas;
+		height_per_idea -= height_per_idea % line_height;
+		if(height_per_idea < line_height)height_per_idea = line_height;
+		//console.log("set each idea height to " + height_per_idea)
+		//list.attr('list_height',list.height());
+		list.attr('height_per_idea',height_per_idea);
+		list.find('div.idea').height(height_per_idea);
+	}
+}
+
+function expand_idea_list(list){
+  //console.log("expand_idea_list for " + list.find('p.theme').html() )
+  if( $('div.idea_list.expanded').size() > 0)return;
+  var place_holder = $('<div class="idea_list_placeholder idea_list"></div>');
+  place_holder.height(idea_list_height-2);
+  place_holder.width(list.width()-2);
+  var list_pos = list.position();
+  list.css('left',list_pos.left);
+  list.css('top',list_pos.top)
+  //list.css('top',$('div.lists').offset().top)
+  //list.css('top',0)
+  list.addClass('expanded');
+  list.after(place_holder);
+  list.find('div.idea').height('auto');
+  list.height('auto');
+}
+no_collapse = false;
+function collapse_idea_list(list){
+  if(no_collapse) return;
+  //console.log("collapse_idea_list for " + list.find('p.theme').html() )
+  $('div.idea_list_placeholder').remove();
+  list.removeClass('expanded');  
+  //console.log("collapse_idea_list set height to list_height: " + idea_list_height);
+  list.height(idea_list_height);
+  fix_list_overflow(list);
+  //console.log("call adjust_lists from collapse_idea_list")
+  //setTimeout(adjust_lists,400);
+}
+
+// make the lists fit in the display
+var idea_list_height = 0;
+function adjust_lists(){
+  var lists_div = $('div#lists');
+  var idea_lists = lists_div.find('div.idea_list').not('div.idea_list.expanded');
+  // how many lists in a row?
+  var cur_top = 0;
+  var col_ctr = 0;
+  idea_lists.each( 
+    function(){
+      var top = $(this).offset().top;
+      if(cur_top == 0) cur_top = top;
+      if(cur_top == top){
+        ++col_ctr
+      }else{
+        return;
+      }
+    }
+  );
+  var num_rows = Math.ceil(idea_lists.size() / col_ctr);
+  var row_height = lists_div.height() / num_rows;
+  idea_list_height = row_height - 40;
+  idea_lists.height(idea_list_height);
+  console.log("adjust_lists to set height to idea_list_height: " + idea_list_height);
+  idea_lists.each( 
+    function(){
+      setTimeout( function(){ fix_list_overflow( this )}.bind($(this)), 100);
+    }
+  );
+}
 
 $('span.role').before( $('a.test_mode') );
 $('div.test_mode :submit').live('click',
@@ -131,14 +212,19 @@ function make_idea_lists_sortable($idea_lists){
   			    '<a href="#" class="remove_list">Remove empty list</a>');
   			}else{
   			  idea_list.find('a.remove_list').remove();
-  			  
   			}
+  			setTimeout( function(){ fix_list_overflow( this )}.bind(idea_list), 100);
   		},
   		receive: function(event,ui){
   		  var theme = $(this).closest('div.idea_list').find('p.theme').html();
   		  console.log("1 LIST div.idea_list receive " + theme);
   		  if(ui.item.hasClass('live_talking_point')){
-  		    ui.item.hide(1000,function(){$(this).remove()}); // remove original item
+  		    ui.item.hide(1000,
+  		      function(){
+  		        $(this).remove();
+  		        $('div.incoming_ideas h3 span.cnt').html( $('div#live_talking_points div.live_talking_point').size() );
+  		      }
+  		    ); // remove original item
   		  }
   		  var par_list = $(this).closest('div.idea_list');
   		  if(par_list.hasClass('new_list')){
@@ -149,11 +235,14 @@ function make_idea_lists_sortable($idea_lists){
   		    par_list.removeClass('new_list');
   		    new_list.hide();
   		    par_list.after(new_list);
+		      console.log("call adjust_lists from make_idea_lists_sortable.receive")
   		    new_list.show(1000, function(){adjust_lists();});
   		    make_idea_lists_sortable( $('.sortable_ideas') );
   		    par_list.find('p.theme').html('List ' + int_to_letters(idea_list_ctr++) );
+  		    setTimeout( function(){ fix_list_overflow( this )}.bind(par_list), 100);
   		  }else if(par_list.hasClass('misc_list')){
   		    par_list.find('p.instr').hide(1000,function(){$(this).remove()});
+  		    setTimeout( function(){ fix_list_overflow( this )}.bind(par_list), 100);
   	    }
   		},
   		delay: 50,
@@ -170,35 +259,6 @@ $('a.remove_list').live('click',
     $(this).closest('div.idea_list').hide(1000,function(){$(this).remove()});
   }
 );
-
-// make the lists fit in the display
-function adjust_lists(){
-  var lists_div = $('div#lists');
-  var idea_lists = lists_div.find('div.idea_list');
-  // how many lists in a row?
-  var cur_top = 0;
-  var col_ctr = 0;
-  idea_lists.each( 
-    function(){
-      var top = $(this).offset().top;
-      if(cur_top == 0) cur_top = top;
-      if(cur_top == top){
-        ++col_ctr
-      }else{
-        return;
-      }
-    }
-  );
-  var num_rows = Math.ceil(idea_lists.size() / col_ctr);
-  var row_height = lists_div.height() / num_rows;
-  var list_height = row_height - 30;
-  idea_lists.height(list_height);
-  console.log("adjust_lists to height: " + list_height);
-  
-  
-}
-
-
 
 // Drag new ideas from the left and drop them into lists on the right
 function make_new_ideas_draggable($ideas){
@@ -227,6 +287,23 @@ function make_new_ideas_draggable($ideas){
 	});
 }
 
+$('div.idea_list div.ideas').live('mouseover mouseout', function(event) {
+	var list = $(this).closest('div.idea_list');
+  if (event.type == 'mouseover') {
+    expand_idea_list(list);
+  } else {
+    collapse_idea_list(list);
+  }
+});
+
+$('div.idea').live('mouseover mouseout', function(event) {
+	var idea = $(this);
+  if (event.type == 'mouseover') {
+    idea.find('p.stats').show();
+  } else {
+    idea.find('p.stats').hide();
+  }
+});
 
 
 //$('a.new_live_talking_point').live('click', 
