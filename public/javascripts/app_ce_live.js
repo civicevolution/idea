@@ -315,6 +315,15 @@ $('div.idea img.info').live('mouseenter mouseleave', function(event) {
   }
 });
 
+$('div.idea').live('mouseenter mouseleave', function(event) {
+	var idea = $(this);
+  if (event.type == 'mouseenter') {
+    idea.addClass('highlighted_idea')
+  } else {
+    idea.removeClass('highlighted_idea')
+  }
+});
+
 $('div.idea div.star').live('click', 
   function(event) {
   	var idea = $(this).closest('div.idea');
@@ -329,15 +338,14 @@ $('div.idea div.star').live('click',
   }
 );
 
-
-$('div.incoming_ideas').live('mouseenter mouseleave', 
+$('div.incoming_ideas div#live_talking_points').live('mouseenter mouseleave', 
   function(event) {
-  	var incoming_ideas = $(this);
+  	var incoming_ideas = $(this).closest('div.incoming_ideas');
     var ws = $('div.workspace');
     if (event.type == 'mouseenter') {
       if(dragging_new_idea)return;
       console.log("incoming ideas mouseenter")
-      incoming_ideas.width( ws.width() - 500 );
+      incoming_ideas.width( ws.width() - 100 );
     } else {
       console.log("incoming ideas mouseleave")
       incoming_ideas.width( '' );

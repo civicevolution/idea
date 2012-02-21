@@ -33,9 +33,9 @@
 			div.live_talking_point
 				width: 240px
 				background-color: #FBE574
-				//border: 1px solid #FADA38
 				padding: 8px 10px
 				margin: 0 20px 20px 0
+				float: left
 				p.text
 					font-size: .9em
 			div.workspace
@@ -49,8 +49,8 @@
 					background-color: white
 					z-index: 10
 					div#live_talking_points
-						//float: left
 						div.inner
+							background-color: white
 							overflow: auto
 							overflow-y: scroll
 							//min-width: 280px
@@ -131,19 +131,26 @@
 							top: 2px
 							width: 20px
 							height: 18px
+					div.idea.highlighted_idea
+						div.star
 							background: url('/images/star_sprite.gif') no-repeat 0 0 
 							&:hover
 								background-position: 0 -20px
 					div.idea.example
 						div.star
-							background-position: -20px 0
+							background: url('/images/star_sprite.gif') no-repeat -20px 0 
 							&:hover
 								background-position: -20px -20px
-						
+			div.idea_list.misc_list	
+				div.ideas
+					div.idea
+						div.star
+							background: none		
 			div.idea_list_placeholder
 				border: 1px solid white
+
 			
-		
+			
 %div#themer
 	:javascript
 		var pub_sub_channels = #{@channels}
