@@ -273,7 +273,6 @@ $('form.signin_form').live('ajax:beforeSend',
 $('a.tgl_sign_in').die('click').live('click',
 	function(){
 		var link = $(this);
-		link.closest('div.member').find('p.error').remove();
 		//console.log("change form to " + link.attr('id') );
 	  switch(link.attr('id')){
 	  	case 'reset':
@@ -288,7 +287,12 @@ $('a.tgl_sign_in').die('click').live('click',
 	  		link.closest('table').find('tr').hide().end().find('tr.signup').show();
 	  		link.closest('table').find('tr :submit').attr('disabled','disabled').end().find('tr.signup :submit').removeAttr('disabled');
 	  		break;
+  		case 'signup_error_link':
+	  		link.closest('div').find('table tr').hide().end().find('tr.signup').show();
+	  		link.closest('div').find('table tr :submit').attr('disabled','disabled').end().find('tr.signup :submit').removeAttr('disabled');
+	  		break;
 	  }
+	  link.closest('div.member').find('p.error').remove();
 		return false;
 	}
 );

@@ -187,8 +187,15 @@ class ApplicationController < ActionController::Base
       end
     else # no member was retrieved with password and email
       flash.keep # keep the info I saved till I successfully process the sign in
-      logger.debug "No valid member for email/pwd"
-      flash[:notice] = "Invalid email/password combination"
+      if Member.email_in_use(params[:email])
+        logger.debug "Your password is incorrect"
+        flash[:notice] = "Your password is incorrect"
+        flash[:action] = nil
+      else
+        logger.debug "We don't recognize your email: #{params[:email]}."
+        flash[:notice] = "We don't recognize your email: #{params[:email]}. If you're new to CivicEvolution, "
+        flash[:action] = 'sign_up'
+      end
       respond_to do |format|
         format.html { redirect_to sign_in_all_path(:controller=> params[:controller], :email=>params[:email]) }
         format.js { render 'sign_in/sign_in_form' }

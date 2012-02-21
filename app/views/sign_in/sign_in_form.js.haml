@@ -1,6 +1,10 @@
 - if params[:in_right_panel] && flash[:notice]
-	$('div#sign_in_form').find('p.error').remove();
-	$('div#sign_in_form').prepend("<p class='error'>#{flash[:notice]}</p>")
+	:plain
+		$('div#sign_in_form').find('p.error').remove();
+		$('div#sign_in_form').prepend("<p class='error'>#{flash[:notice]}</p>");
+		if(#{flash[:action] == 'sign_up'}){
+			$('div#sign_in_form p.error').append( $('a#signup:first').clone().attr('id','signup_error_link') );
+		}
 - else
 	:plain
 		var sign_in_form = $("#{escape_javascript(
