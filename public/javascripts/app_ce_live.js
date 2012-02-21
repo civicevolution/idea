@@ -432,14 +432,6 @@ $('div.incoming_ideas div#live_talking_points').live('mouseenter mouseleave',
   }
 );
 
-$('div.idea_list img.edit').live('click',
-  function(){
-    console.log("edit the theme");
-    return false;
-  }
-);
-
-
 //$('a.new_live_talking_point').live('click', 
 //	function(){
 //		console.log("new_live_talking_point - add another form v1");

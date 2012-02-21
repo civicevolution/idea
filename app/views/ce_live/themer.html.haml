@@ -117,13 +117,19 @@
 					position: relative
 					p.theme
 						margin: 0
+						padding: 0 10px
 						text-align: center
 						font-weight: bold
-					img.edit
+						background: url('/images/pencil.gif') no-repeat top right 
+					div.edit
 						position: absolute
 						top: 0
 						right: 0
 						cursor: pointer
+						width: 20px
+						height: 16px
+					textarea
+						width: 95%
 				p.instr
 					font-size: 1.2em
 					color: #AAA
@@ -175,6 +181,10 @@
 						div.star
 							background: none		
 							cursor: normal
+				div.header			
+					p.theme
+						background: none
+				
 			div.idea_list_placeholder
 				border: 1px solid white
 			p.stats
@@ -216,7 +226,7 @@
 				Examples
 
 			%div#lists
-				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New list', :class_name=>'new_list', :instr=>'Drop an idea here to start a new list'}
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New list', :class_name=>'new_list', :instr=>'Drop an idea here to start a new list', :edit => true}
 				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'Miscellaneous ideas', :class_name=>'misc_list', :instr=>%q|Drop an idea here that doesn't fit anywhere else|}
 
 	= link_to 'Test',nil,:class=>'test_mode'

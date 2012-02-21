@@ -18,6 +18,8 @@ G3::Application.routes.draw do |map|
   #post 'live/:channel/post_tp' => 'ce_live#post_talking_point_from_group', :as => 'post_live_tp'
   post 'live/post_tp' => 'ce_live#post_talking_point_from_group', :as => 'post_live_tp'
   post 'live/test_ids' => 'ce_live#get_tp_test_ids', :as => 'live_test_ids'
+  post 'live/theme/edit' => 'ce_live#edit_theme', :as => 'live_theme_edit'
+  
   
   get 'proposal/:team_id/print' => 'proposal#print', :as => 'print_proposal'
   

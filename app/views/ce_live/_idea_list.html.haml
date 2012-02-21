@@ -1,8 +1,10 @@
+- edit ||= false
 %div.idea_list{:class=> class_name ? class_name : ''}
 	%div.header
-		%p.theme= title
-		= image_tag 'pencil_edit.gif', :class=>'edit'
+		%div.theme
+			%p.theme= title
+			- if edit
+				%div.edit
 	%div.ideas.sortable_ideas
 		- if instr
 			%p.instr= instr
-		-#= render :partial=>'ce_live/idea', :locals=>{:text=>'Obtain two or three copies of the Recommendations each, or make it available in a presentation format online for us to print off.'}
