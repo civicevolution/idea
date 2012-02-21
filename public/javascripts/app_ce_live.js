@@ -245,10 +245,6 @@ function make_idea_lists_sortable($idea_lists){
   		  if(ui.item.hasClass('live_talking_point')){
     		  ui.item.removeClass('live_talking_point ui-draggable');
           ui.item.addClass('idea');
-        }else{
-          // if there is only one copy of this idea currently
-          var ques = $('<div class="move_or_copy_idea"><button>Move this idea to this list</button><button>Copy this idea to this list</button></div>');
-          ui.item.css('background-color', '#f3973a').before(ques);
         }
   			//update_curated_tp_ids( $(this) );
   			if( idea_list.find('div.idea').size() == 0 ){
@@ -272,27 +268,6 @@ function make_idea_lists_sortable($idea_lists){
     		//console.log("1 LIST idea_list sortable remove " + theme);
         $(this).append($(ui.helper).clone());
   		},
-  		//over: function(event,ui){
-  		//  var idea_list = $(this).closest('div.idea_list');
-  		//  var theme = idea_list.find('p.theme').html();
-  		//  
-  		//  console.log("1 LIST idea_list sortable over " + theme);
-  		//  //debugger
-  		//},
-  		//sort: function(event,ui){
-  		//  var idea_list = $(this).closest('div.idea_list');
-  		//  var theme = idea_list.find('p.theme').html();
-  		//  
-  		//  console.log("1 LIST idea_list sortable sort " + theme);
-  		//  //debugger
-  		//},
-  		//activate: function(event,ui){
-  		//  var idea_list = $(this).closest('div.idea_list');
-  		//  var theme = idea_list.find('p.theme').html();
-  		//  
-  		//  console.log("1 LIST idea_list sortable activate " + theme);
-  		//  //debugger
-  		//},
   		receive: function(event,ui){
   		  var theme = $(this).closest('div.idea_list').find('p.theme').html();
   		  //console.log("1 LIST div.idea_list receive " + theme);
@@ -322,6 +297,14 @@ function make_idea_lists_sortable($idea_lists){
   		    par_list.find('p.instr').hide(1000,function(){$(this).remove()});
   		    setTimeout( function(){ fix_list_overflow( this )}.bind(par_list), 100);
   	    }
+  	    if( !ui.item.hasClass('live_talking_point')){
+          // if there is only one copy of this idea currently
+          // don't show the move/copy question if the source and dest list are the same
+          if( !($(this).closest('div.idea_list')[0] === ui.item.data('source_list')[0]) ){
+            var ques = $('<div class="move_or_copy_idea"><button>Move this idea to this list</button><button>Copy this idea to this list</button></div>');
+            ui.item.css('background-color', '#f3973a').before(ques);
+          }
+        }
   		},
   		delay: 50,
   		cursor: 'pointer',
