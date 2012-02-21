@@ -93,10 +93,12 @@ function init_juggernaut_subscribe(){
 		}
 	}
 	
-	console.log("autostart the test in init_juggernaut_subscribe")
-	// auto start the test  for 30 seconds
-  setTimeout( "$('div.test_mode :submit').click()", 2000);
-  setTimeout( "$('div.test_mode a.stop_test').click()", 30000);
+	if(params['test']){
+  	console.log("autostart the test in init_juggernaut_subscribe")
+  	// auto start the test  for 30 seconds
+    setTimeout( "$('div.test_mode :submit').click()", 2000);
+    //setTimeout( "$('div.test_mode a.stop_test').click()", 30000);
+  }
 }
 
 function process_juggernaut_input(data){

@@ -36,8 +36,23 @@
 				padding: 8px 10px
 				margin: 0 20px 20px 0
 				float: left
+				position: relative
 				p.text
 					font-size: .9em
+					margin-bottom: 0
+				img.info
+					position: absolute
+					right: 6px
+					top: 6px
+					cursor: pointer
+				p.stats
+					display: none
+					padding: 0 10px 0 0
+					font-weight: bold
+				p.minority
+					margin: 0
+					color: #888
+			
 			div.workspace
 				position: relative
 				border: 1px solid #ccc
@@ -89,7 +104,7 @@
 			
 			div.idea_list.expanded
 				position: absolute
-				z-index: 100
+				z-index: 2
 				background-color: white
 					
 			div.idea_list
@@ -99,10 +114,16 @@
 				margin: 20px 0 0 20px
 				div.header
 					border: 1px solid #bbb
+					position: relative
 					p.theme
 						margin: 0
 						text-align: center
 						font-weight: bold
+					img.edit
+						position: absolute
+						top: 0
+						right: 0
+						cursor: pointer
 				p.instr
 					font-size: 1.2em
 					color: #AAA
@@ -121,16 +142,23 @@
 						p.stats
 							display: none
 							padding: 0 10px 0 20px
+							font-weight: bold
 						img.info
 							position: absolute
 							right: 0
 							top: 0
+							cursor: pointer
 						div.star
 							position: absolute
 							left: 0
 							top: 2px
 							width: 20px
 							height: 18px
+							cursor: pointer
+						p.minority
+							margin: 0
+							color: #888
+							padding-left: 20px
 					div.idea.highlighted_idea
 						div.star
 							background: url('/images/star_sprite.gif') no-repeat 0 0 
@@ -146,9 +174,19 @@
 					div.idea
 						div.star
 							background: none		
+							cursor: normal
 			div.idea_list_placeholder
 				border: 1px solid white
-
+			p.stats
+				span.pos
+					color: green
+				span.neg
+					color: red
+			div.move_or_copy_idea
+				text-align: center
+				padding: 10px
+				margin-bottom: -10px
+				background-color: #F3973A
 			
 			
 %div#themer
@@ -164,7 +202,6 @@
 			%h3 
 				%span.cnt 0
 				Ideas to be sorted
-				= link_to 'Expand', {}, {:class=>'expand_incoming_ideas_window'}
 			%div#live_talking_points
 				%div.inner
 		%div.lists

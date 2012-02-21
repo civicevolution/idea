@@ -45,8 +45,8 @@
 					'p.text' : 'data.live_talking_point.text',
 					'span.table' : '\#{data.live_talking_point.group_id}-\#{data.live_talking_point.id_letter}',
 					//'span.idea_letter' : 'data.live_talking_point.id_letter',
-					'span.pos' : 'data.live_talking_point.pos_votes',
-					'span.neg' : 'data.live_talking_point.neg_votes'
+					'span.pos' : '\#{data.live_talking_point.pos_votes}(+)',
+					'span.neg' : '\#{data.live_talking_point.neg_votes}(-)'
 					//'div.Comment_entry @id' : 'com_\#{data.comment.id}',	
 					//'img.i36 @src' : 'author.photo_url',
 					//'div.comment_text' : function(arg){return simple_com_format(arg.context)},
@@ -68,6 +68,9 @@
 					
 					//$('div#live_talking_points div.inner').append(live_talking_point).scrollTop(99999999);
 					live_talking_point = $(live_talking_point);
+					if(data.data.live_talking_point.pos_votes<3){
+						live_talking_point.append('<p class="minority">[Minority perspective]</p>');
+					}
 					$('div#live_talking_points div.inner').append(live_talking_point).scrollTop(99999999);
 					
 					temp.live_talking_point = live_talking_point

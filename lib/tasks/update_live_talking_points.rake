@@ -16,11 +16,12 @@ namespace :update_live_talking_points do
       end
       ltp.id_letter = letter
       
-      if rand > 0.2
-        pro = [*4..7].sample
-      else
-        pro = [*1..4].sample
-      end
+      #if rand > 0.2
+      #  pro = [*4..7].sample
+      #else
+      #  pro = [*1..4].sample
+      #end
+      pro = [*1..7].sample
       ltp.pos_votes = pro
       ltp.neg_votes = 7 - pro
       
