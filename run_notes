@@ -199,6 +199,12 @@ Running on DEV
 
 
 
+	psql: could not connect to server: No such file or directory
+		Is the server running locally and accepting
+		connections on Unix domain socket "/var/pgsql_socket/.s.PGSQL.5432"?
+		
+		ln -s /tmp/.s.PGSQL.5432 /var/pgsql_socket/.s.PGSQL.5432
+
 	
 Upload and apply custom recipes
 	attach chef recipes

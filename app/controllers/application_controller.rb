@@ -146,7 +146,12 @@ class ApplicationController < ActionController::Base
   end
   
   def process_sign_in_post
-    @member = Member.authenticate(params[:email], params[:password])
+    begin
+      @member = Member.authenticate(params[:email], params[:password])
+    rescue Exception => error
+      @member = nil
+      logger.debug "Member authenticate failed"
+    end
     if @member
       session[:member_id] = @member.id
       session.delete :code
@@ -187,10 +192,23 @@ class ApplicationController < ActionController::Base
       end
     else # no member was retrieved with password and email
       flash.keep # keep the info I saved till I successfully process the sign in
-      if Member.email_in_use(params[:email])
-        logger.debug "Your password is incorrect"
-        flash[:notice] = "Your password is incorrect"
-        flash[:action] = nil
+      m = Member.find_by_email(params[:email].downcase.strip)
+      if m
+        if m.hashed_pwd.nil?
+          # create and store a code for the member
+          mcode = MemberLookupCode.get_code(m.id, {:scenario=>'reset password'})
+          logger.debug "generate an email to #{m.email} with code: #{mcode}"
+          # generate an email to the member
+          MemberMailer.delay.reset_password(m,mcode, request.env["HTTP_HOST"]) 
+          
+          logger.debug "Your password has not been set"
+          flash[:notice] = "Your password has not been set, We have sent an email to #{params[:email]} to help you set your password."
+          flash[:action] = nil
+        else
+          logger.debug "Your password is incorrect"
+          flash[:notice] = "Your password is incorrect"
+          flash[:action] = nil
+        end
       else
         logger.debug "We don't recognize your email: #{params[:email]}."
         flash[:notice] = "We don't recognize your email: #{params[:email]}. If you're new to CivicEvolution, "
