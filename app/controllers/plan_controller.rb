@@ -75,6 +75,9 @@ class PlanController < ApplicationController
       if @proposal_idea.save
         ProposalMailer.delay.submit_receipt(@member, @proposal_idea, params[:_app_name] )
         ProposalMailer.delay.review_request(@member, @proposal_idea, request.env["HTTP_HOST"], params[:_app_name] )
+        if params[:_initiative_id] == 5
+          ProposalMailer.delay.review_request_JM(@member, @proposal_idea, request.env["HTTP_HOST"], params[:_app_name] )
+        end
         format.html { render :template => "plan/acknowledge_proposal_idea", :layout => 'plan' }
         format.js
       else
@@ -109,7 +112,7 @@ class PlanController < ApplicationController
     # convert the idea into a team
     
     admin = Member.find_by_id(session[:member_id]);
-    if !admin.nil? && admin.email == 'brian@civicevolution.org'
+    if !admin.nil? && ( admin.email == 'brian@civicevolution.org' || admin.email == 'mairj@smccd.edu' )
     
       logger.debug "create_team_from_proposal_idea for id: #{params[:id]}"
       #id refers to the proposal

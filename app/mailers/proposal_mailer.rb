@@ -19,6 +19,16 @@ class ProposalMailer < ActionMailer::Base
     body       :member => member, :proposal => proposal, :host=>host, :app_name=>app_name
   end
 
+  def review_request_JM(member, proposal, host, app_name, sent_at = Time.now)
+    subject    'Please review this proposal idea'
+    recipients 'mairj@smccd.edu'
+    from       "\"CivicEvolution\" <no-reply@auto.civicevolution.org>"
+    sent_on    sent_at
+    
+    body       :member => member, :proposal => proposal, :host=>host, :app_name=>app_name
+  end
+
+
   def approval_notice(member, proposal, team, host, sent_at = Time.now)
     subject    'Your proposal idea has been approved and a proposal page has been created'
     recipients "#{member.first_name} #{member.last_name} <#{member.email}>"

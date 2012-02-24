@@ -1,0 +1,11 @@
+<%= @member.first_name%> <%=@member.last_name%> (<%=@member.email%>) has suggested a proposal idea for <%=@app_name%> with CivicEvolution.
+
+Title: <%= @proposal.title%>
+
+Description:
+<%= @proposal.text%>
+
+Please review this proposal idea and approve it or contact the author and explain why it does not meet the ground rules and guidelines
+	
+http://<%=@host%>/plan/review_proposal_idea/<%=@proposal.id%>
+
