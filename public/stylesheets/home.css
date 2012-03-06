@@ -441,3 +441,27 @@ form.signin_form p.signin_warn {
 form.signin_form p.signin_action_warn {
   color: red;
   font-weight: bold; }
+
+form.what_do_you_think, form.std_form, form.comment_form {
+  margin-bottom: 40px;
+  margin-right: 0px;
+  width: 100%;
+  max-width: 500px;
+  clear: both; }
+  form.what_do_you_think label, form.std_form label, form.comment_form label {
+    display: block;
+    clear: both;
+    margin-top: 0px;
+    font-weight: bold;
+    font-style: italic;
+    color: #888888; }
+  form.what_do_you_think img, form.std_form img, form.comment_form img {
+    display: block;
+    float: left;
+    margin: 6px 10px 0 0; }
+  form.what_do_you_think textarea, form.what_do_you_think input[type=text], form.std_form textarea, form.std_form input[type=text], form.comment_form textarea, form.comment_form input[type=text] {
+    width: 100%;
+    font-size: 1.2em;
+    background-color: #ececec; }
+  form.what_do_you_think input[type=submit], form.std_form input[type=submit], form.comment_form input[type=submit] {
+    margin: 0 10px 0 10px; }
