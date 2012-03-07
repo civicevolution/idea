@@ -25,11 +25,11 @@
 		= text_field_tag :subject, @cta_email.subject, :class=>'subject', :alias=>'Subject'
 		%label 
 			Please enter your email message
-			%a{:href=>'#', :class=>'how'} How
-		%div.how
+			-#%a{:href=>'#', :class=>'how'} How
+		-#%div.how
 			%ul
 				%li image with link !http://www.w3.org/Icons/valid-html401!:http://validator.w3.org/check?uri=referer
-		= text_area_tag :message, @cta_email.message, :class=>'message', :size=>"1x2", :alias=>'Message'
+		= text_area_tag :message, @cta_email.message, :class=>'message autosize', :alias=>'Message'
 
 		%div.control_line
 			%div.controls

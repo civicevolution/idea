@@ -1,9 +1,8 @@
 - content_for (:script) do
-	-#= javascript_include_tag "jquery-1.4.2.min.js", 'jquery.form.js', 'ce/activate/act_welcome_layout.js'
+	= javascript_include_tag 'jquery.form.js'
 	:javascript
-		
 		$(function(){
-			$('textarea').autogrow({
+			$('textarea').autoGrow({
 				lineHeight : 16,
 				minHeight  : 128,
 				maxHeight : 500
@@ -202,7 +201,8 @@
 				width: 200px
 			p.search_data
 				display: none
-				
+			textarea,message
+				height: 400px
 	
 
 
