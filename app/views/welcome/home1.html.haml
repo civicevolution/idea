@@ -47,7 +47,7 @@
 				%p= flash[:subscribed]
 			- else 
 				= form_tag("/subscribe", :remote=>false, :id=>'subscribe_form', :class=>'orig') do
-					%p Keep me updated
+					%p Keep me updated!
 					%p
 						Email: 
 						= text_field_tag :email
