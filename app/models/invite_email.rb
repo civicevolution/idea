@@ -67,7 +67,7 @@ class InviteEmail < Tableless
         errors.add(:recipient_emails, "should be like xxx@yyy.zzz")
         recipient[:error] = "The recipient must include a valid email address like xxx@yyy.zzz"
       elsif ! addresses[recipient[:email]].nil?
-        errors.add(:recipient_emails, "should be like xxx@yyy.zzz")
+        errors.add(:recipient_emails, "A duplicate email was detected")
         recipient[:error] = "Email is a duplicate in this list"
       end
       addresses[recipient[:email]] = 1

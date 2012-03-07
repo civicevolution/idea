@@ -99,7 +99,7 @@ class MembersController < ApplicationController
       if @invite.errors.empty?
         recipient =  @invite.recipients[0]
         #logger.debug "Generate a sample email to #{recipient[:first_name]} at #{recipient[:email]}"
-        @email = ProposalMailer.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"] )
+        @email = ProposalMailer.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"], params[:_app_name] )
         if flash[:params]
           flash[:params][:recipient_emails] = params[:recipient_emails] || flash[:params][:recipient_emails]
           flash[:params][:message] = params[:message] || flash[:params][:message]
@@ -166,7 +166,7 @@ class MembersController < ApplicationController
       if @invite.errors.empty?
         @invite.recipients.each do |recipient|
           #logger.debug "Send an email to #{recipient[:first_name]} at #{recipient[:email]}"
-          ProposalMailer.delay.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"] )
+          ProposalMailer.delay.team_send_invite(@member, recipient, @invite.message, team, request.env["HTTP_HOST"], params[:_app_name] )
           Invite.create :member_id => @member.id, :initiative_id => params[:_initiative_id], :team_id => team_id, :first_name => recipient[:first_name],:last_name => recipient[:last_name], :email => recipient[:email], :_ilc => nil
         end
         flash[:invite] = @invite
