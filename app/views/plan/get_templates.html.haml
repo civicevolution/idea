@@ -245,12 +245,14 @@
 			);
 			
 			function open_question_worksheet(el){
-				//console.log("insert a curated_talking_points list v2");
 				el = $(el);
 				var question_id = el.closest('div.question_summary').attr('id');
 				var order_id = Number(el.html().match(/Q(\d+)/)[1]); 
 				var question_text = el.html().replace(/Q\d+: /,'');
-
+				
+				$.scrollTo($('div.question_summary[id="' + question_id + '"] p.question'), 600)
+				return false;
+				
 				//if ( !$('h3#curated_list_t').attr('class').match(/active/) ) $('h3#curated_list_t').click();
 				
 				var q_tabs = $('div.list_tabs');
@@ -357,11 +359,15 @@
 				}
 				var worksheet = el.closest('div.worksheet');
 				var question_id = worksheet.attr('id');
-				worksheet.slideUp(800);
+				worksheet.slideUp(800, function(){$(this).remove();});
+				
+				return false;
 				
 				// scroll to top of question
 				$.scrollTo(el.closest('div.question_summary'),1000);
-
+				
+				
+				
 				var q = worksheet.closest('div.question_summary').children('p.question');
 				var new_top = q.offset().top + q.height();
 				var new_left = q.offset().left;

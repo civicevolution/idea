@@ -2,26 +2,26 @@
 :plain
 	//console.log("Load the worksheet")
 	var worksheet = $("#{escape_javascript(
-		render( :partial => 'plan/question', :locals => {:question => question, :questions => questions, :question_counter => question.order_id } )
+		render( :partial => 'plan/tp_matrix', :locals => {:question => question, :questions => questions, :question_counter => question.order_id } )
 	)}");
 
 	worksheet.find('div.my_rating').addClass('js');
 	worksheet.find('div.community_rating').removeClass('no_js');
 	worksheet.attr('id',#{question.id});
 	
-	if(#{!question.show_new}){
-		var tps = worksheet.find('div.talking_point_entry:eq(7) ~ div.talking_point_entry');
-		tps.hide();
-		$('<a class="display_all_tp" href="#">Display ' + tps.size() + ' more talking point' + (tps.size()>1 ? 's' : '' ) + '</a>').insertAfter(tps.last())
-		$('a.display_all_tp').die('click').live('click',
-			function(){
-				$(this).closest('div.question_worksheet').find('div.talking_point_entry').show(1000);
-				$(this).closest('div.question_worksheet').find('h2.ellipsis').remove();
-				$(this).remove();
-				return false;
-			}
-		);
-	}
+	//if(#{!question.show_new}){
+	//	var tps = worksheet.find('div.talking_point_entry:eq(7) ~ div.talking_point_entry');
+	//	tps.hide();
+	//	$('<a class="display_all_tp" href="#">Display ' + tps.size() + ' more talking point' + (tps.size()>1 ? 's' : '' ) + '</a>').insertAfter(tps.last())
+	//	$('a.display_all_tp').die('click').live('click',
+	//		function(){
+	//			$(this).closest('div.question_worksheet').find('div.talking_point_entry').show(1000);
+	//			$(this).closest('div.question_worksheet').find('h2.ellipsis').remove();
+	//			$(this).remove();
+	//			return false;
+	//		}
+	//	);
+	//}
 	
 	function scrollToElement(){
 		var highlight = $('.highlight');
@@ -49,9 +49,19 @@
 	var question_summary = $('div.question_summary[id="#{question.id}"]');
 	var q_link = question_summary.find('a.display_worksheet');
 	
-	question_summary.find('div.talking_point_sec').replaceWith(worksheet);
+	//question_summary.find('div.talking_point_sec').replaceWith(worksheet);
+	question_summary.find('div.talking_point_sec').hide(600);
+	
 	worksheet.hide();
-	worksheet.slideDown(800);
+	$('body').append(worksheet);
+	
+	setTimeout(
+		function(){
+			$('div.worksheet').css({top: 0, left: $('div.left_side').offset().left, width: $('div.left_side').width(), height: $('div.right_side').outerHeight()});
+			worksheet.slideDown(800);
+			$('div.talking_point_matrix').height( $(window).height() - 150 );
+		},200)
+	
 	
 	function make_talking_points_draggable($talking_points, sortable_destination){
 		$talking_points.draggable( {

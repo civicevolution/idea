@@ -73,7 +73,12 @@ class Team < ActiveRecord::Base
 
     #iterate through talking points and assign the tp to the questions in order of curated ids
     talking_points.each do |talking_point|
-      self.questions.detect{|q| q.id == talking_point.question_id}.curated_talking_points_set[ tp_ids[talking_point.question_id].index(talking_point.id) ] = talking_point
+      begin
+        self.questions.detect{|q| q.id == talking_point.question_id}.curated_talking_points_set[ tp_ids[talking_point.question_id].index(talking_point.id) ] = talking_point
+      rescue
+        #debugger
+      end
+      
     end
   end
   

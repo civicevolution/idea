@@ -18,10 +18,11 @@
 				= add_call_to_action(:id=>'question_summary_above_curated_list', :question=>question)
 				%ul.talking_points{:id=>question.id, :curated_tp_ids=>question.curated_tp_ids, :auto_curated=> question.auto_curated ? 't' : 'f'}
 					- question.curated_talking_points.each do |talking_point|
-						%li.talking_point{:id=>talking_point.id}
-							= talking_point.text
-							= image_tag 'delete_icon_16.gif',{:title=>'Click to delete'}
-							= link_to "details",{},{:class=>'tp_details'}
+						- if !talking_point.nil?
+							%li.talking_point{:id=>talking_point.id}
+								= talking_point.text
+								= image_tag 'delete_icon_16.gif',{:title=>'Click to delete'}
+								= link_to "details",{},{:class=>'tp_details'}
 							
 				
 					

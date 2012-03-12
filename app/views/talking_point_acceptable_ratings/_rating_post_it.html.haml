@@ -1,0 +1,31 @@
+- mode = '' unless !defined?(mode).nil? && !mode.nil?
+%div.talking_point_acceptable{:class => talking_point.my_rating.nil? ? 'unrated':'rated'}
+	%div.my_rating.js
+		- if mode != 'new_'
+			- vote_max = 0
+			- num_votes = 0
+			- talking_point.rating_votes.each{ |v| num_votes += v; vote_max = v unless vote_max > v }
+			- barw = 17
+			- barh = 22
+			%div.community_rating{:class=> talking_point.my_rating.nil? ? 'hide' : ''}
+
+				%div.graph.js
+					- talking_point.rating_votes.each_index do |i|
+						%div.bar{:class=> "bar#{i+1} #{i+1 == talking_point.my_rating ? 'mine' : ''}", :style=>"left: #{barw * i}px; height: #{talking_point.rating_votes[i] == 0 ? 0 : talking_point.rating_votes[i].to_f/vote_max * 100}%"}
+
+				%p.talking_point_ratings= pluralize(num_votes, 'rating')
+		
+		%div.radios{:class=> talking_point.my_rating.nil? ? '' : 'hide'}
+			- TALKING_POINT_RATING_OPTIONS.sort.each do |value ,title|
+				%div{:class=> "bar#{value}"}
+					- if value.to_i == talking_point.my_rating
+						%input.rating{:name => "#{mode}tp_rating_#{talking_point.id}", :id => "#{mode}tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}", :checked => 'true'}
+					- else
+						%input.rating{:name => "#{mode}tp_rating_#{talking_point.id}", :id => "#{mode}tp_rating_#{talking_point.id}_#{value}", :type => 'radio', :value => "#{value}", :title => "#{title}"}
+					= label_tag "#{mode}tp_rating_#{talking_point.id}_#{value}", title
+					
+			%p.clear_both
+			- if talking_point.my_rating.nil?
+				%p.option.please_rate{:title=>"Please rate"} Please rate
+			- else
+				%p.option{:title=>"#{TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]}"}= TALKING_POINT_RATING_OPTIONS[talking_point.my_rating]

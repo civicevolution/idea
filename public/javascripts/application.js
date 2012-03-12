@@ -36,7 +36,7 @@ $(function(){
 function ajaxDisableElement(el){
 	var element = $(el);
 	element.data('ujs:enable_with', element.html()); // store enabled state+      
-	element.html( element.attr('disable-with') || 'Loading...' ); // set to disabled state
+	element.html( element.attr('data-disable-with') || 'Loading...' ); // set to disabled state
 	element.addClass('loading');
 	//element.bind('click.railsDisable', function(e) { // prevent further clicking
 	//	return rails.stopEverything(e)

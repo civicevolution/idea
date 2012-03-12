@@ -183,6 +183,23 @@ class TalkingPoint < ActiveRecord::Base
     'talking point' #type for talking point
   end
 
+  def init_stats(member)
+    self.member = member
+    ratings = TalkingPointAcceptableRating.select('count(member_id), rating').where(['talking_point_id = ?', self.id ]).group('rating')
+
+    self.rating_votes = [0,0,0,0,0]
+    ratings.each do |r|
+      self.rating_votes[r.rating-1] = r.count.to_i
+    end
+
+    self.my_rating = ActiveRecord::Base.connection.select_value("SELECT rating FROM talking_point_acceptable_ratings WHERE talking_point_id = #{self.id} AND member_id = #{self.member.id}").to_i
+    self.my_preference = TalkingPointPreference.where(:member_id => self.member.id, :talking_point_id => self.id).exists?
+    self.preference_votes = TalkingPointPreference.where(:talking_point_id => self.id).count
+    # of preferences
+    self.new_coms = Comment.where("parent_type = 13 AND parent_id = :id AND created_at >= :last_visit", :id => self.id, :last_visit => self.member.question_last_visit_ts).count
+    self.coms = Comment.where("parent_type = 13 AND parent_id = :id", :id => self.id).count
+  end
+  
 protected
   def check_auto_curate
     if @question.auto_curated

@@ -1,0 +1,34 @@
+%div.talking_point_post_it{:id=>talking_point.id, :class => talking_point['highlight'] ? 'highlight' : ''}
+	-#%div.talking_point_icon{:class => talking_point['new'] ? 'new' : ''}
+		= link_to edit_talking_point_path(talking_point), {:remote=>true, :class=>'edit'} do
+			= image_tag 'pencil_edit.gif', {:title=>'Click to edit this talking point'}
+	-#%div.talking_point_body{:class => talking_point['new'] ? 'new' : ''}
+	%p.talking_point{:id=>talking_point.id,:tp_id=>talking_point.id}= talking_point.text
+
+	%div.details
+		%div.com_edit
+			= link_to talking_point_comments_path(talking_point), {:remote=>true, :class=>'tp_show_coms', 'data-disable-with'=>'<img src="/images/wait3.gif"/>'} do
+				%div.talking_point_com_count
+					- if talking_point.coms > 0
+						%p{:title => "Click to see #{pluralize(talking_point.coms, 'comment')}"}= talking_point.coms
+					- else
+						%p{:title => 'Click to add a comment'} +
+
+			- if talking_point.version > 1
+				= link_to "v#{talking_point.version}", talking_point_versions_path(talking_point), {:class => 'versions', :title => "Click to view #{pluralize(talking_point.version-1, 'older version')}", :rel=>'nofollow', :remote=>true}
+	
+
+		
+		= render :partial => 'talking_point_acceptable_ratings/rating_post_it', :locals => {:talking_point => talking_point}
+	
+		%div.favorite{:id => talking_point.id}
+			%input.fav_button{:class=> talking_point.my_preference ? 'fav' : '', :type=>"button", :name=>"btnFav", :title=>"Click to add or remove as favorite"}
+			- if talking_point.my_rating.nil?
+				%p Fav
+			- elsif talking_point.preference_votes.nil? 
+				%p 0
+			- else 
+				%p= talking_point.preference_votes
+		
+	
+	%p.clear_both

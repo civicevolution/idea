@@ -3,11 +3,51 @@
 	var tp_coms = $("#{escape_javascript(
 		render( :partial=> 'comments/talking_point_comments.html', :locals=> {:talking_point => talking_point, :comments => comments, :com_criteria => com_criteria } )
 	)}");
-	var tp = $('div.talking_point_entry[id="#{talking_point.id}"]')
-	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').remove();
-	var newNode = $(tp_coms).insertAfter(tp);
-	newNode.find('abbr').timeago();
-	activate_text_counters_grow( newNode.find('textarea'), 30 );
+	
+	tp_coms.hide();
+	$('body').append(tp_coms);
+	
+	setTimeout(
+		function(){
+			$('div.talking_point_comments').css({top: 0, left: $('div.left_side').offset().left, width: $('div.left_side').width(), height: $('div.right_side').outerHeight()});
+			tp_coms.slideDown(800);
+			$('div.talking_point_comments div.discussion').height( $(window).height() - 150 );
+			tp_coms.find('abbr').timeago();
+			activate_text_counters_grow( tp_coms.find('textarea'), 30 );
+			
+		},200)
+	
+	
+	$('a.close_talking_point_comments').live('click', 
+		function(){
+			var el = $(this);
+			var worksheet = el.closest('div.talking_point_comments');
+			worksheet.slideUp(800, function(){$(this).remove();});
+			return false;
+		}
+	)
+	
+	//var tp = $('div.talking_point_entry[id="#{talking_point.id}"]')
+	//$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').remove();
+	//var newNode = $(tp_coms).insertAfter(tp);
+	//newNode.find('abbr').timeago();
+	//activate_text_counters_grow( newNode.find('textarea'), 30 );
+	
+	//var ws = $('div.worksheet');
+	//var pos = ws.position();
+
+	//var dialog = tp_coms.dialog( {title : 'Talking point worksheet', modal : false, width : ws.width(), height: ws.height(), position: [ pos.left, pos.top], closeOnEscape: true, close: function(){$(this).remove()} });
+
+	//setTimeout( 
+	//	function(){
+	//		var dialog = this;
+	//		//dialog.css({position: 'fixed', background-color: 'white'})
+	//		dialog.find('abbr').timeago();
+	//		activate_text_counters_grow( dialog.find('textarea'), 30 );
+	//	}.bind(dialog),100
+	//);	
+	
+	
 	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').find('a.clear').html('Clear').die('click').live('click',
 		function(){
 			$(this).closest('form').find('textarea').val('');
@@ -17,9 +57,9 @@
 	);
 	setTimeout( function(){	$('.corner').corner()},100);
 	
-	if(tp_coms.height()>400){
-		tp_coms.append(tp_coms.find('a.tp_hide_coms').clone());
-	}
+	//if(tp_coms.height()>400){
+	//	tp_coms.append(tp_coms.find('a.tp_hide_coms').clone());
+	//}
 	
 	$('a.tp_hide_coms').die('click').live('click',
 		function(){

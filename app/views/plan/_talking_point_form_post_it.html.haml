@@ -1,0 +1,36 @@
+%div.talking_point_post_it
+	%div.form
+		%p Share a talking point
+
+		- if flash[:worksheet_error]
+			- flash[:worksheet_error].full_messages.each do |e|
+				%p.warn= e
+		- if flash[:params]
+			- text = flash[:params][:text] ? flash[:params][:text] : ''
+			- type = flash[:params][:input_type] ? flash[:params][:input_type] : ''
+		- else
+			- text = ''
+			- type = ''
+	
+		= form_tag(add_talking_point_path(question_id), :remote=>true, :id=>'talking_point_form', :class=>'talking_point_form std_form') do
+	
+			= text_area_tag :text, text, {:class=>'autosize'}
+
+			%div.form_controls
+				= submit_tag "Share", :name=>'sign_in', 'data-disable-with'=>'Submitting...'
+	
+				%span.char_ctr
+					200 characters
+
+				- if 	params[:action] == "what_do_you_think_form"
+					= link_to 'Cancel', question_worksheet_path(question_id), {:class=>'clear', :rel=>'nofollow'}
+				- else
+					= link_to 'Clear', {}, {:class=>'clear', :rel=>'nofollow'}
+
+	-#%div.instr
+		%p 
+			Clearly state a single idea to be rated. It must be less than 200 characters long and will be posted anonymously.
+			= link_to "Help", help_path(:topic=>'Adding_a_new_talking_point'), {:remote=>true}
+	
+	%p.clear_both
+

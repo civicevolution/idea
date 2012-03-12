@@ -1206,9 +1206,9 @@ li.talking_point
 	
 	
 div.left_side
-	width: 620px
+	width: 670px
 div.right_side
-	width: 340px
+	width: 280px
 ul.talking_points
 	position: relative
 	div.msg
@@ -1613,10 +1613,10 @@ div.talking_point_sec
 			top: 0
 			right: 0
 div.worksheet
-	background: url(/images/up_rt_close.gif) no-repeat top right
+	//background: url(/images/up_rt_close.gif) no-repeat top right
 	width: 630px
-div.question_worksheet
-	background: url(/images/lw_lt_close.gif) no-repeat bottom left	
+//div.question_worksheet
+//	background: url(/images/lw_lt_close.gif) no-repeat bottom left	
 h4.ques_sub_hdg
 	a.close_worksheet
 		img
@@ -1735,3 +1735,25 @@ input.fav_button.saving.fav
 body
 	div.ui-dialog
 		font-size: .8em
+		
+div.worksheet
+	position: fixed
+	background-color: white
+	
+div.talking_point_matrix
+	height: 600px
+	overflow-y: scroll
+div.question_worksheet
+	width: auto
+	
+div.archived_comments
+	position: fixed
+	background-color: white
+	div.comments
+		overflow-y: scroll
+		
+div.talking_point_comments
+	position: fixed
+	background-color: white
+	div.discussion
+		overflow-y: scroll		

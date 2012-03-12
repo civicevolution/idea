@@ -3,9 +3,9 @@
 %div.comment_comments.discussion{:id=>comment.id, :num_coms => comment.coms}
 	
 	= link_to "Hide comments", {}, { :class=> 'com_hide_coms'}
-	
-	= render :partial=> 'plan/comment', :collection => comments
-	- if comment.parent_type == 3 || comment.parent_type == 13
-		- comment.id = @parent.id
-	= render :partial => 'plan/comment_form', :locals => {:id=>comment.id, :type => type, :criteria => com_criteria, :text => text}
+
+	= render :partial=> 'plan/comment', :collection => comments, :locals => {:archived => true}
+	-#- if comment.parent_type == 3 || comment.parent_type == 13
+	-#	- comment.id = @parent.id
+	-#= render :partial => 'plan/comment_form', :locals => {:id=>comment.id, :type => type, :criteria => com_criteria, :text => text}
 	

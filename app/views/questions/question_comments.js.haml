@@ -1,11 +1,25 @@
-= render :template => 'shared/clear_sign_in_form.js'
 :plain
-	//console.log("processing question talking points")
-	var comments = $("#{escape_javascript(
-		'<h4 class="ques_sub_hdg">All comments about this question and talking points</h4>' + 
-		'<div>' + render( :partial=> 'plan/comment', :collection => @question['comments_to_display'] ) + '</div>'
-	)}");
-	console.log("load comments");
-	var ques_disc = $('div.ques_discussion[id="#{@question.id}"]');
-	ques_disc.html(comments);
-	ques_disc.find('abbr').timeago();
+	var comments = $("#{escape_javascript( render( :template=> 'questions/question_comments.html' ) )}");
+
+	comments.hide();
+	$('body').append(comments);
+	
+	setTimeout(
+		function(){
+			$('div.archived_comments').css({top: 0, left: $('div.left_side').offset().left, width: $('div.left_side').width(), height: $('div.right_side').outerHeight()});
+			comments.slideDown(800);
+			$('div.archived_comments div.comments').height( $(window).height() - 150 );
+			comments.find('abbr').timeago();
+			activate_text_counters_grow( comments.find('textarea'), 30 );
+			
+		},200)
+	
+	
+	$('a.close_archived_comments').live('click', 
+		function(){
+			var el = $(this);
+			var comments = el.closest('div.archived_comments');
+			comments.slideUp(800, function(){$(this).remove();});
+			return false;
+		}
+	)

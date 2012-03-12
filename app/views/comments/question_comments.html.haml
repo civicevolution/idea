@@ -1,2 +1,2 @@
 %div.question_comments{:id=>params[:question_id]}
-	= render :partial=> 'plan/comment', :collection => @comments
+	= render :partial=> 'plan/comment', :collection => @comments, :locals => {:archived => true}

@@ -1,3 +1,4 @@
+- archived ||= false
 - if comment.publish
 	- mode = '' unless !mode.nil?
 	- show_reply = true if show_reply.nil?
@@ -42,16 +43,18 @@
 							- else
 								- link_text = "Reply"
 							%p.coms	
-								- if comment.parent_type == 1
+								- if archived == true && link_text == "Reply"
+									Discussion is closed
+								- elsif comment.parent_type == 1
 									= link_to link_text, comment_comments_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
 								- else 
 									= link_to link_text, comment_reply_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
 
 						%p.other
 							%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'	
-							- if comment.member_id == @member.id
+							- if comment.member_id == @member.id && !archived
 								= link_to "Edit", edit_comment_path(comment), {:class => 'edit', :rel=>'nofollow', :remote=>true}
-							- else
+							- elsif !archived
 								= link_to "Report", report_comment_path(comment), {:class=>'report', :rel=>'nofollow', :remote=>true}
 
 	- if comment['comments']

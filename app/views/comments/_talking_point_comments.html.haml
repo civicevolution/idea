@@ -1,10 +1,20 @@
 %div.talking_point_comments.discussion{:id=> talking_point.id, :num_coms => talking_point.coms }
-
-	= link_to "Hide comments", {}, { :class=> 'tp_hide_coms'}
+	%style
+		:sass
+			div.talking_point_comments
+				margin: 0
+			div.Comment
+				width: auto
 	
-	- if talking_point.coms > comments.size
-		= link_to "Display all #{pluralize(talking_point.coms,'comment')}", talking_point_comments_path(talking_point), { :class=> 'tp_show_coms', :remote=>true}
+	%h4 
+		Talking point worksheet 
+		= link_to image_tag('close_corner.gif',{:title=>'Click to close talking point worksheet'}), {}, :remote=>false, :class=>'close_talking_point_comments'
 
-	= render :partial=> 'plan/comment', :collection => comments
+	= render :partial=> 'plan/talking_point_post_it', :locals => {:talking_point=>talking_point}
+	%p.clear_both
 	
-	= render :partial => 'plan/comment_form', :locals => {:id=>talking_point.id, :type=>'talking_points', :criteria => com_criteria}
+	%div.discussion{:id=> talking_point.id, :num_coms => talking_point.coms }
+	
+		= render :partial=> 'plan/comment', :collection => comments
+	
+		= render :partial => 'plan/comment_form', :locals => {:id=>talking_point.id, :type=>'talking_points', :criteria => com_criteria}

@@ -1,0 +1,146 @@
+%style
+	:sass
+		$post_it_bg: #fcfeb4
+		div.worksheet
+			background: url(/images/corkboard3.jpg)
+		div.talking_point_post_it
+			position: relative
+			background-color: $post_it_bg
+			width: 200px
+			height: 200px
+			float: left
+			margin-left: 20px
+			margin-bottom: 20px
+			p
+				margin: 10px
+			div.details
+				position: absolute
+				left: 0
+				bottom: 0
+				width: 100%
+				background-color: $post_it_bg
+				div.com_edit
+					float: left
+					margin: 0 10px 0 26px
+					a.tp_show_coms
+						margin-left: 0
+					img
+						display: block
+						width: 30px
+						height: 32px
+						margin-top: 10px
+					div.talking_point_com_count
+						width: 30px
+						height: 32px
+						background: url(/images/tbubble.gif) no-repeat 0 0
+						cursor: pointer
+						p 
+							margin-top: 10px
+							font-weight: bold
+							padding-top: 1px
+					a.versions
+						font-size: 10px
+						display: block
+						margin-top: 2px
+						text-align: center
+				div.talking_point_acceptable 
+					float: left
+					height: 50px
+					p.talking_point_ratings
+						font-size: 10px
+						margin-top: 4px
+					div.my_rating 
+						width: 80px
+						div.graph
+							width: 80px
+							background: url(/images/graph_bg.jpg) no-repeat 0 0px
+						div.radios 
+							margin: 0
+							div 
+								width: 16px
+								height: 30px
+								input.rating
+									margin: 9px 0 0 2px
+									width: 13px
+									height: 13px
+							p.option
+								font-size: 10px
+
+				div.favorite
+					float: left
+					text-align: center
+					p 
+						margin: 4px 0 0 0
+						font-size: 10px
+					input.fav_button
+						background-image: url('/images/button_sprite5.gif')
+						background-position: -30px 0
+						background-color: transparent
+						background-repeat: no-repeat
+						border: none
+						cursor: pointer
+						height: 32px
+						width: 23px
+						padding: 0px
+						text-align: center
+						font-size: 13px
+						font-weight: bold
+					input.fav_button.fav
+						background-position: 0 0
+					input.fav_button:hover
+						background-position: -30px -40px
+					input.fav_button.fav:hover
+						background-position: 0 -40px
+					input.fav_button.mousedown	
+						background-position: -30px -80px
+					input.fav_button.mousedown.fav
+						background-position: 0 -80px
+					input.fav_button.saving	
+						background-position: -30px -1200px
+					input.fav_button.saving.fav
+						background-position: 0 -120px	
+			div.form
+				padding: 10px
+				p
+					font-weight: bold
+					margin: 0 0 4px 0
+				textarea
+					width: 174px
+					font-size: 14px
+				div.form_controls 
+					width: 180px
+					span.char_ctr
+						font-size: 10px
+						left: 56px
+						top: 4px
+					a.clear
+						font-size: 10px
+						top: 4px
+				
+
+%div.worksheet.page_content_div
+	%div.question_worksheet.notebookX.corner{:id=>question.id, :ans_criteria=>question.answer_criteria, :talking_point_criteria=>question.talking_point_criteria}
+
+		- if question.inactive
+			%h2.warn This question has been marked as inactive
+			%p.warn 
+				Please return to the 
+				= link_to 'proposal summary', plan_path(question.team.id)
+		- else
+			%h4 
+				Talking points matrix
+				= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
+			
+			%div.talking_point_matrix.sortable_ideas
+				-#= render :partial=> 'plan/talking_point', :collection => question['talking_points_to_display']
+				= render :partial=> 'plan/talking_point_post_it', :collection => question['talking_points_to_display'], :as => :talking_point
+				= render :partial => 'plan/talking_point_form_post_it', :locals => {:question_id=>question.id}
+				
+			%p.clear_both
+
+		- if question.coms > 0
+			= link_to "Show #{ pluralize((question.coms - question['comments_to_display'].length), 'archived comment')}", question_all_comments_path(question), { :class=> 'show_new_comments', :id=>question.id, :remote => true }		
+
+
+		-#	= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
+		

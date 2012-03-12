@@ -119,43 +119,43 @@ class Question < ActiveRecord::Base
       self.new_talking_points += updated_talking_points
       self.num_new_talking_points = self.new_talking_points.size
 
-      self.new_comments = Comment.includes(:author).where("question_id = :question_id AND created_at >= :last_visit", :question_id => self.id, :last_visit => member.question_last_visit_ts)
-      self.new_comments.each{|com| com['new'] = true }
+      #self.new_comments = Comment.includes(:author).where("question_id = :question_id AND created_at >= :last_visit", :question_id => self.id, :last_visit => member.question_last_visit_ts)
+      #self.new_comments.each{|com| com['new'] = true }
     
   
-      tps_i_need = self.new_comments.map{ |c| c.parent_type == 13 ? c.parent_id : nil}.compact.uniq - self.new_talking_points.map(&:id)
-
-      if tps_i_need.size > 0
-        needed_tps = TalkingPoint.find(tps_i_need)
-        TalkingPoint.add_my_ratings_and_prefs(needed_tps,self.member)
-        self.new_talking_points = self.new_talking_points + needed_tps
-      end  
+      #tps_i_need = self.new_comments.map{ |c| c.parent_type == 13 ? c.parent_id : nil}.compact.uniq - self.new_talking_points.map(&:id)
+      #
+      #if tps_i_need.size > 0
+      #  needed_tps = TalkingPoint.find(tps_i_need)
+      #  TalkingPoint.add_my_ratings_and_prefs(needed_tps,self.member)
+      #  self.new_talking_points = self.new_talking_points + needed_tps
+      #end  
     
       # Do I need to load any parent comments to give context to a child comment?
       # get all the com parent_ids
-      com_ids_i_need = self.new_comments.map{ |c| c.parent_type == 3 ? c.parent_id : nil}.compact.uniq - self.new_comments.map(&:id)
+      #com_ids_i_need = self.new_comments.map{ |c| c.parent_type == 3 ? c.parent_id : nil}.compact.uniq - self.new_comments.map(&:id)
 
-      if com_ids_i_need.size > 0
-        self.new_comments = self.new_comments + Comment.find(com_ids_i_need)
-      end  
+      #if com_ids_i_need.size > 0
+      #  self.new_comments = self.new_comments + Comment.find(com_ids_i_need)
+      #end  
     
-      # Assign child comments to parent tp and coms
-      self.new_comments.each do |c|
-        if c.parent_type == 13
-          logger.debug "assign new coms to TP is: #{c.parent_id}"
-          tp = self.new_talking_points.detect{|tp| tp.id == c.parent_id }
-          tp['comments'] ||= []
-          tp['comments'].push(c)
-        elsif c.parent_type == 3
-          com = self.new_comments.detect{|com| com.id == c.parent_id }
-          com['comments'] ||= []
-          com['comments'].push(c)
-        end
-      end
+      ## Assign child comments to parent tp and coms
+      #self.new_comments.each do |c|
+      #  if c.parent_type == 13
+      #    logger.debug "assign new coms to TP is: #{c.parent_id}"
+      #    tp = self.new_talking_points.detect{|tp| tp.id == c.parent_id }
+      #    tp['comments'] ||= []
+      #    tp['comments'].push(c)
+      #  elsif c.parent_type == 3
+      #    com = self.new_comments.detect{|com| com.id == c.parent_id }
+      #    com['comments'] ||= []
+      #    com['comments'].push(c)
+      #  end
+      #end
       self.coms = Comment.where(:parent_id => self.id, :parent_type => 1).count
       self.num_talking_points = TalkingPoint.where(:question_id => self.id).count
-      self.show_new = self.new_talking_points.size > 0 || self.new_comments.size > 0 
-      self.new_coms = self.new_comments.size
+      self.show_new = self.new_talking_points.size > 0 # || self.new_comments.size > 0 
+      self.new_coms = 0 #self.new_comments.size
     end
   end
   
