@@ -1,33 +1,26 @@
 = render :template => 'shared/clear_sign_in_form.js'
 :plain
-	var tp = $("#{escape_javascript(render(  :partial=> 'plan/talking_point', :locals=>{:talking_point=>talking_point}, :content_type => 'html'  ))}");
-	tp.find('div.my_rating').addClass('js');
-	tp.find('div.community_rating').removeClass('no_js');
-	tp.find('.corner').corner('cc:#F2E9C3');
+	var tp = $("#{escape_javascript(render(  :partial=> 'plan/talking_point_post_it', :locals=>{:talking_point=>talking_point}, :content_type => 'html'  ))}");
 
-	if( $('div.talking_point_entry[id="#{talking_point.id}"]').size()>0){
+	var form_tp = $('div.worksheet[id="#{question_id}"] div.talking_point_post_it.form');
+	if( $('div.talking_point_post_it[id="#{talking_point.id}"]').size()>0){
 		// replace the existing one with this one
-		$('div.talking_point_entry[id="#{talking_point.id}"]').replaceWith(tp);
+		$('div.talking_point_post_it[id="#{talking_point.id}"]').replaceWith(tp);
 	}else{
 		// insert this one
-		var last_tp = $('div.question_worksheet[id="#{question_id}"] div.talking_point_entry:last')
-		if(last_tp.size>0){
-			last_tp.after(tp);
+		if(form_tp.size()>0){
+			form_tp.before(tp);
 		}else{
-			$('div.question_worksheet[id="#{question_id}"] div.talking_points_list').append(tp);
+			$('div.worksheet[id="#{question_id}"] div.talking_point_matrix').append(tp);
 		}
 	}
 	
-	$('div.question_worksheet[id="#{question_id}"] div.talking_point_entry[id="0"]').remove();
+	//$('div.question_worksheet[id="#{question_id}"] div.talking_point_post_it[id="0"]').remove();
 	
-	var form = $('div.question_worksheet[id="#{question_id}"] form.talking_point_form')
-	form.find('textarea').val('');
-	form.find('p.warn').remove();
-	form.find('input[type="radio"]').attr('checked',false)
-	form.find('div#errorExplanation').remove();	
+	form_tp.find('textarea').val('');
+	form_tp.find('p.warn').remove();
+	form_tp.find('div#errorExplanation').remove();	
 	
 	if(am_curator){
 		make_talking_points_draggable( tp.find('p.talking_point'), $('div.selected_tp_list ul[id="#{question_id}"]') );
 	}
-	
-= render :template => 'shared/clear_sign_in_form.js'

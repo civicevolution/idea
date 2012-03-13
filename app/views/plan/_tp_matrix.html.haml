@@ -3,6 +3,9 @@
 		$post_it_bg: #fcfeb4
 		div.worksheet
 			background: url(/images/corkboard3.jpg)
+		div.talking_point_post_it.selected
+			div.visibility
+				background-position: 0 0
 		div.talking_point_post_it
 			position: relative
 			background-color: $post_it_bg
@@ -11,17 +14,30 @@
 			float: left
 			margin-left: 20px
 			margin-bottom: 20px
+			div.visibility
+				height: 12px
+				width: 20px
+				position: absolute
+				top: 0
+				right: 0
+				background: url(/images/visible.gif) no-repeat 0 -12px
+				cursor: pointer
 			p
-				margin: 10px
+				margin: 12px 10px 10px 10px
 			div.details
 				position: absolute
 				left: 0
 				bottom: 0
 				width: 100%
 				background-color: $post_it_bg
+				div.edit
+					float: left
+					width: 20px
+					height: 32px
+					margin: 10px 0 0 4px
 				div.com_edit
 					float: left
-					margin: 0 10px 0 26px
+					margin: 0 10px 0 6px
 					a.tp_show_coms
 						margin-left: 0
 					img
@@ -33,11 +49,12 @@
 						width: 30px
 						height: 32px
 						background: url(/images/tbubble.gif) no-repeat 0 0
-						cursor: pointer
 						p 
 							margin-top: 10px
 							font-weight: bold
 							padding-top: 1px
+					div.talking_point_com_count.pointer
+						cursor: pointer
 					a.versions
 						font-size: 10px
 						display: block
@@ -51,6 +68,7 @@
 						margin-top: 4px
 					div.my_rating 
 						width: 80px
+						font-size: 10px
 						div.graph
 							width: 80px
 							background: url(/images/graph_bg.jpg) no-repeat 0 0px
@@ -107,6 +125,12 @@
 				textarea
 					width: 174px
 					font-size: 14px
+				ul
+					margin: 0
+					padding: 0
+					color: red
+					font-size: 10px
+					width: 180px
 				div.form_controls 
 					width: 180px
 					span.char_ctr
@@ -116,8 +140,11 @@
 					a.clear
 						font-size: 10px
 						top: 4px
+		div.talking_point_post_it.mouseover
+			div.edit
+				cursor: pointer
+				background: url(/images/pencil_edit.gif) no-repeat 0 0
 				
-
 %div.worksheet.page_content_div
 	%div.question_worksheet.notebookX.corner{:id=>question.id, :ans_criteria=>question.answer_criteria, :talking_point_criteria=>question.talking_point_criteria}
 
@@ -132,7 +159,6 @@
 				= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
 			
 			%div.talking_point_matrix.sortable_ideas
-				-#= render :partial=> 'plan/talking_point', :collection => question['talking_points_to_display']
 				= render :partial=> 'plan/talking_point_post_it', :collection => question['talking_points_to_display'], :as => :talking_point
 				= render :partial => 'plan/talking_point_form_post_it', :locals => {:question_id=>question.id}
 				

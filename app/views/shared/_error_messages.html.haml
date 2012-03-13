@@ -3,5 +3,5 @@
 	%div#errorExplanation
 		%h4 #{pluralize(errors.count, "error")} prevented us from saving this form:
 		%ul
-		- errors.full_messages.each do |msg|
-			%li= msg
+			- errors.full_messages.each do |msg|
+				%li= msg

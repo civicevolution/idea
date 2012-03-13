@@ -5,4 +5,5 @@
 	form.find('p.warn').remove();
 	form.find('div#errorExplanation').remove();	
 	var textarea = form.find('textarea');
-	textarea.before(errors);
+	errors.find('h4').remove();
+	textarea.after(errors);

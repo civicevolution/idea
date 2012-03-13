@@ -11,7 +11,7 @@
 		function(){
 			$('div.talking_point_comments').css({top: 0, left: $('div.left_side').offset().left, width: $('div.left_side').width(), height: $('div.right_side').outerHeight()});
 			tp_coms.slideDown(800);
-			$('div.talking_point_comments div.discussion').height( $(window).height() - 150 );
+			$('div.talking_point_comments div.discussion').height( $(window).height() - 300 );
 			tp_coms.find('abbr').timeago();
 			activate_text_counters_grow( tp_coms.find('textarea'), 30 );
 			

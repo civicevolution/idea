@@ -21,7 +21,7 @@
 
 		%div.control_line
 			%div.controls
-				= f.submit 'Update'
+				= f.submit 'Update', 'data-disable-with'=>'Saving...'
 			
 				%span.char_ctr
 					-#= @team.com_criteria.match(/..(\d+)/)[1]

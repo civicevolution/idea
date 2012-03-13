@@ -4,4 +4,9 @@
 		render :partial => 'talking_point_preferences/preference', :locals => {:talking_point => talking_point}
 	)}");
 
-	$('div.talking_point_entry[id="#{talking_point.id}"] div.favorite').replaceWith(new_preference);
+	$('div.talking_point_post_it[id="#{talking_point.id}"] div.favorite').each(
+		function(){
+			$(this).replaceWith( new_preference.clone() );
+		}
+	);
+	

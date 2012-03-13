@@ -60,82 +60,59 @@
 			$('div.worksheet').css({top: 0, left: $('div.left_side').offset().left, width: $('div.left_side').width(), height: $('div.right_side').outerHeight()});
 			worksheet.slideDown(800);
 			$('div.talking_point_matrix').height( $(window).height() - 150 );
-		},200)
+		},200
+	);
 	
-	
-	function make_talking_points_draggable($talking_points, sortable_destination){
-		$talking_points.draggable( {
-			revert: function(socketObj) {
-			    if (socketObj === false) {
-			        // Drop was rejected, revert the helper.
-			        return true;
-			    } else {
-			        // Drop was accepted, don't revert.
-			        return false;
-			    }
-			},
-			revertDuration: 600,
-			start: function(event,ui){
-				// refresh your sortable -- so you can drop
-				$('div.selected_tp_list ul.talking_points[id="#{question.id}"]').sortable('refresh');
-			},
-			connectToSortable: sortable_destination,
-			helper: 'clone'
-		});
-	}
-	if(am_curator){
-		make_talking_points_draggable( $('div.talking_points_list[id="#{question.id}"] p.talking_point'), $('div.selected_tp_list ul[id="#{question.id}"]') );
-	}
-	
-	
-	// this code applies to talking points and comments that are displaying their new comments
-	// Get the links in TP with new open discussion
-	var links = []
-	$('div.talking_point_comments').each( 
-		function(){
-			console.log("talking_point_comments id: " + this.id)
-			links.push( $('div.talking_point_entry[id="' + this.id + '"] a.tp_show_coms') )
+	$('div.talking_point_matrix').sortable({
+		stop: function(event,ui){
+			update_selected_tp_ids($(this));
 		}
-	);	
-	$('div.comment_comments').each( 
-		function(){
-			console.log("comment_comments id: " + this.id)
-			links.push( $('div.Comment[id="' + this.id + '"] a.reply') )
-		}
-	);	
-	$.each(links,
-		function(){
-			var link = $(this);
-			link.removeData('ujs:enable_with'); 
-			// activate the link to hide the discussion
-			link.bind('ajax:beforeSend', 
+	});
+
+
+	function update_selected_tp_ids($matrix){
+		temp.matrix= $matrix;
+		console.log("update_selected_tp_ids")
+		var question_id = $matrix.closest('.worksheet').attr('id');
+		var tp_ids = $matrix.attr('selected_tp_ids');
+		//var new_ids = $matrix.sortable('toArray').toString();
+		var new_ids = [];
+		$matrix.find('div.talking_point_post_it.selected').each(
+			function(){
+				new_ids.push(this.id);
+			}
+		);
+		new_ids = new_ids.join(',');
+		console.log("new_ids: " + new_ids);
+		
+		if(tp_ids == new_ids){
+			//console.log("Curated_tp_ids hasn't changed, do not send");
+		}else{
+			console.log("Send these ids to the server: " + new_ids + " for question_id: " + question_id);
+			$.post('/questions/' + question_id + '/curate_tps', {tp_ids: new_ids}, 
 				function(){
-					return false;
-				}).bind('click', 
-				function(){
-					var el = $(this);
-					el.unbind('ajax:beforeSend').unbind('click');
-					var disc = el.closest('div[id]').next('div.discussion')
-					if(disc.size()>0){
-						var num_coms = disc.attr('num_coms');
-						var com_cnt = disc.find('div.Comment').size();
-						com_cnt = num_coms > com_cnt ? num_coms : com_cnt;
-						switch(com_cnt){
-							case 0:
-								el.html('Reply');
-								break;
-							case 1:
-								el.html('Show 1 comment');
-								break;
-							default:
-								el.html('Show ' + com_cnt + ' comments' );
-								break;
-						}
-						disc.remove();
-					}
-					return false;
-				}
+					$matrix.attr('selected_tp_ids', new_ids);
+				}, 
+				"script"
 			);
 		}
+		$matrix.sortable('refresh');
+		//tp_delete_hover( question_id );
+	}
+	
+	$('div.visibility').die('click').live('click',
+		function(){
+			var post_it = $(this).closest('div.talking_point_post_it');
+			var $matrix = post_it.closest('div.talking_point_matrix');
+			if(post_it.hasClass('selected')){
+				post_it.removeClass('selected');
+				update_selected_tp_ids($matrix);
+			}else{
+				post_it.addClass('selected');
+				update_selected_tp_ids($matrix);
+			}
+		}
 	);
+
+
 

@@ -151,83 +151,6 @@ class QuestionsController < ApplicationController
       
     end
   end
-  
-  def all_talking_points
-    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
-    if !allowed
-      if @member.id == 0
-        force_sign_in
-      else
-        respond_to do |format|
-          format.js { render 'shared/private' }
-          format.html { render 'shared/private', :layout => 'plan' }
-        end
-      end
-      return
-    end
-    
-    @question = Question.find(params[:question_id])
-    if !request.xhr?
-      @question['talking_points_to_display'] = @question.talking_points
-      worksheet
-    else
-      talking_points_to_display = @question.remaining_talking_points( params[:ids].split('-') )
-      TalkingPoint.get_and_assign_stats( @question, talking_points_to_display, @member )
-      
-      render :question_talking_points, :layout => false
-    end
-  end
-
-  def new_comments
-    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
-    if !allowed
-      if @member.id == 0
-        force_sign_in
-      else
-        respond_to do |format|
-          format.js { render 'shared/private' }
-          format.html { render 'shared/private', :layout => 'plan' }
-        end
-      end
-      return
-    end
-    
-    @question = Question.find(params[:question_id])
-    if !request.xhr?
-      @question['comments_to_display'] = 
-        Comment.where("parent_id = :question_id AND parent_type = 1 AND created_at >= :last_visit", :question_id => @question.id, :last_visit => @member.last_visits[@question.team_id.to_s] )
-      worksheet
-    else
-      @question['comments_to_display'] = @question.remaining_new_comments( params[:ids].split('-'), @member.last_visits[@question.team_id.to_s])
-      @question.get_talking_point_ratings(@member)
-      render :question_comments, :layout => false
-    end
-  end
-  
-  def all_comments
-    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
-    if !allowed
-      if @member.id == 0
-        force_sign_in
-      else
-        respond_to do |format|
-          format.js { render 'shared/private' }
-          format.html { render 'shared/private', :layout => 'plan' }
-        end
-      end
-      return
-    end
-    
-    @question = Question.find(params[:question_id])
-    if !request.xhr?
-      @question['comments_to_display'] = @question.comments
-      worksheet
-    else
-      @question['comments_to_display'] = @question.comments
-      @question.get_talking_point_ratings(@member)
-      render :question_comments, :layout => false
-    end
-  end
 
   def summary
     question ||= Question.find_by_id(params[:question_id])
@@ -292,104 +215,18 @@ class QuestionsController < ApplicationController
     @question.member = @member
     @question.assign_new_content
     
-    @question['talking_points_to_display'] ||= @question.show_new ? @question.new_talking_points : @question.all_talking_points
-    #@question['comments_to_display'] ||= @question.show_new ? @question.new_comments : @question.recent_comments
-    
-    # is this a request to highlight a specific item? If so, make sure it is present or add it
-    #if params[:t] == 'tp'
-    #  tp_ids = @question['talking_points_to_display'].map(&:id)
-    #  if !tp_ids.include?(params[:id].to_i)
-    #    #logger.debug "********* Include talking_point #{params[:id]} and its new siblings"
-    #    @new_talking_points = TalkingPoint.where("question_id = :question_id AND id NOT IN (:current_tp_ids) AND updated_at >= :last_visit", 
-    #      :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.question_last_visit_ts )
-    #    @question['talking_points_to_display'] += @new_talking_points
-    #    # make sure I have the target now, if not, add it explicitly
-    #    if !@question['talking_points_to_display'].map(&:id).include?(params[:id].to_i)
-    #      @question['talking_points_to_display'] += [ TalkingPoint.find(params[:id]) ]
-    #    end
-    #  end
-    #
-    #  @question['talking_points_to_display'].detect{|tp| tp.id == params[:id].to_i}['highlight'] = true
-    #elsif params[:t] == 'c'
-    #  c_ids = @question['comments_to_display'].map(&:id)
-    #  if !c_ids.include?(params[:id].to_i)
-    #    new_comment = Comment.includes(:author).find(params[:id])
-    #    #c_ids << new_comment.id
-    #    #@question['comments_to_display'] += [new_comment]
-    #
-    #    #logger.debug "new_comment: #{new_comment.inspect}"
-    #    case new_comment.parent_type 
-    #      when 1 # question comment
-    #        @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND id NOT IN (:current_c_ids) AND updated_at >= :last_visit", 
-    #          :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.question_last_visit_ts )
-    #        @question['comments_to_display'] += @new_comments
-    #        # make sure I have the target now, if not, add it explicitly
-    #        if !@question['comments_to_display'].map(&:id).include?(params[:id].to_i)
-    #          @question['comments_to_display'] += [ Comment.find(params[:id]) ]
-    #        end
-    #        @question['comments_to_display'].detect{|c| c.id == params[:id].to_i}['highlight'] = true
-    #        
-    #      when 3 # comment on a comment under a question
-    #        # make sure the parent comment exists, and if not, load it
-    #        if !c_ids.include?(new_comment.parent_id)
-    #          par_comment = Comment.includes(:author).find( new_comment.parent_id )
-    #          c_ids << par_comment.id
-    #          @question['comments_to_display'] += [par_comment]
-    #        end
-    #
-    #        # load the new_comment sibling comments
-    #        @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND id NOT IN (:current_c_ids) AND updated_at >= :last_visit", 
-    #          :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :current_c_ids => c_ids, :last_visit => @member.question_last_visit_ts )
-    #        # make sure I have the target now, if not, add it explicitly
-    #        if !@new_comments.map(&:id).include?(params[:id].to_i)
-    #          @new_comments += [ Comment.find(params[:id]) ]
-    #        end
-    #
-    #        @new_comments.detect{|c| c.id == params[:id].to_i}['highlight'] = true
-    #        
-    #        # attach the comments to the comment 
-    #        @question['comments_to_display'].detect{|c| c.id == new_comment.parent_id}['comments'] = @new_comments
-    #        
-    #        
-    #      when 13 # comment on a talking point
-    #        # load siblings and attach to the talking point
-    #        # make sure the talking point is laoded
-    #        # Do I want one new tp, or all of them?
-    #        tp_ids = @question['talking_points_to_display'].map(&:id)
-    #
-    #        if !tp_ids.include?( new_comment.parent_id )
-    #          #logger.debug "********* Include talking_point #{params[:id]} and its new siblings"
-    #          @new_talking_points = TalkingPoint.where("question_id = :question_id AND id NOT IN (:current_tp_ids) AND updated_at >= :last_visit", 
-    #            :question_id => @question.id, :current_tp_ids => tp_ids, :last_visit => @member.question_last_visit_ts )
-    #          @question['talking_points_to_display'] += @new_talking_points
-    #          # make sure I have the target now, if not, add it explicitly
-    #          if !@question['talking_points_to_display'].map(&:id).include?(params[:id].to_i)
-    #            @question['talking_points_to_display'] += [ TalkingPoint.find(params[:id]) ]
-    #          end
-    #        else
-    #          #logger.debug "********* Talking point #{new_comment.parent_id} is already in the default data"
-    #        end
-    #
-    #        # get the comments
-    #        @new_comments = Comment.includes(:author).where("parent_type = :parent_type AND parent_id = :parent_id AND updated_at >= :last_visit", 
-    #          :parent_type => new_comment.parent_type, :parent_id => new_comment.parent_id, :last_visit => @member.question_last_visit_ts )
-    #        # make sure I have the target now, if not, add it explicitly
-    #        if !@new_comments.map(&:id).include?(params[:id].to_i)
-    #          @new_comments += [ Comment.find(params[:id]) ]
-    #        end
-    #
-    #        @new_comments.detect{|c| c.id == params[:id].to_i}['highlight'] = true
-    #        
-    #        # attach the comments to the talking point 
-    #        @question['talking_points_to_display'].detect{|tp| tp.id == new_comment.parent_id}['comments'] = @new_comments
-    #    end
-    #    
-    #  else
-    #    #logger.debug "********* Comment #{params[:id]} is already in the default data"
-    #    @question['comments_to_display'].detect{|c| c.id == params[:id].to_i}['highlight'] = true
-    #  end
-    #  
-    #end
+    #@question['talking_points_to_display'] ||= @question.show_new ? @question.new_talking_points : @question.all_talking_points
+    @question['talking_points_to_display'] ||= @question.all_talking_points
+
+    # set the order according to question.curated_tp_ids and set as selected
+    @question.curated_tp_ids.scan(/\d+/).reverse.each do |id|
+      selected_tp = @question['talking_points_to_display'].detect{|tp| tp.id == id.to_i}
+      if !selected_tp.nil?
+        selected_tp.selected = true
+        @question['talking_points_to_display'].delete_if{|tp| tp == selected_tp}
+        @question['talking_points_to_display'].unshift(selected_tp)
+      end
+    end
 
     @question.get_talking_point_ratings(@member)
     
@@ -402,26 +239,7 @@ class QuestionsController < ApplicationController
     
     @channels = ["_auth_team_#{@team.id}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
-    
-    #participant_actions = ActiveRecord::Base.connection.select_values("select distinct event_id from participation_events where member_id = #{@member.id} and question_id = #{@question.id} and event_id < 100").map{|e| e.to_i}
-    #@question['I_rated'] = participant_actions.include?(17) ? true : false
-  	#@question['I_favd'] = participant_actions.include?(19) ? true : false
-  	#@question['I_tpd'] = participant_actions.include?(3) ? true : false
-		#@add_tp = @rate_tp = @fav_tp = @com_tp = false
-		#if @question['talking_points_to_display'].size == 0
-		#	@add_tp = true
-		#else 
-		#	@rate_tp = true if @question['I_rated'] == false
-		#	@fav_tp = true if @question['I_favd'] == false
-		#	if !(@fav_tp || @rate_tp)
-		#		if @question['I_tpd'] == false
-		#			@add_tp = true
-		#		else
-		#			@com_tp = true
-		#		end
-		#	end
-  	#end
-  	
+      	
     render :template=> 'questions/worksheet', 
       :locals => {:question => @question, :questions => @team.questions.sort{|a,b| a.order_id <=> b.order_id}, }, 
       :layout => request.xhr? ? false : 'plan'

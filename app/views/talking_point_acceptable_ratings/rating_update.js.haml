@@ -1,19 +1,12 @@
 = render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var new_rating = $("#{escape_javascript(
-		render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point}
+		render :partial => 'talking_point_acceptable_ratings/rating_post_it', :locals => {:talking_point => talking_point}
 	)}");
 	
-	new_rating.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
-	new_rating.find('div.community_rating').removeClass('no_js');
-	new_rating.find('div.graph.no_js').remove();
-	
-	var old_rating = $('div.talking_point_entry[id="#{talking_point.id}"] div.talking_point_acceptable');
-	var sug = new_rating.find('p.suggest');
-	if(sug.size() > 0){
-		sug.removeClass('hide');
-	}
-	//}else{
-	//	new_rating.height( old_rating.height());
-	//}
-	old_rating.replaceWith(new_rating);
+	var old_rating = $('div.talking_point_post_it[id="#{talking_point.id}"] div.talking_point_acceptable');
+	old_rating.each(
+		function(){
+			$(this).replaceWith( new_rating.clone() );
+		}
+	);

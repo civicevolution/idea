@@ -10,7 +10,7 @@
 		Talking point worksheet 
 		= link_to image_tag('close_corner.gif',{:title=>'Click to close talking point worksheet'}), {}, :remote=>false, :class=>'close_talking_point_comments'
 
-	= render :partial=> 'plan/talking_point_post_it', :locals => {:talking_point=>talking_point}
+	= render :partial=> 'plan/talking_point_post_it', :locals => {:talking_point=>talking_point, :no_com_link => true}
 	%p.clear_both
 	
 	%div.discussion{:id=> talking_point.id, :num_coms => talking_point.coms }

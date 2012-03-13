@@ -27,7 +27,12 @@ class CommentsController < ApplicationController
     end
     @team = Team.find(team_id)
     
+    
     @talking_point = TalkingPoint.find(params[:talking_point_id])
+    qlt = QuestionLoadTime.find_by_member_id_and_question_id(@member.id, @talking_point.question_id)
+    @member.question_last_visit_ts = qlt.nil? ? Time.now : qlt.updated_at
+    @talking_point.init_stats(@member)
+
     @comments = @talking_point.comments
     
     respond_to do |format|

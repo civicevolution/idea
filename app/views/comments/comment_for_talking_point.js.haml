@@ -1,7 +1,8 @@
 = render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
-	var form = $('div.question_worksheet[id="#{question_id}"] div.talking_point_comments[id="#{comment.parent_id}"] form.comment_form.orig');
+	var tp_coms = $('div.talking_point_comments[id="#{comment.parent_id}"]');
+	var form = tp_coms.find('form.comment_form.orig');
 	form.find('textarea').val('');
 	form.find('div#errorExplanation').remove();
 	
@@ -14,3 +15,7 @@
 	}
 	com.find('abbr').timeago();
 	
+	var num_coms = tp_coms.find('div.Comment').size();
+	var p = $('div.talking_point_post_it[id="#{comment.parent_id}"] div.talking_point_com_count p');
+	p.html(num_coms);
+	p.attr('title',  p.attr('title').replace(/\d+/,num_coms))

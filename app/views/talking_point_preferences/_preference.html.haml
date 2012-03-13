@@ -1,9 +1,8 @@
 %div.favorite{:id => talking_point.id}
+	%input.fav_button{:class=> talking_point.my_preference ? 'fav' : '', :type=>"button", :name=>"btnFav", :title=>"Click to add or remove as favorite"}
 	- if talking_point.my_rating.nil?
-		- votes = 'Fave?'
+		%p Fav
 	- elsif talking_point.preference_votes.nil? 
-		- votes = 0
+		%p 0
 	- else 
-		- votes = talking_point.preference_votes
-
-	%input.fav_button{:class=> talking_point.my_preference ? 'fav' : '', :type=>"button", :name=>"btnFav", :value=>votes, :title=>"Click to add or remove as favorite"}
+		%p= talking_point.preference_votes

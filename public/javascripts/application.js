@@ -155,12 +155,13 @@ function reformat_talking_point_entries(){
 
 $('div.my_rating :radio').die('change').live('change',
 	function(){
-		var id = $(this).closest('.talking_point_entry').attr('id');
+		var id = $(this).closest('.talking_point_post_it').attr('id');
 		if(id==0){
 			alert('This is an example of a talking point and you cannot act on it.'); 
 		}else{
 			$.post('/talking_points/' + id + '/rate', {rating: this.value}, function(){}, "script");
-			$(this).closest('div.radios').find('p.option').html('Saving...');
+			//$(this).closest('div.radios').find('p.option').html('Saving...');
+			$(this).closest('div.my_rating').html('<img src="/images/wait3.gif"/><br/>Saving...')
 		}
 	}
 );
@@ -188,7 +189,7 @@ $('div.talking_point_acceptable.rated').live('mouseover mouseout', function(even
   }
 });
 
-$('div.talking_point_entry').live('mouseover mouseout', function(event) {
+$('div.talking_point_post_it').live('mouseover mouseout', function(event) {
   if (event.type == 'mouseover') {
 		$(this).addClass('mouseover');
   } else {
@@ -214,12 +215,13 @@ $('input.fav_button').die('mouseup mousedown')
 		function(){
 			var button = $(this);
 			button.removeClass('mousedown');
-			var id = button.closest('.talking_point_entry').attr('id');
+			var id = button.closest('.talking_point_post_it').attr('id');
 			if(id==0){
 				alert('This is an example of a talking point and you cannot act on it.'); 
 			}else if( !button.hasClass('saving') ) {
 				var new_pref = button.hasClass('fav') ? 'false' : 'true';
-				button.addClass('saving');
+				//button.addClass('saving');
+				button.closest('.favorite').html('<img src="/images/wait3.gif"/>')
 				$.post('/talking_points/' + id + '/prefer', {prefer: new_pref}, function(){}, "script");
 			}
 		}

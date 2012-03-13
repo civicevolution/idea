@@ -19,6 +19,7 @@ class TalkingPoint < ActiveRecord::Base
   
   attr_accessor :member
   attr_accessor :team_id
+  attr_accessor_with_default :selected, false
    
   before_validation :check_initiative_restrictions#, :on=>:create
   before_create :set_member_id

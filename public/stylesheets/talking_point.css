@@ -1491,3 +1491,8 @@ div.talking_point_comments {
   background-color: white; }
   div.talking_point_comments div.discussion {
     overflow-y: scroll; }
+
+.post_it_placeholder {
+  height: 200px;
+  background-color: white;
+  margin: 0 0 20px 20px; }
