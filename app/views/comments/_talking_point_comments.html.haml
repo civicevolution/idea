@@ -6,9 +6,19 @@
 			div.Comment
 				width: auto
 	
-	%h4 
-		Talking point worksheet 
-		= link_to image_tag('close_corner.gif',{:title=>'Click to close talking point worksheet'}), {}, :remote=>false, :class=>'close_talking_point_comments'
+	%h4.question  
+		Talking point discussion
+		= link_to 'Close', {}, :remote=>false, :class=>'close_worksheet close_talking_point_comments', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close talking point discussion'
+
+	%p 
+		- if comments.size == 0
+			Add your comment or question about this talking point
+		- elsif comments.size == 1
+			Here is one comment about this talking point from your community
+		- else 
+			Here are 
+			= pluralize(comments.size, 'comment')
+			about this talking point from your community
 
 	= render :partial=> 'plan/talking_point_post_it', :locals => {:talking_point=>talking_point, :no_com_link => true}
 	%p.clear_both
@@ -18,3 +28,7 @@
 		= render :partial=> 'plan/comment', :collection => comments
 	
 		= render :partial => 'plan/comment_form', :locals => {:id=>talking_point.id, :type=>'talking_points', :criteria => com_criteria}
+
+
+	%p.footer
+		= link_to 'Close', {}, :remote=>false, :class=>'close_worksheet close_talking_point_comments', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close talking point discussion'

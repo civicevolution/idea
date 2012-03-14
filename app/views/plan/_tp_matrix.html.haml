@@ -2,7 +2,7 @@
 	:sass
 		$post_it_bg: #fcfeb4
 		div.worksheet
-			background: url(/images/corkboard3.jpg)
+			//background: url(/images/corkboard3.jpg)
 		div.talking_point_post_it.selected
 			div.visibility
 				background-position: 0 0
@@ -30,6 +30,9 @@
 				bottom: 0
 				width: 100%
 				background-color: $post_it_bg
+				img
+					display: block
+					float: left
 				div.edit
 					float: left
 					width: 20px
@@ -144,6 +147,14 @@
 			div.edit
 				cursor: pointer
 				background: url(/images/pencil_edit.gif) no-repeat 0 0
+		h4.question, p.footer
+			position: relative
+			a.close_worksheet
+				font-size: 12px
+				display: block
+				position: absolute
+				top: 2px
+				right: 0
 				
 %div.worksheet.page_content_div
 	%div.question_worksheet.notebookX.corner{:id=>question.id, :ans_criteria=>question.answer_criteria, :talking_point_criteria=>question.talking_point_criteria}
@@ -154,9 +165,20 @@
 				Please return to the 
 				= link_to 'proposal summary', plan_path(question.team.id)
 		- else
-			%h4 
-				Talking points matrix
-				= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'
+			%h4.question 
+				Q#{question.order_id}: #{question.text}
+				-#= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/images/wait3.gif"/>'
+				= link_to 'Close', question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close worksheet'
+			%p 
+				- if question['talking_points_to_display'].size == 0
+					Suggest a talking point to answer this question
+				- elsif question['talking_points_to_display'].size == 1
+					Here is one talking point suggested by your community
+				- else 
+					Here are 
+					= pluralize(question['talking_points_to_display'].size, 'talking point')
+					suggested by your community
+				
 			
 			%div.talking_point_matrix.sortable_ideas
 				= render :partial=> 'plan/talking_point_post_it', :collection => question['talking_points_to_display'], :as => :talking_point
@@ -164,8 +186,10 @@
 				
 			%p.clear_both
 
-		- if question.coms > 0
-			= link_to "Show #{ pluralize((question.coms - question['comments_to_display'].length), 'archived comment')}", question_all_comments_path(question), { :class=> 'show_new_comments', :id=>question.id, :remote => true }		
+		%p.footer
+			- if question.coms > 0
+				= link_to "Show #{ pluralize((question.coms - question['comments_to_display'].length), 'archived comment')}", question_all_comments_path(question), { :class=> 'show_new_comments', :id=>question.id, :remote => true }		
+			= link_to 'Close', question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close worksheet'
 
 
 		-#	= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'

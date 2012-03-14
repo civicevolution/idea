@@ -152,6 +152,31 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def all_comments
+    allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => params[:question_id]}, 'view_idea_page', @member)
+    if !allowed
+      if @member.id == 0
+        force_sign_in
+      else
+        respond_to do |format|
+          format.js { render 'shared/private' }
+          format.html { render 'shared/private', :layout => 'plan' }
+        end
+      end
+      return
+    end
+    
+    @question = Question.find(params[:question_id])
+    if !request.xhr?
+      @question['comments_to_display'] = @question.comments
+      worksheet
+    else
+      @question['comments_to_display'] = @question.comments
+      @question.get_talking_point_ratings(@member)
+      render :question_comments, :layout => false
+    end
+  end
+
   def summary
     question ||= Question.find_by_id(params[:question_id])
     if question.nil?

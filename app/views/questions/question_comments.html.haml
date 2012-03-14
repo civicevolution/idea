@@ -1,7 +1,11 @@
 %div.archived_comments
-	%h4 
+	%h4.question
 		Archived comments about this question
-		= link_to image_tag('close_corner.gif',{:title=>'Click to close archived comments', :class=>'close_archived_comments'}), question_summary_path(@question.id), :remote=>false, :class=>'close_archived_comments'
+		= link_to 'Close', {}, :remote=>false, :class=>'close_worksheet close_archived_comments', :title=>'Click to close archived comments'
 	
 	%div.comments
 		= render( :partial=> 'plan/comment', :collection => @question['comments_to_display'], :locals => {:archived => true} )
+		
+	%p.footer
+		= link_to 'Close', {}, :remote=>false, :class=>'close_worksheet close_archived_comments', :title=>'Click to close archived comments'
+	
