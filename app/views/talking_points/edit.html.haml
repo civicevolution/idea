@@ -15,16 +15,14 @@
 				Your edit should improve the talking point 
 				%b without changing its meaning
 			%li If you want to change the meaning, please add a new talking point of your own
-			%li Must be less than 200 characters long
+			%li Talking points must be less than 200 characters long
 
 		= f.text_area( :text, {:class=>'autosize', :rows => 6} )
 
-		%div.control_line
-			%div.controls
-				= f.submit 'Update', 'data-disable-with'=>'Saving...'
-			
-				%span.char_ctr
-					-#= @team.com_criteria.match(/..(\d+)/)[1]
-					200
-					characters
-				= link_to 'Cancel', question_worksheet_path(talking_point.question), {:class=>'cancel', :rel=>'nofollow'}
+		%div.form_controls
+			= submit_tag "Update", 'data-disable-with'=>'Saving...'
+
+			%span.char_ctr
+				200 characters
+			= link_to 'Cancel', question_worksheet_path(talking_point.question), {:class=>'cancel', :rel=>'nofollow'}
+		

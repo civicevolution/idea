@@ -142,6 +142,7 @@ div.suggest_title {
     margin-left: 40px; }
 
 h2.home_title {
+  font-size: 1em;
   margin: 18px 0 0px 0; }
   h2.home_title a {
     font-size: 0.6em;
@@ -149,7 +150,7 @@ h2.home_title {
     font-weight: normal; }
 
 div.summary {
-  margin: -10px 0 20px 0;
+  margin: -10px 0 0 0;
   font-size: 1.12em; }
 
 div.summary.collapse {
@@ -212,18 +213,23 @@ div.resources {
     cursor: pointer; }
 
 div.proposal {
-  padding-right: 20px; }
+  padding-right: 20px;
+  margin-top: 30px; }
 
 div.endorsements {
   position: relative;
-  margin-top: 80px; }
+  margin-top: 20px; }
   div.endorsements table {
     margin-right: 1em; }
   div.endorsements h3 {
     width: 100%;
-    text-align: left; }
+    text-align: left;
+    font-size: 1em; }
   div.endorsements td, div.endorsements th {
     text-align: left; }
+
+div#submit h3 {
+  font-size: 1em; }
 
 div.progress {
   padding: 1em;
@@ -851,7 +857,7 @@ div.talking_points_page div.notebook {
   margin-left: 0; }
 div.talking_points_page p.question {
   margin-left: 0;
-  font-size: 1.2em; }
+  font-size: 1em; }
 div.talking_points_page div.question_com_form {
   margin-left: 40px; }
 div.talking_points_page p.show_more_link {
@@ -864,16 +870,20 @@ div.talking_point_body p.talking_point {
   margin-top: 6px;
   margin-bottom: 6px; }
 
+div.question_summary h4.loading {
+  margin-left: 20px; }
 div.question_summary p.question {
   margin-top: 0;
   text-indent: -2.3em;
-  margin-left: 2.3em; }
+  margin-left: 2.3em;
+  margin-bottom: 24px;
+  font-size: 0.8em; }
 div.question_summary div.talking_points_list.summary {
-  padding: 16px; }
+  padding: 0 16px 16px 16px; }
   div.question_summary div.talking_points_list.summary ul.talking_points {
     margin-top: 0; }
     div.question_summary div.talking_points_list.summary ul.talking_points li {
-      font-size: 1.2em; }
+      font-size: 1em; }
   div.question_summary div.talking_points_list.summary p.example {
     margin-top: 0; }
   div.question_summary div.talking_points_list.summary div.talking_point_form.hint {
@@ -965,10 +975,10 @@ li.talking_point img, li.talking_point a.tp_details {
   display: none; }
 
 div.left_side {
-  width: 670px; }
+  width: 680px; }
 
 div.right_side {
-  width: 280px; }
+  width: 270px; }
 
 ul.talking_points {
   position: relative; }
@@ -1128,7 +1138,7 @@ div#guideAccordion div#activity_chat div#chat_log {
 div#guideAccordion div#activity_chat form#chat_form {
   padding: 4px 0; }
   div#guideAccordion div#activity_chat form#chat_form input[type=text] {
-    width: 240px; }
+    width: 190px; }
 div#guideAccordion div#tab_member_sign_in {
   padding-top: 0;
   margin-top: -px; }
@@ -1238,7 +1248,7 @@ div.right_master div.activity_chat div#chat_log {
 div.right_master div.activity_chat form#chat_form {
   padding: 4px 0; }
   div.right_master div.activity_chat form#chat_form input[type=text] {
-    width: 240px; }
+    width: 190px; }
 div.right_master td.button {
   padding: 6px 0; }
 div.right_master td.stay {
@@ -1476,7 +1486,6 @@ div.worksheet {
 div.talking_point_matrix {
   height: 600px;
   overflow-y: scroll;
-  background: url(/images/corkboard3.jpg);
   padding-top: 20px; }
 
 div.question_worksheet {
@@ -1484,12 +1493,9 @@ div.question_worksheet {
 
 div.archived_comments {
   position: fixed;
-  background-color: white; }
+  background-color: #d3bcde; }
+  div.archived_comments > * {
+    margin-left: 20px;
+    margin-right: 10px; }
   div.archived_comments div.comments {
-    overflow-y: scroll; }
-
-div.talking_point_comments {
-  position: fixed;
-  background-color: white; }
-  div.talking_point_comments div.discussion {
     overflow-y: scroll; }

@@ -5,7 +5,7 @@
 		render( :template => 'talking_points/edit.html', :locals => {:talking_point => talking_point} )
 	)}");
 	
-	var dialog = edit_form.dialog( {title : 'Edit this talking point', modal : true, width : '500px', closeOnEscape: false, close: function(){$(this).remove()} });
+	var dialog = edit_form.dialog( {title : 'Edit this talking point', modal : false, width : '500px', position: [100,'center'], closeOnEscape: false, close: function(){$(this).remove()} });
 	
 	var form = $('form.talking_point_edit_form[id="#{talking_point.id}"]');
 	

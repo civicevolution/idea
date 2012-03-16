@@ -1,24 +1,78 @@
 %div.new_content
-	%h3= @team.title
+
 	- if @member.id == 0
-		%h3 This is new content since #{@last_visit.strftime('%A %b %d, %Y')}
-		%p If you sign in we can show you only the new content since your last visit
+		%p Recent since #{@last_visit.strftime('%A %b %d, %Y')}
 	- else
-		%h3 Here is the new content since your last visit on #{@last_visit.strftime('%A %b %d, %Y')}
-
-	%p
-		(#{pluralize( @talking_points.select{|tp| tp['new']}.size, 'new talking point')},
-		#{pluralize( @comments.size, 'new comment')})
+		%p Updates since #{@last_visit.strftime('%A %b %d, %Y')}
+		
 	
-
-	%table{:cellspacing=> 0}
+	%table#new_content{:cellspacing=> 0}
 		%tbody
-			- @team.questions.sort! {|a,b| a.order_id <=> b.order_id }
-			= render :partial=> 'question_new_content', :collection => @team.questions, :as => :question
-			
+			- @team.new_content.each_value do |question|
+				- if !question[:talking_points].empty?
+					%tr
+						%td.question
+							Q#{question[:order_id]} #{question[:text]}
+					
+					- question[:talking_points].each_value do |tp|
+						%tr
+							%td.talking_point
+								(TP #{tp.id}:)
+								- if tp['new'] 
+									%span.rate Rate this
+									= tp.text
+								- elsif tp['updated']
+									%span.rate Edited:
+									!= tp.text
+								- else
+									[Ref]
+									= tp.text
+								
+						- tp[:comments].each_value do |com|
+							%tr
+								%td.comment
+									-#(C #{com.id}:)
+									-#= com.text
+									= truncate(com.text, :length => 100)
+							
+		
+		
+		
+			-# @team.new_talking_points.each do |tp|
+				%tr
+					%td
+						- if tp['new'] 
+							[New]
+						(#{tp.id}-#{tp.question_id})	
+						= tp.text
+
+			-# @team.new_comments.each do |c|
+				%tr
+					%td
+						(#{c.id}-#{c.parent_id})	
+						= c.text
+					
 			
 	%style
 		:sass
+			table#new_content
+				font-size: .8em
+				td.question
+					font-size: 1em
+					color: blue
+				td.talking_point
+					font-size: 1em
+					span.rate
+						color: red
+					ins
+						color: green
+					del 
+						color: red
+				td.comment
+					font-size: 1em
+					font-style: italic
+				
+				
 			div.new_content
 				$talking_point_bg: #BCC3D0 //rgb(192,228,154)
 				div.talking_point_comment
@@ -42,7 +96,7 @@
 				span.com_quote
 					font-style: italic
 				table
-					width: 800px
+					width: 500px
 					margin: 1em
 					td
 						border-bottom: 2px solid white

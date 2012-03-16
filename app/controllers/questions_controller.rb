@@ -199,7 +199,7 @@ class QuestionsController < ApplicationController
     
     # I might want to trim this back to just get the stats I need
     question.member = @member
-    question.assign_new_content
+    #question.assign_new_content
     
     # FIX this to be done only when needed
     @default_answers = DefaultAnswer.select('id,checklist').where(:id=>question.default_answer_id) if question.curated_talking_points.size == 0
@@ -231,28 +231,22 @@ class QuestionsController < ApplicationController
       end
       return
     end
-
-    # get the last visit timestamp
-    qlt = QuestionLoadTime.find_or_create_by_member_id_and_question_id(@member.id, @question.id)
-    @member.question_last_visit_ts = qlt.updated_at
-    qlt.touch
-
-    @question.member = @member
-    @question.assign_new_content
     
-    #@question['talking_points_to_display'] ||= @question.show_new ? @question.new_talking_points : @question.all_talking_points
+    @question.member = @member
+    
     @question['talking_points_to_display'] ||= @question.all_talking_points
 
-    # set the order according to question.curated_tp_ids and set as selected
-    @question.curated_tp_ids.scan(/\d+/).reverse.each do |id|
-      selected_tp = @question['talking_points_to_display'].detect{|tp| tp.id == id.to_i}
-      if !selected_tp.nil?
-        selected_tp.selected = true
-        @question['talking_points_to_display'].delete_if{|tp| tp == selected_tp}
-        @question['talking_points_to_display'].unshift(selected_tp)
+    if !@question.curated_tp_ids.nil?
+      # set the order according to question.curated_tp_ids and set as selected
+      @question.curated_tp_ids.scan(/\d+/).reverse.each do |id|
+        selected_tp = @question['talking_points_to_display'].detect{|tp| tp.id == id.to_i}
+        if !selected_tp.nil?
+          selected_tp.selected = true
+          @question['talking_points_to_display'].delete_if{|tp| tp == selected_tp}
+          @question['talking_points_to_display'].unshift(selected_tp)
+        end
       end
     end
-
     @question.get_talking_point_ratings(@member)
     
     if flash[:unrecorded_talking_point_preferences]

@@ -32,6 +32,8 @@
 					%p.clear_both
 				%p.clear_both
 
+				= link_to 'New content', plan_path(@team, :date=>params[:date]), {:remote=>true}
+
 				- questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
 				%div.proposal
 					-#%h3 Current proposal details

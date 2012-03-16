@@ -11,7 +11,9 @@
 	}
 	$('form.talking_point_edit_form[id="#{talking_point.id}"]').closest('div.ui-dialog').dialog('destroy').remove();
 	
-	tp.replaceWith(new_tp)
-	
-
+	tp.each(
+		function(){
+			$(this).replaceWith( new_tp.clone() );
+		}
+	);
 	

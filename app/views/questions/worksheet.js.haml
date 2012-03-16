@@ -104,12 +104,17 @@
 		function(){
 			var post_it = $(this).closest('div.talking_point_post_it');
 			var $matrix = post_it.closest('div.talking_point_matrix');
-			if(post_it.hasClass('selected')){
-				post_it.removeClass('selected');
-				update_selected_tp_ids($matrix);
+			if($matrix.size()==0){
+			
+			
 			}else{
-				post_it.addClass('selected');
-				update_selected_tp_ids($matrix);
+				if(post_it.hasClass('selected')){
+					post_it.removeClass('selected');
+					update_selected_tp_ids($matrix);
+				}else{
+					post_it.addClass('selected');
+					update_selected_tp_ids($matrix);
+				}
 			}
 		}
 	);

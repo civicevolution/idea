@@ -10,7 +10,10 @@
 		Talking point discussion
 		= link_to 'Close', {}, :remote=>false, :class=>'close_worksheet close_talking_point_comments', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close talking point discussion'
 
-	%p 
+	%p.ques Q#{@question.order_id}: #{@question.text}
+
+	= render :partial=> 'plan/talking_point_post_it', :locals => {:talking_point=>talking_point, :no_com_link => true}
+	%p.clear_both
 		- if comments.size == 0
 			Add your comment or question about this talking point
 		- elsif comments.size == 1
@@ -19,9 +22,6 @@
 			Here are 
 			= pluralize(comments.size, 'comment')
 			about this talking point from your community
-
-	= render :partial=> 'plan/talking_point_post_it', :locals => {:talking_point=>talking_point, :no_com_link => true}
-	%p.clear_both
 	
 	%div.discussion{:id=> talking_point.id, :num_coms => talking_point.coms }
 	

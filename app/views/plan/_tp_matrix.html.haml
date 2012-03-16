@@ -3,6 +3,12 @@
 		$post_it_bg: #fcfeb4
 		div.worksheet
 			//background: url(/images/corkboard3.jpg)
+			background-color: #BDBE95
+			h4.question, p.header, p.footer
+				margin-left: 20px
+				margin-right: 10px
+			form textarea
+				background-color: #FDFFD6
 		div.talking_point_post_it.selected
 			div.visibility
 				background-position: 0 0
@@ -20,7 +26,7 @@
 				position: absolute
 				top: 0
 				right: 0
-				background: url(/images/visible.gif) no-repeat 0 -12px
+				background: url(/images/visible2.gif) no-repeat 0 -12px
 				cursor: pointer
 			p
 				margin: 12px 10px 10px 10px
@@ -155,6 +161,20 @@
 				position: absolute
 				top: 2px
 				right: 0
+		div.talking_point_comments
+			> *
+				margin-left: 20px
+				margin-right: 10px
+			background-color: #A7B58D
+			position: fixed
+			div.discussion
+				overflow-y: scroll		
+			p.ques
+				font-weight: bold
+			div.visibility
+				cursor: default
+			form textarea
+				background-color: #EAF8D0
 				
 %div.worksheet.page_content_div
 	%div.question_worksheet.notebookX.corner{:id=>question.id, :ans_criteria=>question.answer_criteria, :talking_point_criteria=>question.talking_point_criteria}
@@ -169,7 +189,7 @@
 				Q#{question.order_id}: #{question.text}
 				-#= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/images/wait3.gif"/>'
 				= link_to 'Close', question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close worksheet'
-			%p 
+			%p.header
 				- if question['talking_points_to_display'].size == 0
 					Suggest a talking point to answer this question
 				- elsif question['talking_points_to_display'].size == 1
@@ -187,8 +207,8 @@
 			%p.clear_both
 
 		%p.footer
-			- if question.coms > 0
-				= link_to "Show #{ pluralize((question.coms - question['comments_to_display'].length), 'archived comment')}", question_all_comments_path(question), { :class=> 'show_new_comments', :id=>question.id, :remote => true }		
+			- if question.archived_com_count > 0
+				= link_to "Show #{ pluralize((question.archived_com_count), 'archived comment')}", question_all_comments_path(question), { :class=> 'show_new_comments', :id=>question.id, :remote => true }		
 			= link_to 'Close', question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close worksheet'
 
 

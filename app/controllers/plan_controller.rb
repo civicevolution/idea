@@ -31,8 +31,6 @@ class PlanController < ApplicationController
       return
     end
 
-    @team.assign_question_stats(@member.id)
-
     # eager load the curated talking points and attach them to the questions in order as question.curated_talking_points
     @team.include_curated_talking_points
 
@@ -41,13 +39,32 @@ class PlanController < ApplicationController
     @default_answers = DefaultAnswer.select('id,checklist').where(:id=>def_ids) unless def_ids.size == 0
 
     @participant_stats = ParticipantStats.find_by_member_id_and_team_id(@member.id,@team.id) || ParticipantStats.new
+    if params[:date]
+      # force  a timestamp for testing
+    	time_stamp = params[:date].scan(/\d+/)
+      @last_visit = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
+    else
+      # get the last visit timestamp
+      if @participant_stats.id.nil?
+        # if this is a new visitor, show recent content of the last 2 weeks (#base interval on the team stats per time interval)
+        @last_visit = Time.now - 14.days
+      else
+        @last_visit = @participant_stats.updated_at
+      end
+    end
+    
+    @team.assign_new_content(@member, @last_visit)
 
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
 
     @channels = ["_auth_team_#{@team.id}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
 
-    render :summary, :layout => 'plan'
+    respond_to do |format|
+      format.html { render :summary, :layout => 'plan' }
+      format.js { render :template => 'plan/new_content' }
+    end
+    
     ActiveSupport::Notifications.instrument( 'tracking', :event => 'Summary page', :params => params.merge(:member_id => @member.id, :session_id=>request.session_options[:id])) unless @member.nil? || @member.id == 0
     
     logger.debug "\n\nEnd plan/summary\n******************************************\n"

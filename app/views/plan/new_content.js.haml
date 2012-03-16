@@ -1,20 +1,6 @@
-= render :template => 'shared/clear_sign_in_form.js'
 :plain
 	var new_content = $("#{escape_javascript(
-		render( :template => 'plan/new_content.html' )
+		render( :template => 'plan/new_content.html')
 	)}");
-	new_content.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
-	var dialog = new_content.dialog( {title : 'New content since your last visit', modal : false, width : 'auto', closeOnEscape: true, autoOpen: false });
-	dialog.dialog('open');
-	$('a.request_new').live('click',
-		function(){
-			var help_dlg = $('div.new_content').closest('.ui-dialog-content');
-			if(help_dlg.dialog('isOpen')){
-				help_dlg.dialog('close');
-			}else{
-				help_dlg.dialog('open');
-			}
-			return false
-		}
-	);
-	setTimeout(function(){$('a.request_new').removeAttr('data-remote');}, 100);
+	
+	var dialog = new_content.dialog( {title : 'New content', modal : false, width : '600px', position: [60,'center']	, closeOnEscape: true, close: function(){$(this).remove()} });

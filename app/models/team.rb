@@ -1,3 +1,4 @@
+require 'differ'
 class Team < ActiveRecord::Base
   include LibGetTalkingPointsRatings
   
@@ -13,6 +14,11 @@ class Team < ActiveRecord::Base
   has_many :participant_stats, :class_name => 'ParticipantStats'
   
   attr_accessor :member
+  attr_accessor :new_talking_points
+  attr_accessor :new_talking_points_count
+  attr_accessor :updated_talking_points_count
+  attr_accessor :new_comments
+  attr_accessor :new_content
   
   #validate_on_update :check_team_edit_access
   validate :check_team_edit_access, :on=>:update
@@ -91,38 +97,70 @@ class Team < ActiveRecord::Base
   def text
     self.title
   end
-  
-  def assign_question_stats(member_id)
-    # get the question ids
+    
+  def assign_new_content(member,last_stat_update)
     q_ids = self.questions.map(&:id)
     q_ids = [0] if q_ids.size == 0
-    # get the load time for each question
-    qlts = QuestionLoadTime.where(:member_id=>member_id, :question_id=>q_ids)
-    # find missing load time records and create them and append them to the array
-    (q_ids - qlts.map(&:question_id)).each{|i| qlts += [ QuestionLoadTime.find_or_create_by_member_id_and_question_id(member_id,i) ] }
-    # use the array of load time objects to query for the stats
-
-    stats  = ActiveRecord::Base.connection.select_all(%Q|select q_id, last_visit_ts,
-    (SELECT count(id) from comments where question_id = q_id) AS coms,
-    (SELECT count(id) from comments where question_id = q_id AND created_at > last_visit_ts) AS new_coms,
-    (SELECT count(id) from talking_points where question_id = q_id) AS tps,
-    (SELECT count(id) from talking_points where question_id = q_id AND updated_at > last_visit_ts) AS new_tps,
-    (SELECT COUNT(tp.id) FROM talking_points AS tp LEFT JOIN talking_point_acceptable_ratings AS tpar ON tp.id=tpar.talking_point_id 
-    AND tpar.member_id = #{member_id} WHERE (tpar.id IS NULL AND question_id = q_id)) AS unrated
-    FROM (  VALUES #{qlts.map{|qlt| "(#{qlt.question_id},'#{qlt.updated_at.localtime}'::timestamptz)"}.join(',')}) AS q (q_id,last_visit_ts)|)
     
-    # attach the stats to the questions    
-    self.questions.each do|question|
-      stat = stats.detect{|s| s['q_id'].to_i == question.id}
-      question.coms = stat['coms'].to_i
-      question.new_coms = stat['new_coms'].to_i
-      question.num_talking_points = stat['tps'].to_i || 0
-      question.num_new_talking_points = stat['new_tps'].to_i || 0
-      question.unrated_talking_points = stat['unrated'].to_i
-      question.updated_talking_points = stat['new_tps'].to_i > stat['unrated'].to_i ? stat['new_tps'].to_i - stat['unrated'].to_i : 0
-      question.show_new = question.unrated_talking_points > 0 || question.updated_talking_points > 0 || question.new_coms > 0 ? true : false
+    self.new_content = {}
+    self.questions.sort{|a,b| a.order_id <=> b.order_id}.each do |q|
+      self.new_content[q.id] = {:order_id => q.order_id, :text=> q.text, :talking_points => {}}
     end
+
+    # gets the unrated TP    
+    self.new_talking_points = TalkingPoint.select('tp.*')
+      .joins(" AS tp LEFT JOIN talking_point_acceptable_ratings AS tpar ON tp.id=tpar.talking_point_id AND tpar.member_id = #{member.id}",)
+      .where("tpar.id IS NULL AND question_id IN (#{q_ids.join(',')})").order('tp.created_at ASC')
+  
+    self.new_talking_points.each{|tp| tp['new'] = true }
+    self.new_talking_points_count = self.new_talking_points.count
+
+    new_tp_ids = new_talking_points.map{|tp| tp.id.to_i }
+    new_tp_ids = [0] if new_tp_ids.size == 0
+    # now there may be some TP that have been updated since I rated them
+    updated_talking_points = TalkingPoint.where("question_id IN (#{q_ids.join(',')}) AND version > 1 AND updated_at >= :last_visit AND id NOT IN (:new_tp_ids)",
+      :new_tp_ids => new_tp_ids, :last_visit => last_stat_update).order('updated_at ASC')
+
+    updated_talking_points.each{|tp| tp['updated'] = true }
+    self.updated_talking_points_count = updated_talking_points.count
+    
+    # retrieve the last version of tp that was current on my last visit
+    tp_versions = ActiveRecord::Base.connection.select_all(%Q|SELECT tp_id,
+    (SELECT text from talking_point_versions where talking_point_id = tp_id and created_at < '#{last_stat_update}' order by created_at desc limit 1) AS text
+    FROM (  VALUES #{updated_talking_points.map{|utp| "(#{utp.id})"}.join(',')} ) AS tp (tp_id)|)
+    
+    # if the old text isn't nil, replace talking_point.text with the diff
+
+    tp_versions.each do |tp|
+      if !tp['text'].nil?
+        utp = updated_talking_points.detect{|utp| utp.id == tp['tp_id'].to_i }
+        Differ.format = :html
+        utp.text = Differ.diff_by_word(utp.text, tp['text'])
+      end
+    end
+      
+    self.new_talking_points += updated_talking_points
+
+    self.new_comments = Comment.includes(:author)
+      .where("question_id IN (#{q_ids.join(',')}) AND parent_type = 13 AND comments.created_at >= :last_visit", 
+        :last_visit => last_stat_update).order('comments.created_at ASC')
+
+    # get id for TP needed to provide reference for comments under new/updated TP
+    self.new_talking_points += TalkingPoint.find( self.new_comments.map(&:parent_id).uniq - self.new_talking_points.map(&:id) )
+
+    # attach the talking points to the questions
+    self.new_talking_points.each do |tp|
+      tp[:comments] = {}
+      self.new_content[tp.question_id][:talking_points][tp.id] = tp
+    end  
+
+    # attach the comments to the talking points in the quetions
+    #needed_tp_ids = []
+    self.new_comments.each do |c|
+      self.new_content[c.question_id][:talking_points][c.parent_id][:comments][c.id] = c
+    end  
   end
+  
   
   def bs_ideas_with_ratings(memberId)
     BsIdeaRating.find_by_sql([ %q|SELECT bsi.id, 

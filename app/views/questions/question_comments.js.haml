@@ -8,7 +8,7 @@
 		function(){
 			$('div.archived_comments').css({top: 0, left: $('div.left_side').offset().left, width: $('div.left_side').width(), height: $('div.right_side').outerHeight()});
 			comments.slideDown(800);
-			$('div.archived_comments div.comments').height( $(window).height() - 150 );
+			$('div.archived_comments div.comments').height( $(window).height() - 90 );
 			comments.find('abbr').timeago();
 			activate_text_counters_grow( comments.find('textarea'), 30 );
 			

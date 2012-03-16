@@ -37,6 +37,7 @@ function ajaxDisableElement(el){
 	var element = $(el);
 	element.data('ujs:enable_with', element.html()); // store enabled state+      
 	element.html( element.attr('data-disable-with') || 'Loading...' ); // set to disabled state
+	//element.html( element.attr('data-disable-with') || '<img src="/images/wait5.gif"/>' ); // set to disabled state
 	element.addClass('loading');
 	//element.bind('click.railsDisable', function(e) { // prevent further clicking
 	//	return rails.stopEverything(e)
@@ -89,6 +90,19 @@ $('a[data-remote]').live('ajax:beforeSend',
 		ajaxEnableElement(this)	
 	}
 )
+
+$('form[data-remote]').live('ajax:beforeSend', 
+	function(){
+		//console.log("form ajax beforeSend");
+		$(this).find(':submit').hide().after('<img src="/images/wait5.gif"/>');
+	}
+).live('ajax:complete', 
+	function(){
+		//console.log("form ajax complete")
+		$(this).find(':submit').show().end().find('img').remove();
+	}
+)
+
 
 function init_page(){
 	//console.log("init_page")
@@ -375,96 +389,7 @@ function open_question_worksheet(el){
 	$.scrollTo($('div.question_summary[id="' + question_id + '"] p.question'), 600)
 	return false;
 	
-	//if ( !$('h3#curated_list_t').attr('class').match(/active/) ) $('h3#curated_list_t').click();
-	
-	var q_tabs = $('div.list_tabs');
-	
-	var get_tab = true;
-	while(get_tab){
-		q_tabs.tabs("add", '#curated_list_' + order_id, 'Q' + order_id);
-		new_tab_close = q_tabs.find('a.close_worksheet:last');
-		if(new_tab_close.size() > 0 ) get_tab = false;
-	}				
-	new_tab_close.attr('id',question_id);
-	new_tab_close.attr('href',new_tab_close.attr('href').replace(/\d+/,question_id));
-	q_tabs.tabs('select','#curated_list_' + order_id);
-	
-	$('div#curated_list_' + order_id).addClass('tab_content selected_tp_list');
-	
-	//move the new tab to the correct position if there is more than one tab
-	if(q_tabs.find('a.q_tab').size()>1){
-		insert_index = 0;
-		q_tabs.find('a.q_tab').each(function(){
-			var a = $(this);
-			var id = Number(a.html().match(/(\d+)/)[1]);
-			if(order_id > id) ++insert_index;
-			//console.log("html: " + a.html() + ", id: " + id );
-		});
-		
-		// don't swap the tabs if they are the same
-		if (q_tabs.find('ul.list_tabs li').eq(insert_index).find('a.q_tab').html() != 
-			q_tabs.find('ul.list_tabs li:last').find('a.q_tab').html() ){
-				q_tabs.find('ul.list_tabs li').eq(insert_index).before(q_tabs.find('ul.list_tabs li:last'))
-			}
-	}
-	update_right_panel_context('worksheet');
-
-	var tp_sec = el.closest('div.question_summary').find('div.talking_points_list');
-	var ul = el.closest('div.question_summary').find('ul.talking_points');
-	
-	var curated_tps_exist = ul.attr('curated_tp_ids') && ul.attr('curated_tp_ids') != ''
-
-	var data = {
-		question: el.html(),
-		id: question_id, 
-		//close_href: templates['curated_talking_points'].find('a.close_worksheet').attr('href').replace(/\d+/,question_id),
-		hide:{ 
-			curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 'f' ? '' : ' hide',
-			non_curated: !am_curator && curated_tps_exist && ul.attr('auto_curated') == 't' ? '' : ' hide',
-			curator: am_curator && curated_tps_exist ? '' : ' hide'
-		}
-	}
-	
-	if(!curated_tps_exist) data.hide.non_curator_instr = ' hide'
-
-	var ul_offset = ul.offset();
-	
-	var list_div = $(template_functions['curated_talking_points'](data)).appendTo('body');
-	
-	// only replace UL with a curated list
-	if( curated_tps_exist ){
-		list_div.find('ul.talking_points').replaceWith(ul.clone());
-	}else{
-		list_div.find('ul.talking_points').attr('id',question_id);
-	}
-	
-	list_div.find('ul div').remove();
-	list_div.addClass('selected_tp_list corner')
-
-	list_div.css({top: ul_offset.top, left: ul_offset.left, width: ul.width()});
-
-	$('<div class="msg"><h2>...loading the talking points worksheet</h2></div>').insertAfter(tp_sec);
-	tp_sec.hide(1000);
-
-	var new_left = $('div.right_side').position().left;
-	var new_top = $('div.list_tabs').position().top + $(window).scrollTop() + 31;
-	
-	//console.log("XXX 1: " + list_header.position().top + ", 2: " + list_header.outerHeight() + ", 3: " + $('body').scrollTop() )
-	//console.log("new_top: " + new_top + ", new_left: " + new_left)
-
-	//list_div.animate({width: '300px', 'font-size': '.9em'},1000,
-	list_div.animate({top: new_top + 'px', left: new_left + 'px', width: '300px', 'font-size': '.9em'},600,
-		function(){
-			//$(this).css( {position: 'fixed', top: '4px'});
-			//$('div.curated_list div#tab_curated_q1').append(list_div.find('ul'));
-			
-			$('div#curated_list_' + order_id).html('<p>' + question_text + '</p>').append(list_div.find('ul') );
-			list_div.remove();
-			set_inner_tab_content_height();
-			// scroll to top of question
-			$.scrollTo($('div.question_summary[id="' + question_id + '"] p.question'), 600)
-		}
-	);
+	//update_right_panel_context('worksheet');
 
   // if( !am_curator ) return;
 	return false;
@@ -473,78 +398,11 @@ function open_question_worksheet(el){
 
 function close_question_worksheet(el){
 	el = $(el);
-	temp.el = el;
-	
-	if(el.attr('id')){ 
-		// close comes from out of worksheet like curated list
-		el = $('div.question_summary[id="' + el.attr('id') + '"] a.close_worksheet');
-	}
 	var worksheet = el.closest('div.worksheet');
 	var question_id = worksheet.attr('id');
+	//$('div.question_summary[id="' + question_id +'"]').append('<h4 class="loading">Loading...</h4>')
+	$('div.question_summary[id="' + question_id +'"]').append('<img src="/images/wait3.gif"/>');
 	worksheet.slideUp(800, function(){$(this).remove();});
 	
 	return false;
-	
-	// scroll to top of question
-	$.scrollTo(el.closest('div.question_summary'),1000);
-	
-	
-	
-	var q = worksheet.closest('div.question_summary').children('p.question');
-	var new_top = q.offset().top + q.height();
-	var new_left = q.offset().left;
-
-	var div_list = $('ul.talking_points[id="' + question_id + '"]').closest('div.ui-tabs-panel');
-	
-	div_list.find('p	').remove();
-	var offset = div_list.offset();
-	var width = div_list.width();
-	
-	
-	var q_tabs = $('div.list_tabs ul.list_tabs');
-	var tab = q_tabs.find('a.close_worksheet[id="' + question_id +'"]').closest('li');
-
-	// get the next tab
-		var next_tab = tab.prev('li');
-		if(next_tab.size() == 0)next_tab = tab.next('li');
-	// remove this tab
-	tab.remove();
-
-	if(next_tab.size() == 0){
-		// if no more tabs, close this accordion panel and hide the accordion tab
-		update_right_panel_context('proposal')
-	}else{
-		// get the index to the next_tab
-		var index = 0;
-		q_tabs.find('ul.list_tabs li').each(
-			function(){
-				if($(this).find('a:first').html() == next_tab.find('a:first').html()){
-					return;
-				}else{
-					++index;
-				}
-			}
-		);
-		q_tabs.tabs('select',index);
-	
-	}
-	// put up the verify message
-	ul = div_list.find('ul');
-	msg = $('<div class="msg"><p>Verifying current talking points</p></div>').appendTo(ul);
-	msg.fadeTo(500,.7);
-	
-	// slide the list back to the summary
-					
-	div_list.remove();
-	div_list.attr('id',question_id);
-	div_list.addClass('selected_tp_list')
-	$('body').append(div_list);
-	div_list.css(offset);
-	div_list.css({position: 'absolute', width: width});
-	
-	div_list.animate({top: new_top+'px', left: new_left + 'px', width: q.width() + 'px', 'font-size': '1.2em'},1000, 
-		function(){
-			$(this).find('p:first').remove();
-		}
-	);
 }
