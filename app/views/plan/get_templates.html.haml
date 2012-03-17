@@ -225,11 +225,11 @@
 				
 			//console.log("TalkingPointAcceptableRating function is ready")
 
-	%script#curated_talking_points_template{:type=>'text/html'}
+	-#%script#curated_talking_points_template{:type=>'text/html'}
 		:plain
 			#{render( :partial => 'plan/curated_talking_points2.html')}
 		
-	%script#create_curated_talking_points_template
+	-#%script#create_curated_talking_points_template
 		:plain
 			templates['curated_talking_points'] = $('<div></div>').html($.trim( $('script#curated_talking_points_template').html() )).find('div:first');
 			template_functions['curated_talking_points'] = templates['curated_talking_points'].compile(

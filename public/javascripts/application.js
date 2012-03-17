@@ -406,3 +406,31 @@ function close_question_worksheet(el){
 	
 	return false;
 }
+
+$('table#new_content tr').die('click').live('click',
+	function(){
+		var tr = $(this);
+		var tp_id = tr.attr('tp_id');
+		var url;
+		if(tr.hasClass('talking_point')){
+			var url = '/talking_points/' + tp_id + '/comments';
+			console.log("show talking point with id: " + tp_id + " with url: " + url);
+		}else if(tr.hasClass('comment')){
+			var com_id = tr.attr('com_id');
+			var url = '/talking_points/' + tp_id + '/comments?com_id=' + com_id;
+			console.log("show comment with id: " + com_id + " in talking_point with id: " + tp_id + " with url: " + url);
+		}
+		if(url){
+		  tr.find('td').append('<img src="/images/wait3.gif"/>');
+			$.getScript(url, function(){tr.find('img').remove();tr.fadeTo(0,.4);});
+			$('div.talking_point_comments').each(
+			  function(){
+			    var popup = $(this);
+			    if(popup.find('textarea').val()==''){
+			      popup.slideUp(800,function(){ $(this).remove()});
+			    }
+			  }
+			);  
+		}
+	}
+);

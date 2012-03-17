@@ -1,153 +1,85 @@
 %div.new_content
-
-	- if @member.id == 0
-		%p Recent since #{@last_visit.strftime('%A %b %d, %Y')}
-	- else
-		%p Updates since #{@last_visit.strftime('%A %b %d, %Y')}
-		
-	
 	%table#new_content{:cellspacing=> 0}
 		%tbody
-			- @team.new_content.each_value do |question|
-				- if !question[:talking_points].empty?
-					%tr
-						%td.question
-							Q#{question[:order_id]} #{question[:text]}
+			- if @team.new_content.empty?
+				%tr.title
+					%td No updates since last visit
+			- else
+				%tr.title
+					%td
+						- if @member.id == 0
+							Recent since #{@last_visit.strftime('%a %b %d, %Y')}
+						- else
+							Updates since #{@last_visit.strftime('%a %b %d, %Y')}
+						
+				- @team.new_content.each_value do |question|
+					- if !question[:talking_points].empty?
+						%tr.question
+							%td
+								Q#{question[:order_id]} #{question[:text]}
 					
-					- question[:talking_points].each_value do |tp|
-						%tr
-							%td.talking_point
-								(TP #{tp.id}:)
+						- question[:talking_points].each_value do |tp|
+							%tr.talking_point{:tp_id=>tp.id}
 								- if tp['new'] 
-									%span.rate Rate this
-									= tp.text
+									%td{:title => 'Click here to rate this talking point'}
+										%span.rate Rate:
+										= tp.text
 								- elsif tp['updated']
-									%span.rate Edited:
-									!= tp.text
+									%td
+										!= tp.text
+										%span.edited (Edited)
 								- else
-									[Ref]
-									= tp.text
+									%td
+										= tp.text
 								
-						- tp[:comments].each_value do |com|
-							%tr
-								%td.comment
-									-#(C #{com.id}:)
-									-#= com.text
-									= truncate(com.text, :length => 100)
-							
-		
-		
-		
-			-# @team.new_talking_points.each do |tp|
-				%tr
-					%td
-						- if tp['new'] 
-							[New]
-						(#{tp.id}-#{tp.question_id})	
-						= tp.text
-
-			-# @team.new_comments.each do |c|
-				%tr
-					%td
-						(#{c.id}-#{c.parent_id})	
-						= c.text
-					
+							- tp[:comments].each_value do |com|
+								%tr.comment{:com_id=>com.id, :tp_id=>com.parent_id}
+									%td{:title=>com.text}
+										= truncate(com.text, :length => 100)
+			%tr.title
+				%td New updates
 			
+							
 	%style
 		:sass
 			table#new_content
+				width: 100%
+				margin: 0
+				
 				font-size: .8em
-				td.question
+				td
+					position: relative
+					img
+						position: absolute
+						top: 0
+						left: 100px
+				tr.title
+					font-style: italic
+				tr.striped
+					background-color: #eee
+				tr.question
 					font-size: 1em
-					color: blue
-				td.talking_point
+					font-variant: small-caps
+					padding-top: 10px
+					padding-bottom: 4px
+					
+				tr.talking_point
 					font-size: 1em
 					span.rate
 						color: red
+					span.edited
+						color: blue
 					ins
 						color: green
 					del 
 						color: red
-				td.comment
+					td
+						padding: 3px 0 3px 6px
+					cursor: pointer
+				tr.comment
 					font-size: 1em
 					font-style: italic
-				
-				
-			div.new_content
-				$talking_point_bg: #BCC3D0 //rgb(192,228,154)
-				div.talking_point_comment
-					margin-left: 20px
-				div.talking_point
-					//margin-left: 20px
-					span.talking_point_text
-						font-size: 1.2em
-					p.talking_point.new
-						font-weight: bold
-				div.question, div.question_content
-					margin-left: 20px
-				abbr.timeago, span.author, span.tp_reference
-					font-size: .8em
-					color: #888
-					white-space: nowrap
-				abbr.timeago
-					margin-left: 10px
-				span.author
-					margin-right: 10px
-				span.com_quote
-					font-style: italic
-				table
-					width: 500px
-					margin: 1em
 					td
-						border-bottom: 2px solid white
-					tr.question
-						background-color: #F2E9C3
-						font-size: 1.4em
-						td
-							border-bottom: 4px solid white
-							border-top: 4px solid white
-					tr.talking_point
-						//background-color: $talking_point_bg
-						background: $talking_point_bg
-						font-size: 1.2em
-						td.talking_point_entry
-							background: url(/images/white_bulb_sm.gif) no-repeat 8px 20px
-						a.display_talking_point
-							display: block
-							float: left
-							margin: 1em 0
-							padding-left: 30px
-							width: 390px
-						div.talking_point_acceptable
-							width: auto
-							background: none
-							margin: 1em 0 0 0 
-							padding: 0
-						div.talking_point_preferable
-							width: auto
-							background: none
-							margin: 1em 0 0 0 
-							padding: 0
-							
-					tr.comment.stripe
-						background-color: #F9F3DE
-					td
-						vertical-align: top
-						padding-bottom: 1em
-						padding-top: 4px
-					td.level1
-						padding-left: 20px
-					td.level2
-						padding-left: 40px
-				p.talking_point 
-					margin-bottom: 1em
-					padding-left: 30px
-				td
-					a
-						text-decoration: none
-						color: black
-					a:hover
-						//text-decoration: underline
-						font-weight: bold
-					a:visited
-						color: #444
+						padding: 3px 0 3px 12px
+					cursor: pointer
+					

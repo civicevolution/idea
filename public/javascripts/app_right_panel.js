@@ -39,13 +39,16 @@ function right_panel_resize(){
 	var remaining_height = win_height - fixed_height - margins;
 	
 	//console.log("win_height: " + win_height + ", fixed_height: " + fixed_height + ", margins: " + margins + ", remaining_height: " + remaining_height);
-	var context_height = remaining_height / 2;
+	//var context_height = remaining_height / 2;
 	var chat_height = remaining_height / 2;
-	$('div.page_context').height( context_height );
-	$('div.list_tabs').height( context_height );
+	//$('div.page_context').height( context_height );
+	//$('div.list_tabs').height( context_height );
+	var sug_act_height = remaining_height / 2;
+	$('div.suggested_action').height( sug_act_height );
+	$('div.new_content').height( sug_act_height - 0 );
 	
 	$('div.activity_chat').height( chat_height );
-	$('div#chat_log').height( chat_height - 112 );
+	$('div#chat_log').height( chat_height - 100 );
 
 	// reset the horizontal position
 	var win_width = $(window).width() - 10;

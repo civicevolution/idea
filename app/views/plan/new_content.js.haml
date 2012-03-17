@@ -3,4 +3,10 @@
 		render( :template => 'plan/new_content.html')
 	)}");
 	
-	var dialog = new_content.dialog( {title : 'New content', modal : false, width : '600px', position: [60,'center']	, closeOnEscape: true, close: function(){$(this).remove()} });
+	//var dialog = new_content.dialog( {title : 'New content', modal : false, width : '600px', position: [60,'center']	, closeOnEscape: true, close: function(){$(this).remove()} });
+
+	$('div.suggested_action').html(new_content);
+	setTimeout(right_panel_resize,200);
+	
+	$('table#new_content tr:odd').addClass('striped');
+	

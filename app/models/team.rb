@@ -107,40 +107,50 @@ class Team < ActiveRecord::Base
       self.new_content[q.id] = {:order_id => q.order_id, :text=> q.text, :talking_points => {}}
     end
 
-    # gets the unrated TP    
-    self.new_talking_points = TalkingPoint.select('tp.*')
-      .joins(" AS tp LEFT JOIN talking_point_acceptable_ratings AS tpar ON tp.id=tpar.talking_point_id AND tpar.member_id = #{member.id}",)
-      .where("tpar.id IS NULL AND question_id IN (#{q_ids.join(',')})").order('tp.created_at ASC')
+    if member.id != 0
+      # gets the unrated TP    
+      self.new_talking_points = TalkingPoint.select('tp.*')
+        .joins(" AS tp LEFT JOIN talking_point_acceptable_ratings AS tpar ON tp.id=tpar.talking_point_id AND tpar.member_id = #{member.id}",)
+        .where("tpar.id IS NULL AND question_id IN (#{q_ids.join(',')})").order('tp.created_at ASC')
   
-    self.new_talking_points.each{|tp| tp['new'] = true }
-    self.new_talking_points_count = self.new_talking_points.count
+      self.new_talking_points.each{|tp| tp['new'] = true }
+      self.new_talking_points_count = self.new_talking_points.count
 
-    new_tp_ids = new_talking_points.map{|tp| tp.id.to_i }
-    new_tp_ids = [0] if new_tp_ids.size == 0
-    # now there may be some TP that have been updated since I rated them
-    updated_talking_points = TalkingPoint.where("question_id IN (#{q_ids.join(',')}) AND version > 1 AND updated_at >= :last_visit AND id NOT IN (:new_tp_ids)",
-      :new_tp_ids => new_tp_ids, :last_visit => last_stat_update).order('updated_at ASC')
+      new_tp_ids = new_talking_points.map{|tp| tp.id.to_i }
+      new_tp_ids = [0] if new_tp_ids.size == 0
+      # now there may be some TP that have been updated since I rated them
+      updated_talking_points = TalkingPoint.where("question_id IN (#{q_ids.join(',')}) AND version > 1 AND updated_at >= :last_visit AND id NOT IN (:new_tp_ids)",
+        :new_tp_ids => new_tp_ids, :last_visit => last_stat_update).order('updated_at ASC')
 
-    updated_talking_points.each{|tp| tp['updated'] = true }
-    self.updated_talking_points_count = updated_talking_points.count
+      updated_talking_points.each{|tp| tp['updated'] = true }
+      self.updated_talking_points_count = updated_talking_points.count
+        
+      if self.updated_talking_points_count > 0    
+        # retrieve the last version of tp that was current on my last visit
+        tp_versions = ActiveRecord::Base.connection.select_all(%Q|SELECT tp_id,
+        (SELECT text from talking_point_versions where talking_point_id = tp_id and created_at < '#{last_stat_update}' order by created_at desc limit 1) AS text
+        FROM (  VALUES #{updated_talking_points.map{|utp| "(#{utp.id})"}.join(',')} ) AS tp (tp_id)|)
     
-    # retrieve the last version of tp that was current on my last visit
-    tp_versions = ActiveRecord::Base.connection.select_all(%Q|SELECT tp_id,
-    (SELECT text from talking_point_versions where talking_point_id = tp_id and created_at < '#{last_stat_update}' order by created_at desc limit 1) AS text
-    FROM (  VALUES #{updated_talking_points.map{|utp| "(#{utp.id})"}.join(',')} ) AS tp (tp_id)|)
-    
-    # if the old text isn't nil, replace talking_point.text with the diff
+        # if the old text isn't nil, replace talking_point.text with the diff
 
-    tp_versions.each do |tp|
-      if !tp['text'].nil?
-        utp = updated_talking_points.detect{|utp| utp.id == tp['tp_id'].to_i }
-        Differ.format = :html
-        utp.text = Differ.diff_by_word(utp.text, tp['text'])
+        tp_versions.each do |tp|
+          if !tp['text'].nil?
+            utp = updated_talking_points.detect{|utp| utp.id == tp['tp_id'].to_i }
+            Differ.format = :html
+            utp.text = Differ.diff_by_word(utp.text, tp['text'])
+          end
+        end
       end
-    end
+    
+      self.new_talking_points += updated_talking_points
+    else
+      # just show some recent talking points
+      self.new_talking_points = TalkingPoint.where("question_id IN (#{q_ids.join(',')}) AND created_at >= :last_visit",
+        :last_visit => last_stat_update).order('updated_at ASC')
       
-    self.new_talking_points += updated_talking_points
-
+      self.new_talking_points_count = self.new_talking_points.count
+      self.updated_talking_points_count = 0
+    end
     self.new_comments = Comment.includes(:author)
       .where("question_id IN (#{q_ids.join(',')}) AND parent_type = 13 AND comments.created_at >= :last_visit", 
         :last_visit => last_stat_update).order('comments.created_at ASC')

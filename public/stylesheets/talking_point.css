@@ -1499,3 +1499,182 @@ div.archived_comments {
     margin-right: 10px; }
   div.archived_comments div.comments {
     overflow-y: scroll; }
+
+div.new_content {
+  overflow-y: scroll; }
+
+div.worksheet {
+  background-color: #bdbe95; }
+  div.worksheet h4.question, div.worksheet p.header, div.worksheet p.footer {
+    margin-left: 20px;
+    margin-right: 10px; }
+  div.worksheet form textarea {
+    background-color: #fdffd6; }
+
+div.talking_point_post_it.selected div.visibility {
+  background-position: 0 0; }
+
+div.talking_point_post_it {
+  position: relative;
+  background-color: #fcfeb4;
+  width: 200px;
+  height: 200px;
+  float: left;
+  margin-left: 20px;
+  margin-bottom: 20px; }
+  div.talking_point_post_it div.visibility {
+    height: 12px;
+    width: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: url(/images/visible2.gif) no-repeat 0 -12px;
+    cursor: pointer; }
+  div.talking_point_post_it p {
+    margin: 12px 10px 10px 10px; }
+  div.talking_point_post_it div.details {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #fcfeb4; }
+    div.talking_point_post_it div.details img {
+      display: block;
+      float: left; }
+    div.talking_point_post_it div.details div.edit {
+      float: left;
+      width: 20px;
+      height: 32px;
+      margin: 10px 0 0 4px; }
+    div.talking_point_post_it div.details div.com_edit {
+      float: left;
+      margin: 0 10px 0 6px; }
+      div.talking_point_post_it div.details div.com_edit a.tp_show_coms {
+        margin-left: 0; }
+      div.talking_point_post_it div.details div.com_edit img {
+        display: block;
+        width: 30px;
+        height: 32px;
+        margin-top: 10px; }
+      div.talking_point_post_it div.details div.com_edit div.talking_point_com_count {
+        width: 30px;
+        height: 32px;
+        background: url(/images/tbubble.gif) no-repeat 0 0; }
+        div.talking_point_post_it div.details div.com_edit div.talking_point_com_count p {
+          margin-top: 10px;
+          font-weight: bold;
+          padding-top: 1px; }
+      div.talking_point_post_it div.details div.com_edit div.talking_point_com_count.pointer {
+        cursor: pointer; }
+      div.talking_point_post_it div.details div.com_edit a.versions {
+        font-size: 10px;
+        display: block;
+        margin-top: 2px;
+        text-align: center; }
+    div.talking_point_post_it div.details div.talking_point_acceptable {
+      float: left;
+      height: 50px; }
+      div.talking_point_post_it div.details div.talking_point_acceptable p.talking_point_ratings {
+        font-size: 10px;
+        margin-top: 4px; }
+      div.talking_point_post_it div.details div.talking_point_acceptable div.my_rating {
+        width: 80px;
+        font-size: 10px; }
+        div.talking_point_post_it div.details div.talking_point_acceptable div.my_rating div.graph {
+          width: 80px;
+          background: url(/images/graph_bg.jpg) no-repeat 0 0px; }
+        div.talking_point_post_it div.details div.talking_point_acceptable div.my_rating div.radios {
+          margin: 0; }
+          div.talking_point_post_it div.details div.talking_point_acceptable div.my_rating div.radios div {
+            width: 16px;
+            height: 30px; }
+            div.talking_point_post_it div.details div.talking_point_acceptable div.my_rating div.radios div input.rating {
+              margin: 9px 0 0 2px;
+              width: 13px;
+              height: 13px; }
+          div.talking_point_post_it div.details div.talking_point_acceptable div.my_rating div.radios p.option {
+            font-size: 10px; }
+    div.talking_point_post_it div.details div.favorite {
+      float: left;
+      text-align: center; }
+      div.talking_point_post_it div.details div.favorite p {
+        margin: 4px 0 0 0;
+        font-size: 10px; }
+      div.talking_point_post_it div.details div.favorite input.fav_button {
+        background-image: url("/images/button_sprite5.gif");
+        background-position: -30px 0;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        border: none;
+        cursor: pointer;
+        height: 32px;
+        width: 23px;
+        padding: 0px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: bold; }
+      div.talking_point_post_it div.details div.favorite input.fav_button.fav {
+        background-position: 0 0; }
+      div.talking_point_post_it div.details div.favorite input.fav_button:hover {
+        background-position: -30px -40px; }
+      div.talking_point_post_it div.details div.favorite input.fav_button.fav:hover {
+        background-position: 0 -40px; }
+      div.talking_point_post_it div.details div.favorite input.fav_button.mousedown {
+        background-position: -30px -80px; }
+      div.talking_point_post_it div.details div.favorite input.fav_button.mousedown.fav {
+        background-position: 0 -80px; }
+      div.talking_point_post_it div.details div.favorite input.fav_button.saving {
+        background-position: -30px -1200px; }
+      div.talking_point_post_it div.details div.favorite input.fav_button.saving.fav {
+        background-position: 0 -120px; }
+  div.talking_point_post_it div.form {
+    padding: 10px; }
+    div.talking_point_post_it div.form p {
+      font-weight: bold;
+      margin: 0 0 4px 0; }
+    div.talking_point_post_it div.form textarea {
+      width: 174px;
+      font-size: 14px; }
+    div.talking_point_post_it div.form ul {
+      margin: 0;
+      padding: 0;
+      color: red;
+      font-size: 10px;
+      width: 180px; }
+    div.talking_point_post_it div.form div.form_controls {
+      width: 180px; }
+      div.talking_point_post_it div.form div.form_controls span.char_ctr {
+        font-size: 10px;
+        left: 56px;
+        top: 4px; }
+      div.talking_point_post_it div.form div.form_controls a.clear {
+        font-size: 10px;
+        top: 4px; }
+
+div.talking_point_post_it.mouseover div.edit {
+  cursor: pointer;
+  background: url(/images/pencil_edit.gif) no-repeat 0 0; }
+
+h4.question, p.footer {
+  position: relative; }
+  h4.question a.close_worksheet, p.footer a.close_worksheet {
+    font-size: 12px;
+    display: block;
+    position: absolute;
+    top: 2px;
+    right: 0; }
+
+div.talking_point_comments {
+  background-color: #a7b58d;
+  position: fixed; }
+  div.talking_point_comments > * {
+    margin-left: 20px;
+    margin-right: 10px; }
+  div.talking_point_comments div.discussion {
+    overflow-y: scroll; }
+  div.talking_point_comments p.ques {
+    font-weight: bold; }
+  div.talking_point_comments div.visibility {
+    cursor: default; }
+  div.talking_point_comments form textarea {
+    background-color: #eaf8d0; }

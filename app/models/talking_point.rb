@@ -193,7 +193,8 @@ class TalkingPoint < ActiveRecord::Base
       self.rating_votes[r.rating-1] = r.count.to_i
     end
 
-    self.my_rating = ActiveRecord::Base.connection.select_value("SELECT rating FROM talking_point_acceptable_ratings WHERE talking_point_id = #{self.id} AND member_id = #{self.member.id}").to_i
+    self.my_rating = ActiveRecord::Base.connection.select_value("SELECT rating FROM talking_point_acceptable_ratings WHERE talking_point_id = #{self.id} AND member_id = #{self.member.id}")
+    self.my_rating = self.my_rating.to_i unless self.my_rating.nil?
     self.my_preference = TalkingPointPreference.where(:member_id => self.member.id, :talking_point_id => self.id).exists?
     self.preference_votes = TalkingPointPreference.where(:talking_point_id => self.id).count
     # of preferences

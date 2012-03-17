@@ -17,10 +17,12 @@
 		- else
 			= render :partial => 'right_panel/sign_in'
 			
-	%div.suggested_action.corner.fix_ht
-		%p.label
+	%div.suggested_action.corner
+		= render( :template => 'plan/new_content.html')
+	
+		-#%p.label
 			Suggested action for you
-		%div.suggestion
+		-#%div.suggestion
 			= image_tag 'completed_off.gif', :title => 'Click here when you have completed the task'
 			%p.action
 				-#Rate 3 new talking points and read 5 new comments
@@ -29,7 +31,7 @@
 				= link_to "Show me how", help_path(:topic=>'Rating_talking_points'), { :class=> 'show_me', :id=>'Rating_talking_points', :remote=>true}
 				-#= link_to "Next action", request_help_path, { :class=> 'next'}
 			
-	%div.page_context.corner
+	-#%div.page_context.corner
 		%p.label
 			Progress report for this proposal
 		%table
@@ -58,7 +60,7 @@
 	
 			
 		
-	%div.list_tabs.tabs.hide
+	-#%div.list_tabs.tabs.hide
 		%p.label
 			Selected talking points
 		%ul.list_tabs
