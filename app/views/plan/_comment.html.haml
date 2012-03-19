@@ -46,9 +46,9 @@
 								- if archived == true && link_text == "Reply"
 									Discussion is closed
 								- elsif comment.parent_type == 1
-									= link_to link_text, comment_comments_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
+									= link_to link_text, comment_comments_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>false}
 								- else 
-									= link_to link_text, comment_reply_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>true}
+									= link_to link_text, comment_reply_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>false}
 
 						%p.other
 							%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'	

@@ -2,9 +2,7 @@
 :plain
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
 	var tp_coms = $('div.talking_point_comments[id="#{comment.parent_id}"]');
-	var form = tp_coms.find('form.comment_form.orig');
-	form.find('textarea').val('');
-	form.find('div#errorExplanation').remove();
+	var form = tp_coms.find('form.comment_form.orig input[name="form_id"][value="#{params[:form_id]}"]').closest('form');
 	
 	if( $('div.Comment[id="#{comment.id}"]').size()>0){
 		// replace the existing one with this one
@@ -14,6 +12,14 @@
 		com = $(com).insertBefore(form);
 	}
 	com.find('abbr').timeago();
+	
+	if(tp_coms.find('form.comment_form.orig').size()>1){
+		form.remove();
+	}else{
+		form.find('textarea').val('');
+		form.find('h4').html('Tell us what you think about this talking point');
+		form.find('div#errorExplanation').remove();
+	}
 	
 	var num_coms = tp_coms.find('div.Comment').size();
 	var p = $('div.talking_point_post_it[id="#{comment.parent_id}"] div.talking_point_com_count p');

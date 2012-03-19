@@ -141,7 +141,7 @@ $input_bg: #ececec // rgb(251,248,237)
 $pale_input: rgb(51, 51, 51)
 $new_item_color: #F2583E
 $comments_block_bg: #F9F3DE
-$com_quote_bg: #cbbdb1 // #BCC3D0
+$com_quote_bg: #E5F8C2 // #BCC3D0
 
 $cta_bg_left: #e1e8c4 // #ececec // #dbe0e8 //#d7dde8
 $cta_bg_right: #00ff00
@@ -1930,7 +1930,7 @@ h4.question, p.footer
 		display: block
 		position: absolute
 		top: 2px
-		right: 0
+		right: 20px
 div.talking_point_comments
 	> *
 		margin-left: 20px
@@ -1945,4 +1945,19 @@ div.talking_point_comments
 		cursor: default
 	form textarea
 		background-color: #EAF8D0
-	
+div.talking_point_comments
+	div.discussion
+		margin-left: 0
+		form
+			width: auto
+			max-width: 660px
+			padding: 20px 0 20px 20px
+			> *
+				margin: 0 20px
+				max-width: 600px
+		div.Comment
+			max-width: 600px
+			padding: 16px 20px 0 20px
+			margin-top: 0
+			div.comment
+				width: auto

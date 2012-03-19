@@ -672,7 +672,7 @@ div.comment_controls {
       margin-top: 2px; }
 
 div.quote {
-  background: #cbbdb1;
+  background: #e5f8c2;
   padding: 1em; }
   div.quote p {
     margin-left: 1em; }
@@ -1662,7 +1662,7 @@ h4.question, p.footer {
     display: block;
     position: absolute;
     top: 2px;
-    right: 0; }
+    right: 20px; }
 
 div.talking_point_comments {
   background-color: #a7b58d;
@@ -1678,3 +1678,19 @@ div.talking_point_comments {
     cursor: default; }
   div.talking_point_comments form textarea {
     background-color: #eaf8d0; }
+
+div.talking_point_comments div.discussion {
+  margin-left: 0; }
+  div.talking_point_comments div.discussion form {
+    width: auto;
+    max-width: 660px;
+    padding: 20px 0 20px 20px; }
+    div.talking_point_comments div.discussion form > * {
+      margin: 0 20px;
+      max-width: 600px; }
+  div.talking_point_comments div.discussion div.Comment {
+    max-width: 600px;
+    padding: 16px 20px 0 20px;
+    margin-top: 0; }
+    div.talking_point_comments div.discussion div.Comment div.comment {
+      width: auto; }

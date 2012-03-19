@@ -13,7 +13,8 @@
 	%h4= title
 
 	= text_area_tag :text, "#{text}", {:class=>'autosize', :rows => 8}
-
+	= hidden_field_tag :form_id,	1
+	
 	%div.form_controls
 		= submit_tag "Share", :name=>'sign_in', 'data-disable-with'=>'Submitting...'
 

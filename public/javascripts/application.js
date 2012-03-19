@@ -411,6 +411,7 @@ $('table#new_content tr').die('click').live('click',
 	function(){
 		var tr = $(this);
 		var tp_id = tr.attr('tp_id');
+		var com_id;
 		var url;
 		if(tr.hasClass('talking_point')){
 			var url = '/talking_points/' + tp_id + '/comments';
@@ -421,16 +422,56 @@ $('table#new_content tr').die('click').live('click',
 			console.log("show comment with id: " + com_id + " in talking_point with id: " + tp_id + " with url: " + url);
 		}
 		if(url){
-		  tr.find('td').append('<img src="/images/wait3.gif"/>');
-			$.getScript(url, function(){tr.find('img').remove();tr.fadeTo(0,.4);});
-			$('div.talking_point_comments').each(
-			  function(){
-			    var popup = $(this);
-			    if(popup.find('textarea').val()==''){
-			      popup.slideUp(800,function(){ $(this).remove()});
-			    }
-			  }
-			);  
+		  // check if the page is already loaded before I request it
+		  if( $('div.talking_point_comments[id="' + tp_id + '"]').size() > 0 ){
+        if(com_id){
+  				var com = $('div.Comment[id="' + com_id + '"]');
+  				$('div.discussion[id="' + tp_id + '"]').scrollTo(com,600);
+  				com.effect('highlight', {color: '#EAF8D0'},3000);				
+  				tr.fadeTo(0,.4);
+  			}
+		  }else{
+		    // load the page now
+  		  tr.find('td').append('<img src="/images/wait3.gif"/>');
+  			$.getScript(url, function(){tr.find('img').remove();tr.fadeTo(0,.4);});
+  			$('div.talking_point_comments').each(
+  			  function(){
+  			    var popup = $(this);
+  			    if(popup.find('textarea').val()==''){
+  			      popup.slideUp(800,function(){ $(this).remove()});
+  			    }
+  			  }
+  			);  
+  		}
 		}
+	}
+);
+$('table#new_content tr:odd').addClass('striped');
+
+$('div.Comment a.reply').die('click').live('click',
+	function(){
+		console.log("add a reply to this comment");
+		var com = $(this).closest('div.Comment');
+		var text = com.find('div.comment_text').clone();
+		var author = text.find('a.com_author').remove().html();
+		text.find('span.new').remove();
+		text = text.html().replace(/<p>/ig,'').replace(/<\/p>/ig,'\n').trim();
+		text = '[quote="' + author + '"]' + text+ '[/quote]';
+		var form = $('form.comment_form:last');
+		if(form.find('textarea').val().trim() != ''){
+		  var new_form = form.clone();
+		  new_form.find('input[name="form_id"]').val(Math.random()*1e16);
+		  activate_text_counters_grow(new_form.find('textarea'), 120);
+		  form.before(new_form);
+		  form = new_form;
+		  
+		}
+		
+		
+		form.find('textarea').val(text);
+		form.find('h4').html('Comment reply');
+		form.closest('div.discussion').scrollTo(form,600);
+		form.effect('highlight', {color: '#EAF8D0'},3000);				
+		return false;
 	}
 );

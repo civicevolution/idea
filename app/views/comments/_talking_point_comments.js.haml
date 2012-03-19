@@ -11,10 +11,21 @@
 		function(){
 			$('div.talking_point_comments').css({top: 0, left: $('div.left_side').offset().left, width: $('div.left_side').width(), height: $('div.right_side').outerHeight()});
 			tp_coms.slideDown(800);
-			$('div.talking_point_comments div.discussion').height( $(window).height() - 400 );
+			$('div.talking_point_comments div.discussion').height( $(window).height() - 40 );
 			tp_coms.find('abbr').timeago();
 			activate_text_counters_grow( tp_coms.find('textarea'), 30 );
-			
+			$('tr.comment[tp_id="#{talking_point.id}"]').each(
+				function(){
+					var com_id = $(this).attr('com_id');
+					//console.log("hightlight com_id: " + com_id);
+					$('div.Comment[id="' + com_id + '"]').find('a.com_author').before('<span class="new">New </span>');
+				}
+			);
+			if(#{!params[:com_id].nil?}){
+				var com = $('div.Comment[id="#{params[:com_id]}"]');
+				$('div.discussion[id="#{talking_point.id}"]').scrollTo(com,1200);
+				com.effect('highlight',{color: '#EAF8D0'},5000);				
+			}
 		},200)
 	
 	
@@ -27,27 +38,6 @@
 		}
 	)
 	
-	//var tp = $('div.talking_point_entry[id="#{talking_point.id}"]')
-	//$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').remove();
-	//var newNode = $(tp_coms).insertAfter(tp);
-	//newNode.find('abbr').timeago();
-	//activate_text_counters_grow( newNode.find('textarea'), 30 );
-	
-	//var ws = $('div.worksheet');
-	//var pos = ws.position();
-
-	//var dialog = tp_coms.dialog( {title : 'Talking point worksheet', modal : false, width : ws.width(), height: ws.height(), position: [ pos.left, pos.top], closeOnEscape: true, close: function(){$(this).remove()} });
-
-	//setTimeout( 
-	//	function(){
-	//		var dialog = this;
-	//		//dialog.css({position: 'fixed', background-color: 'white'})
-	//		dialog.find('abbr').timeago();
-	//		activate_text_counters_grow( dialog.find('textarea'), 30 );
-	//	}.bind(dialog),100
-	//);	
-	
-	
 	$('div.talking_point_comments.discussion[id="#{talking_point.id}"]').find('a.clear').html('Clear').die('click').live('click',
 		function(){
 			$(this).closest('form').find('textarea').val('');
@@ -55,35 +45,4 @@
 			return false;
 		}
 	);
-	//setTimeout( function(){	$('.corner').corner()},100);
 	
-	//if(tp_coms.height()>400){
-	//	tp_coms.append(tp_coms.find('a.tp_hide_coms').clone());
-	//}
-	
-	$('a.tp_hide_coms').die('click').live('click',
-		function(){
-			// update the number of comments
-			var disc = $(this).closest('div.talking_point_comments');
-			if(disc.size() > 0){
-				var p = disc.prev('div.talking_point_entry').find('div.talking_point_com_count p');
-		  	var com_cnt = disc.find('div.Comment').size();
-		  	switch(com_cnt){
-		  		case 0:
-		  			p.html('+');
-						p.attr('title','Click to add a comment');
-		  			break;
-		  		case 1:
-		  			p.html('1');
-						p.attr('title','Click to see 1 comment');
-		  			break;
-		  		default:
-		  			p.html(com_cnt);
-						p.attr('title','Click to see ' + com_cnt + ' comments');
-		  			break;
-		  	}
-		  	disc.remove();
-		  }
-			return false;
-		}
-	);
