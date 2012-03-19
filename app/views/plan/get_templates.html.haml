@@ -26,18 +26,6 @@
 				return s;
 			}
 			
-			function reformat_comment_quote(com){
-				var txt = com.find('div.comment_text').html();
-				if(!txt.match(/\[quote=/)) return;
-				var pcs = txt.match(/^(.*)\[quote="([^"]*)"\]([\s\S]*)\[\/quote\]([\s\S]*)$/);
-				var author = pcs[1] + '</p>';
-				var quote = '<div class="quote corner"><p class="quote">' + pcs[2] + ' said:</p><p>' + pcs[3] + '</p></div>	'
-				pcs[4] = pcs[4].replace(/\n/,'').replace(/<br\/*>/gi,'\n').replace(/^\s*/,'').replace(/\n/g,'<br/>');
-				var com_body = '<p>' + pcs[4];
-				com.find('div.comment_text').html( author + quote + com_body);
-			}
-		  
-
 	%script#comment_template{:type=>'text/html'}
 		:plain
 			#{render( :partial => 'plan/comment.html', :object => @comment)}
@@ -66,11 +54,17 @@
 			realtime_data_update_functions['Comment'] =
 				function(data){
 					//console.log("insert a comment v7");
-					// testing mode, change the id of the existing element in the page
-					//$('div.Comment[id="' + data.data.comment.id + '"]').attr('id', '123123');
-					
+
 					com = template_functions['comment'](data);
 
+					// Insert into the new content stream
+					var text = data.data.comment.text.match(/\[\/quote\]/) ? data.data.comment.text.split(/\[\/quote\]/).unshift() : data.data.comment.text;
+					var text_trunc = text.length > 100 ? text.substring(0,100) + '...' : text;
+					var com_row = $('<tr class="comment" tp_id="' + data.data.comment.parent_id + '" com_id="' + data.data.comment.id + '"><td title="' + text + '">' + text_trunc + '</td></tr>');					
+					
+					$('table#new_content').append(com_row).parent().scrollTop(99999999);
+					com_row.effect('highlight', {color: '#D8F1AB'},5000);				
+					
 					var old_com = $('div.Comment[id="' + data.data.comment.id + '"]');
 					if(old_com.size()>0){
 						// replace the text only
@@ -78,39 +72,17 @@
 					  old_com.find('div.comment_text').replaceWith( $(com).find('div.comment_text'));
 						reformat_comment_quote(old_com);
 					}else{
-						switch(Number(data.data.comment.parent_type)){
-							case 1:
-								var par_div = $('div.ques_discussion');
-								if(par_div.size()>0){
-									com = $(com).appendTo(par_div);
-								}
-								break
-							case 3:
-								var par_div = $('div.comment_comments[id="' + data.data.comment.parent_id + '"]');
-								if(par_div.size()>0){
-									var form = par_div.find('form.orig');
-									if(form.size()>0){
-										com = $(com).insertBefore(form);
-									}else{
-										com = $(com).appendTo(par_div);
-									}
-									reformat_comment_quote(com);
-								}
-							
-								break
-							case 13:
-								var par_div = $('div.talking_point_comments[id="' + data.data.comment.parent_id + '"]');
-								if(par_div.size()>0){
-									var form = par_div.find('form.orig');
-									if(form.size()>0){
-										com = $(com).insertBefore(form);
-									}else{
-										com = $(com).appendTo(par_div);
-									}
-									reformat_comment_quote(com);
-								}
-								break
+						var par_div = $('div.talking_point_comments[id="' + data.data.comment.parent_id + '"]');
+						if(par_div.size()>0){
+							var last_com = par_div.find('div.Comment:last');
+							if(last_com.size()>0){
+								com = $(com).insertAfter(last_com);
+							}else{
+								com = $(com).insertBefore(par_div.find('form'));
+							}
+							reformat_comment_quote(com);
 						}
+
 						try{ // com doesn't always exist, if not inserted
 							com.find('abbr').timeago();
 						}catch(e){}
@@ -122,7 +94,7 @@
 
 	%script#talking_point_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'plan/talking_point.html', :object => @talking_point)}
+			#{render( :partial => 'plan/talking_point_post_it.html', :object => @talking_point, :as => :talking_point)}
 
 	%script#create_talking_point_template
 		:plain
@@ -138,33 +110,44 @@
 			realtime_data_update_functions['TalkingPoint'] =
 				function(data){
 					//console.log("insert a TalkingPoint v2 with id: " + data.data.talking_point.id);
-					temp.tp_data = data;
-
 					tp = template_functions['TalkingPoint'](data);
-					temp.tp_str = tp;
 					
-					var par_div = $('div.talking_points_list[id="' + data.data.talking_point.question_id + '"]');
-					if(par_div.size()>0){
-						// testing mode, change the id of the existing element in the page
-						//par_div.find('div.talking_point_entry[id="' + data.data.talking_point.id + '"]').attr('id', '123123')
-						// testing mode, remove the original element so it won't be duplicated
-						//par_div.find('div.talking_point_entry[id="' + data.data.talking_point.id + '"]').remove();
-						
-						var old_tp = par_div.find('div.talking_point_entry[id="' + data.data.talking_point.id + '"]');
-						if(old_tp.size()>0){
-							// replace the text only
-							//console.log("replace the text only");
-						  old_tp.find('p.talking_point').html(data.data.talking_point.text);
-							// update the versions link
-							temp.old_tp = old_tp
+					// Insert into the new content stream
+					// Is TP new or edited - assume I've already been told to rate it if it is new
+					if(data.data.talking_point.version == 1){
+						var tp_row = $('<tr class="talking_point" tp_id="' + data.data.talking_point.id + '"><td title="Click here to rate this talking point"><span class="rate">Rate:</span> ' + data.data.talking_point.text + '</td></tr>');					
+					}else{
+						var tp_row = $('<tr class="talking_point" tp_id="' + data.data.talking_point.id + '"><td>' + data.data.talking_point.text + '<span class="edited"> (Edited)</span> </td></tr>');
+					}
+					$('table#new_content').append(tp_row).parent().scrollTop(99999999);
+					tp_row.effect('highlight', {color: '#D8F1AB'},5000);				
+	
+					// in test mode change id or remove element
+					//if(params['rtest']=='update'){
+					//	// testing mode, change the id of the existing element in the page
+					//	$('div.talking_point_post_it[id="' + data.data.talking_point.id + '"]').attr('id', '123123')
+					//}else if(params['rtest']=='remove'){
+					//	// testing mode, remove the original element so it won't be duplicated
+					//	$('div.talking_point_post_it[id="' + data.data.talking_point.id + '"]').remove();
+					//}
+					
+					// Either replace or insert
+					// if the TP is displayed, just replace it's text and version
+					var old_tp = $('div.talking_point_post_it[id="' + data.data.talking_point.id + '"]');
+					if(old_tp.size()>0){
+						old_tp.find('p.talking_point').html(data.data.talking_point.text);
+						if(data.data.talking_point.version > 1){
 							old_tp.find('a.versions').removeClass('hide').html( 'v' + data.data.talking_point.version);
-						}else{
+						}
+					}else{
+						var par_div = $('div.worksheet[id="' + data.data.talking_point.question_id + '"] div.talking_point_matrix');
+						if(par_div.size()>0){
 							//console.log("insert a new TP")
 							// insert a new tp
-							tp = $(tp).insertBefore( par_div.find('p.new_tp_insert_point') );
+							tp = $(tp).insertBefore( par_div.find('div.talking_point_post_it.form') );
 							temp.tp = tp;
-							tp.find('div.my_rating').addClass('js') // arrange for compressed javascript enabled format
-							tp.find('div.community_rating').removeClass('no_js');
+							tp.effect('highlight', {color: '#D8F1AB'},5000);
+
 							// fix the rating @id and @name
 							var id = data.data.talking_point.id;
 							tp.find(':radio').each(
@@ -176,13 +159,8 @@
 									el.parent().find('label').attr('for','tp_rating_' + id + '_' + val);
 								}
 							)
-							var cb = tp.find(':checkbox');
-							cb.attr('id','preference_' + id );
-							cb.attr('name','preference_' + id);
-							cb.parent().attr('for','preference_' + id );
-							
 						}
-					}
+					}				
 				}
 
 			//console.log("TalkingPoint template is ready");
@@ -190,7 +168,7 @@
 			realtime_data_update_functions['TalkingPointPreference'] =
 				function(data){
 					//console.log("insert a TalkingPointPreference v1 with id: " + data.data.id) ;
-					$('div.talking_point_entry[id="' + data.data.id + '"] span.fav_cnt').html(data.data.count);
+					$('div.favorite[id="' + data.data.id + '"] p').html(data.data.count);
 				}	
 			//console.log("TalkingPointPreference function is ready")
 
@@ -198,7 +176,6 @@
 			realtime_data_update_functions['TalkingPointAcceptableRating'] =
 				function(data){
 					//console.log("insert a TalkingPointAcceptableRating v2 with id: " + data.data.id);
-					
 					var vote_max = 0
 					var num_votes = 0
 					$.each(data.data.votes, 
@@ -209,18 +186,18 @@
 						}
 					);
 					//console.log("vote_max: " + vote_max + " num_votes: " + num_votes);
-					var graph = $('div.talking_point_entry[id="' + data.data.id + '"] div.graph.js')
+					var graph = $('div.talking_point_post_it[id="' + data.data.id + '"] div.graph.js')
 					//console.log("graph.height(): " + graph.height());
 					// forcefully reset the height for IE7
 					graph.height( graph.height() )
-					$('div.talking_point_entry[id="' + data.data.id + '"] div.graph.js div').not('.zero').each(
+					$('div.talking_point_post_it[id="' + data.data.id + '"] div.graph.js div').each(
 						function(i,el){
 							//console.log("height: data.data.votes[i]/vote_max * 100 + '%' " + data.data.votes[i]/vote_max * 100 + '%')
 							$(el).height(data.data.votes[i]/vote_max * 100 + '%')
 						}
 					);
 					
-					$('div.talking_point_entry[id="' + data.data.id + '"] p.talking_point_ratings').html(num_votes + (num_votes == 1 ? ' rating' : ' ratings'));
+					$('div.talking_point_post_it[id="' + data.data.id + '"] p.talking_point_ratings').html(num_votes + (num_votes == 1 ? ' rating' : ' ratings'));
 				}
 				
 			//console.log("TalkingPointAcceptableRating function is ready")

@@ -24,6 +24,7 @@
 					= pluralize(question['talking_points_to_display'].size, 'talking point')
 					suggested by your community
 				
+				= link_to 'Suggest a new talking point', {}, {:class=>'add_talking_point'}
 			
 			%div.talking_point_matrix.sortable_ideas
 				= render :partial=> 'plan/talking_point_post_it', :collection => question['talking_points_to_display'], :as => :talking_point

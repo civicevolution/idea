@@ -33,9 +33,14 @@
 										= tp.text
 								
 							- tp[:comments].each_value do |com|
+								- pcs = com.text.split('[/quote]')
+								- if pcs.size > 1
+									- text = 're... ' + pcs.last.gsub(/[\r\n]/,'')
+								- else
+									- text = com.text
 								%tr.comment{:com_id=>com.id, :tp_id=>com.parent_id}
-									%td{:title=>com.text}
-										= truncate(com.text, :length => 100)
+									%td{:title=>text}
+										= truncate(text, :length => 100)
 			%tr.title
 				%td New updates
 			

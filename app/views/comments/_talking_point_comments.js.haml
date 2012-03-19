@@ -26,6 +26,11 @@
 				$('div.discussion[id="#{talking_point.id}"]').scrollTo(com,1200);
 				com.effect('highlight',{color: '#EAF8D0'},5000);				
 			}
+			tp_coms.find('div.Comment').each(
+				function(){
+					reformat_comment_quote( $(this) );
+				}
+			);
 		},200)
 	
 	

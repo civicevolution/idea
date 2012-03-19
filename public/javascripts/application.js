@@ -461,17 +461,48 @@ $('div.Comment a.reply').die('click').live('click',
 		if(form.find('textarea').val().trim() != ''){
 		  var new_form = form.clone();
 		  new_form.find('input[name="form_id"]').val(Math.random()*1e16);
-		  activate_text_counters_grow(new_form.find('textarea'), 120);
 		  form.before(new_form);
+		  activate_text_counters_grow(new_form.find('textarea'), 120);
 		  form = new_form;
-		  
 		}
-		
-		
 		form.find('textarea').val(text);
 		form.find('h4').html('Comment reply');
 		form.closest('div.discussion').scrollTo(form,600);
 		form.effect('highlight', {color: '#EAF8D0'},3000);				
 		return false;
 	}
+);
+
+function reformat_comment_quote(com){
+	var txt = com.find('div.comment_text').html();
+	if(!txt.match(/\[quote=/)) return;
+	var pcs = txt.match(/^(.*)\[quote="([^"]*)"\]([\s\S]*)\[\/quote\]([\s\S]*)$/m);
+	var author = pcs[1] + '</p>';
+	//console.log("author: " + author);
+	var quote = '<div class="quote corner"><p class="quote">' + pcs[2] + ' said:</p><p>' + pcs[3] + '</p></div>	'
+	pcs[4] = pcs[4].replace(/\n/m,'').replace(/<br\/*>/gim,'\n').replace(/^\s*/,'').replace(/\n/gm,'<br/>');
+	//console.log("quote: " + quote);
+	var com_body = '<p>' + pcs[4];
+	//console.log("com_body: " + com_body);
+	var new_html = (author + quote + com_body);
+	//console.log("pre new_html: " + new_html);
+	var new_html = new_html.replace(/&lt;/img,'<').replace(/&gt;/img,'>');
+	//console.log("post new_html: " + new_html)
+	
+	com.find('div.comment_text').html( new_html);
+}
+
+$('a.add_talking_point').die('click').live('click',
+  function(){
+    console.log("add a new talking point");
+    var worksheet = $(this).closest('div.worksheet');
+    var form_post_it = worksheet.find('div.talking_point_post_it.form');
+  	worksheet.find('div.talking_point_matrix').scrollTo(form_post_it,1000, 
+  	  function(){
+  	    form_post_it.effect('highlight', {color: '#AD89BE'},3000);				
+    		form_post_it.find('textarea').effect('highlight', {color: '#D8F1AB'},3000);				
+  	  }
+  	);
+    return false;
+  }
 );

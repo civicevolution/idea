@@ -27,8 +27,7 @@
 						- else
 							%p{:title => 'Click to add a comment'} +
 
-			- if talking_point.version > 1
-				= link_to "v#{talking_point.version}", talking_point_versions_path(talking_point), {:class => 'versions', :title => "Click to view #{pluralize(talking_point.version-1, 'older version')}", :rel=>'nofollow', :remote=>true}
+			= link_to "v#{talking_point.version}", talking_point_versions_path(talking_point), {:class => talking_point.version > 1 ? 'versions' : 'versions hide', :title => "Click to view #{pluralize(talking_point.version-1, 'older version')}", :rel=>'nofollow', :remote=>true}
 	
 
 		

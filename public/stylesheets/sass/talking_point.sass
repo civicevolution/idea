@@ -877,6 +877,7 @@ div.comment_controls
 
 div.quote
 	background: $com_quote_bg
+	border: 1px solid #A7B58D
 	padding: 1em
 	p
 		margin-left: 1em
@@ -1839,6 +1840,8 @@ div.talking_point_post_it
 				display: block
 				margin-top: 2px
 				text-align: center
+			a.versions.hide
+				display: none
 		div.talking_point_acceptable 
 			float: left
 			height: 50px
@@ -1932,9 +1935,6 @@ h4.question, p.footer
 		top: 2px
 		right: 20px
 div.talking_point_comments
-	> *
-		margin-left: 20px
-		margin-right: 10px
 	background-color: #A7B58D
 	position: fixed
 	div.discussion
@@ -1948,6 +1948,9 @@ div.talking_point_comments
 div.talking_point_comments
 	div.discussion
 		margin-left: 0
+		> h4, > p
+			margin-left: 20px
+			margin-right: 10px
 		form
 			width: auto
 			max-width: 660px
@@ -1961,3 +1964,4 @@ div.talking_point_comments
 			margin-top: 0
 			div.comment
 				width: auto
+				
