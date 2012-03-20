@@ -420,6 +420,10 @@ $('table#new_content tr').die('click').live('click',
 			var com_id = tr.attr('com_id');
 			var url = '/talking_points/' + tp_id + '/comments?com_id=' + com_id;
 			console.log("show comment with id: " + com_id + " in talking_point with id: " + tp_id + " with url: " + url);
+		}else if(tr.hasClass('question')){
+			var ques_id = tr.attr('id');
+			var url = '/questions/' + ques_id + '/worksheet'
+			console.log("show question with id: " + ques_id + " with url: " + url);
 		}
 		if(url){
 		  // check if the page is already loaded before I request it

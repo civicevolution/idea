@@ -9,20 +9,6 @@
 	worksheet.find('div.community_rating').removeClass('no_js');
 	worksheet.attr('id',#{question.id});
 	
-	//if(#{!question.show_new}){
-	//	var tps = worksheet.find('div.talking_point_entry:eq(7) ~ div.talking_point_entry');
-	//	tps.hide();
-	//	$('<a class="display_all_tp" href="#">Display ' + tps.size() + ' more talking point' + (tps.size()>1 ? 's' : '' ) + '</a>').insertAfter(tps.last())
-	//	$('a.display_all_tp').die('click').live('click',
-	//		function(){
-	//			$(this).closest('div.question_worksheet').find('div.talking_point_entry').show(1000);
-	//			$(this).closest('div.question_worksheet').find('h2.ellipsis').remove();
-	//			$(this).remove();
-	//			return false;
-	//		}
-	//	);
-	//}
-	
 	function scrollToElement(){
 		var highlight = $('.highlight');
 		//console.log("highlight.size(): " + highlight.size())
@@ -34,17 +20,6 @@
 	setTimeout(scrollToElement,1000);
 
 	setTimeout(init_worksheet,10)
-	
-	setTimeout(function(){
-		// Disable functionality in the example talking points
-		$('div.talking_point_entry[id="0"] a').each(function(){ var link = $(this); link.removeAttr('data-remote').attr('href','#')})
-			.die('click').live('click',
-				function(){
-					alert('This is an example of a talking point and you cannot act on it.'); 
-					return false;
-				}
-			);
-	},100);
 
 	var question_summary = $('div.question_summary[id="#{question.id}"]');
 	var q_link = question_summary.find('a.display_worksheet');
@@ -54,6 +29,7 @@
 	
 	worksheet.hide();
 	$('body').append(worksheet);
+
 	
 	setTimeout(
 		function(){
@@ -63,6 +39,23 @@
 		},200
 	);
 	
+	setTimeout(
+		function(){
+			// add New or edited to the TP in the worksheet
+			this.find('div.talking_point_post_it').each(
+				function(){
+					var tp = $(this);
+					var new_tp = $('tr.talking_point[tp_id="' + tp.attr('id') + '"]');
+					if(new_tp.find('span.rate').size() == 1 ){
+						tp.find('p.talking_point').prepend('<span class="rate">Rate: </span>');
+					}else if(new_tp.find('span.edited').size() == 1 ){
+						tp.find('p.talking_point').append('<span class="edited"> (edited)</span>');
+					}
+				}
+			);
+		}.bind(worksheet),200
+	);
+		
 	$('div.talking_point_matrix').sortable({
 		stop: function(event,ui){
 			update_selected_tp_ids($(this));
@@ -118,6 +111,3 @@
 			}
 		}
 	);
-
-
-

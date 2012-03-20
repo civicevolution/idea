@@ -104,7 +104,7 @@ class Team < ActiveRecord::Base
     
     self.new_content = {}
     self.questions.sort{|a,b| a.order_id <=> b.order_id}.each do |q|
-      self.new_content[q.id] = {:order_id => q.order_id, :text=> q.text, :talking_points => {}}
+      self.new_content[q.id] = {:id => q.id, :order_id => q.order_id, :text=> q.text, :talking_points => {}}
     end
 
     if member.id != 0

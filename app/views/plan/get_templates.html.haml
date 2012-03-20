@@ -58,9 +58,18 @@
 					com = template_functions['comment'](data);
 
 					// Insert into the new content stream
-					var text = data.data.comment.text.match(/\[\/quote\]/) ? data.data.comment.text.split(/\[\/quote\]/).unshift() : data.data.comment.text;
+					if( data.data.comment.text.match(/\[\/quote\]/) ){
+						var text =  data.data.comment.text.split(/\[\/quote\]/);
+						text = text[ text.length - 1 ];
+					}else{
+						var text = data.data.comment.text;
+					}
+					
 					var text_trunc = text.length > 100 ? text.substring(0,100) + '...' : text;
 					var com_row = $('<tr class="comment" tp_id="' + data.data.comment.parent_id + '" com_id="' + data.data.comment.id + '"><td title="' + text + '">' + text_trunc + '</td></tr>');					
+					if( !$('table#new_content tr:last').hasClass('striped') ){
+						com_row.addClass('striped');
+					}
 					
 					$('table#new_content').append(com_row).parent().scrollTop(99999999);
 					com_row.effect('highlight', {color: '#D8F1AB'},5000);				

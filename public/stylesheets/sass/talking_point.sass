@@ -1768,7 +1768,9 @@ div.archived_comments
 	div.comments
 		overflow-y: scroll
 div.new_content
+	overflow: auto
 	overflow-y: scroll
+	border: 1px solid black
 	
 
 $post_it_bg: #fcfeb4
@@ -1953,7 +1955,7 @@ div.talking_point_comments
 			margin-right: 10px
 		form
 			width: auto
-			max-width: 660px
+			max-width: 560px
 			padding: 20px 0 20px 20px
 			> *
 				margin: 0 20px
@@ -1964,4 +1966,44 @@ div.talking_point_comments
 			margin-top: 0
 			div.comment
 				width: auto
-				
+
+table#new_content
+	width: 230px
+	margin: 0
+	
+	font-size: .8em
+	td
+		position: relative
+		img
+			position: absolute
+			top: 0
+			left: 100px
+	tr.title
+		font-style: italic
+	tr.striped
+		background-color: #eee
+	tr.question
+		font-size: 1em
+		font-variant: small-caps
+		padding-top: 10px
+		padding-bottom: 4px
+		cursor: pointer
+	tr.talking_point
+		font-size: 1em
+		ins
+			color: green
+		del 
+			color: red
+		td
+			padding: 3px 0 3px 6px
+		cursor: pointer
+	tr.comment
+		font-size: 1em
+		font-style: italic
+		td
+			padding: 3px 0 3px 12px
+		cursor: pointer
+span.rate
+	color: red
+span.edited
+	color: blue
