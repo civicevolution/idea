@@ -14,7 +14,7 @@
 						
 				- @team.new_content.each_value do |question|
 					- if !question[:talking_points].empty?
-						%tr.question
+						%tr.question{:id=>question[:id]}
 							%td
 								Q#{question[:order_id]} #{question[:text]}
 					
@@ -45,46 +45,3 @@
 				%td New updates
 			
 							
-	%style
-		:sass
-			table#new_content
-				width: 100%
-				margin: 0
-				
-				font-size: .8em
-				td
-					position: relative
-					img
-						position: absolute
-						top: 0
-						left: 100px
-				tr.title
-					font-style: italic
-				tr.striped
-					background-color: #eee
-				tr.question
-					font-size: 1em
-					font-variant: small-caps
-					padding-top: 10px
-					padding-bottom: 4px
-					
-				tr.talking_point
-					font-size: 1em
-					span.rate
-						color: red
-					span.edited
-						color: blue
-					ins
-						color: green
-					del 
-						color: red
-					td
-						padding: 3px 0 3px 6px
-					cursor: pointer
-				tr.comment
-					font-size: 1em
-					font-style: italic
-					td
-						padding: 3px 0 3px 12px
-					cursor: pointer
-					
