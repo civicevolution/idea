@@ -415,15 +415,15 @@ $('table#new_content tr').die('click').live('click',
 		var url;
 		if(tr.hasClass('talking_point')){
 			var url = '/talking_points/' + tp_id + '/comments';
-			console.log("show talking point with id: " + tp_id + " with url: " + url);
+			//console.log("show talking point with id: " + tp_id + " with url: " + url);
 		}else if(tr.hasClass('comment')){
 			var com_id = tr.attr('com_id');
 			var url = '/talking_points/' + tp_id + '/comments?com_id=' + com_id;
-			console.log("show comment with id: " + com_id + " in talking_point with id: " + tp_id + " with url: " + url);
+			//console.log("show comment with id: " + com_id + " in talking_point with id: " + tp_id + " with url: " + url);
 		}else if(tr.hasClass('question')){
 			var ques_id = tr.attr('id');
 			var url = '/questions/' + ques_id + '/worksheet'
-			console.log("show question with id: " + ques_id + " with url: " + url);
+			//console.log("show question with id: " + ques_id + " with url: " + url);
 		}
 		if(url){
 		  // check if the page is already loaded before I request it
@@ -437,7 +437,16 @@ $('table#new_content tr').die('click').live('click',
 		  }else{
 		    // load the page now
   		  tr.find('td').append('<img src="/images/wait3.gif"/>');
-  			$.getScript(url, function(){tr.find('img').remove();tr.fadeTo(0,.4);});
+  			$.ajax({
+  			  url: url, 
+  			  complete: function(){
+  			    //console.log("display new content complete callback");
+  			    tr.find('img').remove();
+  			    tr.find('td').fadeTo(0,.4);
+          }, 
+  			  dataType: 'script'
+  			});
+        
   			$('div.talking_point_comments').each(
   			  function(){
   			    var popup = $(this);
@@ -510,3 +519,4 @@ $('a.add_talking_point').die('click').live('click',
     return false;
   }
 );
+

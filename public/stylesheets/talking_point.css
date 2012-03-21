@@ -1247,9 +1247,12 @@ div.right_master div.activity_chat div#chat_log {
   div.right_master div.activity_chat div#chat_log p {
     margin: 0 1em; }
 div.right_master div.activity_chat form#chat_form {
+  margin-top: 0;
   padding: 4px 0; }
   div.right_master div.activity_chat form#chat_form input[type=text] {
     width: 190px; }
+  div.right_master div.activity_chat form#chat_form input[type=submit] {
+    padding: 0 0px; }
 div.right_master td.button {
   padding: 6px 0; }
 div.right_master td.stay {
@@ -1272,7 +1275,7 @@ div.talking_points_page {
   padding-top: 0px; }
 
 div.talking_points_page div.right_side {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 720px;
   margin-left: 0; }
@@ -1285,53 +1288,6 @@ div.member_info {
     float: right; }
     div.member_info div.member_links p {
       margin: 0; }
-
-div.talking_point_details {
-  float: left;
-  width: 30px;
-  text-align: center;
-  margin-right: 8px; }
-  div.talking_point_details div.talking_point_com_count {
-    width: 30px;
-    height: 32px;
-    background: url(/images/tbubble.gif) no-repeat 0 0px;
-    cursor: pointer; }
-    div.talking_point_details div.talking_point_com_count p {
-      margin-top: 10px;
-      font-weight: bold;
-      padding-top: 1px; }
-
-div.talking_point_body {
-  padding-right: 0;
-  width: 352px; }
-  div.talking_point_body a {
-    font-size: 0.8em; }
-  div.talking_point_body img {
-    vertical-align: text-top; }
-
-div.talking_point_icon {
-  float: left;
-  width: 40px;
-  height: 52px;
-  text-align: center;
-  background: url(/images/white_bulb_sm.gif) no-repeat 8px 10px; }
-  div.talking_point_icon a {
-    display: block;
-    margin-top: 44px;
-    font-size: 0.8em;
-    margin-left: 6px; }
-    div.talking_point_icon a img {
-      display: none;
-      margin-left: 10px; }
-
-div.talking_point_entry.mouseover div.talking_point_icon img {
-  display: block; }
-
-div.talking_point_icon.new {
-  background: url(/images/red_bulb_new_sm.gif) no-repeat 8px 10px; }
-
-div.talking_point_entry a:link {
-  text-decoration: none; }
 
 div.talking_point_comments {
   margin: 0 0 0 50px; }
@@ -1485,8 +1441,11 @@ div.worksheet {
   background-color: white; }
 
 div.talking_point_matrix {
+  position: relative;
   height: 600px;
+  overflow: auto;
   overflow-y: scroll;
+  overflow-x: hidden;
   padding-top: 20px; }
 
 div.question_worksheet {
@@ -1502,9 +1461,9 @@ div.archived_comments {
     overflow-y: scroll; }
 
 div.new_content {
+  position: relative;
   overflow: auto;
-  overflow-y: scroll;
-  border: 1px solid black; }
+  overflow-y: scroll; }
 
 div.worksheet {
   background-color: #bdbe95; }
@@ -1560,11 +1519,12 @@ div.talking_point_post_it {
         height: 32px;
         margin-top: 10px; }
       div.talking_point_post_it div.details div.com_edit div.talking_point_com_count {
+        margin-top: 10px;
         width: 30px;
         height: 32px;
         background: url(/images/tbubble.gif) no-repeat 0 0; }
         div.talking_point_post_it div.details div.com_edit div.talking_point_com_count p {
-          margin-top: 10px;
+          margin-top: 0px;
           font-weight: bold;
           padding-top: 1px; }
       div.talking_point_post_it div.details div.com_edit div.talking_point_com_count.pointer {
@@ -1673,6 +1633,8 @@ div.talking_point_comments {
   background-color: #a7b58d;
   position: fixed; }
   div.talking_point_comments div.discussion {
+    position: relative;
+    overflow: auto;
     overflow-y: scroll; }
   div.talking_point_comments p.ques {
     font-weight: bold; }
@@ -1703,6 +1665,7 @@ div.talking_point_comments div.discussion {
 table#new_content {
   width: 230px;
   margin: 0;
+  background-color: white;
   font-size: 0.8em; }
   table#new_content td {
     position: relative; }

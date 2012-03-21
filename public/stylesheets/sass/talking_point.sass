@@ -1506,9 +1506,12 @@ div.right_master
 			p 
 				margin: 0 1em
 		form#chat_form
+			margin-top: 0
 			padding: 4px 0
 			input[type=text]
 				width: 190px
+			input[type=submit]	
+				padding: 0 0px
 	td.button 
 		padding: 6px 0
 	td.stay
@@ -1547,53 +1550,53 @@ div.member_info
 		p
 			margin: 0
 	
-div.talking_point_details
-	float: left
-	width: 30px
-	text-align: center
-	margin-right: 8px
-	div.talking_point_com_count
-		//border: 1px solid red
-		width: 30px
-		height: 32px
-		background: url(/images/tbubble.gif) no-repeat 0 0px
-		cursor: pointer
-		p 
-			margin-top: 10px
-			font-weight: bold
-			padding-top: 1px
-div.talking_point_body
-	padding-right: 0
-	width: 352px
-	a
-		font-size: .8em
-	img
-		vertical-align: text-top
-		
-div.talking_point_icon 
-	float: left
-	width: 40px
-	height: 52px
-	text-align: center
-	background: url(/images/white_bulb_sm.gif) no-repeat 8px 10px
-	a
-		display: block
-		margin-top: 44px
-		font-size: .8em
-		margin-left: 6px
-		img
-			display: none
-			margin-left: 10px
-div.talking_point_entry.mouseover
-	div.talking_point_icon 
-		img
-			display: block
-div.talking_point_icon.new
-	background: url(/images/red_bulb_new_sm.gif) no-repeat 8px 10px
-		
-div.talking_point_entry
-	a:link
-		text-decoration: none
+//div.talking_point_details
+//	float: left
+//	width: 30px
+//	text-align: center
+//	margin-right: 8px
+//	div.talking_point_com_count
+//		//border: 1px solid red
+//		width: 30px
+//		height: 32px
+//		background: url(/images/tbubble.gif) no-repeat 0 0px
+//		cursor: pointer
+//		p 
+//			margin-top: 10px
+//			font-weight: bold
+//			padding-top: 1px
+//div.talking_point_body
+//	padding-right: 0
+//	width: 352px
+//	a
+//		font-size: .8em
+//	img
+//		vertical-align: text-top
+//		
+//div.talking_point_icon 
+//	float: left
+//	width: 40px
+//	height: 52px
+//	text-align: center
+//	background: url(/images/white_bulb_sm.gif) no-repeat 8px 10px
+//	a
+//		display: block
+//		margin-top: 44px
+//		font-size: .8em
+//		margin-left: 6px
+//		img
+//			display: none
+//			margin-left: 10px
+//div.talking_point_entry.mouseover
+//	div.talking_point_icon 
+//		img
+//			display: block
+//div.talking_point_icon.new
+//	background: url(/images/red_bulb_new_sm.gif) no-repeat 8px 10px
+//		
+//div.talking_point_entry
+//	a:link
+//		text-decoration: none
 	
 div.talking_point_comments
 	margin: 0 0 0 50px
@@ -1752,8 +1755,11 @@ div.worksheet
 	background-color: white
 	
 div.talking_point_matrix
+	position: relative
 	height: 600px
+	overflow: auto
 	overflow-y: scroll
+	overflow-x: hidden
 	//background: url(/images/corkboard3.jpg)
 	padding-top: 20px
 div.question_worksheet
@@ -1768,10 +1774,9 @@ div.archived_comments
 	div.comments
 		overflow-y: scroll
 div.new_content
+	position: relative
 	overflow: auto
 	overflow-y: scroll
-	border: 1px solid black
-	
 
 $post_it_bg: #fcfeb4
 div.worksheet
@@ -1828,11 +1833,12 @@ div.talking_point_post_it
 				height: 32px
 				margin-top: 10px
 			div.talking_point_com_count
+				margin-top: 10px
 				width: 30px
 				height: 32px
 				background: url(/images/tbubble.gif) no-repeat 0 0
 				p 
-					margin-top: 10px
+					margin-top: 0px
 					font-weight: bold
 					padding-top: 1px
 			div.talking_point_com_count.pointer
@@ -1940,6 +1946,8 @@ div.talking_point_comments
 	background-color: #A7B58D
 	position: fixed
 	div.discussion
+		position: relative
+		overflow: auto
 		overflow-y: scroll		
 	p.ques
 		font-weight: bold
@@ -1970,7 +1978,7 @@ div.talking_point_comments
 table#new_content
 	width: 230px
 	margin: 0
-	
+	background-color: white
 	font-size: .8em
 	td
 		position: relative
