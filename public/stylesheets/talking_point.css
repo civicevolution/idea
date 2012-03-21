@@ -435,7 +435,7 @@ div.talking_point_acceptable {
     div.talking_point_acceptable div.my_rating div.radios div.bar2 {
       background-color: #e2b68c; }
     div.talking_point_acceptable div.my_rating div.radios div.bar3 {
-      background-color: #f0ecc1; }
+      background-color: #c5b19b; }
     div.talking_point_acceptable div.my_rating div.radios div.bar4 {
       background-color: #cdd89d; }
     div.talking_point_acceptable div.my_rating div.radios div.bar5 {
@@ -493,7 +493,7 @@ div.community_rating {
   div.community_rating div.bar2 {
     background-color: #e2b68c; }
   div.community_rating div.bar3 {
-    background-color: #f0ecc1; }
+    background-color: #c5b19b; }
   div.community_rating div.bar4 {
     background-color: #cdd89d; }
   div.community_rating div.bar5 {
@@ -1490,7 +1490,7 @@ div.talking_point_post_it {
     position: absolute;
     top: 0;
     right: 0;
-    background: url(/images/visible2.gif) no-repeat 0 -12px;
+    background: url(/images/visible3.gif) no-repeat 0 -12px;
     cursor: pointer; }
   div.talking_point_post_it p {
     margin: 12px 10px 10px 10px; }
@@ -1630,7 +1630,7 @@ h4.question, p.footer {
     right: 20px; }
 
 div.talking_point_comments {
-  background-color: #a7b58d;
+  background-color: #d8f1ab;
   position: fixed; }
   div.talking_point_comments div.discussion {
     position: relative;
