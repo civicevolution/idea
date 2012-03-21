@@ -45,6 +45,5 @@ gem "airbrake"
 
 gem "juggernaut"
 
-gem 'SystemTimer', :platforms => [:ruby_18]
-
 gem "redis"
+

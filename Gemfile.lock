@@ -1,7 +1,6 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    SystemTimer (1.2.3)
     abstract (1.0.0)
     actionmailer (3.0.5)
       actionpack (= 3.0.5)
@@ -129,7 +128,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  SystemTimer
   airbrake
   aws-s3
   aws-ses
