@@ -1466,7 +1466,7 @@ div.new_content {
   overflow-y: scroll; }
 
 div.worksheet {
-  background-color: #bdbe95; }
+  background-color: #a7b58d; }
   div.worksheet h4.question, div.worksheet p.header, div.worksheet p.footer {
     margin-left: 20px;
     margin-right: 10px; }
@@ -1630,7 +1630,7 @@ h4.question, p.footer {
     right: 20px; }
 
 div.talking_point_comments {
-  background-color: #d8f1ab;
+  background-color: #bdbe95;
   position: fixed; }
   div.talking_point_comments div.discussion {
     position: relative;
