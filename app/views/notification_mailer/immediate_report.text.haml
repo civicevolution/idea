@@ -25,14 +25,14 @@
 		~''
 		= @entry.text
 		~''
-		You can view this comment at #{question_worksheet_url(:host=>@host, :question_id=>@entry.question.id, :t=>'c', :id=> @entry.id, :_mlc => @mcode)}
+		-#You can view this comment at #{question_worksheet_url(:host=>@host, :question_id=>@entry.question.id, :t=>'c', :id=> @entry.id, :_mlc => @mcode)}
 
 	- when @entry.class.to_s == "TalkingPoint" && @report[:report_format] == 1
 		On #{TZInfo::Timezone.get(@recip.location.gsub(' ','_')).utc_to_local( @entry.updated_at).strftime('%A %B %d, %Y at %I:%M %p')}, this talking point was added:
 		~''
 		= @entry.text
 		~''
-		You can rate this talking point at #{question_worksheet_url(:host=>@host, :question_id=>@entry.question_id, :t=>'tp', :id=> @entry.id, :_mlc => @mcode)}
+		-#You can rate this talking point at #{question_worksheet_url(:host=>@host, :question_id=>@entry.question_id, :t=>'tp', :id=> @entry.id, :_mlc => @mcode)}
 
 	- when @entry.class.to_s == "Answer"
 		An answer was added or edited

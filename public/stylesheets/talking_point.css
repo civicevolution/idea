@@ -120,6 +120,9 @@ td:first-child, th:first-child {
 input {
   margin: 0; }
 
+textarea {
+  padding: 4px; }
+
 .corner {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;

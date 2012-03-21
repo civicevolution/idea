@@ -32,12 +32,12 @@ init_1:
     edit_talking_point:
       act: 'edit this talking point'
       mandatory: ['$confirmed', '$belong_to_initiative']
-      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+      #pass_one: ['$team_org', '$level(2)', '$talking_point_author']
 
     curate_talking_points:
       act: 'select and order these talking points'
       mandatory: ['$confirmed', '$belong_to_initiative']
-      pass_one: ['$team_org', '$level(3)']
+      #pass_one: ['$team_org', '$level(3)']
     
     edit_team_summary:
       act: 'edit the proposal title and summary'
@@ -83,12 +83,12 @@ init_2: # 2029 and beyond
     edit_talking_point:
       act: 'edit this talking point'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+      #pass_one: ['$team_org', '$level(2)', '$talking_point_author']
 
     curate_talking_points:
       act: 'select and order these talking points'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(3)']
+      #pass_one: ['$team_org', '$level(3)']
     
     edit_team_summary:
       act: 'edit the proposal title and summary'
@@ -132,12 +132,12 @@ init_3: #demo
     edit_talking_point:
       act: 'edit this talking point'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+      #pass_one: ['$team_org', '$level(2)', '$talking_point_author']
 
     curate_talking_points:
       act: 'select and order these talking points'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(3)']
+      #pass_one: ['$team_org', '$level(3)']
     
     edit_team_summary:
       act: 'edit the proposal title and summary'
@@ -182,12 +182,12 @@ init_5: # skyline
     edit_talking_point:
       act: 'edit this talking point'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+      #pass_one: ['$team_org', '$level(2)', '$talking_point_author']
 
     curate_talking_points:
       act: 'select and order these talking points'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(3)']
+      #pass_one: ['$team_org', '$level(3)']
     
     edit_team_summary:
       act: 'edit the proposal title and summary'
@@ -235,12 +235,12 @@ init_6: # civicevolution
     curate_talking_points:
       act: 'select and order these talking points'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(3)']
+      #pass_one: ['$team_org', '$level(3)']
     
     edit_team_summary:
       act: 'edit the proposal title and summary'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(42)']
+      #pass_one: ['$team_org', '$level(42)']
     
     submit_proposal:
       act: 'submit this proposal'
@@ -278,12 +278,12 @@ init_7: # live
     edit_talking_point:
       act: 'edit this talking point'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+      #pass_one: ['$team_org', '$level(2)', '$talking_point_author']
 
     curate_talking_points:
       act: 'select and order these talking points'
       mandatory: ['$confirmed']
-      pass_one: ['$team_org', '$level(3)']
+      #pass_one: ['$team_org', '$level(3)']
     
     edit_team_summary:
       act: 'edit the proposal title and summary'

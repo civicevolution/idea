@@ -1,3 +1,4 @@
+require 'differ'
 # move this to library when it is stable
 # /lib is not reloaded in dev, but putting this module in models means it will be reloaded each time it is referenced
 
@@ -40,8 +41,15 @@ class TrackingNotifications
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           mem_id = obj.member_id
           obj.member_id = nil
+          text = obj.text
+          if obj.version > 1
+          	old_text = TalkingPointVersion.find_by_talking_point_id_and_version(obj.id,obj.version-1).text
+          	Differ.format = :html
+            obj.text += '~~DIFF~TEXT~~' + Differ.diff_by_word(obj.text, old_text).to_s
+          end
           Juggernaut.publish("_auth_team_#{obj.team.id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj})
           obj.member_id = mem_id
+          obj.text = text
           
         when  'Answer'
           event_id = name == 'after_create' ? 5 : 6

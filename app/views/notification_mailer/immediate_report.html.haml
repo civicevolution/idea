@@ -22,7 +22,7 @@
 					%span.question= @entry.question.text
 				%div.Comment
 					!= %Q|<p class="comment">#{@entry.text.gsub(/\n/,'<br/>')}</p>|
-					%p.view= link_to 'View this comment', question_worksheet_url(:host=>@host, :question_id=>@entry.question.id, :t=>'c', :id=> @entry.id, :_mlc => @mcode)
+					-#%p.view= link_to 'View this comment', question_worksheet_url(:host=>@host, :question_id=>@entry.question.id, :t=>'c', :id=> @entry.id, :_mlc => @mcode)
 
 			- when @entry.class.to_s == "TalkingPoint" && @report[:report_format] == 1
 				%p.entry_title 
@@ -30,7 +30,7 @@
 					%span.question= @entry.question.text
 				%div.TalkingPoint
 					!= %Q|<p class="talking_point">#{@entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
-					%p.view= link_to 'Rate this talking point', question_worksheet_url(:host=>@host, :question_id=>@entry.question_id, :t=>'tp', :id=> @entry.id, :_mlc => @mcode)
+					-#%p.view= link_to 'Rate this talking point', question_worksheet_url(:host=>@host, :question_id=>@entry.question_id, :t=>'tp', :id=> @entry.id, :_mlc => @mcode)
 	
 			- when @entry.class.to_s == "Answer"
 				An answer was added or edited

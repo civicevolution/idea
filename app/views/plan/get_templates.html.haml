@@ -118,6 +118,15 @@
 			);
 			realtime_data_update_functions['TalkingPoint'] =
 				function(data){
+					// separate the diff from the text
+					var text_pcs = data.data.talking_point.text.split('~~DIFF~TEXT~~');
+					data.data.talking_point.text = text_pcs[0]
+					if(text_pcs.length > 1){
+						data.data.talking_point.new_cont_text = text_pcs[1]
+					}else{
+						data.data.talking_point.new_cont_text = text_pcs[0]
+					}
+					
 					//console.log("insert a TalkingPoint v2 with id: " + data.data.talking_point.id);
 					tp = template_functions['TalkingPoint'](data);
 					
@@ -126,7 +135,7 @@
 					if(data.data.talking_point.version == 1){
 						var tp_row = $('<tr class="talking_point" tp_id="' + data.data.talking_point.id + '"><td title="Click here to rate this talking point"><span class="rate">Rate:</span> ' + data.data.talking_point.text + '</td></tr>');					
 					}else{
-						var tp_row = $('<tr class="talking_point" tp_id="' + data.data.talking_point.id + '"><td>' + data.data.talking_point.text + '<span class="edited"> (Edited)</span> </td></tr>');
+						var tp_row = $('<tr class="talking_point" tp_id="' + data.data.talking_point.id + '"><td>' + data.data.talking_point.new_cont_text + '<span class="edited"> (Edited)</span> </td></tr>');
 					}
 					$('table#new_content').append(tp_row).parent().scrollTop(99999999);
 					tp_row.effect('highlight', {color: '#D8F1AB'},5000);				
