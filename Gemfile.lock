@@ -46,7 +46,7 @@ GEM
     builder (2.1.2)
     cocaine (0.2.0)
     columnize (0.3.4)
-    daemons (1.1.4)
+    daemons (1.1.8)
     delayed_job (2.1.4)
       activesupport (~> 3.0)
       daemons

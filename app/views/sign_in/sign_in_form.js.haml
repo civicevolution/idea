@@ -8,12 +8,12 @@
 - else
 	:plain
 		var sign_in_form = $("#{escape_javascript(
-			render( :partial => 'right_panel/sign_in.html')
+			render( :partial => 'right_panel/sign_in.html', :locals=>{:popup => true})
 		)}");
 		sign_in_form.find('form').attr('data-remote','true');
 		$('div.ui-dialog div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
 	
-		var dialog = sign_in_form.dialog( {title : 'Please sign in or join to continue', modal : true, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+		var dialog = sign_in_form.dialog( {title : 'Please sign in or sign up to participate', modal : true, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
 
 		setTimeout(
 			function(){

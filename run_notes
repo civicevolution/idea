@@ -174,6 +174,14 @@ Running on DEV
 		RAILS_ENV=development script/monit.notify.sh start
 		RAILS_ENV=development script/monit.notify.sh stop
 		ps aux | grep notification
+		
+		
+		3/22/12 notification won't run as a daemon with ruby 1.9.2 on os x
+		
+		I don't need notification to run as a daemon on DEV
+		I can just run it with
+			cd /ce_development/Rails/tp/lib/daemons
+			RAILS_ENV=development ruby notification.rb
 
 6) Start dealyed_jobs daemon
 		RAILS_ENV=development script/delayed_job start		

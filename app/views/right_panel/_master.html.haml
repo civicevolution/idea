@@ -5,18 +5,8 @@
 			&bull;
 			= link_to "Contact us", request_help_path, { :remote => true}
 		
-	%div.member.corner.fix_ht
-		- if !@member.nil? && @member.id != 0
-			= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :alt=>'Picture of organizer'}
-			%div.name
-				%p= @member.first_name
-				%p= @member.last_name
-			%div.links
-				%p= link_to "Sign out", {:controller => "sign_in", :action=> "sign_out"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow'}
-				%p= link_to "Profile", edit_profile_form_path(@member.ape_code)
-		- else
-			= render :partial => 'right_panel/sign_in'
-			
+	= render :partial => 'right_panel/member'	
+	
 	%div.suggested_action.corner
 		= render( :template => 'plan/new_content.html')
 	

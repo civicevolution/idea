@@ -1,3 +1,7 @@
+- if params[:sign_in]
+	:plain
+		var mem_div = $("#{escape_javascript(render(  :partial=> 'right_panel/member'))}");
+		$('div.member').replaceWith(mem_div);
 - if flash[:params]
 	:plain
 		$('div.ui-dialog div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
