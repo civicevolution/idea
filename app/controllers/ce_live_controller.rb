@@ -57,7 +57,7 @@ class CeLiveController < ApplicationController
     session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
-    render :template => 'ce_live/table', :layout => 'ce_live'
+    render :template => 'ce_live/table', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
   end
     
   def ltp_to_jug

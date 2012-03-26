@@ -8,14 +8,15 @@
 				var tp_clone = tp.eq(0).clone();
 				if(tp.size() > 1){
 					$('a.new_live_talking_point').hide();
-				
+					$('p.new_live_talking_point').show();
 				}else{
 				
 				}
-				tp_clone.find('textarea').val('');
-				tp_clone.find('form').removeClass('orig');
+				tp_clone.find(':text').val('');
+				
+				tp_clone.find('form');//.removeClass('orig');
 				tp_clone.find('input[name="form_id"]').val(++tp_live_form_ctr);
-				tp_clone.find('h3').html( tp_clone.find('h3').html().replace('Enter a ', 'Start a new ') );
+				//tp_clone.find('h3').html( tp_clone.find('h3').html().replace('Enter a ', 'Start a new ') );
 				tp.last().after(tp_clone)
 				return false;
 			}
@@ -42,12 +43,18 @@
 					width: 400px
 					float: left
 
+			p.table_vote
+				font-weight: bold
+				span
+					margin-left: 20px
+				input[type="text"]
+					width: 40px
 			div#outer_chat
 				div#chat_log
 					overflow: auto
 					overflow-y: scroll
 					width: 460px
-					height: 300px
+					height: 150px
 					border: 1px solid black
 					padding: 1em 0
 					p 
@@ -68,7 +75,16 @@
 			
 			div#groups_live_talking_points
 				div.inner
-					height: 140px
+					height: 300px
+					div.live_talking_point
+						background-color: #FBE574
+						margin: 20px
+						padding: 10px
+						img, p.stats
+							display: none
+						p.text
+							font-size: .8em
+							
 
 
 %div#table
@@ -76,17 +92,26 @@
 		var pub_sub_channels = #{@channels}
 	
 	- @title = 'Group recording page - CivicEvolution Live'
-	%h2 Group recording page @ CivicEvolution Live
+	-#%h2 Group recording page @ CivicEvolution Live
 
 	%div#left
 		%div.talking_point_block
 			%h3 Enter a talking point from your table
 			- params[:ch] ||= 'theme1'
-			= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig', :id=>1) do
+			= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig post_live_tp', :id=>1) do
 				= text_area_tag :text, nil, {:class=>'autosize'}
 				= hidden_field_tag :form_id, 1
 				
-
+				%p.table_vote 
+					Table vote
+					%span.for
+						For:
+						= text_field_tag :votes_for
+					%span.against
+						Against:
+						= text_field_tag :votes_against
+						
+					
 				%div.form_controls
 					%button{'data-disable-with' =>'Submitting...'}
 						Share
@@ -94,9 +119,10 @@
 						220 characters
 						
 		= link_to 'Start a new talking point', nil, :class=>'new_live_talking_point'
+		%p.new_live_talking_point.hide You must submit a talking point before starting a new one
 
-		%p= link_to 'Use test mode',nil,:class=>'test_mode'
-		%div.test_mode
+		-#%p= link_to 'Use test mode',nil,:class=>'test_mode'
+		-#%div.test_mode
 			%h3 Test mode
 			= form_tag( live_test_ids_path, {:remote=>true}) do
 				%table
@@ -125,8 +151,8 @@
 			%div.inner
 		
 		
-		%h3 Talking points as seen by themers
-		%div#live_talking_points
+		-#%h3 Talking points as seen by themers
+		-#%div#live_talking_points
 			%div.inner
 
 		%h3 Chat with your theme team

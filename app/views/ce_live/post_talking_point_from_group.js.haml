@@ -12,10 +12,12 @@
 		function(){
 			if(Number(this.value) == Number(#{params[:form_id]})){
 				var form = $(this).closest('form');
-				if(form.hasClass('orig')){
+				if( $('form.post_live_tp').size() == 1 ){
 					form.find('textarea').val('');
 				}else{
 					form.closest('div.talking_point_block').remove();
+					$('a.new_live_talking_point').show();
+					$('p.new_live_talking_point').hide();
 				}
 			}
 			console.log("value of this is " + this.value)
