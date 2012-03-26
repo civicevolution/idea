@@ -2,6 +2,16 @@
 %div.page_content_div
 	:javascript
 		var pub_sub_channels = #{@channels}
+	%style
+		:sass
+			div.resources.sky
+				height: 72px
+				margin-bottom: 8px
+				div
+					height: auto
+					width: auto
+					margin-right: 6px
+					border: none
 	%div.talking_points_page
 		%div.left_side
 			= render :partial=> 'proposal_header'	
@@ -13,19 +23,29 @@
 						%span #{@team.title}
 						- if @member.id == @team.org_id
 							= link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"}
+							
 					%div.summary_block
 						%div.summary.text
+							- if params[:_initiative_id].to_i == 5 && params[:team_id].to_i == 10080 # show microwave pics
+								- pics_array = ['10080-1','10080-2','10080-3','10080-4']
+								%div.resources.sky
+									- pics_array.each do |pic|
+										= link_to "/images/sky/misc/#{pic}-lg.jpg", :rel=>'prettyPhoto', :title=>'Pictures related to this proposal' do
+											%div= image_tag("sky/misc/#{pic}-sm.jpg")
+								%p.clear_both
+							
 							- if @member.id == @team.org_id
 								= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"} ) + '</p>')
 							- else
 								= simple_format h @team.solution_statement
 
-							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
-							%div.resources
-								= link_to proposal_pic_path(@team.id), {:rel=>'nofollow'} do
-									- pics_array.each do |pic|
-										%div= image_tag("misc/48/#{pic}.jpg")
-								%p.clear_both
+							- if @team.initiative_id < 3 # show AU pics for now
+								- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
+								%div.resources
+									= link_to proposal_pic_path(@team.id), {:rel=>'nofollow'} do
+										- pics_array.each do |pic|
+											%div= image_tag("misc/48/#{pic}.jpg")
+									%p.clear_both
 							
 						= render :partial => 'plan/proposal_tools'
 						%p.clear_both

@@ -1,5 +1,17 @@
 - logger.debug "\n\n*************** Begin to render the plan page\n\n"
 %div.page_content_div
+	%style
+		:sass
+			div.team_entry
+				div.resources.sky
+					height: 72px
+					margin-bottom: 0px
+					div
+						height: auto
+						width: auto
+						margin-right: 6px
+						border: none
+	
 	%div.home_page
 		%div.left_side
 			%div.book
@@ -34,13 +46,14 @@
 						%div.team_entry{:class=> cycle('stripe_bg','')}
 							= link_to team.title, proposal_path(team.team_id), {:class=>'team_entry_title',:launched=>'t'}
 
-							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
-							%div.resources
-								= link_to proposal_pic_path(team.team_id), {:rel=>'nofollow'} do
+							- if team.team_id == 10080 # show microwave pics
+								- pics_array = ['10080-1','10080-2','10080-3','10080-4']
+								%div.resources.sky
 									- pics_array.each do |pic|
-										%div= image_tag("misc/48/#{pic}.jpg")
-							%p.clear_both
-
+										= link_to "/images/sky/misc/#{pic}-lg.jpg", :rel=>'prettyPhoto', :title=>'Pictures related to this proposal' do
+											%div= image_tag("sky/misc/#{pic}-sm.jpg")
+								%p.clear_both
+							
 							%p.desc= team.solution_statement
 							%p.controls
 								%table.proposal_stats
