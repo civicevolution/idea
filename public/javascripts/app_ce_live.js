@@ -90,6 +90,7 @@ function collapse_idea_list(list){
 var idea_list_height = 0;
 function adjust_lists(){
   var lists_div = $('div#lists');
+  lists_div.find('div.idea_list.expanded').removeClass('expanded');
   var idea_lists = lists_div.find('div.idea_list').not('div.idea_list.expanded');
   // how many lists in a row?
   var cur_top = 0;
@@ -275,7 +276,7 @@ function make_idea_lists_sortable($idea_lists){
   		    ui.item.hide(1000,
   		      function(){
   		        $(this).remove();
-  		        $('div.incoming_ideas h3 span.cnt').html( $('div#live_talking_points div.live_talking_point').size() );
+  		        $('div.incoming_ideas p.stats span.cnt').html( $('div#live_talking_points div.live_talking_point').size() );
   		      }
   		    ); // remove original item
   		  }

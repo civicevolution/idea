@@ -16,23 +16,33 @@
 			
 	%body
 		%div.page
-			%div.logo
-				%a{ :href=> '/'}
-					= image_tag("ce_logo_20c.gif")
-			%div.tagline
-				%h3 Think together to Act together
 
 			- if !@live_node.nil? && !@live_node.id.nil? 
+				%h3.session_title 
+					Comments/changes or additions to online proposals
+					%span.remaining_time.label
+						Time remaining: 
+					%span.remaining_time.time
+						12:14
+				
 				%div.join_com
 					%span.role
 						Role: #{role}
-					%b #{@live_node.name} -  
+					#{@live_node.name} -  
 					= link_to 'Sign out', {:action=>'sign_out'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false}
+				%p.clear_both
+					
 			- else
+				%div.logo
+					%a{ :href=> '/'}
+						= image_tag("ce_logo_20c.gif")
+				%div.tagline
+					%h3 Think together to Act together
+				
 				%div.join_com
 					#{link_to 'Sign in', {:action=>'sign_out'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false}}
-
-			%hr.top
+				%hr.top
+			
 
 			= yield
 			

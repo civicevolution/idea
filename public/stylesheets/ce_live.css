@@ -2,6 +2,18 @@ div.page {
   width: 100%; }
   div.page > * {
     margin: 10px 0 0 10px; }
+  div.page h3.session_title {
+    float: left;
+    font-size: 14px; }
+    div.page h3.session_title span.remaining_time {
+      color: blue;
+      font-size: 10px; }
+    div.page h3.session_title span.remaining_time.label {
+      margin-left: 20px; }
+  div.page div.tables_ribbon {
+    background-color: #eeeeee; }
+    div.page div.tables_ribbon span {
+      margin-right: 24px; }
 
 div.tagline {
   float: left;
@@ -11,7 +23,8 @@ div.tagline {
     margin: 0; }
 
 div.join_com {
-  margin-top: 10px; }
+  margin-top: 10px;
+  padding-right: 10px; }
   div.join_com span.role {
     margin-right: 30px; }
 
@@ -27,3 +40,6 @@ div#sign_in_form td.lbl {
   -moz-opacity: .40; }
   .dragged_idea p.stats {
     display: none; }
+
+div.lists p.stats span {
+  margin-right: 24px; }

@@ -73,17 +73,21 @@
 							border: 1px solid #bbb
 							padding: 10px
 				
-					h3 a.expand_incoming_ideas_window
-						font-size: .8em
-						font-weight: normal
-						display: block
-						float: right
+					p.stats 
+						margin: 0
+						a.expand_incoming_ideas_window
+							font-size: .8em
+							font-weight: normal
+							display: block
+							float: right
 						
 				div.lists
 					position: absolute
 					top: 0
 					left: 320px
 					background-color: white
+					p.stats
+						margin: 0
 					div#lists
 						border: 1px solid #bbb
 				
@@ -204,26 +208,34 @@
 		var pub_sub_channels = #{@channels}
 
 	%div.tables_ribbon
-		Show the table stats here
+		%span
+			Table 1 stats
+		%span
+			Table 2 stats
+		%span
+			Table 3 stats
+		%span 
+			Table 4 stats
 		
 	
 	%div.workspace
 		%div.incoming_ideas
-			%h3 
+			%p.stats 
 				%span.cnt 0
 				Ideas to be sorted
 			%div#live_talking_points
 				%div.inner
 		%div.lists
-			%h3
+			%p.stats
+				Lists:
 				%span.lists_cnt 0
-				Lists
+				Ideas:
 				%span.ideas_cnt 0
-				Ideas
+				Themes:
 				%span.themes_cnt 0
-				Themes
+				Examples:
 				%span.examples_cnt 0
-				Examples
+
 
 			%div#lists
 				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New list', :class_name=>'new_list', :instr=>'Drop an idea here to start a new list', :edit => true}

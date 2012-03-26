@@ -71,9 +71,9 @@
 					if(data.data.live_talking_point.pos_votes<3){
 						live_talking_point.append('<p class="minority">[Minority perspective]</p>');
 					}
-					$('div#live_talking_points div.inner').append(live_talking_point).scrollTop(99999999);
+					$('div#live_talking_points div.inner').append(live_talking_point);//.scrollTop(99999999);
 					
-					$('div.incoming_ideas h3 span.cnt').html( $('div#live_talking_points div.live_talking_point').size() )
+					$('div.incoming_ideas p.stats span.cnt').html( $('div#live_talking_points div.live_talking_point').size() )
 					
 					//make_new_ideas_draggable( live_talking_point, $('div.idea_list div.ideas') );
 					make_new_ideas_draggable( live_talking_point );
