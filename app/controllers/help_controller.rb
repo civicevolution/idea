@@ -69,6 +69,10 @@ class HelpController < ApplicationController
     
   end
 
+  def help_quick_instructions_pi
+    
+  end
+  
   def help_answer_question
     
   end

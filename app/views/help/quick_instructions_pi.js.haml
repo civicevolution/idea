@@ -1,0 +1,17 @@
+:plain
+	$('div#quick_instructions').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+	
+	var help = $("#{escape_javascript(
+		render( :template => 'help/quick_instructions_pi.html' )
+	)}");
+	
+	var dialog = help.dialog( {title : 'Quick instructions', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();} });
+	
+	$('div#help_develop_proposal a.cancel').html('Close').die('click').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);
+
+	dialog.find("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});

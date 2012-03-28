@@ -1,0 +1,67 @@
+%div#quick_instructions
+	%style
+		:sass
+			div#quick_instructions
+				width: 505px
+				li
+					margin-bottom: .5em
+			
+	%h2 Answer the proposal questions by thinking together
+	%p The best way to answer these questions is to think together with everyone that will be affected by the change 	
+	%ul
+		%li CivicEvolution encourages everyone to suggest talking points 
+		%li Talking points are the building blocks for a shared answer
+		%li These talking points makes it easy to discuss and evaluate everyone's ideas
+		%li This helps you understand different perspectives and discover common interests
+		%li These common interests lead to better ideas that can attract the broad support needed to make the change
+	
+	%h2 Here's how
+	%ol
+		%li Click a question link to see the suggested talking points
+		%li 
+			The talking points appear as yellow notes
+			%ul
+				%li Talking points are the building blocks for answering the question
+				%li 
+					%b Don't be shy,
+					talking points are displayed anonymously
+				%li Don't worry about making perfect suggestions
+				%li There will be plenty of time to revise the talking points and select the best ones to answer the question
+		%li 
+			If there are no talking points displayed yet, please add a few
+				
+		%li The first thing you should do is rate a talking point to indicate if it is acceptable to you
+		%li 
+			Once you rate a talking point, consider if you think it is one of the most important talking points for answering this question. 
+			%ul
+				%li Just click the star to mark a talking point as a favorite
+				%li There may be many good ideas, but we need to focus on the best ones
+				%li We maintain a list of your 5 most preferred ideas for each question and you can easily update the list at any time
+		%li Every talking point has a comment area where you can ask questions, express concerns or suggest changes
+		%li Anyone can suggest a talking point by entering it in the form
+		%li 
+			People can also edit a talking point to make it better or fix typos
+			%ul
+				%li Please respect the other authors and don't change the meaning of a talking point when you edit it
+				%li If you have a different idea, enter it as a new talking point
+				%li We maintain a history of all edits so you can see how the talking points have evolved
+		%li Each time you visit the proposal, all of the new talking points and comments since your last visit will be listed on the right side
+		%li 
+			Click 
+			%b follow 
+			link near the top of the proposal so you can receive email updates when new talking points and comments have been added
+				
+		
+		
+	%p Please invite your friends to help develop this proposal. More people helping will lead to a better proposal and more support.
+	
+		
+	- if @member.id == 0 || @member.first_name.nil?
+		%h3 We need to know what you think!	
+	- else
+		%h3 #{@member.first_name}, we need to know what you think!	
+
+	%p 
+		= link_to "Return to home page", home_path, {:class=>'cancel'}
+		
+	

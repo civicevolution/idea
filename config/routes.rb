@@ -26,6 +26,7 @@ G3::Application.routes.draw do |map|
   get 'live/:event_id/coordinator' => 'ce_live#coordinator', :as => 'live_coordinator'
   get 'live/:event_id/themer' => 'ce_live#themer', :as => 'live_themer' 
   get 'live/:event_id/table' => 'ce_live#table', :as => 'live_table'
+  get 'live/:event_id/prioritize' => 'ce_live#prioritize', :as => 'live_prioritize'
   get 'live/:event_id/observer' => 'ce_live#observer', :as => 'live_observer'
   get 'live/:event_id/add_session(/:id)' => 'ce_live#add_session_form', :as=> 'add_live_session'
   match 'live/:event_id/add_session(/:id)' => 'ce_live#add_session_form', :as=> 'edit_live_session'
@@ -210,6 +211,7 @@ G3::Application.routes.draw do |map|
   get 'help' => 'help#help_page'  
   get 'help_topic' => 'help#help_topic'  
   get 'help_develop' => 'help#help_develop_proposal'
+  get 'help_quick_instructions' => 'help#quick_instructions_pi'
   get 'help_answer_question' => 'help#help_answer_question'
   get 'help_curate_show' => 'help#help_curate_show'
   
