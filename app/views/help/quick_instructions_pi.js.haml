@@ -7,6 +7,8 @@
 	
 	var dialog = help.dialog( {title : 'Quick instructions', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();} });
 	
+	$(window).scrollTop(0)
+	
 	$('div#help_develop_proposal a.cancel').html('Close').die('click').live('click',
 		function(){
 			$(this).closest('div.ui-dialog').dialog('destroy').remove();
