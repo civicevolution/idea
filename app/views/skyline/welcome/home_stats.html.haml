@@ -12,6 +12,12 @@
 	%div.num 2
 	%div.text
 		%h3 How it works
+		%p Skyline students have already submitted their project proposal ideas to improve our campus and community.
+		%p Participate in refining and rating the best project proposal ideas & vote for who should receive the funding.
+		%p Invite other students to participate and share this page through social media.
+		%p Attend the campaign finale May 1st 2-5pm where students will present their project ideas and a final vote will be taken.  Rm 6202 Food, Fun, Prizes, Presentations, Winners!
+		
+	-#
 		%p Any Skyline student can propose a change
 		%p Our student community works together to create a set of talking points that answer questions about how to make this change
 		%p We discuss, rate and refine the talking points to find those that are acceptable to most of our community
@@ -34,7 +40,7 @@
 		%p.cta We need your help to create the best plans for change on our campus, please&hellip;
 		%p.cta= link_to "Suggest a proposal", {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
 			
-		%p.cta= link_to "Help develop a proposal", help_develop_path, {:remote=>true}
+		-#%p.cta= link_to "Help develop a proposal", help_develop_path, {:remote=>true}
 		
 		%p.cta= link_to "Invite friends to participate", invite_friends_form_path(0), {:class=>'invite', :remote=>true}
 		

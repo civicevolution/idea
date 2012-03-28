@@ -29,7 +29,7 @@
 		= link_to 'details', help_develop_path, {:remote=>true}
 		about how you can help develop a proposal.
 
-	- if @member.first_name.nil?
+	- if @member.id == 0 || @member.first_name.nil?
 		%h3 We need to know what you think!	
 	- else
 		%h3 #{@member.first_name}, we need to know what you think!	

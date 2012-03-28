@@ -10,7 +10,7 @@
 					margin-left: 4px
 					
 			
-	- if @member.first_name.nil?
+	- if @member.id == 0 || @member.first_name.nil?
 		%h2 You can help answer these questions
 	- else
 		%h2 #{@member.first_name}, you can help answer these questions

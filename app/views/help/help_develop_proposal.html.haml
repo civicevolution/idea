@@ -7,36 +7,40 @@
 					margin-bottom: .5em
 			
 	%h2 You can help develop a proposal
-	%p Work together with your friends and community members to develop a community written and supported proposal for constructive change.
-	%p Helping is easy and rewarding
-	%ol
-		%li 
-			Select a proposal from the list on the left side of the
-			= link_to 'home page', home_path
-			and click the link that says 
-			%b Help us make a difference
-		%li You'll see the questions and talking points that make up the proposal
-		%li Click one of the questions to see the worksheet where you can work with others to:
-		%ul
-			%li Discuss the question
-			%li Rate the talking points
-			%li Select up to 5 talking points you most prefer
-			%li Discuss specific talking points
-			%li Suggest a talking point
-			%li Edit the talking points created by others
-		%li This process of suggesting, discussing, revising, rating, and preferring helps us to think together
-		%li Your participation will be convenient and productive with email notifications and the highlighting of new talking points and comments
-	%p 
-		Click the link that says 
-		%b Help us make a difference
-		under a proposal that interests you
 		
-	- if @member.first_name.nil?
+	%div.help_intro	
+		%p Helping is easy and rewarding and you will earn points for your participation.  Those who earn at least 1000 participation points will be submitted in a drawing for a gift certificate of $100!
+		
+		%p
+			Everyone is invited to help answer What, Why, and How these proposals will improve our campus.
+			We do this together by suggesting and rating the talking points that are the building blocks for a shared answer to each question.
+		%ol
+			%li Click one of the proposal questions to see the worksheet where you can work with others and earn points by:
+			%ul
+				%li Rate each talking point
+				%li Ask questions about the talking points or suggest improvements
+				%li Select up to 5 talking points you most prefer for each question  
+				%li Suggest a talking point that can help provide a more complete answer to the question
+				%li Edit the talking points created by others
+			%li Invite others to participate by clicking on the link Invite Friends
+			%li 
+				Share this site to other students through Facebook and social media. Each proposal has a 
+				%b share 
+				link.
+		%p
+			%b VOTE 
+			– Starting April 1, you will have $100 to allocate to your favorite project ideas.  The maximum allocation to one idea is $40.  Please utilize your full allocation. Your vote will help determine the winners of the 4 grants.  Winners will be announced Tuesday, May 1st after the live presentations of each project team.
+			
+		%p 
+			%b Join us 
+			live Tuesday, May 1st 2-5pm for the project presentations, food, fun and final vote.  Winners of the grants and the $100 participation gift certificate will be announced. 
+		
+	- if @member.id == 0 || @member.first_name.nil?
 		%h3 We need to know what you think!	
 	- else
 		%h3 #{@member.first_name}, we need to know what you think!	
 
-	%p
+	-#%p
 		You can also watch our
 		= link_to 'intro video', {},:rel=>'prettyPhoto', :href=>'http://vimeo.com/29348381', :title=>'2029 CivicEvolution Intro'
 		or visit our
