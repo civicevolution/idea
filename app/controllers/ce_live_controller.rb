@@ -59,6 +59,16 @@ class CeLiveController < ApplicationController
     
     render :template => 'ce_live/table', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
   end
+
+  def prioritize   
+    # make sure this is in their roles
+    return not_authorized unless @live_node.role == 'scribe'
+    @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"]
+    session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"
+    authorize_juggernaut_channels(request.session_options[:id], @channels )
+    
+    render :template => 'ce_live/prioritize', :layout => 'ce_live', :locals=>{ :title=>'Prioritization page for CivicEvolution Live', :role=>'Scribe'}
+  end
     
   def ltp_to_jug
     ltp = LiveTalkingPoint.find(params[:id])

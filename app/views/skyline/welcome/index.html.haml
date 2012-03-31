@@ -30,6 +30,10 @@
 				padding-right: 20px
 				li
 					margin-bottom: 8px
+			p.vote
+				text-align: center
+				font-weight: bold
+				font-size: 1.4em
 	
 	%div.home_page
 		%div.left_side
@@ -78,6 +82,9 @@
 						%p
 							%b VOTE 
 							– Starting April 1, you will have $100 to allocate to your favorite project ideas.  The maximum allocation to one idea is $40.  Please utilize your full allocation. Your vote will help determine the winners of the 4 grants.  Winners will be announced Tuesday, May 1st after the live presentations of each project team.
+							
+							%p.vote
+								= link_to "Vote now!", proposal_vote_path, {:remote=>true}
 
 						%p
 							Click the link that says

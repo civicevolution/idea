@@ -6,6 +6,9 @@ G3::Application.routes.draw do |map|
   match 'plan/get_templates' => 'plan#get_templates'
   match 'plan/checklist' => 'plan#checklist', :as=> 'checklist'
   
+  get 'proposal_vote' => 'proposal#vote', :as => 'proposal_vote'
+  post 'proposal_vote' => 'proposal#vote_save', :as => 'proposal_vote'
+  
   match 'jug' => 'chat#jug'
 
   get 'live/home' => 'ce_live#live_home', :as => 'live_home'

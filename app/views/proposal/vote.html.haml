@@ -1,0 +1,71 @@
+%div#proposal_vote
+	%style
+		:sass
+			div#proposal_vote
+				
+				div.instr
+					font-style: italic
+					margin-bottom: 20px
+				p.allocation_summary
+					font-weight: bold
+					font-size: 1.2em
+					span
+						margin: 0 40px 0 20px
+					
+					
+				table
+					td.title
+						padding: 8px 20px 0 8px
+					span.dollar
+						font-weight: bold
+						font-size: 1.2em
+					input[type="text"]
+						width: 30px
+						margin: 8px 8px 8px 0
+					td.points
+						white-space: nowrap
+					tr.stripe
+						background-color: #eee
+					input[type="submit"]
+						margin: 10px 0
+						font-size: 1.2em
+						font-weight: bold
+					p.vote_warn
+						color: red
+						font-weight: bold
+						text-align: right
+					
+			
+			
+	%div.intro
+		%h3.vote_title 
+			-#Vote for your favorite proposals for 
+			= params[:_app_name]
+
+		%div.instr
+			Show your support for these proposals by allocating your $100 to your favorite proposals.
+			You cannot allocate more than $40 to any single proposal
+		
+		%p.allocation_summary
+			Available:
+			%span.avl
+				100
+			Allocated:
+			%span.alloc
+				0
+		
+		= form_tag proposal_vote_path, :remote=>true do
+			- tab_index = 1
+			%table.teams_vote	
+				- @init_teams.each do |team|
+					%tr{:class=>cycle('','stripe')}
+						%td.title
+							= team.title
+						%td.points
+							%span.dollar $
+							= text_field_tag "vote_#{team.id}", 0, :tab_index=> tab_index
+					- tab_index += 1
+						
+				%tr
+					%td
+						= submit_tag 'Save my votes', :name => 'proposal_votes', :tab_index => tab_index, :disable_with => 'Saving...'
