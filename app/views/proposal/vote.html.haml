@@ -57,7 +57,7 @@
 		= form_tag proposal_vote_path, :remote=>true do
 			- tab_index = 1
 			%table.teams_vote	
-				- @init_teams.each do |team|
+				- @init_teams.sort{|a,b| a.id <=> b.id}.each do |team|
 					%tr{:class=>cycle('','stripe')}
 						%td.title
 							= team.title

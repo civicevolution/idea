@@ -1,0 +1,8 @@
+%div#vote_saved
+	- if status == 'failed'
+		%p We had a problem saving your vote. We have been notified and will look into this very soon. 
+		%p We apologize for this inconvenience and we will contact you via email if appropriate
+
+	- else
+		%div#submit_proposal_acknowledge
+			%p Thank you, your vote has been saved
