@@ -322,7 +322,7 @@ class ApplicationController < ActionController::Base
     if session[:member_id].nil? && !session[:code].nil?
       # this is an action by a user with a preliminary email account
       # for selected actions, store the params with the email
-      email_account_actions = [ 'rate_talking_point', 'prefer_talking_point','what_do_you_think',
+      email_account_actions = [ 'rate_talking_point', 'prefer_talking_point','vote_save', 'add_talking_point',
           'create_comment_comment','create_talking_point_comment','add_endorsement','update_worksheet_ratings','submit_proposal_idea']
       if email_account_actions.include?( params[:action])
         PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => params

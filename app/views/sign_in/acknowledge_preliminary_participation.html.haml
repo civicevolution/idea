@@ -1,7 +1,16 @@
-- item = 'comment'
-- case params[:action] when /rate/ then item = 'rating'; when /prefer/ then  item = 'preference' end
-- item = 'talking point' if params[:input_type] == "talking_point"
-
+- case
+	- when params[:action].match(/rate/)
+		- item = 'rating'
+	- when params[:action].match(/prefer/)
+		- item = 'preference'
+	- when params[:action] == 'create_talking_point_comment'
+		- item = 'comment'
+	- when params[:action] == 'add_talking_point'
+		- item = 'talking point'
+	- when params[:action].match(/add_endorsement/)	
+		- item = 'endorsement'
+	- when params[:action] == "vote_save"
+		- item = 'vote'
 
 %div#acknowledge_preliminary_participation
 	%h3 Your #{item} has been recorded 
