@@ -17,7 +17,9 @@
 			console.log("the sum is " + sum);
 			if(sum>100){
 				var reset_val = val - (sum - 100);
-				$(this).val( reset_val >= 0 ? reset_val : 0 );
+				reset_val = reset_val >= 0 ? reset_val : 0;
+				reset_val = reset_val <= 40 ? reset_val : 40;
+				$(this).val( reset_val );
 				show_vote_sum();
 				var warn = $('<tr><td colspan="2"><p class="vote_warn">You cannot enter more than $100</p></td></tr>').insertAfter( $(this).closest('tr'));
 				warn.fadeTo(3000,0,

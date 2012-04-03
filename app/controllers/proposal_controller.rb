@@ -24,7 +24,7 @@ class ProposalController < ApplicationController
         end
       end
       
-      saved = ProposalVote.save_votes(params[:_initiative_id], @member.id, votes)
+      saved, err_msgs = ProposalVote.save_votes(params[:_initiative_id], @member.id, votes)
     rescue
       saved = false
     end
@@ -38,7 +38,7 @@ class ProposalController < ApplicationController
     else
       respond_to do |format|
         #format.html { render :summary, :layout => 'plan' }
-        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'failed'} }
+        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'failed', :err_msgs => err_msgs} }
       end
       
     end

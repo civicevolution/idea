@@ -11,8 +11,8 @@
 - else
 	:plain
 		var ack = $("#{escape_javascript(
-			render( :template => 'proposal/vote_saved.html', :locals=>{:status => 'failed'} )
+			render( :template => 'proposal/vote_saved.html', :locals=>{:status => 'failed', :err_msgs=>err_msgs} )
 		)}");
 
-		var dialog = ack.dialog( {title : 'Thank you', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+		var dialog = ack.dialog( {title : 'Warning', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
 	

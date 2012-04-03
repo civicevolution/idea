@@ -8,7 +8,11 @@
 	:plain 
 		There were #{pluralize(@errors.count, "error")}
 		
-	- @errors.full_messages.each do |msg|
+	- if @errors.respond_to? 'full_messages'
+		- @errors.full_messages.each do |msg|	# show errors for AR models
+			= msg
+		
+	- @errors[:full_messages].each do |msg| # show errors for non AR like vote_save
 		= msg
 
 :plain 	
