@@ -55,13 +55,14 @@
 			);
 		}.bind(worksheet),200
 	);
-		
-	$('div.talking_point_matrix').sortable({
-		stop: function(event,ui){
-			update_selected_tp_ids($(this));
-		}
-	});
 
+	if(#{@select_tps_allowed}){
+		$('div.talking_point_matrix').sortable({
+			stop: function(event,ui){
+				update_selected_tp_ids($(this));
+			}
+		});
+	}
 
 	function update_selected_tp_ids($matrix){
 		temp.matrix= $matrix;
@@ -92,22 +93,24 @@
 		$matrix.sortable('refresh');
 		//tp_delete_hover( question_id );
 	}
-	
-	$('div.visibility').die('click').live('click',
-		function(){
-			var post_it = $(this).closest('div.talking_point_post_it');
-			var $matrix = post_it.closest('div.talking_point_matrix');
-			if($matrix.size()==0){
+
+	if(#{@select_tps_allowed}){
+		$('div.visibility').die('click').live('click',
+			function(){
+				var post_it = $(this).closest('div.talking_point_post_it');
+				var $matrix = post_it.closest('div.talking_point_matrix');
+				if($matrix.size()==0){
 			
 			
-			}else{
-				if(post_it.hasClass('selected')){
-					post_it.removeClass('selected');
-					update_selected_tp_ids($matrix);
 				}else{
-					post_it.addClass('selected');
-					update_selected_tp_ids($matrix);
+					if(post_it.hasClass('selected')){
+						post_it.removeClass('selected');
+						update_selected_tp_ids($matrix);
+					}else{
+						post_it.addClass('selected');
+						update_selected_tp_ids($matrix);
+					}
 				}
 			}
-		}
-	);
+		);
+	}

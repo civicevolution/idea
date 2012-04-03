@@ -15,7 +15,8 @@
 	
 		var dialog = form.dialog( {title : 'You have temporary access to this site', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
 		
-		$('div#sign_in_form').prepend("<p class='error'>You have temporary access as #{params[:email_join]}</p>")
+		//$('div#sign_in_form').prepend("<p class='error'>You have temporary access as #{params[:email_join]}</p>");
+		$('div#sign_in_form').html("<p class='error'>You have temporary access as #{params[:email_join]}</p>");
 		
 - else
 	:plain

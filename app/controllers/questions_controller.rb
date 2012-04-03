@@ -210,13 +210,13 @@ class QuestionsController < ApplicationController
   
   def worksheet
     logger.debug "Question#worksheet"
-
+    
     @question ||= Question.find_by_id(params[:question_id])
     if @question.nil?
       render :template => 'team/proposal_not_found', :layout=> 'plan'
       return
     end    
-    
+
     @team = @question.team
     
     allowed,message = InitiativeRestriction.allow_actionX(@team.initiative_id, 'view_idea_page', @member)
@@ -231,6 +231,9 @@ class QuestionsController < ApplicationController
       end
       return
     end
+    
+    @edit_tps_allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => @question.id}, 'edit_talking_point', @member)
+    @select_tps_allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => @question.id}, 'curate_talking_points', @member)
     
     @question.member = @member
     

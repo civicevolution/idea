@@ -1619,7 +1619,7 @@ div.talking_point_post_it {
         font-size: 10px;
         top: 4px; }
 
-div.talking_point_post_it.mouseover div.edit {
+div.talking_point_post_it.mouseover div.edit.img {
   cursor: pointer;
   background: url(/images/pencil_edit.gif) no-repeat 0 0; }
 

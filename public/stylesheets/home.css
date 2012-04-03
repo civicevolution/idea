@@ -125,6 +125,10 @@ body, p, ol, ul, td, textarea {
   -moz-border-radius: 10px;
   border-radius: 10px; }
 
+.warn {
+  color: red;
+  font-weight: bold; }
+
 div.ui-dialog {
   font-size: 0.8em; }
 
