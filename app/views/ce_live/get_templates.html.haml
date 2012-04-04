@@ -42,6 +42,7 @@
 			templates['live_talking_point'] = $('<div></div>').html($.trim( $('script#live_talking_point_template').html() )).find('div:first');
 			template_functions['live_talking_point'] = templates['live_talking_point'].compile(
 				{
+					'@idea_id' : 'data.live_talking_point.id',
 					'p.text' : 'data.live_talking_point.text',
 					'span.table' : '\#{data.live_talking_point.group_id}-\#{data.live_talking_point.id_letter}',
 					//'span.idea_letter' : 'data.live_talking_point.id_letter',
@@ -69,7 +70,7 @@
 					//$('div#live_talking_points div.inner').append(live_talking_point).scrollTop(99999999);
 					live_talking_point = $(live_talking_point);
 					if(data.data.live_talking_point.pos_votes<3){
-						live_talking_point.append('<p class="minority">[Minority perspective]</p>');
+						live_talking_point.find('p.text').append('<span class="minority">M</span>');
 					}
 					$('div#live_talking_points div.inner').append(live_talking_point);//.scrollTop(99999999);
 					

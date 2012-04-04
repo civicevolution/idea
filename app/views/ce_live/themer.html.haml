@@ -1,8 +1,9 @@
 - content_for(:script) do
-	
-
 	%style
 		:sass
+			.dragged_idea
+				background-color: blue
+				max-width: 240px
 			div.page
 				div#left
 					width: 400px
@@ -31,15 +32,15 @@
 				border: 1px solid #aaa
 			
 			div.live_talking_point
-				width: 240px
+				width: 660px
 				background-color: #FBE574
 				padding: 8px 10px
-				margin: 0 20px 20px 0
+				margin: 0 0px 10px 0
 				float: left
 				position: relative
 				p.text
 					font-size: .9em
-					margin-bottom: 0
+					margin: 0
 				img.info
 					position: absolute
 					right: 6px
@@ -49,9 +50,6 @@
 					display: none
 					padding: 0 10px 0 0
 					font-weight: bold
-				p.minority
-					margin: 0
-					color: #888
 			
 			div.workspace
 				position: relative
@@ -60,7 +58,7 @@
 					position: absolute
 					top: 0
 					left: 0
-					width: 290px
+					width: 700px
 					background-color: white
 					z-index: 10
 					div#live_talking_points
@@ -84,7 +82,7 @@
 				div.lists
 					position: absolute
 					top: 0
-					left: 320px
+					left: 700px
 					background-color: white
 					p.stats
 						margin: 0
@@ -110,7 +108,14 @@
 				position: absolute
 				z-index: 2
 				background-color: white
-					
+			
+			div.idea_list.misc_list
+				div.idea
+					display: none
+			div.idea_list.misc_list.expanded
+				div.idea
+					display: block
+						
 			div.idea_list
 				float: left
 				overflow: hidden
@@ -135,8 +140,9 @@
 					textarea
 						width: 95%
 				p.instr
-					font-size: 1.2em
+					font-size: 1.12em
 					color: #AAA
+					margin: 6px
 				div.ideas
 					border: 1px solid #bbb
 					padding: 0 6px 10px 0px
@@ -146,7 +152,7 @@
 						overflow: hidden	
 						position: relative
 						p.text
-							margin: 0
+							margin: 0 10px 0 0
 							padding: 0 10px 0 20px
 							line-height: 1em
 						p.stats
@@ -201,8 +207,13 @@
 				padding: 10px
 				margin-bottom: -10px
 				background-color: #F3973A
+			span.minority
+				color: red
 			
-			
+	:javascript
+		//console.log("run jscript")
+		//setTimeout( "$('div.test_mode :submit').click()",2000);
+		
 %div#themer
 	:javascript
 		var pub_sub_channels = #{@channels}
@@ -238,8 +249,8 @@
 
 
 			%div#lists
-				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New list', :class_name=>'new_list', :instr=>'Drop an idea here to start a new list', :edit => true}
-				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'Miscellaneous ideas', :class_name=>'misc_list', :instr=>%q|Drop an idea here that doesn't fit anywhere else|}
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New theme', :class_name=>'new_list', :instr=>'Drop an idea here to start a new theme', :edit => true}
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>"Don't fit in", :class_name=>'misc_list', :instr=>%q|Drop an idea here that doesn't fit anywhere else|}
 
 	= link_to 'Test',nil,:class=>'test_mode'
 	%div.test_mode
@@ -251,10 +262,10 @@
 					%td= text_field_tag :live_session_id,22
 				%tr
 					%td Group range
-					%td= text_field_tag :group_range, '1..8'
+					%td= text_field_tag :group_range, '1..22'
 				%tr
 					%td Delay range
-					%td= text_field_tag :delay_range, '1..5'
+					%td= text_field_tag :delay_range, '1..2'
 				%tr
 					%td Channel
 					%td= text_field_tag :theme_channel
