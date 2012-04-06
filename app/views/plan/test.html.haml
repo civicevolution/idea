@@ -1,37 +1,195 @@
-%div.piechart
+%h3 Test
+%div.lists
+	%div.list_column
+		%div.list My div list
+		%div.list My div list
+		%div.list My div list
+		%div.list My div list
+		%div.list My div list
+		%div.list My div list
+		%div.list My div list
+		%div.list My div list
+		%div.list My div list
+
+	
+
+%div#test
 	%style
 		:sass
-			div#chart_div
+			div.lists
 				border: 1px solid green
+				padding-bottom: 20px
+				height: 700px
+				overflow: scroll
+				div.list
+					border: 1px solid black
+					margin: 20px 0 0 20px
+					height: 200px
+					width: 300px
+			.list_column
+				float: left
+				width: 340px
 				
-	= javascript_include_tag "https://www.google.com/jsapi"
+	= javascript_include_tag 'jquery.js', 'jquery-ui.js'
 	:javascript
-		google.load("visualization", "1", {packages:["corechart"]});
-		google.setOnLoadCallback(drawChart);
-		function drawChart() {
-			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'Task');
-			data.addColumn('number', 'Hours per Day');
-			data.addRows(7);
-			data.setValue(0, 0, 'Work');
-			data.setValue(0, 1, 11);
-			data.setValue(1, 0, 'Eat');
-			data.setValue(1, 1, 2);
-			data.setValue(2, 0, 'Commute');
-			data.setValue(2, 1, 2);
-			data.setValue(3, 0, 'Watch TV');
-			data.setValue(3, 1, 2);
-			data.setValue(4, 0, 'Sleep');
-			data.setValue(4, 1, 7);
-			data.setValue(5, 0, 'Dreaming');
-			data.setValue(5, 1, .2);
-			data.setValue(6, 0, 'laughing');
-			data.setValue(6, 1, .7);
+		//console
+		
+		jQuery(function() {
+			cnt = 1;
+			$('div.list').each(
+				function(){
+					$(this).height( 60 + Math.random() * 200);
+					$(this).html('List #' + cnt++)
+				}
+			);
+			make_lists_sortable();
+		});
 
-			var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-			chart.draw(data, {width: 240, height: 300, title: 'Relative participation'});
+		function make_lists_sortable(){
+			$('div.list_column').sortable({
+				connectWith: ".list_column",
+				change: function(){ setTimeout(adjust_columns, 1000);},
+			});
 		}
 
-%h3 My pie chart
-%div#chart_div
-
+		var adjust_in_process = false;
+		function adjust_columns(){
+			if(adjust_in_process){
+				setTimeout(adjust_columns, 1000);
+			}
+			adjust_in_process = true;
+			
+			// record the list heights			
+			var list_heights = [];
+			var total_height = 0;
+			$('div.list').each(
+				function(){
+					var height = $(this).outerHeight(true);
+					total_height += height;
+					list_heights.push( height );
+				}
+			);
+			console.log("list_heights: " + list_heights.join(', ') );
+			
+			// determine how many columns I can fit
+			var col_width = $('div.list_column').outerWidth(true);
+			var avl_width = $('div.lists').width();
+			var num_allowed_columns = Math.floor( avl_width / col_width);
+			console.log("num_allowed_columns: " + num_allowed_columns);
+			
+			// get the height of the lists container 
+			var avl_height = $('div.lists').height();
+			console.log("avl_height: " + avl_height);
+			
+			// remove the lists from the columns
+			var lists = $('div.list').remove();
+			// remove the columns
+			$('div.list_column').remove();
+			
+			// determine how many columns I will use - and do the columns need to scroll?
+			// basically try each scenario until I find one that works
+			var lists_per_col = [0];
+			var fit_achieved = false;
+			
+			// Will it fit in one column?
+			if(total_height <= avl_height){
+				console.log("fit the items into a single column");
+				lists_per_col = [ lists.size() ];
+				fit_achieved = true;
+			}
+			
+			if(!fit_achieved){
+				console.log("Can I fit the lists into the avl height and # cols?");
+				// add up lists till that fit within one column
+				// then the next
+				var lists_per_col = [0];
+				var col_ptr = 0;
+				var col_height = 0;
+				$.each( list_heights,
+					function(){
+						var list_height = this;
+						//console.log("height is " + list_height)
+						if(col_height + list_height <= avl_height){
+							++lists_per_col[col_ptr];
+							col_height += list_height;
+						}else{
+							lists_per_col.push(0);
+							++col_ptr;
+							++lists_per_col[col_ptr];
+							col_height = list_height;
+						}
+					}
+				);
+				// list_per_col is an array that show how many lists are in each column to fit within the page
+				// can the page support this many cols?
+				if( num_allowed_columns >= lists_per_col.length){
+					console.log("I can fit the lists into " + lists_per_col.length + " columns");
+					fit_achieved = true;
+				}
+			}
+			
+			if(!fit_achieved){
+				// I cannot fit all of the lists into columns in the available view port
+				// I will use the allowed # of columns and make the user will have to scroll to see them all
+				// What is the optimum height for the scrolling viewport so the columns are approximately the same height?
+				// play with the heights until I get the lists_per_col and then 
+				console.log("Determine the optimum length for the columns to show the lists in " + num_allowed_columns + " columns" );
+				
+				var target_margin = .15;
+				
+				while(true){
+					var target_height = total_height / num_allowed_columns * ( 1 + target_margin);
+					console.log("target_height: " + target_height + " target_margin: " + target_margin + " total_height: " + total_height + " num_allowed_columns: " + num_allowed_columns);
+				
+					// layout the list heights under the target_height and then determine the maximum difference
+					var lists_per_col = [0];
+					var heights_per_col = [];
+					var col_ptr = 0;
+					var col_height = 0;
+					$.each( list_heights,
+						function(){
+							var list_height = this;
+							//console.log("height is " + list_height)
+							if(col_height + list_height <= target_height){
+								++lists_per_col[col_ptr];
+								col_height += list_height;
+								//heights_per_col[col_ptr] = col_height;
+							}else{
+								lists_per_col.push(0);
+								++col_ptr;
+								++lists_per_col[col_ptr];
+								col_height = list_height;
+								//heights_per_col[col_ptr] = col_height;
+							}
+						}
+					);
+					// make sure this target height allows all lists to fit in columns
+					if( num_allowed_columns >= lists_per_col.length){
+						fit_achieved = true;
+						break;
+					}else{
+						target_margin += .1;
+					}
+				}
+				
+			}
+			
+			if(fit_achieved){
+				// assign the list to their respective columns
+				lists = lists.toArray();
+				for(var i=0, col; num_lists = lists_per_col[i];){
+					console.log("put " + num_lists + " in column " + i);
+					var col = $('<div class="list_column"></div>').appendTo('div.lists');
+					for(var l=0; l < num_lists; l++){
+						var list = lists.shift();
+						$(list).append(' - moved into column');
+						col.append(list);
+					}
+					++i;
+				}
+				make_lists_sortable();
+			}else{
+				console.log("No satisfactory fit was achieved");
+			}
+			adjust_in_process = false;
+		}

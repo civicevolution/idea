@@ -1,4 +1,4 @@
-console.log("Loading app_ce_live.js")
+//console.log("Loading app_ce_live_themer.js")
 function live_resize(){
 	// get overall avl height
 
@@ -17,6 +17,7 @@ function live_resize(){
 	  
   	var lists = $('div.lists');
   	lists.height(ws.height() - 4);
+  	//lists.height(ws.height() - 214);
   	var h3_height = lists.find('h3').outerHeight(true);
   	var lists_ws = $('div#lists');
 	  lists_ws.height(lists.height() - h3_height - 10);
@@ -24,8 +25,8 @@ function live_resize(){
 	  //ltp.find('div.inner').height( ltp.height() - 4 - inner_padding);
 	  
 	  lists.width( ws.width() - lists.position().left - 10 )
-	  //console.log("call adjust_lists from live_resize")
-	  adjust_lists();
+	  //console.log("call adjust_columns from live_resize")
+	  adjust_columns();
 	}
 }
 
@@ -45,7 +46,7 @@ function fix_list_overflow(list){
 		  var line_height = parseInt(list.find('p.text:first').css('line-height'));
 		}catch(e){var line_height = 16;}
 		var allotted_height = 4 * line_height;
-		var all_ideas = $('div.idea_list').find('div.idea');
+		var all_ideas = list.find('div.idea');
 		var vis_ideas = all_ideas.filter(':lt(3)')
 		vis_ideas.each(
 		  function(){
@@ -60,6 +61,8 @@ function fix_list_overflow(list){
 }
 
 function expand_idea_list(list){
+  return; 
+  
   //console.log("expand_idea_list for " + list.find('p.theme').html() )
   if( $('div.idea_list.expanded').size() > 0)return;
   if(list.hasClass('misc_list') && dragging_new_idea ) return;
@@ -84,15 +87,16 @@ function expand_idea_list(list){
 
 no_collapse = false;
 function collapse_idea_list(list){
+  return;
   if(no_collapse) return;
   //console.log("collapse_idea_list for " + list.find('p.theme').html() )
   $('div.idea_list_placeholder').remove();
   list.removeClass('expanded');  
   //console.log("collapse_idea_list set height to list_height: " + idea_list_height);
-  list.height(idea_list_height);
+  //list.height(idea_list_height);
   fix_list_overflow(list);
-  //console.log("call adjust_lists from collapse_idea_list")
-  //setTimeout(adjust_lists,400);
+  //console.log("call adjust_columns from collapse_idea_list")
+  //setTimeout(adjust_columns,400);
   if(list.hasClass('misc_list')){
     list.find('p.instr').show();
     list.find('div.idea').hide();
@@ -101,35 +105,37 @@ function collapse_idea_list(list){
 
 // make the lists fit in the display
 var idea_list_height = 0;
-function adjust_lists(){
-  var lists_div = $('div#lists');
-  lists_div.find('div.idea_list.expanded').removeClass('expanded');
-  var idea_lists = lists_div.find('div.idea_list').not('div.idea_list.expanded');
-  // how many lists in a row?
-  var cur_top = 0;
-  var col_ctr = 0;
-  idea_lists.each( 
-    function(){
-      var top = $(this).offset().top;
-      if(cur_top == 0) cur_top = top;
-      if(cur_top == top){
-        ++col_ctr
-      }else{
-        return;
-      }
-    }
-  );
-  var num_rows = Math.ceil(idea_lists.size() / col_ctr);
-  var row_height = lists_div.height() / num_rows;
-  idea_list_height = row_height - 40;
-  idea_lists.height(idea_list_height);
-  //console.log("adjust_lists to set height to idea_list_height: " + idea_list_height);
-  idea_lists.each( 
-    function(){
-      setTimeout( function(){ fix_list_overflow( this )}.bind($(this)), 100);
-    }
-  );
-}
+//function adjust_lists(){
+//  return
+//  var lists_div = $('div#lists');
+//  lists_div.find('div.idea_list.expanded').removeClass('expanded');
+//  var idea_lists = lists_div.find('div.idea_list').not('div.idea_list.expanded');
+//  // how many lists in a row?
+//  var cur_top = 0;
+//  var col_ctr = 0;
+//  idea_lists.each( 
+//    function(){
+//      var top = $(this).offset().top;
+//      if(cur_top == 0) cur_top = top;
+//      if(cur_top == top){
+//        ++col_ctr
+//      }else{
+//        return;
+//      }
+//    }
+//  );
+//  var num_rows = Math.ceil(idea_lists.size() / col_ctr);
+//  var row_height = lists_div.height() / num_rows;
+//  idea_list_height = row_height - 40;
+//  idea_list_height = 220;
+//  idea_lists.not('div.idea_list.misc_list').height(idea_list_height);
+//  console.log("adjust_lists to set height to idea_list_height: " + idea_list_height);
+//  idea_lists.each( 
+//    function(){
+//      setTimeout( function(){ fix_list_overflow( this )}.bind($(this)), 100);
+//    }
+//  );
+//}
 
 $('span.role').before( $('a.test_mode') );
 $('div.test_mode :submit').live('click',
@@ -154,55 +160,7 @@ $('a.test_mode').live('click',
 	}
 )
 
-
-// Sort the order of the lists on the display
-$('div#lists').sortable(
-	{
-		start: function(event,ui){
-		  //console.log("LISTS WINDOW  start")
-		},
-		stop: function(event,ui){
-			//console.log("LISTS WINDOW div#lists sortable stop")
-			//if( !ui.item[0].nodeName.match(/li/i) ){
-			//	var li = $('<li class="talking_point" id="' + ui.item.attr('tp_id') + '">' + ui.item.html() + 
-			//		'<img src="/images/delete_icon_16.gif" title="Click to delete"></li>')
-			//	ui.item.replaceWith(li);
-			//	if( li.parent().find('li[id="' + li.attr('id') + '"]').size() > 1 ){
-			//		li.html('<h3>Duplicate!</h3>');
-			//		li.fadeOut(1400,function(){$(this).remove()})
-			//	}
-			//}else{
-			//	var li = ui.item;
-			//}
-			//li.parent().find('li.talking_point[id="0"]').remove();
-			//update_curated_tp_ids( $(this) );
-		},
-		receive: function(){
-		  //console.log("LISTS WINDOW div.lists receive")
-		},
-		delay: 50,
-		cursor: 'pointer'
-		//,
-		//placeholder: 'curated_list_placeholder'
-	}
-);
-
 var idea_list_ctr = 1;
-function int_to_letters(val){
-  var str = '';
-  var val_floor = Math.floor(val/26);
-  var mod = ind = val%26;
-  if(mod == 0){
-    --val_floor;
-    mod = 26;
-  }
-  if(val_floor>0){
-    str += String.fromCharCode('A'.charCodeAt() + val_floor - 1);
-  }
-  
-  str += String.fromCharCode('A'.charCodeAt() + mod - 1);
-  return str;
-}
 
 function copy_idea_back_to_source(){
   if(confirm('Do you want to copy this idea, or move it?')){
@@ -240,6 +198,7 @@ $('div.move_or_copy_idea button').die('click').live('click',
 
 // Sort the ideas within a list
 function make_idea_lists_sortable($idea_lists){
+  console.log("make_idea_lists_sortable for " + $idea_lists.size() )
   $idea_lists.sortable(
   	{
   		start: function(event,ui){
@@ -264,7 +223,7 @@ function make_idea_lists_sortable($idea_lists){
   		stop: function(event,ui){
   		  var idea_list = $(this).closest('div.idea_list');
   		  var theme = idea_list.find('p.theme').html();
-  		  console.log("1 LIST idea_list sortable stop " + theme);
+  		  //console.log("1 LIST idea_list sortable stop " + theme);
   		  if(ui.item.hasClass('live_talking_point')){
     		  ui.item.removeClass('live_talking_point ui-draggable');
           ui.item.addClass('idea');
@@ -302,32 +261,11 @@ function make_idea_lists_sortable($idea_lists){
   		    ui.item.hide(1000,
   		      function(){
   		        $(this).remove();
-  		        $('div.incoming_ideas p.stats span.cnt').html( $('div#live_talking_points div.live_talking_point').size() );
+  		        //$('div.incoming_ideas p.stats span.cnt').html( $('div#live_talking_points div.live_talking_point').size() );
   		      }
   		    ); // remove original item
   		  }
   		  var par_list = $(this).closest('div.idea_list');
-  		  if(par_list.hasClass('new_list')){
-  		    //console.log("clone new_list and remove instr here");
-  		    var new_list = par_list.clone();
-  		    new_list.find('div.live_talking_point, div.idea').remove();
-		      par_list.find('p.instr').hide(1000,function(){$(this).remove()});
-  		    par_list.removeClass('new_list');
-  		    new_list.hide();
-  		    par_list.after(new_list);
-		      //console.log("call adjust_lists from make_idea_lists_sortable.receive")
-  		    new_list.show(1000, function(){adjust_lists();});
-  		    make_idea_lists_sortable( $('.sortable_ideas') );
-  		    par_list.find('p.theme').html('Theme ' + idea_list_ctr++ );
-  		    setTimeout( function(){ fix_list_overflow( this )}.bind(par_list), 100);
-  		  }else if(par_list.hasClass('misc_list')){
-  		    //par_list.find('p.instr').hide(1000,function(){$(this).remove()});
-  		    par_list.find('p.instr').hide();
-  		    // reset the count in the title
-  		    var cnt = par_list.find('div.idea').size();
-  		    par_list.find('p.theme').html("Don't fit in (" + ++cnt + ")");
-  		    setTimeout( function(){ fix_list_overflow( this )}.bind(par_list), 100);
-  	    }
   	    if( !ui.item.hasClass('live_talking_point')){
           // if there is only one copy of this idea currently
           // don't show the move/copy question if the source and dest list are the same
@@ -339,14 +277,99 @@ function make_idea_lists_sortable($idea_lists){
           }
         }
   		},
+  		//change: function(){ setTimeout(adjust_columns, 1000);},
   		delay: 50,
   		cursor: 'pointer',
+  		tolerance: 'pointer',
   		connectWith: '.sortable_ideas',
   		placeholder: 'curated_list_placeholder'
   	}
   );
 }
 make_idea_lists_sortable( $('.sortable_ideas') );
+
+$( "#new_theme, #misc" ).droppable({
+	hoverClass: "drop_hover",
+	activeClass: 'drop_active',
+	tolerance: 'pointer',
+	accept: '.live_talking_point',
+	drop: function( event, ui ) {
+		var drop_tgt = $(this);
+	  if(drop_tgt.attr('id') == 'new_theme'){
+	    console.log("create new_list");
+	    var new_list = $('div.idea_list.new_list').clone();
+	    new_list.find('div.live_talking_point, div.idea').remove();
+	    new_list.removeClass('new_list');
+	    new_list.hide();
+	    ui.helper.remove();
+	    var new_idea = ui.draggable;
+	    if(new_idea.hasClass('live_talking_point')){
+  		  new_idea.removeClass('live_talking_point ui-draggable');
+        new_idea.addClass('idea');
+      }
+		  
+	    new_list.find('div.ideas').append(new_idea);
+	    $('div#lists div.list_column:last').append(new_list);
+	    //par_list.after(new_list);
+      ////console.log("call adjust_columns from make_idea_lists_sortable.receive")
+	    new_list.show(1000, function(){adjust_columns();});
+      // remove the orig idea from new list
+      //$('div#live_talking_points div.idea[idea_id="' + new_idea.attr('idea_id') + '"]').hide(1000,function(){$(this).remove()});
+	    make_idea_lists_sortable( $('.sortable_ideas') );
+	    new_list.find('p.theme').html('Theme ' + idea_list_ctr++ );
+	    setTimeout( function(){ fix_list_overflow( this )}.bind(new_list), 100);
+	  }else if( drop_tgt.attr('id') == 'misc' ){
+	    console.log("add talking point to the misc set");
+	    var par_list = $('div.idea_list.misc_list');
+	    var new_idea = ui.draggable;
+	    if(new_idea.hasClass('live_talking_point')){
+  		  new_idea.removeClass('live_talking_point ui-draggable');
+        new_idea.addClass('idea');
+      }
+	    par_list.find('div.ideas').append(new_idea);
+	    ui.helper.remove();
+	    // reset the count in the title
+	    var cnt = par_list.find('div.idea').size();
+	    par_list.find('p.theme').html("Don't fit in (" + cnt + ")");
+	    drop_tgt.html("Don't fit in (" + cnt + ")");
+    }
+		
+	}
+});
+
+var hide_misc_list_timeout;
+$( "#misc" ).live('mouseenter mouseleave', function(event) {
+	var list = $('div.idea_list.misc_list');
+  if (event.type == 'mouseenter') {
+    if(dragging_new_idea)return;
+    expand_idea_list(list);
+    list.show();
+  } else {
+    hide_misc_list_timeout = setTimeout(
+      function(){
+        list.hide();
+        collapse_idea_list(list);
+      }
+    ,500);
+  }
+});
+
+$( "div.misc_list" ).live('mouseenter mouseleave', function(event) {
+	var list = $('div.idea_list.misc_list');
+  if(event.type == 'mouseenter'){
+    clearInterval(hide_misc_list_timeout);
+  }else{
+    hide_misc_list_timeout = setTimeout(
+      function(){
+        list.hide();
+        collapse_idea_list(list);
+      }
+    ,500);
+  }
+});
+
+//clearInterval(hide_misc_list_timeout);
+
 
 $('a.remove_list').live('click',
   function(){
@@ -382,7 +405,7 @@ function make_new_ideas_draggable($ideas){
 		  //console.log("New Ideas stop");
 		  dragging_new_idea = false;
 		},
-		
+		tolerance: 'pointer',
 		connectToSortable: '.sortable_ideas',
 		helper: 'clone'
 	});
@@ -390,6 +413,7 @@ function make_new_ideas_draggable($ideas){
 
 $('div.idea_list div.ideas').live('mouseenter mouseleave', function(event) {
 	var list = $(this).closest('div.idea_list');
+	if(list.hasClass('misc_list')) return;
   if (event.type == 'mouseenter') {
     expand_idea_list(list);
   } else {
@@ -427,3 +451,162 @@ $('div.idea div.star').live('click',
   	}
   }
 );
+
+
+make_new_ideas_draggable( $('div.live_talking_point') );
+
+
+
+var adjust_in_process = false;
+function adjust_columns(){
+  return
+  if( $('div.list_column div.idea_list').size() == 0 ) return;
+	if(adjust_in_process){
+		setTimeout(adjust_columns, 1000);
+	}
+	adjust_in_process = true;
+	// record the list heights			
+	var list_heights = [];
+	var total_height = 0;
+	$('div.list_column div.idea_list').each(
+		function(){
+			var height = $(this).outerHeight(true);
+			total_height += height;
+			list_heights.push( height );
+		}
+	);
+	//console.log("list_heights: " + list_heights.join(', ') );
+	
+	// determine how many columns I can fit
+	var col_width = $('div.list_column').outerWidth(true);
+	var avl_width = $('div#lists').width();
+	var num_allowed_columns = Math.floor( avl_width / col_width);
+	//console.log("num_allowed_columns: " + num_allowed_columns);
+	
+	// get the height of the lists container 
+	var avl_height = $('div.lists').height();
+	//console.log("avl_height: " + avl_height);
+	
+	// remove the lists from the columns
+	var lists = $('div.list_column div.idea_list').remove();
+	// remove the columns
+	$('div.list_column').remove();
+	
+	// determine how many columns I will use - and do the columns need to scroll?
+	// basically try each scenario until I find one that works
+	var lists_per_col = [0];
+	var fit_achieved = false;
+	
+	// Will it fit in one column?
+	if(total_height <= avl_height){
+		//console.log("fit the items into a single column");
+		lists_per_col = [ lists.size() ];
+		fit_achieved = true;
+	}
+	
+	if(!fit_achieved){
+		//console.log("Can I fit the lists into the avl height and # cols?");
+		// add up lists till that fit within one column
+		// then the next
+		var lists_per_col = [0];
+		var col_ptr = 0;
+		var col_height = 0;
+		$.each( list_heights,
+			function(){
+				var list_height = this;
+				////console.log("height is " + list_height)
+				if(col_height + list_height <= avl_height){
+					++lists_per_col[col_ptr];
+					col_height += list_height;
+				}else{
+					lists_per_col.push(0);
+					++col_ptr;
+					++lists_per_col[col_ptr];
+					col_height = list_height;
+				}
+			}
+		);
+		// list_per_col is an array that show how many lists are in each column to fit within the page
+		// can the page support this many cols?
+		if( num_allowed_columns >= lists_per_col.length){
+			//console.log("I can fit the lists into " + lists_per_col.length + " columns");
+			fit_achieved = true;
+		}
+	}
+	
+	if(!fit_achieved){
+		// I cannot fit all of the lists into columns in the available view port
+		// I will use the allowed # of columns and make the user will have to scroll to see them all
+		// What is the optimum height for the scrolling viewport so the columns are approximately the same height?
+		// play with the heights until I get the lists_per_col and then 
+		//console.log("Determine the optimum length for the columns to show the lists in " + num_allowed_columns + " columns" );
+		
+		var target_margin = .15;
+		
+		while(true){
+			var target_height = total_height / num_allowed_columns * ( 1 + target_margin);
+			//console.log("target_height: " + target_height + " target_margin: " + target_margin + " total_height: " + total_height + " num_allowed_columns: " + num_allowed_columns);
+		
+			// layout the list heights under the target_height and then determine the maximum difference
+			var lists_per_col = [0];
+			var heights_per_col = [];
+			var col_ptr = 0;
+			var col_height = 0;
+			$.each( list_heights,
+				function(){
+					var list_height = this;
+					//console.log("height is " + list_height)
+					if(col_height + list_height <= target_height){
+						++lists_per_col[col_ptr];
+						col_height += list_height;
+						//heights_per_col[col_ptr] = col_height;
+					}else{
+						lists_per_col.push(0);
+						++col_ptr;
+						++lists_per_col[col_ptr];
+						col_height = list_height;
+						//heights_per_col[col_ptr] = col_height;
+					}
+				}
+			);
+			// make sure this target height allows all lists to fit in columns
+			if( num_allowed_columns >= lists_per_col.length){
+				fit_achieved = true;
+				break;
+			}else{
+				target_margin += .1;
+			}
+		}
+		
+	}
+	
+	if(fit_achieved){
+		//console.log("assign the list to their respective columns");
+		lists = lists.toArray();
+		for(var i=0, col; num_lists = lists_per_col[i];){
+			//console.log("put " + num_lists + " in column " + i);
+			var col = $('<div class="list_column"></div>').appendTo('div#lists');
+			for(var l=0; l < num_lists; l++){
+				var list = lists.shift();
+				//$(list).append(' - moved into column');
+				col.append(list);
+			}
+			++i;
+		}
+		make_lists_sortable();
+	}else{
+		//console.log("No satisfactory fit was achieved");
+	}
+	adjust_in_process = false;
+}
+
+function make_lists_sortable(){
+  return
+	$('div.list_column').sortable({
+		connectWith: ".list_column",
+		change: function(){ setTimeout(adjust_columns, 1000);},
+		delay: 50,
+		cursor: 'pointer', 
+		tolerance: 'pointer'
+	});
+}
