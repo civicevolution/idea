@@ -1,5 +1,10 @@
 //console.log("Loading app_ce_live_themer.js")
 function live_resize(){
+  if(adjust_in_process){
+		setTimeout(adjust_columns, 1000);
+		return;
+	}
+	
 	// get overall avl height
 
 	var win_height = $(window).height();
@@ -24,7 +29,16 @@ function live_resize(){
 	  //var inner_padding = 20;
 	  //ltp.find('div.inner').height( ltp.height() - 4 - inner_padding);
 	  
-	  lists.width( ws.width() - lists.position().left - 10 )
+	  // adjust widths
+	  var list_col_width = $('div.list_column').width();
+	  var num_cols = $('div.list_column').size();
+	  var lists_width = num_cols * list_col_width;
+	  lists_width = lists_width < $('div.drop_ribbon').width() ? $('div.drop_ribbon').width() : lists_width;
+	  var avl_width = ws.width() - 20;
+	  var incoming_width = avl_width - lists_width;
+	  incoming_width = incoming_width > 800 ? 800 : incoming_width;
+	  $('div.incoming_ideas').width( incoming_width);
+	  //lists.width( ws.width() - lists.position().left - 10 )
 	  //console.log("call adjust_columns from live_resize")
 	  adjust_columns();
 	}
@@ -198,7 +212,7 @@ $('div.move_or_copy_idea button').die('click').live('click',
 
 // Sort the ideas within a list
 function make_idea_lists_sortable($idea_lists){
-  console.log("make_idea_lists_sortable for " + $idea_lists.size() )
+  //console.log("make_idea_lists_sortable for " + $idea_lists.size() )
   $idea_lists.sortable(
   	{
   		start: function(event,ui){
@@ -277,7 +291,7 @@ function make_idea_lists_sortable($idea_lists){
           }
         }
   		},
-  		//change: function(){ setTimeout(adjust_columns, 1000);},
+  		change: function(){ setTimeout(adjust_columns, 1000);},
   		delay: 50,
   		cursor: 'pointer',
   		tolerance: 'pointer',
@@ -452,17 +466,14 @@ $('div.idea div.star').live('click',
   }
 );
 
-
 make_new_ideas_draggable( $('div.live_talking_point') );
-
-
 
 var adjust_in_process = false;
 function adjust_columns(){
-  return
   if( $('div.list_column div.idea_list').size() == 0 ) return;
 	if(adjust_in_process){
 		setTimeout(adjust_columns, 1000);
+		return;
 	}
 	adjust_in_process = true;
 	// record the list heights			
@@ -479,7 +490,8 @@ function adjust_columns(){
 	
 	// determine how many columns I can fit
 	var col_width = $('div.list_column').outerWidth(true);
-	var avl_width = $('div#lists').width();
+	//var avl_width = $('div#lists').width();
+	var avl_width = $('div.workspace').width() - $('div.incoming_ideas').width()
 	var num_allowed_columns = Math.floor( avl_width / col_width);
 	//console.log("num_allowed_columns: " + num_allowed_columns);
 	
@@ -506,32 +518,41 @@ function adjust_columns(){
 	
 	if(!fit_achieved){
 		//console.log("Can I fit the lists into the avl height and # cols?");
-		// add up lists till that fit within one column
-		// then the next
-		var lists_per_col = [0];
-		var col_ptr = 0;
-		var col_height = 0;
-		$.each( list_heights,
-			function(){
-				var list_height = this;
-				////console.log("height is " + list_height)
-				if(col_height + list_height <= avl_height){
-					++lists_per_col[col_ptr];
-					col_height += list_height;
-				}else{
-					lists_per_col.push(0);
-					++col_ptr;
-					++lists_per_col[col_ptr];
-					col_height = list_height;
-				}
-			}
-		);
-		// list_per_col is an array that show how many lists are in each column to fit within the page
-		// can the page support this many cols?
-		if( num_allowed_columns >= lists_per_col.length){
-			//console.log("I can fit the lists into " + lists_per_col.length + " columns");
-			fit_achieved = true;
-		}
+		// add up lists till that fit within one column then the next
+		while(true){
+  		var lists_per_col = [0];
+  		var col_ptr = 0;
+  		var col_height = 0;
+  		$.each( list_heights,
+  			function(){
+  				var list_height = this;
+  				////console.log("height is " + list_height)
+  				if(col_height + list_height <= avl_height){
+  					++lists_per_col[col_ptr];
+  					col_height += list_height;
+  				}else{
+  					lists_per_col.push(0);
+  					++col_ptr;
+  					++lists_per_col[col_ptr];
+  					col_height = list_height;
+  				}
+  			}
+  		);
+  		// list_per_col is an array that show how many lists are in each column to fit within the page
+  		// can the page support this many cols?
+  		if( num_allowed_columns >= lists_per_col.length){
+  			//console.log("I can fit the lists into " + lists_per_col.length + " columns");
+  			fit_achieved = true;
+  			break;
+  		}
+  		// can I add another column, if yes, try to make this fit again, otherwise make it scroll with code below
+  	  var incoming_width = $('div.incoming_ideas').width();
+  	  if(incoming_width < 300 + col_width ) break; // I don't want to squeeze incoming ideas anymore
+  	  // shrink incoming width and increase # of cols
+  	  $('div.incoming_ideas').width( incoming_width - col_width  );
+      ++num_allowed_columns;
+      // try again
+  	}
 	}
 	
 	if(!fit_achieved){
@@ -594,6 +615,7 @@ function adjust_columns(){
 			++i;
 		}
 		make_lists_sortable();
+		make_idea_lists_sortable( $('.sortable_ideas') );
 	}else{
 		//console.log("No satisfactory fit was achieved");
 	}
@@ -601,7 +623,6 @@ function adjust_columns(){
 }
 
 function make_lists_sortable(){
-  return
 	$('div.list_column').sortable({
 		connectWith: ".list_column",
 		change: function(){ setTimeout(adjust_columns, 1000);},

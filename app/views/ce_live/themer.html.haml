@@ -31,7 +31,7 @@
 				border: 1px solid #aaa
 			
 			div.live_talking_point
-				width: 660px
+				//width: 660px
 				background-color: #FBE574
 				padding: 8px 10px
 				margin: 0 0px 10px 0
@@ -54,9 +54,10 @@
 				position: relative
 				border: 1px solid #ccc
 				div.incoming_ideas
-					position: absolute
-					top: 0
-					left: 0
+					//position: absolute
+					//top: 0
+					//left: 0
+					float: left
 					width: 700px
 					background-color: white
 					z-index: 10
@@ -79,15 +80,16 @@
 							float: right
 						
 				div.lists
-					position: absolute
-					top: 0
-					left: 700px
+					//position: absolute
+					//top: 0
+					//left: 700px
+					float: left
 					background-color: white
 					p.stats
 						margin: 0
 					div#lists
 						border: 1px solid #bbb
-				
+						overflow-y: scroll
 			div.join_com
 				a.test_mode
 					margin-right: 20px
@@ -123,7 +125,6 @@
 				float: left
 				width: 270px
 				border: 1px solid #ddd
-				overflow-y: scroll
 				
 			div.idea_list
 				//float: left
