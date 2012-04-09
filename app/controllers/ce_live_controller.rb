@@ -27,8 +27,11 @@ class CeLiveController < ApplicationController
   end
   
   def coordinator    
+    
+    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'coord','coord')
+    
     # make sure this is in their roles
-   # return not_authorized unless @live_node.role == 'coord'
+    return not_authorized unless @live_node.role == 'coord'
     @event = LiveEvent.find( params[:event_id])
     @event_sessions = LiveSession.where(:live_event_id => params[:event_id])
     @event_nodes = LiveNode.where(:live_event_id => params[:event_id])
@@ -40,6 +43,9 @@ class CeLiveController < ApplicationController
   end
   
   def themer         
+    
+    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'themer','themer')
+    
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'theme'
     @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme", "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"]
@@ -51,6 +57,9 @@ class CeLiveController < ApplicationController
   end
   
   def table   
+    
+    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'scribe1','scribe1')
+    
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'scribe'
     @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"]
@@ -175,7 +184,11 @@ class CeLiveController < ApplicationController
     # group_id
     # channel
     
-    ltp = LiveTalkingPoint.new live_session_id: params[:sid], group_id: @live_node.id, text: params[:text]
+    ltp = LiveTalkingPoint.new live_session_id: params[:sid], group_id: @live_node.id, text: params[:text],
+      pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: 'E'
+      
+      
+      
     ltp.id = 1234
     
     Juggernaut.publish(session[:table_chat_channel], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})

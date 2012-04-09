@@ -1,39 +1,8 @@
 - content_for(:script) do
-	:javascript
-		var tp_live_form_ctr = 1;
-		$('a.new_live_talking_point').live('click', 
-			function(){
-				console.log("new_live_talking_point - add another form v1");
-				var tp = $('div.talking_point_block'); 
-				var tp_clone = tp.eq(0).clone();
-				if(tp.size() > 1){
-					$('a.new_live_talking_point').hide();
-					$('p.new_live_talking_point').show();
-				}else{
-				
-				}
-				tp_clone.find(':text').val('');
-				
-				tp_clone.find('form');//.removeClass('orig');
-				tp_clone.find('input[name="form_id"]').val(++tp_live_form_ctr);
-				//tp_clone.find('h3').html( tp_clone.find('h3').html().replace('Enter a ', 'Start a new ') );
-				tp.last().after(tp_clone)
-				return false;
-			}
-		)
-		$('a.test_mode').live('click',
-			function(){
-				var test = $('div.test_mode');
-				if(test.is(':visible')){
-					test.hide();
-				}else{
-					test.show();
-				}
-			}
-		)
-	
 	%style
 		:sass
+			$navy_blue: #23238E
+			$help_tag: #f3973a
 			div.page
 				div#left
 					width: 400px
@@ -72,6 +41,8 @@
 					padding: 1em 0
 				input[type=text]
 					width: 360px
+				p.text
+					margin: 0
 			
 			div#groups_live_talking_points
 				div.inner
@@ -80,43 +51,84 @@
 						background-color: #FBE574
 						margin: 20px
 						padding: 10px
-						img, p.stats
+						img
 							display: none
+						p.stats
+							display: block
+							span.pos
+								margin-left: 10px
+								color: green
+							span.neg
+								color: red
+							
 						p.text
 							font-size: .8em
-							
-
-
-%div#table
+			p.section_title
+				font-weight: bold
+				margin-bottom: 4px
+			
+			form.post_live_tp
+				img
+					display: inline
+					float: right
+				p.table_vote
+					margin: 0
+					button
+						font-size: 1.2em
+				ul.errors
+					color: red
+				div.form_controls
+					text-align: left
+					font-size: 12px
+					height: 16px
+					margin: -4px 0 8px 0
+					span.char_ctr
+						right: 0
+						left: auto
+			div.request_help
+				float: right
+				background-color: $help_tag
+				color: $navy_blue
+				width: 120px
+				text-align: center
+				font-weight: bold
+				margin: 4px 10px 4px 0
+				
+						
+	= javascript_include_tag 'app_ce_live_table.js'
 	:javascript
 		var pub_sub_channels = #{@channels}
-	
-	- @title = 'Group recording page - CivicEvolution Live'
-	-#%h2 Group recording page @ CivicEvolution Live
 
+%div#table
+	
+	%div.request_help
+		= link_to 'Request help'
+
+	%hr
+	
 	%div#left
 		%div.talking_point_block
-			%h3 Enter a talking point from your table
+			%p.section_title Enter a talking point from your table
 			- params[:ch] ||= 'theme1'
 			= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig post_live_tp', :id=>1) do
 				= text_area_tag :text, nil, {:class=>'autosize'}
-				= hidden_field_tag :form_id, 1
+				%div.form_controls
+					%span.char_ctr{:cnt=>250}
+						250 characters
+					= hidden_field_tag :form_id, 1
 				
 				%p.table_vote 
-					Table vote
+					Acceptable
 					%span.for
-						For:
+						Yes:
 						= text_field_tag :votes_for
 					%span.against
-						Against:
+						No:
 						= text_field_tag :votes_against
-						
-					
-				%div.form_controls
+				
 					%button{'data-disable-with' =>'Submitting...'}
 						Share
-					%span.char_ctr
-						220 characters
+					
 						
 		= link_to 'Start a new talking point', nil, :class=>'new_live_talking_point'
 		%p.new_live_talking_point.hide You must submit a talking point before starting a new one
@@ -146,7 +158,7 @@
 		
 	%div#right
 	
-		%h3 Talking points sent by your table
+		%p.section_title Talking points sent by your table
 		%div#groups_live_talking_points
 			%div.inner
 		
@@ -155,8 +167,8 @@
 		-#%div#live_talking_points
 			%div.inner
 
-		%h3 Chat with your theme team
-		%div#outer_chat			
+		-#%h3 Chat with your theme team
+		-#%div#outer_chat			
 			%div#chat_log
 			= form_tag( live_chat_path, {:class=>'chat_form', :remote=>true}) do
 				= hidden_field_tag :type, 'table'

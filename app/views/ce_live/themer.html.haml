@@ -308,8 +308,8 @@
 				= render :partial=>'ce_live/idea_list', :locals=>{:title=>"Don't fit in", :class_name=>'misc_list', :list_id=>'misc'}
 				%div.list_column
 
-	= link_to 'Test',nil,:class=>'test_mode'
-	%div.test_mode
+	-#= link_to 'Test',nil,:class=>'test_mode'
+	-#%div.test_mode
 		%h3 Test mode
 		= form_tag( live_test_ids_path, {:remote=>true}) do
 			%table

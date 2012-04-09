@@ -1,9 +1,19 @@
+- mode ||= 'theme'
 %div.live_talking_point{:idea_id=>live_talking_point.id}
 	%p.text= live_talking_point.text
 	= image_tag 'info.gif', :class=>"info"
-	%div.star
-	%p.stats
-		Table
-		%span.table= '1-A'
-		%span.pos #{live_talking_point.pos_votes}(+)
-		%span.neg  #{live_talking_point.neg_votes}(-)
+	- if mode == 'theme'
+		%div.star
+		%p.stats
+			Table
+			%span.table= '1-A'
+			%span.pos +#{live_talking_point.pos_votes} 
+			%span.div /
+			%span.neg  -#{live_talking_point.neg_votes}
+	- else
+		%p.stats
+			Talking point #{live_talking_point.id_letter} 
+			%span.pos +#{live_talking_point.pos_votes} 
+			%span.div /
+			%span.neg  -#{live_talking_point.neg_votes}
+		

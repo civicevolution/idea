@@ -1,7 +1,7 @@
 :plain
 	console.log("post_talking_point_from_group.js")
 	var ltp = $("#{escape_javascript(
-		render( :template => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => live_talking_point})
+		render( :partial => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => live_talking_point, :mode => 'table'})
 	)}");
 
 	$('div#groups_live_talking_points div.inner').append(ltp);
@@ -14,6 +14,7 @@
 				var form = $(this).closest('form');
 				if( $('form.post_live_tp').size() == 1 ){
 					form.find('textarea').val('');
+					form.find(':text').val('');
 				}else{
 					form.closest('div.talking_point_block').remove();
 					$('a.new_live_talking_point').show();

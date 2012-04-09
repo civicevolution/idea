@@ -1,4 +1,4 @@
-//console.log("Loading app_ce_live_themer.js")
+console.log("Loading app_ce_live_themer.js")
 var lock_resize = false;
 function live_resize(){
   //if(lock_resize)return;
@@ -42,6 +42,7 @@ function live_resize(){
 	  var incoming_width = avl_width - lists_width;
 	  incoming_width = incoming_width > 800 ? 800 : incoming_width;
 	  $('div.incoming_ideas').width( incoming_width);
+	  //$('div.lists').width( avl_width - incoming_width );
 	  //lists.width( ws.width() - lists.position().left - 10 )
 	  //console.log("call adjust_columns from live_resize")
 	  adjust_columns();
@@ -193,7 +194,7 @@ $( "#new_theme, #misc" ).droppable({
 	accept: '.live_talking_point, .idea',
 	greedy: true,
 	drop: function( event, ui ) {
-	  console.log("DROP #new_theme, #misc");
+	  //console.log("DROP #new_theme, #misc");
 		var drop_tgt = $(this);
     var new_idea = ui.helper.clone();
     var source = new_idea.hasClass('live_talking_point') ? 'new' : 'theme';   
@@ -202,7 +203,7 @@ $( "#new_theme, #misc" ).droppable({
 	  
 		
 	  if(drop_tgt.attr('id') == 'new_theme'){
-	    console.log("create new_list");
+	    //console.log("create new_list");
 	    var new_list = $('div.idea_list.new_list').clone();
 	    new_list.find('div.live_talking_point, div.idea').remove();
 	    new_list.removeClass('new_list');
@@ -227,7 +228,7 @@ $( "#new_theme, #misc" ).droppable({
 	    
 	    setTimeout( function(){ fix_list_overflow( this )}.bind(new_list), 100);
 	  }else if( drop_tgt.attr('id') == 'misc' ){
-	    console.log("add talking point to the misc set");
+	    //console.log("add talking point to the misc set");
 	    var par_list = $('div.idea_list.misc_list');
     
 	    par_list.find('div.ideas').append(new_idea);
@@ -611,14 +612,25 @@ function adjust_columns(){
   			fit_achieved = true;
   			break;
   		}
+  		//console.log("***** Try to add another column to the lists");
   		// can I add another column, if yes, try to make this fit again, otherwise make it scroll with code below
   	  var incoming_width = $('div.incoming_ideas').width();
   	  // but check if there is any dead space I can also use
+  	  //console.log("incoming_width: " + incoming_width);
+  	  
   	  var free_space = $('div.workspace').width() - incoming_width - col_width * num_allowed_columns - 20;
+  	  //console.log("$('div.workspace').width(): " + $('div.workspace').width());
+  	  //console.log("free_space: " + free_space);
+  	  
+  	  //console.log("col_width: " + col_width);
   	  
   	  if(incoming_width + free_space < 300 + col_width ) break; // I don't want to squeeze incoming ideas anymore
   	  // shrink incoming width and increase # of cols
-  	  $('div.incoming_ideas').width( incoming_width - ( col_width - free_space ) );
+  	  //console.log("set incoming width to " + (incoming_width - ( col_width - free_space ) )  );
+  	  var new_incoming_width = incoming_width - ( col_width - free_space );
+  	  $('div.incoming_ideas').width( new_incoming_width - 30 );
+  	  
+  	  $('div.lists').width( $('div.workspace').width() - new_incoming_width );
       ++num_allowed_columns;
       // try again
   	}
