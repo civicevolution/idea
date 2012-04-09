@@ -107,6 +107,8 @@
 			    console.log("edit the theme");
 					var form = $(template_functions['live_theme_form']({}));
 					var list = $(this).closest('.idea_list');
+					list.attr('expand',true);
+					expand_idea_list(list);
 					var header = list.find('div.header div.theme');
 					form.find('textarea').val( header.find('p.theme').html() )
 					header.hide().after(form);
@@ -122,6 +124,7 @@
 					header.find('p.theme').html(new_theme);
 					header.show();
 					edit_div.remove();
+					list.removeAttr('expand');
 					return false;
 				}
 			);
@@ -132,6 +135,7 @@
 					var edit_div = list.find('div.header div.edit_theme');
 					header.show();
 					edit_div.remove();
+					list.removeAttr('expand');
 					return false;
 				}
 			);

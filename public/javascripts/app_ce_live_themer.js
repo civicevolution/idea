@@ -1,5 +1,8 @@
 //console.log("Loading app_ce_live_themer.js")
+var lock_resize = false;
 function live_resize(){
+  //if(lock_resize)return;
+  //lock_resize = true;
   if(adjust_in_process){
 		setTimeout(adjust_columns, 1000);
 		return;
@@ -8,6 +11,7 @@ function live_resize(){
 	// get overall avl height
 
 	var win_height = $(window).height();
+	$('body').height( win_height);
 	if($('div#themer').size() > 0){
 	  var ws = $('div.workspace');
 	  ws.height( win_height - ws.position().top - 20);
@@ -54,55 +58,53 @@ $(window).resize(function(){
 );
 
 function fix_list_overflow(list){
-	if(list.find('div.ideas').outerHeight() + list.find('div.header').outerHeight() > list.height()){
-		//console.log("Collapse the list to make it fit");
-		try{
-		  var line_height = parseInt(list.find('p.text:first').css('line-height'));
-		}catch(e){var line_height = 16;}
-		var allotted_height = 4 * line_height;
-		var all_ideas = list.find('div.idea');
-		var vis_ideas = all_ideas.filter(':lt(3)')
-		vis_ideas.each(
-		  function(){
-		    var idea = $(this);
-		    if(idea.height() > allotted_height){
-		      idea.height(allotted_height);
-		    }
-		  }
-		);
-		all_ideas.not(vis_ideas).hide();
-	}
+	//console.log("Collapse the list to make it fit");
+	try{
+	  var line_height = parseInt(list.find('p.text:first').css('line-height'));
+	}catch(e){var line_height = 16;}
+	var allotted_lines = 3;
+	var allotted_height = allotted_lines * line_height;
+	var all_ideas = list.find('div.idea');
+	var vis_ideas = all_ideas.filter(':lt(3)')
+	vis_ideas.each(
+	  function(){
+	    var idea = $(this);
+	    if(idea.height() > allotted_height){
+	      idea.height(allotted_height);
+	    }
+	  }
+	);
+	all_ideas.not(vis_ideas).hide();
 }
 
+
 function expand_idea_list(list){
-  return; 
-  
-  //console.log("expand_idea_list for " + list.find('p.theme').html() )
-  if( $('div.idea_list.expanded').size() > 0)return;
   if(list.hasClass('misc_list') && dragging_new_idea ) return;
   
-  var place_holder = $('<div class="idea_list_placeholder idea_list"></div>');
-  place_holder.height(idea_list_height-2);
-  place_holder.width(list.width()-2);
-  var list_pos = list.position();
-  list.css('left',list_pos.left);
-  list.css('top',list_pos.top)
-  //list.css('top',$('div.lists').offset().top)
-  //list.css('top',0)
+  //if this list is already expanded, just return
+  if(list.hasClass('expanded'))return;
+  
+  // collapse any currently expanded lists
+  $('div.idea_list.expanded').each(
+    function(){
+      if(!(this===list[0])){
+        collapse_idea_list( $(this) );
+      }
+    }
+  )
+  
+  //console.log("Expand_idea_list for " + list.find('p.theme').html() );
+  
   list.addClass('expanded');
-  list.after(place_holder);
-  list.find('div.idea').show().height('auto');
   list.height('auto');
-  if(list.hasClass('misc_list')){
-    list.find('p.instr').hide();
-  }
+  list.find('div.idea').show().height('auto');
 }
 
 
 no_collapse = false;
 function collapse_idea_list(list){
-  return;
   if(no_collapse) return;
+  if(list.attr('expand'))return;
   //console.log("collapse_idea_list for " + list.find('p.theme').html() )
   $('div.idea_list_placeholder').remove();
   list.removeClass('expanded');  
@@ -116,40 +118,6 @@ function collapse_idea_list(list){
     list.find('div.idea').hide();
   }
 }
-
-// make the lists fit in the display
-var idea_list_height = 0;
-//function adjust_lists(){
-//  return
-//  var lists_div = $('div#lists');
-//  lists_div.find('div.idea_list.expanded').removeClass('expanded');
-//  var idea_lists = lists_div.find('div.idea_list').not('div.idea_list.expanded');
-//  // how many lists in a row?
-//  var cur_top = 0;
-//  var col_ctr = 0;
-//  idea_lists.each( 
-//    function(){
-//      var top = $(this).offset().top;
-//      if(cur_top == 0) cur_top = top;
-//      if(cur_top == top){
-//        ++col_ctr
-//      }else{
-//        return;
-//      }
-//    }
-//  );
-//  var num_rows = Math.ceil(idea_lists.size() / col_ctr);
-//  var row_height = lists_div.height() / num_rows;
-//  idea_list_height = row_height - 40;
-//  idea_list_height = 220;
-//  idea_lists.not('div.idea_list.misc_list').height(idea_list_height);
-//  console.log("adjust_lists to set height to idea_list_height: " + idea_list_height);
-//  idea_lists.each( 
-//    function(){
-//      setTimeout( function(){ fix_list_overflow( this )}.bind($(this)), 100);
-//    }
-//  );
-//}
 
 $('span.role').before( $('a.test_mode') );
 $('div.test_mode :submit').live('click',
@@ -176,230 +144,18 @@ $('a.test_mode').live('click',
 
 var idea_list_ctr = 1;
 
-function copy_idea_back_to_source(){
-  if(confirm('Do you want to copy this idea, or move it?')){
-    console.log("copy_idea_back_to_source");
-    if( sort_start['prev_idea'].size() > 0 ){
-      sort_start['prev_idea'].after(sort_start['item'].clone());
-    }else{
-      sort_start['idea_list'].find('div.ideas').prepend(sort_start['item'].clone());
-    }
-    sort_start = {};
-  }
-}
-$('div.move_or_copy_idea button').die('click').live('click',
-  function(){
-    var btn = $(this);
-    var div = btn.closest('div.move_or_copy_idea');
-    var idea = div.next('.idea');
-    idea.css('background-color','');
-    if(btn.html().match(/move/i)){
-      console.log("Move the idea");
-    }else{
-      console.log("copy_idea_back_to_source");
-      var prev_idea = idea.data('prev_idea');
-      if( prev_idea.size() > 0 ){
-        prev_idea.after(idea.clone());
-      }else{
-        idea.data('source_list').find('div.ideas').prepend(idea.clone());
-      }
-    }
-    idea.data('prev_idea');
-    idea.data('source_list');     
-    div.remove();
-  }
-);
-
-// Sort the ideas within a list
-function make_idea_lists_sortable($idea_lists){
-  //console.log("make_idea_lists_sortable for " + $idea_lists.size() )
-  $idea_lists.sortable(
-  	{
-  		start: function(event,ui){
-  		  var idea_list = $(this).closest('div.idea_list');
-  		  var theme = idea_list.find('p.theme').html();
-  		  expand_idea_list(idea_list);
-  		  //console.log("1 LIST idea_list sortable start " + theme); 
-  		  if( !ui.item.hasClass('live_talking_point') ){
-  		    ui.item.data('source_list', idea_list );
-  		    ui.item.data('prev_idea', ui.item.prev('.idea') );
-  		  }
-  		  if(idea_list.hasClass('misc_list')){
-  		    idea_list.find('p.instr').hide();
-  		  }
-  		},
-  		out: function(event,ui){
-  		  var idea_list = $(this).closest('div.idea_list');
-  		  if(idea_list.hasClass('misc_list')){
-  		    idea_list.find('p.instr').show();
-  		  }
-  		},
-  		stop: function(event,ui){
-  		  var idea_list = $(this).closest('div.idea_list');
-  		  var theme = idea_list.find('p.theme').html();
-  		  //console.log("1 LIST idea_list sortable stop " + theme);
-  		  if(ui.item.hasClass('live_talking_point')){
-    		  ui.item.removeClass('live_talking_point ui-draggable');
-          ui.item.addClass('idea');
-        }
-  			//update_curated_tp_ids( $(this) );
-  			if( idea_list.find('div.idea').size() == 0 ){
-  			  idea_list.find('div.ideas').html(
-  			    '<a href="#" class="remove_list">Remove empty list</a>');
-  			}else{
-  			  idea_list.find('a.remove_list').remove();
-  			}
-  			if(idea_list.hasClass('misc_list')){
-  			  ui.item.hide(600, function(){$(this).closest('div.idea_list').find('p.instr').show(600);});
-  			  //ui.item.hide(600);
-  			}
-  			setTimeout( function(){ fix_list_overflow( this )}.bind(idea_list), 100);
-  		},
-  		drop: function(event,ui){
-  		  var idea_list = $(this).closest('div.idea_list');
-    		var theme = idea_list.find('p.theme').html();
-    		//console.log("1 LIST idea_list sortable drop " + theme);
-    		
-        $(this).append($(ui.helper).clone());
-  		},
-  		remove: function(event,ui){
-  		  var idea_list = $(this).closest('div.idea_list');
-    		var theme = idea_list.find('p.theme').html();
-    		//console.log("1 LIST idea_list sortable remove " + theme);
-        $(this).append($(ui.helper).clone());
-  		},
-  		receive: function(event,ui){
-  		  var theme = $(this).closest('div.idea_list').find('p.theme').html();
-  		  //console.log("1 LIST div.idea_list receive " + theme);
-  		  if(ui.item.hasClass('live_talking_point')){
-  		    ui.item.hide(1000,
-  		      function(){
-  		        $(this).remove();
-  		        //$('div.incoming_ideas p.stats span.cnt').html( $('div#live_talking_points div.live_talking_point').size() );
-  		      }
-  		    ); // remove original item
-  		  }
-  		  var par_list = $(this).closest('div.idea_list');
-  	    if( !ui.item.hasClass('live_talking_point')){
-          // if there is only one copy of this idea currently
-          // don't show the move/copy question if the source and dest list are the same
-          if( !(par_list[0] === ui.item.data('source_list')[0]) ){
-            if(par_list.hasClass('misc_list')) return;
-            if( $('div.idea[idea_id="' + ui.item.attr('idea_id') + '"]').size() > 1) return; // only allow two copies total           
-            var ques = $('<div class="move_or_copy_idea"><button>Move this idea to this list</button><button>Copy this idea to this list</button></div>');
-            ui.item.css('background-color', '#f3973a').before(ques);
-          }
-        }
-  		},
-  		change: function(){ setTimeout(adjust_columns, 1000);},
-  		delay: 50,
-  		cursor: 'pointer',
-  		tolerance: 'pointer',
-  		connectWith: '.sortable_ideas',
-  		placeholder: 'curated_list_placeholder'
-  	}
-  );
-}
-make_idea_lists_sortable( $('.sortable_ideas') );
-
-$( "#new_theme, #misc" ).droppable({
-	hoverClass: "drop_hover",
-	activeClass: 'drop_active',
-	tolerance: 'pointer',
-	accept: '.live_talking_point',
-	drop: function( event, ui ) {
-		var drop_tgt = $(this);
-	  if(drop_tgt.attr('id') == 'new_theme'){
-	    console.log("create new_list");
-	    var new_list = $('div.idea_list.new_list').clone();
-	    new_list.find('div.live_talking_point, div.idea').remove();
-	    new_list.removeClass('new_list');
-	    new_list.hide();
-	    ui.helper.remove();
-	    var new_idea = ui.draggable;
-	    if(new_idea.hasClass('live_talking_point')){
-  		  new_idea.removeClass('live_talking_point ui-draggable');
-        new_idea.addClass('idea');
-      }
-		  
-	    new_list.find('div.ideas').append(new_idea);
-	    $('div#lists div.list_column:last').append(new_list);
-	    //par_list.after(new_list);
-      ////console.log("call adjust_columns from make_idea_lists_sortable.receive")
-	    new_list.show(1000, function(){adjust_columns();});
-      // remove the orig idea from new list
-      //$('div#live_talking_points div.idea[idea_id="' + new_idea.attr('idea_id') + '"]').hide(1000,function(){$(this).remove()});
-	    make_idea_lists_sortable( $('.sortable_ideas') );
-	    new_list.find('p.theme').html('Theme ' + idea_list_ctr++ );
-	    setTimeout( function(){ fix_list_overflow( this )}.bind(new_list), 100);
-	  }else if( drop_tgt.attr('id') == 'misc' ){
-	    console.log("add talking point to the misc set");
-	    var par_list = $('div.idea_list.misc_list');
-	    var new_idea = ui.draggable;
-	    if(new_idea.hasClass('live_talking_point')){
-  		  new_idea.removeClass('live_talking_point ui-draggable');
-        new_idea.addClass('idea');
-      }
-	    par_list.find('div.ideas').append(new_idea);
-	    ui.helper.remove();
-	    // reset the count in the title
-	    var cnt = par_list.find('div.idea').size();
-	    par_list.find('p.theme').html("Don't fit in (" + cnt + ")");
-	    drop_tgt.html("Don't fit in (" + cnt + ")");
-    }
-		
-	}
-});
-
-var hide_misc_list_timeout;
-$( "#misc" ).live('mouseenter mouseleave', function(event) {
-	var list = $('div.idea_list.misc_list');
-  if (event.type == 'mouseenter') {
-    if(dragging_new_idea)return;
-    expand_idea_list(list);
-    list.show();
-  } else {
-    hide_misc_list_timeout = setTimeout(
-      function(){
-        list.hide();
-        collapse_idea_list(list);
-      }
-    ,500);
-  }
-});
-
-$( "div.misc_list" ).live('mouseenter mouseleave', function(event) {
-	var list = $('div.idea_list.misc_list');
-  if(event.type == 'mouseenter'){
-    clearInterval(hide_misc_list_timeout);
-  }else{
-    hide_misc_list_timeout = setTimeout(
-      function(){
-        list.hide();
-        collapse_idea_list(list);
-      }
-    ,500);
-  }
-});
-
-//clearInterval(hide_misc_list_timeout);
-
-
-$('a.remove_list').live('click',
-  function(){
-    $(this).closest('div.idea_list').hide(1000,function(){$(this).remove()});
-  }
-);
-
 var dragging_new_idea = false;
 // Drag new ideas from the left and drop them into lists on the right
 function make_new_ideas_draggable($ideas){
 	$ideas.draggable( {
 		revert: function(socketObj) {
+		    //console.log("new ideas draggable revert socketObj: " + socketObj)
 		    if (socketObj === false) {
 		        // Drop was rejected, revert the helper.
+		        //console.log("rejected")
 		        return true;
 		    } else {
+		        //console.log("accepted")
 		        // Drop was accepted, don't revert.
 		        return false;
 		    }
@@ -421,17 +177,294 @@ function make_new_ideas_draggable($ideas){
 		},
 		tolerance: 'pointer',
 		connectToSortable: '.sortable_ideas',
-		helper: 'clone'
+		//helper: 'original',
+		helper: 'clone',
+		//appendTo: 'body',
+		opacity: .35,
+		zIndex: 2700,
+		scroll: false
 	});
 }
 
+$( "#new_theme, #misc" ).droppable({
+	hoverClass: "drop_hover",
+	activeClass: 'drop_active',
+	tolerance: 'pointer',
+	accept: '.live_talking_point, .idea',
+	greedy: true,
+	drop: function( event, ui ) {
+	  console.log("DROP #new_theme, #misc");
+		var drop_tgt = $(this);
+    var new_idea = ui.helper.clone();
+    var source = new_idea.hasClass('live_talking_point') ? 'new' : 'theme';   
+    new_idea.attr('class', 'idea');
+	  new_idea.removeAttr('style');
+	  
+		
+	  if(drop_tgt.attr('id') == 'new_theme'){
+	    console.log("create new_list");
+	    var new_list = $('div.idea_list.new_list').clone();
+	    new_list.find('div.live_talking_point, div.idea').remove();
+	    new_list.removeClass('new_list');
+	    new_list.attr('list_id',idea_list_ctr);
+	    new_list.find('p.theme').html('Theme ' + idea_list_ctr++ );
+	    new_list.hide();
+
+	    new_list.find('div.ideas').append(new_idea);
+	    $('div#lists div.list_column:last').append(new_list);
+
+	    new_list.show(1000, function(){adjust_columns();});
+
+	    make_idea_lists_sortable( $('.sortable_ideas') );
+
+      if(source == 'new'){
+	      remove_talking_point( new_idea );
+	    }else{
+	      var id = ui.helper.attr('idea_id');
+	      $('div.idea[idea_id="' + id + '"]').not(new_idea).hide( 1000, function(){ $(this).remove();});
+	      ui.helper.remove();
+	    }
+	    
+	    setTimeout( function(){ fix_list_overflow( this )}.bind(new_list), 100);
+	  }else if( drop_tgt.attr('id') == 'misc' ){
+	    console.log("add talking point to the misc set");
+	    var par_list = $('div.idea_list.misc_list');
+    
+	    par_list.find('div.ideas').append(new_idea);
+	    
+	    // remove duplicate ideas
+	    var idea_ids = {};
+    	par_list.find('div.idea').each(
+    	  function(){
+    	    var idea = $(this);
+    	    var id = idea.attr('idea_id');
+    	    if(idea_ids[ id ]){
+    	      idea.remove();
+    	    }else{
+    	      idea_ids[ id ] = id;
+    	    }
+    	  }
+    	);
+	    
+	    // reset the count in the title
+	    var cnt = par_list.find('div.idea').size();
+	    par_list.find('p.theme').html("Don't fit in (" + cnt + ")");
+	    drop_tgt.html("Add to don't fit(" + cnt + ")");
+	    
+      if(source == 'new'){
+	      remove_talking_point( new_idea );
+	    }else{
+	      var id = ui.helper.attr('idea_id');
+	      $('div.idea[idea_id="' + id + '"]').not(new_idea).hide( 1000, function(){ $(this).remove();});
+	      ui.helper.remove();
+	    }
+
+    }
+	}
+});
+
+// Sort the ideas within a list
+function make_idea_lists_sortable($idea_lists){
+  //console.log("make_idea_lists_sortable for " + $idea_lists.size() )
+  $idea_lists.sortable(
+  	{
+  		start: function(event,ui){
+  		  var idea_list = $(this).closest('div.idea_list');
+  		  var theme = idea_list.find('p.theme').html();
+  		  console.log("sortable start " + theme); 
+  		  if( !ui.item.hasClass('live_talking_point') ){
+  		    ui.item.attr('source_list_id',idea_list.attr('list_id'));
+    		  ui.item.attr('prev_idea_id',ui.item.prev('.idea').attr('idea_id'));
+  		  }
+  		  if(idea_list.attr('list_id') == 'misc'){
+  		    //collapse_idea_list(idea_list);
+  		    //idea_list.hide();
+  		    //ui.item.show();
+  		  }
+  		},
+  		over: function(event,ui){
+  		  var list = $(this).closest('div.idea_list');
+  		  console.log("expand for sortable over " + list.find('p.theme').html())
+  		  expand_idea_list(list);
+		  },
+  		stop: function(event,ui){
+  		  var idea_list = $(this).closest('div.idea_list');
+  		  var theme = idea_list.find('p.theme').html();
+        console.log("sortable stop " + theme);
+  			setTimeout(function(){clean_up_theme(this);}.bind(idea_list),100);
+  		},
+  		remove: function(event,ui){
+  		  var idea_list = $(this).closest('div.idea_list');
+  		  var theme = idea_list.find('p.theme').html();
+        console.log("sortable remove " + theme)
+        //$(this).append($(ui.helper).clone());
+  		},
+  		receive: function(event,ui){
+  		  var idea_list = $(this).closest('div.idea_list');
+  		  var theme = idea_list.find('p.theme').html();
+        console.log("sortable receive " + theme);
+  		  if(ui.item.hasClass('live_talking_point')){
+    		  new_idea = $(this).find('div.live_talking_point')
+    		  new_idea.attr('class', 'idea');
+    		  new_idea.removeAttr('style');
+    		  remove_talking_point( new_idea );
+  		  }else{
+  		    
+          // don't show the move/copy question if the source and dest list are the same
+          try{
+            var source_list_id = ui.item.attr('source_list_id');
+            var source_list = $('div.idea_list[list_id="' + source_list_id + '"]');
+            
+            if( source_list_id != 'misc' && source_list && !(idea_list[0] === source_list[0]) ){
+              if( $('div.idea[idea_id="' + ui.item.attr('idea_id') + '"]').size() < 2){ // only allow two copies total           
+                var ques = $('<div class="move_or_copy_idea"><button>Move this idea to this list</button><button>Copy this idea to this list</button></div>');
+                ui.item.css('background-color', '#f3973a').before(ques);
+              }
+            }
+          }catch(e){
+            debugger
+          }                                                                                                                                                   		    
+  		  }
+  		  setTimeout(function(){clean_up_theme(this);}.bind(idea_list),100);
+  		},
+  		change: function(){ setTimeout(adjust_columns, 1000);},
+  		//appendTo: 'div.lists',
+  		helper: 'clone',
+  		//containment: 'div.lists',
+  		delay: 50,
+  		cursor: 'pointer',
+  		tolerance: 'pointer',
+  		connectWith: '.sortable_ideas',
+  		placeholder: 'curated_list_placeholder'
+  	}
+  );
+}
+make_idea_lists_sortable( $('.sortable_ideas') );
+
+function clean_up_theme(list){
+  // remove duplicate ideas
+  console.log("clean_up_theme theme: " + list.find('p.theme').html() );
+	var idea_ids = {};
+	if(list.attr('list_id') != 'misc'){
+  	// no ideas in lists that is already in the misc list
+    $('div.misc_list div.idea').each( function(){var id = $(this).attr('idea_id'); idea_ids[id] = id;});
+  }
+	list.find('div.idea').each(
+	  function(){
+	    var idea = $(this);
+	    var id = idea.attr('idea_id');
+	    if(idea_ids[ id ]){
+	      idea.remove();
+	    }else{
+	      idea_ids[ id ] = id;
+	    }
+	  }
+	);
+	if(list.attr('list_id') == 'misc'){
+  	// reset the count in the title
+    var cnt = list.find('div.idea').size();
+    list.find('p.theme').html("Don't fit in (" + cnt + ")");
+    $('div.drop_ribbon div#misc').html("Add to don't fit(" + cnt + ")");
+  }else{
+    if( list.find('div.idea').size() == 0 ){
+  	  list.find('div.ideas').html(
+  	    '<a href="#" class="remove_list">Remove empty list</a>');
+  	}else{
+  	  list.find('a.remove_list').remove();
+  	}
+  }
+}
+$('div.move_or_copy_idea button').die('click').live('click',
+  function(){
+    var btn = $(this);
+
+    var div = btn.closest('div.move_or_copy_idea');
+    var idea = div.next('.idea');
+    idea.css('background-color','');
+    if(btn.html().match(/move/i)){
+      console.log("Move the idea");
+    }else{
+      console.log("copy_idea_back_to_source");
+
+      var source_list_id = idea.attr('source_list_id');
+      var source_list = $('div.idea_list[list_id="' + source_list_id + '"]');
+      
+      var prev_idea_id = idea.attr('prev_idea_id');
+      var prev_idea = $('div.idea[idea_id="' + prev_idea_id + '"]');
+      
+      if( prev_idea.size() > 0 ){
+        prev_idea.after(idea.clone());
+      }else{
+        source_list.find('div.ideas').prepend(idea.clone());
+        source_list.find('a.remove_list').remove();
+      }
+    }
+    var list = div.closest('div.idea_list');
+    div.remove();
+    setTimeout(function(){clean_up_theme(this);}.bind(source_list),100);
+    setTimeout(function(){clean_up_theme(this);}.bind(list),100);
+  }
+);
+
+
+function remove_talking_point( tp ){
+  // remove this talking point from incoming, but make sure it appears somewhere else
+  var id = tp.attr('idea_id');
+  $('div#live_talking_points div.live_talking_point[idea_id=' + id + ']').hide(800, function(){$(this).remove();});
+}
+
+var hide_misc_list_timeout;
+$( "#misc" ).live('mouseenter mouseleave', function(event) {
+	var list = $('div.idea_list.misc_list');
+  if (event.type == 'mouseenter') {
+    if(dragging_new_idea)return;
+    expand_idea_list(list);
+    list.show();
+    $('div#lists').scrollTop(0);
+  } else {
+    hide_misc_list_timeout = setTimeout(
+      function(){
+        list.hide();
+        collapse_idea_list(list);
+      }
+    ,800);
+  }
+});
+
+$( "div.misc_list" ).live('mouseenter mouseleave', function(event) {
+	var list = $('div.idea_list.misc_list');
+  if(event.type == 'mouseenter'){
+    clearInterval(hide_misc_list_timeout);
+  }else{
+    hide_misc_list_timeout = setTimeout(
+      function(){
+        list.hide();
+        collapse_idea_list(list);
+      }
+    ,800);
+  }
+});
+
+//clearInterval(hide_misc_list_timeout);
+
+
+$('a.remove_list').live('click',
+  function(){
+    console.log("remove_list")
+    $(this).closest('div.idea_list').hide(1000,function(){$(this).remove()});
+  }
+);
+
+var collapseTimer;
 $('div.idea_list div.ideas').live('mouseenter mouseleave', function(event) {
 	var list = $(this).closest('div.idea_list');
 	if(list.hasClass('misc_list')) return;
   if (event.type == 'mouseenter') {
+    //console.log("expand for mouseenter list " + list.find('p.theme').html() );
     expand_idea_list(list);
   } else {
-    collapse_idea_list(list);
+    collapseTimer = setTimeout( function(){ collapse_idea_list($(this));}.bind(list), 100);
+    //collapse_idea_list(list);
   }
 });
 
@@ -466,11 +499,41 @@ $('div.idea div.star').live('click',
   }
 );
 
+var expanded_mode = false;
+$('#toggle_lists').live('click', 
+  function(){
+    console.log("toggle_lists expanded_mode: " + expanded_mode);
+    if(expanded_mode){
+      expanded_mode = false;
+      $('div.list_column div.idea_list').each(
+      	function(){
+      		var list = $(this);
+      		list.removeAttr('expand');
+      		collapse_idea_list( list );		
+      	}
+      )
+    }else{
+      expanded_mode = true;
+      $('div.list_column div.idea_list').each(
+      	function(){
+      		var list = $(this);
+      		list.attr('expand',true)
+      		expand_idea_list( list );		
+      	}
+      )
+    }
+  }
+);
+
+
+
 make_new_ideas_draggable( $('div.live_talking_point') );
 
 var adjust_in_process = false;
 function adjust_columns(){
+  var force_single_column = false;
   if( $('div.list_column div.idea_list').size() == 0 ) return;
+  if(dragging_new_idea) return;
 	if(adjust_in_process){
 		setTimeout(adjust_columns, 1000);
 		return;
@@ -495,6 +558,9 @@ function adjust_columns(){
 	var num_allowed_columns = Math.floor( avl_width / col_width);
 	//console.log("num_allowed_columns: " + num_allowed_columns);
 	
+	if(force_single_column) num_allowed_columns = 1;
+	
+	
 	// get the height of the lists container 
 	var avl_height = $('div.lists').height();
 	//console.log("avl_height: " + avl_height);
@@ -510,13 +576,13 @@ function adjust_columns(){
 	var fit_achieved = false;
 	
 	// Will it fit in one column?
-	if(total_height <= avl_height){
+	if(total_height <= avl_height && !force_single_column){
 		//console.log("fit the items into a single column");
 		lists_per_col = [ lists.size() ];
 		fit_achieved = true;
 	}
 	
-	if(!fit_achieved){
+	if(!fit_achieved && !force_single_column){
 		//console.log("Can I fit the lists into the avl height and # cols?");
 		// add up lists till that fit within one column then the next
 		while(true){
@@ -547,9 +613,12 @@ function adjust_columns(){
   		}
   		// can I add another column, if yes, try to make this fit again, otherwise make it scroll with code below
   	  var incoming_width = $('div.incoming_ideas').width();
-  	  if(incoming_width < 300 + col_width ) break; // I don't want to squeeze incoming ideas anymore
+  	  // but check if there is any dead space I can also use
+  	  var free_space = $('div.workspace').width() - incoming_width - col_width * num_allowed_columns - 20;
+  	  
+  	  if(incoming_width + free_space < 300 + col_width ) break; // I don't want to squeeze incoming ideas anymore
   	  // shrink incoming width and increase # of cols
-  	  $('div.incoming_ideas').width( incoming_width - col_width  );
+  	  $('div.incoming_ideas').width( incoming_width - ( col_width - free_space ) );
       ++num_allowed_columns;
       // try again
   	}
@@ -630,4 +699,56 @@ function make_lists_sortable(){
 		cursor: 'pointer', 
 		tolerance: 'pointer'
 	});
+}
+
+
+$('div.auto-scroll')
+	.mousemove(function(e) {checkMouse(e.pageX, e.pageY, this);})
+	.bind('mouseleave', function() {stopMoving();})
+	.bind('mouseenter', function() { clearTimeout(collapseTimer);});
+
+var auto_scroll_params = { direction: 0, speed: 2, timer: 0, interval: 50, intervalTimer: null };
+function checkMouse(x, y, ctnr) {
+	var ctnr = $(ctnr);
+	y = y - ctnr.offset().top;
+	// convert y to speed
+	if(ctnr.attr('id').match(/top/)){
+		auto_scroll_params.direction = -1;
+		speed = 21 - y;
+	}else{
+		auto_scroll_params.direction = 1;
+		speed = y + 1;
+	}
+	speed = Math.round( speed/2 );
+	speed = speed < 2 ? 2 : speed;
+	auto_scroll_params.speed = speed;
+	if(!auto_scroll_params.intervalTimer){
+	  auto_scroll_params.intervalTimer = setInterval(move, auto_scroll_params.interval);
+	}
+	//move();
+	//console.log("checkMouse auto_scroll_params.direction: " + auto_scroll_params.direction + ", 	auto_scroll_params.speed: " + 	auto_scroll_params.speed);
+}
+
+function stopMoving(){
+	clearInterval(auto_scroll_params.intervalTimer );
+	auto_scroll_params.intervalTimer = null;
+	//console.log("stopMoving");
+	auto_scroll_params.speed = 2;
+	auto_scroll_params.direction = 0;
+}
+
+function move() {
+  if(auto_scroll_params.direction == 0){
+    stopMoving();
+    return;
+  }
+	var scrollIncrement = auto_scroll_params.direction * auto_scroll_params.speed;
+  //console.log("move with speed: " + auto_scroll_params.speed + " scrollIncrement: " + scrollIncrement);
+  
+	//$(window).scrollTop( $(window).scrollTop() + scrollIncrement );
+	
+	$('div#lists').scrollTop( $('div#lists').scrollTop() + scrollIncrement );
+	
+	
+	//auto_scroll_params.timer = setTimeout(function() {move();}, auto_scroll_params.interval);
 }

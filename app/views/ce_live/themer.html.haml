@@ -1,6 +1,8 @@
 - content_for(:script) do
 	%style
 		:sass
+			body
+				overflow: hidden
 			.dragged_idea
 				max-width: 240px
 			div.page
@@ -83,6 +85,7 @@
 					//position: absolute
 					//top: 0
 					//left: 700px
+					min-width: 320px
 					float: left
 					background-color: white
 					p.stats
@@ -105,10 +108,10 @@
 				top: 0
 				left: 0
 			
-			div.idea_list.expanded
-				position: absolute
-				z-index: 2
-				background-color: white
+			//div.idea_list.expanded
+			//	position: absolute
+			//	z-index: 2
+			//	background-color: white
 			
 			div.idea_list.misc_list
 				margin-top: 0
@@ -124,8 +127,7 @@
 			div.list_column
 				float: left
 				width: 270px
-				border: 1px solid #ddd
-				
+				min-height: 100px
 			div.idea_list
 				//float: left
 				overflow: hidden
@@ -223,21 +225,32 @@
 			div.drop_ribbon
 				div
 					background-color: white
-				div#new_theme, div#misc
+				div#new_theme, div#misc, div#toggle_lists
 					float: left
 					border: 1px solid black
 					font-size: 12px
 					font-weight: bold
-					padding: 0 6px
 					margin: 2px 0 0 4px
 					cursor: pointer
+					p
+						margin: 0 6px
 				div#new_theme
 					margin-right: 20px
 				.drop_active
 					background-color: yellow
 				.drop_hover	
 					background-color: green
-			
+			div.auto-scroll
+				width: 100%
+				height: 40px
+				//background-color: red
+				position: fixed
+				bottom: 0
+				z-index: 1000
+			div#auto_top.auto-scroll
+				top: 0
+			div#lists
+				padding-bottom: 40px
 	= javascript_include_tag 'app_ce_live_themer.js'
 	-#:javascript
 		//console.log("run jscript")
@@ -248,6 +261,8 @@
 	:javascript
 		var pub_sub_channels = #{@channels}
 
+	%div#auto_top.auto-scroll
+	%div#auto_bottom.auto-scroll
 	%div.workspace
 		
 		%div.incoming_ideas
@@ -263,14 +278,20 @@
 			%div#live_talking_points
 				%div.inner
 					- if params[:preload]
-						= render :partial=> 'ce_live/live_talking_point', :collection => LiveTalkingPoint.limit(params[:preload])
+						- talking_points = LiveTalkingPoint.limit(params[:preload]) 
+						- cnt = 0
+						- talking_points.each do |tp|
+							- tp.text = "#{cnt+=1} #{tp.text}"
+						= render :partial=> 'ce_live/live_talking_point', :collection => talking_points
 
 		%div.lists
 			%div.drop_ribbon
 				%div#new_theme
-					Drop New Theme
+					%p Create new theme
 				%div#misc
-					Drop Doesn't fit in
+					%p Add to Don't fit
+				%div#toggle_lists
+					%p T
 			-#%p.stats
 				Lists:
 				%span.lists_cnt 0
@@ -283,10 +304,9 @@
 
 
 			%div#lists
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New theme', :class_name=>'new_list', :edit => true, :list_id=>0}
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>"Don't fit in", :class_name=>'misc_list', :list_id=>'misc'}
 				%div.list_column
-			
-				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New theme', :class_name=>'new_list', :edit => true}
-				= render :partial=>'ce_live/idea_list', :locals=>{:title=>"Don't fit in", :class_name=>'misc_list'}
 
 	= link_to 'Test',nil,:class=>'test_mode'
 	%div.test_mode

@@ -28,7 +28,7 @@ class CeLiveController < ApplicationController
   
   def coordinator    
     # make sure this is in their roles
-    return not_authorized unless @live_node.role == 'coord'
+   # return not_authorized unless @live_node.role == 'coord'
     @event = LiveEvent.find( params[:event_id])
     @event_sessions = LiveSession.where(:live_event_id => params[:event_id])
     @event_nodes = LiveNode.where(:live_event_id => params[:event_id])
@@ -36,7 +36,7 @@ class CeLiveController < ApplicationController
     session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
     authorize_juggernaut_channels(request.session_options[:id], @channels )
 
-    render :template => 'ce_live/coordinator', :layout => 'ce_live'
+    render :template => 'ce_live/coordinator', :layout => 'ce_live', :locals=>{ :title=>'Cordinator page for CivicEvolution Live', :role=>'Coordinator'}
   end
   
   def themer         
