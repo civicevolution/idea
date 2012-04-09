@@ -31,6 +31,7 @@
 				height: 20px
 				width: 100%
 				border: 1px solid #aaa
+				font-size: .84em
 			
 			div.live_talking_point
 				//width: 660px
@@ -268,20 +269,15 @@
 		%div.incoming_ideas
 			%div.tables_ribbon
 				%span
-					Table 1 stats
-				%span
-					Table 2 stats
-				%span
-					Table 3 stats
-				%span 
-					Table 4 stats
+					Table stats (to be added asap)
+
 			%div#live_talking_points
 				%div.inner
 					- if params[:preload]
-						- talking_points = LiveTalkingPoint.limit(params[:preload]) 
+						- talking_points = LiveTalkingPoint.where('live_session_id=22 AND length(text) > 30').limit(params[:preload]) 
 						- cnt = 0
 						- talking_points.each do |tp|
-							- tp.text = "#{cnt+=1} #{tp.text}"
+							- tp.text = "[#{cnt+=1}] #{tp.text}"
 						= render :partial=> 'ce_live/live_talking_point', :collection => talking_points
 
 		%div.lists
@@ -291,7 +287,7 @@
 				%div#misc
 					%p Add to Don't fit
 				%div#toggle_lists
-					%p T
+					%p E
 			-#%p.stats
 				Lists:
 				%span.lists_cnt 0

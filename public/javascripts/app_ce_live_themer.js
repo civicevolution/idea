@@ -506,6 +506,7 @@ $('#toggle_lists').live('click',
     console.log("toggle_lists expanded_mode: " + expanded_mode);
     if(expanded_mode){
       expanded_mode = false;
+      $(this).find('p').html('E');
       $('div.list_column div.idea_list').each(
       	function(){
       		var list = $(this);
@@ -515,6 +516,7 @@ $('#toggle_lists').live('click',
       )
     }else{
       expanded_mode = true;
+      $(this).find('p').html('C');
       $('div.list_column div.idea_list').each(
       	function(){
       		var list = $(this);
