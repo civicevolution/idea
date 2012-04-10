@@ -103,9 +103,11 @@ $('a.new_live_talking_point').live('click',
 		}
 		tp_clone.find(':text').val('');
 		
-		var cntr = tp.find('span.char_ctr');
+		var cntr = tp_clone.find('span.char_ctr');
 		cntr.html( cntr.attr('cnt'));
-		activate_text_counters_grow(tp_clone.find('textarea'), 120);
+		var textarea = tp_clone.find('textarea');
+		textarea.removeAttr('cols rows style');
+		setTimeout(function(){ activate_text_counters_grow( this, 100);}.bind(textarea),100);
 		
 		//tp_clone.find('form');//.removeClass('orig');
 		tp_clone.find('input[name="form_id"]').val(++tp_live_form_ctr);

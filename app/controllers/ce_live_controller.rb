@@ -29,6 +29,7 @@ class CeLiveController < ApplicationController
   def coordinator    
     
     @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'coord','coord')
+    session[:live_node_id] = @live_node
     
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'coord'
@@ -43,8 +44,11 @@ class CeLiveController < ApplicationController
   end
   
   def themer         
+    @session = LiveSession.find_by_id(params[:session_id])
+    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'themer','themer')
+    session[:live_node_id] = @live_node
     
-    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'themer','themer')
+    @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id).order('id ASC')
     
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'theme'
@@ -58,8 +62,12 @@ class CeLiveController < ApplicationController
   
   def table   
     
-    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'scribe1','scribe1')
-    
+    @session = LiveSession.find_by_id(params[:session_id])
+    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe1','scribe1')
+    session[:live_node_id] = @live_node
+
+    @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => @live_node.id).order('id ASC')
+
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'scribe'
     @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"]
@@ -183,16 +191,36 @@ class CeLiveController < ApplicationController
     # live_session_id
     # group_id
     # channel
-    
-    ltp = LiveTalkingPoint.new live_session_id: params[:sid], group_id: @live_node.id, text: params[:text],
-      pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: 'E'
-      
-      
-      
-    ltp.id = 1234
-    
+
+    # how do I determine the letter to give this talking point  
+    last = LiveTalkingPoint.select('id_letter').where(:live_session_id => params[:s_id], :group_id => @live_node.id).order('id DESC').limit(1)
+    if last.empty?
+      id_letter = 'A'
+    else
+      id_letter = last[0].id_letter.succ
+    end
+
+    ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: @live_node.id, text: params[:text],
+      pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter
+
     Juggernaut.publish(session[:table_chat_channel], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
     render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => ltp})
+  end
+  
+  def post_theme_update
+    
+    # I want to use session to determine 
+    # live_session_id
+    # group_id
+    # channel
+
+    logger.debug "\n\n\n************ post_theme_update\n\n#{params.inspect}\n\n\n"
+
+    #ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: @live_node.id, text: params[:text],
+    #  pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter
+    #
+    #Juggernaut.publish(session[:table_chat_channel], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
+    render( :template => 'ce_live/post_theme.js', :locals =>{:live_talking_point => nil})
   end
   
   def get_templates

@@ -20,6 +20,7 @@ G3::Application.routes.draw do |map|
   get 'live/test' => 'ce_live#session_test'
   #post 'live/:channel/post_tp' => 'ce_live#post_talking_point_from_group', :as => 'post_live_tp'
   post 'live/post_tp' => 'ce_live#post_talking_point_from_group', :as => 'post_live_tp'
+  post 'live/post_theme' => 'ce_live#post_theme_update', :as => 'post_live_theme'
   post 'live/test_ids' => 'ce_live#get_tp_test_ids', :as => 'live_test_ids'
   post 'live/theme/edit' => 'ce_live#edit_theme', :as => 'live_theme_edit'
   
@@ -27,9 +28,9 @@ G3::Application.routes.draw do |map|
   get 'proposal/:team_id/print' => 'proposal#print', :as => 'print_proposal'
   
   get 'live/:event_id/coordinator' => 'ce_live#coordinator', :as => 'live_coordinator'
-  get 'live/:event_id/themer' => 'ce_live#themer', :as => 'live_themer' 
-  get 'live/:event_id/table' => 'ce_live#table', :as => 'live_table'
-  get 'live/:event_id/prioritize' => 'ce_live#prioritize', :as => 'live_prioritize'
+  get 'live/:session_id/themer' => 'ce_live#themer', :as => 'live_themer' 
+  get 'live/:session_id/table' => 'ce_live#table', :as => 'live_table'
+  get 'live/:session_id/prioritize' => 'ce_live#prioritize', :as => 'live_prioritize'
   get 'live/:event_id/observer' => 'ce_live#observer', :as => 'live_observer'
   get 'live/:event_id/add_session(/:id)' => 'ce_live#add_session_form', :as=> 'add_live_session'
   match 'live/:event_id/add_session(/:id)' => 'ce_live#add_session_form', :as=> 'edit_live_session'

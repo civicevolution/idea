@@ -44,7 +44,7 @@
 			%th Session name and description
 		- @event_sessions.sort{|a,b| a.order_id<=>b.order_id}.each do |session|
 			%tr
-				%td= session.order_id
+				%td= session.id
 				%td
 					%b= session.name
 					%br

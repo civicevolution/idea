@@ -172,6 +172,11 @@
 							display: none
 							padding: 0 10px 0 20px
 							font-weight: bold
+							margin-top: 8px
+							span
+								margin: 0
+							span.table 
+								margin-right: 10px
 						img.info
 							position: absolute
 							right: 0
@@ -261,8 +266,9 @@
 %div#themer
 	:javascript
 		var pub_sub_channels = #{@channels}
+		var live_session_id = #{params[:session_id]}
 
-	%div#auto_top.auto-scroll
+	-#%div#auto_top.auto-scroll
 	%div#auto_bottom.auto-scroll
 	%div.workspace
 		
@@ -279,7 +285,9 @@
 						- talking_points.each do |tp|
 							- tp.text = "[#{cnt+=1}] #{tp.text}"
 						= render :partial=> 'ce_live/live_talking_point', :collection => talking_points
-
+					- else
+						= render :partial => 'ce_live/live_talking_point.html', :locals =>{:mode => 'theme'}, :collection => @live_talking_points, :as => :live_talking_point
+						
 		%div.lists
 			%div.drop_ribbon
 				%div#new_theme
