@@ -44,7 +44,7 @@ function live_resize(){
 	  $('div.incoming_ideas').width( incoming_width);
 	  //$('div.lists').width( avl_width - incoming_width );
 	  //lists.width( ws.width() - lists.position().left - 10 )
-	  console.log("call adjust_columns in 1 sec because the page has been resized");
+	  //console.log("call adjust_columns in 1 sec because the page has been resized");
 	  setTimeout(adjust_columns, 400);
 	}
 }
@@ -128,8 +128,6 @@ $('a.test_mode').live('click',
 			var pos = $(this).position();
 			test.css({left: pos.left, top: pos.top + 20})
 		}
-		temp.this = $(this);
-		temp.test = test;
 		return false;
 	}
 )
@@ -137,7 +135,7 @@ $('a.test_mode').live('click',
 var idea_list_ctr = 1;
 
 var dragging_new_idea = false;
-var dragging_idea = false
+var dragging_idea = false;
 // Drag new ideas from the left and drop them into lists on the right
 function make_new_ideas_draggable($ideas){
 	$ideas.draggable( {
@@ -172,7 +170,7 @@ function make_new_ideas_draggable($ideas){
 		connectToSortable: '.sortable_ideas',
 		cursorAt: {left: 10, top: 10},
 		cursor: 'move',
-		distance: 6,
+		//distance: 6,
 		//helper: 'original',
 		helper: 'clone',
 		//appendTo: 'body',
@@ -210,7 +208,7 @@ $( "#new_theme, #misc" ).droppable({
 	    $('div#lists div.list_column:last').append(new_list);
 
 	    new_list.show(1000, function(){
-	      console.log("call adjust_columns in 1 sec because a new list has been added");
+	      //console.log("call adjust_columns in 1 sec because a new list has been added");
 	      setTimeout(adjust_columns, 400);
 	    });
 
@@ -231,7 +229,7 @@ $( "#new_theme, #misc" ).droppable({
 	        list_ids.push($(this).attr('list_id') );
 	      }
 	    );
-	    console.log("add new_list, ids: " + list_ids);
+	    //console.log("add new_list, ids: " + list_ids);
 	    
 	    post_theme_changes({act: 'new_list', text: new_list.find('p.theme').html(), list_ids: list_ids, ltp_ids: new_idea.attr('idea_id') })
 	    setTimeout( function(){ fix_list_overflow( this )}.bind(new_list), 100);
@@ -290,7 +288,7 @@ function make_idea_lists_sortable($idea_lists){
   		start: function(event,ui){
   		  var idea_list = $(this).closest('div.idea_list');
   		  var theme = idea_list.find('p.theme').html();
-  		  console.log("sortable start " + theme); 
+  		  //console.log("sortable start " + theme); 
   		  if( !ui.item.hasClass('live_talking_point') ){
   		    ui.item.attr('source_list_id',idea_list.attr('list_id'));
     		  ui.item.attr('prev_idea_id',ui.item.prev('.idea').attr('idea_id'));
@@ -309,23 +307,23 @@ function make_idea_lists_sortable($idea_lists){
   		},
   		over: function(event,ui){
   		  var list = $(this).closest('div.idea_list');
-  		  console.log("expand for sortable over " + list.find('p.theme').html())
+  		  //console.log("expand for sortable over " + list.find('p.theme').html())
   		  expand_idea_list(list);
 		  },
   		stop: function(event,ui){
   		  var idea_list = $(this).closest('div.idea_list');
   		  var theme = idea_list.find('p.theme').html();
-        console.log("sortable stop " + theme);
+        //console.log("sortable stop " + theme);
   			setTimeout(function(){clean_up_theme(this);}.bind(idea_list),100);
   			dragging_idea = false;
-  			console.log("call adjust_columns in 1 sec because the sortable ideas has stopped: CHECK IF ACTUAL CHANGE");
+  			//console.log("call adjust_columns in 1 sec because the sortable ideas has stopped: CHECK IF ACTUAL CHANGE");
   		  setTimeout(adjust_columns, 400);
   		  
   		},
   		remove: function(event,ui){
   		  var idea_list = $(this).closest('div.idea_list');
   		  var theme = idea_list.find('p.theme').html();
-        console.log("sortable remove " + theme);
+        //console.log("sortable remove " + theme);
         
         // get the list ids in order 
   	    var ltp_ids = [];
@@ -341,7 +339,7 @@ function make_idea_lists_sortable($idea_lists){
   		receive: function(event,ui){
   		  var idea_list = $(this).closest('div.idea_list');
   		  var theme = idea_list.find('p.theme').html();
-        console.log("sortable receive " + theme);
+        //console.log("sortable receive " + theme);
   		  if(ui.item.hasClass('live_talking_point')){
     		  new_idea = $(this).find('div.live_talking_point')
     		  new_idea.attr('class', 'idea');
@@ -381,7 +379,7 @@ function make_idea_lists_sortable($idea_lists){
   		delay: 50,
   		//cursorAt: {left: 10, top: 10},
   		cursor: 'move',
-  		distance: 6,
+  		//distance: 6,
   		tolerance: 'pointer',
   		//tolerance: 'intersect',
   		connectWith: '.sortable_ideas',
@@ -402,11 +400,11 @@ function make_lists_sortable(){
 	        list_ids.push($(this).attr('list_id') );
 	      }
 	    );
-	    console.log("change lists order, ids: " + list_ids);
+	    //console.log("change lists order, ids: " + list_ids);
 	    
 	    post_theme_changes({act: 'reorder_lists', list_ids: list_ids });
 	    
-		  console.log("call adjust_columns in 1 sec because the order of the lists has been changed");
+		  //console.log("call adjust_columns in 1 sec because the order of the lists has been changed");
 		  setTimeout(adjust_columns, 400);
 		},
 		delay: 50,
@@ -419,14 +417,14 @@ function make_lists_sortable(){
 
 function clean_up_theme(list){
   // remove duplicate ideas
-  console.log("clean_up_theme theme: " + list.find('p.theme').html() );
+  //console.log("clean_up_theme theme: " + list.find('p.theme').html() );
 	var idea_ids = {};
 	list.find('div.idea').each(
 	  function(){
 	    var idea = $(this);
 	    var id = idea.attr('idea_id');
 	    if(idea_ids[ id ]){
-	      console.log("remove the id " + idea.find('p.text').html() );
+	      //console.log("remove the id " + idea.find('p.text').html() );
 	      idea.remove();
 	    }else{
 	      idea_ids[ id ] = id;
@@ -455,9 +453,9 @@ $('div.move_or_copy_idea button').die('click').live('click',
     var idea = div.next('.idea');
     idea.css('background-color','');
     if(btn.html().match(/move/i)){
-      console.log("Move the idea");
+      //console.log("Move the idea");
     }else{
-      console.log("copy_idea_back_to_source");
+      //console.log("copy_idea_back_to_source");
 
       var source_list_id = idea.attr('source_list_id');
       var source_list = $('div.idea_list[list_id="' + source_list_id + '"]');
@@ -475,17 +473,20 @@ $('div.move_or_copy_idea button').die('click').live('click',
     var list = div.closest('div.idea_list');
     div.remove();
     
-    // get the list ids in order 
-    var ltp_ids = [];
-    source_list.find('div.idea').each(
-      function(){
-        ltp_ids.push($(this).attr('idea_id') );
-      }
-    );
-    post_theme_changes({act: 'receive_live_talking_point', list_id: source_list.attr('list_id'), ltp_ids: ltp_ids });
-	  
-    setTimeout(function(){clean_up_theme(this);}.bind(source_list),100);
-    setTimeout(function(){clean_up_theme(this);}.bind(list),100);
+    if(source_list){
+      // get the list ids in order 
+      var ltp_ids = [];
+      source_list.find('div.idea').each(
+        function(){
+          ltp_ids.push($(this).attr('idea_id') );
+        }
+      );
+      post_theme_changes({act: 'receive_live_talking_point', list_id: source_list.attr('list_id'), ltp_ids: ltp_ids });
+      setTimeout(function(){clean_up_theme(this);}.bind(source_list),100);
+	  }
+	  if(list){
+      setTimeout(function(){clean_up_theme(this);}.bind(list),100);
+    }
   }
 );
 
@@ -532,7 +533,7 @@ $( "div.misc_list" ).live('mouseenter mouseleave', function(event) {
 
 $('a.remove_list').live('click',
   function(){
-    console.log("remove_list")
+    //console.log("remove_list")
     $(this).closest('div.idea_list').hide(1000,function(){$(this).remove()});
   }
 );
@@ -584,7 +585,7 @@ $('div.idea div.star').live('click',
 var expanded_mode = false;
 $('#toggle_lists').live('click', 
   function(){
-    console.log("toggle_lists expanded_mode: " + expanded_mode);
+    //console.log("toggle_lists expanded_mode: " + expanded_mode);
     if(expanded_mode){
       expanded_mode = false;
       $(this).find('p').html('E');
@@ -618,18 +619,18 @@ function adjust_columns(){
   var force_single_column = false;
   if( $('div.list_column div.idea_list').size() == 0 ) return;
 	if(adjust_in_process){
-	  console.log("call adjust_columns in 1 sec because the adjust columns is in process");
+	  //console.log("call adjust_columns in 1 sec because the adjust columns is in process");
 		setTimeout(adjust_columns, 800);
 		return;
 	}
 	if($('div.idea_list.expanded').size() > 0 ){
-	  console.log("call adjust_columns in 1 sec because one or more lists are expanded");
+	  //console.log("call adjust_columns in 1 sec because one or more lists are expanded");
 		setTimeout(adjust_columns, 800);
 		return;
 	}
 	if(dragging_new_idea || dragging_idea) return; // if these impact the lists, this will get called again
 	adjust_in_process = true;
-	console.log("adjust_columns now");
+	//console.log("adjust_columns now");
 	// record the list heights			
 	var list_heights = [];
 	var total_height = 0;

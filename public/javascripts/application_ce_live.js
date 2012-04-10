@@ -123,3 +123,10 @@ function activate_text_counters_grow(els, height){
 		}
 	)
 }
+
+Function.prototype.bind = function (obj) {
+	var fn = this;
+	return function () {
+		return fn.apply(obj, arguments);
+	}
+};
