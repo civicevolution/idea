@@ -296,6 +296,12 @@ function make_idea_lists_sortable($idea_lists){
   		    ui.item.attr('source_list_id',idea_list.attr('list_id'));
     		  ui.item.attr('prev_idea_id',ui.item.prev('.idea').attr('idea_id'));
   		  }
+  		  if(idea_list.hasClass('misc_list')){
+  		    //console.log("hide the misc list immediately");
+  		    idea_list.hide();
+  		    collapse_idea_list(idea_list);
+  		    $(this).show();
+  		  }
   		  dragging_idea = true;
   		},
   		over: function(event,ui){
@@ -366,7 +372,7 @@ function make_idea_lists_sortable($idea_lists){
         
   		  setTimeout(function(){clean_up_theme(this);}.bind(idea_list),100);
   		},
-  		//appendTo: 'div.lists',
+  		appendTo: 'div.lists',
   		helper: 'clone',
   		//containment: 'div.lists',
   		delay: 50,
