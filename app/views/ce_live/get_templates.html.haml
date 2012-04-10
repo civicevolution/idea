@@ -105,6 +105,8 @@
 			$('div.idea_list div.edit').live('click',
 			  function(){
 			    console.log("edit the theme");
+					$('.sortable_ideas').sortable('disable');
+					$('div.list_column').sortable('disable');
 					var form = $(template_functions['live_theme_form']({}));
 					var list = $(this).closest('.idea_list');
 					list.attr('expand',true);
@@ -117,6 +119,8 @@
 			);
 			$('div.idea_list div.header :submit').die('click').live('click',
 				function(){
+					$('.sortable_ideas').sortable('enable');
+					$('div.list_column').sortable('enable');
 					var list = $(this).closest('.idea_list');
 					var header = list.find('div.header div.theme');
 					var edit_div = list.find('div.header div.edit_theme');
@@ -130,6 +134,8 @@
 			);
 			$('div.idea_list div.header a.cancel').die('click').live('click',
 				function(){
+					$('.sortable_ideas').sortable('enable');
+					$('div.list_column').sortable('enable');
 					var list = $(this).closest('.idea_list');
 					var header = list.find('div.header div.theme');
 					var edit_div = list.find('div.header div.edit_theme');
