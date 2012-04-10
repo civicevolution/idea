@@ -379,7 +379,8 @@ function make_idea_lists_sortable($idea_lists){
   		//cursorAt: {left: 10, top: 10},
   		cursor: 'move',
   		distance: 6,
-  		tolerance: 'pointer',
+  		//tolerance: 'pointer',
+  		tolerance: 'intersect',
   		connectWith: '.sortable_ideas',
   		placeholder: 'curated_list_placeholder'
   	}
