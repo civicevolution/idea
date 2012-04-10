@@ -178,6 +178,8 @@ function make_new_ideas_draggable($ideas){
 		},
 		tolerance: 'pointer',
 		connectToSortable: '.sortable_ideas',
+		cursorAt: {left: 10, top: 10},
+		cursor: 'move',
 		//helper: 'original',
 		helper: 'clone',
 		//appendTo: 'body',
@@ -333,7 +335,8 @@ function make_idea_lists_sortable($idea_lists){
   		helper: 'clone',
   		//containment: 'div.lists',
   		delay: 50,
-  		cursor: 'pointer',
+  		cursorAt: {left: 10, top: 10},
+  		cursor: 'move',
   		tolerance: 'pointer',
   		connectWith: '.sortable_ideas',
   		placeholder: 'curated_list_placeholder'
