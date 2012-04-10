@@ -81,7 +81,6 @@ function fix_list_overflow(list){
 
 function expand_idea_list(list){
   if(list.hasClass('misc_list') && dragging_new_idea ) return;
-  
   //if this list is already expanded, just return
   if(list.hasClass('expanded'))return;
   
@@ -101,12 +100,12 @@ function expand_idea_list(list){
   list.find('div.idea').show().height('auto');
 }
 
-
 no_collapse = false;
 function collapse_idea_list(list){
   if(no_collapse) return;
   if(list.attr('expand'))return;
-  //console.log("collapse_idea_list for " + list.find('p.theme').html() )
+  //console.log("collapse_idea_list for " + list.find('p.theme').html() );
+  
   $('div.idea_list_placeholder').remove();
   list.removeClass('expanded');  
   fix_list_overflow(list);
@@ -295,14 +294,18 @@ function make_idea_lists_sortable($idea_lists){
   		  if( !ui.item.hasClass('live_talking_point') ){
   		    ui.item.attr('source_list_id',idea_list.attr('list_id'));
     		  ui.item.attr('prev_idea_id',ui.item.prev('.idea').attr('idea_id'));
+    		  dragging_idea = true;
+  		  }else{
+  		    dragging_new_idea = true;
   		  }
   		  if(idea_list.hasClass('misc_list')){
   		    //console.log("hide the misc list immediately");
   		    idea_list.hide();
   		    collapse_idea_list(idea_list);
   		    $(this).show();
+  		    $('div.lists').append(ui.helper)
   		  }
-  		  dragging_idea = true;
+  		  expand_idea_list(idea_list);
   		},
   		over: function(event,ui){
   		  var list = $(this).closest('div.idea_list');
@@ -372,15 +375,15 @@ function make_idea_lists_sortable($idea_lists){
         
   		  setTimeout(function(){clean_up_theme(this);}.bind(idea_list),100);
   		},
-  		appendTo: 'div.lists',
+  		//appendTo: 'div.lists',
   		helper: 'clone',
   		//containment: 'div.lists',
   		delay: 50,
   		//cursorAt: {left: 10, top: 10},
   		cursor: 'move',
   		distance: 6,
-  		//tolerance: 'pointer',
-  		tolerance: 'intersect',
+  		tolerance: 'pointer',
+  		//tolerance: 'intersect',
   		connectWith: '.sortable_ideas',
   		placeholder: 'curated_list_placeholder'
   	}
