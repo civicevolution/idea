@@ -623,7 +623,7 @@ $('div.idea div.star').live('click',
   	var list = idea.closest('div.idea_list');
   	// get the example ids for this list
     var example_ids = [];
-    $('div.idea_list div.idea.example').each(
+    list.find('div.idea.example').each(
       function(){
         example_ids.push($(this).attr('idea_id') );
       }
