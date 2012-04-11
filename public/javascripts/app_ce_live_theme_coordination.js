@@ -599,6 +599,8 @@ $('img.info').live('mouseenter mouseleave', function(event) {
     team.show();
     examples.show();
   } else {
+    // don't close if idea_list isexpanded
+    if( $(this).closest('div.idea_list').hasClass('expanded')) return;
     team.hide();
     examples.hide();
   }
@@ -919,3 +921,70 @@ function post_theme_changes( data ){
 	  dataType: 'script'
 	});
 }
+
+
+// These should override the files in get_templates
+
+$('div#themer.coord div.idea_list div.edit').live('click',
+  function(){
+    console.log("edit the theme FOR COORD");
+		$('.sortable_ideas').sortable('disable');
+		$('div.list_column').sortable('disable');
+		var form = $(template_functions['live_theme_form']({}));
+		var list = $(this).closest('.idea_list');
+		list.attr('expand',true);
+		expand_idea_list(list);
+		var header = list.find('div.header div.theme');
+		form.find('textarea').val( header.find('p.theme').html() )
+		header.hide().after(form);
+		
+		list.find('textarea').before('<p class="theme_hdr">Enter the theme</p>')
+    ta = list.find('textarea').clone()
+    list.find('textarea').after(ta);
+    list.find('textarea:first').after('<p class="example_hdr">Enter the example and table attribution</p>')
+    ta.val( header.find('p.example_txt').html() )
+    
+    list.closest('div').find('p.theme_team').show();
+  	list.closest('div').find('p.example').show();
+  	
+		return false;
+	}
+);
+$('div#themer.coord div.idea_list div.header :submit').die('click').live('click',
+	function(){
+	  console.log(" SUBMIT FOR COORD");
+		$('.sortable_ideas').sortable('enable');
+		$('div.list_column').sortable('enable');
+		var list = $(this).closest('.idea_list');
+		var header = list.find('div.header div.theme');
+		var edit_div = list.find('div.header div.edit_theme');
+		var new_theme = edit_div.find('textarea').eq(0).val();
+		var example_text = edit_div.find('textarea').eq(1).val();
+		header.find('p.theme').html(new_theme);
+		header.find('p.example_txt').html(example_text);
+		
+		post_theme_changes({act: 'update_theme_text_coord', text: new_theme, example_text: example_text, list_id: list.attr('list_id') })
+		
+		header.show();
+		edit_div.remove();
+		list.removeAttr('expand');
+    
+		return false;
+	}
+);
+$('div#themer.coord div.idea_list div.header a.cancel').die('click').live('click',
+	function(){
+	  console.log("CANCEL FOR COORD");
+		$('.sortable_ideas').sortable('enable');
+		$('div.list_column').sortable('enable');
+		var list = $(this).closest('.idea_list');
+		var header = list.find('div.header div.theme');
+		var edit_div = list.find('div.header div.edit_theme');
+		header.show();
+		edit_div.remove();
+		list.removeAttr('expand');
+		
+		
+		return false;
+	}
+);

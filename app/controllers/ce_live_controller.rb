@@ -117,7 +117,7 @@ class CeLiveController < ApplicationController
       @dont_fit_tp = []
     #end
     
-    #@live_talking_points = @live_talking_points.reject{ |tp| themed_tp_ids.include?(tp.id) }
+    @live_themes = @live_themes.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
     @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme", "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"]
     session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"
@@ -133,7 +133,7 @@ class CeLiveController < ApplicationController
     ###session[:live_node_id] = @live_node.id
     # make sure this is in their roles
     
-    return not_authorized unless @live_node.role == 'theme'
+    return not_authorized unless @live_node.role == 'theme' || @live_node.role == 'coord'
     
     @page_title = "Theme for: #{@session.name}"
     
@@ -369,8 +369,15 @@ class CeLiveController < ApplicationController
     #return 
     
     
-    
     case params[:act]
+
+      when /update_theme_text_coord/  
+        logger.debug "do update_theme_text"
+        @live_theme = LiveTheme.find_by_id( params[:list_id])
+        @live_theme.text = params[:text]
+        @live_theme.example_ids = params[:example_text]
+        @live_theme.save
+      
       
       when /update_theme_text/
         logger.debug "do update_theme_text"
@@ -382,6 +389,8 @@ class CeLiveController < ApplicationController
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         @live_theme.example_ids = params[:example_ids].nil? ? '' : params[:example_ids].join(',')
         @live_theme.save
+        
+        
       when /new_list/ 
         logger.debug "new_list"
         @live_theme = LiveTheme.create live_session_id: params[:live_session_id], 

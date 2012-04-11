@@ -266,15 +266,24 @@
 					margin: 16px 10px
 				p.theme_team
 					margin: 10px
+			p.theme_hdr, p.example_hdr
+				font-weight: bold
+				margin: 0 0 4px 0
+			div.idea_list.expanded
+				p.example, p.theme_team
+					display: block
+				p.example_txt
+					font-style: italic
+					margin: 10px
 				
-		
+				
 	= javascript_include_tag 'app_ce_live_theme_coordination.js'
 	-#:javascript
 		//console.log("run jscript")
 		//setTimeout( "$('div.test_mode :submit').click()",2000);
 		console.log("make #new_theme and #misc droppable")
 		
-%div#themer
+%div#themer.coord
 	:javascript
 		var pub_sub_channels = #{@channels}
 		var live_session_id = #{params[:session_id]}
@@ -322,7 +331,7 @@
 					-#debugger
 					- @my_themes.each do |theme|
 						= render :partial=>'ce_live/theme_list', 
-							:locals=>{:title=>theme.text, :class_name=>'', :edit => true, :list_id=>theme.id, :themes => theme[:themes] }
+							:locals=>{:title=>theme.text, :example=> theme.example_ids, :class_name=>'', :edit => true, :list_id=>theme.id, :themes => theme[:themes] }
 
 	-#= link_to 'Test',nil,:class=>'test_mode'
 	-#%div.test_mode

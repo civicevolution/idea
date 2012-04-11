@@ -102,7 +102,7 @@
 					//'span.table' : '\#{data.live_talking_point.group_id}-\#{data.live_talking_point.id_letter}',
 				}
 			);
-			$('div.idea_list div.edit').live('click',
+			$('#themer.theme div.idea_list div.edit').live('click',
 			  function(){
 			    console.log("edit the theme");
 					$('.sortable_ideas').sortable('disable');
@@ -117,7 +117,7 @@
 					return false;
 				}
 			);
-			$('div.idea_list div.header :submit').die('click').live('click',
+			$('#themer.theme div.idea_list div.header :submit').die('click').live('click',
 				function(){
 					$('.sortable_ideas').sortable('enable');
 					$('div.list_column').sortable('enable');
@@ -135,7 +135,7 @@
 					return false;
 				}
 			);
-			$('div.idea_list div.header a.cancel').die('click').live('click',
+			$('#themer.theme div.idea_list div.header a.cancel').die('click').live('click',
 				function(){
 					$('.sortable_ideas').sortable('enable');
 					$('div.list_column').sortable('enable');
