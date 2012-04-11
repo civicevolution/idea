@@ -1,0 +1,12 @@
+- themes ||= nil
+- edit ||= false
+%div.idea_list{:class=> class_name ? class_name : '', :list_id=>list_id}
+	%div.header
+		%div.theme
+			%p.theme= title
+			- if edit
+				%div.edit
+	%div.ideas.sortable_ideas
+		- if themes
+			- themes.each do |tp|
+				= render( :partial => 'ce_live/live_theme.html', :locals =>{:live_theme => tp, :as => :live_theme, :mode => 'right_side_meta_themes'})

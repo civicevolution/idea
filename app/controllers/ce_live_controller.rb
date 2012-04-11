@@ -44,6 +44,98 @@ class CeLiveController < ApplicationController
     render :template => 'ce_live/coordinator', :layout => 'ce_live', :locals=>{ :title=>'Cordinator page for CivicEvolution Live', :role=>'Coordinator'}
   end
   
+  def theme_coordination        
+    @session = LiveSession.find_by_id(params[:session_id])
+    # make sure this is in their roles
+    return not_authorized unless @live_node.role == 'coord'
+    
+    @page_title = "Theme coordination for: #{@session.name}"
+    
+    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id)
+    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id)
+
+    # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
+    @live_themes = []
+    @my_themes = []
+    
+    @live_theming_session.each do |theme_session|
+      if !theme_session.nil?
+        if theme_session.themer_id == @live_node.id
+          theme_session.theme_group_ids.split(',').each do |id|
+            @my_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+          end
+        else
+          theme_session.theme_group_ids.split(',').each do |id|
+            @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+          end
+        end
+      end
+    end
+    
+    @live_themes.compact!
+    @my_themes.compact!
+    
+    # I now have the themes more or less in order
+
+    example_tp_ids = []
+    # determine which examples I need
+    @live_themes.each do |theme|
+      ex_ids = theme.example_ids
+    	ex_ids = ex_ids.nil? ? [] : ex_ids.split(/[^\d]+/).map{|i| i.to_i}
+      example_tp_ids += ex_ids
+    end
+
+    # get them as talking points
+    
+    @live_talking_points = LiveTalkingPoint.where(:id => example_tp_ids)  
+    # then assign them to the themes
+    @live_themes.each do |theme|
+      ex_ids = theme.example_ids
+      if !ex_ids.nil?
+        ex_ids = ex_ids.split(/[^\d]+/).map{|i| i.to_i}
+        example_talking_points = @live_talking_points.select{ |tp| ex_ids.include?(tp.id) }
+      end
+      theme[:examples] = example_talking_points
+    end
+
+    themed_tp_ids = []
+    @my_themes.each do |theme|
+		  if theme.id.to_i > 0
+  			tp_ids = theme.live_talking_point_ids
+  			tp_ids = tp_ids.nil? ? [] : tp_ids.split(/[^\d]+/).map{|i| i.to_i}
+  			
+  			themed_tp_ids += tp_ids
+  			theme[:themes] = @my_themes.select{ |tp| tp_ids.include?(tp.id) }
+  		end
+		end
+    
+    #@my_themes.each{|th| puts th.live_talking_point_ids}
+    #theme = @my_themes[0]
+    #theme.live_talking_point_ids
+    #tp_ids = theme.live_talking_point_ids
+    #tp_ids = tp_ids.nil? ? [] : tp_ids.split(/[^\d]+/).map{|i| i.to_i}
+    
+    #@my_themes.each{|th| puts th.id; puts th[:themes]; }
+    
+    
+    #if !@live_theming_session.empty?
+  	#	dont_fit_tp_ids = @live_theming_session[0].unthemed_ids.nil? ? [] : @live_theming_session[0].unthemed_ids.split(/[^\d]+/).map{|i| i.to_i}
+  	#	themed_tp_ids += dont_fit_tp_ids
+    #  @dont_fit_tp = @live_talking_points.select{ |tp| dont_fit_tp_ids.include?(tp.id) }
+    #else
+      @dont_fit_tp = []
+    #end
+    
+    #@live_talking_points = @live_talking_points.reject{ |tp| themed_tp_ids.include?(tp.id) }
+    
+    @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme", "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"]
+    session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"
+    session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
+    authorize_juggernaut_channels(request.session_options[:id], @channels )
+    
+    render :template => 'ce_live/theme_coordination', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :role=>'Themer'}
+  end
+  
   def themer         
     @session = LiveSession.find_by_id(params[:session_id])
     ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'themer2','themer2')
@@ -276,7 +368,17 @@ class CeLiveController < ApplicationController
     # channel
 
     logger.debug "\n\n\n************ post_theme_update\n\n#{params.inspect}\n\n\n"
-
+    
+    
+    #params[:act] == 'new_listXXX'
+    #params[:list_id] = 123
+    #@live_theme = LiveTheme.first
+    #
+    #render( :template => 'ce_live/post_theme.js', :locals =>{:live_talking_point => nil})
+    #return 
+    
+    
+    
     case params[:act]
       
       when /update_theme_text/

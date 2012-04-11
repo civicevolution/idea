@@ -1,0 +1,52 @@
+- if mode == 'left_side_list'
+	%div{:idea_id=>live_theme.id, :class => 'live_talking_point' }
+		%p.text= live_theme.text
+		- live_theme[:examples].each do |talking_point|
+			%p.example
+				=talking_point.text
+				(Table #{talking_point.group_id})
+		%p.theme_team From theme team #{live_theme.themer_id}
+		= image_tag 'info.gif', :class=>"info"
+- elsif mode =='right_side_meta_themes'			
+	%div{:idea_id=>live_theme.id, :class => 'live_talking_point' }
+		%p.text= live_theme.text
+		- live_theme[:examples].each do |talking_point|
+			%p.example
+				=talking_point.text
+				(Table #{talking_point.group_id})
+		%p.theme_team From theme team #{live_theme.themer_id}
+		= image_tag 'info.gif', :class=>"info"
+
+			
+	-#
+		= image_tag 'info.gif', :class=>"info"
+		%div.star
+		%p.stats
+			Table
+			%span.table= "#{live_talking_point.group_id}-#{live_talking_point.id_letter}"
+			%span.pos +#{live_talking_point.pos_votes} 
+			%span.div /
+			%span.neg  -#{live_talking_point.neg_votes}	
+
+-# elsif mode == 'table_confirmation'
+	%div{:idea_id=>live_talking_point.id, :class => 'live_talking_point' }
+		%p.text= live_talking_point.text
+		= image_tag 'info.gif', :class=>"info"
+		%p.stats
+			Talking point #{live_talking_point.id_letter} 
+			%span.pos +#{live_talking_point.pos_votes} 
+			%span.div /
+			%span.neg  -#{live_talking_point.neg_votes}
+	
+
+-# elsif mode == 'themed'
+	%div{:idea_id=>live_talking_point.id, :class => live_talking_point[:example] ? 'idea example' : 'idea' }
+		%p.text= live_talking_point.text
+		= image_tag 'info.gif', :class=>"info"
+		%div.star
+		%p.stats
+			Table
+			%span.table= "#{live_talking_point.group_id}-#{live_talking_point.id_letter}"
+			%span.pos +#{live_talking_point.pos_votes} 
+			%span.div /
+			%span.neg  -#{live_talking_point.neg_votes}

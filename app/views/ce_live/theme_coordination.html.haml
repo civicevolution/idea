@@ -1,0 +1,338 @@
+- content_for(:script) do
+	%style
+		:sass
+			body
+				overflow: hidden
+			.dragged_idea
+				max-width: 240px
+			div.page
+				div#left
+					width: 400px
+					float: left
+					margin-right: 40px
+				div#right
+					width: 400px
+					float: left
+
+			div#outer_chat
+				div#chat_log
+					overflow: auto
+					overflow-y: scroll
+					width: 460px
+					height: 300px
+					border: 1px solid black
+					padding: 1em 0
+					p 
+						margin: 0 1em
+				input[type=text]
+					width: 360px
+
+			div.tables_ribbon, div.drop_ribbon
+				height: 20px
+				width: 100%
+				border: 1px solid #aaa
+				font-size: .84em
+			
+			div.live_talking_point
+				//width: 660px
+				background-color: #FBE574
+				padding: 8px 10px
+				margin: 0 0px 10px 0
+				//float: left
+				position: relative
+				p.text
+					font-size: .9em
+					margin: 0
+				img.info
+					position: absolute
+					right: 6px
+					top: 6px
+					cursor: pointer
+				p.stats
+					display: none
+					padding: 0 10px 0 0
+					font-weight: bold
+			
+			div.workspace
+				position: relative
+				//border: 1px solid #ccc
+				div.incoming_ideas
+					//position: absolute
+					//top: 0
+					//left: 0
+					float: left
+					width: 700px
+					background-color: white
+					z-index: 10
+					div#live_talking_points
+						div.inner
+							background-color: white
+							overflow: auto
+							overflow-y: scroll
+							//min-width: 280px
+							height: 300px
+							border: 1px solid #bbb
+							padding: 10px
+				
+					p.stats 
+						margin: 0
+						a.expand_incoming_ideas_window
+							font-size: .8em
+							font-weight: normal
+							display: block
+							float: right
+						
+				div.lists
+					//position: absolute
+					//top: 0
+					//left: 700px
+					min-width: 320px
+					float: left
+					background-color: white
+					p.stats
+						margin: 0
+					div#lists
+						border: 1px solid #bbb
+						overflow-y: scroll
+			div.join_com
+				a.test_mode
+					margin-right: 20px
+					font-weight: normal
+				
+			div.test_mode
+				padding: 10px
+				border: 1px solid #aaa
+				display: none
+				z-index: 100
+				background-color: white
+				position: absolute
+				top: 0
+				left: 0
+			
+			div.idea_list.misc_list
+				margin-top: 0
+				background-color: #edb9d4
+				div.idea
+					display: none
+				//div.ideas.sortable_ideas
+				//	display: none
+			div.idea_list.misc_list.expanded
+				div.idea
+					display: block
+			div.idea_list.new_list, div.idea_list.misc_list
+				display: none
+			div.list_column
+				float: left
+				width: 270px
+				min-height: 100px
+			div.idea_list
+				//float: left
+				overflow: hidden
+				width: 250px
+				margin: 10px 0 0 20px
+				div.header
+					border: 1px solid #bbb
+					position: relative
+					p.theme
+						margin: 0
+						padding: 0 10px
+						text-align: center
+						font-weight: bold
+						background: url('/images/pencil.gif') no-repeat top right 
+					div.edit
+						position: absolute
+						top: 0
+						right: 0
+						cursor: pointer
+						width: 20px
+						height: 16px
+					textarea
+						width: 95%
+				div.ideas
+					border: 1px solid #bbb
+					padding: 0 6px 10px 0px
+					min-height: 60px
+			div.idea
+				margin-top: 10px
+				overflow: hidden	
+				position: relative
+				p.text
+					margin: 0 10px 0 0
+					padding: 0 10px 0 20px
+					line-height: 1em
+				p.stats
+					display: none
+					padding: 0 10px 0 20px
+					font-weight: bold
+					margin-top: 8px
+					span
+						margin: 0
+					span.table 
+						margin-right: 10px
+				img.info
+					position: absolute
+					right: 0
+					top: 0
+					cursor: pointer
+				div.star
+					position: absolute
+					left: 0
+					top: 2px
+					width: 20px
+					height: 18px
+					cursor: pointer
+				p.minority
+					margin: 0
+					color: #888
+					padding-left: 20px
+			div.idea.highlighted_idea
+				div.star
+					background: url('/images/star_sprite.gif') no-repeat 0 0 
+					&:hover
+						background-position: 0 -20px
+			div.idea.example
+				div.star
+					background: url('/images/star_sprite.gif') no-repeat -20px 0 
+					&:hover
+						background-position: -20px -20px
+			div.idea_list.misc_list	
+				div.ideas
+					div.idea
+						div.star
+							background: none		
+							cursor: normal
+				div.header			
+					p.theme
+						background: none
+				
+			div.idea_list_placeholder
+				border: 1px solid white
+			p.stats
+				span.pos
+					color: green
+				span.neg
+					color: red
+			div.move_or_copy_idea
+				text-align: center
+				padding: 10px
+				margin-bottom: -10px
+				background-color: #F3973A
+			span.minority
+				color: red
+				//margin-left: 8px
+
+			div.drop_ribbon
+				div
+					background-color: white
+				div#new_theme, div#misc, div#toggle_lists
+					float: left
+					border: 1px solid black
+					font-size: 12px
+					font-weight: bold
+					margin: 2px 0 0 4px
+					cursor: pointer
+					p
+						margin: 0 6px
+				div#new_theme
+					margin-right: 20px
+				.drop_active
+					background-color: yellow
+				.drop_hover	
+					background-color: green
+			div.auto-scroll
+				width: 100%
+				height: 40px
+				//background-color: red
+				position: fixed
+				bottom: 0
+				z-index: 1000
+			div#auto_top.auto-scroll
+				top: 0
+			div#lists
+				//padding-bottom: 40px
+			.curated_list_placeholder
+				background-color: red
+				height: 2px
+			p.theme_team
+				display: none
+				font-style: italic
+			p.example
+				display: none
+				
+		
+	= javascript_include_tag 'app_ce_live_theme_coordination.js'
+	-#:javascript
+		//console.log("run jscript")
+		//setTimeout( "$('div.test_mode :submit').click()",2000);
+		console.log("make #new_theme and #misc droppable")
+		
+%div#themer
+	:javascript
+		var pub_sub_channels = #{@channels}
+		var live_session_id = #{params[:session_id]}
+
+	-#%div#auto_top.auto-scroll
+	%div#auto_bottom.auto-scroll
+	%div.workspace
+		
+		%div.incoming_ideas
+			%div.tables_ribbon
+				-#%span
+					Table stats (to be added asap)
+
+			%div#live_talking_points
+				%div.inner
+					-# if params[:preload]
+						- talking_points = LiveTalkingPoint.where('live_session_id=22 AND length(text) > 30').limit(params[:preload]) 
+						- cnt = 0
+						- talking_points.each do |tp|
+							- tp.text = "[#{cnt+=1}:#{tp.id}] #{tp.text}"
+						= render :partial=> 'ce_live/live_talking_point', :collection => talking_points, :locals =>{:mode => 'incoming'}
+					-# else
+					
+					= render :partial => 'ce_live/live_theme.html', :collection => @live_themes, :as => :live_theme, :locals => {:mode =>'left_side_list'}
+					
+					
+						
+		%div.lists
+			%div.drop_ribbon
+				%div#new_theme
+					%p Create new theme
+				%div#misc
+					%p Add to don't fit(#{@dont_fit_tp.size})
+				%div#toggle_lists
+					%p E
+
+
+			%div#lists
+				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New theme', :class_name=>'new_list', :edit => true, :list_id=>0}
+				
+				= render :partial=>'ce_live/idea_list', 
+					:locals=>{:title=>"Don't fit in(#{@dont_fit_tp.size})", :class_name=>'misc_list', :list_id=>'misc', :talking_points =>  @dont_fit_tp}
+				
+				%div.list_column
+					- @my_themes.each do |theme|
+						= render :partial=>'ce_live/theme_list', 
+							:locals=>{:title=>theme.text, :class_name=>'', :edit => true, :list_id=>theme.id, :themes => theme[:themes] }
+
+	-#= link_to 'Test',nil,:class=>'test_mode'
+	-#%div.test_mode
+		%h3 Test mode
+		= form_tag( live_test_ids_path, {:remote=>true}) do
+			%table
+				%tr
+					%td Live session id
+					%td= text_field_tag :live_session_id,22
+				%tr
+					%td Group range
+					%td= text_field_tag :group_range, '1..22'
+				%tr
+					%td Delay range
+					%td= text_field_tag :delay_range, '1..2'
+				%tr
+					%td Channel
+					%td= text_field_tag :theme_channel
+
+			= submit_tag 'Start test', {:disable_with => 'Submitting…'}
+			= link_to "Stop test", {}, {:class=>'stop_test'}
+			%h3.warn.hide Test in progress
