@@ -1,7 +1,7 @@
 :plain
 	console.log("post_talking_point_from_group.js")
 	var ltp = $("#{escape_javascript(
-		render( :partial => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => live_talking_point, :mode => 'table'})
+		render( :partial => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => live_talking_point, :mode => 'table_confirmation'})
 	)}");
 
 	$('div#groups_live_talking_points div.inner').append(ltp);
