@@ -105,18 +105,9 @@ class CeLiveController < ApplicationController
   			tp_ids = tp_ids.nil? ? [] : tp_ids.split(/[^\d]+/).map{|i| i.to_i}
   			
   			themed_tp_ids += tp_ids
-  			theme[:themes] = @my_themes.select{ |tp| tp_ids.include?(tp.id) }
+  			theme[:themes] = @live_themes.select{ |tp| tp_ids.include?(tp.id.to_i) }
   		end
 		end
-    
-    #@my_themes.each{|th| puts th.live_talking_point_ids}
-    #theme = @my_themes[0]
-    #theme.live_talking_point_ids
-    #tp_ids = theme.live_talking_point_ids
-    #tp_ids = tp_ids.nil? ? [] : tp_ids.split(/[^\d]+/).map{|i| i.to_i}
-    
-    #@my_themes.each{|th| puts th.id; puts th[:themes]; }
-    
     
     #if !@live_theming_session.empty?
   	#	dont_fit_tp_ids = @live_theming_session[0].unthemed_ids.nil? ? [] : @live_theming_session[0].unthemed_ids.split(/[^\d]+/).map{|i| i.to_i}

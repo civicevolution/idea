@@ -258,6 +258,14 @@
 				font-style: italic
 			p.example
 				display: none
+			div.idea
+				p.text
+					font-size: 1em
+				p.example
+					color: #848f10
+					margin: 16px 10px
+				p.theme_team
+					margin: 10px
 				
 		
 	= javascript_include_tag 'app_ce_live_theme_coordination.js'
@@ -311,6 +319,7 @@
 					:locals=>{:title=>"Don't fit in(#{@dont_fit_tp.size})", :class_name=>'misc_list', :list_id=>'misc', :talking_points =>  @dont_fit_tp}
 				
 				%div.list_column
+					-#debugger
 					- @my_themes.each do |theme|
 						= render :partial=>'ce_live/theme_list', 
 							:locals=>{:title=>theme.text, :class_name=>'', :edit => true, :list_id=>theme.id, :themes => theme[:themes] }

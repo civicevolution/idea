@@ -8,7 +8,7 @@
 		%p.theme_team From theme team #{live_theme.themer_id}
 		= image_tag 'info.gif', :class=>"info"
 - elsif mode =='right_side_meta_themes'			
-	%div{:idea_id=>live_theme.id, :class => 'live_talking_point' }
+	%div{:idea_id=>live_theme.id, :class => 'idea' }
 		%p.text= live_theme.text
 		- live_theme[:examples].each do |talking_point|
 			%p.example
