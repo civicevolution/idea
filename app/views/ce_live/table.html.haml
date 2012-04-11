@@ -108,7 +108,7 @@
 	
 	%div#left
 		%div.talking_point_block
-			%p.section_title Enter a talking point from your table
+			%p.section_title Enter a talking point
 			- params[:ch] ||= 'theme1'
 			= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig post_live_tp', :id=>1) do
 				= hidden_field_tag :s_id, @session.id

@@ -27,9 +27,9 @@ function live_resize(){
   	var lists = $('div.lists');
   	lists.height(ws.height() - 4);
   	//lists.height(ws.height() - 214);
-  	var h3_height = lists.find('h3').outerHeight(true);
+  	var ribbon = lists.find('div.drop_ribbon').outerHeight(true);
   	var lists_ws = $('div#lists');
-	  lists_ws.height(lists.height() - h3_height - 10);
+	  lists_ws.height(lists.height() - ribbon + 8);
 	  //var inner_padding = 20;
 	  //ltp.find('div.inner').height( ltp.height() - 4 - inner_padding);
 	  
