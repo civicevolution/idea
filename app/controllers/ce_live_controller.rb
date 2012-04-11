@@ -46,11 +46,17 @@ class CeLiveController < ApplicationController
   
   def themer         
     @session = LiveSession.find_by_id(params[:session_id])
-    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'themer','themer')
-    session[:live_node_id] = @live_node.id
+    ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'themer2','themer2')
+    ###session[:live_node_id] = @live_node.id
+    # make sure this is in their roles
+    
+    return not_authorized unless @live_node.role == 'theme'
+    
     @page_title = "Theme for: #{@session.name}"
     
-    @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id).order('id ASC')
+    @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, 
+      :group_id => LiveNode.where(:role => 'scribe', :parent_id => @live_node.id).map{|n| n.name.match(/\d+/)[0].to_i} ).order('id ASC')
+    
     @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => @live_node.id)
     @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => @live_node.id)
     
@@ -88,9 +94,6 @@ class CeLiveController < ApplicationController
     
     @live_talking_points = @live_talking_points.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
-    
-    # make sure this is in their roles
-    return not_authorized unless @live_node.role == 'theme'
     @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme", "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"]
     session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"
     session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
@@ -100,17 +103,26 @@ class CeLiveController < ApplicationController
   end
   
   def table   
+
+    ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe7','scribe7')
+    ###session[:live_node_id] = @live_node.id
+    # make sure this is in their roles
+    return not_authorized unless @live_node.role == 'scribe'
     
     @session = LiveSession.find_by_id(params[:session_id])
 
-    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe4','scribe4')
-    session[:live_node_id] = @live_node.id
-    @page_title = "Topic: #{@session.name}"
     
-    @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => @live_node.id).order('id ASC')
+    group_id = @live_node.name.match(/\d+/)
+    if group_id.nil?
+      group_id = 0
+    else
+      group_id = group_id[0].to_i
+    end
 
-    # make sure this is in their roles
-    return not_authorized unless @live_node.role == 'scribe'
+    @page_title = "Topic: #{@session.name}"
+
+    @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
+
     @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"]
     session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"
     authorize_juggernaut_channels(request.session_options[:id], @channels )

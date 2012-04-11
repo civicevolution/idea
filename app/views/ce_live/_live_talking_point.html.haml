@@ -5,7 +5,7 @@
 		%div.star
 		%p.stats
 			Table
-			%span.table= "1-#{live_talking_point.id_letter}"
+			%span.table= "#{live_talking_point.group_id}-#{live_talking_point.id_letter}"
 			%span.pos +#{live_talking_point.pos_votes} 
 			%span.div /
 			%span.neg  -#{live_talking_point.neg_votes}	
@@ -28,7 +28,7 @@
 		%div.star
 		%p.stats
 			Table
-			%span.table= "1-#{live_talking_point.id_letter}"
+			%span.table= "#{live_talking_point.group_id}-#{live_talking_point.id_letter}"
 			%span.pos +#{live_talking_point.pos_votes} 
 			%span.div /
 			%span.neg  -#{live_talking_point.neg_votes}

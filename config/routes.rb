@@ -43,7 +43,7 @@ G3::Application.routes.draw do |map|
   match 'live/:event_id/delete_node(/:id)' => 'ce_live#delete_node_post', :via=>[:put,:post], :as=> 'delete_live_node'
 
   match "live/chat" => 'ce_live#send_chat_message', :as => 'live_chat'
-  
+  match "live/sign_out" => 'ce_live#sign_out', :as => 'sign_out'
   
   
   
