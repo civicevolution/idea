@@ -104,6 +104,7 @@ no_collapse = false;
 function collapse_idea_list(list){
   if(no_collapse) return;
   if(list.attr('expand'))return;
+  if(list.find('div.move_or_copy_idea').size()>0)return;
   //console.log("collapse_idea_list for " + list.find('p.theme').html() );
   
   $('div.idea_list_placeholder').remove();
