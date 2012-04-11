@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  themer_id: 1
+  live_session_id: 1
+  theme_group_ids: MyText
+  unthemed_ids: MyText
+
+two:
+  themer_id: 1
+  live_session_id: 1
+  theme_group_ids: MyText
+  unthemed_ids: MyText

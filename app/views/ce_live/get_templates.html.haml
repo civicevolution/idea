@@ -126,6 +126,9 @@
 					var edit_div = list.find('div.header div.edit_theme');
 					var new_theme = edit_div.find('textarea').val();
 					header.find('p.theme').html(new_theme);
+					
+					post_theme_changes({act: 'update_theme_text', text: new_theme, list_id: list.attr('list_id') })
+					
 					header.show();
 					edit_div.remove();
 					list.removeAttr('expand');

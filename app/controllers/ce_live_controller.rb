@@ -28,8 +28,9 @@ class CeLiveController < ApplicationController
   
   def coordinator    
     
-    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'coord','coord')
-    session[:live_node_id] = @live_node
+    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'coordinator','coordinator')
+    session[:live_node_id] = @live_node.id
+    @page_title = "Coordinator's admin page"
     
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'coord'
@@ -46,9 +47,39 @@ class CeLiveController < ApplicationController
   def themer         
     @session = LiveSession.find_by_id(params[:session_id])
     @live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'themer','themer')
-    session[:live_node_id] = @live_node
+    session[:live_node_id] = @live_node.id
+    @page_title = "Theme for: #{@session.name}"
     
     @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id).order('id ASC')
+    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => @live_node.id)
+    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => @live_node.id)
+    
+    # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
+    @live_themes = []
+    @live_theming_session[0].theme_group_ids.split(',').each do |id|
+      @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+    end
+    
+    @live_themes.compact!
+
+    themed_tp_ids = []
+    @live_themes.each do |theme|
+		  if theme.id.to_i > 0
+  			tp_ids = theme.live_talking_point_ids
+  			tp_ids = tp_ids.nil? ? [] : tp_ids.split(/[^\d]+/).map{|i| i.to_i}
+  			themed_tp_ids += tp_ids
+  			theme[:talking_points] = @live_talking_points.select{ |tp| tp_ids.include?(tp.id) }
+  		end
+		end
+
+    if !@live_theming_session.empty?
+  		dont_fit_tp_ids = @live_theming_session[0].unthemed_ids.nil? ? [] : @live_theming_session[0].unthemed_ids.split(/[^\d]+/).map{|i| i.to_i}
+  		themed_tp_ids += dont_fit_tp_ids
+      @dont_fit_tp = @live_talking_points.select{ |tp| dont_fit_tp_ids.include?(tp.id) }
+    end
+    
+    @live_talking_points = @live_talking_points.reject{ |tp| themed_tp_ids.include?(tp.id) }
+    
     
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'theme'
@@ -63,9 +94,10 @@ class CeLiveController < ApplicationController
   def table   
     
     @session = LiveSession.find_by_id(params[:session_id])
-    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe1','scribe1')
-    session[:live_node_id] = @live_node
-
+    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe4','scribe4')
+    session[:live_node_id] = @live_node.id
+    @page_title = "Topic: #{@session.name}"
+    
     @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => @live_node.id).order('id ASC')
 
     # make sure this is in their roles
@@ -192,15 +224,23 @@ class CeLiveController < ApplicationController
     # group_id
     # channel
 
+    # a table identifier is coded into the node name
+    group_id = @live_node.name.match(/\d+/)
+    if group_id.nil?
+      group_id = 0
+    else
+      group_id = group_id[0].to_i
+    end
+
     # how do I determine the letter to give this talking point  
-    last = LiveTalkingPoint.select('id_letter').where(:live_session_id => params[:s_id], :group_id => @live_node.id).order('id DESC').limit(1)
+    last = LiveTalkingPoint.select('id_letter').where(:live_session_id => params[:s_id], :group_id => group_id).order('id DESC').limit(1)
     if last.empty?
       id_letter = 'A'
     else
       id_letter = last[0].id_letter.succ
     end
 
-    ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: @live_node.id, text: params[:text],
+    ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: group_id, text: params[:text],
       pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter
 
     Juggernaut.publish(session[:table_chat_channel], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
@@ -215,6 +255,84 @@ class CeLiveController < ApplicationController
     # channel
 
     logger.debug "\n\n\n************ post_theme_update\n\n#{params.inspect}\n\n\n"
+
+    case params[:act]
+      
+      when /update_theme_text/
+        logger.debug "do update_theme_text"
+        @live_theme = LiveTheme.find_by_id( params[:list_id])
+        @live_theme.text = params[:text]
+        @live_theme.save
+      when /update_theme_examples/
+        logger.debug "update_list_examples"
+        @live_theme = LiveTheme.find_by_id( params[:list_id])
+        @live_theme.example_ids = params[:example_ids].nil? ? '' : params[:example_ids].join(',')
+        @live_theme.save
+      when /new_list/ 
+        logger.debug "new_list"
+        @live_theme = LiveTheme.create live_session_id: params[:live_session_id], 
+          themer_id: @live_node.id, text: params[:text], order_id: 0, live_talking_point_ids: params[:ltp_ids]
+          
+        # replace the temp list_id with the new one returned by @live_theme.id
+        list_ids = []
+        params[:list_ids].each do |li|
+          if li == params[:list_id]
+            list_ids.push @live_theme.id
+          else
+            list_ids.push li
+          end
+        end
+        @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
+        @live_theming_session.theme_group_ids = list_ids.join(',')
+        @live_theming_session.save
+          
+        
+      when /remove_list/
+        logger.debug "remove_list"
+        @live_theme = LiveTheme.find_by_id( params[:list_id]).destroy
+        
+        list_ids = []
+        params[:list_ids].each do |li|
+          if li != params[:list_id]
+            list_ids.push li
+          end
+        end
+        
+        @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
+        @live_theming_session.theme_group_ids = list_ids.join(',')
+        @live_theming_session.save
+
+
+      when /reorder_lists/
+        logger.debug "reorder_lists"
+        @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
+        @live_theming_session.theme_group_ids = params[:list_ids].join(',')
+        @live_theming_session.save
+        
+      when /add_misc_live_talking_point/
+        logger.debug "add_misc_live_talking_point"
+        @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
+        @live_theming_session.unthemed_ids = params[:ltp_ids].nil? ? '' : params[:ltp_ids].join(',')
+        @live_theming_session.save
+      when /remove_live_talking_point/
+        logger.debug "remove_live_talking_point"
+      when /receive_live_talking_point/, /remove_live_talking_point/, /update_list_idea_ids/
+        logger.debug "receive/remove_live_talking_point act: #{params[:act]}"
+
+        @live_theme = LiveTheme.find_by_id( params[:list_id])
+        
+        if params[:ltp_ids].class.to_s == 'Array'
+          ltp_ids = params[:ltp_ids].map{|d| d.to_i}.uniq.join(',')
+        else
+          ltp_ids = params[:ltp_ids].scan(/\d+/).uniq.join(',')
+        end
+        
+        @live_theme.live_talking_point_ids = params[:ltp_ids].nil? ? '' : ltp_ids
+        @live_theme.save
+        
+      else
+        logger.debug "I do not know how to handle a request like this\nparams.inspect"
+    end
 
     #ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: @live_node.id, text: params[:text],
     #  pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter

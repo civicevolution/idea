@@ -1,3 +1,9 @@
 :plain
 	console.log("your theme update has been processed: post_theme.js")
 
+- if params[:act] == 'new_list'
+	:plain
+		// I need to change the list_id attr
+		$('div.idea_list[list_id="#{params[:list_id]}"]').attr('list_id',#{@live_theme.id});
+
+

@@ -19,12 +19,11 @@
 		%div.page
 
 			- if !@live_node.nil? && !@live_node.id.nil? 
-				%h3.session_title 
-					Topic: 
-					%i Comments/changes or additions to online proposals
-					%span.remaining_time.label
+				%h3.session_title
+					= @page_title
+					-#%span.remaining_time.label
 						Time remaining: 
-					%span.remaining_time.time
+					-#%span.remaining_time.time
 						12:14
 				
 				-#%div.join_com

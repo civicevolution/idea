@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120410075701) do
+ActiveRecord::Schema.define(:version => 20120411111236) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -512,6 +512,15 @@ ActiveRecord::Schema.define(:version => 20120410075701) do
     t.integer  "order_id"
     t.text     "live_talking_point_ids"
     t.text     "example_ids"
+  end
+
+  create_table "live_theming_sessions", :force => true do |t|
+    t.integer  "themer_id"
+    t.integer  "live_session_id"
+    t.text     "theme_group_ids"
+    t.text     "unthemed_ids"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "member_lookup_code_logs", :force => true do |t|
