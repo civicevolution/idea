@@ -1,5 +1,5 @@
 - mode ||= 'table'
-%div{:idea_id=>live_talking_point.id, :class => mode=='theme' ? 'idea' : 'live_talking_point' }
+%div{:idea_id=>live_talking_point.id, :class => mode=='theme' ? ( live_talking_point[:example] ? 'idea example' : 'idea' ) : 'live_talking_point' }
 	%p.text= live_talking_point.text
 	= image_tag 'info.gif', :class=>"info"
 	- if mode == 'theme'

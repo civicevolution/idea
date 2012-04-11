@@ -35,7 +35,7 @@
 
 	%script#live_talking_point_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => @live_talking_point})}
+			#{render( :partial => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => @live_talking_point, :mode => 'theme'})}
 		
 	%script#create_live_talking_point_template
 		:plain

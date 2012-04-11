@@ -56,8 +56,10 @@ class CeLiveController < ApplicationController
     
     # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
     @live_themes = []
-    @live_theming_session[0].theme_group_ids.split(',').each do |id|
-      @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+    if !@live_theming_session[0].nil?
+      @live_theming_session[0].theme_group_ids.split(',').each do |id|
+        @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+      end
     end
     
     @live_themes.compact!
@@ -67,8 +69,12 @@ class CeLiveController < ApplicationController
 		  if theme.id.to_i > 0
   			tp_ids = theme.live_talking_point_ids
   			tp_ids = tp_ids.nil? ? [] : tp_ids.split(/[^\d]+/).map{|i| i.to_i}
+  			ex_ids = theme.example_ids
+  			ex_ids = ex_ids.nil? ? [] : ex_ids.split(/[^\d]+/).map{|i| i.to_i}
+  			
   			themed_tp_ids += tp_ids
   			theme[:talking_points] = @live_talking_points.select{ |tp| tp_ids.include?(tp.id) }
+  			theme[:talking_points].each{ |tp| tp[:example] = true if ex_ids.include?(tp.id) }
   		end
 		end
 
@@ -76,6 +82,8 @@ class CeLiveController < ApplicationController
   		dont_fit_tp_ids = @live_theming_session[0].unthemed_ids.nil? ? [] : @live_theming_session[0].unthemed_ids.split(/[^\d]+/).map{|i| i.to_i}
   		themed_tp_ids += dont_fit_tp_ids
       @dont_fit_tp = @live_talking_points.select{ |tp| dont_fit_tp_ids.include?(tp.id) }
+    else
+      @dont_fit_tp = []
     end
     
     @live_talking_points = @live_talking_points.reject{ |tp| themed_tp_ids.include?(tp.id) }
@@ -94,6 +102,7 @@ class CeLiveController < ApplicationController
   def table   
     
     @session = LiveSession.find_by_id(params[:session_id])
+
     @live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe4','scribe4')
     session[:live_node_id] = @live_node.id
     @page_title = "Topic: #{@session.name}"
@@ -384,8 +393,18 @@ class CeLiveController < ApplicationController
   
   def sign_in_post
     params[:event_id] = flash[:params][:event_id] if flash[:params]
-    params[:event_id] ||= 1
-    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],params[:password],params[:user_name])
+    params[:session_id] = flash[:params][:session_id] if flash[:params]
+
+    if params[:session_id]
+      @session = LiveSession.find_by_id(params[:session_id])
+      event_id = @session.live_event_id
+    else
+      event_id = params[:event_id]
+    end
+    
+    event_id ||= 2
+    
+    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(event_id,params[:password],params[:user_name])
 
     if @live_node
       session[:live_node_id] = @live_node.id
