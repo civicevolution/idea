@@ -8,8 +8,33 @@ class CeLiveController < ApplicationController
   
   
   def vote
-    # get the list of init ideas
-    @init_teams = Team.proposal_stats(params[:_initiative_id])
+
+    @session = LiveSession.find_by_id(params[:session_id])
+    
+    # open to the public
+    
+    @live_node = LiveNode.first
+    
+    @page_title = "Prioritisation for: #{@session.name}"
+    
+    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => 1 )
+    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => 1 )
+    # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
+    @live_themes = []
+    
+    @live_theming_session.each do |theme_session|
+      if !theme_session.nil?
+        theme_session.theme_group_ids.split(',').each do |id|
+          @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+        end
+      end
+    end
+
+    @live_themes.compact!
+    
+    # I now have the themes in order
+    render :template => 'ce_live/vote', :layout => 'ce_live', :locals=>{ :inc_js => 'none', :title=>'Theming coordination page', :role=>'Public'}
+    
     
   end
   
@@ -23,7 +48,14 @@ class CeLiveController < ApplicationController
         end
       end
       
-      saved, err_msgs = ProposalVote.save_votes(params[:_initiative_id], @member.id, votes)
+      member_id = ProposalVote.maximum('member_id' ) + 1
+
+      votes.each_pair do |team_id, points|
+        ProposalVote.create( :initiative_id=> 125, :member_id => member_id, :team_id => team_id, :points => points )
+      end
+      
+      saved = true
+      #saved, err_msgs = ProposalVote.save_votes(params[:_initiative_id], 1, votes)
     rescue
       saved = false
     end

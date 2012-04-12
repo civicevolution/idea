@@ -23,6 +23,9 @@ G3::Application.routes.draw do |map|
   post 'live/post_theme' => 'ce_live#post_theme_update', :as => 'post_live_theme'
   post 'live/test_ids' => 'ce_live#get_tp_test_ids', :as => 'live_test_ids'
   post 'live/theme/edit' => 'ce_live#edit_theme', :as => 'live_theme_edit'
+
+  get 'live/:session_id/vote' => 'ce_live#vote', :as => 'live_vote'
+  post 'live/:session_id/vote' => 'ce_live#vote_save', :as => 'live_vote'
   
   
   get 'proposal/:team_id/print' => 'proposal#print', :as => 'print_proposal'

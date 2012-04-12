@@ -1,0 +1,18 @@
+= render :template => 'shared/clear_sign_in_form.js'
+- if status == 'saved'
+	:plain
+		var ack = $("#{escape_javascript(
+			render( :template => 'proposal/vote_saved.html', :locals=>{:status => 'saved'} )
+		)}");
+
+		var dialog = ack.dialog( {title : 'Thank you', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+		$('div#proposal_vote').closest('div.ui-dialog').dialog('destroy').remove();
+		
+- else
+	:plain
+		var ack = $("#{escape_javascript(
+			render( :template => 'proposal/vote_saved.html', :locals=>{:status => 'failed', :err_msgs=>err_msgs} )
+		)}");
+
+		var dialog = ack.dialog( {title : 'Warning', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+	
