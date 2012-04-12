@@ -17,20 +17,37 @@ class CeLiveController < ApplicationController
     
     @page_title = "Prioritisation for: #{@session.name}"
     
-    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => 1 )
-    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => 1 )
-    # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
-    @live_themes = []
+    #@live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => 1 )
+    #@live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => 1 )
+    ## i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
+    #@live_themes = []
+    #
+    #@live_theming_session.each do |theme_session|
+    #  if !theme_session.nil?
+    #    theme_session.theme_group_ids.split(',').each do |id|
+    #      @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+    #    end
+    #  end
+    #end
+    #
+    #@live_themes.compact!
     
-    @live_theming_session.each do |theme_session|
-      if !theme_session.nil?
-        theme_session.theme_group_ids.split(',').each do |id|
-          @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
-        end
-      end
-    end
+    @live_themes = 
+    [
+      {:text=> 'title_1', :id => 1000000 },
+      {:text=> 'title_2', :id => 1000001 },
+      {:text=> 'title_3', :id => 1000002 },
+      {:text=> 'title_4', :id => 1000003 },
+      {:text=> 'title_5', :id => 1000004 },
+      
+      
+    ]
 
-    @live_themes.compact!
+    
+    
+    
+    
+    
     
     # I now have the themes in order
     render :template => 'ce_live/vote', :layout => 'ce_live', :locals=>{ :inc_js => 'none', :title=>'Theming coordination page', :role=>'Public'}
