@@ -15,7 +15,7 @@ class CeLiveController < ApplicationController
     
     @live_node = LiveNode.first
     
-    @page_title = "Prioritisation for: #{@session.name}"
+    @page_title = "Prioritisation for: Examples you think could work best in Australia	Priority"
     
     #@live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => 1 )
     #@live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => 1 )
@@ -31,19 +31,59 @@ class CeLiveController < ApplicationController
     #end
     #
     #@live_themes.compact!
-    
+
+
     @live_themes = 
     [
-      {:text=> 'title_1', :id => 1000000 },
-      {:text=> 'title_2', :id => 1000001 },
-      {:text=> 'title_3', :id => 1000002 },
-      {:text=> 'title_4', :id => 1000003 },
-      {:text=> 'title_5', :id => 1000004 },
-      
-      
-    ]
+      {:text=> %Q|A	Use the new tools of deliberative engagement: initiate new projects to implement collaborative governance|, :id => 51000000 },
+      {:text=> %Q|B	Trial new ways to facilitate a mutual understanding of values: find out what the community agenda is.	|, :id => 51000001 },
+      {:text=> %Q|C	Provide specific ways to ensure the public gets feedback in a transparent way	|, :id => 51000002 },
+      {:text=> %Q|D	Pilot innovative ways to make sure the "right" people are involved in decision making, e.g. experts, government representatives, stakeholders, citizens	|, :id => 51000003 },
+            {:text=> %Q|E	Implement participatory budgeting - make a portion of the budget for the community to make an informed decision for how it's used via a deliberative process	|, :id => 51000004 },
+          {:text=> %Q|F	Establish ways to localise the level of governance, e.g. street by street	|, :id => 51000005 },
+           {:text=> %Q|G	Provide new mechanisms to support power sharing - e.g. community can call for national or local referendum by providing petition	|, :id => 51000006 },
+        {:text=> %Q|H	Implement and institutionalise ways governments can establish principles and processes for undertaking engagement about specific issues	|, :id => 5000007 },
+        {:text=> %Q|I	Provide education for better communication, respect and cooperation	|, :id => 51000008 },
 
+
+      
+]    
+#    @live_themes = 
+#    [
+#      {:text=> %Q|A	Use the new tools of deliberative engagement: initiate new projects to implement collaborative governance|, :id => 1000000 },
+#      {:text=> %Q|B	Trial new ways to facilitate a mutual understanding of values: find out what the community agenda is.	|, :id => 1000001 },
+#      {:text=> %Q|C	Provide specific ways to ensure the public gets feedback in a transparent way	|, :id => 1000002 },
+#      {:text=> %Q|D	Pilot innovative ways to make sure the “right” people are involved in decision making, e.g. experts, government representatives, stakeholders, citizens	|, :id => 1000003 },
+#      {:text=> %Q|E	Implement participatory budgeting – make a portion of the budget for the community to make an informed decision for how it’s used via a deliberative process	|, :id => 1000004 },
+#      {:text=> %Q|F	Establish ways to localise the level of governance, e.g. street by street	|, :id => 1000004 },
+#      {:text=> %Q|G	Provide new mechanisms to support power sharing – e.g. community can call for national or local referendum by providing petition	|, :id => 1000004 },
+#      {:text=> %Q|H	Implement and institutionalise ways governments can establish principles and processes for undertaking engagement about specific issues	|, :id => 1000004 },
+#      {:text=> %Q|I	Provide education for better communication, respect and cooperation	|, :id => 1000004 },
+#      
+#      
+#    ]
+#
     
+    
+    
+    
+    	
+    	
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
     
     
     
