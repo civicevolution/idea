@@ -1,9 +1,51 @@
 class CeLiveController < ApplicationController
   layout "ce_live"
   prepend_before_filter :identify_node, :except => [ :live_home, :sign_in_form, :sign_in_post]
-  skip_before_filter :authorize , :only => [:live_home, :sign_in_form, :session_report, :get_templates]
+  skip_before_filter :authorize , :only => [:live_home, :sign_in_form, :session_report, :get_templates, :vote, :vote_save]
   skip_before_filter :add_member_data# , :except => [ :logo, :rss ]
 
+  
+  
+  
+  def vote
+    # get the list of init ideas
+    @init_teams = Team.proposal_stats(params[:_initiative_id])
+    
+  end
+  
+  def vote_save
+    votes = {}
+    
+    begin
+      params.each_pair do |key,value|
+        if key.match(/^vote_\d+/) && value.to_i > 0
+          votes[ key.match(/\d+/)[0].to_i] = value.to_i
+        end
+      end
+      
+      saved, err_msgs = ProposalVote.save_votes(params[:_initiative_id], @member.id, votes)
+    rescue
+      saved = false
+    end
+
+    if saved
+      respond_to do |format|
+        #format.html { render :summary, :layout => 'plan' }
+        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'saved'} }
+      end
+      
+    else
+      respond_to do |format|
+        #format.html { render :summary, :layout => 'plan' }
+        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'failed', :err_msgs => err_msgs} }
+      end
+      
+    end
+    
+    
+  end
+  
+  
   
   
   def live_home
@@ -50,6 +92,8 @@ class CeLiveController < ApplicationController
     
     # open to the public
     
+    @live_node = LiveNode.first
+    
     @page_title = "Results for: #{@session.name}"
     
     @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => 1 )
@@ -68,7 +112,7 @@ class CeLiveController < ApplicationController
     @live_themes.compact!
     
     # I now have the themes in order
-    render :template => 'ce_live/session_report', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :role=>'Public'}
+    render :template => 'ce_live/session_report', :layout => 'ce_live', :locals=>{ :inc_js => 'none', :title=>'Theming coordination page', :role=>'Public'}
 
   end
 
