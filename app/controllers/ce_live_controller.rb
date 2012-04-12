@@ -165,8 +165,11 @@ class CeLiveController < ApplicationController
     
     @live_theming_session.each do |theme_session|
       if !theme_session.nil?
-        theme_session.theme_group_ids.split(',').each do |id|
-          @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+        group_ids = theme_session.theme_group_ids
+        - if !group_ids.nil?
+          group_ids.split(',').each do |id|
+            @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+          end
         end
       end
     end
