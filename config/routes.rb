@@ -12,7 +12,6 @@ G3::Application.routes.draw do |map|
   match 'jug' => 'chat#jug'
 
   get 'live/home' => 'ce_live#live_home', :as => 'live_home'
-  get 'live/session_report' => 'ce_live#session_report', :as => 'session_report'
   get 'live/:event_id/auto' => 'ce_live#auto_mode', :as => 'auto_mode'
   get 'live/ltp_to_jug' => 'ce_live#ltp_to_jug'
   get 'live/group' => 'ce_live#group'
@@ -32,6 +31,7 @@ G3::Application.routes.draw do |map|
   get 'live/:session_id/themer' => 'ce_live#themer', :as => 'live_themer' 
   get 'live/:session_id/theme_coordination' => 'ce_live#theme_coordination', :as => 'live_theme_coordination' 
   get 'live/:session_id/table' => 'ce_live#table', :as => 'live_table'
+  get 'live/:session_id/report' => 'ce_live#session_report', :as => 'session_report'
   get 'live/:session_id/prioritize' => 'ce_live#prioritize', :as => 'live_prioritize'
   get 'live/:event_id/observer' => 'ce_live#observer', :as => 'live_observer'
   get 'live/:event_id/add_session(/:id)' => 'ce_live#add_session_form', :as=> 'add_live_session'

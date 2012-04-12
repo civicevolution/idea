@@ -1,12 +1,35 @@
 - content_for(:script) do
 	%style
 		:sass
+			p.theme
+				font-size: 1.72em
+				font-weight: bold
+				width: 600px
+				//margin-bottom: 1.5em
+				margin-bottom: .4em
+			p.example
+				margin: 0 
+				font-size: 1.4em
+			div.page
+				div.session_report
+					h3.session_title
+						font-size: 2em
 				
-						
-	-#= javascript_include_tag 'app_ce_live_table.js'
-	-#:javascript
-
-
-	%h3 
-		Report out for 
-		= @session.name
+			ul.report
+				margin-top: 60px
+				margin-left: 100px
+	
+			div.entry
+				margin-bottom: 20px
+				
+				
+%div.session_report	
+		
+	%ul.report	
+		- @live_themes.each do |theme|	
+			%li
+				%div.entry
+					%p.theme= theme.text
+					%p.example= theme.example_ids
+				
+	
