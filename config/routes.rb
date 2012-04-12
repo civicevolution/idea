@@ -12,6 +12,7 @@ G3::Application.routes.draw do |map|
   match 'jug' => 'chat#jug'
 
   get 'live/home' => 'ce_live#live_home', :as => 'live_home'
+  get 'live/session_report' => 'ce_live#session_report', :as => 'session_report'
   get 'live/:event_id/auto' => 'ce_live#auto_mode', :as => 'auto_mode'
   get 'live/ltp_to_jug' => 'ce_live#ltp_to_jug'
   get 'live/group' => 'ce_live#group'
