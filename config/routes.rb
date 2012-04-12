@@ -27,6 +27,7 @@ G3::Application.routes.draw do |map|
   get 'live/:session_id/vote' => 'ce_live#vote', :as => 'live_vote'
   post 'live/:session_id/vote' => 'ce_live#vote_save', :as => 'live_vote'
   
+  get 'live/:session_id/vote_results' => 'ce_live#vote_results', :as => 'live_vote_results'
   
   get 'proposal/:team_id/print' => 'proposal#print', :as => 'print_proposal'
   

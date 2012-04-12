@@ -1,3 +1,6 @@
+- content_for(:script) do
+	= javascript_include_tag 'live_vote.js'
+
 %div#proposal_vote
 	%style
 		:sass
@@ -36,7 +39,7 @@
 						font-weight: bold
 						text-align: right
 					
-	= javascript_include_tag 'live_vote.js' 
+	 
 			
 	%div.intro
 		%h3.vote_title 
