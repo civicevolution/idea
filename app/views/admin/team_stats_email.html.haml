@@ -85,7 +85,8 @@
 				background-color: #d66
 			div#team_participant_stats
 				margin-bottom: 40px
-					
+			.stripe
+				background-color: #eeeeee
 
 %h3 Team participation statistics
 -#%ul
@@ -99,7 +100,7 @@
 	
 %p Legend
 %ul
-	%li I - The id for the initiative, CGG Staff proposals are init = 1 and 2029 proposals are init 2
+	-#%li # - The id for the initiative, CGG Staff proposals are init = 1 and 2029 proposals are init 2
 	%li Team - click link to open the proposal in a new browser tab
 	%li Score - the total number of point based on contributions and activity
 	%li View - how many times the page has been viewed SINCE we started tracking in the late fall
@@ -152,9 +153,11 @@
 			
 			
 	%tbody	
+		- ctr = 0;
 		- @team_stats.each do |m|
 			%tr{:id=>"#{m['id']}", :class=>cycle('','stripe')}
-				%td= m['initiative_id'] 
+				%td= ctr+=1
+				-#m['initiative_id'] 
 				-#%td.title= m['title']
 				%td.title= link_to m['title'], proposal_path(m['id']), {:target=>'_blank'}
 				%td.pts= m.proposal_stats['points_total']

@@ -335,11 +335,21 @@ class AdminController < ApplicationController
   end
   
   def team_stats
-    @team_stats = Team.includes(:proposal_stats).where(:initiative_id => 1..2).order('initiative_id DESC, title ASC')
+    if params[:_initiative_id].between?(1,2)
+      init = [1,2]
+    else
+      init = params[:_initiative_id]
+    end
+    @team_stats = Team.includes(:proposal_stats).where(:initiative_id => init, :archived=>false).order('initiative_id DESC, title ASC')
   end    
 
   def team_stats_email
-    @team_stats = Team.includes(:proposal_stats).where(:initiative_id => 1..2).order('initiative_id DESC, title ASC')
+    if params[:_initiative_id].between?(1,2)
+      init = [1,2]
+    else
+      init = params[:_initiative_id]
+    end
+    @team_stats = Team.includes(:proposal_stats).where(:initiative_id => init, :archived=>false).order('initiative_id DESC, title ASC')
   end    
   
   def team_participant_stats
