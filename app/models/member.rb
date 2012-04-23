@@ -113,9 +113,13 @@ class Member < ActiveRecord::Base
     if @team_titles.nil?
       #SELECT id, title from teams where id in (SELECT distinct team_id FROM participation_events WHERE member_id = 1 AND event_id < 100) ORDER BY title;	
       # any team I participate (comments, bs_ideas), endorse, follow, or joined
-      @team_titles = Team.select('id, title').where( 
-        [%q|id IN (SELECT DISTINCT team_id FROM participation_events WHERE member_id = :member_id AND event_id < 100)|, {:member_id => self.id} ]
-      ).order('title') 
+      #@team_titles = Team.select('id, title').where( 
+      #  [%q|id IN (SELECT DISTINCT team_id FROM participation_events WHERE member_id = :member_id AND event_id < 100)|, {:member_id => self.id} ]
+      #).order('title') 
+      
+      @team_titles = Team.find_by_sql(
+        %Q|SELECT t.id, title, points_total FROM teams t, participant_stats ps where ps.member_id = #{self.id} 
+        AND ps.team_id = t.id AND t.archived = false ORDER BY title|)
     end
     return @team_titles
   end

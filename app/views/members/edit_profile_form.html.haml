@@ -40,7 +40,7 @@
 		- teams = false
 		- @member.team_titles.each do |team|
 			- teams = true
-			%p= link_to team.title, plan_path(team.id)
+			%p= link_to "#{team.title} (#{team.points_total} points)", plan_path(team.id)
 		- if !teams
 			%p You have not participated in any proposals yet
 				
