@@ -34,6 +34,7 @@ G3::Application.routes.draw do |map|
   get 'live/:event_id/coordinator' => 'ce_live#coordinator', :as => 'live_coordinator'
   get 'live/:session_id/themer' => 'ce_live#themer', :as => 'live_themer' 
   get 'live/:session_id/theme_coordination' => 'ce_live#theme_coordination', :as => 'live_theme_coordination' 
+  get 'live/:session_id/theme_final_edit' => 'ce_live#theme_final_edit', :as => 'live_theme_final_edit'
   get 'live/:session_id/table' => 'ce_live#table', :as => 'live_table'
   get 'live/:session_id/report' => 'ce_live#session_report', :as => 'session_report'
   get 'live/:session_id/prioritize' => 'ce_live#prioritize', :as => 'live_prioritize'

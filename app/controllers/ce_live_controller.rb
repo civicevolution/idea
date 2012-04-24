@@ -1,6 +1,6 @@
 class CeLiveController < ApplicationController
   layout "ce_live"
-  prepend_before_filter :identify_node, :except => [ :live_home, :sign_in_form, :sign_in_post]
+  prepend_before_filter :identify_node #, :except => [ :live_home, :sign_in_form, :sign_in_post]
   skip_before_filter :authorize , :only => [:live_home, :sign_in_form, :session_report, :get_templates, :vote, :vote_save]
   skip_before_filter :add_member_data# , :except => [ :logo, :rss ]
 
@@ -139,7 +139,47 @@ class CeLiveController < ApplicationController
   
   def live_home
     # default page for CivicEvolution Live
-    render :template=>'welcome/index.html', :layout=>'civicevolution'
+    if @live_node.nil?
+      render :template => 'ce_live/sign_in_form', :locals => { :get_templates => 'false'}
+    else
+      
+      #@sessions = LiveSession.find_by_live_event_id( @live_node.live_event_id ).order(:order_id)
+      @sessions = LiveSession.where( :live_event_id => @live_node.live_event_id ).order(:order_id)
+      
+      case @live_node.role
+        when 'scribe'
+          begin
+            @table = @live_node.name.match(/\d+/)[0].to_i
+          rescue 
+            @table = 'Unassigned - Please report this immediately'
+          end
+        when 'theme'
+          names = ActiveRecord::Base.connection.select_values(%Q|SELECT name FROM live_nodes WHERE role = 'scribe' AND parent_id = #{@live_node.id}|)
+          # get the numbers from the name and order them
+          begin
+            @tables = names.map{|tab| tab.match(/\d+/)[0].to_i}.join(', ')
+          rescue
+            @tables = 'Unassigned - Please report this immediately'
+          end
+          
+        when 'coord'
+          @subordinate_themers = LiveNode.where(:parent_id=>@live_node.id, :role=>'theme').order(:id)
+          @subordinate_themers.each do |themer|
+            names = ActiveRecord::Base.connection.select_values(%Q|SELECT name FROM live_nodes WHERE role = 'scribe' AND parent_id = #{themer.id}|)
+            # get the numbers from the name and order them
+            begin
+              tables = names.map{|tab| tab.match(/\d+/)[0].to_i}.join(', ')
+            rescue
+              tables = 'Unassigned - Please report this immediately'
+            end
+            themer[:tables]  = tables
+          end
+          
+      end
+      
+      
+      render :template=>'welcome/index.html', :locals => {:get_templates => 'false'}
+    end
   end
   
   def auto_mode
@@ -257,12 +297,16 @@ class CeLiveController < ApplicationController
     @live_theming_session.each do |theme_session|
       if !theme_session.nil?
         if theme_session.themer_id == @live_node.id
-          theme_session.theme_group_ids.split(',').each do |id|
-            @my_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+          if !theme_session.theme_group_ids.nil?
+            theme_session.theme_group_ids.split(',').each do |id|
+              @my_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+            end
           end
         else
-          theme_session.theme_group_ids.split(',').each do |id|
-            @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+          if !theme_session.theme_group_ids.nil?
+            theme_session.theme_group_ids.split(',').each do |id|
+              @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+            end
           end
         end
       end
@@ -323,6 +367,11 @@ class CeLiveController < ApplicationController
     render :template => 'ce_live/theme_coordination', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :role=>'Themer'}
   end
   
+  def theme_final_edit
+
+    render :template => 'ce_live/theme_final_edit', :layout => 'ce_live', :locals=>{ :title=>'Theme final edit page', :role=>'Themer'}
+  end
+  
   def themer         
     @session = LiveSession.find_by_id(params[:session_id])
     ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'themer2','themer2')
@@ -331,19 +380,36 @@ class CeLiveController < ApplicationController
     
     return not_authorized unless @live_node.role == 'theme' || @live_node.role == 'coord'
     
-    @page_title = "Theme for: #{@session.name}"
+    if params[:id]
+      themer_id = params[:id]
+    else
+      themer_id = @live_node.id
+    end
+    
+    names = ActiveRecord::Base.connection.select_values(%Q|SELECT name FROM live_nodes WHERE role = 'scribe' AND parent_id = #{themer_id}|)
+    # get the numbers from the name and order them
+    begin
+      tables = names.map{|tab| tab.match(/\d+/)[0].to_i}.join(',')
+    rescue
+      tables = 'unknown'
+    end    
+    
+    @page_title = "Theme for: #{@session.name}, Tables: #{tables}"
+    
     
     @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, 
-      :group_id => LiveNode.where(:role => 'scribe', :parent_id => @live_node.id).map{|n| n.name.match(/\d+/)[0].to_i} ).order('id ASC')
+      :group_id => LiveNode.where(:role => 'scribe', :parent_id => themer_id).map{|n| n.name.match(/\d+/)[0].to_i} ).order('id ASC')
     
-    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => @live_node.id)
-    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => @live_node.id)
+    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => themer_id)
+    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => themer_id)
     
     # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
     @live_themes = []
     if !@live_theming_session[0].nil?
-      @live_theming_session[0].theme_group_ids.split(',').each do |id|
-        @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+      if !@live_theming_session[0].theme_group_ids.nil?
+        @live_theming_session[0].theme_group_ids.split(',').each do |id|
+          @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+        end
       end
     end
     
@@ -373,8 +439,8 @@ class CeLiveController < ApplicationController
     
     @live_talking_points = @live_talking_points.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
-    @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme", "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"]
-    session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"
+    @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme", "_auth_event_#{params[:event_id]}_theme_#{themer_id}"]
+    session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{themer_id}"
     session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
@@ -705,29 +771,27 @@ class CeLiveController < ApplicationController
     params[:event_id] = flash[:params][:event_id] if flash[:params]
     params[:session_id] = flash[:params][:session_id] if flash[:params]
 
-    if params[:session_id]
-      @session = LiveSession.find_by_id(params[:session_id])
-      event_id = @session.live_event_id
-    else
-      event_id = params[:event_id]
+    live_event = LiveEvent.find_by_event_code(params[:event_code])
+    if live_event.nil?
+      flash.keep # keep the info I saved till I successfully process the sign in
+      logger.debug "Invalid event code"
+      flash[:notice] = "Invalid event code"
+      redirect_to sign_in_all_path(:controller=> params[:controller], :user_email=>params[:user_email], :event_code=>params[:event_code])
+      return
     end
     
-    event_id ||= 2
-    
+    event_id = live_event.id
+            
     @live_node = LiveNode.find_by_live_event_id_and_password_and_username(event_id,params[:password],params[:user_name])
 
     if @live_node
       session[:live_node_id] = @live_node.id
-      if flash[:fullpath]
-        redirect_to flash[:fullpath]
-      else
-        redirect_to :live_coordinator
-      end
+      redirect_to live_home_path
     else # no live_event_staff was retrieved with password and email
       flash.keep # keep the info I saved till I successfully process the sign in
-      logger.debug "No valid member for username/password"
-      flash[:notice] = "Invalid username/password combination for this event"
-      redirect_to sign_in_all_path(:controller=> params[:controller], :user_email=>params[:user_email])
+      logger.debug "Invalid username/password combination for this event code"
+      flash[:notice] = "Invalid username/password combination for this event code"
+      redirect_to sign_in_all_path(:controller=> params[:controller], :user_email=>params[:user_email], :event_code=>params[:event_code])
     end # end if member
   end
   

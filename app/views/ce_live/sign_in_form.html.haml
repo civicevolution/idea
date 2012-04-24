@@ -15,17 +15,23 @@
 			
 			%tr
 				%td.sign_in.lbl
+					%label{:for=>"event_code"} Event code:
+			%tr		
+				%td.sign_in
+					= text_field_tag :event_code, params[:event_code], :tabindex => 1
+			%tr
+				%td.sign_in.lbl
 					%label{:for=>"user_name"} Username:
 			%tr		
 				%td.sign_in
-					= text_field_tag :user_name, params[:user_name], :tabindex => 1
+					= text_field_tag :user_name, params[:user_name], :tabindex => 2
 			%tr
 				%td.sign_in.lbl
 					%label{:for=>"password"} Password:
 					-#= link_to 'I forgot my password', reset_password_form_path(:email=>params[:email]), {:class=>'reset_password', :rel=>'nofollow', :tabindex => 0}
 			%tr		
 				%td.sign_in
-					= password_field_tag :password, params[:password], :tabindex => 2
+					= password_field_tag :password, params[:password], :tabindex => 3
 				
 			%tr
 				%td.sign_in.lbl

@@ -7,6 +7,11 @@
 		= form.text_field :order_id
 		
 		%div
+			%p= label_tag :title, 'Session type'
+			= form.select( :session_type, [['Select session type','0'],['Collect talking points','collect'],['Feedback: themes', 'feedback_themes'], ['Allocation options', 'allocation_options'], ['Allocation', 'allocation'], ['Feedback: Allocation results','feedback_allocation_results']])
+			
+					
+		%div
 			%p= label_tag :title, 'Session name'
 			= form.text_field :name
 			%div.form_controls

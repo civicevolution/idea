@@ -1,8 +1,55 @@
 - event_id = 100
 %div#live_home
-	%h2 CivicEvolution Live
+	%h2 Welcome to your CivicEvolution Live Homepage
 	
-	%p Please click the event link
-	
-	%h3= link_to "Join this event", auto_mode_path(1)
+	- case @live_node.role
+		- when 'scribe'
+			%h3 This is table #{@table}
+			%h4 Please select one of these pages as directed by the event coordinator
+		
+			- @sessions.each do |session|
+				- case session.session_type
+					- when 'collect'
+						%p= link_to "Collect talking points for #{session.name}", live_table_path(session.id)
+					- when 'feedback_themes'
+						%p= link_to "#{session.name}", live_table_path(session.id)
+					- when 'allocation_options'
+						%p= link_to "#{session.name}", live_table_path(session.id)
+					- when 'allocation'
+						%p= link_to "#{session.name}", live_table_path(session.id)
+					- when 'feedback_allocation_results'
+						%p= link_to "#{session.name}", live_table_path(session.id)
+					
+			
+		- when 'theme'
+			%h3 Theming for tables: #{@tables}
+			%h4 Please select one of these pages as directed by the event coordinator
+			
+			- @sessions.each do |session|
+				- if session.session_type == 'collect'
+					%p= link_to "Theming: #{session.name}", live_themer_path(session.id)
+			
+		- when 'coord'
+			= link_to "Event setup", live_coordinator_path(@live_node.live_event_id)
+			- @sessions.each do |session|
+				%h3= session.name
+				- case session.session_type
+					- when 'collect'
+						%p= link_to "Coordinator's theming", live_theme_coordination_path(session.id)
+						%p= link_to "Final editing of themes", live_theme_final_edit_path(session.id)
+						%ul
+							- @subordinate_themers.each do |themer|
+								%li= link_to "Themer's view, Tables: #{themer[:tables]}", live_themer_path(:session_id=>session.id, :id=>themer.id)
+						
+					- when 'feedback_themes'
+					
+					- when 'allocation_options'
+					
+					- when 'allocation'
+					
+					- when 'feedback_allocation_results'
+					
+					
+			
+
 

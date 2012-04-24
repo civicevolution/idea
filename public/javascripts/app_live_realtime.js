@@ -1,8 +1,6 @@
 console.log("loading app_live_realtime.js");
 $(function(){
-	if(document.location.href.match(/sign_in_form/i)){
-		return
-	}else{
+	if(get_templates){
 		setTimeout(load_templates, 100);
 	}
 });

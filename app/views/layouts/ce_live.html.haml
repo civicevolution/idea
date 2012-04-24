@@ -1,6 +1,7 @@
 - @member ||= Member.new :first_name=>'Unknown', :last_name=>'Visitor', :ape_code =>'unknown'
 - title ||= @title.nil? ? 'CivicEvolution Live' : @title
 - inc_js ||= 'all'
+- get_templates ||= 'true'
 - role ||= ''
 !!!
 %html{html_attrs('en-en')}
@@ -18,7 +19,7 @@
 	%body
 		%div.page
 
-			- if !@live_node.nil? && !@live_node.id.nil? 
+			- if @page_title
 				%h3.session_title
 					= @page_title
 					-#%span.remaining_time.label
@@ -26,10 +27,9 @@
 					-#%span.remaining_time.time
 						12:14
 				
-				-#%div.join_com
-					%span.role
-						Role: #{role}
-					#{@live_node.name} -  
+				%div.join_com
+					= link_to 'Home', live_home_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false} 
+					= '/'
 					= link_to 'Sign out', {:action=>'sign_out'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false}
 				%p.clear_both
 					
@@ -39,9 +39,9 @@
 						= image_tag("ce_logo_20c.gif")
 				%div.tagline
 					%h3 Think together to Act together
-				
-				%div.join_com
-					#{link_to 'Sign in', {:action=>'sign_out'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false}}
+				- if !@live_node.nil? && !@live_node.id.nil? 
+					%div.join_com
+						= link_to 'Sign out', {:action=>'sign_out'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false}
 				%hr.top
 			
 
@@ -60,6 +60,7 @@
 			var client;
 			var member = {first_name: "#{@member.first_name}", last_name: "#{@member.last_name}", ape_code: "#{@member.ape_code}" }
 			var page_channel = '#{@page_channel}';
+			var get_templates = #{get_templates};
 	
 		-#= javascript_include_tag :defaults
 		

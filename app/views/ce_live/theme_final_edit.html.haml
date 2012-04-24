@@ -1,0 +1,10 @@
+- content_for(:script) do
+	%style
+		:sass
+			body
+				color: black
+	:javascript
+		var pub_sub_channels = #{@channels}
+		
+%div#live_theme_final_edit
+	%h3 Final edit for themes
