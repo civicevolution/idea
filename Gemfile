@@ -40,6 +40,7 @@ gem "aws-ses"
 gem "aws-sdk"
 
 gem 'delayed_job', "~> 3.0.2"
+gem 'delayed_job_active_record'
 
 gem 'jquery-rails', '= 1.0.16'
 
