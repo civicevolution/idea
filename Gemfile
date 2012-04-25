@@ -37,6 +37,8 @@ gem "uuidtools"
 gem "json"
 gem 'aws-s3', :require => 'aws/s3'
 gem "aws-ses"
+gem "aws-sdk"
+
 gem 'delayed_job', "~> 3.0.2"
 
 gem 'jquery-rails', '= 1.0.16'
