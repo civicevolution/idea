@@ -130,3 +130,15 @@ Function.prototype.bind = function (obj) {
 		return fn.apply(obj, arguments);
 	}
 };
+
+function post_theme_changes( data ){
+  console.log("post theme data to server");
+  data.live_session_id = live_session_id;
+  var url = '/live/post_theme';
+  $.ajax({
+	  url: url, 
+	  data: data,
+	  type: 'POST',
+	  dataType: 'script'
+	});
+}

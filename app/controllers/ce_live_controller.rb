@@ -369,6 +369,37 @@ class CeLiveController < ApplicationController
   
   def theme_final_edit
 
+    @session = LiveSession.find_by_id(params[:session_id])
+    # make sure this is in their roles
+    return not_authorized unless @live_node.role == 'coord'
+    
+    @page_title = "Theme final edit for: #{@session.name}"
+    
+    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id=>@live_node.id)
+    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id=>@live_node.id)
+
+    # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
+    @my_themes = []
+    ord = 0
+    @live_theming_session.each do |theme_session|
+      if !theme_session.nil?
+        if !theme_session.theme_group_ids.nil?
+          theme_session.theme_group_ids.split(',').each do |id|
+            theme = @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+            if !theme.nil?
+              theme.order_id = ord += 1
+              @my_themes.push theme
+            end
+          end
+        end
+      end
+    end
+    
+    @my_themes.compact!
+    @my_themes.sort!{|a,b| a.order_id <=> b.order_id}
+
+    @channels = []
+    
     render :template => 'ce_live/theme_final_edit', :layout => 'ce_live', :locals=>{ :title=>'Theme final edit page', :role=>'Themer'}
   end
   
@@ -714,6 +745,17 @@ class CeLiveController < ApplicationController
         
         @live_theme.live_talking_point_ids = params[:ltp_ids].nil? ? '' : ltp_ids
         @live_theme.save
+        
+      when 'update_final_theme_order'
+        logger.debug 'update_final_theme_order'
+        if params[:new_ids].class.to_s == 'Array'
+          @new_ids = params[:new_ids].map{|d| d.to_i}.uniq.join(',')
+        else
+          @new_ids = params[:new_ids].scan(/\d+/).uniq.join(',')
+        end
+        @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
+        @live_theming_session.theme_group_ids = @new_ids
+        @live_theming_session.save
         
       else
         logger.debug "I do not know how to handle a request like this\nparams.inspect"

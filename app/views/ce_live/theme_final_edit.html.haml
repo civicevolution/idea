@@ -1,10 +1,106 @@
 - content_for(:script) do
 	%style
 		:sass
-			body
-				color: black
+			textarea.theme
+				width: 600px
+				height: 60px
+			textarea.example
+				width: 600px
+				height: 60px
+				margin-bottom: 30px
+				
+			p.lbl_theme
+				margin: 0
+			p.lbl_example
+				margin: 6px 0 0 0 
+				
+			p.theme
+				font-size: 1.2em
+				margin: 0
+				width: 600px
+				
+			p.example
+				font-style: italic
+				color: blue
+				margin: 6px 0 16px 0
+				width: 600px
+			div.controls
+				width: 40px
+				text-align: center
+				font-size: 1.4em
+			ul.themes
+				list-style: none
+				li
+					div
+						float: left
+			p.clear_both
+				clear: both
+				
 	:javascript
 		var pub_sub_channels = #{@channels}
+		var live_session_id = #{params[:session_id]}
+		// make tr.theme sortable
+		$('ul.themes').sortable({
+			stop: function(event,ui){
+				//console.log("update the theme sort order");
+				var ul = ui.item.closest('ul');
+				var new_ids = [];
+				var ltr_ctr = 1;
+			 	ul.find('li').each( function(){
+					var li = $(this);
+					new_ids.push( li.attr('theme_id'));
+					li.find('div.controls span.ltr').html( int_to_letters( ltr_ctr++ )  );
+				});
+				// compare if the order has changed
+				console.log("old order: " + ul.attr('id_order') + " new order: " + new_ids.join(','));
+				if( ul.attr('id_order') != new_ids.join(',') ){
+					console.log("update the theme sortto: " + new_ids.join(','));
+					post_theme_changes({act: 'update_final_theme_order', new_ids: new_ids });
+					show_saving_modal();
+				}
+				
+			}
+		});
+		function show_saving_modal(){
+			var dialog = $('<p class="saving_modal">Please wait a moment</p>').dialog( {title : 'Saving...', modal : true, width : '200px', closeOnEscape: true, close: function(){$(this).remove()} });
+		}
+		function int_to_letters(val){
+		  var str = '';
+		  var val_floor = Math.floor(val/26);
+		  var mod = ind = val%26;
+		  if(mod == 0){
+		    --val_floor;
+		    mod = 26;
+		  }
+		  if(val_floor>0){
+		    str += String.fromCharCode('A'.charCodeAt() + val_floor - 1);
+		  }
+
+		  str += String.fromCharCode('A'.charCodeAt() + mod - 1);
+		  return str;
+		}
+		
+		
+		
 		
 %div#live_theme_final_edit
 	%h3 Final edit for themes
+
+	- theme_letter = 'A'
+	%ul.themes{:id_order=> @my_themes.map(&:id).join(',') }
+		- @my_themes.each do |theme|
+			-#%li.theme= theme.text
+			
+			%li.theme{:theme_id=>theme.id}
+				%div.controls
+					%span.ltr= theme_letter
+				- theme_letter.succ!
+				%div.theme
+					-#%p.lbl_theme Theme
+					%p.theme= theme.text
+					-#%textarea.theme= theme.text
+					-#%p.lbl_example Example
+					%p.example= theme.example_ids
+					-#%textarea.example= theme.example_ids
+				%p.clear_both
+				

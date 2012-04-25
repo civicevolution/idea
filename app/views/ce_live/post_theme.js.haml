@@ -5,5 +5,9 @@
 	:plain
 		// I need to change the list_id attr
 		$('div.idea_list[list_id="#{params[:list_id]}"]').attr('list_id',#{@live_theme.id});
+- elsif params[:act] == 'update_final_theme_order'
+	:plain
+		$('ul.themes').attr('id_order', '#{@new_ids}')
+		$('p.saving_modal').closest('div.ui-dialog').dialog('destroy').remove();
 
 
