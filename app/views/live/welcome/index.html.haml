@@ -1,4 +1,26 @@
-- event_id = 100
+- content_for(:script) do
+	%style
+		:sass
+			div.session_details
+				margin-left: 20px
+				
+	:javascript
+		var live_session_id;
+		$('a.publish_link').die('click').live('click',
+			function(){
+				var link = $(this);
+				live_session_id = link.attr('id');
+				if(link.hasClass('unpublished')){
+					var new_publish_status = true;
+				}else{
+					var new_publish_status = false;
+				}
+				post_theme_changes({act: 'publish_session_themes', new_publish_status: new_publish_status });
+				return false;
+			}
+		);
+		
+		
 %div#live_home
 	%h2 Welcome to your CivicEvolution Live Homepage
 	
@@ -12,13 +34,13 @@
 					- when 'collect'
 						%p= link_to "Collect talking points for #{session.name}", live_table_path(session.id)
 					- when 'feedback_themes'
-						%p= link_to "#{session.name}", live_table_path(session.id)
+						%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
 					- when 'allocation_options'
-						%p= link_to "#{session.name}", live_table_path(session.id)
+						%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
 					- when 'allocation'
-						%p= link_to "#{session.name}", live_table_path(session.id)
+						%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
 					- when 'feedback_allocation_results'
-						%p= link_to "#{session.name}", live_table_path(session.id)
+						%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
 					
 			
 		- when 'theme'
@@ -30,26 +52,39 @@
 					%p= link_to "Theming: #{session.name}", live_themer_path(session.id)
 			
 		- when 'coord'
-			= link_to "Event setup", live_coordinator_path(@live_node.live_event_id)
+			= link_to "Event setup", live_event_setup_path(@live_node.live_event_id)
 			- @sessions.each do |session|
 				%h3= session.name
-				- case session.session_type
-					- when 'collect'
-						%p= link_to "Coordinator's theming", live_theme_coordination_path(session.id)
-						%p= link_to "Final editing of themes", live_theme_final_edit_path(session.id)
-						%ul
-							- @subordinate_themers.each do |themer|
-								%li= link_to "Themer's view, Tables: #{themer[:tables]}", live_themer_path(:session_id=>session.id, :id=>themer.id)
+				%div.session_details
+					- case session.session_type
+						- when 'collect'
+							%p 
+								%b Theme teams
+							%ul
+								- @subordinate_themers.each do |themer|
+									%li= link_to "Themer's view, Tables: #{themer[:tables]}", live_themer_path(:session_id=>session.id, :id=>themer.id)
+							
+							%p= link_to "Coordinator's theming", live_theme_coordination_path(session.id)
+							%p= link_to "Final editing of themes", live_theme_final_edit_path(session.id)
 						
-					- when 'feedback_themes'
-					
-					- when 'allocation_options'
-					
-					- when 'allocation'
-					
-					- when 'feedback_allocation_results'
-					
-					
-			
+							- if session.published
+								%h4
+									%span.status 
+										= image_tag 'completed_on.gif'
+										Themes have been published
+									= link_to "Unpublish the themes", {}, {:class=>"publish_link published", :id=>session.id}
+							- else
+								%h4 
+									%span.status Themes have not been published
+									= link_to 'Publish themes', {}, {:class=>"publish_link unpublished", :id=>session.id}
 
-
+						
+						- when 'feedback_themes'
+							%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
+						- when 'allocation_options'
+							%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
+						- when 'allocation'
+							%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
+						- when 'feedback_allocation_results'
+							%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
+					

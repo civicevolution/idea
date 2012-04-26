@@ -1,0 +1,51 @@
+- content_for(:script) do
+	%style
+		:sass
+			body
+				padding-bottom: 40px
+			p.theme
+				font-size: 1.2em
+				margin: 0
+				width: 600px
+				
+			p.example
+				font-style: italic
+				color: blue
+				margin: 6px 0 16px 0
+				width: 600px
+			div.controls
+				width: 60px
+				text-align: center
+				font-size: 3.2em
+				margin-top: -10px
+			ul.themes
+				list-style: none
+				li
+					div
+						float: left
+			p.clear_both
+				clear: both
+
+			
+				
+	:javascript
+		var pub_sub_channels = #{@channels}
+		var live_session_id = #{params[:session_id]}
+		
+%div#live_theme_final_edit
+
+	- if @warning.nil?
+		- theme_letter = 'A'
+		%ul.themes
+			- @live_themes.each do |theme|
+				%li.theme{:theme_id=>theme.id, :class => theme.visible ? 'visible' : ''}
+					%div.controls
+						%span.ltr= theme_letter
+					- theme_letter.succ!
+					%div.theme
+						%p.theme= theme.text
+						%p.example= theme.example_ids
+					%p.clear_both
+	
+	- else
+		%h3= @warning

@@ -1,0 +1,60 @@
+- content_for(:script) do
+	%style
+		:sass
+			body
+				padding-bottom: 40px
+			p.theme
+				font-size: 1.2em
+				margin: 0
+				width: 600px
+				
+			p.example
+				font-style: italic
+				color: blue
+				margin: 6px 0 16px 0
+				width: 600px
+			div.controls
+				width: 60px
+				text-align: center
+				font-size: 3.2em
+				margin-top: -10px
+			ul.themes
+				list-style: none
+				li
+					margin-bottom: 40px
+					div
+						float: left
+			p.clear_both
+				clear: both
+			span.ltr
+				margin-top: 0
+				padding-top: 0
+				
+			
+				
+	:javascript
+		var pub_sub_channels = #{@channels}
+		var live_session_id = #{params[:session_id]}
+		
+%div#live_theme_final_edit
+
+	- if @warning.nil?
+		
+		%div.instr
+			Show your support for these proposals by allocating your $100 to your favorite proposals.
+			You cannot allocate more than $30 to any single proposal
+		
+		- theme_letter = 'A'
+		%ul.themes
+			- @live_themes.each do |theme|
+				%li.theme{:theme_id=>theme.id, :class => theme.visible ? 'visible' : ''}
+					%div.controls
+						%span.ltr= theme_letter
+					- theme_letter.succ!
+					%div.theme
+						%p.theme
+							= theme.text
+					%p.clear_both
+	
+	- else
+		%h3= @warning

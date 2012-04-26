@@ -1,3 +1,13 @@
+- content_for(:script) do
+	%style
+		:sass
+			p.data_source
+				label
+					display: inline
+				input[type='text']
+					width: 40px
+					
+
 %div#add_session_form
 	%h3 Add/edit a session form
 	
@@ -8,8 +18,10 @@
 		
 		%div
 			%p= label_tag :title, 'Session type'
-			= form.select( :session_type, [['Select session type','0'],['Collect talking points','collect'],['Feedback: themes', 'feedback_themes'], ['Allocation options', 'allocation_options'], ['Allocation', 'allocation'], ['Feedback: Allocation results','feedback_allocation_results']])
-			
+			%p.data_source
+				= form.select( :session_type, [['Select session type','0'],['Collect talking points','collect'],['Feedback: themes', 'feedback_themes'], ['Allocation options', 'allocation_options'], ['Allocation', 'allocation'], ['Feedback: Allocation results','feedback_allocation_results']])
+				= label_tag :source_session_id, 'Session id for data (if applicable)'
+				= form.text_field :source_session_id
 					
 		%div
 			%p= label_tag :title, 'Session name'
@@ -29,3 +41,5 @@
 					characters
 		
 		%p= submit_tag @live_session.id.nil? ? 'Create session' : 'Update session'
+			
+		%p= link_to 'Back to setup page', live_event_setup_path(params[:live_session_id])

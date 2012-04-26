@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120424065217) do
+ActiveRecord::Schema.define(:version => 20120426210528) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -264,6 +264,7 @@ ActiveRecord::Schema.define(:version => 20120424065217) do
     t.string   "locked_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "queue"
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
@@ -489,6 +490,10 @@ ActiveRecord::Schema.define(:version => 20120424065217) do
     t.datetime "updated_at"
     t.integer  "order_id"
     t.string   "session_type"
+    t.boolean  "published"
+    t.datetime "starting_time"
+    t.integer  "duration"
+    t.integer  "source_session_id"
   end
 
   create_table "live_talking_points", :force => true do |t|
@@ -505,6 +510,16 @@ ActiveRecord::Schema.define(:version => 20120424065217) do
     t.string   "status"
   end
 
+  create_table "live_theme_allocations", :force => true do |t|
+    t.integer  "session_id"
+    t.integer  "theme_id"
+    t.integer  "table_id"
+    t.integer  "voter_id"
+    t.integer  "points"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "live_themes", :force => true do |t|
     t.integer  "live_session_id"
     t.integer  "themer_id"
@@ -514,6 +529,7 @@ ActiveRecord::Schema.define(:version => 20120424065217) do
     t.integer  "order_id"
     t.text     "live_talking_point_ids"
     t.text     "example_ids"
+    t.boolean  "visible"
   end
 
   create_table "live_theming_sessions", :force => true do |t|

@@ -1,141 +1,8 @@
 class CeLiveController < ApplicationController
   layout "ce_live"
   prepend_before_filter :identify_node #, :except => [ :live_home, :sign_in_form, :sign_in_post]
-  skip_before_filter :authorize , :only => [:live_home, :sign_in_form, :session_report, :get_templates, :vote, :vote_save]
+  skip_before_filter :authorize , :only => [:live_home, :sign_in_form, :session_report, :get_templates, :vote, :vote_save, :session_themes]
   skip_before_filter :add_member_data# , :except => [ :logo, :rss ]
-
-  
-  
-  
-  def vote
-
-    @session = LiveSession.find_by_id(params[:session_id])
-    
-    # open to the public
-    
-    @live_node = LiveNode.first
-    
-    @page_title = "Prioritisation for: Examples you think could work best in Australia	Priority"
-    
-    #@live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => 1 )
-    #@live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => 1 )
-    ## i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
-    #@live_themes = []
-    #
-    #@live_theming_session.each do |theme_session|
-    #  if !theme_session.nil?
-    #    theme_session.theme_group_ids.split(',').each do |id|
-    #      @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
-    #    end
-    #  end
-    #end
-    #
-    #@live_themes.compact!
-
-
-    @live_themes = 
-    [
-      {:text=> %Q|A	Use the new tools of deliberative engagement: initiate new projects to implement collaborative governance|, :id => 51000000 },
-      {:text=> %Q|B	Trial new ways to facilitate a mutual understanding of values: find out what the community agenda is.	|, :id => 51000001 },
-      {:text=> %Q|C	Provide specific ways to ensure the public gets feedback in a transparent way	|, :id => 51000002 },
-      {:text=> %Q|D	Pilot innovative ways to make sure the "right" people are involved in decision making, e.g. experts, government representatives, stakeholders, citizens	|, :id => 51000003 },
-            {:text=> %Q|E	Implement participatory budgeting - make a portion of the budget for the community to make an informed decision for how it's used via a deliberative process	|, :id => 51000004 },
-          {:text=> %Q|F	Establish ways to localise the level of governance, e.g. street by street	|, :id => 51000005 },
-           {:text=> %Q|G	Provide new mechanisms to support power sharing - e.g. community can call for national or local referendum by providing petition	|, :id => 51000006 },
-        {:text=> %Q|H	Implement and institutionalise ways governments can establish principles and processes for undertaking engagement about specific issues	|, :id => 5000007 },
-        {:text=> %Q|I	Provide education for better communication, respect and cooperation	|, :id => 51000008 },
-
-
-      
-]    
-#    @live_themes = 
-#    [
-#      {:text=> %Q|A	Use the new tools of deliberative engagement: initiate new projects to implement collaborative governance|, :id => 1000000 },
-#      {:text=> %Q|B	Trial new ways to facilitate a mutual understanding of values: find out what the community agenda is.	|, :id => 1000001 },
-#      {:text=> %Q|C	Provide specific ways to ensure the public gets feedback in a transparent way	|, :id => 1000002 },
-#      {:text=> %Q|D	Pilot innovative ways to make sure the “right” people are involved in decision making, e.g. experts, government representatives, stakeholders, citizens	|, :id => 1000003 },
-#      {:text=> %Q|E	Implement participatory budgeting – make a portion of the budget for the community to make an informed decision for how it’s used via a deliberative process	|, :id => 1000004 },
-#      {:text=> %Q|F	Establish ways to localise the level of governance, e.g. street by street	|, :id => 1000004 },
-#      {:text=> %Q|G	Provide new mechanisms to support power sharing – e.g. community can call for national or local referendum by providing petition	|, :id => 1000004 },
-#      {:text=> %Q|H	Implement and institutionalise ways governments can establish principles and processes for undertaking engagement about specific issues	|, :id => 1000004 },
-#      {:text=> %Q|I	Provide education for better communication, respect and cooperation	|, :id => 1000004 },
-#      
-#      
-#    ]
-#
-    
-    
-    
-    
-    	
-    	
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
-
-
-
-
-    
-    
-    
-    
-    
-    # I now have the themes in order
-    render :template => 'ce_live/vote', :layout => 'ce_live', :locals=>{ :inc_js => 'none', :title=>'Theming coordination page', :role=>'Public'}
-    
-    
-  end
-  
-  def vote_save
-    votes = {}
-    
-    begin
-      params.each_pair do |key,value|
-        if key.match(/^vote_\d+/) && value.to_i > 0
-          votes[ key.match(/\d+/)[0].to_i] = value.to_i
-        end
-      end
-      
-      member_id = ProposalVote.maximum('member_id' ) + 1
-
-      votes.each_pair do |team_id, points|
-        ProposalVote.create( :initiative_id=> 125, :member_id => member_id, :team_id => team_id, :points => points )
-      end
-      
-      saved = true
-      #saved, err_msgs = ProposalVote.save_votes(params[:_initiative_id], 1, votes)
-    rescue
-      saved = false
-    end
-
-    if saved
-      respond_to do |format|
-        #format.html { render :summary, :layout => 'plan' }
-        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'saved'} }
-      end
-      
-    else
-      respond_to do |format|
-        #format.html { render :summary, :layout => 'plan' }
-        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'failed', :err_msgs => err_msgs} }
-      end
-      
-    end
-    
-    
-  end
-  
-  
-  
   
   def live_home
     # default page for CivicEvolution Live
@@ -185,7 +52,7 @@ class CeLiveController < ApplicationController
   def auto_mode
     case @live_node.role
       when 'coord'
-        redirect_to live_coordinator_path(params[:event_id])
+        redirect_to live_event_setup_path(params[:event_id])
         
       when 'theme'
         redirect_to live_themer_path(params[:event_id])
@@ -197,11 +64,11 @@ class CeLiveController < ApplicationController
     
   end
   
-  def coordinator    
+  def event_setup    
     
     @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'coordinator','coordinator')
     session[:live_node_id] = @live_node.id
-    @page_title = "Coordinator's admin page"
+    @page_title = "Event setup page"
     
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'coord'
@@ -212,38 +79,9 @@ class CeLiveController < ApplicationController
     session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
     authorize_juggernaut_channels(request.session_options[:id], @channels )
 
-    render :template => 'ce_live/coordinator', :layout => 'ce_live', :locals=>{ :title=>'Cordinator page for CivicEvolution Live', :role=>'Coordinator'}
+    render :template => 'ce_live/event_setup', :layout => 'ce_live', :locals=>{ :title=>'Cordinator page for CivicEvolution Live', :role=>'Coordinator'}
   end
 
-
-  def vote_results        
-    @session = LiveSession.find_by_id(params[:session_id])
-    
-    # open to the public
-    
-    @live_node = LiveNode.first
-    
-    @page_title = "Results for: #{@session.name}"
-    
-    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => 1 )
-    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => 1 )
-    # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
-    @live_themes = []
-    
-    @live_theming_session.each do |theme_session|
-      if !theme_session.nil?
-        theme_session.theme_group_ids.split(',').each do |id|
-          @live_themes.push @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
-        end
-      end
-    end
-
-    @live_themes.compact!
-    
-    # I now have the themes in order
-    render :template => 'ce_live/session_report', :layout => 'ce_live', :locals=>{ :inc_js => 'none', :title=>'Theming coordination page', :role=>'Public'}
-
-  end
 
 
   def session_report        
@@ -402,6 +240,126 @@ class CeLiveController < ApplicationController
     
     render :template => 'ce_live/theme_final_edit', :layout => 'ce_live', :locals=>{ :title=>'Theme final edit page', :role=>'Themer'}
   end
+
+  def session_themes
+
+    @session = LiveSession.find_by_id(params[:session_id])
+    
+    @page_title = "Themes for: #{@session.name}"
+
+    if LiveSession.find_by_id(@session.id).published
+      @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
+      @live_themes.reject!{ |theme| theme.visible == false }
+    else
+      @warning = "We're sorry, the results of this session have not been published yet"
+    end
+
+    @channels = []
+    
+    render :template => 'ce_live/session_themes', :layout => 'ce_live', :locals=>{ :title=>'Themes', :role=>'Themer'}
+  end
+
+  def session_allocation_options
+    
+    @session = LiveSession.find_by_id(params[:session_id])
+    
+    @page_title = "Themes for: #{@session.name}"
+
+    if LiveSession.find_by_id(@session.id).published
+      @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
+      @live_themes.reject!{ |theme| theme.visible == false }
+    else
+      @warning = "We're sorry, the results of this session have not been published yet"
+    end
+
+    @channels = []
+    
+    render :template => 'ce_live/session_allocation_options', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation options', :role=>'Themer'}
+  end
+
+  def session_allocation_voting
+    @session = LiveSession.find_by_id(params[:session_id])
+    
+    @page_title = "Prioritisation for: #{@session.name}"
+
+    if LiveSession.find_by_id(@session.id).published
+      @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
+      @live_themes.reject!{ |theme| theme.visible == false }
+    else
+      @warning = "We're sorry, the results of this session have not been published yet"
+    end
+
+    @channels = []
+        
+    render :template => 'ce_live/session_allocation_voting', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation voting', :role=>'Themer'}
+  end
+  
+  def session_allocation_results
+    @session = LiveSession.find_by_id(params[:session_id])
+    
+    @page_title = "Prioritisation for: #{@session.name}"
+
+    if LiveSession.find_by_id(@session.id).published
+      @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
+      @live_themes.reject!{ |theme| theme.visible == false }
+      @allocated_points = LiveThemeAllocation.select("theme_id, sum(points) as points").where(:session_id => @session.id).group("theme_id")
+      @total_points = 0
+      @max_points = 0
+      @allocated_points.each{|ap| @total_points += ap.points; @max_points = ap.points if ap.points > @max_points}
+      @live_themes.each do |theme|
+        points = @allocated_points.detect{ |ap| ap.theme_id == theme.id}.points
+        theme[:points] = points
+        theme[:percentage] = points.to_f/@total_points
+      end
+    else
+      @warning = "We're sorry, the results of this session have not been published yet"
+    end
+
+    @channels = []
+    
+    render :template => 'ce_live/session_allocation_results', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation results', :role=>'Themer'}
+  end
+
+  def allocate_save
+    votes = {}
+    
+    begin
+      params.each_pair do |key,value|
+        if key.match(/^vote_\d+/) && value.to_i > 0
+          votes[ key.match(/\d+/)[0].to_i] = value.to_i
+        end
+      end
+      
+      member_id = ProposalVote.maximum('member_id' ) + 1
+
+      votes.each_pair do |team_id, points|
+        ProposalVote.create( :initiative_id=> 125, :member_id => member_id, :team_id => team_id, :points => points )
+      end
+      
+      saved = true
+      #saved, err_msgs = ProposalVote.save_votes(params[:_initiative_id], 1, votes)
+    rescue
+      saved = false
+    end
+
+    if saved
+      respond_to do |format|
+        #format.html { render :summary, :layout => 'plan' }
+        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'saved'} }
+      end
+      
+    else
+      respond_to do |format|
+        #format.html { render :summary, :layout => 'plan' }
+        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'failed', :err_msgs => err_msgs} }
+      end
+      
+    end
+    
+    
+  end
+
+
   
   def themer         
     @session = LiveSession.find_by_id(params[:session_id])
@@ -557,7 +515,9 @@ class CeLiveController < ApplicationController
   
   def add_session_post
     if params[:live_session].nil? || params[:live_session][:id].nil? || params[:live_session][:id] == ''
-      @live_session = LiveEvent.find(params[:event_id]).live_sessions.create(params[:live_session])
+      @live_session = LiveEvent.find(params[:event_id]).live_sessions.new(params[:live_session])
+      @live_session.published = false
+      @live_session.save
     else
       @live_session = LiveSession.find(params[:live_session][:id])
       @live_session.attributes = params[:live_session]
@@ -565,7 +525,7 @@ class CeLiveController < ApplicationController
     end
     
     if @live_session.errors.empty?
-      redirect_to :live_coordinator
+      redirect_to :live_event_setup
     else
       flash[:live_session] = @live_session
       redirect_to :add_live_session
@@ -574,7 +534,7 @@ class CeLiveController < ApplicationController
   
   def delete_session_post
     LiveSession.find(params[:id]).destroy
-    redirect_to :live_coordinator
+    redirect_to :live_event_setup
   end
   
   def add_node_form
@@ -593,7 +553,7 @@ class CeLiveController < ApplicationController
     end
     
     if @live_node.errors.empty?
-      redirect_to :live_coordinator
+      redirect_to :live_event_setup
     else
       flash[:live_node] = @live_node
       redirect_to :add_live_node
@@ -602,7 +562,7 @@ class CeLiveController < ApplicationController
   
   def delete_node_post
     LiveNode.find(params[:id]).destroy
-    redirect_to :live_coordinator
+    redirect_to :live_event_setup
   end
   
   
@@ -687,7 +647,7 @@ class CeLiveController < ApplicationController
       when 'new_list' 
         logger.debug "new_list"
         @live_theme = LiveTheme.create live_session_id: params[:live_session_id], 
-          themer_id: @live_node.id, text: params[:text], order_id: 0, live_talking_point_ids: params[:ltp_ids]
+          themer_id: @live_node.id, text: params[:text], order_id: 0, live_talking_point_ids: params[:ltp_ids], visible: true
           
         # replace the temp list_id with the new one returned by @live_theme.id
         list_ids = []
@@ -765,7 +725,7 @@ class CeLiveController < ApplicationController
           @live_theme.save
         else
           @live_theme = LiveTheme.create live_session_id: params[:live_session_id], 
-            themer_id: @live_node.id, text: params[:theme], order_id: 0, example_ids: params[:example]
+            themer_id: @live_node.id, text: params[:theme], order_id: 0, example_ids: params[:example], visible: true
           @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
           ids = @live_theming_session.theme_group_ids ||= ''
           ids = ids.scan(/\d+/)
@@ -774,6 +734,34 @@ class CeLiveController < ApplicationController
           @live_theming_session.save
           
         end
+      
+      when 'update_theme_visibility'
+        LiveTheme.find_by_id(params[:theme_id]).update_attribute('visible',params[:visible])  
+        
+      when 'publish_session_themes'
+        LiveSession.find_by_id(params[:live_session_id]).update_attribute('published',params[:new_publish_status])  
+        # set the order_id for the live_themes
+        
+        @live_theming_session = LiveThemingSession.where(:live_session_id => params[:live_session_id], :themer_id=>@live_node.id)
+        @live_themes_unordered = LiveTheme.where(:live_session_id => params[:live_session_id], :themer_id=>@live_node.id)
+
+        # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
+
+        ord = 0
+        if !@live_theming_session.nil?
+          @live_theming_session = @live_theming_session[0]
+          if !@live_theming_session.theme_group_ids.nil?
+            @live_theming_session.theme_group_ids.split(',').each do |id|
+              theme = @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+              if !theme.nil?
+                theme.order_id = ord += 1
+                theme.save
+              end
+            end
+          end
+        end
+
+        
         
         
       else

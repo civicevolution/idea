@@ -12,5 +12,16 @@
 - elsif params[:act] == 'update_theme_text_and_example'
 	:plain
 		update_new_theme( '#{ params[:theme_id].match(/\d/).nil? ? 'insert' : 'replace' }', #{params[:form_id]}, #{@live_theme.to_json} )
-
-
+- elsif params[:act] == 'publish_session_themes'
+	:plain
+		var link = $('a.publish_link[id="#{params[:live_session_id]}"]');
+		if( #{params[:new_publish_status] =='true'} ){
+			link.parent().find('.status').html('<img alt="Completed_on" src="/images/completed_on.gif">Themes have been published');
+			link.html('Unpublish themes');
+			link.removeClass('unpublished').addClass('published')
+		}else{
+			console.log("mark as inpublished");
+			link.parent().find('.status').html('Themes have not been published');
+			link.html('Publish themes');
+			link.removeClass('published').addClass('unpublished')
+		}

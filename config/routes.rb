@@ -24,14 +24,17 @@ G3::Application.routes.draw do |map|
   post 'live/test_ids' => 'ce_live#get_tp_test_ids', :as => 'live_test_ids'
   post 'live/theme/edit' => 'ce_live#edit_theme', :as => 'live_theme_edit'
 
-  get 'live/:session_id/vote' => 'ce_live#vote', :as => 'live_vote'
-  post 'live/:session_id/vote' => 'ce_live#vote_save', :as => 'live_vote'
+  get 'live/:session_id/session_themes' => 'ce_live#session_themes', :as => 'live_session_themes'
+  get 'live/:session_id/session_allocation_options' => 'ce_live#session_allocation_options', :as => 'live_session_allocation_options'
+  get 'live/:session_id/session_allocation_voting' => 'ce_live#session_allocation_voting', :as => 'live_session_allocation_voting'
+  post 'live/:session_id/allocate' => 'ce_live#allocate_save', :as => 'live_allocate_save'
+  get 'live/:session_id/session_allocation_results' => 'ce_live#session_allocation_results', :as => 'live_session_allocation_results'
   
   get 'live/:session_id/vote_results' => 'ce_live#vote_results', :as => 'live_vote_results'
   
   get 'proposal/:team_id/print' => 'proposal#print', :as => 'print_proposal'
   
-  get 'live/:event_id/coordinator' => 'ce_live#coordinator', :as => 'live_coordinator'
+  get 'live/:event_id/event_setup' => 'ce_live#event_setup', :as => 'live_event_setup'
   get 'live/:session_id/themer' => 'ce_live#themer', :as => 'live_themer' 
   get 'live/:session_id/theme_coordination' => 'ce_live#theme_coordination', :as => 'live_theme_coordination' 
   get 'live/:session_id/theme_final_edit' => 'ce_live#theme_final_edit', :as => 'live_theme_final_edit'

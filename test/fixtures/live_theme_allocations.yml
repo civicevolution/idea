@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  session_id: 1
+  theme_id: 1
+  table_id: 1
+  voter_id: 1
+  points: 1
+
+two:
+  session_id: 1
+  theme_id: 1
+  table_id: 1
+  voter_id: 1
+  points: 1
