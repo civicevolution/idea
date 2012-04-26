@@ -9,5 +9,8 @@
 	:plain
 		$('ul.themes').attr('id_order', '#{@new_ids}')
 		$('p.saving_modal').closest('div.ui-dialog').dialog('destroy').remove();
+- elsif params[:act] == 'update_theme_text_and_example'
+	:plain
+		update_new_theme( '#{ params[:theme_id].match(/\d/).nil? ? 'insert' : 'replace' }', #{params[:form_id]}, #{@live_theme.to_json} )
 
 

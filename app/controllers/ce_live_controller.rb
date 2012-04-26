@@ -664,7 +664,7 @@ class CeLiveController < ApplicationController
     
     case params[:act]
 
-      when /update_theme_text_coord/  
+      when 'update_theme_text_coord'
         logger.debug "do update_theme_text"
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         @live_theme.text = params[:text]
@@ -672,19 +672,19 @@ class CeLiveController < ApplicationController
         @live_theme.save
       
       
-      when /update_theme_text/
+      when 'update_theme_text'
         logger.debug "do update_theme_text"
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         @live_theme.text = params[:text]
         @live_theme.save
-      when /update_theme_examples/
+      when 'update_theme_examples'
         logger.debug "update_list_examples"
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         @live_theme.example_ids = params[:example_ids].nil? ? '' : params[:example_ids].join(',')
         @live_theme.save
         
         
-      when /new_list/ 
+      when 'new_list' 
         logger.debug "new_list"
         @live_theme = LiveTheme.create live_session_id: params[:live_session_id], 
           themer_id: @live_node.id, text: params[:text], order_id: 0, live_talking_point_ids: params[:ltp_ids]
@@ -703,7 +703,7 @@ class CeLiveController < ApplicationController
         @live_theming_session.save
           
         
-      when /remove_list/
+      when 'remove_list'
         logger.debug "remove_list"
         @live_theme = LiveTheme.find_by_id( params[:list_id]).destroy
         
@@ -719,20 +719,20 @@ class CeLiveController < ApplicationController
         @live_theming_session.save
 
 
-      when /reorder_lists/
+      when 'reorder_lists'
         logger.debug "reorder_lists"
         @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.theme_group_ids = params[:list_ids].join(',')
         @live_theming_session.save
         
-      when /add_misc_live_talking_point/
+      when 'add_misc_live_talking_point'
         logger.debug "add_misc_live_talking_point"
         @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.unthemed_ids = params[:ltp_ids].nil? ? '' : params[:ltp_ids].join(',')
         @live_theming_session.save
-      when /remove_live_talking_point/
+      when 'remove_live_talking_point'
         logger.debug "remove_live_talking_point"
-      when /receive_live_talking_point/, /remove_live_talking_point/, /update_list_idea_ids/
+      when 'receive_live_talking_point', 'remove_live_talking_point', 'update_list_idea_ids'
         logger.debug "receive/remove_live_talking_point act: #{params[:act]}"
 
         @live_theme = LiveTheme.find_by_id( params[:list_id])
@@ -756,6 +756,25 @@ class CeLiveController < ApplicationController
         @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.theme_group_ids = @new_ids
         @live_theming_session.save
+        
+      when 'update_theme_text_and_example'
+        if !params[:theme_id].match(/\d/).nil?
+          @live_theme = LiveTheme.find_by_id( params[:theme_id])
+          @live_theme.text = params[:theme]
+          @live_theme.example_ids = params[:example]
+          @live_theme.save
+        else
+          @live_theme = LiveTheme.create live_session_id: params[:live_session_id], 
+            themer_id: @live_node.id, text: params[:theme], order_id: 0, example_ids: params[:example]
+          @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
+          ids = @live_theming_session.theme_group_ids ||= ''
+          ids = ids.scan(/\d+/)
+          ids.push( @live_theme.id )
+          @live_theming_session.theme_group_ids = ids.map{|d| d.to_i}.uniq.join(',')
+          @live_theming_session.save
+          
+        end
+        
         
       else
         logger.debug "I do not know how to handle a request like this\nparams.inspect"

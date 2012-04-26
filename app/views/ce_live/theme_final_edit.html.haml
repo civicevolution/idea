@@ -8,7 +8,8 @@
 				width: 600px
 				height: 60px
 				margin-bottom: 30px
-				
+			body
+				padding-bottom: 40px
 			p.lbl_theme
 				margin: 0
 			p.lbl_example
@@ -35,6 +36,19 @@
 						float: left
 			p.clear_both
 				clear: both
+			form.theme_edit, li.theme.model
+				display: none
+			div.controls
+				position: relative
+				div.edit
+					background: url('/images/pencil.gif') no-repeat top right 
+					position: absolute
+					top: 30px
+					left: 8px
+					cursor: pointer
+					width: 20px
+					height: 16px
+		
 				
 	:javascript
 		var pub_sub_channels = #{@channels}
@@ -80,6 +94,57 @@
 		  return str;
 		}
 		
+		function update_new_theme( act, form_id, theme_json ){
+			temp.theme_json = theme_json
+			if(act == 'insert'){
+				console.log("add_new_theme with text: " + theme_json.live_theme.text);
+				var li = $('li.theme.model').clone();
+				li.removeClass('model');
+				li.attr('theme_id',theme_json.live_theme.id);
+				li.find('p.theme').html(theme_json.live_theme.text);
+				li.find('p.example').html(theme_json.live_theme.example_ids);
+				var ul = $('ul.themes');
+				li.find('span.ltr').html( int_to_letters( ul.find('li').size() + 1 ) );
+				ul.append(li)
+			}else{
+				console.log("update_theme with text: " + theme_json.live_theme.text);
+				var li = $('li[theme_id="' + theme_json.live_theme.id + '"]');
+				li.find('p.theme').html(theme_json.live_theme.text);
+				li.find('p.example').html(theme_json.live_theme.example_ids);
+			}
+			$('input[name="form_id"][value="' + form_id + '"]').closest('div.ui-dialog').dialog('destroy').remove();
+		}
+		var form_ctr = 1
+		$('a.add_edit_theme').bind('click',
+			function(){
+				console.log("Add or edit a theme");
+				var form = $('form.theme_edit').clone();
+				form.show();
+				form.find('input[name="form_id"]').val( form_ctr++ );
+				form.find('input[name="theme_id"]').val( null );
+				form.find('textarea[name="theme"]').val( '');
+				form.find('textarea[name="example"]').val('');
+				var dialog = form.dialog( {title : 'Edit this theme and example', modal : true, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });
+				return false;
+			}
+		);
+		
+		$('div.edit').live('click',
+		  function(){
+		    console.log("edit the theme/example");
+				var li = $(this).closest('li');
+				var theme_id = li.attr('theme_id');
+				var form = $('form.theme_edit').clone();
+				form.show();
+				form.find('input[name="form_id"]').val( form_ctr++ );
+				form.find('input[name="theme_id"]').val( theme_id );
+				form.find('textarea[name="theme"]').val( li.find('p.theme').html() );
+				form.find('textarea[name="example"]').val( li.find('p.example').html() );
+				var dialog = form.dialog( {title : 'Edit this theme and example', modal : true, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });
+				return false;
+			}
+		);
+		
 		
 		
 		
@@ -94,13 +159,32 @@
 			%li.theme{:theme_id=>theme.id}
 				%div.controls
 					%span.ltr= theme_letter
+					%div.edit
 				- theme_letter.succ!
 				%div.theme
-					-#%p.lbl_theme Theme
 					%p.theme= theme.text
-					-#%textarea.theme= theme.text
-					-#%p.lbl_example Example
 					%p.example= theme.example_ids
-					-#%textarea.example= theme.example_ids
 				%p.clear_both
-				
+	= link_to 'Add a theme', {}, {:class=>'add_edit_theme'}
+	
+	= form_tag(post_live_theme_path, :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
+		= hidden_field_tag :live_session_id, params[:session_id]
+		= hidden_field_tag :form_id 
+		= hidden_field_tag :theme_id 
+		= hidden_field_tag :act, 'update_theme_text_and_example'
+		%label{:for=>'theme'} Theme
+		= text_area_tag :theme, nil, {:class=>'autosize'}
+		%label{:for=>'example'} Example
+		= text_area_tag :example, nil, {:class=>'autosize'}
+		%button{'data-disable-with' =>'Submitting...'}
+			Save
+	
+	%li.theme.model
+		%div.controls
+			%span.ltr
+			%div.edit
+		%div.theme
+			%p.theme
+			%p.example
+		%p.clear_both
+	
