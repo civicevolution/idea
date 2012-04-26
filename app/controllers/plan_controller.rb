@@ -6,6 +6,10 @@ class PlanController < ApplicationController
     render :template=>'plan/test', :layout=> 'test'
   end
 
+  def index
+    redirect_to :home
+  end
+
   def summary
     logger.debug "\n\n******************************************\nStart plan/summary\n"
     begin
