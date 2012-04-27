@@ -34,13 +34,26 @@
 					- when 'collect'
 						%p= link_to "Collect talking points for #{session.name}", live_table_path(session.id)
 					- when 'feedback_themes'
-						%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
+						- if !session.source_session_id.nil?
+							%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
+						- else
+							%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
+							
 					- when 'allocation_options'
-						%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
+						- if !session.source_session_id.nil?
+							%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
+						- else
+							%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
 					- when 'allocation'
-						%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
+						- if !session.source_session_id.nil?
+							%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
+						- else
+							%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
 					- when 'feedback_allocation_results'
-						%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
+						- if !session.source_session_id.nil?
+							%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
+						- else
+							%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
 					
 			
 		- when 'theme'
@@ -80,11 +93,23 @@
 
 						
 						- when 'feedback_themes'
-							%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
+							- if !session.source_session_id.nil?
+								%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
+							- else
+								%p.warn Please set the session data source in Event setup page
 						- when 'allocation_options'
-							%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
+							- if !session.source_session_id.nil?
+								%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
+							- else
+								%p.warn Please set the session data source in Event setup page
 						- when 'allocation'
-							%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
+							- if !session.source_session_id.nil?
+								%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
+							- else
+								%p.warn Please set the session data source in Event setup page
 						- when 'feedback_allocation_results'
-							%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
+							- if !session.source_session_id.nil?
+								%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
+							- else
+								%p.warn Please set the session data source in Event setup page
 					

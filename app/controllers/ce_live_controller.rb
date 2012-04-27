@@ -330,11 +330,11 @@ class CeLiveController < ApplicationController
         end
       end
       
-      member_id = ProposalVote.maximum('member_id' ) + 1
-
-      votes.each_pair do |team_id, points|
-        ProposalVote.create( :initiative_id=> 125, :member_id => member_id, :team_id => team_id, :points => points )
-      end
+      #member_id = ProposalVote.maximum('member_id' ) + 1
+      #
+      #votes.each_pair do |team_id, points|
+      #  ProposalVote.create( :initiative_id=> 125, :member_id => member_id, :team_id => team_id, :points => points )
+      #end
       
       saved = true
       #saved, err_msgs = ProposalVote.save_votes(params[:_initiative_id], 1, votes)
