@@ -1,0 +1,37 @@
+= render :template => 'shared/clear_sign_in_form.js'
+- if status == 'saved'
+	:plain
+		var ack = $("#{escape_javascript(
+			render( :template => 'ce_live/vote_alloc_saved.html', :locals=>{:status => 'saved'} )
+		)}");
+
+		var dialog = ack.dialog( {title : 'Thank you', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+		$('td.points input').val(0);
+		$('input[id="voter_id"]').val('');
+		$('span.voter_id').html('New');
+		// update the voter list
+		var voter_list = $('div.voters');
+		var li = voter_list.find('li[id="#{@voter_id}"]');
+		if( li.size() > 0){
+			var a = li.find('a');
+			if(!a.html().match(/updated/)){
+				a.html( a.html() + ' updated');
+			}			
+			
+		}else{
+			li = $('li.placeholder').clone();
+			li.removeClass('placeholder');
+			li.attr('id',#{@voter_id});
+			var a = li.find('a');
+			a.html( a.html() + ' #{@voter_id}');
+			a.attr('href', a.attr('href').replace('TABLE_ID',#{params[:table_id]}).replace('VOTER_ID',#{@voter_id}) );
+			voter_list.append(li)
+		}
+- else
+	:plain
+		var ack = $("#{escape_javascript(
+			render( :template => 'ce_live/vote_alloc_saved.html', :locals=>{:status => 'failed', :err_msgs=>err_msgs} )
+		)}");
+
+		var dialog = ack.dialog( {title : 'Warning', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+	

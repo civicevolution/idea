@@ -29,7 +29,7 @@ G3::Application.routes.draw do |map|
   get 'live/:session_id/session_allocation_voting' => 'ce_live#session_allocation_voting', :as => 'live_session_allocation_voting'
   post 'live/:session_id/allocate' => 'ce_live#allocate_save', :as => 'live_allocate_save'
   get 'live/:session_id/session_allocation_results' => 'ce_live#session_allocation_results', :as => 'live_session_allocation_results'
-  
+  get 'live/:session_id/session_allocations' => 'ce_live#voter_session_allocations', :as => 'live_voter_session_allocations'
   get 'live/:session_id/vote_results' => 'ce_live#vote_results', :as => 'live_vote_results'
   
   get 'proposal/:team_id/print' => 'proposal#print', :as => 'print_proposal'

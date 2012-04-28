@@ -282,9 +282,17 @@ class CeLiveController < ApplicationController
     
     @page_title = "Prioritisation for: #{@session.name}"
 
-    if LiveSession.find_by_id(@session.id).published
+    if @live_node.name.match(/\d+/).nil?
+      @warning = "Please tell the facilitator that your voting page is not setup properly"
+    elsif LiveSession.find_by_id(@session.id).published
       @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
       @live_themes.reject!{ |theme| theme.visible == false }
+      @table_id = @live_node.name.match(/\d+/)[0].to_i
+      @voter_id = params[:voter_id]
+      
+      # get the voter_ids that have already voted
+      @voters = LiveThemeAllocation.get_voters(params[:session_id], @table_id)
+      
     else
       @warning = "We're sorry, the results of this session have not been published yet"
     end
@@ -322,44 +330,38 @@ class CeLiveController < ApplicationController
 
   def allocate_save
     votes = {}
-    
+
     begin
       params.each_pair do |key,value|
-        if key.match(/^vote_\d+/) && value.to_i > 0
+        if key.match(/^vote_\d+/) && value.to_i != 0
           votes[ key.match(/\d+/)[0].to_i] = value.to_i
         end
       end
-      
-      #member_id = ProposalVote.maximum('member_id' ) + 1
-      #
-      #votes.each_pair do |team_id, points|
-      #  ProposalVote.create( :initiative_id=> 125, :member_id => member_id, :team_id => team_id, :points => points )
-      #end
-      
-      saved = true
-      #saved, err_msgs = ProposalVote.save_votes(params[:_initiative_id], 1, votes)
-    rescue
+
+      saved, @voter_id, err_msgs = LiveThemeAllocation.save_votes(params[:session_id], params[:table_id], params[:voter_id], votes)
+    rescue Exception => e
       saved = false
     end
 
     if saved
       respond_to do |format|
         #format.html { render :summary, :layout => 'plan' }
-        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'saved'} }
+        format.js { render :template => 'ce_live/vote_alloc_saved', :locals=>{:status=>'saved'} }
       end
       
     else
       respond_to do |format|
         #format.html { render :summary, :layout => 'plan' }
-        format.js { render :template => 'proposal/vote_saved', :locals=>{:status=>'failed', :err_msgs => err_msgs} }
+        format.js { render :template => 'ce_live/vote_alloc_saved', :locals=>{:status=>'failed', :err_msgs => err_msgs} }
       end
       
     end
-    
-    
   end
 
-
+  def voter_session_allocations
+    @votes = LiveThemeAllocation.where(:session_id =>params[:session_id], :table_id => params[:table_id], :voter_id => params[:voter_id])
+    
+  end
   
   def themer         
     @session = LiveSession.find_by_id(params[:session_id])
@@ -453,7 +455,7 @@ class CeLiveController < ApplicationController
       group_id = group_id[0].to_i
     end
 
-    @page_title = "Topic: #{@session.name}"
+    @page_title = "Table #{group_id}, Topic: #{@session.name}"
 
     @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
 

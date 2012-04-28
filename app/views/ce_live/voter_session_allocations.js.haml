@@ -1,0 +1,15 @@
+:plain
+	console.log("returing with votes");
+	var votes = #{ @votes.to_json};
+	$('td.points input').val(0);
+	$.each( votes,
+		function(){
+			var theme_id = this.live_theme_allocation.theme_id;
+			var points = this.live_theme_allocation.points
+			$('input[id="vote_' + theme_id + '"]').val( points );
+		}
+	);
+	var voter_id = votes[0].live_theme_allocation.voter_id;
+	$('input[id="voter_id"]').val( voter_id );
+	$('span.voter_id').html( voter_id );
+	show_vote_sum();

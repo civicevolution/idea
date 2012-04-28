@@ -1,7 +1,4 @@
 - content_for(:script) do
-	= javascript_include_tag 'live_vote.js'
-
-%div#proposal_vote
 	%style
 		:sass
 			div#proposal_vote
@@ -42,16 +39,34 @@
 					td.ltr
 						font-size: 2.4em
 						text-align: center
-					
-	 
+						width: 54px
+						
+				div.voting
+					float: left
+				div.voters
+					float: left
+					margin-left: 40px
+			li.placeholder
+				display: none
+	
+	= javascript_include_tag 'live_vote.js'
+
+%div#proposal_vote
 
 	- if @warning.nil?		
-		%div.intro
+		%div.voting
 
 			%div.instr
 				Show your support for these proposals by allocating your $100 to your favorite proposals.
 				You cannot allocate more than $30 to any single proposal
 		
+			%p.allocation_summary
+				Table
+				%span
+					= @table_id
+				Voter:
+				%span.voter_id
+					New
 			%p.allocation_summary
 				Available:
 				%span.avl
@@ -63,6 +78,8 @@
 		
 			= form_tag live_allocate_save_path, :remote=>true do
 				- tab_index = 1
+				= hidden_field_tag :table_id, @table_id
+				= hidden_field_tag :voter_id, @voter_id
 				%table.teams_vote	
 					- theme_letter = 'A'
 					- @live_themes.each do |theme|
@@ -78,7 +95,17 @@
 						- tab_index += 1
 						
 					%tr
-						%td
+						%td{:colspan=>3}
 							= submit_tag 'Save my votes', :name => 'proposal_votes', :tab_index => tab_index, :disable_with => 'Saving...'
+							= link_to 'Clear', {}, {:class=>'clear'}
+		%div.voters
+			%p These voters have been recorded
+			%ul
+				%li{:class=>'placeholder'}
+					= link_to "Voter", live_voter_session_allocations_path(:table_id=>'TABLE_ID', :voter_id=>'VOTER_ID'), {:class => 'retrieve_voter', :remote=>true}
+			- @voters.each do |voter|
+				%li{:id=> voter} 
+					= link_to "Voter #{voter}", live_voter_session_allocations_path(:table_id=>@table_id, :voter_id=>voter), {:class => 'retrieve_voter', :remote=>true}
+				
 	- else 
 		%h3= @warning

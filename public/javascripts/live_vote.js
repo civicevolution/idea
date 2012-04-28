@@ -6,6 +6,9 @@
 	$('div#proposal_vote :text').die('keyup').live('keyup',
 		function(){
 			var val = $(this).val();
+			if(val<0 || isNaN(val) ){
+			  $(this).val(0);
+			}
 			// check the total
 			var sum = show_vote_sum();
 			console.log("the sum is " + sum);
@@ -55,6 +58,16 @@
 	$('div#proposal_vote a.cancel').html('Close').die('click').live('click',
 		function(){
 			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);
+
+	$('a.clear').die('click').live('click',
+		function(){
+			$('td.points input').val(0);
+			$('input[id="voter_id"]').val('');
+			$('span.voter_id').html('New');
+			show_vote_sum();
 			return false;
 		}
 	);
