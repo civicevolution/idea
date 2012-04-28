@@ -136,9 +136,11 @@
 					p.theme
 						margin: 0
 						padding: 0 10px
-						text-align: center
-						font-weight: bold
+						text-align: left
+						//font-weight: bold
+						font-size: 1.12em
 						background: url('/images/pencil.gif') no-repeat top right 
+						background-color: #eee
 					div.edit
 						position: absolute
 						top: 0
@@ -292,6 +294,8 @@
 	:javascript
 		var pub_sub_channels = #{@channels}
 		var live_session_id = #{params[:session_id]}
+		var disable_editing = #{@disable_editing}
+		var published = #{@session.published}
 
 	-#%div#auto_top.auto-scroll
 	%div#auto_bottom.auto-scroll

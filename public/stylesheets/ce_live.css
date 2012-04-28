@@ -43,3 +43,9 @@ div#sign_in_form td.lbl {
 
 div.lists p.stats span {
   margin-right: 24px; }
+
+span.published {
+  color: red; }
+
+p.warn {
+  color: red; }

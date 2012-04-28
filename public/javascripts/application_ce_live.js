@@ -142,3 +142,17 @@ function post_theme_changes( data ){
 	  dataType: 'script'
 	});
 }
+
+function editing_disabled(){
+  if(disable_editing){
+    if(published){
+      var msg = 'Editing is disabled because themes have been published'
+    }else{
+      var msg = 'You do not have editing privileges'
+    }
+		var dialog = $('<p class="warn">' + msg + '</p>').dialog( {title : 'Sorry', modal : true, width : '200px', closeOnEscape: true, close: function(){$(this).remove()} });
+		return true;
+	}else{
+	  return false;
+	}
+}

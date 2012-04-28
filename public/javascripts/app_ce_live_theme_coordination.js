@@ -1,4 +1,4 @@
-console.log("Loading app_ce_live_themer.js")
+//console.log("Loading app_ce_live_themer.js")
 var lock_resize = false;
 function live_resize(){
   //if(lock_resize)return;
@@ -50,6 +50,14 @@ function live_resize(){
 }
 
 setTimeout(live_resize,100);
+setTimeout(
+  function(){
+    expanded_mode = true;
+    $('#toggle_lists').click();
+  },
+  1000
+);
+
 
 $(window).resize(function(){
 		try{  
@@ -181,105 +189,107 @@ function make_new_ideas_draggable($ideas){
 	});
 }
 
-$( "#new_theme, #misc" ).droppable({
-	hoverClass: "drop_hover",
-	activeClass: 'drop_active',
-	tolerance: 'pointer',
-	accept: '.live_talking_point, .idea',
-	greedy: true,
-	drop: function( event, ui ) {
-	  //console.log("DROP #new_theme, #misc");
-		var drop_tgt = $(this);
-    var new_idea = ui.helper.clone();
-    var source = new_idea.hasClass('live_talking_point') ? 'new' : 'theme';   
-    new_idea.attr('class', 'idea');
-	  new_idea.removeAttr('style');
+if(!disable_editing){
+  $( "#new_theme, #misc" ).droppable({
+  	hoverClass: "drop_hover",
+  	activeClass: 'drop_active',
+  	tolerance: 'pointer',
+  	accept: '.live_talking_point, .idea',
+  	greedy: true,
+  	drop: function( event, ui ) {
+  	  //console.log("DROP #new_theme, #misc");
+  		var drop_tgt = $(this);
+      var new_idea = ui.helper.clone();
+      var source = new_idea.hasClass('live_talking_point') ? 'new' : 'theme';   
+      new_idea.attr('class', 'idea');
+  	  new_idea.removeAttr('style');
 	  
 		
-	  if(drop_tgt.attr('id') == 'new_theme'){
-	    //console.log("create new_list");
-	    var new_list = $('div.idea_list.new_list').clone();
-	    new_list.find('div.live_talking_point, div.idea').remove();
-	    new_list.removeClass('new_list');
-	    new_list.attr('list_id','new_list_' + idea_list_ctr);
-	    new_list.find('p.theme').html('Theme ' + idea_list_ctr++ );
-	    new_list.hide();
+  	  if(drop_tgt.attr('id') == 'new_theme'){
+  	    //console.log("create new_list");
+  	    var new_list = $('div.idea_list.new_list').clone();
+  	    new_list.find('div.live_talking_point, div.idea').remove();
+  	    new_list.removeClass('new_list');
+  	    new_list.attr('list_id','new_list_' + idea_list_ctr);
+  	    new_list.find('p.theme').html('Theme ' + idea_list_ctr++ );
+  	    new_list.hide();
 
-	    new_list.find('div.ideas').append(new_idea);
-	    $('div#lists div.list_column:last').append(new_list);
+  	    new_list.find('div.ideas').append(new_idea);
+  	    $('div#lists div.list_column:last').append(new_list);
 
-	    new_list.show(1000, function(){
-	      //console.log("call adjust_columns in 1 sec because a new list has been added");
-	      setTimeout(adjust_columns, 400);
-	    });
+  	    new_list.show(1000, function(){
+  	      //console.log("call adjust_columns in 1 sec because a new list has been added");
+  	      setTimeout(adjust_columns, 400);
+  	    });
 
-	    make_idea_lists_sortable( $('.sortable_ideas') );
+  	    make_idea_lists_sortable( $('.sortable_ideas') );
 
-      if(source == 'new'){
-	      remove_talking_point( new_idea );
-	    }else{
-	      var id = ui.helper.attr('idea_id');
-	      $('div.idea[idea_id="' + id + '"]').not(new_idea).hide( 1000, function(){ $(this).remove();});
-	      ui.helper.remove();
-	    }
+        if(source == 'new'){
+  	      remove_talking_point( new_idea );
+  	    }else{
+  	      var id = ui.helper.attr('idea_id');
+  	      $('div.idea[idea_id="' + id + '"]').not(new_idea).hide( 1000, function(){ $(this).remove();});
+  	      ui.helper.remove();
+  	    }
 	    
-	    // get the list ids in order 
-	    var list_ids = [];
-	    $('div.idea_list').each(
-	      function(){
-	        list_ids.push($(this).attr('list_id') );
-	      }
-	    );
-	    //console.log("add new_list, ids: " + list_ids);
+  	    // get the list ids in order 
+  	    var list_ids = [];
+  	    $('div.idea_list').each(
+  	      function(){
+  	        list_ids.push($(this).attr('list_id') );
+  	      }
+  	    );
+  	    //console.log("add new_list, ids: " + list_ids);
 	    
-	    post_theme_changes({act: 'new_list', text: new_list.find('p.theme').html(), list_id: new_list.attr('list_id'), list_ids: list_ids, ltp_ids: new_idea.attr('idea_id') })
-	    setTimeout( function(){ fix_list_overflow( this )}.bind(new_list), 100);
-	  }else if( drop_tgt.attr('id') == 'misc' ){
-	    //console.log("add talking point to the misc set");
-	    var par_list = $('div.idea_list.misc_list');
+  	    post_theme_changes({act: 'new_list', text: new_list.find('p.theme').html(), list_id: new_list.attr('list_id'), list_ids: list_ids, ltp_ids: new_idea.attr('idea_id') })
+  	    setTimeout( function(){ fix_list_overflow( this )}.bind(new_list), 100);
+  	  }else if( drop_tgt.attr('id') == 'misc' ){
+  	    //console.log("add talking point to the misc set");
+  	    var par_list = $('div.idea_list.misc_list');
     
-	    par_list.find('div.ideas').append(new_idea);
+  	    par_list.find('div.ideas').append(new_idea);
 	    
-	    // remove duplicate ideas
-	    var idea_ids = {};
-    	par_list.find('div.idea').each(
-    	  function(){
-    	    var idea = $(this);
-    	    var id = idea.attr('idea_id');
-    	    if(idea_ids[ id ]){
-    	      idea.remove();
-    	    }else{
-    	      idea_ids[ id ] = id;
-    	    }
-    	  }
-    	);
+  	    // remove duplicate ideas
+  	    var idea_ids = {};
+      	par_list.find('div.idea').each(
+      	  function(){
+      	    var idea = $(this);
+      	    var id = idea.attr('idea_id');
+      	    if(idea_ids[ id ]){
+      	      idea.remove();
+      	    }else{
+      	      idea_ids[ id ] = id;
+      	    }
+      	  }
+      	);
 	    
-	    // reset the count in the title
-	    var cnt = par_list.find('div.idea').size();
-	    par_list.find('p.theme').html("Don't fit in (" + cnt + ")");
-	    drop_tgt.html("Add to don't fit(" + cnt + ")");
+  	    // reset the count in the title
+  	    var cnt = par_list.find('div.idea').size();
+  	    par_list.find('p.theme').html("Don't fit in (" + cnt + ")");
+  	    drop_tgt.html("Add to don't fit(" + cnt + ")");
 	    
-	    // get the list ids in order 
-	    var ltp_ids = [];
-	    par_list.find('div.idea').each(
-	      function(){
-	        ltp_ids.push($(this).attr('idea_id') );
-	      }
-	    );
-	    post_theme_changes({act: 'add_misc_live_talking_point', ltp_ids: ltp_ids, list_id: 0 });
+  	    // get the list ids in order 
+  	    var ltp_ids = [];
+  	    par_list.find('div.idea').each(
+  	      function(){
+  	        ltp_ids.push($(this).attr('idea_id') );
+  	      }
+  	    );
+  	    post_theme_changes({act: 'add_misc_live_talking_point', ltp_ids: ltp_ids, list_id: 0 });
 		  
 	    
-      if(source == 'new'){
-	      remove_talking_point( new_idea );
-	    }else{
-	      var id = ui.helper.attr('idea_id');
-	      ui.helper.closest('.idea_list').find('div.idea[idea_id="' + id + '"]').not(new_idea).hide( 1000, function(){ $(this).remove();});
-	      ui.helper.remove();
-	    }
+        if(source == 'new'){
+  	      remove_talking_point( new_idea );
+  	    }else{
+  	      var id = ui.helper.attr('idea_id');
+  	      ui.helper.closest('.idea_list').find('div.idea[idea_id="' + id + '"]').not(new_idea).hide( 1000, function(){ $(this).remove();});
+  	      ui.helper.remove();
+  	    }
 
-    }
-	}
-});
+      }
+  	}
+  });
+}
 
 // Sort the ideas within a list
 function make_idea_lists_sortable($idea_lists){
@@ -385,7 +395,9 @@ function make_idea_lists_sortable($idea_lists){
   	}
   );
 }
-make_idea_lists_sortable( $('.sortable_ideas') );
+if(!disable_editing){
+  make_idea_lists_sortable( $('.sortable_ideas') );
+}
 
 function make_lists_sortable(){
 	$('div.list_column').sortable({
@@ -561,6 +573,7 @@ $( "div.misc_list" ).live('mouseenter mouseleave', function(event) {
 $('a.remove_list').live('click',
   function(){
     //console.log("remove_list")
+    if(editing_disabled())return false;
     var idea_list = $(this).closest('div.idea_list');
     var list_ids = [];
     
@@ -617,6 +630,7 @@ $('div.idea').live('mouseenter mouseleave', function(event) {
 
 $('div.idea div.star').live('click', 
   function(event) {
+    if(editing_disabled())return false;
   	var idea = $(this).closest('div.idea');
   	if(idea.hasClass('example')){
   	  idea.removeClass('example');
@@ -668,8 +682,9 @@ $('#toggle_lists').live('click',
 );
 
 
-
-make_new_ideas_draggable( $('div.live_talking_point') );
+if(!disable_editing){
+  make_new_ideas_draggable( $('div.live_talking_point') );
+}
 
 var adjust_in_process = false;
 function adjust_columns(){
@@ -843,8 +858,10 @@ function adjust_columns(){
 			}
 			++i;
 		}
-		make_lists_sortable();
-		make_idea_lists_sortable( $('.sortable_ideas') );
+		if(!disable_editing){
+  		make_lists_sortable();
+  		make_idea_lists_sortable( $('.sortable_ideas') );
+  	}
 	}else{
 		//console.log("No satisfactory fit was achieved");
 	}
@@ -902,32 +919,33 @@ function move() {
 	//auto_scroll_params.timer = setTimeout(function() {move();}, auto_scroll_params.interval);
 }
 
-function post_theme_changes( data ){
-  console.log("post theme data to server");
-  //var data = {}
-  switch( data.act){
-    case 'new_list':
-      console.log("store the new theme"); 
-      break;
-    
-  }
-  data.live_session_id = live_session_id;
-  
-  var url = '/live/post_theme';
-  $.ajax({
-	  url: url, 
-	  data: data,
-	  type: 'POST',
-	  dataType: 'script'
-	});
-}
+//function post_theme_changes( data ){
+//  console.log("post theme data to server");
+//  //var data = {}
+//  switch( data.act){
+//    case 'new_list':
+//      console.log("store the new theme"); 
+//      break;
+//    
+//  }
+//  data.live_session_id = live_session_id;
+//  
+//  var url = '/live/post_theme';
+//  $.ajax({
+//	  url: url, 
+//	  data: data,
+//	  type: 'POST',
+//	  dataType: 'script'
+//	});
+//}
 
 
 // These should override the files in get_templates
 
 $('div#themer.coord div.idea_list div.edit').live('click',
   function(){
-    console.log("edit the theme FOR COORD");
+    //console.log("edit the theme FOR COORD");
+    if(editing_disabled())return false;
 		$('.sortable_ideas').sortable('disable');
 		$('div.list_column').sortable('disable');
 		var form = $(template_functions['live_theme_form']({}));
@@ -935,7 +953,11 @@ $('div#themer.coord div.idea_list div.edit').live('click',
 		list.attr('expand',true);
 		expand_idea_list(list);
 		var header = list.find('div.header div.theme');
-		form.find('textarea').val( header.find('p.theme').html() )
+		if( header.find('p.theme').html().match(/^\s*Theme \d*\s*$/)){
+		  form.find('textarea').val('');
+		}else{
+		  form.find('textarea').val( header.find('p.theme').html() );
+		}
 		header.hide().after(form);
 		
 		list.find('textarea').before('<p class="theme_hdr">Enter the theme</p>')
@@ -959,6 +981,9 @@ $('div#themer.coord div.idea_list div.header :submit').die('click').live('click'
 		var header = list.find('div.header div.theme');
 		var edit_div = list.find('div.header div.edit_theme');
 		var new_theme = edit_div.find('textarea').eq(0).val();
+		if(new_theme.trim() == ''){
+		  new_theme = header.find('p.theme').html();
+		}
 		var example_text = edit_div.find('textarea').eq(1).val();
 		header.find('p.theme').html(new_theme);
 		header.find('p.example_txt').html(example_text);

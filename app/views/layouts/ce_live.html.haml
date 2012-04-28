@@ -21,6 +21,10 @@
 
 			- if @page_title
 				%h3.session_title
+					- if !@disable_editing.nil? && @disable_editing
+						%span.published
+							= image_tag 'lock.png'
+							Published
 					= @page_title
 					-#%span.remaining_time.label
 						Time remaining: 

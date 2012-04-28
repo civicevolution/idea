@@ -202,6 +202,8 @@ class CeLiveController < ApplicationController
     session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
+    @disable_editing =  (@session.published || @live_node.role != 'coord') ? true : false
+    
     render :template => 'ce_live/theme_coordination', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :role=>'Themer'}
   end
   
@@ -237,6 +239,7 @@ class CeLiveController < ApplicationController
     @my_themes.sort!{|a,b| a.order_id <=> b.order_id}
 
     @channels = []
+    @disable_editing =  (@session.published || @live_node.role != 'coord') ? true : false
     
     render :template => 'ce_live/theme_final_edit', :layout => 'ce_live', :locals=>{ :title=>'Theme final edit page', :role=>'Themer'}
   end
@@ -434,6 +437,8 @@ class CeLiveController < ApplicationController
     session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{themer_id}"
     session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
     authorize_juggernaut_channels(request.session_options[:id], @channels )
+    
+    @disable_editing =  (@session.published || @live_node.role != 'theme') ? true : false
     
     render :template => 'ce_live/themer', :layout => 'ce_live', :locals=>{ :title=>'Theming page for CivicEvolution Live', :role=>'Themer'}
   end
