@@ -71,3 +71,12 @@
 			return false;
 		}
 	);
+  $('td.points input').keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      // move to next input
+      var inputs = $(this).closest('form').find(':input');
+      inputs.eq( inputs.index(this)+ 1 ).focus( function() { $(this).select(); } );
+      return false;
+    }
+  });
