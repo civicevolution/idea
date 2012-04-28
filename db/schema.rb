@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120426210528) do
+ActiveRecord::Schema.define(:version => 20120428065418) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -40,6 +40,17 @@ ActiveRecord::Schema.define(:version => 20120426210528) do
     t.integer  "member_id"
     t.integer  "admin_group_id"
     t.integer  "initiative_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "alloc_temp", :id => false, :force => true do |t|
+    t.integer  "id"
+    t.integer  "session_id"
+    t.integer  "theme_id"
+    t.integer  "table_id"
+    t.integer  "voter_id"
+    t.integer  "points"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -491,7 +502,7 @@ ActiveRecord::Schema.define(:version => 20120426210528) do
     t.integer  "order_id"
     t.string   "session_type"
     t.boolean  "published"
-    t.datetime "starting_time"
+    t.time     "starting_time"
     t.integer  "duration"
     t.integer  "source_session_id"
   end

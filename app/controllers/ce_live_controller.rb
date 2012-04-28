@@ -513,6 +513,7 @@ class CeLiveController < ApplicationController
   
   def add_session_form
     @live_session = flash[:live_session] || params[:id].nil? ? LiveSession.new : LiveSession.find(params[:id])
+    render( :template => 'ce_live/add_session_form', :locals =>{:get_templates => 'false'})
   end
   
   def add_session_post

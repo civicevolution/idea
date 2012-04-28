@@ -15,6 +15,12 @@
 		= form.hidden_field :id
 		%p= label_tag :order_id, 'Session order #'
 		= form.text_field :order_id
+
+		%p= label_tag :starting_time, 'Starting time'
+		= form.text_field :starting_time
+
+		%p= label_tag :duration, 'Duration in minutes'
+		= form.text_field :duration
 		
 		%div
 			%p= label_tag :title, 'Session type'

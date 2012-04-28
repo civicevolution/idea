@@ -24,8 +24,10 @@
 	%h3 Event sessions
 	%table
 		%tr
-			%th.nobreak Session #
-			%th.nobreak Order #
+			%th.nobreak Sess#
+			%th.nobreak Ord#
+			%th.nobreak Start
+			%th Min
 			%th Session name and description
 			%th Type
 			%th Data
@@ -33,6 +35,8 @@
 			%tr
 				%td= session.id
 				%td= session.order_id
+				%td= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
+				%td #{session.duration} min
 				%td
 					%b= session.name
 					%br
