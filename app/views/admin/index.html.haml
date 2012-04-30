@@ -21,6 +21,9 @@
 
 	- if @privileges.include? 'participant_stats'
 		%li= link_to "Participant stats", {:action=>'participant_stats'}
+
+	- if @privileges.include? 'init_participation_report'
+		%li= link_to "Participation and votes report", {:action=>'init_participation_report'}
 	
 			
 	- if @privileges.include? 'content_stats'

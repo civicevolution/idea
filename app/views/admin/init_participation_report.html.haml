@@ -1,0 +1,78 @@
+- email ||= false
+- standalone = true
+- if standalone
+	- content_for (:script) do
+		:javascript
+			$(function(){
+		
+		%style
+			:sass
+				div.page
+					width: auto
+					margin-bottom: 200px
+				table td 
+					padding: 3px
+				table tr.odd td
+					background: #e6f2ff
+				span.sort_time
+					width: 20px
+					display: none
+				td.title 
+					max-width: 200px
+				td.pts
+					background-color: #ccc
+				td.mems
+					background-color: #ddd
+				td.tp
+					background-color: #c00
+				td.com
+					background-color: #d66
+				td
+					padding: 16px
+					
+%div#team_participant_stats
+	%h3 
+		Participation statistics for #{params[:_app_name]}
+
+	%h3 Team stats
+	%table#teams{:class=>"tablesorter"}
+		%thead
+			%tr.stripe
+				%th title
+				%th vote pts
+				%th part pts
+				%th end
+				%th com
+				%th TP
+			
+			- @score_records.each do |rec|
+				%tr{ :class=>cycle('','stripe')}
+				%td= rec[:title]
+				%td= rec[:vote_points]
+				%td= rec[:participation_points]
+				%td= rec[:endorsements]
+				%td= rec[:comments]
+				%td= rec[:talking_points]
+					
+					
+					
+	%h3 Participants
+					
+	%table#teams{:class=>"tablesorter"}
+		%thead
+			%tr.stripe
+				%th first name
+				%th last name
+				%th email
+				%th points earned
+				%th proposal
+
+				- @participation_records.each do |rec|
+					%tr{ :class=>cycle('','stripe')}
+					%td= rec[:first_name]
+					%td= rec[:last_name]
+					%td= rec[:email]
+					%td= rec[:points_total]
+					%td= rec[:title]
+				
+			

@@ -630,6 +630,27 @@ class AdminController < ApplicationController
     render :text => 'create_live_talking_point_records is complete'
   end
   
+  def init_participation_report
+    #@score_records = ActiveRecord::Base.connection.select_rows(
+    
+    @score_records = ProposalVote.find_by_sql(
+      %Q|SELECT t.id, title, 
+      ( SELECT sum(points) FROM proposal_votes WHERE team_id = t.id) AS vote_points,
+      ( SELECT points_total FROM proposal_stats WHERE team_id = t.id) AS participation_points,
+      ( SELECT count(endorsements) FROM endorsements WHERE team_id = t.id) AS endorsements,
+      ( SELECT count(id) FROM comments WHERE team_id = t.id) AS comments,
+      ( SELECT count(id) FROM talking_points WHERE question_id in (select id from questions where team_id = t.id)) AS talking_points
+      FROM teams t 
+      WHERE t.archived = false AND t.initiative_id = #{params[:_initiative_id]} ORDER BY title|)
+      
+    @participation_records = Member.find_by_sql(
+      %Q|select m.id, first_name, last_name, email, points_total, title from members m, participant_stats ps, teams t 
+      where ps.member_id = m.id and t.id = ps.team_id 
+      and t.initiative_id = #{params[:_initiative_id]} and m.id not in (1,319,323)
+      order by first_name, last_name, t.id;|)
+      
+  end
+  
   
   protected
     
