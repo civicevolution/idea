@@ -1,6 +1,6 @@
-%div.edit_theme
+%div.edit_theme.edit_macro_theme
 	= form_tag( live_theme_edit_path(), :remote=>false, :class=>'theme_form') do
-		= text_area_tag :text,'', {:class=>'autosize', :rows => 8}
+		= text_area_tag :text,'', {:class=>'autosize macro_theme', :rows => 8}
 
 		%div.form_controls
 			= submit_tag "Save", :name=>'sign_in', 'data-disable-with'=>'Submitting...'

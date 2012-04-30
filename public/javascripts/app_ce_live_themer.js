@@ -918,12 +918,16 @@ $('#themer.theme div.idea_list div.edit').live('click',
     //console.log("edit the theme");
 		$('.sortable_ideas').sortable('disable');
 		$('div.list_column').sortable('disable');
-		var form = $(template_functions['live_theme_form']({}));
+		var form = $(template_functions['live_micro_theme_form']({}));
 		var list = $(this).closest('.idea_list');
 		list.attr('expand',true);
 		expand_idea_list(list);
 		var header = list.find('div.header div.theme');
-		form.find('textarea').val( header.find('p.theme').html() )
+		if( header.find('p.theme').html().match(/^\s*Theme \d*\s*$/)){
+		  form.find('textarea').val('');
+		}else{
+		  form.find('textarea').val( header.find('p.theme').html() );
+		}
 		header.hide().after(form);
 		return false;
 	}
@@ -936,6 +940,9 @@ $('#themer.theme div.idea_list div.header :submit').die('click').live('click',
 		var header = list.find('div.header div.theme');
 		var edit_div = list.find('div.header div.edit_theme');
 		var new_theme = edit_div.find('textarea').val();
+		if(new_theme.trim() == ''){
+		  new_theme = header.find('p.theme').html();
+		}
 		header.find('p.theme').html(new_theme);
 		
 		post_theme_changes({act: 'update_theme_text', text: new_theme, list_id: list.attr('list_id') })

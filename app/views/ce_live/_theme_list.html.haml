@@ -2,12 +2,17 @@
 - edit ||= false
 %div.idea_list{:class=> class_name ? class_name : '', :list_id=>list_id}
 	%div.header
-		%div.theme
-			%p.theme= title
-			%hr
-			%p.example_txt= example
+		%div.theme.macro_theme
+			%p.theme
+				= title
 			- if edit
-				%div.edit
+				%div.edit.edit_macro_theme_icon
+			= image_tag 'info.gif', :class=>"info"
+			%div.macro_theme_example
+				%p.example_txt
+					= example.nil? ? 'Edit to add example text' : example
+				- if edit
+					%div.edit.edit_macro_theme_example_icon
 	%div.ideas.sortable_ideas
 		- if themes
 			- themes.each do |tp|

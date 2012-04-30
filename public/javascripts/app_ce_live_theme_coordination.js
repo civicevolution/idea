@@ -604,20 +604,27 @@ $('div.idea_list div.ideas').live('mouseenter mouseleave', function(event) {
   }
 });
 
-$('img.info').live('mouseenter mouseleave', function(event) {
-  console.log("img mouse");
-	var team = $(this).closest('div').find('p.theme_team');
-	var examples = $(this).closest('div').find('p.example');
-  if (event.type == 'mouseenter') {
-    team.show();
-    examples.show();
-  } else {
-    // don't close if idea_list isexpanded
-    if( $(this).closest('div.idea_list').hasClass('expanded')) return;
-    team.hide();
-    examples.hide();
-  }
+$('div.macro_theme img.info').live('mouseenter', function(event) {
+  //console.log("show info for macro_theme");
+	$(this).closest('div').find('div.macro_theme_example').show();
 });
+
+$('div.macro_theme').live('mouseleave', function(event) {
+  //console.log("hide info for macro_theme");
+	$(this).closest('div').find('div.macro_theme_example').hide();
+});
+
+
+$('div.micro_theme img.info').live('mouseenter', function(event) {
+  //console.log("show info for micro_theme");
+	$(this).closest('div').find('p.example').show();
+});
+
+$('div.micro_theme').live('mouseleave', function(event) {
+  //console.log("hide info for micro_theme");
+	$(this).closest('div').find('p.example').hide();
+});
+
 
 $('div.idea').live('mouseenter mouseleave', function(event) {
 	var idea = $(this);
@@ -942,13 +949,13 @@ function move() {
 
 // These should override the files in get_templates
 
-$('div#themer.coord div.idea_list div.edit').live('click',
+$('div#themer.coord div.idea_list div.edit_macro_theme_icon').live('click',
   function(){
     //console.log("edit the theme FOR COORD");
     if(editing_disabled())return false;
 		$('.sortable_ideas').sortable('disable');
 		$('div.list_column').sortable('disable');
-		var form = $(template_functions['live_theme_form']({}));
+		var form = $(template_functions['live_macro_theme_form']({}));
 		var list = $(this).closest('.idea_list');
 		list.attr('expand',true);
 		expand_idea_list(list);
@@ -956,23 +963,14 @@ $('div#themer.coord div.idea_list div.edit').live('click',
 		if( header.find('p.theme').html().match(/^\s*Theme \d*\s*$/)){
 		  form.find('textarea').val('');
 		}else{
-		  form.find('textarea').val( header.find('p.theme').html() );
+		  form.find('textarea').val( header.find('p.theme').html().trim() );
 		}
 		header.hide().after(form);
-		
 		list.find('textarea').before('<p class="theme_hdr">Enter the theme</p>')
-    ta = list.find('textarea').clone()
-    list.find('textarea').after(ta);
-    list.find('textarea:first').after('<p class="example_hdr">Enter the example and table attribution</p>')
-    ta.val( header.find('p.example_txt').html() )
-    
-    list.closest('div').find('p.theme_team').show();
-  	list.closest('div').find('p.example').show();
-  	
 		return false;
 	}
 );
-$('div#themer.coord div.idea_list div.header :submit').die('click').live('click',
+$('div#themer.coord div.idea_list div.header div.edit_macro_theme :submit').die('click').live('click',
 	function(){
 	  console.log(" SUBMIT FOR COORD");
 		$('.sortable_ideas').sortable('enable');
@@ -980,15 +978,13 @@ $('div#themer.coord div.idea_list div.header :submit').die('click').live('click'
 		var list = $(this).closest('.idea_list');
 		var header = list.find('div.header div.theme');
 		var edit_div = list.find('div.header div.edit_theme');
-		var new_theme = edit_div.find('textarea').eq(0).val();
+		var new_theme = edit_div.find('textarea').val();
 		if(new_theme.trim() == ''){
 		  new_theme = header.find('p.theme').html();
 		}
-		var example_text = edit_div.find('textarea').eq(1).val();
 		header.find('p.theme').html(new_theme);
-		header.find('p.example_txt').html(example_text);
 		
-		post_theme_changes({act: 'update_theme_text_coord', text: new_theme, example_text: example_text, list_id: list.attr('list_id') })
+		post_theme_changes({act: 'update_macro_theme', text: new_theme, list_id: list.attr('list_id') })
 		
 		header.show();
 		edit_div.remove();
@@ -997,7 +993,7 @@ $('div#themer.coord div.idea_list div.header :submit').die('click').live('click'
 		return false;
 	}
 );
-$('div#themer.coord div.idea_list div.header a.cancel').die('click').live('click',
+$('div#themer.coord div.idea_list div.header div.edit_macro_theme a.cancel').die('click').live('click',
 	function(){
 	  console.log("CANCEL FOR COORD");
 		$('.sortable_ideas').sortable('enable');
@@ -1009,6 +1005,81 @@ $('div#themer.coord div.idea_list div.header a.cancel').die('click').live('click
 		edit_div.remove();
 		list.removeAttr('expand');
 		
+		
+		return false;
+	}
+);
+
+
+$('div#themer.coord div.idea_list div.edit_macro_theme_example_icon').live('click',
+  function(){
+    console.log("edit macro_theme_example");    
+    if(editing_disabled())return false;
+		$('.sortable_ideas').sortable('disable');
+		$('div.list_column').sortable('disable');
+
+		var form = $(template_functions['live_macro_theme_example_form']({}));
+		
+		var list = $(this).closest('.idea_list');
+		list.attr('expand',true);
+		expand_idea_list(list);
+		var example_header = list.find('div.header div.macro_theme_example');
+		if( example_header.find('p.example_txt').html().match(/^\s*Edit to add example text\s*$/)){
+		  form.find('textarea').val('');
+		}else{
+		  form.find('textarea').val( example_header.find('p.example_txt').html().trim() );
+		}
+		example_header.hide().after(form);
+
+    list.find('p.example').show();
+  	list.find('div.micro_theme p.text').hide();
+  	list.find('div.micro_theme img.info').hide();
+  	
+		return false;
+	}
+);
+
+$('div#themer.coord div.idea_list div.header div.edit_macro_theme_example :submit').die('click').live('click',
+	function(){
+	  console.log(" SUBMIT FOR macro theme example");
+		$('.sortable_ideas').sortable('enable');
+		$('div.list_column').sortable('enable');
+		var list = $(this).closest('.idea_list');
+		var example_header = list.find('div.header div.macro_theme_example');
+		var edit_div = list.find('div.header div.edit_macro_theme_example');
+		var new_theme_example = edit_div.find('textarea').val();
+		if(new_theme_example.trim() == ''){
+		  new_theme_example = header.find('p.example_txt').html();
+		}
+
+		post_theme_changes({act: 'update_macro_theme_example', macro_theme_example_text: new_theme_example, list_id: list.attr('list_id') });
+		
+		edit_div.remove();
+		
+		example_header.show().find('p.example_txt').html(new_theme_example);
+		
+		list.removeAttr('expand');
+		list.find('div.micro_theme p.text').show();
+		list.find('div.micro_theme img.info').show();
+		list.find('div.micro_theme p.example').hide();
+    
+		return false;
+	}
+);
+$('div#themer.coord div.idea_list div.header div.edit_macro_theme_example a.cancel').die('click').live('click',
+	function(){
+	  console.log("CANCEL FOR macro theme example");
+		$('.sortable_ideas').sortable('enable');
+		$('div.list_column').sortable('enable');
+		var list = $(this).closest('.idea_list');
+		var example_header = list.find('div.header div.macro_theme_example');
+		var edit_div = list.find('div.header div.edit_theme');
+		example_header.hide();
+		edit_div.remove();
+		list.removeAttr('expand');
+		list.find('div.micro_theme p.text').show();
+		list.find('div.micro_theme img.info').show();
+		list.find('div.micro_theme p.example').hide();
 		
 		return false;
 	}

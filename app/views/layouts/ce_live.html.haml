@@ -24,7 +24,10 @@
 					- if !@disable_editing.nil? && @disable_editing
 						%span.published
 							= image_tag 'lock.png'
-							Published
+							- if @session.published
+								Published
+							- else 
+								Editing not authorized
 					= @page_title
 					-#%span.remaining_time.label
 						Time remaining: 

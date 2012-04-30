@@ -632,13 +632,17 @@ class CeLiveController < ApplicationController
     
     case params[:act]
 
-      when 'update_theme_text_coord'
-        logger.debug "do update_theme_text"
+      when 'update_macro_theme'
+        logger.debug "do update_macro_theme"
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         @live_theme.text = params[:text]
-        @live_theme.example_ids = params[:example_text]
         @live_theme.save
-      
+    
+      when 'update_macro_theme_example'
+        logger.debug "do update_macro_theme_example"
+        @live_theme = LiveTheme.find_by_id( params[:list_id])
+        @live_theme.example_ids = params[:macro_theme_example_text]
+        @live_theme.save
       
       when 'update_theme_text'
         logger.debug "do update_theme_text"

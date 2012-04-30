@@ -1,0 +1,12 @@
+%div.edit_theme.edit_macro_theme_example
+	= form_tag( live_theme_edit_path(), :remote=>false, :class=>'theme_form') do
+		%p.example_hdr Enter the example and table attribution
+		= text_area_tag :macro_theme_example_text,'', {:class=>'autosize macro_theme_example', :rows => 8}
+
+		%div.form_controls
+			= submit_tag "Save", :name=>'sign_in', 'data-disable-with'=>'Submitting...'
+
+			-#%span.char_ctr
+				500 characters
+			= link_to 'Cancel',  {}, {:class=>'cancel', :rel=>'nofollow'}
+	

@@ -89,19 +89,42 @@
 				}
 			console.log("live_talking_point template is ready");
 
-	%script#live_theme_form_template{:type=>'text/html'}
+	%script#live_micro_theme_form_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'ce_live/edit_theme.html')}
+			#{render( :partial => 'ce_live/edit_micro_theme.html')}
+			
+	%script#live_macro_theme_form_template{:type=>'text/html'}
+		:plain
+			#{render( :partial => 'ce_live/edit_macro_theme.html')}
+			
+	%script#live_macro_theme_example_form_template{:type=>'text/html'}
+		:plain
+			#{render( :partial => 'ce_live/edit_macro_theme_example.html')}
+
 		
 	%script#create_live_edit_theme_template
 		:plain
-			templates['live_theme_form'] = $('<div></div>').html($.trim( $('script#live_theme_form_template').html() )).find('div:first');
-			template_functions['live_theme_form'] = templates['live_theme_form'].compile(
+			templates['live_micro_theme_form'] = $('<div></div>').html($.trim( $('script#live_micro_theme_form_template').html() )).find('div:first');
+			template_functions['live_micro_theme_form'] = templates['live_micro_theme_form'].compile(
 				{
 					//'p.text' : 'data.live_talking_point.text',
 					//'span.table' : '\#{data.live_talking_point.group_id}-\#{data.live_talking_point.id_letter}',
 				}
 			);
+
+			templates['live_macro_theme_form'] = $('<div></div>').html($.trim( $('script#live_macro_theme_form_template').html() )).find('div:first');
+			template_functions['live_macro_theme_form'] = templates['live_macro_theme_form'].compile(
+				{
+				}
+			);
+
+			templates['live_macro_theme_example_form'] = $('<div></div>').html($.trim( $('script#live_macro_theme_example_form_template').html() )).find('div:first');
+			template_functions['live_macro_theme_example_form'] = templates['live_macro_theme_example_form'].compile(
+				{
+				}
+			);
+
+
 
 			console.log("live_theme_form template is ready");
 

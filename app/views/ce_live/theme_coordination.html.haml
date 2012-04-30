@@ -140,7 +140,7 @@
 						//font-weight: bold
 						font-size: 1.12em
 						background: url('/images/pencil.gif') no-repeat top right 
-						background-color: #eee
+						//background-color: #ee5 
 					div.edit
 						position: absolute
 						top: 0
@@ -255,30 +255,41 @@
 			.curated_list_placeholder
 				background-color: red
 				height: 2px
-			p.theme_team
-				display: none
-				font-style: italic
 			p.example
 				display: none
-			.example_txt
-				margin: 1em
-				font-style: italic
-				color: blue
-
+			div.macro_theme	
+				overflow: hidden
+				min-height: 44px
+				img.info
+					position: absolute
+					right: 6px
+					top: 20px
+					cursor: pointer
+				div.macro_theme_example
+					position: relative
+					display: none
+					.example_txt
+						margin: 16px 16px 16px 32px
+						font-style: italic
+						color: blue
+					div.edit.edit_macro_theme_example_icon
+						background: url('/images/pencil.gif') no-repeat top right 
+			div.edit_macro_theme_example
+				margin-top: 10px
+			div.micro_theme
+				color: #666
 			div.idea
 				p.text
 					font-size: 1em
 				p.example
 					color: #848f10
-					margin: 16px 10px
-				p.theme_team
-					margin: 10px
+					margin: 16px 10px 16px 32px
 			p.theme_hdr, p.example_hdr
 				font-weight: bold
 				margin: 0 0 4px 0
 			div.idea_list.expanded
-				p.example, p.theme_team
-					display: block
+				p.example
+					display: none
 				p.example_txt
 					font-style: italic
 					margin: 10px
