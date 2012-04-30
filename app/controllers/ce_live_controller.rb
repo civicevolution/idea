@@ -66,7 +66,6 @@ class CeLiveController < ApplicationController
   
   def event_setup    
     
-    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(params[:event_id],'coordinator','coordinator')
     session[:live_node_id] = @live_node.id
     @page_title = "Event setup page"
     

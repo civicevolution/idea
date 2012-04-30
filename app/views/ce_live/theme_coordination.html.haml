@@ -48,6 +48,7 @@
 					right: 6px
 					top: 6px
 					cursor: pointer
+					display: none
 				p.stats
 					display: none
 					padding: 0 10px 0 0
@@ -286,6 +287,11 @@
 				p.example
 					color: #848f10
 					margin: 16px 10px 16px 32px
+			div.live_talking_point
+				p.example
+					color: #444
+					margin: 16px 10px 16px 16px
+				
 			p.theme_hdr, p.example_hdr
 				font-weight: bold
 				margin: 0 0 4px 0
@@ -304,7 +310,10 @@
 					background: url('/images/pencil.gif') no-repeat top right
 				img.info
 					display: block
-				
+			div#live_talking_points.has_focus
+				img.info
+					display: block
+		
 				
 	= javascript_include_tag 'app_ce_live_theme_coordination.js'
 	-#:javascript

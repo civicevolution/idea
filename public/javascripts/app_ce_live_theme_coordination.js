@@ -627,6 +627,17 @@ $('div.micro_theme').live('mouseleave', function(event) {
 });
 
 
+$('div.live_talking_point img.info').live('mouseenter', function(event) {
+  //console.log("show info for macro_theme");
+	$(this).closest('div').find('p.example').show();
+});
+
+$('div.live_talking_point').live('mouseleave', function(event) {
+  //console.log("hide info for macro_theme");
+	$(this).closest('div').find('p.example').hide();
+});
+
+
 $('div.idea').live('mouseenter mouseleave', function(event) {
 	var idea = $(this);
   if (event.type == 'mouseenter') {
@@ -1089,10 +1100,16 @@ $('div#themer.coord div.idea_list div.header div.edit_macro_theme_example a.canc
 
 $( "div.idea_list" ).live('mouseenter mouseleave', function(event) {
   if (event.type == 'mouseenter') {
-    console.log("div.idea_list mouseenter");
     $(this).addClass('has_focus')
   } else {
-    console.log("div.idea_list mouseleave");
+    $(this).removeClass('has_focus')
+  }
+});
+
+$( "div#live_talking_points" ).live('mouseenter mouseleave', function(event) {
+  if (event.type == 'mouseenter') {
+    $(this).addClass('has_focus')
+  } else {
     $(this).removeClass('has_focus')
   }
 });

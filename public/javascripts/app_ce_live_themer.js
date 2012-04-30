@@ -966,3 +966,21 @@ $('#themer.theme div.idea_list div.header a.cancel').die('click').live('click',
 		return false;
 	}
 );
+
+$( "div.idea_list" ).live('mouseenter mouseleave', function(event) {
+  if (event.type == 'mouseenter') {
+    $(this).addClass('has_focus')
+  } else {
+    $(this).removeClass('has_focus')
+  }
+});
+
+$( "div#live_talking_points" ).live('mouseenter mouseleave', function(event) {
+  if (event.type == 'mouseenter') {
+    $(this).addClass('has_focus')
+  } else {
+    $(this).removeClass('has_focus')
+  }
+});
+
+

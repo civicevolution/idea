@@ -48,6 +48,7 @@
 					right: 6px
 					top: 6px
 					cursor: pointer
+					display: none
 				p.stats
 					display: none
 					padding: 0 10px 0 0
@@ -139,7 +140,7 @@
 						text-align: left
 						//font-weight: bold
 						font-size: 1.12em
-						background: url('/images/pencil.gif') no-repeat top right 
+						//background: url('/images/pencil.gif') no-repeat top right 
 						background-color: #eee
 					div.edit
 						position: absolute
@@ -176,6 +177,7 @@
 					right: 0
 					top: 0
 					cursor: pointer
+					display: none
 				div.star
 					position: absolute
 					left: 0
@@ -255,6 +257,19 @@
 			.curated_list_placeholder
 				background-color: red
 				height: 2px
+			div.idea_list.has_focus
+				div.header
+					p.theme
+						background: #eee url('/images/pencil.gif') no-repeat top right	
+				div.edit.edit_macro_theme_example_icon
+					background: url('/images/pencil.gif') no-repeat top right
+				img.info
+					display: block
+		
+			div#live_talking_points.has_focus
+				img.info
+					display: block
+				
 	= javascript_include_tag 'app_ce_live_themer.js'
 	-#:javascript
 		//console.log("run jscript")
