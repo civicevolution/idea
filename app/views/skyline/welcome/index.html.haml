@@ -32,8 +32,8 @@
 					margin-bottom: 8px
 			p.vote
 				text-align: center
-				font-weight: bold
-				font-size: 1.4em
+				//font-weight: bold
+				//font-size: 1.4em
 	
 	%div.home_page
 		%div.left_side
@@ -88,7 +88,8 @@
 						%p Starting April 1, you will have $100 to allocate to your favorite project ideas.  The maximum allocation to one idea is $40.  Please utilize your full allocation. Your vote will help determine the winners of the 4 grants.  Winners will be announced Tuesday, May 1st after the live presentations of each project team.
 							
 						%p.vote
-							= link_to "Vote now!", proposal_vote_path, {:remote=>true}
+							Online voting is closed
+							-#= link_to "Vote now!", proposal_vote_path, {:remote=>true}
 
 						%h3 Join us for the finale
 						%p Join us live Tuesday, May 1st 2-5pm for the project presentations, food, fun and final vote.  Winners of the grants and the $100 participation gift certificate will be announced. 
