@@ -622,6 +622,7 @@ $('div.micro_theme img.info').live('mouseenter', function(event) {
 
 $('div.micro_theme').live('mouseleave', function(event) {
   //console.log("hide info for micro_theme");
+  if(macro_example_edit_mode) return;
 	$(this).closest('div').find('p.example').hide();
 });
 
@@ -1010,7 +1011,7 @@ $('div#themer.coord div.idea_list div.header div.edit_macro_theme a.cancel').die
 	}
 );
 
-
+var macro_example_edit_mode = false;
 $('div#themer.coord div.idea_list div.edit_macro_theme_example_icon').live('click',
   function(){
     console.log("edit macro_theme_example");    
@@ -1034,7 +1035,7 @@ $('div#themer.coord div.idea_list div.edit_macro_theme_example_icon').live('clic
     list.find('p.example').show();
   	list.find('div.micro_theme p.text').hide();
   	list.find('div.micro_theme img.info').hide();
-  	
+  	macro_example_edit_mode = true;
 		return false;
 	}
 );
@@ -1062,7 +1063,7 @@ $('div#themer.coord div.idea_list div.header div.edit_macro_theme_example :submi
 		list.find('div.micro_theme p.text').show();
 		list.find('div.micro_theme img.info').show();
 		list.find('div.micro_theme p.example').hide();
-    
+    macro_example_edit_mode = false;
 		return false;
 	}
 );
@@ -1080,7 +1081,18 @@ $('div#themer.coord div.idea_list div.header div.edit_macro_theme_example a.canc
 		list.find('div.micro_theme p.text').show();
 		list.find('div.micro_theme img.info').show();
 		list.find('div.micro_theme p.example').hide();
-		
+		macro_example_edit_mode = false;
 		return false;
 	}
 );
+
+
+$( "div.idea_list" ).live('mouseenter mouseleave', function(event) {
+  if (event.type == 'mouseenter') {
+    console.log("div.idea_list mouseenter");
+    $(this).addClass('has_focus')
+  } else {
+    console.log("div.idea_list mouseleave");
+    $(this).removeClass('has_focus')
+  }
+});

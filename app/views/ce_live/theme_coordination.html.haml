@@ -139,7 +139,7 @@
 						text-align: left
 						//font-weight: bold
 						font-size: 1.12em
-						background: url('/images/pencil.gif') no-repeat top right 
+						//background: url('/images/pencil.gif') no-repeat top right 
 						//background-color: #ee5 
 					div.edit
 						position: absolute
@@ -176,6 +176,7 @@
 					right: 0
 					top: 0
 					cursor: pointer
+					display: none
 				div.star
 					position: absolute
 					left: 0
@@ -265,6 +266,7 @@
 					right: 6px
 					top: 20px
 					cursor: pointer
+					display: none
 				div.macro_theme_example
 					position: relative
 					display: none
@@ -272,8 +274,8 @@
 						margin: 16px 16px 16px 32px
 						font-style: italic
 						color: blue
-					div.edit.edit_macro_theme_example_icon
-						background: url('/images/pencil.gif') no-repeat top right 
+					//div.edit.edit_macro_theme_example_icon
+						//background: url('/images/pencil.gif') no-repeat top right 
 			div.edit_macro_theme_example
 				margin-top: 10px
 			div.micro_theme
@@ -293,6 +295,15 @@
 				p.example_txt
 					font-style: italic
 					margin: 10px
+				
+			div.idea_list.has_focus
+				div.header
+					p.theme
+						background: url('/images/pencil.gif') no-repeat top right	
+				div.edit.edit_macro_theme_example_icon
+					background: url('/images/pencil.gif') no-repeat top right
+				img.info
+					display: block
 				
 				
 	= javascript_include_tag 'app_ce_live_theme_coordination.js'
