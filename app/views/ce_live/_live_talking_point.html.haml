@@ -1,7 +1,11 @@
 - if mode == 'incoming'
 	%div{:idea_id=>live_talking_point.id, :class => 'live_talking_point' }
-		%p.text= live_talking_point.text
+		%p.text
+			= live_talking_point.text
+			- if live_talking_point.pos_votes<3
+				%span.minority M
 		= image_tag 'info.gif', :class=>"info"
+		= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
 		%div.star
 		%p.stats
 			Table
@@ -14,6 +18,7 @@
 	%div{:idea_id=>live_talking_point.id, :class => 'live_talking_point' }
 		%p.text= live_talking_point.text
 		= image_tag 'info.gif', :class=>"info"
+		= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
 		%p.stats
 			Talking point #{live_talking_point.id_letter} 
 			%span.pos +#{live_talking_point.pos_votes} 
@@ -25,6 +30,7 @@
 	%div{:idea_id=>live_talking_point.id, :class => live_talking_point[:example] ? 'idea example' : 'idea' }
 		%p.text= live_talking_point.text
 		= image_tag 'info.gif', :class=>"info"
+		= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
 		%div.star
 		%p.stats
 			Table

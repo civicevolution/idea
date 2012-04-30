@@ -155,6 +155,9 @@
 					border: 1px solid #bbb
 					padding: 0 6px 10px 0px
 					min-height: 60px
+				div.idea
+					min-height: 40px
+				
 			div.idea
 				margin-top: 10px
 				overflow: hidden	
@@ -257,13 +260,20 @@
 			.curated_list_placeholder
 				background-color: red
 				height: 2px
+			img.tp_delete
+				position: absolute
+				right: 0px
+				top: 20px
+				cursor: pointer
+				display: none
+			
 			div.idea_list.has_focus
 				div.header
 					p.theme
 						background: #eee url('/images/pencil.gif') no-repeat top right	
 				div.edit.edit_macro_theme_example_icon
 					background: url('/images/pencil.gif') no-repeat top right
-				img.info
+				img.info, img.tp_delete
 					display: block
 		
 			div#live_talking_points.has_focus

@@ -772,9 +772,15 @@ class CeLiveController < ApplicationController
           end
         end
 
+      when 'delete_theme_child'  
+        @live_theme = LiveTheme.find_by_id( params[:list_id])
+        ltp_ids = @live_theme.live_talking_point_ids.scan(/\d+/).map{|d| d.to_i}
         
-        
-        
+        ltp_ids = ltp_ids - [params[:idea_id].to_i]
+                
+        @live_theme.live_talking_point_ids = ltp_ids.uniq.join(',')
+        @live_theme.save
+
       else
         logger.debug "I do not know how to handle a request like this\nparams.inspect"
     end
@@ -801,6 +807,7 @@ class CeLiveController < ApplicationController
     # what do I need to know for the comment template?
     @live_talking_point.text = ''
     @live_talking_point.id = 0
+    @live_talking_point.pos_votes = 5
 
     # the templates are built in get_templates.js
     render :template => 'ce_live/get_templates.html', :layout => false #, :content_type => 'application/javascript'

@@ -25,3 +25,16 @@
 			link.html('Publish themes');
 			link.removeClass('published').addClass('unpublished')
 		}
+- elsif params[:act] == 'delete_theme_child'  
+	:plain
+		var list = $('div.idea_list[list_id="#{params[:list_id]}"]');
+		var idea = list.find('div.idea[idea_id="#{params[:idea_id]}"]').remove();
+		// if this item doesn't exist in any other lists, put it back in the incoming lists
+		if( $('div.idea_list div.idea[idea_id="#{params[:idea_id]}"]').size() == 0 ){
+			$('div#live_talking_points div.inner').append(idea);
+			idea.addClass('live_talking_point');
+			idea.removeClass('idea micro_theme');
+			make_new_ideas_draggable( idea );
+		}else{
+			console.log("idea is in another list, donot put back to incoming");
+		}
