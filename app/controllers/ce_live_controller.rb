@@ -285,7 +285,7 @@ class CeLiveController < ApplicationController
     @page_title = "Prioritisation for: #{@session.name}"
 
     if @live_node.name.match(/\d+/).nil?
-      @warning = "Please tell the facilitator that your voting page is not setup properly"
+      @warning = "You must be signed in as a table scribe to enter allocation votes"
     elsif LiveSession.find_by_id(@session.id).published
       @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
       @live_themes.reject!{ |theme| theme.visible == false }

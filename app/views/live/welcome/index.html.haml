@@ -103,6 +103,9 @@
 			= link_to "Event setup", live_event_setup_path(@live_node.live_event_id)
 			%table
 				- @sessions.each do |session|
+					- if !session.source_session_id.nil?
+						- session_source = LiveSession.find_by_id(session.source_session_id)
+				
 					%tr
 						%td
 							%h3.time
@@ -144,21 +147,33 @@
 						
 									- when 'feedback_themes'
 										- if !session.source_session_id.nil?
+											- if !session_source.published
+												%p.warn Themes have not been published yet
+											
 											%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
 										- else
 											%p.warn Please set the session data source in Event setup page
 									- when 'allocation_options'
 										- if !session.source_session_id.nil?
+											- if !session_source.published
+												%p.warn Themes have not been published yet
+											
 											%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
 										- else
 											%p.warn Please set the session data source in Event setup page
 									- when 'allocation'
 										- if !session.source_session_id.nil?
+											- if !session_source.published
+												%p.warn Themes have not been published yet
+											
 											%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
 										- else
 											%p.warn Please set the session data source in Event setup page
 									- when 'feedback_allocation_results'
 										- if !session.source_session_id.nil?
+											- if !session_source.published
+												%p.warn Themes have not been published yet
+											
 											%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
 										- else
 											%p.warn Please set the session data source in Event setup page
