@@ -69,6 +69,8 @@
 					width: 60px
 					height: 26px
 					display: block
+					span.dollar
+						margin-left: 6px
 				td.total
 					font-size: 1.2em
 					text-align: right
@@ -150,12 +152,12 @@
 						%td
 							%div.alloc_num
 								%span.dollar $
-					%tr.print
+					-#%tr.print
 						%td.total{:colspan=>3}	
 							%p
 								If your total is less than $100 check this box:
 								%br
-								%input{:type=>'checkbox'}
+								= image_tag 'checkbox.gif'
 								I acknowledge my total is less than $100
 							
 		%div.voters.screen
