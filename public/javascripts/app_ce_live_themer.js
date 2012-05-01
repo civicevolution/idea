@@ -908,6 +908,7 @@ $('#themer.theme div.idea_list div.edit').live('click',
 		  form.find('textarea').val( header.find('p.theme').html() );
 		}
 		header.hide().after(form);
+		form.find('textarea').focus()
 		return false;
 	}
 );

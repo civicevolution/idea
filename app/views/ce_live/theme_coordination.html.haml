@@ -377,9 +377,9 @@
 
 
 			%div#lists
-				= render :partial=>'ce_live/idea_list', :locals=>{:title=>'New theme', :class_name=>'new_list', :edit => true, :list_id=>0}
+				= render :partial=>'ce_live/theme_list', :locals=>{:title=>'New theme', :class_name=>'new_list', :edit => true, :list_id=>0}
 				
-				= render :partial=>'ce_live/idea_list', 
+				= render :partial=>'ce_live/theme_list', 
 					:locals=>{:title=>"Don't fit in(#{@dont_fit_tp.size})", :class_name=>'misc_list', :list_id=>'misc', :talking_points =>  @dont_fit_tp}
 				
 				%div.list_column

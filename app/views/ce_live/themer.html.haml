@@ -349,7 +349,7 @@
 					- @live_themes.each do |theme|
 						- class_name = theme[:talking_points] && theme[:talking_points].size > 0 ? '' : 'empty_list'
 						= render :partial=>'ce_live/idea_list', 
-							:locals=>{:title=>theme.text, :class_name=>class_name, :edit => true, :list_id=>theme.id, :talking_points => theme[:talking_points] }
+							:locals=>{:title=>theme.text, :ex_ids => theme.example_ids, :class_name=>class_name, :edit => true, :list_id=>theme.id, :talking_points => theme[:talking_points] }
 
 	-#= link_to 'Test',nil,:class=>'test_mode'
 	-#%div.test_mode
