@@ -684,20 +684,20 @@ class CeLiveController < ApplicationController
         @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.unthemed_ids = params[:ltp_ids].nil? ? '' : params[:ltp_ids].join(',')
         @live_theming_session.save
-      when 'remove_live_talking_point'
-        logger.debug "remove_live_talking_point"
       when 'receive_live_talking_point', 'remove_live_talking_point', 'update_list_idea_ids'
         logger.debug "receive/remove_live_talking_point act: #{params[:act]}"
 
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         
-        if params[:ltp_ids].class.to_s == 'Array'
+        if params[:ltp_ids].nil?
+          ltp_ids = ''
+        elsif params[:ltp_ids].class.to_s == 'Array'
           ltp_ids = params[:ltp_ids].map{|d| d.to_i}.uniq.join(',')
         else
           ltp_ids = params[:ltp_ids].scan(/\d+/).uniq.join(',')
         end
         
-        @live_theme.live_talking_point_ids = params[:ltp_ids].nil? ? '' : ltp_ids
+        @live_theme.live_talking_point_ids = ltp_ids
         @live_theme.save
         
       when 'update_final_theme_order'
