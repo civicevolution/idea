@@ -740,23 +740,24 @@ class CeLiveController < ApplicationController
         
         @live_theming_session = LiveThemingSession.where(:live_session_id => params[:live_session_id], :themer_id=>@live_node.id)
         @live_themes_unordered = LiveTheme.where(:live_session_id => params[:live_session_id], :themer_id=>@live_node.id)
+        if params[:new_publish_status] == 'true'
+          # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
 
-        # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
-
-        ord = 0
-        if !@live_theming_session.nil?
-          @live_theming_session = @live_theming_session[0]
-          if !@live_theming_session.theme_group_ids.nil?
-            @live_theming_session.theme_group_ids.split(',').each do |id|
-              theme = @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
-              if !theme.nil?
-                theme.order_id = ord += 1
-                theme.save
+          ord = 0
+          if !@live_theming_session.nil? && @live_theming_session.size > 0
+            @live_theming_session = @live_theming_session[0]
+            if !@live_theming_session.theme_group_ids.nil?
+              @live_theming_session.theme_group_ids.split(',').each do |id|
+                theme = @live_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+                if !theme.nil?
+                  theme.order_id = ord += 1
+                  theme.save
+                end
               end
             end
           end
         end
-
+        
       when 'delete_theme_child'  
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         ltp_ids = @live_theme.live_talking_point_ids.scan(/\d+/).map{|d| d.to_i}
