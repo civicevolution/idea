@@ -180,9 +180,8 @@ class CeLiveController < ApplicationController
 		  if theme.id.to_i > 0
   			tp_ids = theme.live_talking_point_ids
   			tp_ids = tp_ids.nil? ? [] : tp_ids.split(/[^\d]+/).map{|i| i.to_i}
-  			
   			themed_tp_ids += tp_ids
-  			theme[:themes] = @live_themes.select{ |tp| tp_ids.include?(tp.id.to_i) }
+  			theme[:themes] = tp_ids.map{ |id| @live_themes.detect{ |lt| lt.id == id.to_i} }
   		end
 		end
     
@@ -415,7 +414,7 @@ class CeLiveController < ApplicationController
   			tp_ids = tp_ids.nil? ? [] : tp_ids.split(/[^\d]+/).map{|i| i.to_i}
   			theme.example_ids = theme.example_ids.nil? ? [] : theme.example_ids.scan(/\d+/).map{|i| i.to_i}
   			themed_tp_ids += tp_ids
-  			theme[:talking_points] = tp_ids.map{ |id| @live_talking_points.find(id) }
+  			theme[:talking_points] = tp_ids.map{ |id| @live_talking_points.detect{ |ltp| ltp.id == id.to_i} }
   		end
 		end
 
