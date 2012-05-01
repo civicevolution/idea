@@ -112,7 +112,6 @@ no_collapse = false;
 function collapse_idea_list(list){
   if(no_collapse) return;
   if(list.attr('expand'))return;
-  if(list.find('div.move_or_copy_idea').size()>0)return;
   //console.log("collapse_idea_list for " + list.find('p.theme').html() );
   
   $('div.idea_list_placeholder').remove();
@@ -359,22 +358,6 @@ function make_idea_lists_sortable($idea_lists){
     		  new_idea.attr('class', 'idea micro_theme');
     		  new_idea.removeAttr('style');
     		  remove_talking_point( new_idea );
-  		  }else{
-  		    
-          // don't show the move/copy question if the source and dest list are the same
-          try{
-            var source_list_id = ui.item.attr('source_list_id');
-            var source_list = $('div.idea_list[list_id="' + source_list_id + '"]');
-            
-            if( source_list_id != 'misc' && source_list && !(idea_list[0] === source_list[0]) ){
-              if( $('div.idea[idea_id="' + ui.item.attr('idea_id') + '"]').size() < 2){ // only allow two copies total           
-                var ques = $('<div class="move_or_copy_idea"><button>Move this idea to this list</button><button>Copy this idea to this list</button></div>');
-                ui.item.css('background-color', '#f3973a').before(ques);
-              }
-            }
-          }catch(e){
-            debugger
-          }                                                                                                                                                   		    
   		  }
 
   	    setTimeout( function(){ post_idea_ids('receive_live_talking_point', this) }.bind(idea_list), 400);
@@ -483,51 +466,6 @@ function clean_up_theme(list){
   	}
   }
 }
-$('div.move_or_copy_idea button').die('click').live('click',
-  function(){
-    var btn = $(this);
-
-    var div = btn.closest('div.move_or_copy_idea');
-    var idea = div.next('.idea');
-    idea.css('background-color','');
-    if(btn.html().match(/move/i)){
-      //console.log("Move the idea");
-    }else{
-      //console.log("copy_idea_back_to_source");
-
-      var source_list_id = idea.attr('source_list_id');
-      var source_list = $('div.idea_list[list_id="' + source_list_id + '"]');
-      
-      var prev_idea_id = idea.attr('prev_idea_id');
-      var prev_idea = $('div.idea[idea_id="' + prev_idea_id + '"]');
-      
-      if( prev_idea.size() > 0 ){
-        prev_idea.after(idea.clone());
-      }else{
-        source_list.find('div.ideas').prepend(idea.clone());
-        source_list.removeClass('empty_list');
-      }
-    }
-    var list = div.closest('div.idea_list');
-    div.remove();
-    
-    if(source_list){
-      // get the list ids in order 
-      var ltp_ids = [];
-      source_list.find('div.idea').each(
-        function(){
-          ltp_ids.push($(this).attr('idea_id') );
-        }
-      );
-      post_theme_changes({act: 'receive_live_talking_point', list_id: source_list.attr('list_id'), ltp_ids: ltp_ids });
-      setTimeout(function(){clean_up_theme(this);}.bind(source_list),100);
-	  }
-	  if(list){
-      setTimeout(function(){clean_up_theme(this);}.bind(list),100);
-    }
-  }
-);
-
 
 function remove_talking_point( tp ){
   // remove this talking point from incoming, but make sure it appears somewhere else
