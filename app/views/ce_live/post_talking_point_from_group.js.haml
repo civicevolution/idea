@@ -1,27 +1,31 @@
-:plain
-	console.log("post_talking_point_from_group.js")
-	var ltp = $("#{escape_javascript(
-		render( :partial => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => live_talking_point, :mode => 'table_confirmation'})
-	)}");
+- if live_talking_point.nil?
+	var dialog = $('<p class="warn">The themes for this session have already been published and new themes cannot be added</p>').dialog( {title : 'Sorry...', modal : false, width : '300', closeOnEscape: true, close: function(){$(this).remove()} });
+	
+- else
+	:plain
+		console.log("post_talking_point_from_group.js")
+		var ltp = $("#{escape_javascript(
+			render( :partial => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => live_talking_point, :mode => 'table_confirmation'})
+		)}");
 
-	$('div#groups_live_talking_points div.inner').append(ltp);
+		$('div#groups_live_talking_points div.inner').append(ltp);
 	
-	// clear the right form, or remove it
+		// clear the right form, or remove it
 	
-	$('input[name="form_id"]').each(
-		function(){
-			if(Number(this.value) == Number(#{params[:form_id]})){
-				var form = $(this).closest('form');
-				if( $('form.post_live_tp').size() == 1 ){
-					form.find('textarea').val('');
-					form.find(':text').val('');
-					form.find('textarea').focus();
-				}else{
-					form.closest('div.talking_point_block').remove();
-					$('a.new_live_talking_point').show();
-					$('p.new_live_talking_point').hide();
+		$('input[name="form_id"]').each(
+			function(){
+				if(Number(this.value) == Number(#{params[:form_id]})){
+					var form = $(this).closest('form');
+					if( $('form.post_live_tp').size() == 1 ){
+						form.find('textarea').val('');
+						form.find(':text').val('');
+						form.find('textarea').focus();
+					}else{
+						form.closest('div.talking_point_block').remove();
+						$('a.new_live_talking_point').show();
+						$('p.new_live_talking_point').hide();
+					}
 				}
+				console.log("value of this is " + this.value)
 			}
-			console.log("value of this is " + this.value)
-		}
-	)
+		)

@@ -547,6 +547,8 @@ class CeLiveController < ApplicationController
   end
   
   def add_node_post
+    params[:live_node][:password] = params[:live_node][:password].strip.downcase
+    params[:live_node][:username] = params[:live_node][:username].strip.downcase
     if params[:live_node].nil? || params[:live_node][:id].nil? || params[:live_node][:id] == ''
       @live_node = LiveEvent.find(params[:event_id]).live_nodes.create(params[:live_node])
     else
@@ -578,6 +580,10 @@ class CeLiveController < ApplicationController
   end
   
   def post_talking_point_from_group
+    if LiveSession.find(params[:s_id]).published
+      render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => nil})
+      return
+    end
     
     # I want to use session to determine 
     # live_session_id
@@ -842,7 +848,7 @@ class CeLiveController < ApplicationController
     
     event_id = live_event.id
             
-    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(event_id,params[:password],params[:user_name])
+    @live_node = LiveNode.find_by_live_event_id_and_password_and_username(event_id,params[:password].strip.downcase,params[:user_name].strip.downcase)
 
     if @live_node
       session[:live_node_id] = @live_node.id
