@@ -201,7 +201,7 @@ if(!disable_editing){
   		var drop_tgt = $(this);
       var new_idea = ui.helper.clone();
       var source = new_idea.hasClass('live_talking_point') ? 'new' : 'theme';   
-      new_idea.attr('class', 'idea');
+      new_idea.attr('class', 'idea micro_theme');
   	  new_idea.removeAttr('style');
 	  
 		
@@ -356,7 +356,7 @@ function make_idea_lists_sortable($idea_lists){
         //console.log("sortable receive " + theme);
   		  if(ui.item.hasClass('live_talking_point')){
     		  new_idea = $(this).find('div.live_talking_point')
-    		  new_idea.attr('class', 'idea');
+    		  new_idea.attr('class', 'idea micro_theme');
     		  new_idea.removeAttr('style');
     		  remove_talking_point( new_idea );
   		  }else{
@@ -941,7 +941,7 @@ function move() {
 
 $('div#themer.coord div.idea_list div.edit_macro_theme_icon').live('click',
   function(){
-    //console.log("edit the theme FOR COORD");
+    //console.log("edit the theme FOR macro theme");
     if(editing_disabled())return false;
 		$('.sortable_ideas').sortable('disable');
 		$('div.list_column').sortable('disable');
