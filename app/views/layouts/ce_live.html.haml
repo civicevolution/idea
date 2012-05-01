@@ -37,6 +37,9 @@
 				%div.join_com
 					= link_to 'Home', live_home_path, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false} 
 					= '/'
+					= link_to 'A+',{}, {:class=>'resize increase'}
+					= link_to 'A-',{}, {:class=>'resize decrease'}
+					= '/'
 					= link_to 'Sign out', {:action=>'sign_out'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false}
 				%p.clear_both
 					
@@ -51,8 +54,8 @@
 						= link_to 'Sign out', {:action=>'sign_out'}, {:class=>'sign_in', :id=>'sign_in_link', :rel=>'nofollow', :remote=>false}
 				%hr.top
 			
-
-			= yield
+			%div.content
+				= yield
 			
 			-#%hr.bottom
 

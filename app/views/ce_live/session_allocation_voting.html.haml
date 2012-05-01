@@ -2,10 +2,12 @@
 	%style
 		:sass
 			div#proposal_vote
-				
-				div.instr
+				form
+					margin-bottom: 100px
+				.instr
+					font-size: 1.2em
 					font-style: italic
-					margin-bottom: 20px
+					margin: 20px 0 20px 0
 					width: 600px
 				p.allocation_summary
 					font-weight: bold
@@ -18,6 +20,7 @@
 					width: 700px
 					td.title
 						padding: 8px 20px 8px 8px
+						font-size: 1.2em
 					span.dollar
 						font-weight: bold
 						font-size: 1.2em
@@ -48,39 +51,80 @@
 					margin-left: 40px
 			li.placeholder
 				display: none
+
+
+
+
+			@media only screen
+				.print, div.alloc_num
+					display: none
+			@media only print
+				.screen, div.join_com
+					display: none
+				form
+					margin-bottom: 0	
+				.alloc_num
+					margin-top: 12px
+					border: 1px solid black
+					width: 60px
+					height: 26px
+					display: block
+				td.total
+					font-size: 1.2em
+					text-align: right
+					p.total
+						margin-right: 20px
+						
+					
 	
 	= javascript_include_tag 'live_vote.js'
-
+	:javascript
+		var pub_sub_channels = #{@channels}
+		if(#{@not_scribe_message.nil? ? false : true}){
+			// disable the form inputs
+			$('form :input').attr('disabled','disabled')
+			$('a.new_live_talking_point').remove();
+		}
+	
 %div#proposal_vote
 
 	- if @warning.nil?		
-		%div.voting
+		- if @not_scribe_message
+			%div.not_scribe_message.screen
+				%p.warn= @not_scribe_message
+			
 
-			%div.instr
-				Show your support for these proposals by allocating your $100 to your favorite proposals.
-				You cannot allocate more than $30 to any single proposal
+		%div.instr
+			-#%p We need your input to prioritize these proposals
+			%ul
+				%li Each participant has $100 dollars to spend on their favorite proposals
+				%li You cannot spend more than $30 dollars on a single proposal
+				%li Round dollars only, no cents please
+				%li You don' t need to allocate every dollar				
 		
-			%p.allocation_summary
-				Table
-				%span
-					= @table_id
-				Voter:
-				%span.voter_id
-					New
-			%p.allocation_summary
-				Available:
-				%span.avl
-					100
-				Allocated:
-				%span.alloc
-					0
-					
+		%div.voting
+		
+			%div.allocation.screen
+				%p.allocation_summary
+					Table
+					%span
+						= @table_id
+					Voter:
+					%span.voter_id
+						New
+				%p.allocation_summary
+					Available:
+					%span.avl
+						100
+					Allocated:
+					%span.alloc
+						0
 		
 			= form_tag live_allocate_save_path, :remote=>true do
 				- tab_index = 1
 				= hidden_field_tag :table_id, @table_id
 				= hidden_field_tag :voter_id, @voter_id
-				%table.teams_vote	
+				%table.teams_vote
 					- theme_letter = 'A'
 					- @live_themes.each do |theme|
 						%tr{:class=>cycle('','stripe')}
@@ -90,15 +134,31 @@
 							%td.title
 								= theme[:text]
 							%td.points
-								%span.dollar $
-								= text_field_tag "vote_#{theme[:id]}", 0, :tab_index=> tab_index
+								%span.screen.dollar $
+								= text_field_tag "vote_#{theme[:id]}", 0, :tab_index=> tab_index, :class => 'screen'
+								%div.alloc_num
+									%span.dollar $
 						- tab_index += 1
 						
-					%tr
+					%tr.screen
 						%td{:colspan=>3}
 							= submit_tag 'Save my votes', :name => 'proposal_votes', :tab_index => tab_index, :disable_with => 'Saving...'
 							= link_to 'Clear', {}, {:class=>'clear'}
-		%div.voters
+					%tr.print		
+						%td.total{:colspan=>2}
+							%p.total Please add up your Total 
+						%td
+							%div.alloc_num
+								%span.dollar $
+					%tr.print
+						%td.total{:colspan=>3}	
+							%p
+								If your total is less than $100 check this box:
+								%br
+								%input{:type=>'checkbox'}
+								I acknowledge my total is less than $100
+							
+		%div.voters.screen
 			%p These voters have been recorded
 			%ul
 				%li{:class=>'placeholder'}

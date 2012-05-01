@@ -284,11 +284,13 @@ class CeLiveController < ApplicationController
     @page_title = "Prioritisation for: #{@session.name}"
 
     if @live_node.name.match(/\d+/).nil?
-      @warning = "You must be signed in as a table scribe to enter allocation votes"
-    elsif LiveSession.find_by_id(@session.id).published
+      @not_scribe_message = "You must be signed in as a table scribe to record allocation votes"
+    end
+    if LiveSession.find_by_id(@session.id).published
       @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
       @live_themes.reject!{ |theme| theme.visible == false }
-      @table_id = @live_node.name.match(/\d+/)[0].to_i
+      @table_id = @live_node.name.match(/\d+/)
+      @table_id = @table_id.nil? ? 0 : @table_id[0].to_i
       @voter_id = params[:voter_id]
       
       # get the voter_ids that have already voted

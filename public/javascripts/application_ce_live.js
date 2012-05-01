@@ -156,3 +156,19 @@ function editing_disabled(){
 	  return false;
 	}
 }
+var font_resize_factor = 1;
+$('a.resize').die('click').live('click',
+  function(){
+    var link = $(this);
+    if(link.hasClass('increase')){
+      //console.log("increase font");
+      font_resize_factor = 1.08 * font_resize_factor;
+      $('div.content').css('font-size', font_resize_factor + 'em');
+    }else{
+      //console.log("descrease font");
+      font_resize_factor = 0.92 * font_resize_factor;
+      $('div.content').css('font-size', font_resize_factor + 'em');
+    }
+    return false;
+  }
+);

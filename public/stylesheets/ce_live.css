@@ -49,3 +49,10 @@ span.published {
 
 p.warn {
   color: red; }
+
+a.resize.increase {
+  font-size: 1.12em; }
+
+a.resize.decrease {
+  font-size: 0.6em;
+  margin-left: -4px; }
