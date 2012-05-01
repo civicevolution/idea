@@ -14,6 +14,7 @@
 				- if edit
 					%div.edit.edit_macro_theme_example_icon
 	%div.ideas.sortable_ideas
+		= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
 		- if themes
 			- themes.each do |tp|
 				= render( :partial => 'ce_live/live_theme.html', :locals =>{:live_theme => tp, :as => :live_theme, :mode => 'right_side_meta_themes'})

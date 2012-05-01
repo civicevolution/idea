@@ -673,23 +673,6 @@ class CeLiveController < ApplicationController
         @live_theming_session.theme_group_ids = list_ids.join(',')
         @live_theming_session.save
           
-        
-      when 'remove_list'
-        logger.debug "remove_list"
-        @live_theme = LiveTheme.find_by_id( params[:list_id]).destroy
-        
-        list_ids = []
-        params[:list_ids].each do |li|
-          if li != params[:list_id]
-            list_ids.push li
-          end
-        end
-        
-        @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
-        @live_theming_session.theme_group_ids = list_ids.join(',')
-        @live_theming_session.save
-
-
       when 'reorder_lists'
         logger.debug "reorder_lists"
         @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
@@ -780,7 +763,21 @@ class CeLiveController < ApplicationController
                 
         @live_theme.live_talking_point_ids = ltp_ids.uniq.join(',')
         @live_theme.save
+        
+      when 'delete_theme'
+        @live_theme = LiveTheme.find_by_id( params[:list_id])
+        if @live_theme.live_talking_point_ids.nil? || @live_theme.live_talking_point_ids.nil? != ''
+          @live_theme.destroy          
+          @remove_theme_id = @live_theme.id
 
+          @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
+          list_ids = @live_theming_session.theme_group_ids.scan(/\d+/).map{|d| d.to_i}
+          list_ids = list_ids - [@remove_theme_id]
+          @live_theming_session.theme_group_ids = list_ids.uniq.join(',')
+          @live_theming_session.save
+        end
+        
+        
       else
         logger.debug "I do not know how to handle a request like this\nparams.inspect"
     end

@@ -477,10 +477,9 @@ function clean_up_theme(list){
     
   }else{
     if( list.find('div.idea').size() == 0 ){
-  	  list.find('div.ideas').html(
-  	    '<a href="#" class="remove_list">Remove empty list</a>');
+      list.addClass('empty_list');
   	}else{
-  	  list.find('a.remove_list').remove();
+  	  list.removeClass('empty_list');
   	}
   }
 }
@@ -506,7 +505,7 @@ $('div.move_or_copy_idea button').die('click').live('click',
         prev_idea.after(idea.clone());
       }else{
         source_list.find('div.ideas').prepend(idea.clone());
-        source_list.find('a.remove_list').remove();
+        source_list.removeClass('empty_list');
       }
     }
     var list = div.closest('div.idea_list');
@@ -569,27 +568,6 @@ $( "div.misc_list" ).live('mouseenter mouseleave', function(event) {
     ,200);
   }
 });
-
-$('a.remove_list').live('click',
-  function(){
-    //console.log("remove_list")
-    if(editing_disabled())return false;
-    var idea_list = $(this).closest('div.idea_list');
-    var list_ids = [];
-    
-    // get the list ids in order 
-    var list_ids = [];
-    $('div.idea_list').each(
-      function(){
-        list_ids.push($(this).attr('list_id') );
-      }
-    );
-    
-    post_theme_changes({act: 'remove_list', list_id: idea_list.attr('list_id'), list_ids: list_ids });
-    
-    idea_list.hide(1000,function(){$(this).remove()});
-  }
-);
 
 var collapseTimer;
 $('div.idea_list div.ideas').live('mouseenter mouseleave', function(event) {
@@ -1117,8 +1095,12 @@ $( "div#live_talking_points" ).live('mouseenter mouseleave', function(event) {
 $('img.tp_delete').die('click').live('click',
   function(){
     console.log("delete this item from the group");
+    var list = $(this).closest('div.idea_list');
     var idea = $(this).closest('div.idea');
-    var list = idea.closest('div.idea_list');
-    post_theme_changes({act: 'delete_theme_child', list_id: list.attr('list_id'), idea_id: idea.attr('idea_id') });
+    if(idea.size()>0){
+      post_theme_changes({act: 'delete_theme_child', list_id: list.attr('list_id'), idea_id: idea.attr('idea_id') });
+    }else{
+      post_theme_changes({act: 'delete_theme', list_id: list.attr('list_id') });
+    }
   }
 );

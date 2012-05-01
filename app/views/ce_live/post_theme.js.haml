@@ -36,5 +36,15 @@
 			idea.removeClass('idea micro_theme');
 			make_new_ideas_draggable( idea );
 		}else{
-			console.log("idea is in another list, donot put back to incoming");
+			//console.log("idea is in another list, do not put back to incoming");
+		}
+		if(list.find('div.idea').size() == 0){
+			list.addClass('empty_list');
+		}
+		temp.list = list
+- elsif params[:act] == 'delete_theme'
+	:plain
+		if(#{!@remove_theme_id.nil?}){
+			//console.log("remove list with id: #{@remove_theme_id}");
+			$('div.idea_list[list_id="#{@remove_theme_id}"]').remove();
 		}

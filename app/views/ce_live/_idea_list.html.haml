@@ -7,6 +7,7 @@
 			- if edit
 				%div.edit
 	%div.ideas.sortable_ideas
+		= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
 		- if talking_points
 			- talking_points.each do |tp|
 				= render( :partial => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => tp, :mode => 'themed'})

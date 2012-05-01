@@ -155,6 +155,7 @@
 					border: 1px solid #bbb
 					padding: 0 6px 10px 0px
 					min-height: 60px
+					position: relative
 				div.idea
 					min-height: 40px
 			div.idea
@@ -192,6 +193,8 @@
 					color: #888
 					padding-left: 20px
 			div.idea.highlighted_idea
+				img.tp_delete
+					display: block
 				div.star
 					background: url('/images/star_sprite.gif') no-repeat 0 0 
 					&:hover
@@ -317,12 +320,14 @@
 						background: url('/images/pencil.gif') no-repeat top right	
 				div.edit.edit_macro_theme_example_icon
 					background: url('/images/pencil.gif') no-repeat top right
-				img.info, img.tp_delete
+				img.info
 					display: block
-				
 			div#live_talking_points.has_focus
 				img.info
 					display: block
+			div.idea_list.empty_list
+				img.tp_delete
+					display: block		
 		
 				
 	= javascript_include_tag 'app_ce_live_theme_coordination.js'
@@ -380,8 +385,9 @@
 				%div.list_column
 					-#debugger
 					- @my_themes.each do |theme|
+						- class_name = theme[:themes] && theme[:themes].size > 0 ? '' : 'empty_list'
 						= render :partial=>'ce_live/theme_list', 
-							:locals=>{:title=>theme.text, :example=> theme.example_ids, :class_name=>'', :edit => true, :list_id=>theme.id, :themes => theme[:themes] }
+							:locals=>{:title=>theme.text, :example=> theme.example_ids, :class_name=>class_name, :edit => true, :list_id=>theme.id, :themes => theme[:themes] }
 
 	-#= link_to 'Test',nil,:class=>'test_mode'
 	-#%div.test_mode
