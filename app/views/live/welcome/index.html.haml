@@ -36,44 +36,45 @@
 			%h4 Please select one of these pages as directed by the event coordinator
 			%table
 				- @sessions.each do |session|
-					%tr
-						%td
-							%h3.time
-								= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
-						%td
-							%h3
-								= session.name
-						%td
-							%h3
-								%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
+					- if session.session_type == 'collect' || session.session_type == 'allocation'
+						%tr
+							%td
+								%h3.time
+									= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
+							%td
+								%h3
+									= session.name
+							%td
+								%h3
+									%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
 					
-					%tr
-						%td
-						%td{:colspan=>2}
-							- case session.session_type
-								- when 'collect'
-									%p= link_to "Collect talking points for #{session.name}", live_table_path(session.id)
-								- when 'feedback_themes'
-									- if !session.source_session_id.nil?
-										%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
-									- else
-										%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
+						%tr
+							%td
+							%td{:colspan=>2}
+								- case session.session_type
+									- when 'collect'
+										%p= link_to "Collect talking points for #{session.name}", live_table_path(session.id)
+									- when 'feedback_themes'
+										- if !session.source_session_id.nil?
+											%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
+										- else
+											%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
 							
-								- when 'allocation_options'
-									- if !session.source_session_id.nil?
-										%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
-									- else
-										%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
-								- when 'allocation'
-									- if !session.source_session_id.nil?
-										%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
-									- else
-										%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
-								- when 'feedback_allocation_results'
-									- if !session.source_session_id.nil?
-										%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
-									- else
-										%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
+										-# when 'allocation_options'
+											- if !session.source_session_id.nil?
+												%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
+											- else
+												%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
+									- when 'allocation'
+										- if !session.source_session_id.nil?
+											%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
+										- else
+											%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
+										-# when 'feedback_allocation_results'
+											- if !session.source_session_id.nil?
+												%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
+											- else
+												%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
 					
 			
 		- when 'theme'
@@ -82,22 +83,23 @@
 			
 			%table
 				- @sessions.each do |session|
-					%tr
-						%td
-							%h3.time
-								= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
-						%td
-							%h3
-								= session.name
-						%td
-							%h3
-								%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
+					- if session.session_type == 'collect'
+						%tr
+							%td
+								%h3.time
+									= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
+							%td
+								%h3
+									= session.name
+							%td
+								%h3
+									%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
 				
-					%tr
-						%td
-						%td{:colspan=>2}
-							- if session.session_type == 'collect'
-								%p= link_to "Theming: #{session.name}", live_themer_path(session.id)
+						%tr
+							%td
+							%td{:colspan=>2}
+								- if session.session_type == 'collect'
+									%p= link_to "Theming: #{session.name}", live_themer_path(session.id)
 			
 		- when 'coord'
 			= link_to "Event setup", live_event_setup_path(@live_node.live_event_id)
