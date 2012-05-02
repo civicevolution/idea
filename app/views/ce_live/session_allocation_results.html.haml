@@ -3,6 +3,8 @@
 		:sass
 			body
 				padding-bottom: 40px
+			div#allocation_results_graph
+				min-width: 900px
 			p.theme
 				font-size: 1.2em
 				margin: 0
@@ -10,7 +12,7 @@
 				
 			div.bar_graph
 				background-color: blue
-				height: 40px
+				height: 30px
 				
 			div.controls
 				text-align: center
@@ -20,7 +22,7 @@
 			ul.themes
 				list-style: none
 				li
-					margin-bottom: 40px
+					margin-bottom: 25px
 					div
 						float: left
 			p.clear_both
@@ -35,7 +37,7 @@
 		var pub_sub_channels = #{@channels}
 		var live_session_id = #{params[:session_id]}
 		
-%div#live_theme_final_edit
+%div#allocation_results_graph
 
 	- if @warning.nil?
 		
@@ -43,7 +45,6 @@
 	
 		- theme_letter = 'A'
 		- graph_ratio = 600.0 / @max_points
-		- debugger
 		%ul.themes
 			- @live_themes.each do |theme|
 				%li.theme{:theme_id=>theme.id, :class => theme.visible ? 'visible' : ''}
