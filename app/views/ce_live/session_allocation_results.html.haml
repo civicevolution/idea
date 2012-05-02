@@ -42,7 +42,8 @@
 		%h2= @session.name
 	
 		- theme_letter = 'A'
-		- graph_ratio = 600 / @max_points
+		- graph_ratio = 600.0 / @max_points
+		- debugger
 		%ul.themes
 			- @live_themes.each do |theme|
 				%li.theme{:theme_id=>theme.id, :class => theme.visible ? 'visible' : ''}
