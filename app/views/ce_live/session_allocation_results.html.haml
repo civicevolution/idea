@@ -5,6 +5,12 @@
 				padding-bottom: 40px
 			div#allocation_results_graph
 				min-width: 900px
+				h2 
+					width: 800px
+			li.theme
+				width: 900px
+				div.theme
+					min-width: 800px
 			p.theme
 				font-size: 1.2em
 				margin: 0
@@ -13,6 +19,11 @@
 			div.bar_graph
 				background-color: blue
 				height: 30px
+				
+			img.bar_graph
+				height: 30px
+				display: block
+				float: left
 				
 			div.controls
 				text-align: center
@@ -53,7 +64,8 @@
 					- theme_letter.succ!
 					%div.theme
 						%p.theme= theme.text
-						%div.bar_graph{:style=>"width: #{theme[:points] * graph_ratio }px"	}
+						= image_tag 'blue_bar.gif', :class=>'bar_graph', :style=>"width: #{theme[:points] * graph_ratio }px"
+
 						%div.numeric
 							#{(theme[:percentage]*100).round}%
 							(#{theme[:points]} Pts)
