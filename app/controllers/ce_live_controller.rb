@@ -545,7 +545,7 @@ class CeLiveController < ApplicationController
   def add_node_form
     @live_node = flash[:live_node] || params[:id].nil? ? LiveNode.new : LiveNode.find(params[:id])
     @parent_options = [['Select one',-1]] + LiveEvent.find( params[:event_id]).live_nodes.collect{ |node| [node.name,node.id]}
-    @role_options = [['Select one',-1], ['Coordinator','coord'], ['Themer', 'theme'], ['Scribe','scribe']]
+    @role_options = [['Select one',-1], ['Coordinator','coord'], ['Themer', 'theme'], ['Scribe','scribe'], ['Reporter','report']]
   end
   
   def add_node_post
