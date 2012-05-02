@@ -9,6 +9,8 @@
 				white-space: nowrap
 			h3.time
 				margin-right: 20px
+			p.report_link
+				font-size: 1.2em
 				
 	:javascript
 		var live_session_id;
@@ -193,10 +195,10 @@
 									%h3.time
 										= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
 								%td
-									%h3
+									%p
 										= session.name
 								%td
-									%h3
+									%p
 										%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
 
 							%tr
@@ -210,29 +212,19 @@
 													- if !session_source.published
 														%p.warn Themes have not been published yet
 													
-													%h2.warn Session feedback to be projected:	
-
-													%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
+													%p.report_link= link_to "Session feedback to be projected", live_session_themes_path(session.source_session_id)
+													
 												- else
 													%p.warn Please check the session data source in Event setup page
-												
-												-# when 'allocation_options'
-													- if !session.source_session_id.nil?
-														- if !session_source.published
-															%p.warn Themes have not been published yet
-
-														%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
-													- else
-														%p.warn Please check the session data source in Event setup page
 												
 											- when 'allocation'
 												- if !session.source_session_id.nil?
 													- if !session_source.published
 														%p.warn Themes have not been published yet
-													
-													%h2.warn Allocation worksheet to be printed:	
 
-													%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
+													%p.report_link= link_to "Allocation worksheet to be printed", live_session_allocation_voting_path(session.source_session_id)
+													%p.report_link= link_to "Allocation guide (theme/no examples) that can be projected", live_session_allocation_options_path(session.source_session_id)
+													
 												- else
 													%p.warn Please check the session data source in Event setup page
 												
@@ -241,9 +233,7 @@
 													- if !session_source.published
 														%p.warn Themes have not been published yet
 													
-													%h2.warn Allocation results to be projected
-													
-													%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
+													%p.report_link= link_to "Allocation results to be projected", live_session_allocation_results_path(session.source_session_id)
 												- else
 													%p.warn Please check the session data source in Event setup page
 				
