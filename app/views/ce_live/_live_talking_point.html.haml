@@ -3,7 +3,7 @@
 	%div{:idea_id=>live_talking_point.id, :class => 'live_talking_point' }
 		%p.text
 			= live_talking_point.text
-			- if live_talking_point.pos_votes<3
+			- if live_talking_point.pos_votes == 1
 				%span.minority M
 		= image_tag 'info.gif', :class=>"info"
 		= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
@@ -31,7 +31,7 @@
 	%div{:idea_id=>live_talking_point.id, :class => ex_ids.include?(live_talking_point.id)? 'idea example' : 'idea' }
 		%p.text
 			= live_talking_point.text
-			- if live_talking_point.pos_votes<3
+			- if live_talking_point.pos_votes == 1
 				%span.minority M
 			
 		= image_tag 'info.gif', :class=>"info"
