@@ -1,7 +1,11 @@
 - if mode == 'left_side_list'
 	%div{:idea_id=>live_theme.id, :class => 'live_talking_point' }
 		%p.text= live_theme.text
-		- if !live_theme[:examples].nil?
+		- if live_theme[:examples].nil?
+			%p.example
+				%i
+					No example was selected by themer
+		- else
 			- live_theme[:examples].each do |talking_point|
 				%p.example
 					=talking_point.text
@@ -11,7 +15,11 @@
 - elsif mode =='right_side_meta_themes'			
 	%div{:idea_id=>live_theme.id, :class => 'idea micro_theme' }
 		%p.text= live_theme.text
-		- if !live_theme[:examples].nil?
+		- if live_theme[:examples].nil?
+			%p.example
+				%i
+					No example was selected by themer
+		- else
 			- live_theme[:examples].each do |talking_point|
 				%p.example
 					=talking_point.text

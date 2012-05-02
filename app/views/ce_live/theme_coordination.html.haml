@@ -52,7 +52,7 @@
 				p.stats
 					display: none
 					padding: 0 10px 0 0
-					font-weight: bold
+					//font-weight: bold
 			
 			div.workspace
 				position: relative
@@ -77,6 +77,7 @@
 				
 					p.stats 
 						margin: 0
+						margin-left: 20px
 						a.expand_incoming_ideas_window
 							font-size: .8em
 							font-weight: normal
@@ -169,7 +170,8 @@
 				p.stats
 					display: none
 					padding: 0 10px 0 20px
-					font-weight: bold
+					//font-weight: bold
+					font-size: 12px
 					margin-top: 8px
 					span
 						margin: 0
@@ -195,10 +197,16 @@
 			div.idea.highlighted_idea
 				img.tp_delete
 					display: block
+				img.info
+					display: block	
 				div.star
 					background: url('/images/star_sprite.gif') no-repeat 0 0 
 					&:hover
 						background-position: 0 -20px
+			div.live_talking_point.highlighted_idea		
+				img.info
+					display: block	
+
 			div.idea.example
 				div.star
 					background: url('/images/star_sprite.gif') no-repeat -20px 0 
@@ -237,8 +245,8 @@
 					cursor: pointer
 					p
 						margin: 0 6px
-				div#new_theme
-					margin-right: 20px
+				div#new_theme, div#misc
+					margin-right: 14px
 				.drop_active
 					background-color: yellow
 				.drop_hover	
@@ -267,7 +275,6 @@
 					right: 6px
 					top: 20px
 					cursor: pointer
-					display: none
 				div.macro_theme_example
 					position: relative
 					display: none
@@ -315,15 +322,46 @@
 						background: url('/images/pencil.gif') no-repeat top right	
 				div.edit.edit_macro_theme_example_icon
 					background: url('/images/pencil.gif') no-repeat top right
-				img.info
-					display: block
-			div#live_talking_points.has_focus
-				img.info
-					display: block
 			div.idea_list.empty_list
 				img.tp_delete
-					display: block		
-		
+					display: block	
+			div.control_bar
+				font-size: 10px
+				position: relative
+				height: 14px
+				div
+					width: 40px
+					padding: 2px 6px
+					cursor: pointer
+				div.expand	
+					display: block
+					background-color: #eee
+					position: absolute
+					top: 0
+					left: 0
+				div.collapse
+					background-color: #eee
+					position: absolute
+					top: 0
+					right: 0
+					display: none
+			div.idea_list.expanded	
+				div.control_bar
+					div.expand
+						display: none
+					div.collapse
+						display: block	
+				
+			div.idea_list.example_edit
+				div.micro_theme 
+					p.text
+						display: none
+					p.example
+						display: show
+					img.info
+						display: hide
+					img.tp_delete
+						display: hide
 				
 	= javascript_include_tag 'app_ce_live_theme_coordination.js'
 	-#:javascript
@@ -364,11 +402,11 @@
 		%div.lists
 			%div.drop_ribbon
 				%div#new_theme
-					%p Create new theme
+					%p New theme
 				%div#misc
-					%p Add to don't fit(#{@dont_fit_tp.size})
+					%p Don't fit(#{@dont_fit_tp.size})
 				%div#toggle_lists
-					%p E
+					%p Expand all
 
 
 			%div#lists

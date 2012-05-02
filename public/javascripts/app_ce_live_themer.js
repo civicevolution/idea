@@ -87,7 +87,8 @@ function fix_list_overflow(list){
 }
 
 
-function expand_idea_list(list){
+function expand_idea_list(list){}
+function expand_idea_listX(list){
   if(list.hasClass('misc_list') && dragging_new_idea ) return;
   //if this list is already expanded, just return
   if(list.hasClass('expanded'))return;
@@ -109,7 +110,8 @@ function expand_idea_list(list){
 }
 
 no_collapse = false;
-function collapse_idea_list(list){
+function collapse_idea_list(list){}
+function collapse_idea_listX(list){
   if(no_collapse) return;
   if(list.attr('expand'))return;
   //console.log("collapse_idea_list for " + list.find('p.theme').html() );
@@ -265,7 +267,7 @@ if(!disable_editing){
   	    // reset the count in the title
   	    var cnt = par_list.find('div.idea').size();
   	    par_list.find('p.theme').html("Don't fit in (" + cnt + ")");
-  	    drop_tgt.html("Add to don't fit(" + cnt + ")");
+  	    drop_tgt.html("Don't fit(" + cnt + ")");
 	    
   	    // get the list ids in order 
   	    var ltp_ids = [];
@@ -318,11 +320,11 @@ function make_idea_lists_sortable($idea_lists){
   		  if(idea_list.hasClass('misc_list')){
   		    //console.log("hide the misc list immediately");
   		    idea_list.hide();
-  		    collapse_idea_list(idea_list);
+  		    collapse_idea_listX(idea_list);
   		    $(this).show();
   		    $('div.lists').append(ui.helper)
   		  }
-  		  expand_idea_list(idea_list);
+  		  expand_idea_listX(idea_list);
   		},
   		over: function(event,ui){
   		  var list = $(this).closest('div.idea_list');
@@ -443,7 +445,7 @@ function clean_up_theme(list){
   	// reset the count in the title
     var new_cnt = list.find('div.idea').size();
     list.find('p.theme').html("Don't fit in (" + new_cnt + ")");
-    $('div.drop_ribbon div#misc').html("Add to don't fit(" + new_cnt + ")");
+    $('div.drop_ribbon div#misc').html("Don't fit(" + new_cnt + ")");
     
     if(old_cnt && Number(old_cnt[0]) != new_cnt){
       // get the list ids in order 
@@ -487,7 +489,7 @@ $( "#misc" ).live('mouseenter mouseleave', function(event) {
     hide_misc_list_timeout = setTimeout(
       function(){
         this.hide();
-        collapse_idea_list(this);
+        collapse_idea_listX(this);
       }.bind(list)
     ,200);
   }
@@ -501,7 +503,7 @@ $( "div.misc_list" ).live('mouseenter mouseleave', function(event) {
     hide_misc_list_timeout = setTimeout(
       function(){
         this.hide();
-        collapse_idea_list(this);
+        collapse_idea_listX(this);
       }.bind(list)
     ,200);
   }
@@ -521,11 +523,17 @@ $('div.idea_list div.ideas').live('mouseenter mouseleave', function(event) {
 });
 
 $('img.info').live('mouseenter mouseleave', function(event) {
+  //console.log("('img.info').live('mouseenter mouseleave'");
 	var stats = $(this).closest('div').find('p.stats');
+	var idea = stats.closest('div.idea');
   if (event.type == 'mouseenter') {
     stats.show();
+    idea.attr('old_style', idea.attr('style'))
+    idea.removeAttr('style');
   } else {
     stats.hide();
+    idea.attr('style', idea.attr('old_style'));
+    idea.removeAttr('old_style');
   }
 });
 
@@ -569,27 +577,43 @@ $('#toggle_lists').live('click',
     //console.log("toggle_lists expanded_mode: " + expanded_mode);
     if(expanded_mode){
       expanded_mode = false;
-      $(this).find('p').html('E');
+      $(this).find('p').html('Expand all');
       $('div.list_column div.idea_list').each(
       	function(){
       		var list = $(this);
       		list.removeAttr('expand');
-      		collapse_idea_list( list );		
+      		collapse_idea_listX( list );		
       	}
       )
     }else{
       expanded_mode = true;
-      $(this).find('p').html('C');
+      $(this).find('p').html('Collapse all');
       $('div.list_column div.idea_list').each(
       	function(){
       		var list = $(this);
       		list.attr('expand',true)
-      		expand_idea_list( list );		
+      		expand_idea_listX( list );		
       	}
       )
     }
   }
 );
+
+
+$('div.control_bar div').die('click').live('click',
+  function(){
+    var div = $(this);
+    var list = div.closest('div.idea_list');
+    if(div.hasClass('expand')){
+      list.attr('expand',true);
+      expand_idea_listX( list );	
+    }else{
+      list.removeAttr('expand');
+      collapse_idea_listX( list );	
+    }
+  }
+);
+
 
 
 if(!disable_editing){
@@ -838,7 +862,7 @@ $('#themer.theme div.idea_list div.edit').live('click',
 		var form = $(template_functions['live_micro_theme_form']({}));
 		var list = $(this).closest('.idea_list');
 		list.attr('expand',true);
-		expand_idea_list(list);
+		expand_idea_listX(list);
 		var header = list.find('div.header div.theme');
 		if( header.find('p.theme').html().match(/^\s*Theme \d*\s*$/)){
 		  form.find('textarea').val('');
@@ -893,13 +917,14 @@ $( "div.idea_list" ).live('mouseenter mouseleave', function(event) {
   }
 });
 
-$( "div#live_talking_points" ).live('mouseenter mouseleave', function(event) {
+$( "div.live_talking_point" ).live('mouseenter mouseleave', function(event) {
   if (event.type == 'mouseenter') {
-    $(this).addClass('has_focus')
+    $(this).addClass('highlighted_idea')
   } else {
-    $(this).removeClass('has_focus')
+    $(this).removeClass('highlighted_idea')
   }
 });
+
 
 $('img.tp_delete').die('click').live('click',
   function(){

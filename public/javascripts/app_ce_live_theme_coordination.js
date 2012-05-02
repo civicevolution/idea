@@ -86,8 +86,9 @@ function fix_list_overflow(list){
 	all_ideas.not(vis_ideas).hide();
 }
 
-
-function expand_idea_list(list){
+function expand_idea_list(list){}
+  
+function expand_idea_listX(list){
   if(list.hasClass('misc_list') && dragging_new_idea ) return;
   //if this list is already expanded, just return
   if(list.hasClass('expanded'))return;
@@ -109,7 +110,8 @@ function expand_idea_list(list){
 }
 
 no_collapse = false;
-function collapse_idea_list(list){
+function collapse_idea_list(list){}
+function collapse_idea_listX(list){
   if(no_collapse) return;
   if(list.attr('expand'))return;
   //console.log("collapse_idea_list for " + list.find('p.theme').html() );
@@ -118,27 +120,6 @@ function collapse_idea_list(list){
   list.removeClass('expanded');  
   fix_list_overflow(list);
 }
-
-$('span.role').before( $('a.test_mode') );
-$('div.test_mode :submit').live('click',
-	function(){
-		setTimeout( "$('div.test_mode').hide(1500)", 1000 )
-		//console.log("hide form")
-	}
-);
-$('a.test_mode').live('click',
-	function(){
-		var test = $('div.test_mode');
-		if(test.is(':visible')){
-			test.hide();
-		}else{
-			test.show();
-			var pos = $(this).position();
-			test.css({left: pos.left, top: pos.top + 20})
-		}
-		return false;
-	}
-)
 
 var idea_list_ctr = $('div.list_column div.idea_list').size() + 1;
 
@@ -265,7 +246,7 @@ if(!disable_editing){
   	    // reset the count in the title
   	    var cnt = par_list.find('div.idea').size();
   	    par_list.find('p.theme').html("Don't fit in (" + cnt + ")");
-  	    drop_tgt.html("Add to don't fit(" + cnt + ")");
+  	    drop_tgt.html("Don't fit(" + cnt + ")");
 	    
   	    // get the list ids in order 
   	    var ltp_ids = [];
@@ -322,12 +303,12 @@ function make_idea_lists_sortable($idea_lists){
   		    $(this).show();
   		    $('div.lists').append(ui.helper)
   		  }
-  		  expand_idea_list(idea_list);
+  		  expand_idea_listX(idea_list);
   		},
   		over: function(event,ui){
-  		  var list = $(this).closest('div.idea_list');
+  		  //var list = $(this).closest('div.idea_list');
   		  //console.log("expand for sortable over " + list.find('p.theme').html())
-  		  expand_idea_list(list);
+  		  //expand_idea_list(list);
 		  },
   		stop: function(event,ui){
   		  var idea_list = $(this).closest('div.idea_list');
@@ -443,7 +424,7 @@ function clean_up_theme(list){
   	// reset the count in the title
     var new_cnt = list.find('div.idea').size();
     list.find('p.theme').html("Don't fit in (" + new_cnt + ")");
-    $('div.drop_ribbon div#misc').html("Add to don't fit(" + new_cnt + ")");
+    $('div.drop_ribbon div#misc').html("Don't fit(" + new_cnt + ")");
     
     if(old_cnt && Number(old_cnt[0]) != new_cnt){
       // get the list ids in order 
@@ -534,12 +515,18 @@ $('div.macro_theme').live('mouseleave', function(event) {
 $('div.micro_theme img.info').live('mouseenter', function(event) {
   //console.log("show info for micro_theme");
 	$(this).closest('div').find('p.example').show();
+	var idea = $(this).closest('div.idea');
+	idea.attr('old_style', idea.attr('style'));
+	idea.removeAttr('style');
 });
 
 $('div.micro_theme').live('mouseleave', function(event) {
   //console.log("hide info for micro_theme");
   if(macro_example_edit_mode) return;
 	$(this).closest('div').find('p.example').hide();
+	var idea = $(this).closest('div.idea');
+	idea.attr('style', idea.attr('old_style'));
+  idea.removeAttr('old_style');
 });
 
 
@@ -555,6 +542,7 @@ $('div.live_talking_point').live('mouseleave', function(event) {
 
 
 $('div.idea').live('mouseenter mouseleave', function(event) {
+  if(macro_example_edit_mode)return
 	var idea = $(this);
   if (event.type == 'mouseenter') {
     idea.addClass('highlighted_idea')
@@ -594,28 +582,41 @@ $('#toggle_lists').live('click',
     //console.log("toggle_lists expanded_mode: " + expanded_mode);
     if(expanded_mode){
       expanded_mode = false;
-      $(this).find('p').html('E');
+      $(this).find('p').html('Expand all');
       $('div.list_column div.idea_list').each(
       	function(){
       		var list = $(this);
       		list.removeAttr('expand');
-      		collapse_idea_list( list );		
+      		collapse_idea_listX( list );		
       	}
       )
     }else{
       expanded_mode = true;
-      $(this).find('p').html('C');
+      $(this).find('p').html('Collapse all');
       $('div.list_column div.idea_list').each(
       	function(){
       		var list = $(this);
       		list.attr('expand',true)
-      		expand_idea_list( list );		
+      		expand_idea_listX( list );		
       	}
       )
     }
   }
 );
 
+$('div.control_bar div').die('click').live('click',
+  function(){
+    var div = $(this);
+    var list = div.closest('div.idea_list');
+    if(div.hasClass('expand')){
+      list.attr('expand',true);
+      expand_idea_listX( list );	
+    }else{
+      list.removeAttr('expand');
+      collapse_idea_listX( list );	
+    }
+  }
+);
 
 if(!disable_editing){
   make_new_ideas_draggable( $('div.live_talking_point') );
@@ -854,27 +855,6 @@ function move() {
 	//auto_scroll_params.timer = setTimeout(function() {move();}, auto_scroll_params.interval);
 }
 
-//function post_theme_changes( data ){
-//  console.log("post theme data to server");
-//  //var data = {}
-//  switch( data.act){
-//    case 'new_list':
-//      console.log("store the new theme"); 
-//      break;
-//    
-//  }
-//  data.live_session_id = live_session_id;
-//  
-//  var url = '/live/post_theme';
-//  $.ajax({
-//	  url: url, 
-//	  data: data,
-//	  type: 'POST',
-//	  dataType: 'script'
-//	});
-//}
-
-
 // These should override the files in get_templates
 
 $('div#themer.coord div.idea_list div.edit_macro_theme_icon').live('click',
@@ -886,7 +866,7 @@ $('div#themer.coord div.idea_list div.edit_macro_theme_icon').live('click',
 		var form = $(template_functions['live_macro_theme_form']({}));
 		var list = $(this).closest('.idea_list');
 		list.attr('expand',true);
-		expand_idea_list(list);
+		expand_idea_listX(list);
 		var header = list.find('div.header div.theme');
 		if( header.find('p.theme').html().match(/^\s*Theme \d*\s*$/)){
 		  form.find('textarea').val('');
@@ -950,7 +930,8 @@ $('div#themer.coord div.idea_list div.edit_macro_theme_example_icon').live('clic
 		
 		var list = $(this).closest('.idea_list');
 		list.attr('expand',true);
-		expand_idea_list(list);
+		list.addClass('example_edit');		
+		expand_idea_listX(list);
 		var example_header = list.find('div.header div.macro_theme_example');
 		if( example_header.find('p.example_txt').html().match(/^\s*Edit to add example text\s*$/)){
 		  form.find('textarea').val('');
@@ -961,7 +942,7 @@ $('div#themer.coord div.idea_list div.edit_macro_theme_example_icon').live('clic
 
     list.find('p.example').show();
   	list.find('div.micro_theme p.text').hide();
-  	list.find('div.micro_theme img.info').hide();
+  	//list.find('div.micro_theme img.info').hide();
   	macro_example_edit_mode = true;
 		return false;
 	}
@@ -973,6 +954,7 @@ $('div#themer.coord div.idea_list div.header div.edit_macro_theme_example :submi
 		$('.sortable_ideas').sortable('enable');
 		$('div.list_column').sortable('enable');
 		var list = $(this).closest('.idea_list');
+		list.removeClass('example_edit');
 		var example_header = list.find('div.header div.macro_theme_example');
 		var edit_div = list.find('div.header div.edit_macro_theme_example');
 		var new_theme_example = edit_div.find('textarea').val();
@@ -988,7 +970,7 @@ $('div#themer.coord div.idea_list div.header div.edit_macro_theme_example :submi
 		
 		list.removeAttr('expand');
 		list.find('div.micro_theme p.text').show();
-		list.find('div.micro_theme img.info').show();
+		//list.find('div.micro_theme img.info').show();
 		list.find('div.micro_theme p.example').hide();
     macro_example_edit_mode = false;
 		return false;
@@ -1000,13 +982,14 @@ $('div#themer.coord div.idea_list div.header div.edit_macro_theme_example a.canc
 		$('.sortable_ideas').sortable('enable');
 		$('div.list_column').sortable('enable');
 		var list = $(this).closest('.idea_list');
+		list.removeClass('example_edit');
 		var example_header = list.find('div.header div.macro_theme_example');
 		var edit_div = list.find('div.header div.edit_theme');
 		example_header.hide();
 		edit_div.remove();
 		list.removeAttr('expand');
 		list.find('div.micro_theme p.text').show();
-		list.find('div.micro_theme img.info').show();
+		//list.find('div.micro_theme img.info').show();
 		list.find('div.micro_theme p.example').hide();
 		macro_example_edit_mode = false;
 		return false;
@@ -1022,11 +1005,11 @@ $( "div.idea_list" ).live('mouseenter mouseleave', function(event) {
   }
 });
 
-$( "div#live_talking_points" ).live('mouseenter mouseleave', function(event) {
+$( "div.live_talking_point" ).live('mouseenter mouseleave', function(event) {
   if (event.type == 'mouseenter') {
-    $(this).addClass('has_focus')
+    $(this).addClass('highlighted_idea')
   } else {
-    $(this).removeClass('has_focus')
+    $(this).removeClass('highlighted_idea')
   }
 });
 
