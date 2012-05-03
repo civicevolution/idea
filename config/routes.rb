@@ -25,6 +25,7 @@ G3::Application.routes.draw do |map|
   post 'live/theme/edit' => 'ce_live#edit_theme', :as => 'live_theme_edit'
 
   get 'live/:session_id/session_themes' => 'ce_live#session_themes', :as => 'live_session_themes'
+  get 'live/:session_id/session_full_data' => 'ce_live#session_full_data', :as => 'live_session_full_data'
   get 'live/:session_id/session_allocation_options' => 'ce_live#session_allocation_options', :as => 'live_session_allocation_options'
   get 'live/:session_id/session_allocation_voting' => 'ce_live#session_allocation_voting', :as => 'live_session_allocation_voting'
   post 'live/:session_id/allocate' => 'ce_live#allocate_save', :as => 'live_allocate_save'

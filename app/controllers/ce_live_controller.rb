@@ -366,6 +366,33 @@ class CeLiveController < ApplicationController
     
   end
   
+  def session_full_data
+    @session = LiveSession.find_by_id(params[:session_id])
+    
+    @page_title = "Full data for: #{@session.name}"
+
+    if LiveSession.find_by_id(@session.id).published
+      #@live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
+      @live_themes = LiveTheme.where(:live_session_id => @session.id).order('id ASC')
+      
+      
+      @micro_themes = @live_themes.collect{|lt| lt if lt.order_id <= 0 }.compact
+      @macro_themes = @live_themes.collect{|lt| lt if lt.order_id > 0 }.compact.sort{|a,b| a.order_id <=> b.order_id }
+      @macro_themes.reject!{ |theme| theme.visible == false }
+      
+      @live_talking_points = LiveTalkingPoint.where(:live_session_id=>@session.id).order('id ASC')
+      
+    else
+      @warning = "We're sorry, the results of this session have not been published yet"
+    end
+
+    @channels = []
+    
+    render :template => 'ce_live/session_full_data', :layout => 'ce_live', :locals=>{ :title=>'Full session data', :role=>'Themer'}
+  end
+  
+  
+  
   def themer         
     @session = LiveSession.find_by_id(params[:session_id])
     ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'themer2','themer2')

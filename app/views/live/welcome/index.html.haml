@@ -214,6 +214,9 @@
 													
 													%p.report_link= link_to "Session feedback to be projected", live_session_themes_path(session.source_session_id)
 													
+													%p.report_link= link_to "Session - Full data report", live_session_full_data_path(session.source_session_id)
+													
+													
 												- else
 													%p.warn Please check the session data source in Event setup page
 												

@@ -1,0 +1,90 @@
+- content_for(:script) do
+	%style
+		:sass
+			body
+				padding-bottom: 40px
+			p.theme
+				font-size: 1.2em
+				margin: 0
+				width: 600px
+				
+			p.example
+				font-style: italic
+				color: blue
+				margin: 6px 0 16px 0
+				width: 600px
+			div.controls
+				width: 60px
+				text-align: center
+				font-size: 3.2em
+				margin-top: -10px
+			ul.macro_themes
+				list-style: none
+				li
+					div
+						float: left
+			p.clear_both
+				clear: both
+			table
+				width: 700px
+				th
+					white-space: nowrap
+				th.tabnum
+					padding-right: 8px
+				tr.stripe
+					background-color: #eee
+				tr
+					td
+						padding: 8px
+			
+				
+	:javascript
+		var pub_sub_channels = #{@channels}
+		var live_session_id = #{params[:session_id]}
+		
+%div#live_theme_final_edit
+
+	- if @warning.nil?
+	
+		%h3 Macro themes with examples
+		- theme_letter = 'A'
+		%table
+			- @macro_themes.each do |theme|
+				- if theme.visible
+					%tr{:class=>cycle('stripe','')}
+						%td= theme_letter
+						- theme_letter.succ!
+						%td= theme.text			
+						%td= theme.example_ids
+		
+
+
+		%h3 All micro themes
+		- ctr = 0
+		%table
+			- @micro_themes.each do |theme|
+				%tr{:class=>cycle('stripe','')}
+					%td #{ctr += 1}. 
+					%td= theme.text	
+					
+
+		%h3 All talking points
+		- ctr = 0
+		%table.talking_points
+			%th #
+			%th Table talking point
+			%th.tabnum Table#
+			%th Vote
+			- @live_talking_points.each do |tp|
+				%tr{:class=>cycle('stripe','')}
+					%td #{ctr += 1}.
+					%td= tp.text
+					%td= tp.group_id
+					%td
+						+#{tp.pos_votes}/-#{tp.neg_votes}
+						
+
+
+	
+	- else
+		%h3= @warning
