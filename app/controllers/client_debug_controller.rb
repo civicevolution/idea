@@ -88,7 +88,15 @@ class ClientDebugController < ApplicationController
   def request_help_post
     team_id = params[:url] && params[:url].match(/\d+$/) ? params[:url].match(/\d+$/)[0] : nil
     # create the client_details
-    client_details = ClientDetails.new :ip=> request.remote_ip, :session_id=> request.session_options[:id], :member_id=> session[:member_id], 
+    
+    if params[:month] != '20' || params[:year] != ''
+      @message = params[:request_help][:message]
+      request_help
+      return
+    end  
+    
+    ip = ( !request.remote_ip.nil? && request.remote_ip != 'unknown') ? request.remote_ip : '0.0.0.0'
+    client_details = ClientDetails.new :ip=> ip, :session_id=> request.session_options[:id], :member_id=> session[:member_id], 
       :team_id=> team_id, :url=> params[:url], :user_agent=> params[:user_agent], :error_log=> params[:error_log]
     @saved = client_details.save
     

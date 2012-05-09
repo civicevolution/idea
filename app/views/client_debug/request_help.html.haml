@@ -2,6 +2,17 @@
 - if @member.id == 0
 	- @member.first_name = @member.last_name = ''
 %div#request_help
+	%style
+		:sass
+			p.month
+				margin-top: 40px
+			p.year
+				display: none
+	-# if !@message.nil?			
+		%script
+			$('div#request_help:first').closest('div.ui-dialog').dialog('destroy').remove();
+		
+			
 	- if params[:topic] == 'improve'
 		%h4 Please tell us how we can improve this page to make it more useful to you
 	- else
@@ -40,14 +51,20 @@
 		- else
 			%p Please provide a clear message about the assistance you require
 			%div
-				= form.text_area :message, {:class=>'autosize'}
-			
-			
+				= form.text_area :message, {:class=>'autosize', :value => @message}
+
 		%div.form_controls
-			= submit_tag "Send", :name=>'send', 'data-disable-with'=>'Submitting...'
-	
 			%span.char_ctr
 				1000
 				characters
 				
+		%p.month{:class=> @message.nil? ? '' : 'warn'} 
+			Real person test: What is 10 minus five x 4?		
+			= text_field_tag :month, '', :style=>'width: 30px; display: inline; margin-left: 10px'
+		%p.year
+			= text_field_tag :year, '', :style=>'width: 30px; display: inline; margin-left: 10px', :class=>'year'
+			
+		%div.form_controls
+			= submit_tag "Send", :name=>'send', 'data-disable-with'=>'Submitting...'
+	
 			= link_to 'Cancel', {:action => 'index'}, {:class=>'cancel'}
