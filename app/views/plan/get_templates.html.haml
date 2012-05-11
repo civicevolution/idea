@@ -108,14 +108,18 @@
 	%script#create_talking_point_template
 		:plain
 			templates['TalkingPoint'] = $('<div></div>').html($.trim( $('script#talking_point_template').html() )).find('div:first');
-			template_functions['TalkingPoint'] = templates['TalkingPoint'].compile(
-				{
-					'@id' : 'data.talking_point.id',
-					'p.talking_point' : 'data.talking_point.text',
-					'a.tp_show_coms@href' : '/talking_points/\#{data.talking_point.id}/comments',
-					'a.edit@href' : '/talking_points/\#{data.talking_point.id}/edit'
-				}
-			);
+			var compile_directives = {
+				'@id' : 'data.talking_point.id',
+				'p.talking_point' : 'data.talking_point.text',
+				'a.tp_show_coms@href' : '/talking_points/\#{data.talking_point.id}/comments',
+				'a.edit@href' : '/talking_points/\#{data.talking_point.id}/edit'
+			};
+			
+			if( templates['TalkingPoint'].find('a.edit').size() == 0 ){
+				// not all users will see an edit link
+				delete compile_directives['a.edit@href'];
+			}
+			template_functions['TalkingPoint'] = templates['TalkingPoint'].compile( compile_directives );
 			realtime_data_update_functions['TalkingPoint'] =
 				function(data){
 					// separate the diff from the text
