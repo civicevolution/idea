@@ -120,6 +120,12 @@ class CallToActionEmail < ActiveRecord::Base
             AND m.id NOT IN (SELECT DISTINCT member_id FROM team_registrations WHERE team_id > 10017)
             ORDER BY first_name, last_name|)
 
+        when 'init 2 participants'
+          Member.find_by_sql(
+            %q|SELECT distinct first_name, last_name, email, m.id AS mem_id, 0 AS team_id, email_ok
+            FROM members m, participant_stats ps, teams t
+            WHERE t.initiative_id = 2 AND ps.team_id = t.id and ps.member_id = m.id AND email_ok = true
+            ORDER BY first_name, last_name|) 
 
         else
           Member.all(
