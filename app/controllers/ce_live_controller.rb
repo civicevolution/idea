@@ -4,64 +4,173 @@ class CeLiveController < ApplicationController
   skip_before_filter :authorize , :only => [:live_home, :sign_in_form, :session_report, :get_templates, :vote, :vote_save, :session_themes]
   skip_before_filter :add_member_data# , :except => [ :logo, :rss ]
   
-  def live_home
-    # default page for CivicEvolution Live
-    if @live_node.nil?
-      render :template => 'ce_live/sign_in_form', :locals => { :get_templates => 'false'}
+  def sign_in_form
+    if @live_node
+      live_home
     else
-      
-      #@sessions = LiveSession.find_by_live_event_id( @live_node.live_event_id ).order(:order_id)
-      @sessions = LiveSession.where( :live_event_id => @live_node.live_event_id ).order(:order_id)
-      
-      case @live_node.role
-        when 'scribe'
-          begin
-            @table = @live_node.name.match(/\d+/)[0].to_i
-          rescue 
-            @table = 'Unassigned - Please report this immediately'
-          end
-        when 'theme'
-          names = ActiveRecord::Base.connection.select_values(%Q|SELECT name FROM live_nodes WHERE role = 'scribe' AND parent_id = #{@live_node.id}|)
-          # get the numbers from the name and order them
-          begin
-            @tables = names.map{|tab| tab.match(/\d+/)[0].to_i}.join(', ')
-          rescue
-            @tables = 'Unassigned - Please report this immediately'
-          end
-          
-        when 'coord'
-          @subordinate_themers = LiveNode.where(:parent_id=>@live_node.id, :role=>'theme').order(:id)
-          @subordinate_themers.each do |themer|
-            names = ActiveRecord::Base.connection.select_values(%Q|SELECT name FROM live_nodes WHERE role = 'scribe' AND parent_id = #{themer.id}|)
-            # get the numbers from the name and order them
-            begin
-              tables = names.map{|tab| tab.match(/\d+/)[0].to_i}.join(', ')
-            rescue
-              tables = 'Unassigned - Please report this immediately'
-            end
-            themer[:tables]  = tables
-          end
-          
-      end
-      
-      
-      render :template=>'welcome/index.html', :locals => {:get_templates => 'false'}
+      # show the sign in form
+      flash.keep # keep the info I saved till I successfully process the sign in
+      render :template => 'ce_live/sign_in_form', :layout => 'ce_live', :locals=>{:get_templates => 'false'}
     end
   end
   
-  def auto_mode
-    case @live_node.role
-      when 'coord'
-        redirect_to live_event_setup_path(params[:event_id])
-        
-      when 'theme'
-        redirect_to live_themer_path(params[:event_id])
-
-      when 'scribe'
-        redirect_to live_table_path(params[:event_id])
-        
+  def record_juggernaut_id
+    if @live_node
+      @live_node.jug_id = request.headers["X-Juggernaut-Id"]
+      @live_node.save
+    end
+    render text: 'ok'
+  end
+  
+  def live_home #role_page
+    if @live_node.nil?
+      @live_node = LiveNode.new
+      @channels = []
+      # show the sign in form
+      flash.keep # keep the info I saved till I successfully process the sign in
+      render :template => 'ce_live/sign_in_form', :layout => 'ce_live', :locals=>{:get_templates => 'false'}
+      return
     end
     
+    @channels = ["_event_#{@live_node.live_event_id}" ]
+    case @live_node.role
+      when 'scribe'
+        begin
+          group_id = @live_node.name.match(/\d+/)[0].to_i
+        rescue 
+          group_id = 'Unassigned - Please report this immediately'
+        end
+        authorize_juggernaut_channels(request.session_options[:id], @channels )
+        @page_data = {type: 'scribe home page'};
+        render :template =>'ce_live/home_scribe', :locals=>{:group_id=>group_id, :get_templates => 'false'}
+      
+      when 'coord'
+        @sessions = LiveSession.where( :live_event_id => @live_node.live_event_id ).order(:order_id)
+        @subordinate_themers = LiveNode.where(:parent_id=>@live_node.id, :role=>'theme').order(:id)
+        @subordinate_themers.each do |themer|
+          names = ActiveRecord::Base.connection.select_values(%Q|SELECT name FROM live_nodes WHERE role = 'scribe' AND parent_id = #{themer.id}|)
+          # get the numbers from the name and order them
+          begin
+            tables = names.map{|tab| tab.match(/\d+/)[0].to_i}.join(', ')
+          rescue
+            tables = 'Unassigned - Please report this immediately'
+          end
+          themer[:tables]  = tables
+        end
+        authorize_juggernaut_channels(request.session_options[:id], @channels )
+        @page_data = {type: 'coord home page'};
+        render :template =>'ce_live/home_coordinator', :locals=>{:get_templates => 'false'}
+      
+      when 'theme'
+        @sessions = LiveSession.where( :live_event_id => @live_node.live_event_id ).order(:order_id)
+        names = ActiveRecord::Base.connection.select_values(%Q|SELECT name FROM live_nodes WHERE role = 'scribe' AND parent_id = #{@live_node.id}|)
+        # get the numbers from the name and order them
+        begin
+          @tables = names.map{|tab| tab.match(/\d+/)[0].to_i}.join(', ')
+        rescue
+          @tables = 'Unassigned - Please report this immediately'
+        end
+        authorize_juggernaut_channels(request.session_options[:id], @channels )
+        @page_data = {type: 'themer home page'};
+        render :template =>'ce_live/home_themer', :locals=>{:get_templates => 'false'}
+      
+      when 'dispatcher'
+        @sessions = LiveSession.where( :live_event_id => @live_node.live_event_id ).order(:order_id)
+        @event_nodes = LiveNode.where(:live_event_id => @live_node.live_event_id)
+        @scribes = @event_nodes.select{|node| node.role == 'scribe'}
+        @event_staff = @event_nodes.select{|node| node.role != 'scribe'}
+        begin
+           @scribes.sort!{|a,b| a.name.match(/\d+/)[0].to_i <=> b.name.match(/\d+/)[0].to_i }
+            @event_staff.sort{|a,b| a.role <=> b.role}
+        rescue
+        end
+        
+        authorize_juggernaut_channels(request.session_options[:id], @channels )
+        @page_data = {type: 'dispatcher home page'};
+        render :template =>'ce_live/home_dispatcher', :locals=>{:get_templates => 'false'}
+      
+      when 'report'
+        @sessions = LiveSession.where( :live_event_id => @live_node.live_event_id ).order(:order_id)
+        authorize_juggernaut_channels(request.session_options[:id], @channels )
+        @page_data = {type: 'reporter home page'};
+        render :template =>'ce_live/home_reporter', :locals=>{:get_templates => 'false'}
+        
+      else
+        render :template =>'ce_live/unrecognized_role', :locals=>{:table=>table}  
+    end
+    
+    
+  end  
+  
+  def dispatcher   
+    #return not_authorized unless @live_node.role == 'scribe'
+
+    @page_title = "Dispatcher page"
+
+    @channels = ["_event_#{params[:event_id]}"]
+    authorize_juggernaut_channels(request.session_options[:id], @channels )
+    
+    render :template => 'ce_live/dispatcher', :layout => 'ce_live', :locals=>{ :title=>'Dispatcher page for CivicEvolution Live', :role=>'Scribe'}
+  end
+  
+  def scribe  
+    if @live_node.name.match(/\d+/).nil?
+      @not_scribe_message = "You must be signed in as a table scribe to record allocation votes"
+      render :template => 'ce_live/scribe', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
+    else
+      group_id = @live_node.name.match(/\d+/)[0].to_i
+    end
+    
+    (page_type,session_id) = params['dest'].split('::')
+  
+    @session = LiveSession.find_by_id(session_id)
+
+    @channels = ["_event_#{@live_node.live_event_id}" ]
+
+    authorize_juggernaut_channels(request.session_options[:id], @channels )
+
+    if page_type == 'standby'
+      @page_data = {type: 'scribe standby'};
+      render :template =>'ce_live/home_scribe', :locals=>{:group_id=>group_id, :get_templates => 'false'}
+      
+    elsif page_type == 'collect'
+      
+      ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe7','scribe7')
+      ###session[:live_node_id] = @live_node.id
+      # make sure this is in their roles
+      return not_authorized unless @live_node.role == 'scribe'
+
+      @page_title = "Table #{group_id}, Topic: #{@session.name}"
+
+      @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
+      
+      @page_data = {type: 'enter talking points', session_id: @session.id, session_title: @session.name};
+      render :template => 'ce_live/table', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
+    
+    elsif page_type == 'allocation'
+      
+      @page_title = "Table #{group_id} Prioritisation for: #{@session.name}"
+
+      if LiveSession.find_by_id(@session.source_session_id).published
+        @live_themes = LiveTheme.where("live_session_id = #{@session.source_session_id} AND order_id > 0").order('order_id ASC')
+        @live_themes.reject!{ |theme| theme.visible == false }
+        @table_id = @live_node.name.match(/\d+/)
+        @table_id = @table_id.nil? ? 0 : @table_id[0].to_i
+        @voter_id = params[:voter_id]
+
+        # get the voter_ids that have already voted
+        @voters = LiveThemeAllocation.get_voters(@session.source_session_id, @table_id)
+
+      else
+        @warning = "We're sorry, the results of this session have not been published yet"
+      end
+      @page_data = {type: 'allocate', session_id: @session.id, session_title: @session.name};
+
+      render :template => 'ce_live/session_allocation_voting', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation voting'}
+    else
+      render :template => 'ce_live/scribe', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
+    end
+
   end
   
   def event_setup    
@@ -74,8 +183,7 @@ class CeLiveController < ApplicationController
     @event = LiveEvent.find( params[:event_id])
     @event_sessions = LiveSession.where(:live_event_id => params[:event_id])
     @event_nodes = LiveNode.where(:live_event_id => params[:event_id])
-    @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme"]
-    session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
+    @channels = ["_event_#{params[:event_id]}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
 
     render :template => 'ce_live/event_setup', :layout => 'ce_live', :locals=>{ :title=>'Cordinator page for CivicEvolution Live', :role=>'Coordinator'}
@@ -195,13 +303,11 @@ class CeLiveController < ApplicationController
     
     @live_themes = @live_themes.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
-    @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme", "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"]
-    session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.id}"
-    session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
+    @channels = ["_event_#{params[:event_id]}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
     @disable_editing =  (@session.published || @live_node.role != 'coord') ? true : false
-    
+    @page_data = {type: 'macro theming', session_id: @session.id, session_title: @session.name};
     render :template => 'ce_live/theme_coordination', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :role=>'Themer'}
   end
   
@@ -236,9 +342,9 @@ class CeLiveController < ApplicationController
     @my_themes.compact!
     @my_themes.sort!{|a,b| a.order_id <=> b.order_id}
 
-    @channels = []
+    @channels = ["_event_#{@live_node.live_event_id}" ]
     @disable_editing =  (@session.published || @live_node.role != 'coord') ? true : false
-    
+    @page_data = {type: 'final edit themes', session_id: @session.id, session_title: @session.name};
     render :template => 'ce_live/theme_final_edit', :layout => 'ce_live', :locals=>{ :title=>'Theme final edit page', :role=>'Themer'}
   end
 
@@ -255,8 +361,7 @@ class CeLiveController < ApplicationController
       @warning = "We're sorry, the results of this session have not been published yet"
     end
 
-    @channels = []
-    
+    @channels = ["_event_#{@session.live_event_id}" ]
     render :template => 'ce_live/session_themes', :layout => 'ce_live', :locals=>{ :title=>'Themes', :role=>'Themer'}
   end
 
@@ -273,7 +378,7 @@ class CeLiveController < ApplicationController
       @warning = "We're sorry, the results of this session have not been published yet"
     end
 
-    @channels = []
+    @channels = ["_event_#{@session.live_event_id}" ]
     
     render :template => 'ce_live/session_allocation_options', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation options', :role=>'Themer'}
   end
@@ -300,8 +405,7 @@ class CeLiveController < ApplicationController
       @warning = "We're sorry, the results of this session have not been published yet"
     end
 
-    @channels = []
-        
+    @channels = ["_event_#{@live_node.live_event_id}" ]    
     render :template => 'ce_live/session_allocation_voting', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation voting', :role=>'Themer'}
   end
   
@@ -326,8 +430,7 @@ class CeLiveController < ApplicationController
       @warning = "We're sorry, the results of this session have not been published yet"
     end
 
-    @channels = []
-    
+    @channels = ["_event_#{@session.live_event_id}" ]
     render :template => 'ce_live/session_allocation_results', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation results', :role=>'Themer'}
   end
 
@@ -386,14 +489,13 @@ class CeLiveController < ApplicationController
       @warning = "We're sorry, the results of this session have not been published yet"
     end
 
-    @channels = []
-    
+    @channels = ["_event_#{@session.live_event_id}" ]
     render :template => 'ce_live/session_full_data', :layout => 'ce_live', :locals=>{ :title=>'Full session data', :role=>'Themer'}
   end
   
   
   
-  def themer         
+  def micro_themer         
     @session = LiveSession.find_by_id(params[:session_id])
     ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'themer2','themer2')
     ###session[:live_node_id] = @live_node.id
@@ -407,15 +509,15 @@ class CeLiveController < ApplicationController
       themer_id = @live_node.id
     end
     
-    names = ActiveRecord::Base.connection.select_values(%Q|SELECT name FROM live_nodes WHERE role = 'scribe' AND parent_id = #{themer_id}|)
+    names = ActiveRecord::Base.connection.select_values(%Q|SELECT name FROM live_nodes WHERE role = 'scribe' AND parent_id = #{themer_id} ORDER BY name|)
     # get the numbers from the name and order them
     begin
-      tables = names.map{|tab| tab.match(/\d+/)[0].to_i}.join(',')
+      @tables = names.map{|tab| tab.match(/\d+/)[0].to_i}
     rescue
-      tables = 'unknown'
+      @tables = ['unknown']
     end    
     
-    @page_title = "Theme for: #{@session.name}, Tables: #{tables}"
+    @page_title = "Theme for: #{@session.name}, Tables: #{@tables.join(',')}"
     
     
     @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, 
@@ -457,53 +559,49 @@ class CeLiveController < ApplicationController
     
     @live_talking_points = @live_talking_points.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
-    @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme", "_auth_event_#{params[:event_id]}_theme_#{themer_id}"]
-    session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{themer_id}"
-    session[:coord_chat_channel] = "_auth_event_#{params[:event_id]}_theme"
+    @channels = ["_event_#{@live_node.live_event_id}", "_event_theme_#{themer_id}" ]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
     @disable_editing =  (@session.published || @live_node.role != 'theme') ? true : false
-    
-    render :template => 'ce_live/themer', :layout => 'ce_live', :locals=>{ :title=>'Theming page for CivicEvolution Live', :role=>'Themer'}
+    @page_data = {type: 'micro theming', session_id: @session.id, session_title: @session.name};
+    render :template => 'ce_live/micro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming page for CivicEvolution Live', :role=>'Themer'}
   end
   
-  def table   
+  #def table   
+  #
+  #  ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe7','scribe7')
+  #  ###session[:live_node_id] = @live_node.id
+  #  # make sure this is in their roles
+  #  return not_authorized unless @live_node.role == 'scribe'
+  #  
+  #  @session = LiveSession.find_by_id(params[:session_id])
+  #
+  #  
+  #  group_id = @live_node.name.match(/\d+/)
+  #  if group_id.nil?
+  #    group_id = 0
+  #  else
+  #    group_id = group_id[0].to_i
+  #  end
+  #
+  #  @page_title = "Table #{group_id}, Topic: #{@session.name}"
+  #
+  #  @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
+  #
+  #  @channels = ["_event_#{@live_node.live_event_id}" ]
+  #  authorize_juggernaut_channels(request.session_options[:id], @channels )
+  #  @page_data = {type: 'enter talking points', session_id: @session.id, session_title: @session.name};
+  #  render :template => 'ce_live/table', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
+  #end
 
-    ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe7','scribe7')
-    ###session[:live_node_id] = @live_node.id
-    # make sure this is in their roles
-    return not_authorized unless @live_node.role == 'scribe'
-    
-    @session = LiveSession.find_by_id(params[:session_id])
-
-    
-    group_id = @live_node.name.match(/\d+/)
-    if group_id.nil?
-      group_id = 0
-    else
-      group_id = group_id[0].to_i
-    end
-
-    @page_title = "Table #{group_id}, Topic: #{@session.name}"
-
-    @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
-
-    @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"]
-    session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"
-    authorize_juggernaut_channels(request.session_options[:id], @channels )
-    
-    render :template => 'ce_live/table', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
-  end
-
-  def prioritize   
-    # make sure this is in their roles
-    return not_authorized unless @live_node.role == 'scribe'
-    @channels = ["_auth_event_#{params[:event_id]}", "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"]
-    session[:table_chat_channel] = "_auth_event_#{params[:event_id]}_theme_#{@live_node.parent_id}"
-    authorize_juggernaut_channels(request.session_options[:id], @channels )
-    
-    render :template => 'ce_live/prioritize', :layout => 'ce_live', :locals=>{ :title=>'Prioritization page for CivicEvolution Live', :role=>'Scribe'}
-  end
+  #def prioritize   
+  #  # make sure this is in their roles
+  #  return not_authorized unless @live_node.role == 'scribe'
+  #  @channels = ["_event_#{@live_node.live_event_id}" ]
+  #  authorize_juggernaut_channels(request.session_options[:id], @channels )
+  #  
+  #  render :template => 'ce_live/prioritize', :layout => 'ce_live', :locals=>{ :title=>'Prioritization page for CivicEvolution Live', :role=>'Scribe'}
+  #end
     
   def ltp_to_jug
     ltp = LiveTalkingPoint.find(params[:id])
@@ -572,7 +670,7 @@ class CeLiveController < ApplicationController
   def add_node_form
     @live_node = flash[:live_node] || params[:id].nil? ? LiveNode.new : LiveNode.find(params[:id])
     @parent_options = [['Select one',-1]] + LiveEvent.find( params[:event_id]).live_nodes.collect{ |node| [node.name,node.id]}
-    @role_options = [['Select one',-1], ['Coordinator','coord'], ['Themer', 'theme'], ['Scribe','scribe'], ['Reporter','report']]
+    @role_options = [['Select one',-1], ['Scribe','scribe'], ['Themer', 'theme'], ['Coordinator','coord'], ['Reporter','report'], ['Dispatcher', 'dispatcher']]
   end
   
   def add_node_post
@@ -637,8 +735,8 @@ class CeLiveController < ApplicationController
 
     ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: group_id, text: params[:text],
       pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter
-
-    Juggernaut.publish(session[:table_chat_channel], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
+      
+    Juggernaut.publish("_event_theme_#{@live_node.parent_id}", {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
     render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => ltp})
   end
   
@@ -814,10 +912,6 @@ class CeLiveController < ApplicationController
         logger.debug "I do not know how to handle a request like this\nparams.inspect"
     end
 
-    #ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: @live_node.id, text: params[:text],
-    #  pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter
-    #
-    #Juggernaut.publish(session[:table_chat_channel], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
     render( :template => 'ce_live/post_theme.js', :locals =>{:live_talking_point => nil})
   end
   
@@ -857,12 +951,6 @@ class CeLiveController < ApplicationController
     
   end
   
-  def sign_in_form
-    # show the sign in form
-    flash.keep # keep the info I saved till I successfully process the sign in
-    render :template => 'ce_live/sign_in_form', :layout => 'ce_live'
-  end
-  
   def sign_in_post
     params[:event_id] = flash[:params][:event_id] if flash[:params]
     params[:session_id] = flash[:params][:session_id] if flash[:params]
@@ -882,6 +970,11 @@ class CeLiveController < ApplicationController
 
     if @live_node
       session[:live_node_id] = @live_node.id
+      cookies[:event] = { :value => params[:event_code], :expires => Time.now + 48*60*60}
+      if @live_node.role == 'scribe'
+        cookies[:user_name] = { :value => params[:user_name], :expires => Time.now + 48*60*60}
+        cookies[:password] = { :value => params[:password], :expires => Time.now + 48*60*60}
+      end
       redirect_to live_home_path
     else # no live_event_staff was retrieved with password and email
       flash.keep # keep the info I saved till I successfully process the sign in

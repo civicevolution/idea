@@ -1,0 +1,45 @@
+- content_for(:script) do
+	%style
+		:sass
+			input.url
+				width: 300px
+			div.events
+				width: 400px
+				height: 600px
+				border: 1px solid black
+				
+	-#= javascript_include_tag 'app_ce_live_themer.js'
+	:javascript
+		console.log("Loading scribe page")
+		var pub_sub_channels = #{@channels}
+		//var live_session_id = #{params[:session_id]}
+		//var disable_editing = #{@disable_editing}
+		$('input[type="submit"]').live('click',
+			function(){
+				console.log("Send the juggernaut message");
+				
+				var jug_data = {
+					act: 'change_page_url',
+					url: $('input.url').val(),
+					channels: pub_sub_channels
+				}
+				
+				var url = '/juggernaut_xmit'
+				$.ajax({
+					url: url, 
+					data: {jug_data: jug_data},
+					type: 'POST',
+					dataType: 'script'
+				});
+  			
+			}
+		);
+		
+		
+		
+%div#dispatcher
+	%p Enter a url to send the other page to
+	%p= text_field_tag :url, 'http://live.civicevolution.dev/live/23/table', :class=>'url'
+	%p= submit_tag 'Change remote page'
+	
+	%div.events

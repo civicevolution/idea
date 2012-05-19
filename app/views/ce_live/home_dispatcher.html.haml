@@ -1,0 +1,140 @@
+- content_for(:script) do
+	%style
+		:sass
+			div.session_details
+				margin-left: 20px
+			body
+				width: 700px
+			.nobreak
+				white-space: nowrap
+			h3.time
+				margin-right: 20px
+			p.report_link
+				font-size: 1.2em
+			td, th 
+				padding-right: 20px
+	
+	= javascript_include_tag 'app_ce_live_dispatcher.js'			
+	:javascript
+		var live_session_id;
+		$('a.publish_link').die('click').live('click',
+			function(){
+				var link = $(this);
+				live_session_id = link.attr('id');
+				if(link.hasClass('unpublished')){
+					var new_publish_status = true;
+				}else{
+					var new_publish_status = false;
+				}
+				post_theme_changes({act: 'publish_session_themes', new_publish_status: new_publish_status });
+				return false;
+			}
+		);
+		$('input.set_scribes').live('click',
+			function(){
+				var option = $('select option:selected');
+				console.log("Set scribes to " + option.val());
+				var jug_data = {
+					act: 'change_page_url',
+					url: option.val(),
+					channels: pub_sub_channels
+				}
+				
+				var url = '/juggernaut_xmit'
+				$.ajax({
+					url: url, 
+					data: {jug_data: jug_data},
+					type: 'POST',
+					dataType: 'script'
+				});
+				return false;
+			}
+		);
+		
+		$('input.set_scribe').live('click',
+			function(){
+				var option = $('select option:selected');
+				console.log("Set ONE scribe to " + option.val());
+				var jug_data = {
+					act: 'change_page_url',
+					url: option.val(),
+					channels: pub_sub_channels,
+					only: $(this).closest('tr').attr('jug_id')
+				}
+				
+				var url = '/juggernaut_xmit'
+				$.ajax({
+					url: url, 
+					data: {jug_data: jug_data},
+					type: 'POST',
+					dataType: 'script'
+				});
+				return false;
+			}
+		);
+		
+		
+		
+%div#live_home.dispatch_page
+	%h2 Dispatcher home page
+
+	%h3 Scribes
+	%p.nobreak
+		Set all scribes to page: 
+		%select
+			%option{:value=>'standby::0'} Standby page
+			- @sessions.each do |session|
+				- if session.session_type == 'collect' || session.session_type == 'allocation'
+					%option{:value=>"#{session.session_type}::#{session.id}"}= session.name[0..80]
+		%input.set_scribes{:type=>'button', :value => 'Update all'}
+	%table
+		%tr
+			%th Name
+			%th Reports to
+			%th Login as
+			%th Page
+			%th Activity
+			%th Details
+		- @scribes.each do |node|
+			%tr.status{:id=>node.username}
+				%td
+					%b= node.name
+					
+				%td
+					- par = @event_nodes.detect{ |en| en.id == node.parent_id }
+					= par.nil? ? 'n/a' : par.name
+
+				%td #{node.username}/#{node.password}
+				%td.page Checking...
+				%td.activity.nobreak
+				%td		
+				%td 
+					%input.set_scribe{:type=>'button', :value => 'Update'}
+
+	%h3 Event support staff
+	%table
+		%tr
+			%th Name
+			%th Role
+			%th Reports to
+			%th Login as
+			%th Page
+			%th Activity
+			%th Details
+			
+		- @event_staff.each do |node|
+			%tr.status{:id=>node.username}
+				%td
+					%b= node.name
+				%td= node.role
+
+				%td
+					- par = @event_nodes.detect{ |en| en.id == node.parent_id }
+					= par.nil? ? 'n/a' : par.name
+
+				%td #{node.username}/#{node.password}
+				%td.page Checking...
+				%td.activity.nobreak
+				%td		
+
+	

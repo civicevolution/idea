@@ -1,0 +1,88 @@
+- content_for(:script) do
+	%style
+		:sass
+			div.session_details
+				margin-left: 20px
+			body
+				width: 700px
+			.nobreak
+				white-space: nowrap
+			h3.time
+				margin-right: 20px
+			p.report_link
+				font-size: 1.2em
+				
+	:javascript
+		var live_session_id;
+		$('a.publish_link').die('click').live('click',
+			function(){
+				var link = $(this);
+				live_session_id = link.attr('id');
+				if(link.hasClass('unpublished')){
+					var new_publish_status = true;
+				}else{
+					var new_publish_status = false;
+				}
+				post_theme_changes({act: 'publish_session_themes', new_publish_status: new_publish_status });
+				return false;
+			}
+		);
+		
+%div#live_home
+	%h3 Report and projection links
+	%table
+		- @sessions.each do |session|
+			- if session.session_type == 'feedback_allocation_results' || session.session_type == 'allocation' || session.session_type == 'feedback_themes'
+				- if !session.source_session_id.nil?
+					- session_source = LiveSession.find_by_id(session.source_session_id)
+
+				%tr
+					%td
+						%h3.time
+							= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
+					%td
+						%p
+							= session.name
+					%td
+						%p
+							%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
+
+				%tr
+					%td
+					%td{:colspan=>2}
+
+						%div.session_details
+							- case session.session_type
+								- when 'feedback_themes'
+									- if !session.source_session_id.nil?
+										- if !session_source.published
+											%p.warn Themes have not been published yet
+										
+										%p.report_link= link_to "Session feedback to be projected", live_session_themes_path(session.source_session_id)
+										
+										%p.report_link= link_to "Session - Full data report", live_session_full_data_path(session.source_session_id)
+										
+										
+									- else
+										%p.warn Please check the session data source in Event setup page
+									
+								- when 'allocation'
+									- if !session.source_session_id.nil?
+										- if !session_source.published
+											%p.warn Themes have not been published yet
+
+										%p.report_link= link_to "Allocation worksheet to be printed", live_session_allocation_voting_path(session.source_session_id)
+										%p.report_link= link_to "Allocation guide (theme/no examples) that can be projected", live_session_allocation_options_path(session.source_session_id)
+										
+									- else
+										%p.warn Please check the session data source in Event setup page
+									
+								- when 'feedback_allocation_results'
+									- if !session.source_session_id.nil?
+										- if !session_source.published
+											%p.warn Themes have not been published yet
+										
+										%p.report_link= link_to "Allocation results to be projected", live_session_allocation_results_path(session.source_session_id)
+									- else
+										%p.warn Please check the session data source in Event setup page
+	

@@ -141,6 +141,9 @@ function post_theme_changes( data ){
 	  type: 'POST',
 	  dataType: 'script'
 	});
+	if(post_theme_changes.update_fn){
+	  post_theme_changes.update_fn();
+	}
 }
 
 function editing_disabled(){

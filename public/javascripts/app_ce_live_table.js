@@ -89,7 +89,6 @@ $('form.post_live_tp').live('ajax:beforeSend',
 	}
 )
 
-
 $('a.new_live_talking_point').live('click', 
 	function(){
 		console.log("new_live_talking_point - add another form v1");

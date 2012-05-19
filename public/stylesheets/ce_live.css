@@ -65,3 +65,6 @@ ul, p, div.join_com a {
 
 h3.session_title {
   max-width: 700px; }
+
+.nobreak {
+  white-space: nowrap; }

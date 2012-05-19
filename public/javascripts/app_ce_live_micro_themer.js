@@ -938,3 +938,52 @@ $('img.tp_delete').die('click').live('click',
     }
   }
 );
+
+post_theme_changes.update_fn = function(){
+  $('div.table').each(
+    function(){
+      var stat = $(this);
+      var table_id = stat.attr('table_id');
+      stat.find('span.tp_count').html( '-' + $('div[table_id="' + table_id + '"]').not(stat).size() );
+      stat.find('span.themed_tp_count').html( '-' + $('div.list_column div[table_id="' + table_id + '"]').size() );
+      stat.find('span.example_tp_count').html( '-' + $('div.example[table_id="' + table_id + '"]').size() );
+    }
+  );
+}
+post_theme_changes.update_fn();
+
+setTimeout(expire_old_status,10000);
+function expire_old_status(){
+  //console.log("expire_old_status");
+  $('div.table').each(
+    function(){
+      var stat = $(this);
+      var last_update_ctr = stat.attr('last_update_ctr');
+      if(last_update_ctr++ < 3){
+        stat.attr('last_update_ctr', last_update_ctr);
+      }else{
+        stat.addClass('warn');
+      }
+    }
+  );
+  setTimeout(expire_old_status,10000);
+}
+
+function update_status_report(message){
+  if(message.role == 'scribe' &&
+    message.page_type.session_id == page_data.session_id &&
+    message.page_type.type == 'enter talking points'
+  ){
+    try{
+      var table_id = message.name.match(/\d+/)[0];
+      var stat = $('div.table[table_id="' + table_id + '"]');
+      stat.attr('jug_id', message.jug_id);
+      stat.removeClass('warn');
+      stat.attr('last_update_ctr',0);
+    }catch(e){}
+  }
+}
+
+// set the recip_jug_id when I open the table chat
+// $('div#chat input#jug_id').val( $('div.table').eq(1).attr('jug_id') );
+

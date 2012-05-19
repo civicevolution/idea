@@ -10,9 +10,12 @@ G3::Application.routes.draw do |map|
   post 'proposal_vote' => 'proposal#vote_save', :as => 'proposal_vote'
   
   match 'jug' => 'chat#jug'
+  match "juggernaut_xmit" => 'chat#juggernaut_xmit', :as => 'juggernaut_xmit'
 
   get 'live/home' => 'ce_live#live_home', :as => 'live_home'
-  get 'live/:event_id/auto' => 'ce_live#auto_mode', :as => 'auto_mode'
+  get 'live/:event_id/dispatcher' => 'ce_live#dispatcher', :as => 'live_dispatcher'
+  get 'live/jug_id' => 'ce_live#record_juggernaut_id'
+  get 'live/scribe' => 'ce_live#scribe', :as => 'live_scribe'
   get 'live/ltp_to_jug' => 'ce_live#ltp_to_jug'
   get 'live/group' => 'ce_live#group'
   get 'live/theme' => 'ce_live#theme'
@@ -36,7 +39,7 @@ G3::Application.routes.draw do |map|
   get 'proposal/:team_id/print' => 'proposal#print', :as => 'print_proposal'
   
   get 'live/:event_id/event_setup' => 'ce_live#event_setup', :as => 'live_event_setup'
-  get 'live/:session_id/themer' => 'ce_live#themer', :as => 'live_themer' 
+  get 'live/:session_id/themer' => 'ce_live#micro_themer', :as => 'live_themer' 
   get 'live/:session_id/theme_coordination' => 'ce_live#theme_coordination', :as => 'live_theme_coordination' 
   get 'live/:session_id/theme_final_edit' => 'ce_live#theme_final_edit', :as => 'live_theme_final_edit'
   get 'live/:session_id/table' => 'ce_live#table', :as => 'live_table'
@@ -54,6 +57,7 @@ G3::Application.routes.draw do |map|
   match 'live/:event_id/delete_node(/:id)' => 'ce_live#delete_node_post', :via=>[:put,:post], :as=> 'delete_live_node'
 
   match "live/chat" => 'ce_live#send_chat_message', :as => 'live_chat'
+  get "live/sign_in_form" => 'ce_live#sign_in_form', :as => 'live_sign_in'
   match "live/sign_out" => 'ce_live#sign_out', :as => 'sign_out'
   
   

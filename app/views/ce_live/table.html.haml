@@ -92,6 +92,30 @@
 				font-weight: bold
 				margin: 4px 10px 4px 0
 				
+			div#chat
+				position: absolute
+				top: 100px
+				left: 400px
+				background-color: white
+				padding: 10px
+				div#chat_log
+					overflow: auto
+					overflow-y: scroll
+					height: 300px
+					border: 1px solid black
+					padding: .2em 0
+					p 
+						margin: 0 1em
+				form#chat_form
+					margin-top: 0
+					padding: 4px 0
+					input[type=text]
+						width: 190px
+					input[type=submit]	
+						padding: 0 0px
+
+			
+				
 						
 	= javascript_include_tag 'app_ce_live_table.js'
 	:javascript
@@ -174,14 +198,9 @@
 		-#%div#live_talking_points
 			%div.inner
 
-		-#%h3 Chat with your theme team
-		-#%div#outer_chat			
-			%div#chat_log
-			= form_tag( live_chat_path, {:class=>'chat_form', :remote=>true}) do
-				= hidden_field_tag :type, 'table'
-				= text_field_tag :msg
-				= submit_tag 'Send', {:disable_with => 'Submitting…'}
-
-
-
-	
+	%div#chat
+		%div#chat_log
+		= form_tag do
+			= hidden_field_tag :jug_id
+			= text_field_tag :msg
+			%input{type: 'button', value: 'Send'}

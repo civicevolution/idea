@@ -311,9 +311,35 @@
 						display: block
 			h3.session_title
 				width: 780px
+			div.stats
+				cursor: pointer
+				div.table
+					float: left
+					margin-right: 10px
+			div#chat
+				position: absolute
+				top: 100px
+				left: 400px
+				background-color: white
+				padding: 10px
+				div#chat_log
+					overflow: auto
+					overflow-y: scroll
+					height: 300px
+					border: 1px solid black
+					padding: .2em 0
+					p 
+						margin: 0 1em
+				form#chat_form
+					margin-top: 0
+					padding: 4px 0
+					input[type=text]
+						width: 190px
+					input[type=submit]	
+						padding: 0 0px
+	
 				
-				
-	= javascript_include_tag 'app_ce_live_themer.js'
+	= javascript_include_tag 'app_ce_live_micro_themer.js'
 	-#:javascript
 		//console.log("run jscript")
 		//setTimeout( "$('div.test_mode :submit').click()",2000);
@@ -327,6 +353,17 @@
 		var published = #{@session.published}
 
 	-#%div#auto_top.auto-scroll
+	%div.stats
+		- @tables.each do |table|
+			%div.table.warn{table_id: table } 
+				T#{table}
+				%span.tp_count> -0
+				%span.themed_tp_count> -0
+				%span.example_tp_count> -0
+		%p.clear_both
+			
+				
+	 	
 	%div#auto_bottom.auto-scroll
 	%div.workspace
 		
@@ -398,3 +435,10 @@
 			= submit_tag 'Start test', {:disable_with => 'Submitting…'}
 			= link_to "Stop test", {}, {:class=>'stop_test'}
 			%h3.warn.hide Test in progress
+				
+	%div#chat
+		%div#chat_log
+		= form_tag do
+			= hidden_field_tag :jug_id
+			= text_field_tag :msg
+			%input{type: 'button', value: 'Send'}

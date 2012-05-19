@@ -1,0 +1,41 @@
+- @session = LiveSession.first
+- content_for(:script) do
+	%style
+		:sass
+			body
+				overflow: hidden
+			div#scribe
+				position: relative
+			div.controller
+				border: 1px solid red
+				width: 200px
+				height: 800px
+				div.events
+					width: 200px
+					height: 600px
+					border: 1px solid black
+				
+			iframe.page
+				border: 1px solid blue
+				width: 800px
+				height: 800px
+				position: absolute
+				top: 0
+				left: 210px
+				
+	-#= javascript_include_tag 'app_ce_live_themer.js'
+	:javascript
+		console.log("Loading scribe page")
+		var pub_sub_channels = #{@channels}
+		//var live_session_id = #{params[:session_id]}
+		//var disable_editing = #{@disable_editing}
+		//var published = #{@session.published}
+		
+		//$('iframe.controller').attr('src','/live/home')
+		
+%div#scribe
+	%div.controller
+		%h3 Controller
+		%div.events
+	
+	%iframe.page{:name=> 'page', :src => src_url }
