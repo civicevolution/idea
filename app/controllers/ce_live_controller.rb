@@ -40,6 +40,7 @@ class CeLiveController < ApplicationController
         rescue 
           group_id = 'Unassigned - Please report this immediately'
         end
+        @sessions = LiveSession.where( :live_event_id => @live_node.live_event_id ).order(:order_id)
         authorize_juggernaut_channels(request.session_options[:id], @channels )
         @page_data = {type: 'scribe home page'};
         render :template =>'ce_live/home_scribe', :locals=>{:group_id=>group_id, :get_templates => 'false'}
@@ -121,7 +122,7 @@ class CeLiveController < ApplicationController
       group_id = @live_node.name.match(/\d+/)[0].to_i
     end
     
-    (page_type,session_id) = params['dest'].split('::')
+    (page_type,session_id) = params['dest'].split('_')
   
     @session = LiveSession.find_by_id(session_id)
 

@@ -49,18 +49,6 @@
 					margin-left: 20px
 				input[type="text"]
 					width: 40px
-			div#outer_chat
-				div#chat_log
-					overflow: auto
-					overflow-y: scroll
-					width: 460px
-					height: 150px
-					border: 1px solid black
-					padding: 1em 0
-					p 
-						margin: 0 1em
-				input[type=text]
-					width: 360px
 
 			div#live_talking_points, div#groups_live_talking_points
 				div.inner
@@ -153,8 +141,8 @@
 			%div.inner
 
 		%h3 Chat with your theme team
-		%div#outer_chat			
-			%div#chat_log
+		%div.chat			
+			%div.chat_log
 			= form_tag( live_chat_path, {:class=>'chat_form', :remote=>true}) do
 				= hidden_field_tag :type, 'table'
 				= text_field_tag :msg

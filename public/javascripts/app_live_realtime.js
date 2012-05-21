@@ -154,15 +154,9 @@ function process_juggernaut_input(data){
 			break;
 		
 		case 'update_chat':
-		  var chat = $('div#chat_log');
-		  if(chat.find('p:last').attr('node_id') == data.node_id){
-		    chat.append('<p node_id="' + data.node_id + '">' + data.msg + '</p>').scrollTop(99999999);
-		  }else{
-			  chat.append('<p node_id="' + data.node_id + '">' + data.name + ': ' + data.msg + '</p>').scrollTop(99999999);
-			}
+		  if(update_chat){update_chat(data);}
 			break;
 		case 'update_page':
-			//$('div#chat_log').append("<p>Update page with " + data.type + "</p>");
 			if(realtime_data_update_functions[data.type]){
 				realtime_data_update_functions[data.type](data)	
 			}else{
@@ -213,7 +207,7 @@ function update_presence(roster){
 	  if(mem.ape_code.node_id == node.parent_id){
 	    //console.log("add to themer_parent_jug_id: " + mem.ape_code.jug_id);
 	    themer_parent_jug_id = mem.ape_code.jug_id;
-	    $('div#chat input#jug_id').val(themer_parent_jug_id);
+	    $('div.chat input#jug_id').val(themer_parent_jug_id);
 	  }
 	  
 	  if(update_roster){
@@ -281,20 +275,22 @@ function report_status(){
 
 
 
-$('div#chat input[type="button"]').live('click',
+$('div.chat input[type="button"]').live('click',
   function(){
     send_chat_msg(this);
     return false;
   }
 );
 
-$('div#chat input[type="text"]').keydown(function(event){
-  if(event.keyCode == 13) {
-    event.preventDefault();
-    send_chat_msg(this);
-    return false;
+$('div.chat input[type="text"]').live('keydown',
+  function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      send_chat_msg(this);
+      return false;
+    }
   }
-});
+);
 
 function send_chat_msg(form_el){
   var form = $(form_el).closest('form');
@@ -302,11 +298,11 @@ function send_chat_msg(form_el){
   var msg = form.find('input#msg');
   var recip_jug_id = form.find('input#jug_id').val();
   jug.publish(event_channel,{act: 'update_chat', name: node.name, node_id: node.id, msg: msg.val(), only: recip_jug_id} );		
-  var chat = $('div#chat_log');
-  if(chat.find('p:last').attr('node_id') == node.id){
-    chat.append('<p node_id="' + node.id + '">' + msg.val() + '</p>').scrollTop(99999999);
+  var chat_log = form.closest('div.chat').find('div.chat_log');
+  if(chat_log.find('p:last').attr('node_id') == node.id){
+    chat_log.append('<p node_id="' + node.id + '">' + msg.val() + '</p>').scrollTop(99999999);
   }else{
-	  chat.append('<p node_id="' + node.id + '">Me: ' + msg.val() + '</p>').scrollTop(99999999);
+	  chat_log.append('<p node_id="' + node.id + '">Me: ' + msg.val() + '</p>').scrollTop(99999999);
 	}
   msg.val('');
   

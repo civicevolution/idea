@@ -71,3 +71,45 @@ h3.session_title
 	
 .nobreak
 	white-space: nowrap
+	
+div.chat
+	display: none
+	position: absolute
+	top: 100px
+	left: 400px
+	background-color: #eee
+	border: 1px solid black
+	p.hdr
+		margin: .2em .4em
+		position: relative
+		border-bottom: 1px solid black
+		a
+			display: block
+			position: absolute
+			top: 0
+			right: 0
+			
+	div.chat_log
+		overflow: auto
+		overflow-y: scroll
+		height: 160px
+		width: 260px
+		padding: .2em 0
+		p 
+			margin: 0 .4em
+	form
+		margin-top: 0
+		padding: 4px 0
+		input[type=text]
+			width: 190px
+			margin: .5em
+		input[type=submit]	
+			padding: 0 0px
+			margin: .5em
+div.chat_alert	
+	position: absolute
+	background-color: #eee
+	padding: .5em
+	
+div#scribe_standby
+	width: 600px

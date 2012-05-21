@@ -978,12 +978,106 @@ function update_status_report(message){
       var table_id = message.name.match(/\d+/)[0];
       var stat = $('div.table[table_id="' + table_id + '"]');
       stat.attr('jug_id', message.jug_id);
+      $('div.chat[table_id="' + table_id + '"] input#jug_id').val( message.jug_id );
       stat.removeClass('warn');
       stat.attr('last_update_ctr',0);
     }catch(e){}
   }
 }
 
-// set the recip_jug_id when I open the table chat
-// $('div#chat input#jug_id').val( $('div.table').eq(1).attr('jug_id') );
+$( "div.table" ).live('mouseenter mouseleave', function(event) {
+  var div = $(this);
+  if (event.type == 'mouseenter') {
+    if(div.hasClass('warn')) return;
+    var offset = div.offset();
+    div.find('div.table_menu').css({display: 'block', top: offset.top + div.outerHeight(), left: offset.left });
+  } else {
+    
+    div.find('div.table_menu').css({display: 'none'})
+  }
+});
 
+$('div.show_chat').live('click',
+  function(){
+    var table_div = $(this).closest('div.table');
+    table_div.removeClass('new_message');
+    table_div.find('div.table_menu').hide();
+    var table_id = table_div.attr('table_id');
+    var chat = $('div.chat[table_id="' + table_id +'"]');
+    if(chat.size()==0){
+      chat = add_chat_form(table_id, table_div.attr('jug_id') );
+    }
+    $('div.chat').hide();
+    var offset = table_div.offset();
+    chat.css({display: 'block', top: offset.top + table_div.outerHeight(), left: offset.left })
+  }
+);
+$('div.chat p.hdr a').live('click',
+  function(){
+    $(this).closest('div.chat').hide();
+    return false;
+  }
+);
+function add_chat_form(table_id, jug_id){
+  console.log("add_chat_form table_id: " + table_id + ', jug_id: ' + jug_id);
+  var chat = $('div.chat.orig').clone();
+  chat.removeClass('orig').attr('table_id',table_id);
+  // set the recip_jug_id when I open the table chat
+  chat.find('input#jug_id').val( jug_id );
+  chat.find('span.table_id').html(table_id);
+  $('body').append(chat);
+  return chat;
+}
+
+function update_chat(data){
+  var table_div = $('div.table[jug_id="' + data.id + '"]');
+  var table_id = table_div.attr('table_id');
+  var chat = $('div.chat input#jug_id[value="' + data.id + '"]').closest('div.chat');
+  if(chat.size() == 0){
+    // create chat if it doesn't exist
+    var chat = add_chat_form(table_id, data.id);
+  }
+  var chat_log = chat.find('div.chat_log');
+  // add message to chat
+  if(chat_log.find('p:last').attr('node_id') == data.node_id){
+    chat_log.append('<p node_id="' + data.node_id + '">' + data.msg + '</p>').scrollTop(99999999);
+  }else{
+    chat_log.append('<p node_id="' + data.node_id + '">' + data.name + ': ' + data.msg + '</p>').scrollTop(99999999);
+  }
+  // add message indicator
+  table_div.addClass('new_message');
+  // show message for 5 secs, unless this chat form is already visible
+  if( !chat.is(':visible') ){
+    var msg_alert = $('<div class="chat_alert">Msg from T' + table_id + ': ' + data.msg + '</div>');
+    $('body').append(msg_alert);
+    var offset = table_div.offset();
+    msg_alert.css({top: offset.top + table_div.outerHeight(), left: offset.left, 'z-index': 1000 });
+    msg_alert.fadeTo(3000,1,function(){$(this).fadeTo(2000,0,function(){$(this).remove();})});
+  }
+}
+$('a.canned_messages').live('click',
+  function(){
+    console.log("canned_messages");
+    var chat = $(this).closest('div.chat');
+    var canned_messages = chat.find('div.canned_messages');
+    canned_messages.toggle();
+    return false;
+  }
+);
+$('div.canned_messages a').live('click',
+  function(){
+    console.log("Use this canned_message");
+    $(this).closest('div.chat').find('input#msg').val( $(this).html() );
+    $(this).closest('div.chat').find('div.canned_messages').hide();
+    return false;
+  }
+);
+
+
+$('div.show_tp').live('click',
+  function(){
+    console.log("Show all the tp for this table");
+    alert("Display all table talking points isn't available yet")
+    $(this).closest('div.table_menu').hide();
+  }
+);

@@ -82,10 +82,10 @@
 	%p.nobreak
 		Set all scribes to page: 
 		%select
-			%option{:value=>'standby::0'} Standby page
+			%option{:value=>'standby_0'} Standby page
 			- @sessions.each do |session|
 				- if session.session_type == 'collect' || session.session_type == 'allocation'
-					%option{:value=>"#{session.session_type}::#{session.id}"}= session.name[0..80]
+					%option{:value=>"#{session.session_type}_#{session.id}"}= session.name[0..80]
 		%input.set_scribes{:type=>'button', :value => 'Update all'}
 	%table
 		%tr

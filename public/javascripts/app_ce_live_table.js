@@ -118,3 +118,37 @@ $('a.new_live_talking_point').live('click',
 
 // overrides because I am using generic code right now
 function make_new_ideas_draggable(){};
+
+function update_chat(data){
+  var chat = $('div.chat');
+  var link = $('a.ask_for_help');
+  var offset = link.offset();
+  chat.css({display: 'block', top: offset.top + link.outerHeight(), left: offset.left })
+  
+  var chat_log = chat.find('div.chat_log');
+  if(chat_log.find('p:last').attr('node_id') == data.node_id){
+    chat_log.append('<p node_id="' + data.node_id + '">' + data.msg + '</p>').scrollTop(99999999);
+  }else{
+    chat_log.append('<p node_id="' + data.node_id + '">' + data.name + ': ' + data.msg + '</p>').scrollTop(99999999);
+  }
+}
+$('div.chat p.hdr a').live('click',
+  function(){
+    $(this).closest('div.chat').hide();
+    return false;
+  }
+);
+
+$(function(){
+  $('div.join_com').prepend(' /');
+  $('div.join_com').prepend( $('<a href="#" class="ask_for_help">Ask for help</a>') );
+});
+$('a.ask_for_help').live('click',
+  function(){
+    var chat = $('div.chat');
+    var link = $(this);
+    var offset = link.offset();
+    chat.css({display: 'block', top: offset.top + link.outerHeight(), left: offset.left })
+    return false;
+  }
+);

@@ -14,19 +14,6 @@
 					width: 400px
 					float: left
 
-			div#outer_chat
-				div#chat_log
-					overflow: auto
-					overflow-y: scroll
-					width: 460px
-					height: 300px
-					border: 1px solid black
-					padding: 1em 0
-					p 
-						margin: 0 1em
-				input[type=text]
-					width: 360px
-
 			div.tables_ribbon, div.drop_ribbon
 				height: 20px
 				width: 100%
@@ -312,32 +299,34 @@
 			h3.session_title
 				width: 780px
 			div.stats
-				cursor: pointer
 				div.table
+					cursor: pointer
 					float: left
-					margin-right: 10px
-			div#chat
-				position: absolute
-				top: 100px
-				left: 400px
-				background-color: white
-				padding: 10px
-				div#chat_log
-					overflow: auto
-					overflow-y: scroll
-					height: 300px
-					border: 1px solid black
-					padding: .2em 0
-					p 
-						margin: 0 1em
-				form#chat_form
-					margin-top: 0
-					padding: 4px 0
-					input[type=text]
-						width: 190px
-					input[type=submit]	
-						padding: 0 0px
-	
+					margin-right: 16px
+				div.table_menu
+					display: none
+					position: absolute
+					z-index: 100
+					background-color: #eee
+					color: black
+					font-weight: normal
+					div
+						border: 1px solid black
+						padding: .2em .4em
+						font-size: 80%
+				div.table.warn
+					cursor: auto
+				div.table.new_message
+					background: url('/images/com.gif') no-repeat top right 
+					padding-right: 26px
+			a.canned_messages
+				display: block
+				font-size: .74em
+				margin: 0 .6em
+			div.canned_messages
+				display: none
+				a
+					display: block
 				
 	= javascript_include_tag 'app_ce_live_micro_themer.js'
 	-#:javascript
@@ -360,6 +349,9 @@
 				%span.tp_count> -0
 				%span.themed_tp_count> -0
 				%span.example_tp_count> -0
+				%div.table_menu{table_id: table } 
+					%div.show_chat Send message
+					%div.show_tp Show all TP
 		%p.clear_both
 			
 				
@@ -369,8 +361,6 @@
 		
 		%div.incoming_ideas
 			%div.tables_ribbon
-				-#%span
-					Table stats (to be added asap)
 
 			%div#live_talking_points
 				%div.inner
@@ -436,9 +426,18 @@
 			= link_to "Stop test", {}, {:class=>'stop_test'}
 			%h3.warn.hide Test in progress
 				
-	%div#chat
-		%div#chat_log
+	%div.chat.orig
+		%p.hdr 
+			Chat with table
+			%span.table_id
+			= link_to 'Close'
+		%div.chat_log
 		= form_tag do
 			= hidden_field_tag :jug_id
 			= text_field_tag :msg
 			%input{type: 'button', value: 'Send'}
+			= link_to 'Canned messages', {}, :class=>'canned_messages'
+			%div.canned_messages
+				= link_to 'Please send us more ideas'
+				= link_to 'Please shorten your ideas'
+				= link_to 'Please explain your idea'

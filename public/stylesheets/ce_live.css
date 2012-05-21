@@ -68,3 +68,45 @@ h3.session_title {
 
 .nobreak {
   white-space: nowrap; }
+
+div.chat {
+  display: none;
+  position: absolute;
+  top: 100px;
+  left: 400px;
+  background-color: #eeeeee;
+  border: 1px solid black; }
+  div.chat p.hdr {
+    margin: 0.2em 0.4em;
+    position: relative;
+    border-bottom: 1px solid black; }
+    div.chat p.hdr a {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0; }
+  div.chat div.chat_log {
+    overflow: auto;
+    overflow-y: scroll;
+    height: 160px;
+    width: 260px;
+    padding: 0.2em 0; }
+    div.chat div.chat_log p {
+      margin: 0 0.4em; }
+  div.chat form {
+    margin-top: 0;
+    padding: 4px 0; }
+    div.chat form input[type=text] {
+      width: 190px;
+      margin: 0.5em; }
+    div.chat form input[type=submit] {
+      padding: 0 0px;
+      margin: 0.5em; }
+
+div.chat_alert {
+  position: absolute;
+  background-color: #eeeeee;
+  padding: 0.5em; }
+
+div#scribe_standby {
+  width: 600px; }
