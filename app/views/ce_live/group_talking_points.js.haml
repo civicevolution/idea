@@ -1,0 +1,8 @@
+:plain
+	$('div.group_talking_points').closest('div.ui-dialog').dialog('destroy').remove();
+	var live_talking_points = $("#{escape_javascript( render( :template => 'ce_live/group_talking_points.html') ) }")
+
+	live_talking_points.find('div.inner').height( $(window).height() - 150 );
+
+	var dialog = live_talking_points.dialog( {title : 'All talking points from Table #{params[:group_id]}', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
+	

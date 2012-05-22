@@ -87,7 +87,7 @@
 		var pub_sub_channels = #{@channels}
 		if(#{@session.published}){
 			// disable the form inputs
-			$('form :input').attr('disabled','disabled')
+			$('form.post_live_tp :input').attr('disabled','disabled')
 			$('a.new_live_talking_point').remove();
 		}
 

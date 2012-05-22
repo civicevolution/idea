@@ -988,7 +988,6 @@ function update_status_report(message){
 $( "div.table" ).live('mouseenter mouseleave', function(event) {
   var div = $(this);
   if (event.type == 'mouseenter') {
-    if(div.hasClass('warn')) return;
     var offset = div.offset();
     div.find('div.table_menu').css({display: 'block', top: offset.top + div.outerHeight(), left: offset.left });
   } else {
@@ -1000,6 +999,7 @@ $( "div.table" ).live('mouseenter mouseleave', function(event) {
 $('div.show_chat').live('click',
   function(){
     var table_div = $(this).closest('div.table');
+    if(table_div.hasClass('warn')) return;
     table_div.removeClass('new_message');
     table_div.find('div.table_menu').hide();
     var table_id = table_div.attr('table_id');
@@ -1077,7 +1077,7 @@ $('div.canned_messages a').live('click',
 $('div.show_tp').live('click',
   function(){
     console.log("Show all the tp for this table");
-    alert("Display all table talking points isn't available yet")
+  	$.getScript('/live/' + page_data.session_id + '/group_tp/' + $(this).closest('div.table').attr('table_id') )
     $(this).closest('div.table_menu').hide();
   }
 );

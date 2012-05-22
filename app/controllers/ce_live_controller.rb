@@ -348,6 +348,15 @@ class CeLiveController < ApplicationController
     @page_data = {type: 'final edit themes', session_id: @session.id, session_title: @session.name};
     render :template => 'ce_live/theme_final_edit', :layout => 'ce_live', :locals=>{ :title=>'Theme final edit page', :role=>'Themer'}
   end
+  
+  def group_talking_points
+    return not_authorized unless @live_node.role == 'theme' || @live_node.role == 'coord'
+    
+    @live_talking_points = LiveTalkingPoint.where(group_id: params[:group_id], live_session_id: params[:session_id]).order('id ASC')
+    
+    render :template => 'ce_live/group_talking_points.js', :layout => false, :content_type => 'application/javascript'
+    
+  end
 
   def session_themes
 

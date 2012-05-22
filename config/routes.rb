@@ -43,6 +43,7 @@ G3::Application.routes.draw do |map|
   get 'live/:session_id/theme_coordination' => 'ce_live#theme_coordination', :as => 'live_theme_coordination' 
   get 'live/:session_id/theme_final_edit' => 'ce_live#theme_final_edit', :as => 'live_theme_final_edit'
   get 'live/:session_id/table' => 'ce_live#table', :as => 'live_table'
+  match 'live/:session_id/group_tp/:group_id' => 'ce_live#group_talking_points', :as => 'live_group_talking_points'
   get 'live/:session_id/report' => 'ce_live#session_report', :as => 'session_report'
   get 'live/:session_id/prioritize' => 'ce_live#prioritize', :as => 'live_prioritize'
   get 'live/:event_id/observer' => 'ce_live#observer', :as => 'live_observer'

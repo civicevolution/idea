@@ -314,11 +314,13 @@
 						border: 1px solid black
 						padding: .2em .4em
 						font-size: 80%
-				div.table.warn
-					cursor: auto
 				div.table.new_message
 					background: url('/images/com.gif') no-repeat top right 
 					padding-right: 26px
+				div.table.warn
+					div.show_chat
+						cursor: auto
+						color: red
 			a.canned_messages
 				display: block
 				font-size: .74em
@@ -438,6 +440,6 @@
 			%input{type: 'button', value: 'Send'}
 			= link_to 'Canned messages', {}, :class=>'canned_messages'
 			%div.canned_messages
-				= link_to 'Please send us more ideas'
-				= link_to 'Please shorten your ideas'
-				= link_to 'Please explain your idea'
+				= link_to 'Please send us more talking points'
+				= link_to 'Please shorten your talking point'
+				= link_to 'Please explain your talking point '

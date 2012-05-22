@@ -1,0 +1,12 @@
+%div.group_talking_points
+	%style
+		:sass
+			div.group_talking_points
+				div.inner
+					overflow: auto
+					overflow-y: scroll
+					div.live_talking_point
+						width: 450px
+					
+	%div.inner
+		= render :partial => 'ce_live/live_talking_point', :collection => @live_talking_points, :locals =>{:mode => 'incoming'}
