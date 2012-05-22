@@ -6,3 +6,16 @@
 
 	var dialog = live_talking_points.dialog( {title : 'All talking points from Table #{params[:group_id]}', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
 	
+	dialog.find('div.live_talking_point').each(
+		function(){
+			var tp = $(this);
+			var idea_id = tp.attr('idea_id');
+			//console.log("check example idea_id: " + idea_id);
+			var idea = $('div.idea[idea_id="' + idea_id + '"]');
+			if(idea.hasClass('example')){
+				//console.log("set example for idea_id: " + idea_id);
+				tp.addClass('example');
+			}
+		
+		}
+	)

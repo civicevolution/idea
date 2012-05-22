@@ -6,7 +6,10 @@
 					overflow: auto
 					overflow-y: scroll
 					div.live_talking_point
+						padding-left: 24px
 						width: 450px
-					
+					div.live_talking_point.example
+						background: url("/images/star_sprite.gif") no-repeat -20px -20px
+
 	%div.inner
 		= render :partial => 'ce_live/live_talking_point', :collection => @live_talking_points, :locals =>{:mode => 'incoming'}
