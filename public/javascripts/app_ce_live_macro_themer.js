@@ -825,7 +825,7 @@ function checkMouse(x, y, ctnr) {
 	speed = speed < 2 ? 2 : speed;
 	auto_scroll_params.speed = speed;
 	if(!auto_scroll_params.intervalTimer){
-	  auto_scroll_params.intervalTimer = setInterval(move, auto_scroll_params.interval);
+	  auto_scroll_params.intervalTimer = setInterval( function(){move(this);}.bind(this), auto_scroll_params.interval);
 	}
 	//move();
 	//console.log("checkMouse auto_scroll_params.direction: " + auto_scroll_params.direction + ", 	auto_scroll_params.speed: " + 	auto_scroll_params.speed);

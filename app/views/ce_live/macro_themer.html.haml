@@ -53,13 +53,13 @@
 					background-color: white
 					z-index: 10
 					div#live_talking_points
+						border: 1px solid #bbb
 						div.inner
 							background-color: white
 							overflow: auto
 							overflow-y: scroll
 							//min-width: 280px
 							height: 300px
-							border: 1px solid #bbb
 							padding: 10px
 				
 					p.stats 
@@ -78,10 +78,10 @@
 					min-width: 320px
 					float: left
 					background-color: white
+					border: 1px solid #bbb
 					p.stats
 						margin: 0
 					div#lists
-						border: 1px solid #bbb
 						overflow-y: scroll
 			div.join_com
 				a.test_mode
@@ -239,16 +239,11 @@
 				.drop_hover	
 					background-color: green
 			div.auto-scroll
-				width: 100%
-				height: 40px
-				//background-color: red
+				height: 24px
+				background-color: red
 				position: fixed
 				bottom: 0
 				z-index: 1000
-			div#auto_top.auto-scroll
-				top: 0
-			div#lists
-				//padding-bottom: 40px
 			.curated_list_placeholder
 				background-color: red
 				height: 2px
@@ -353,7 +348,7 @@
 				width: 780px
 				
 				
-	= javascript_include_tag 'app_ce_live_theme_coordination.js'
+	= javascript_include_tag 'app_ce_live_macro_themer.js'
 	-#:javascript
 		//console.log("run jscript")
 		//setTimeout( "$('div.test_mode :submit').click()",2000);
@@ -366,14 +361,11 @@
 		var disable_editing = #{@disable_editing}
 		var published = #{@session.published}
 
-	-#%div#auto_top.auto-scroll
-	%div#auto_bottom.auto-scroll
 	%div.workspace
 		
 		%div.incoming_ideas
+			%div#auto_bottom.auto-scroll.incoming_scroll
 			%div.tables_ribbon
-				-#%span
-					Table stats (to be added asap)
 
 			%div#live_talking_points
 				%div.inner
@@ -390,6 +382,7 @@
 					
 						
 		%div.lists
+			%div#auto_bottom.auto-scroll.lists_scroll
 			%div.drop_ribbon
 				%div#new_theme
 					%p New theme
