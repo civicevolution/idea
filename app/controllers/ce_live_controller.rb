@@ -815,11 +815,22 @@ class CeLiveController < ApplicationController
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         @live_theme.text = params[:text]
         @live_theme.save
+        Juggernaut.publish("_event_#{@live_node.live_event_id}", {:act=>'theming', :type=>'live_uTheme_update', :data=>@live_theme})
+        
+        
       when 'update_theme_examples'
         logger.debug "update_list_examples"
         @live_theme = LiveTheme.find_by_id( params[:list_id])
-        @live_theme.example_ids = params[:example_ids].nil? ? '' : params[:example_ids].join(',')
+        if params[:example_ids].nil?
+          @live_theme.example_ids = ''
+          @live_theme_examples = []
+        else
+          @live_theme.example_ids = params[:example_ids].join(',')
+          @live_theme_examples = LiveTalkingPoint.where(id: params[:example_ids] )
+        end
         @live_theme.save
+        Juggernaut.publish("_event_#{@live_node.live_event_id}", {:act=>'theming', :type=>'live_uTheme_examples', 
+          :data=> {:live_theme_id=>params[:list_id], :examples => @live_theme_examples}})
         
         
       when 'new_list' 
@@ -964,12 +975,15 @@ class CeLiveController < ApplicationController
     newer_ts = Time.local(2025,1,1)
 
     @live_talking_point = LiveTalkingPoint.new(:created_at => old_ts, :updated_at => newer_ts)
-
     # what do I need to know for the comment template?
     @live_talking_point.text = ''
     @live_talking_point.id = 0
     @live_talking_point.pos_votes = 5
-
+    
+    @live_theme = LiveTheme.new(:created_at => old_ts, :updated_at => newer_ts)
+    @live_theme.id = 0
+    @live_theme.themer_id = 0
+    @live_theme.text = ''
     # the templates are built in get_templates.js
     render :template => 'ce_live/get_templates.html', :layout => false #, :content_type => 'application/javascript'
     

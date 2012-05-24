@@ -57,7 +57,7 @@
 						data.data.live_talking_point.text = data.data.live_talking_point.text.toLowerCase();
 					}
 
-					live_talking_point = template_functions['live_talking_point'](data);
+					var live_talking_point = template_functions['live_talking_point'](data);
 					
 					//$('div#live_talking_points div.inner').append(live_talking_point).scrollTop(99999999);
 					live_talking_point = $(live_talking_point);
@@ -66,15 +66,78 @@
 					}
 					$('div#live_talking_points div.inner').append(live_talking_point);//.scrollTop(99999999);
 					
-					$('div.incoming_ideas p.stats span.cnt').html( $('div#live_talking_points div.live_talking_point').size() )
+					//$('div.incoming_ideas p.stats span.cnt').html( $('div#live_talking_points div.live_talking_point').size() )
 					
-					//make_new_ideas_draggable( live_talking_point, $('div.idea_list div.ideas') );
 					make_new_ideas_draggable( live_talking_point );
 					
 					setTimeout(post_theme_changes.update_fn,1200);
 					
 				}
 			//console.log("live_talking_point template is ready");
+
+	%script#live_theme_template{:type=>'text/html'}
+		:plain
+			#{render( :partial => 'ce_live/live_theme.html', :locals =>{:live_theme => @live_theme, :mode => 'left_side_list'})}
+		
+	%script#create_live_theme_template
+		:plain
+			templates['live_theme'] = $('<div></div>').html($.trim( $('script#live_theme_template').html() )).find('div:first');
+			template_functions['live_theme'] = templates['live_theme'].compile(
+				{
+					'@idea_id' : 'data.live_theme.id',
+					'@themer_id' : 'data.live_theme.themer_id',
+					'p.text' : 'data.live_theme.text'
+				}
+			);
+			realtime_data_update_functions['live_uTheme_update'] =
+				function(data){
+					// if the text is all uppercase, set it to all lowercase
+					if( !data.data.live_theme.text.match(/[a-z]/) ){
+						data.data.live_theme.text = data.data.live_theme.text.toLowerCase();
+					}
+					var theme_text_p = $('div.micro_theme[idea_id="' + data.data.live_theme.id + '"] p.text');
+					if(theme_text_p.size() == 0){
+						theme_text_p = $('div.live_talking_point[idea_id="' + data.data.live_theme.id + '"] p.text');
+					}
+					if(theme_text_p.size() > 0){
+						theme_text_p.html( data.data.live_theme.text + ' <span class="warn">[Updated]</span>' );
+					}else{
+						var live_theme = template_functions['live_theme'](data);
+						live_theme = $(live_theme);
+						$('div#live_talking_points div.inner').append(live_theme);//.scrollTop(99999999);
+						make_new_ideas_draggable( live_theme );
+					}
+					setTimeout(post_theme_changes.update_fn,1200);
+				}
+				
+			realtime_data_update_functions['live_uTheme_examples'] =
+				function(data){
+					//console.log("Update the themes examples");
+					var microtheme = $('div.micro_theme[idea_id="' + data.data.live_theme_id + '"]');
+					if(microtheme.size() == 0){
+						microtheme = $('div.live_talking_point[idea_id="' + data.data.live_theme_id + '"]');
+					}
+					microtheme.find('p.example').remove();
+					var ins_point = microtheme.find('p.text');
+					$.each(data.data.examples,
+						function(){
+							ins_point = $('<p class="example">' + this.live_talking_point.text + 
+							 ' (Table ' + this.live_talking_point.group_id + ')</p>').insertAfter(ins_point);
+						}
+					);
+					if( microtheme.find('p.example').size()==0){
+						ins_point.after('<p class="example"><i>No example was selected by themer</i></p>');
+					}
+					if(microtheme.find('p.text span.warn.example').size() == 0){
+						microtheme.find('p.text').append(' <span class="warn example">[Updated examples]</span>');
+					}
+					setTimeout(post_theme_changes.update_fn,1200);
+				}		
+			//console.log("live_theme functions are ready v1");
+	
+
+
+
 
 	%script#live_micro_theme_form_template{:type=>'text/html'}
 		:plain
