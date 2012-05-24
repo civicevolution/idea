@@ -91,6 +91,7 @@
 			);
 			realtime_data_update_functions['live_uTheme_update'] =
 				function(data){
+					if(page_data.type != "macro theming") return;
 					// if the text is all uppercase, set it to all lowercase
 					if( !data.data.live_theme.text.match(/[a-z]/) ){
 						data.data.live_theme.text = data.data.live_theme.text.toLowerCase();
@@ -112,6 +113,7 @@
 				
 			realtime_data_update_functions['live_uTheme_examples'] =
 				function(data){
+					if(page_data.type != "macro theming") return;
 					//console.log("Update the themes examples");
 					var microtheme = $('div.micro_theme[idea_id="' + data.data.live_theme_id + '"]');
 					if(microtheme.size() == 0){
