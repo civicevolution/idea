@@ -142,7 +142,7 @@ function post_theme_changes( data ){
 	  dataType: 'script'
 	});
 	if(post_theme_changes.update_fn){
-	  post_theme_changes.update_fn();
+	  setTimeout(post_theme_changes.update_fn,1200);
 	}
 }
 

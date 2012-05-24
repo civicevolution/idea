@@ -55,15 +55,15 @@
 					background-color: white
 					z-index: 10
 					div#live_talking_points
+						border: 1px solid #bbb
 						div.inner
 							background-color: white
 							overflow: auto
 							overflow-y: scroll
 							//min-width: 280px
 							height: 300px
-							border: 1px solid #bbb
 							padding: 10px
-				
+
 					p.stats 
 						margin: 0
 						a.expand_incoming_ideas_window
@@ -79,11 +79,11 @@
 					min-width: 320px
 					float: left
 					background-color: white
+					border: 1px solid #bbb
 					p.stats
 						margin: 0
 						margin-left: 20px
 					div#lists
-						border: 1px solid #bbb
 						overflow-y: scroll
 			div.join_com
 				a.test_mode
@@ -241,16 +241,13 @@
 				.drop_hover	
 					background-color: green
 			div.auto-scroll
-				width: 100%
-				height: 40px
-				//background-color: red
+				height: 24px
 				position: fixed
 				bottom: 0
 				z-index: 1000
-			div#auto_top.auto-scroll
-				top: 0
-			div#lists
-				//padding-bottom: 40px
+				background-color: black
+				color: white
+				text-align: center
 			.curated_list_placeholder
 				background-color: red
 				height: 2px
@@ -343,25 +340,22 @@
 		var disable_editing = #{@disable_editing}
 		var published = #{@session.published}
 
-	-#%div#auto_top.auto-scroll
 	%div.stats
 		- @tables.each do |table|
 			%div.table.warn{table_id: table } 
 				T#{table}
-				%span.tp_count> -0
+				%span.unthemed_tp_count> :0
 				%span.themed_tp_count> -0
 				%span.example_tp_count> -0
 				%div.table_menu{table_id: table } 
-					%div.show_chat Send message
+					%div.show_chat Show chat
 					%div.show_tp Show all TP
 		%p.clear_both
 			
-				
-	 	
-	%div#auto_bottom.auto-scroll
 	%div.workspace
 		
 		%div.incoming_ideas
+			%div#auto_bottom.auto-scroll.incoming_scroll Autoscroll
 			%div.tables_ribbon
 
 			%div#live_talking_points
@@ -376,6 +370,7 @@
 						= render :partial => 'ce_live/live_talking_point.html', :locals =>{:mode => 'incoming'}, :collection => @live_talking_points, :as => :live_talking_point
 						
 		%div.lists
+			%div#auto_bottom.auto-scroll.lists_scroll Autoscroll
 			%div.drop_ribbon
 				%div#new_theme
 					%p New theme
@@ -443,3 +438,13 @@
 				= link_to 'Please send us more talking points'
 				= link_to 'Please shorten your talking point'
 				= link_to 'Please explain your talking point '
+
+	%div#coord_chat.chat.parent
+		%p.hdr 
+			Chat with coordinator
+			= link_to 'Close'
+		%div.chat_log
+		= form_tag do
+			= hidden_field_tag :jug_id
+			= text_field_tag :msg
+			%input{type: 'button', value: 'Send'}

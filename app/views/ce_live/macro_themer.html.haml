@@ -240,10 +240,12 @@
 					background-color: green
 			div.auto-scroll
 				height: 24px
-				background-color: red
 				position: fixed
 				bottom: 0
 				z-index: 1000
+				background-color: black
+				color: white
+				text-align: center
 			.curated_list_placeholder
 				background-color: red
 				height: 2px
@@ -346,7 +348,38 @@
 						display: hide
 			h3.session_title
 				width: 780px
-				
+			div.stats
+				div.table
+					cursor: pointer
+					float: left
+					margin-right: 16px
+				div.table_menu
+					display: none
+					position: absolute
+					z-index: 100
+					background-color: #eee
+					color: black
+					font-weight: normal
+					div
+						border: 1px solid black
+						padding: .2em .4em
+						font-size: 80%
+				div.table.new_message
+					background: url('/images/com.gif') no-repeat top right 
+					padding-right: 26px
+				div.table.warn
+					div.show_chat
+						cursor: auto
+						color: red
+			a.canned_messages
+				display: block
+				font-size: .74em
+				margin: 0 .6em
+			div.canned_messages
+				display: none
+				a
+					display: block
+			
 				
 	= javascript_include_tag 'app_ce_live_macro_themer.js'
 	-#:javascript
@@ -361,10 +394,22 @@
 		var disable_editing = #{@disable_editing}
 		var published = #{@session.published}
 
+
+	%div.stats
+		- @themers.each do |themer|
+			%div.table.warn{themer_id: themer.id, themer_name: themer.name } 
+				#{themer.name}
+				%span.unthemed_uT_count> :0
+				%span.themed_uT_count> -0
+				%div.table_menu{table_id: themer.id } 
+					%div.show_chat Show chat
+					%div.show_tp Show all micro themes
+		%p.clear_both
+
 	%div.workspace
 		
 		%div.incoming_ideas
-			%div#auto_bottom.auto-scroll.incoming_scroll
+			%div#auto_bottom.auto-scroll.incoming_scroll Autoscroll
 			%div.tables_ribbon
 
 			%div#live_talking_points
@@ -382,7 +427,7 @@
 					
 						
 		%div.lists
-			%div#auto_bottom.auto-scroll.lists_scroll
+			%div#auto_bottom.auto-scroll.lists_scroll Autoscroll
 			%div.drop_ribbon
 				%div#new_theme
 					%p New theme
@@ -426,3 +471,19 @@
 			= submit_tag 'Start test', {:disable_with => 'Submitting…'}
 			= link_to "Stop test", {}, {:class=>'stop_test'}
 			%h3.warn.hide Test in progress
+
+	%div.chat.orig
+		%p.hdr 
+			Chat with
+			%span.table_id
+			= link_to 'Close'
+		%div.chat_log
+		= form_tag do
+			= hidden_field_tag :jug_id
+			= text_field_tag :msg
+			%input{type: 'button', value: 'Send'}
+			= link_to 'Canned messages', {}, :class=>'canned_messages'
+			%div.canned_messages
+				= link_to 'Please send us more talking points'
+				= link_to 'Please shorten your talking point'
+				= link_to 'Please explain your talking point '

@@ -46,17 +46,8 @@
 					'@table_id' : 'data.live_talking_point.group_id',
 					'p.text' : 'data.live_talking_point.text',
 					'span.table' : '\#{data.live_talking_point.group_id}-\#{data.live_talking_point.id_letter}',
-					//'span.idea_letter' : 'data.live_talking_point.id_letter',
 					'span.pos' : '\#{data.live_talking_point.pos_votes}(+)',
 					'span.neg' : '\#{data.live_talking_point.neg_votes}(-)'
-					//'div.Comment_entry @id' : 'com_\#{data.comment.id}',	
-					//'img.i36 @src' : 'author.photo_url',
-					//'div.comment_text' : function(arg){return simple_com_format(arg.context)},
-					//'a.reply @href' : '/comments/\#{data.comment_id}/comments',
-					//'a.reply @id' : 'data.comment.id',	
-					//'a.report @href' : '/comments/\#{data.comment_id}/report',
-					//'@id' : 'data.comment.id',
-					//'abbr.timeago @title' : 'data.comment.created_at'
 				}
 			);
 			realtime_data_update_functions['live_talking_point'] =
@@ -80,7 +71,7 @@
 					//make_new_ideas_draggable( live_talking_point, $('div.idea_list div.ideas') );
 					make_new_ideas_draggable( live_talking_point );
 					
-					post_theme_changes.update_fn();
+					setTimeout(post_theme_changes.update_fn,1200);
 					
 				}
 			//console.log("live_talking_point template is ready");

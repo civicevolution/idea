@@ -1,5 +1,5 @@
 - if mode == 'left_side_list'
-	%div{:idea_id=>live_theme.id, :class => 'live_talking_point' }
+	%div{:idea_id=>live_theme.id, :class => 'live_talking_point', :themer_id=>live_theme.themer_id }
 		%p.text= live_theme.text
 		- if live_theme[:examples].nil?
 			%p.example
@@ -13,7 +13,7 @@
 		= image_tag 'info.gif', :class=>"info"
 		= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
 - elsif mode =='right_side_meta_themes'			
-	%div{:idea_id=>live_theme.id, :class => 'idea micro_theme' }
+	%div{:idea_id=>live_theme.id, :class => 'idea micro_theme', :themer_id=>live_theme.themer_id }
 		%p.text= live_theme.text
 		- if live_theme[:examples].nil?
 			%p.example

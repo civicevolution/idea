@@ -101,7 +101,7 @@
 							%td
 							%td{:colspan=>2}
 								- if session.session_type == 'collect'
-									%p= link_to "Theming: #{session.name}", live_themer_path(session.id)
+									%p= link_to "Theming: #{session.name}", live_micro_themer_path(session.id)
 			
 		- when 'coord'
 			= link_to "Event setup", live_event_setup_path(@live_node.live_event_id)
@@ -132,9 +132,9 @@
 											%b Theme teams
 										%ul
 											- @subordinate_themers.each do |themer|
-												%li= link_to "Themer's view, Tables: #{themer[:tables]}", live_themer_path(:session_id=>session.id, :id=>themer.id)
+												%li= link_to "Themer's view, Tables: #{themer[:tables]}", live_micro_themer_path(:session_id=>session.id, :id=>themer.id)
 							
-										%p= link_to "Coordinator's theming", live_theme_coordination_path(session.id)
+										%p= link_to "Coordinator's theming", live_macro_themer_path(session.id)
 										%p= link_to "Final editing of themes", live_theme_final_edit_path(session.id)
 						
 										- if session.published

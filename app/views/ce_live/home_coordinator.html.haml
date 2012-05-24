@@ -59,9 +59,9 @@
 									%b Theme teams
 								%ul
 									- @subordinate_themers.each do |themer|
-										%li= link_to "Themer's view, Tables: #{themer[:tables]}", live_themer_path(:session_id=>session.id, :id=>themer.id)
+										%li= link_to "Micro themer's view, Tables: #{themer[:tables]}", live_micro_themer_path(:session_id=>session.id, :id=>themer.id)
 					
-								%p= link_to "Coordinator's theming", live_theme_coordination_path(session.id)
+								%p= link_to "Macro theming", live_macro_themer_path(session.id)
 								%p= link_to "Final editing of themes", live_theme_final_edit_path(session.id)
 				
 								- if session.published

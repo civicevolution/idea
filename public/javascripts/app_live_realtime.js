@@ -65,7 +65,10 @@ function custom_subscribe(channel, callback){
 };
 
 function custom_publish(channel, data){
-  if ( !channel ) throw "Must provide a channel";
+  if ( !channel ){
+    console.log("Must provide a channel");
+    return;
+  } 
   //console.log("custom_publish channel: " + channel);
   var connectCallback = this.proxy(function(){
     var message     = new Juggernaut.Message;
@@ -203,11 +206,13 @@ function update_presence(roster){
 	    //console.log("add to dispatcher_jug_ids: " + mem.ape_code.jug_id);
 	    dispatcher_jug_ids.push( mem.ape_code.jug_id );
 	    $.unique(dispatcher_jug_ids);
+	    setTimeout(report_status,10);
 	  }
 	  if(mem.ape_code.node_id == node.parent_id){
 	    //console.log("add to themer_parent_jug_id: " + mem.ape_code.jug_id);
 	    themer_parent_jug_id = mem.ape_code.jug_id;
-	    $('div.chat input#jug_id').val(themer_parent_jug_id);
+	    $('div.chat.parent input#jug_id').val(themer_parent_jug_id);
+	    setTimeout(report_status,10);
 	  }
 	  
 	  if(update_roster){
@@ -243,6 +248,12 @@ function report_status(){
           $('div.list_column div.idea').size() + ' themed talking points<br/>' +
           $('div.list_column div.example').size() + ' example talking points';
         break;
+      case 'macro theming':
+        activity = 
+          $('div.live_talking_point').size() + ' incoming micro themes<br/>' +
+          $('div.list_column div.theme').size() + ' macro themes<br/>' +
+          $('div.list_column div.idea').size() + ' themed micro themes<br/>';
+        break;
       
       default:
         console.log("XXXXXX determine activity for " + page_data.type);
@@ -253,6 +264,7 @@ function report_status(){
     var status_message = {
 		    jug_id: jug.sessionID,
 		    status: 'active',
+		    node_id: node.id,
 		    role: node.role,
 		    name: node.name,
 				browser: $.browser,

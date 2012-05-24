@@ -110,3 +110,11 @@ div.chat_alert {
 
 div#scribe_standby {
   width: 600px; }
+
+div.auto-scroll {
+  opacity: .10;
+  filter: alpha(opacity=10);
+  -ms-filter: "alpha(opacity=$value)";
+  -khtml-opacity: .10;
+  -webkit-opacity: .10;
+  -moz-opacity: .10; }

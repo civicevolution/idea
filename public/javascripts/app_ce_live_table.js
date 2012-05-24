@@ -148,7 +148,8 @@ $('a.ask_for_help').live('click',
     var chat = $('div.chat');
     var link = $(this);
     var offset = link.offset();
-    chat.css({display: 'block', top: offset.top + link.outerHeight(), left: offset.left })
+    chat.css({display: 'block', top: offset.top + link.outerHeight(), left: offset.left });
+    chat.find('input[type="text"]').focus();
     return false;
   }
 );

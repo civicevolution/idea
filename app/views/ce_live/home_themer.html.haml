@@ -50,5 +50,5 @@
 					%td
 					%td{:colspan=>2}
 						- if session.session_type == 'collect'
-							%p= link_to "Theming: #{session.name}", live_themer_path(session.id)
+							%p= link_to "Theming: #{session.name}", live_micro_themer_path(session.id)
 	

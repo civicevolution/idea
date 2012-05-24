@@ -1,0 +1,7 @@
+:plain
+	$('div.themer_themes').closest('div.ui-dialog').dialog('destroy').remove();
+	var themer_themes = $("#{escape_javascript( render( :template => 'ce_live/themer_themes.html') ) }")
+
+	themer_themes.find('div.inner').height( $(window).height() - 150 );
+
+	var dialog = themer_themes.dialog( {title : 'All themes from #{@themer.name}', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });

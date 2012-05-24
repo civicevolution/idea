@@ -226,12 +226,14 @@ class CeLiveController < ApplicationController
 
 
   
-  def theme_coordination        
+  def macro_themer        
     @session = LiveSession.find_by_id(params[:session_id])
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'coord'
     
-    @page_title = "Theme coordination for: #{@session.name}"
+    @themers = LiveNode.where(role: 'theme', parent_id: @live_node.id ).order('name ASC')
+    
+    @page_title = "Macro theming for: #{@session.name}"
     
     @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id)
     @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id)
@@ -304,12 +306,12 @@ class CeLiveController < ApplicationController
     
     @live_themes = @live_themes.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
-    @channels = ["_event_#{params[:event_id]}"]
+    @channels = ["_event_#{@live_node.live_event_id}" ]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
     @disable_editing =  (@session.published || @live_node.role != 'coord') ? true : false
     @page_data = {type: 'macro theming', session_id: @session.id, session_title: @session.name};
-    render :template => 'ce_live/theme_coordination', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :role=>'Themer'}
+    render :template => 'ce_live/macro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :role=>'Themer'}
   end
   
   def theme_final_edit
@@ -351,11 +353,37 @@ class CeLiveController < ApplicationController
   
   def group_talking_points
     return not_authorized unless @live_node.role == 'theme' || @live_node.role == 'coord'
-    
     @live_talking_points = LiveTalkingPoint.where(group_id: params[:group_id], live_session_id: params[:session_id]).order('id ASC')
-    
     render :template => 'ce_live/group_talking_points.js', :layout => false, :content_type => 'application/javascript'
+  end
+
+  def themer_themes
+    return not_authorized unless @live_node.role == 'theme' || @live_node.role == 'coord'
+    @themer = LiveNode.find_by_id(params[:themer_id])
+    @live_themes = LiveTheme.where(themer_id: params[:themer_id], live_session_id: params[:session_id]).order('id ASC')
     
+    example_tp_ids = []
+    # determine which examples I need
+    @live_themes.each do |theme|
+      ex_ids = theme.example_ids
+    	ex_ids = ex_ids.nil? ? [] : ex_ids.split(/[^\d]+/).map{|i| i.to_i}
+      example_tp_ids += ex_ids
+    end
+
+    # get them as talking points
+    
+    @live_talking_points = LiveTalkingPoint.where(:id => example_tp_ids)  
+    # then assign them to the themes
+    @live_themes.each do |theme|
+      ex_ids = theme.example_ids
+      if !ex_ids.nil?
+        ex_ids = ex_ids.split(/[^\d]+/).map{|i| i.to_i}
+        example_talking_points = @live_talking_points.select{ |tp| ex_ids.include?(tp.id) }
+      end
+      theme[:examples] = example_talking_points
+    end
+    
+    render :template => 'ce_live/themer_themes.js', :layout => false, :content_type => 'application/javascript'
   end
 
   def session_themes
@@ -574,7 +602,7 @@ class CeLiveController < ApplicationController
     
     @disable_editing =  (@session.published || @live_node.role != 'theme') ? true : false
     @page_data = {type: 'micro theming', session_id: @session.id, session_title: @session.name};
-    render :template => 'ce_live/micro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming page for CivicEvolution Live', :role=>'Themer'}
+    render :template => 'ce_live/micro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming page for CivicEvolution Live'}
   end
   
   #def table   

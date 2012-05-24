@@ -1,4 +1,4 @@
-console.log("Loading app_ce_live_themer.js")
+//console.log("Loading app_ce_live_themer.js")
 var lock_resize = false;
 function live_resize(){
   //if(lock_resize)return;
@@ -21,15 +21,15 @@ function live_resize(){
   	var h3_height = tpdi.find('h3').outerHeight(true);
   	var ltp = $('div#live_talking_points');
 	  ltp.height(tpdi.height() - h3_height - 10);
-	  var inner_padding = 20;
+	  var inner_padding = 30;
 	  ltp.find('div.inner').height( ltp.height() - 4 - inner_padding);
 	  
   	var lists = $('div.lists');
-  	lists.height(ws.height() - 4);
+  	lists.height(ws.height() + 8);
   	//lists.height(ws.height() - 214);
   	var ribbon = lists.find('div.drop_ribbon').outerHeight(true);
   	var lists_ws = $('div#lists');
-	  lists_ws.height(lists.height() - ribbon + 8);
+	  lists_ws.height(lists.height() - ribbon - 20);
 	  //var inner_padding = 20;
 	  //ltp.find('div.inner').height( ltp.height() - 4 - inner_padding);
 	  
@@ -42,8 +42,6 @@ function live_resize(){
 	  var incoming_width = avl_width - lists_width;
 	  incoming_width = incoming_width > 800 ? 800 : incoming_width;
 	  $('div.incoming_ideas').width( incoming_width);
-	  //$('div.lists').width( avl_width - incoming_width );
-	  //lists.width( ws.width() - lists.position().left - 10 )
 	  //console.log("call adjust_columns in 1 sec because the page has been resized");
 	  setTimeout(adjust_columns, 400);
 	}
@@ -799,6 +797,10 @@ function adjust_columns(){
 	}else{
 		//console.log("No satisfactory fit was achieved");
 	}
+	
+	$('div.incoming_ideas div#auto_bottom.auto-scroll.incoming_scroll').width( $('div.incoming_ideas').width());
+	var lists = $('div.lists');
+	lists.find('div#auto_bottom.auto-scroll.lists_scroll').width( lists.width() ).css('left', lists.offset().left);
 	adjust_in_process = false;
 }
 
@@ -823,7 +825,7 @@ function checkMouse(x, y, ctnr) {
 	speed = speed < 2 ? 2 : speed;
 	auto_scroll_params.speed = speed;
 	if(!auto_scroll_params.intervalTimer){
-	  auto_scroll_params.intervalTimer = setInterval(move, auto_scroll_params.interval);
+	  auto_scroll_params.intervalTimer = setInterval( function(){move(this);}.bind(ctnr), auto_scroll_params.interval);
 	}
 	//move();
 	//console.log("checkMouse auto_scroll_params.direction: " + auto_scroll_params.direction + ", 	auto_scroll_params.speed: " + 	auto_scroll_params.speed);
@@ -837,7 +839,7 @@ function stopMoving(){
 	auto_scroll_params.direction = 0;
 }
 
-function move() {
+function move(ctnr) {
   if(auto_scroll_params.direction == 0){
     stopMoving();
     return;
@@ -845,12 +847,12 @@ function move() {
 	var scrollIncrement = auto_scroll_params.direction * auto_scroll_params.speed;
   //console.log("move with speed: " + auto_scroll_params.speed + " scrollIncrement: " + scrollIncrement);
   
-	//$(window).scrollTop( $(window).scrollTop() + scrollIncrement );
-	
-	$('div#lists').scrollTop( $('div#lists').scrollTop() + scrollIncrement );
-	
-	
-	//auto_scroll_params.timer = setTimeout(function() {move();}, auto_scroll_params.interval);
+	if(ctnr.hasClass('lists_scroll')){
+	  ctnr = $('div#lists');
+	}else{
+	  ctnr = $('div#live_talking_points div.inner');
+	}
+	ctnr.scrollTop( ctnr.scrollTop() + scrollIncrement );
 }
 
 $('#themer.theme div.idea_list div.edit').live('click',
@@ -928,6 +930,7 @@ $( "div.live_talking_point" ).live('mouseenter mouseleave', function(event) {
 
 $('img.tp_delete').die('click').live('click',
   function(){
+    if(editing_disabled())return false;
     console.log("delete this item from the group");
     var list = $(this).closest('div.idea_list');
     var idea = $(this).closest('div.idea');
@@ -944,9 +947,9 @@ post_theme_changes.update_fn = function(){
     function(){
       var stat = $(this);
       var table_id = stat.attr('table_id');
-      stat.find('span.tp_count').html( '-' + $('div[table_id="' + table_id + '"]').not(stat).size() );
-      stat.find('span.themed_tp_count').html( '-' + $('div.list_column div[table_id="' + table_id + '"]').size() );
-      stat.find('span.example_tp_count').html( '-' + $('div.example[table_id="' + table_id + '"]').size() );
+      stat.find('span.unthemed_tp_count').html( ':' + $('div.live_talking_point[table_id="' + table_id + '"]').size() );
+      stat.find('span.themed_tp_count').html( '-' + $('div.list_column div.idea[table_id="' + table_id + '"]').size() );
+      stat.find('span.example_tp_count').html( '-' + $('div.list_column div.idea.example[table_id="' + table_id + '"]').size() );
     }
   );
 }
@@ -1007,9 +1010,10 @@ $('div.show_chat').live('click',
     if(chat.size()==0){
       chat = add_chat_form(table_id, table_div.attr('jug_id') );
     }
-    $('div.chat').hide();
+    $('div.chat').not('div#coord_chat').hide();
     var offset = table_div.offset();
-    chat.css({display: 'block', top: offset.top + table_div.outerHeight(), left: offset.left })
+    chat.css({display: 'block', top: offset.top + table_div.outerHeight(), left: offset.left });
+    chat.find('input[type="text"]').focus();
   }
 );
 $('div.chat p.hdr a').live('click',
@@ -1030,6 +1034,10 @@ function add_chat_form(table_id, jug_id){
 }
 
 function update_chat(data){
+  if(data.id == themer_parent_jug_id){
+     update_coordinator_chat(data);
+     return;
+  }
   var table_div = $('div.table[jug_id="' + data.id + '"]');
   var table_id = table_div.attr('table_id');
   var chat = $('div.chat input#jug_id[value="' + data.id + '"]').closest('div.chat');
@@ -1079,5 +1087,41 @@ $('div.show_tp').live('click',
     console.log("Show all the tp for this table");
   	$.getScript('/live/' + page_data.session_id + '/group_tp/' + $(this).closest('div.table').attr('table_id') )
     $(this).closest('div.table_menu').hide();
+  }
+);
+
+
+function update_coordinator_chat(data){
+  var chat = $('div#coord_chat');
+  var link = $('a.coord_chat');
+  var offset = link.offset();
+  chat.css({display: 'block', top: offset.top + link.outerHeight(), left: offset.left })
+  
+  var chat_log = chat.find('div.chat_log');
+  if(chat_log.find('p:last').attr('node_id') == data.node_id){
+    chat_log.append('<p node_id="' + data.node_id + '">' + data.msg + '</p>').scrollTop(99999999);
+  }else{
+    chat_log.append('<p node_id="' + data.node_id + '">' + data.name + ': ' + data.msg + '</p>').scrollTop(99999999);
+  }
+}
+$('div.chat p.hdr a').live('click',
+  function(){
+    $(this).closest('div.chat').hide();
+    return false;
+  }
+);
+
+$(function(){
+  $('div.join_com').prepend(' /');
+  $('div.join_com').prepend( $('<a href="#" class="coord_chat">Chat with coordinator</a>') );
+});
+$('a.coord_chat').live('click',
+  function(){
+    var chat = $('div#coord_chat');
+    var link = $(this);
+    var offset = link.offset();
+    chat.css({display: 'block', top: offset.top + link.outerHeight(), left: offset.left });
+    chat.find('input[type="text"]').focus();
+    return false;
   }
 );
