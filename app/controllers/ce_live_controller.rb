@@ -937,10 +937,24 @@ class CeLiveController < ApplicationController
       when 'delete_theme_child'  
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         ltp_ids = @live_theme.live_talking_point_ids.scan(/\d+/).map{|d| d.to_i}
-        
         ltp_ids = ltp_ids - [params[:idea_id].to_i]
-                
         @live_theme.live_talking_point_ids = ltp_ids.uniq.join(',')
+        
+        # when a talking point is deleted from a uTheme, I need to update the examples if the TP was an example
+        ex_ids = @live_theme.example_ids || ''
+        ex_ids = ex_ids.scan(/\d+/).map{|d| d.to_i}
+        if ex_ids.include?( params[:idea_id].to_i )
+          ex_ids = ex_ids - [params[:idea_id].to_i]
+          @live_theme.example_ids = ex_ids.uniq.join(',')
+          if ex_ids.size == 0
+            @live_theme_examples = []
+          else
+            @live_theme_examples = LiveTalkingPoint.where(id: ex_ids )
+          end
+          Juggernaut.publish("_event_#{@live_node.live_event_id}", {:act=>'theming', :type=>'live_uTheme_examples', 
+            :data=> {:live_theme_id=>params[:list_id], :examples => @live_theme_examples}})
+          
+        end
         @live_theme.save
         
       when 'delete_theme'
@@ -954,6 +968,9 @@ class CeLiveController < ApplicationController
           list_ids = list_ids - [@remove_theme_id]
           @live_theming_session.theme_group_ids = list_ids.uniq.join(',')
           @live_theming_session.save
+          
+          Juggernaut.publish("_event_#{@live_node.live_event_id}", {:act=>'theming', :type=>'live_uTheme_delete', 
+            :data=> {:live_theme_id=>params[:list_id]}})
         end
         
         

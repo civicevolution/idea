@@ -137,7 +137,20 @@
 				}		
 			//console.log("live_theme functions are ready v1");
 	
-
+			realtime_data_update_functions['live_uTheme_delete'] =
+				function(data){
+					if(page_data.type != "macro theming") return;
+					//console.log("Update the themes examples");
+					var microtheme = $('div.micro_theme[idea_id="' + data.data.live_theme_id + '"]');
+					if(microtheme.size() == 0){
+						microtheme = $('div.live_talking_point[idea_id="' + data.data.live_theme_id + '"]');
+					}
+					microtheme.find('span.warn').remove();
+					microtheme.find('p.text').append(' <span class="warn delete">[This microtheme has been deleted by Themer]</span>');
+					setTimeout(post_theme_changes.update_fn,1200);
+				}		
+			//console.log("live_theme functions are ready v1");
+			
 
 
 
