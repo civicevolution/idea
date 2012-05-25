@@ -306,7 +306,7 @@ class CeLiveController < ApplicationController
     
     @live_themes = @live_themes.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
-    @channels = ["_event_#{@live_node.live_event_id}" ]
+    @channels = ["_event_#{@live_node.live_event_id}", "_session_#{@session.id}_macrothemer" ]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
     @disable_editing =  (@session.published || @live_node.role != 'coord') ? true : false
@@ -597,49 +597,13 @@ class CeLiveController < ApplicationController
     
     @live_talking_points = @live_talking_points.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
-    @channels = ["_event_#{@live_node.live_event_id}", "_event_theme_#{themer_id}" ]
+    @channels = ["_event_#{@live_node.live_event_id}", "_session_#{@session.id}_microthemer_#{themer_id}" ]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
     @disable_editing =  (@session.published || @live_node.role != 'theme') ? true : false
     @page_data = {type: 'micro theming', session_id: @session.id, session_title: @session.name};
     render :template => 'ce_live/micro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming page for CivicEvolution Live'}
   end
-  
-  #def table   
-  #
-  #  ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe7','scribe7')
-  #  ###session[:live_node_id] = @live_node.id
-  #  # make sure this is in their roles
-  #  return not_authorized unless @live_node.role == 'scribe'
-  #  
-  #  @session = LiveSession.find_by_id(params[:session_id])
-  #
-  #  
-  #  group_id = @live_node.name.match(/\d+/)
-  #  if group_id.nil?
-  #    group_id = 0
-  #  else
-  #    group_id = group_id[0].to_i
-  #  end
-  #
-  #  @page_title = "Table #{group_id}, Topic: #{@session.name}"
-  #
-  #  @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
-  #
-  #  @channels = ["_event_#{@live_node.live_event_id}" ]
-  #  authorize_juggernaut_channels(request.session_options[:id], @channels )
-  #  @page_data = {type: 'enter talking points', session_id: @session.id, session_title: @session.name};
-  #  render :template => 'ce_live/table', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
-  #end
-
-  #def prioritize   
-  #  # make sure this is in their roles
-  #  return not_authorized unless @live_node.role == 'scribe'
-  #  @channels = ["_event_#{@live_node.live_event_id}" ]
-  #  authorize_juggernaut_channels(request.session_options[:id], @channels )
-  #  
-  #  render :template => 'ce_live/prioritize', :layout => 'ce_live', :locals=>{ :title=>'Prioritization page for CivicEvolution Live', :role=>'Scribe'}
-  #end
     
   def ltp_to_jug
     ltp = LiveTalkingPoint.find(params[:id])
@@ -774,7 +738,7 @@ class CeLiveController < ApplicationController
     ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: group_id, text: params[:text],
       pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter
       
-    Juggernaut.publish("_event_theme_#{@live_node.parent_id}", {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
+    Juggernaut.publish("_session_#{params[:s_id]}_microthemer_#{@live_node.parent_id}", {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
     render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => ltp})
   end
   
@@ -815,8 +779,7 @@ class CeLiveController < ApplicationController
         @live_theme = LiveTheme.find_by_id( params[:list_id])
         @live_theme.text = params[:text]
         @live_theme.save
-        Juggernaut.publish("_event_#{@live_node.live_event_id}", {:act=>'theming', :type=>'live_uTheme_update', :data=>@live_theme})
-        
+        Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_uTheme_update', :data=>@live_theme})
         
       when 'update_theme_examples'
         logger.debug "update_list_examples"
@@ -829,7 +792,7 @@ class CeLiveController < ApplicationController
           @live_theme_examples = LiveTalkingPoint.where(id: params[:example_ids] )
         end
         @live_theme.save
-        Juggernaut.publish("_event_#{@live_node.live_event_id}", {:act=>'theming', :type=>'live_uTheme_examples', 
+        Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_uTheme_examples', 
           :data=> {:live_theme_id=>params[:list_id], :examples => @live_theme_examples}})
         
         
@@ -951,7 +914,7 @@ class CeLiveController < ApplicationController
           else
             @live_theme_examples = LiveTalkingPoint.where(id: ex_ids )
           end
-          Juggernaut.publish("_event_#{@live_node.live_event_id}", {:act=>'theming', :type=>'live_uTheme_examples', 
+          Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_uTheme_examples', 
             :data=> {:live_theme_id=>params[:list_id], :examples => @live_theme_examples}})
           
         end
@@ -969,7 +932,7 @@ class CeLiveController < ApplicationController
           @live_theming_session.theme_group_ids = list_ids.uniq.join(',')
           @live_theming_session.save
           
-          Juggernaut.publish("_event_#{@live_node.live_event_id}", {:act=>'theming', :type=>'live_uTheme_delete', 
+          Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_uTheme_delete', 
             :data=> {:live_theme_id=>params[:list_id]}})
         end
         
