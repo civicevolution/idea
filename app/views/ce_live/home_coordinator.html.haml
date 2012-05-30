@@ -75,6 +75,9 @@
 					
 									- when 'macrotheme'
 										%p= link_to "Macro theming", live_macro_themer_path(session.id)
+
+									- when 'macromacrotheme'
+										%p= link_to "Macro macro theming", live_macro_macro_themer_path(session.id)
 									
 									- when 'final_edit'
 										%p= link_to "Final editing of themes", live_theme_final_edit_path(session.id)

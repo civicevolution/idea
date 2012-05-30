@@ -28,7 +28,7 @@
 		%p= label_tag :title, 'Session type'
 		%p.data_source
 			= form.select( :session_type, [['Select session type','0'],['Session group','group'],['Collect talking points','collect'],
-			['Microtheme','microtheme'],['Macrotheme','macrotheme'],['Final edit','final_edit'],['Publish','publish'],['View final themes','view_final_themes'], ['Allocation options', 'allocation_options'], ['Allocation', 'allocation'], ['Feedback: Allocation results','feedback_allocation_results']])
+			['Microtheme','microtheme'],['Macrotheme','macrotheme'],['Macro theme macro themes','macromacrotheme'],['Final edit','final_edit'],['Publish','publish'],['View final themes','view_final_themes'], ['Allocation options', 'allocation_options'], ['Allocation', 'allocation'], ['Feedback: Allocation results','feedback_allocation_results']])
 
 		%p= label_tag :group_id, 'Session group id'
 		= form.text_field :group_id, :class=>'short'

@@ -356,6 +356,90 @@ class CeLiveController < ApplicationController
     render :template => 'ce_live/macro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :role=>'Themer'}
   end
   
+  def macro_macro_themer  
+    @session = LiveSession.find_by_id(params[:session_id])
+    # make sure this is in their roles
+    return not_authorized unless @live_node.role == 'coord'
+    
+    @themers = []
+    
+    @page_title = "Macro theming macro themes for: #{@session.name}"
+
+    source_session_id = @session.id
+    source_input_tags = ['default']
+    # first get my themes and theming data
+    @my_themes_unordered = LiveTheme.where(:live_session_id => @session.id)
+    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id)
+    
+    # now load the macro_themes data for each input
+    source_input_tags = []
+    @live_themes_unordered = []
+    @session.inputs.each do |inp|
+      @live_themes_unordered += LiveTheme.where(:live_session_id => inp.source_session_id, 
+        :tag => inp.tag, :visible => true).where('order_id > 0')
+      
+      source_session_id = inp.source_session_id
+      source_input_tags.push( inp.tag )
+    end
+
+    if @session.outputs.size == 0
+      output_tag = 'default'
+    else
+      output_tag = @session.outputs[0].tag
+    end
+
+    # i need to put my_themes in the order according to @live_theming_session.theme_group_ids
+    @my_themes = []
+    
+    # use my live_theming session to put my macro macro themes in order
+    
+    @live_theming_session.each do |theme_session|
+      if !theme_session.nil?
+        if !theme_session.theme_group_ids.nil?
+          theme_session.theme_group_ids.split(',').each do |id|
+            @my_themes.push @my_themes_unordered.detect{ |lt| lt.id.to_i == id.to_i}
+          end
+        end
+      end
+    end
+
+    @my_themes.compact!
+    
+    # I now have the themes more or less in order
+
+    # now attach the macro themes to my macro macro themes
+    
+    themed_tp_ids = []
+    @my_themes.each do |theme|
+		  if theme.id.to_i > 0
+  			tp_ids = theme.live_talking_point_ids
+  			tp_ids = tp_ids.nil? ? [] : tp_ids.split(/[^\d]+/).map{|i| i.to_i}
+  			themed_tp_ids += tp_ids
+  			theme[:themes] = tp_ids.map{ |id| @live_themes_unordered.detect{ |lt| lt.id == id.to_i} }.compact
+  		end
+		end
+    
+    #if !@live_theming_session.empty?
+  	#	dont_fit_tp_ids = @live_theming_session[0].unthemed_ids.nil? ? [] : @live_theming_session[0].unthemed_ids.split(/[^\d]+/).map{|i| i.to_i}
+  	#	themed_tp_ids += dont_fit_tp_ids
+    #  @dont_fit_tp = @live_talking_points.select{ |tp| dont_fit_tp_ids.include?(tp.id) }
+    #else
+      @dont_fit_tp = []
+    #end
+    
+    @macro_session = @session
+    @live_themes = @live_themes_unordered.reject{ |tp| themed_tp_ids.include?(tp.id) }
+
+    @channels = ["_event_#{@live_node.live_event_id}", "_session_#{source_session_id}_macrothemer" ]
+    authorize_juggernaut_channels(request.session_options[:id], @channels )
+    
+    @disable_editing =  (@session.published || @live_node.role != 'coord') ? true : false
+    @page_data = {type: 'macro theming', session_id: @session.id, source_session_id: source_session_id, 
+      session_title: @session.name, output_tag: output_tag, source_input_tags: source_input_tags}
+        
+    render :template => 'ce_live/macro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :macro_macro_mode => 'true'}
+  end
+  
   def theme_final_edit
 
     @session = LiveSession.find_by_id(params[:session_id])
@@ -947,7 +1031,7 @@ class CeLiveController < ApplicationController
         end
         @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.theme_group_ids = list_ids.join(',')
-        @live_theming_session.tag = params[:output_tag] if @live_theming_session.tag.nil?
+        @live_theming_session.tag = params[:output_tag] unless params[:output_tag].nil? || params[:output_tag] == ''
         @live_theming_session.save
           
       when 'reorder_lists'
@@ -987,7 +1071,7 @@ class CeLiveController < ApplicationController
         
         @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.theme_group_ids = @new_ids
-        @live_theming_session.tag = params[:output_tag] if @live_theming_session.tag.nil?
+        @live_theming_session.tag = params[:output_tag] unless params[:output_tag].nil? || params[:output_tag] == ''
         @live_theming_session.save
         
       when 'update_theme_text_and_example'
@@ -1003,7 +1087,7 @@ class CeLiveController < ApplicationController
           ids = @live_theming_session.theme_group_ids ||= ''
           ids = ids.scan(/\d+/)
           ids.push( @live_theme.id )
-          @live_theming_session.tag = params[:output_tag] if @live_theming_session.tag.nil?
+          @live_theming_session.tag = params[:output_tag] unless params[:output_tag].nil? || params[:output_tag] == ''
           @live_theming_session.theme_group_ids = ids.map{|d| d.to_i}.uniq.join(',')
           @live_theming_session.save
           

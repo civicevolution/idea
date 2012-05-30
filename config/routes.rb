@@ -41,6 +41,7 @@ G3::Application.routes.draw do |map|
   get 'live/:event_id/event_setup' => 'ce_live#event_setup', :as => 'live_event_setup'
   get 'live/:session_id/micro_themer' => 'ce_live#micro_themer', :as => 'live_micro_themer' 
   get 'live/:session_id/macro_themer' => 'ce_live#macro_themer', :as => 'live_macro_themer' 
+  get 'live/:session_id/macro_macro_themer' => 'ce_live#macro_macro_themer', :as => 'live_macro_macro_themer' 
   get 'live/:session_id/theme_final_edit' => 'ce_live#theme_final_edit', :as => 'live_theme_final_edit'
   get 'live/:session_id/table' => 'ce_live#table', :as => 'live_table'
   get 'live/:session_id/group_tp/:group_id' => 'ce_live#group_talking_points', :as => 'live_group_talking_points'
