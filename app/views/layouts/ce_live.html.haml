@@ -23,6 +23,7 @@
 					- if !@disable_editing.nil? && @disable_editing
 						%span.published
 							= image_tag 'lock.png'
+							- @macro_session = @session if @macro_session.nil?
 							- if @macro_session.published
 								Published
 							- else 
