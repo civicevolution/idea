@@ -897,10 +897,10 @@ class CeLiveController < ApplicationController
   end
   
   def post_talking_point_from_group
-    if LiveSession.find(params[:s_id]).published
-      render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => nil})
-      return
-    end
+    #if LiveSession.find(params[:s_id]).published
+    #  render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => nil})
+    #  return
+    #end
     
     # I want to use session to determine 
     # live_session_id
