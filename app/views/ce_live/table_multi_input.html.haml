@@ -91,11 +91,11 @@
 	= javascript_include_tag 'app_ce_live_table.js'
 	:javascript
 		var pub_sub_channels = #{@channels}
-		if(#{@session.published}){
-			// disable the form inputs
-			$('form.post_live_tp :input').attr('disabled','disabled')
-			$('a.new_live_talking_point').remove();
-		}
+		//if(#{@session.published}){
+		//	// disable the form inputs
+		//	$('form.post_live_tp :input').attr('disabled','disabled')
+		//	$('a.new_live_talking_point').remove();
+		//}
 
 %div#table
 
@@ -103,7 +103,7 @@
 	
 	%div#left
 		%div.talking_point_block
-			- if @session.published
+			-# if @session.published
 				%h3.warn The themes from this session have been published and no themes can be added
 		
 			-#%p.desc= @session.description
@@ -117,7 +117,7 @@
 					- for ctr in 1..field.qty
 					
 						%textarea{id: "_tp_#{field.tag}_#{ctr}", name: "_tp_#{field.tag}_#{ctr}", class: 'autosize', rows: 3}
-							= "#{field.tag}_#{ctr}  test input"
+						
 						%div.form_controls
 							%span.char_ctr{:cnt=>250}
 								250 characters

@@ -338,7 +338,7 @@
 		var pub_sub_channels = #{@channels}
 		var live_session_id = #{params[:session_id]}
 		var disable_editing = #{@disable_editing}
-		var published = #{@session.published}
+		var published = #{@macro_session.published}
 
 	%div.stats
 		- @tables.each do |table|

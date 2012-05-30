@@ -343,6 +343,7 @@ class CeLiveController < ApplicationController
       @dont_fit_tp = []
     #end
     
+    @macro_session = @session
     @live_themes = @live_themes.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
     @channels = ["_event_#{@live_node.live_event_id}", "_session_#{source_session_id}_macrothemer" ]
@@ -674,7 +675,9 @@ class CeLiveController < ApplicationController
     @channels = ["_event_#{@live_node.live_event_id}", "_session_#{source_session_id}_microthemer_#{themer_id}" ]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
-    @disable_editing =  (@session.published || @live_node.role != 'theme') ? true : false
+    @macro_session = LiveSession.find_by_sql(%Q|select * from live_sessions where id in (select live_session_id from live_session_data where io_type = 1 and source_session_id = #{@session.id})|)
+    @macro_session = @macro_session.size > 0 ? @macro_session[0] : @session
+    @disable_editing =  (@macro_session.published || @live_node.role != 'theme') ? true : false
     @page_data = {type: 'micro theming', session_id: @session.id, source_session_id: source_session_id, 
       session_title: @session.name, output_tag: output_tag, source_input_tags: source_input_tags};
     render :template => 'ce_live/micro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming page for CivicEvolution Live'}
@@ -944,7 +947,7 @@ class CeLiveController < ApplicationController
         end
         @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.theme_group_ids = list_ids.join(',')
-        @live_theming_session.tag = params[:output_tag]
+        @live_theming_session.tag = params[:output_tag] if @live_theming_session.tag.nil?
         @live_theming_session.save
           
       when 'reorder_lists'
@@ -984,7 +987,7 @@ class CeLiveController < ApplicationController
         
         @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.theme_group_ids = @new_ids
-        @live_theming_session.tag = params[:output_tag]
+        @live_theming_session.tag = params[:output_tag] if @live_theming_session.tag.nil?
         @live_theming_session.save
         
       when 'update_theme_text_and_example'

@@ -23,7 +23,7 @@
 					- if !@disable_editing.nil? && @disable_editing
 						%span.published
 							= image_tag 'lock.png'
-							- if @session.published
+							- if @macro_session.published
 								Published
 							- else 
 								Editing not authorized
