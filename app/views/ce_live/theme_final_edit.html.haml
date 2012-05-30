@@ -70,7 +70,8 @@
 		var pub_sub_channels = #{@channels}
 		var live_session_id = #{params[:session_id]}
 		var disable_editing = #{@disable_editing}
-		var published = #{@session.published}
+		var published = #{@source_session.published}
+		function update_status_report(){}
 		
 		if(!disable_editing){
 			$('ul.themes').sortable({
@@ -87,6 +88,7 @@
 					// compare if the order has changed
 					console.log("old order: " + ul.attr('id_order') + " new order: " + new_ids.join(','));
 					if( ul.attr('id_order') != new_ids.join(',') ){
+						live_session_id = page_data.source_session_id;
 						console.log("update the theme sortto: " + new_ids.join(','));
 						post_theme_changes({act: 'update_final_theme_order', new_ids: new_ids });
 						show_saving_modal();
@@ -211,7 +213,8 @@
 	= link_to 'Add a theme', {}, {:class=>'add_edit_theme'}
 	
 	= form_tag(post_live_theme_path, :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
-		= hidden_field_tag :live_session_id, params[:session_id]
+		= hidden_field_tag :live_session_id, @source_session.id
+		= hidden_field_tag :output_tag, @source_session_tag
 		= hidden_field_tag :form_id 
 		= hidden_field_tag :theme_id 
 		= hidden_field_tag :act, 'update_theme_text_and_example'

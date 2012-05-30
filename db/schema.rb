@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120518230901) do
+ActiveRecord::Schema.define(:version => 20120529151846) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -483,6 +483,20 @@ ActiveRecord::Schema.define(:version => 20120518230901) do
     t.string   "jug_id"
   end
 
+  create_table "live_session_data", :force => true do |t|
+    t.integer  "live_session_id"
+    t.boolean  "primary_field"
+    t.integer  "io_type"
+    t.integer  "source_session_id"
+    t.string   "label"
+    t.string   "tag"
+    t.integer  "qty"
+    t.integer  "chars"
+    t.integer  "height"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "live_sessions", :force => true do |t|
     t.integer  "live_event_id"
     t.text     "name"
@@ -495,6 +509,7 @@ ActiveRecord::Schema.define(:version => 20120518230901) do
     t.time     "starting_time"
     t.integer  "duration"
     t.integer  "source_session_id"
+    t.integer  "group_id"
   end
 
   create_table "live_talking_points", :force => true do |t|
@@ -509,6 +524,7 @@ ActiveRecord::Schema.define(:version => 20120518230901) do
     t.integer  "pos_votes"
     t.integer  "neg_votes"
     t.string   "status"
+    t.string   "tag",             :default => "default"
   end
 
   create_table "live_theme_allocations", :force => true do |t|
@@ -531,6 +547,7 @@ ActiveRecord::Schema.define(:version => 20120518230901) do
     t.text     "live_talking_point_ids"
     t.text     "example_ids"
     t.boolean  "visible"
+    t.string   "tag",                    :default => "default"
   end
 
   create_table "live_theming_sessions", :force => true do |t|
@@ -540,6 +557,7 @@ ActiveRecord::Schema.define(:version => 20120518230901) do
     t.text     "unthemed_ids"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "tag",             :default => "default"
   end
 
   create_table "member_lookup_code_logs", :force => true do |t|

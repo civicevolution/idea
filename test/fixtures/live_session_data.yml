@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  live_session_id: 1
+  primary_field: false
+  io_type: 1
+  source_session_id: 1
+  label: MyString
+  tag: MyString
+  qty: 1
+  chars: 1
+  height: 1
+
+two:
+  live_session_id: 1
+  primary_field: false
+  io_type: 1
+  source_session_id: 1
+  label: MyString
+  tag: MyString
+  qty: 1
+  chars: 1
+  height: 1

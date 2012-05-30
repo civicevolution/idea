@@ -1,5 +1,8 @@
 class LiveSession < ActiveRecord::Base
 
+  has_many :inputs, :class_name => 'LiveSessionData', :conditions => 'io_type = 1'
+	has_many :outputs, :class_name => 'LiveSessionData', :conditions => 'io_type = 0'
+  
   before_create :set_order_id
   
   def set_order_id

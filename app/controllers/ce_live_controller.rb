@@ -135,18 +135,32 @@ class CeLiveController < ApplicationController
       render :template =>'ce_live/home_scribe', :locals=>{:group_id=>group_id, :get_templates => 'false'}
       
     elsif page_type == 'collect'
-      
-      ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'scribe7','scribe7')
-      ###session[:live_node_id] = @live_node.id
       # make sure this is in their roles
       return not_authorized unless @live_node.role == 'scribe'
 
       @page_title = "Table #{group_id}, Topic: #{@session.name}"
 
-      @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
+      primary_tag = ActiveRecord::Base.connection.select_value(%Q|SELECT tag FROM live_session_data WHERE live_session_id = #{@session.id} AND primary_field = true|)
+      
+      if primary_tag.nil?
+        @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
+      else
+        all_live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
+        @live_talking_points = all_live_talking_points.select{|ltp| ltp.tag == primary_tag}
+        
+        @live_talking_points.each do |pltp|
+          pltp[:sub_ltp] = all_live_talking_points.select{|ltp| ltp.id_letter == pltp.id_letter} - [pltp]
+        end
+        
+      end
       
       @page_data = {type: 'enter talking points', session_id: @session.id, session_title: @session.name};
-      render :template => 'ce_live/table', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
+      
+      if @session.outputs.size > 0
+        render :template => 'ce_live/table_multi_input', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
+      else
+        render :template => 'ce_live/table', :layout => 'ce_live', :locals=>{ :title=>'Scribe page for CivicEvolution Live', :role=>'Scribe'}
+      end
     
     elsif page_type == 'allocation'
       
@@ -182,7 +196,7 @@ class CeLiveController < ApplicationController
     # make sure this is in their roles
     return not_authorized unless @live_node.role == 'coord'
     @event = LiveEvent.find( params[:event_id])
-    @event_sessions = LiveSession.where(:live_event_id => params[:event_id])
+    @event_sessions = LiveSession.includes(:inputs, :outputs).where(:live_event_id => params[:event_id])
     @event_nodes = LiveNode.where(:live_event_id => params[:event_id])
     @channels = ["_event_#{params[:event_id]}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
@@ -234,9 +248,34 @@ class CeLiveController < ApplicationController
     @themers = LiveNode.where(role: 'theme', parent_id: @live_node.id ).order('name ASC')
     
     @page_title = "Macro theming for: #{@session.name}"
-    
-    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id)
-    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id)
+
+    source_session_id = @session.id
+    source_input_tags = ['default']
+    if @session.inputs.size == 0
+      
+      @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id)
+      @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id)
+
+    else
+      # first get my themes and theming data
+      @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id)
+      @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id)
+      
+      # now load the micro_theming data for each input
+      source_input_tags = []
+      @session.inputs.each do |inp|
+        @live_themes_unordered += LiveTheme.where(:live_session_id => inp.source_session_id, :tag => inp.tag)
+        @live_theming_session += LiveThemingSession.where(:live_session_id => inp.source_session_id, :tag => inp.tag)
+        
+        source_session_id = inp.source_session_id
+        source_input_tags.push( inp.tag )
+      end
+    end
+    if @session.outputs.size == 0
+      output_tag = 'default'
+    else
+      output_tag = @session.outputs[0].tag
+    end
 
     # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
     @live_themes = []
@@ -306,11 +345,13 @@ class CeLiveController < ApplicationController
     
     @live_themes = @live_themes.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
-    @channels = ["_event_#{@live_node.live_event_id}", "_session_#{@session.id}_macrothemer" ]
+    @channels = ["_event_#{@live_node.live_event_id}", "_session_#{source_session_id}_macrothemer" ]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
     @disable_editing =  (@session.published || @live_node.role != 'coord') ? true : false
-    @page_data = {type: 'macro theming', session_id: @session.id, session_title: @session.name};
+    @page_data = {type: 'macro theming', session_id: @session.id, source_session_id: source_session_id, 
+      session_title: @session.name, output_tag: output_tag, source_input_tags: source_input_tags}
+        
     render :template => 'ce_live/macro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming coordination page', :role=>'Themer'}
   end
   
@@ -321,10 +362,24 @@ class CeLiveController < ApplicationController
     return not_authorized unless @live_node.role == 'coord'
     
     @page_title = "Theme final edit for: #{@session.name}"
-    
-    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id=>@live_node.id)
-    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id=>@live_node.id)
+    if @session.inputs.size == 0
+      source_session_id = @session.id
+      @source_session_tag = 'default'
+      @source_session = @session
+      @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id=>@live_node.id)
+      @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id=>@live_node.id)
+    else
+      source_session_id = @session.inputs[0].source_session_id
+      @source_session_tag = @session.inputs[0].tag
+      @source_session = LiveSession.find_by_id(source_session_id)
+      @live_theming_session = LiveThemingSession.where(:live_session_id => source_session_id,
+        :themer_id=>@live_node.id, :tag=>@session.inputs[0].tag)
+        
+      @live_themes_unordered = LiveTheme.where(:live_session_id => source_session_id,
+        :themer_id=>@live_node.id, :tag=>@session.inputs[0].tag)
 
+    end
+    
     # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
     @my_themes = []
     ord = 0
@@ -346,8 +401,8 @@ class CeLiveController < ApplicationController
     @my_themes.sort!{|a,b| a.order_id <=> b.order_id}
 
     @channels = ["_event_#{@live_node.live_event_id}" ]
-    @disable_editing =  (@session.published || @live_node.role != 'coord') ? true : false
-    @page_data = {type: 'final edit themes', session_id: @session.id, session_title: @session.name};
+    @disable_editing =  (@source_session.published || @live_node.role != 'coord') ? true : false
+    @page_data = {type: 'final edit themes', session_id: @session.id, source_session_id: source_session_id, session_title: @session.name};
     render :template => 'ce_live/theme_final_edit', :layout => 'ce_live', :locals=>{ :title=>'Theme final edit page', :role=>'Themer'}
   end
   
@@ -535,10 +590,7 @@ class CeLiveController < ApplicationController
   
   def micro_themer         
     @session = LiveSession.find_by_id(params[:session_id])
-    ###@live_node = LiveNode.find_by_live_event_id_and_password_and_username(@session.live_event_id,'themer2','themer2')
-    ###session[:live_node_id] = @live_node.id
     # make sure this is in their roles
-    
     return not_authorized unless @live_node.role == 'theme' || @live_node.role == 'coord'
     
     if params[:id]
@@ -556,13 +608,35 @@ class CeLiveController < ApplicationController
     end    
     
     @page_title = "Theme for: #{@session.name}, Tables: #{@tables.join(',')}"
+    source_session_id = @session.id
+    source_input_tags = ['default']
+    if @session.inputs.size == 0
+      @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, 
+        :group_id => LiveNode.where(:role => 'scribe', :parent_id => themer_id).map{|n| n.name.match(/\d+/)[0].to_i} ).order('id ASC')
+      @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => themer_id)
+      @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => themer_id)
+      
+    else
+      @live_talking_points = []
+      source_input_tags = []
+      @session.inputs.each do |inp|
+        @live_talking_points += LiveTalkingPoint.where(:live_session_id => inp.source_session_id, :tag => inp.tag,
+          :group_id => LiveNode.where(:role => 'scribe', :parent_id => themer_id).map{|n| n.name.match(/\d+/)[0].to_i} ).order('id ASC')
+        source_session_id = inp.source_session_id
+        source_input_tags.push( inp.tag )
+      end
+        
+      @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => themer_id)
+      @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => themer_id)
+      
+    end
     
     
-    @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, 
-      :group_id => LiveNode.where(:role => 'scribe', :parent_id => themer_id).map{|n| n.name.match(/\d+/)[0].to_i} ).order('id ASC')
-    
-    @live_theming_session = LiveThemingSession.where(:live_session_id => @session.id, :themer_id => themer_id)
-    @live_themes_unordered = LiveTheme.where(:live_session_id => @session.id, :themer_id => themer_id)
+    if @session.outputs.size == 0
+      output_tag = 'default'
+    else
+      output_tag = @session.outputs[0].tag
+    end
     
     # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
     @live_themes = []
@@ -597,11 +671,12 @@ class CeLiveController < ApplicationController
     
     @live_talking_points = @live_talking_points.reject{ |tp| themed_tp_ids.include?(tp.id) }
     
-    @channels = ["_event_#{@live_node.live_event_id}", "_session_#{@session.id}_microthemer_#{themer_id}" ]
+    @channels = ["_event_#{@live_node.live_event_id}", "_session_#{source_session_id}_microthemer_#{themer_id}" ]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
     
     @disable_editing =  (@session.published || @live_node.role != 'theme') ? true : false
-    @page_data = {type: 'micro theming', session_id: @session.id, session_title: @session.name};
+    @page_data = {type: 'micro theming', session_id: @session.id, source_session_id: source_session_id, 
+      session_title: @session.name, output_tag: output_tag, source_input_tags: source_input_tags};
     render :template => 'ce_live/micro_themer', :layout => 'ce_live', :locals=>{ :title=>'Theming page for CivicEvolution Live'}
   end
     
@@ -650,11 +725,37 @@ class CeLiveController < ApplicationController
       @live_session = LiveEvent.find(params[:event_id]).live_sessions.new(params[:live_session])
       @live_session.published = false
       @live_session.save
+      if @live_session.session_type == 'group'
+        @live_session.group_id = @live_session.id
+        @live_session.save
+      end
     else
       @live_session = LiveSession.find(params[:live_session][:id])
       @live_session.attributes = params[:live_session]
       @live_session.save
     end
+    
+    
+    
+    # save the inputs and outputs
+    
+    LiveSessionData.delete_all(:live_session_id => @live_session.id)
+    
+    if params[:in_1_tag] != ''
+      @live_session.inputs.create io_type: 1, source_session_id: params[:in_1_source_session_id], tag: params[:in_1_tag]
+   	end
+    if params[:in_2_tag] != ''
+      @live_session.inputs.create io_type: 1, source_session_id: params[:in_2_source_session_id], tag: params[:in_2_tag]
+   	end
+
+    if params[:out_1_tag] != ''
+      @live_session.outputs.create io_type: 0, label: params[:out_1_label], tag: params[:out_1_tag], qty: params[:out_1_qty], 
+        chars: params[:out_1_chars], height: params[:out_1_height], primary_field: params[:out_1_primary_field]
+   	end
+    if params[:out_2_tag] != ''
+      @live_session.outputs.create io_type: 0, label: params[:out_2_label], tag: params[:out_2_tag], qty: params[:out_2_qty], 
+        chars: params[:out_2_chars], height: params[:out_2_height], primary_field: params[:out_2_primary_field]
+   	end
     
     if @live_session.errors.empty?
       redirect_to :live_event_setup
@@ -727,16 +828,47 @@ class CeLiveController < ApplicationController
       group_id = group_id[0].to_i
     end
 
-    # how do I determine the letter to give this talking point  
-    last = LiveTalkingPoint.select('id_letter').where(:live_session_id => params[:s_id], :group_id => group_id).order('id DESC').limit(1)
-    if last.empty?
-      id_letter = 'A'
-    else
-      id_letter = last[0].id_letter.succ
-    end
+    if params[:text]
+      # how do I determine the letter to give this talking point  
+      last = LiveTalkingPoint.select('id_letter').where(:live_session_id => params[:s_id], :group_id => group_id).order('id DESC').limit(1)
+      if last.empty?
+        id_letter = 'A'
+      else
+        id_letter = last[0].id_letter.succ
+      end
 
-    ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: group_id, text: params[:text],
-      pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter
+      ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: group_id, text: params[:text], tag: 'default',
+        pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter
+      
+    else
+      # I need the primary input tag for this session
+      primary_tag = ActiveRecord::Base.connection.select_value(%Q|SELECT tag FROM live_session_data WHERE live_session_id = #{params[:s_id].to_i} AND primary_field = true|)
+      
+      last = LiveTalkingPoint.select('id_letter').where(:live_session_id => params[:s_id], :tag => primary_tag, :group_id => group_id).order('id DESC').limit(1)
+      if last.empty?
+        id_letter = 'A'
+      else
+        id_letter = last[0].id_letter.succ
+      end
+
+      sub_ltp = []
+      primary_field_value = params["_tp_#{primary_tag}_1"]
+      params.each_pair do |name,value|
+        if name.match(/_tp_/)
+          tag = name.match(/_tp_(.*)_\d$/)[1]
+          if value.match(/\w/)
+            new_ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: group_id, text: value, tag: tag,
+              pos_votes: 0, neg_votes: 0, id_letter: id_letter
+            if tag == primary_tag
+              ltp = new_ltp
+            else
+              sub_ltp.push new_ltp
+            end
+          end
+        end
+      end
+      ltp[:sub_ltp] = sub_ltp
+    end
       
     Juggernaut.publish("_session_#{params[:s_id]}_microthemer_#{@live_node.parent_id}", {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
     render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => ltp})
@@ -798,7 +930,7 @@ class CeLiveController < ApplicationController
         
       when 'new_list' 
         logger.debug "new_list"
-        @live_theme = LiveTheme.create live_session_id: params[:live_session_id], 
+        @live_theme = LiveTheme.create live_session_id: params[:live_session_id], tag: params[:output_tag],
           themer_id: @live_node.id, text: params[:text], order_id: 0, live_talking_point_ids: params[:ltp_ids], visible: true
           
         # replace the temp list_id with the new one returned by @live_theme.id
@@ -812,6 +944,7 @@ class CeLiveController < ApplicationController
         end
         @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.theme_group_ids = list_ids.join(',')
+        @live_theming_session.tag = params[:output_tag]
         @live_theming_session.save
           
       when 'reorder_lists'
@@ -848,8 +981,10 @@ class CeLiveController < ApplicationController
         else
           @new_ids = params[:new_ids].scan(/\d+/).uniq.join(',')
         end
+        
         @live_theming_session = LiveThemingSession.find_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.theme_group_ids = @new_ids
+        @live_theming_session.tag = params[:output_tag]
         @live_theming_session.save
         
       when 'update_theme_text_and_example'
@@ -859,12 +994,13 @@ class CeLiveController < ApplicationController
           @live_theme.example_ids = params[:example]
           @live_theme.save
         else
-          @live_theme = LiveTheme.create live_session_id: params[:live_session_id], 
+          @live_theme = LiveTheme.create live_session_id: params[:live_session_id], tag: params[:output_tag],
             themer_id: @live_node.id, text: params[:theme], order_id: 0, example_ids: params[:example], visible: true
           @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
           ids = @live_theming_session.theme_group_ids ||= ''
           ids = ids.scan(/\d+/)
           ids.push( @live_theme.id )
+          @live_theming_session.tag = params[:output_tag] if @live_theming_session.tag.nil?
           @live_theming_session.theme_group_ids = ids.map{|d| d.to_i}.uniq.join(',')
           @live_theming_session.save
           

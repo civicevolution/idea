@@ -54,14 +54,17 @@ $('form.post_live_tp').live('ajax:beforeSend',
 	  }else if(textlength > 250){
 	    errors.push( {selector: 'textarea', msg: 'Your talking point must be less than 250 characters long'});
 	  }
-	  var votes_for_val = $form.find('input[name="votes_for"]').val();
-	  if( votes_for_val == '' || isNaN(votes_for_val)){
-	    errors.push( {selector: 'input[name="votes_for"]', msg: 'You must enter the number of YES votes for this talking point, or 0'});
-	  }
+	  
+	  if ($form.find('input[name="votes_for"]').size() > 0){
+  	  var votes_for_val = $form.find('input[name="votes_for"]').val();
+  	  if( votes_for_val == '' || isNaN(votes_for_val)){
+  	    errors.push( {selector: 'input[name="votes_for"]', msg: 'You must enter the number of YES votes for this talking point, or 0'});
+  	  }
 
-	  var votes_against_val = $form.find('input[name="votes_against"]').val();
-	  if( votes_against_val == '' || isNaN(votes_against_val)){
-	    errors.push( {selector: 'input[name="votes_against"]', msg: 'You must enter the number of NO votes for this talking point, or 0'});
+  	  var votes_against_val = $form.find('input[name="votes_against"]').val();
+  	  if( votes_against_val == '' || isNaN(votes_against_val)){
+  	    errors.push( {selector: 'input[name="votes_against"]', msg: 'You must enter the number of NO votes for this talking point, or 0'});
+  	  }
 	  }
 	  
 	  if(errors.length > 0){
@@ -76,7 +79,7 @@ $('form.post_live_tp').live('ajax:beforeSend',
 	      }
 	    );
 	    
-	    $form.find('div.form_controls').after(err_ul);
+	    $form.find('div.form_controls:first').after(err_ul);
 	    
 	    
 	    // clear waiting icon

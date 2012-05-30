@@ -29,26 +29,32 @@
 		);
 		
 %div#live_home
-	%h3 Theming for tables: #{@tables}
+	%h3 Micro theming for tables: #{@tables}
 	%h4 Please select one of these pages as directed by the event coordinator
 	
 	%table
-		- @sessions.each do |session|
-			- if session.session_type == 'collect'
-				%tr
-					%td
-						%h3.time
-							= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
-					%td
-						%h3
-							= session.name
-					%td
-						%h3
-							%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
-		
-				%tr
-					%td
-					%td{:colspan=>2}
-						- if session.session_type == 'collect'
-							%p= link_to "Theming: #{session.name}", live_micro_themer_path(session.id)
+		- @sessions.select{|es| es.session_type == 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |group|
+			%tr
+				%td{colspan: 3}
+					%h3 
+						Session #{group.name}:
+			
+			- @sessions.select{|s| s.group_id == group.id && s.session_type != 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |session|
+				- if session.session_type == 'microtheme'
+					%tr
+						%td
+							%h3.time
+								= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
+						%td
+							%h3
+								= session.name
+						%td
+							%h3
+								%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
 	
+					%tr
+						%td
+						%td{:colspan=>2}
+							- if session.session_type == 'microtheme'
+								%p= link_to session.name, live_micro_themer_path(session.id)
+

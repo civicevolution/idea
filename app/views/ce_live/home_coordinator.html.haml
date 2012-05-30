@@ -11,6 +11,8 @@
 				margin-right: 20px
 			p.report_link
 				font-size: 1.2em
+			td.left_margin
+				width: 60px
 				
 	:javascript
 		var live_session_id;
@@ -32,55 +34,86 @@
 	%h2 CivicEvolution Live Coordinator Homepage
 	
 	= link_to "Event setup", live_event_setup_path(@live_node.live_event_id)
-	%table
-		- @sessions.each do |session|
-			- if !session.source_session_id.nil?
-				- session_source = LiveSession.find_by_id(session.source_session_id)
-		
-			%tr
-				%td
-					%h3.time
-						= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
-				%td
-					%h3
-						= session.name
-				%td
-					%h3
-						%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
-		
-			%tr
-				%td
-				%td{:colspan=>2}
 	
-					%div.session_details
-						- case session.session_type
-							- when 'collect'
-								%p 
-									%b Theme teams
-								%ul
-									- @subordinate_themers.each do |themer|
-										%li= link_to "Micro themer's view, Tables: #{themer[:tables]}", live_micro_themer_path(:session_id=>session.id, :id=>themer.id)
+	%table
+		- @sessions.select{|es| es.session_type == 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |group|
+		
+			%tr 
+				%td{colspan: 4}
+					%h2
+						Session actions for #{group.name}:
+		
+			- @sessions.select{|s| s.group_id == group.id && s.session_type != 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |session|
+				- if session.session_type != 'collect'
+					- if !session.source_session_id.nil?
+						- session_source = LiveSession.find_by_id(session.source_session_id)
+		
+					%tr
+						%td.left_margin
+						%td
+							%h3.time
+								= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
+						%td
+							%h3
+								= session.name
+						%td
+							%h3
+								%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
+		
+					%tr
+						%td.left_margin
+						%td
+						%td{:colspan=>2}
+	
+							%div.session_details
+								- case session.session_type
+									- when 'microtheme'
+										%ul
+											- @subordinate_themers.each do |themer|
+												%li= link_to "Micro themer's view, Tables: #{themer[:tables]}", live_micro_themer_path(:session_id=>session.id, :id=>themer.id)
 					
-								%p= link_to "Macro theming", live_macro_themer_path(session.id)
-								%p= link_to "Final editing of themes", live_theme_final_edit_path(session.id)
+					
+									- when 'macrotheme'
+										%p= link_to "Macro theming", live_macro_themer_path(session.id)
+									
+									- when 'final_edit'
+										%p= link_to "Final editing of themes", live_theme_final_edit_path(session.id)
 				
-								- if session.published
-									%h4
-										%span.status 
-											= image_tag 'completed_on.gif'
-											Themes have been published
-										= link_to "Unpublish the themes", {}, {:class=>"publish_link published", :id=>session.id}
-								- else
-									%h4 
-										%span.status Themes have not been published
-										= link_to 'Publish themes', {}, {:class=>"publish_link unpublished", :id=>session.id}
+									- when 'publish'
+										- final_session = @sessions.detect{|s| s.id == session.inputs[0].source_session_id }
+										- if final_session.published
+											%h4
+												%span.status 
+													= image_tag 'completed_on.gif'
+													Themes have been published
+												= link_to "Unpublish the themes", {}, {:class=>"publish_link published", :id=>final_session.id}
+										- else
+											%h4 
+												%span.status Themes have not been published
+												= link_to 'Publish themes', {}, {:class=>"publish_link unpublished", :id=>final_session.id}
+											
+									- when 'view_final_themes'
+										- final_session = @sessions.detect{|s| s.id == session.inputs[0].source_session_id }
+										- if !final_session.nil?
+											- if !final_session.published
+												%p.warn Themes have not been published yet
 
+											%p= link_to "View final themes", live_session_themes_path(final_session.id)
+										- else
+											%p.warn Please set the session data source in Event setup page
+										
+											
+									- else
+										%p Create a home page entry for session_type: #{session.session_type}
 				
+				-#%tr
+					%td{colspan: 3}
+						-#		
 							- when 'feedback_themes'
 								- if !session.source_session_id.nil?
 									- if !session_source.published
 										%p.warn Themes have not been published yet
-									
+							
 									%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
 								- else
 									%p.warn Please set the session data source in Event setup page
@@ -88,7 +121,7 @@
 								- if !session.source_session_id.nil?
 									- if !session_source.published
 										%p.warn Themes have not been published yet
-									
+							
 									%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
 								- else
 									%p.warn Please set the session data source in Event setup page
@@ -96,7 +129,7 @@
 								- if !session.source_session_id.nil?
 									- if !session_source.published
 										%p.warn Themes have not been published yet
-									
+							
 									%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
 								- else
 									%p.warn Please set the session data source in Event setup page
@@ -104,8 +137,8 @@
 								- if !session.source_session_id.nil?
 									- if !session_source.published
 										%p.warn Themes have not been published yet
-									
+							
 									%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
 								- else
 									%p.warn Please set the session data source in Event setup page
-			
+	

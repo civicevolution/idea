@@ -17,14 +17,29 @@
 
 - elsif mode == 'table_confirmation'
 	%div{:idea_id=>live_talking_point.id, :table_id=> live_talking_point.group_id, :class => 'live_talking_point' }
-		%p.text= live_talking_point.text
-		= image_tag 'info.gif', :class=>"info"
-		= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
-		%p.stats
-			Talking point #{live_talking_point.id_letter} 
-			%span.pos +#{live_talking_point.pos_votes} 
-			%span.div /
-			%span.neg  -#{live_talking_point.neg_votes}
+		- if live_talking_point[:sub_ltp]
+			%p.text= live_talking_point.text
+			= image_tag 'info.gif', :class=>"info"
+			= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
+			%ul.sub_text
+				- live_talking_point[:sub_ltp].each do |ltp|
+					%li= ltp.text
+			
+			
+			%p.stats
+				Talking point #{live_talking_point.id_letter} 
+				%span.pos.hide
+				%span.neg.hide
+			
+		- else
+			%p.text= live_talking_point.text
+			= image_tag 'info.gif', :class=>"info"
+			= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
+			%p.stats
+				Talking point #{live_talking_point.id_letter} 
+				%span.pos +#{live_talking_point.pos_votes} 
+				%span.div /
+				%span.neg  -#{live_talking_point.neg_votes}
 	
 
 - elsif mode == 'themed'

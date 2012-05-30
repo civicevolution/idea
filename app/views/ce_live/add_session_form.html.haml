@@ -4,30 +4,88 @@
 			p.data_source
 				label
 					display: inline
-				input[type='text']
-					width: 40px
+			div#add_session_form
+				form.std_form
+					width: 900px
+					max-width: 1000px
+					input.short
+						width: 80px
+					input.source_session_id
+						width: 40px
+					input.tag
+						width: 160px
+					input.label
+						width: 400px
+					input.out_qty
+						width: 20px
 					
-
 %div#add_session_form
 	%h3 Add/edit a session form
 	
 	= form_for( @live_session, :url=>post_live_session_path(params[:event_id]), :html=>{:class=>'std_form'} ) do |form|
 		= form.hidden_field :id
+		
+		%p= label_tag :title, 'Session type'
+		%p.data_source
+			= form.select( :session_type, [['Select session type','0'],['Session group','group'],['Collect talking points','collect'],
+			['Microtheme','microtheme'],['Macrotheme','macrotheme'],['Final edit','final_edit'],['Publish','publish'],['View final themes','view_final_themes'], ['Allocation options', 'allocation_options'], ['Allocation', 'allocation'], ['Feedback: Allocation results','feedback_allocation_results']])
+
+		%p= label_tag :group_id, 'Session group id'
+		= form.text_field :group_id, :class=>'short'
+		
+		
 		%p= label_tag :order_id, 'Session order #'
-		= form.text_field :order_id
+		= form.text_field :order_id, :class=>'short'
 
 		%p= label_tag :starting_time, 'Starting time'
-		= form.text_field :starting_time
+		= form.text_field :starting_time, :class=>'short'
 
 		%p= label_tag :duration, 'Duration in minutes'
-		= form.text_field :duration
+		= form.text_field :duration, :class=>'short'
 		
 		%div
-			%p= label_tag :title, 'Session type'
 			%p.data_source
-				= form.select( :session_type, [['Select session type','0'],['Collect talking points','collect'],['Feedback: themes', 'feedback_themes'], ['Allocation options', 'allocation_options'], ['Allocation', 'allocation'], ['Feedback: Allocation results','feedback_allocation_results']])
-				= label_tag :source_session_id, 'Session id for data (if applicable)'
-				= form.text_field :source_session_id
+				Inputs
+			- ds = @live_session.inputs[0] || LiveSessionData.new
+			%p.data_source	
+				= label_tag :in_1_source_session_id, 'Session id'
+				= text_field_tag :in_1_source_session_id, ds.source_session_id, :class => 'source_session_id'
+				= label_tag :in_1_tag, 'Tag'
+				= text_field_tag :in_1_tag, ds.tag, :class=>'tag'
+				
+			- ds = @live_session.inputs[1] || LiveSessionData.new
+			%p.data_source	
+				= label_tag :in_2_source_session_id, 'Session id'
+				= text_field_tag :in_2_source_session_id, ds.source_session_id, :class => 'source_session_id'
+				= label_tag :in_2_tag, 'Tag'
+				= text_field_tag :in_2_tag, ds.tag, :class=>'tag'
+
+			%p.data_source
+				Outputs
+				
+			- ds = @live_session.outputs[0] || LiveSessionData.new(qty: 1, primary_field: true, chars: 250, height: 3)
+			%p.data_source	
+				= hidden_field_tag :out_1_primary_field, ds.primary_field
+				= hidden_field_tag :out_1_chars, ds.chars
+				= hidden_field_tag :out_1_height, ds.height
+				= label_tag :out_1_tag, 'Tag'
+				= text_field_tag :out_1_tag, ds.tag, :class=>'tag'
+				= label_tag :out_1_qty, 'Qty'
+				= text_field_tag :out_1_qty, ds.qty, :class=>'out_qty'
+				= label_tag :out_1_label, 'Label'
+				= text_field_tag :out_1_label, ds.label, :class=>'label'
+				
+			- ds = @live_session.outputs[1] || LiveSessionData.new(qty: 1, primary_field: false, chars: 250, height: 2)	
+			%p.data_source	
+				= hidden_field_tag :out_2_primary_field, ds.primary_field
+				= hidden_field_tag :out_2_chars, ds.chars
+				= hidden_field_tag :out_2_height, ds.height
+				= label_tag :out_2_tag, 'Tag'
+				= text_field_tag :out_2_tag, ds.tag, :class=>'tag'
+				= label_tag :out_2_qty, 'Qty'
+				= text_field_tag :out_2_qty, ds.qty, :class=>'out_qty'
+				= label_tag :out_2_label, 'Label'
+				= text_field_tag :out_2_label, ds.label, :class=>'label'
 					
 		%div
 			%p= label_tag :title, 'Session name'

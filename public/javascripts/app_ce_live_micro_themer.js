@@ -240,7 +240,8 @@ if(!disable_editing){
   	    );
   	    //console.log("add new_list, ids: " + list_ids);
 	    
-  	    post_theme_changes({act: 'new_list', text: new_list.find('p.theme').html(), list_id: new_list.attr('list_id'), list_ids: list_ids, ltp_ids: new_idea.attr('idea_id') })
+  	    post_theme_changes({act: 'new_list', text: new_list.find('p.theme').html(), list_id: new_list.attr('list_id'),
+  	      output_tag: page_data.output_tag, list_ids: list_ids, ltp_ids: new_idea.attr('idea_id') })
   	    setTimeout( function(){ fix_list_overflow( this )}.bind(new_list), 100);
   	  }else if( drop_tgt.attr('id') == 'misc' ){
   	    //console.log("add talking point to the misc set");
@@ -974,7 +975,7 @@ function expire_old_status(){
 
 function update_status_report(message){
   if(message.role == 'scribe' &&
-    message.page_type.session_id == page_data.session_id &&
+    message.page_type.session_id == page_data.source_session_id &&
     message.page_type.type == 'enter talking points'
   ){
     try{

@@ -57,19 +57,31 @@
 						data.data.live_talking_point.text = data.data.live_talking_point.text.toLowerCase();
 					}
 
-					var live_talking_point = template_functions['live_talking_point'](data);
-					
-					//$('div#live_talking_points div.inner').append(live_talking_point).scrollTop(99999999);
-					live_talking_point = $(live_talking_point);
-					if(data.data.live_talking_point.pos_votes == 1){
-						live_talking_point.find('p.text').append('<span class="minority"> M</span>');
+					// create an array of the talking points, then process them if they have a matching tag
+					if(data.data.live_talking_point.sub_ltp){
+						var ltps = data.data.live_talking_point.sub_ltp.concat(data.data);
+					}else{
+						var ltps = [data.data];
 					}
-					$('div#live_talking_points div.inner').append(live_talking_point);//.scrollTop(99999999);
 					
-					//$('div.incoming_ideas p.stats span.cnt').html( $('div#live_talking_points div.live_talking_point').size() )
+					for(var i=0; ltp = ltps[i]; i++){
+						if($.inArray(ltp.live_talking_point.tag, page_data.source_input_tags) != -1 ){
+							dataX = {};
+							dataX.data = ltp;
+							var live_talking_point = template_functions['live_talking_point']( dataX );
 					
-					make_new_ideas_draggable( live_talking_point );
+							//$('div#live_talking_points div.inner').append(live_talking_point).scrollTop(99999999);
+							live_talking_point = $(live_talking_point);
+							if(data.data.live_talking_point.pos_votes == 1){
+								live_talking_point.find('p.text').append('<span class="minority"> M</span>');
+							}
+							$('div#live_talking_points div.inner').append(live_talking_point);//.scrollTop(99999999);
 					
+							//$('div.incoming_ideas p.stats span.cnt').html( $('div#live_talking_points div.live_talking_point').size() )
+					
+							make_new_ideas_draggable( live_talking_point );
+						}
+					}
 					setTimeout(post_theme_changes.update_fn,1200);
 					
 				}

@@ -4,29 +4,37 @@
 	%p The page will be updated automatically to allow you to record your table's talking points.
 	
 	- if @sessions
+	
 		%table
-			- @sessions.each do |session|
-				- if session.session_type == 'collect' || session.session_type == 'allocation'
-					%tr
-						%td
-							%h3.time
-								= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
-						%td
-							%h3
-								= session.name
-						%td
-							%h3
-								%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
+			- @sessions.select{|es| es.session_type == 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |group|
+				%tr
+					%td{colspan: 3}
+						%h3 
+							Session #{group.name}:
+			
+				- @sessions.select{|s| s.group_id == group.id && s.session_type != 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |session|
+	
+					- if session.session_type == 'collect' || session.session_type == 'allocation'
+						%tr
+							%td
+								%h3.time
+									= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
+							%td
+								%h3
+									= session.name
+							%td
+								%h3
+									%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
 				
-					%tr
-						%td
-						%td{:colspan=>2}
-							- case session.session_type
-								- when 'collect'
-									%p= link_to "Collect talking points for #{session.name}", live_scribe_path(:dest => "collect_#{session.id}")
-								- when 'allocation'
-									- if !session.source_session_id.nil?
-										%p= link_to "#{session.name}", live_scribe_path(:dest => "allocation_#{session.source_session_id}")
-									- else
-										%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
+						%tr
+							%td
+							%td{:colspan=>2}
+								- case session.session_type
+									- when 'collect'
+										%p= link_to "Collect talking points for #{session.name}", live_scribe_path(:dest => "collect_#{session.id}")
+									- when 'allocation'
+										- if !session.source_session_id.nil?
+											%p= link_to "#{session.name}", live_scribe_path(:dest => "allocation_#{session.source_session_id}")
+										- else
+											%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
 	
