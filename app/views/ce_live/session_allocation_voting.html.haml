@@ -122,7 +122,7 @@
 					%span.alloc
 						0
 			
-			= form_tag live_allocate_save_path(@session.source_session_id), :remote=>true do
+			= form_tag live_allocate_save_path(@source_session_id), :remote=>true do
 				- tab_index = 1
 				= hidden_field_tag :table_id, @table_id
 				= hidden_field_tag :voter_id, @voter_id
@@ -164,10 +164,10 @@
 			%p These voters have been recorded
 			%ul
 				%li{:class=>'placeholder'}
-					= link_to "Voter", live_voter_session_allocations_path(@session.source_session_id, :table_id=>'TABLE_ID', :voter_id=>'VOTER_ID'), {:class => 'retrieve_voter', :remote=>true}
+					= link_to "Voter", live_voter_session_allocations_path(@source_session_id, :table_id=>'TABLE_ID', :voter_id=>'VOTER_ID'), {:class => 'retrieve_voter', :remote=>true}
 			- @voters.each do |voter|
 				%li{:id=> voter} 
-					= link_to "Voter #{voter}", live_voter_session_allocations_path(@session.source_session_id,:table_id=>@table_id, :voter_id=>voter), {:class => 'retrieve_voter', :remote=>true}
+					= link_to "Voter #{voter}", live_voter_session_allocations_path(@source_session_id,:table_id=>@table_id, :voter_id=>voter), {:class => 'retrieve_voter', :remote=>true}
 				
 	- else 
 		%h3= @warning

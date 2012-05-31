@@ -105,43 +105,21 @@
 										- else
 											%p.warn Please set the session data source in Event setup page
 										
+									- when 'feedback_allocation_results'
+										- if session.source_session_id.nil? || session.inputs.size > 0
+											- source_session_id = session.inputs[0].source_session_id
+										- else
+											- source_session_id = session.source_session_id
+
+								    
+										- if !source_session_id.nil?
+											- if !LiveSession.find_by_id(source_session_id).published
+												%p.warn Themes have not been published yet
+
+											%p.report_link= link_to "Allocation results to be projected", live_session_allocation_results_path(source_session_id)
+										- else
+											%p.warn Please check the session data source in Event setup page
+									
 											
 									- else
 										%p Create a home page entry for session_type: #{session.session_type}
-				
-				-#%tr
-					%td{colspan: 3}
-						-#		
-							- when 'feedback_themes'
-								- if !session.source_session_id.nil?
-									- if !session_source.published
-										%p.warn Themes have not been published yet
-							
-									%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)
-								- else
-									%p.warn Please set the session data source in Event setup page
-							- when 'allocation_options'
-								- if !session.source_session_id.nil?
-									- if !session_source.published
-										%p.warn Themes have not been published yet
-							
-									%p= link_to "#{session.name}", live_session_allocation_options_path(session.source_session_id)
-								- else
-									%p.warn Please set the session data source in Event setup page
-							- when 'allocation'
-								- if !session.source_session_id.nil?
-									- if !session_source.published
-										%p.warn Themes have not been published yet
-							
-									%p= link_to "#{session.name}", live_session_allocation_voting_path(session.source_session_id)
-								- else
-									%p.warn Please set the session data source in Event setup page
-							- when 'feedback_allocation_results'
-								- if !session.source_session_id.nil?
-									- if !session_source.published
-										%p.warn Themes have not been published yet
-							
-									%p= link_to "#{session.name}", live_session_allocation_results_path(session.source_session_id)
-								- else
-									%p.warn Please set the session data source in Event setup page
-	

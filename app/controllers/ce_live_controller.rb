@@ -166,15 +166,21 @@ class CeLiveController < ApplicationController
       
       @page_title = "Table #{group_id} Prioritisation for: #{@session.name}"
 
-      if LiveSession.find_by_id(@session.source_session_id).published
-        @live_themes = LiveTheme.where("live_session_id = #{@session.source_session_id} AND order_id > 0").order('order_id ASC')
+      if @session.source_session_id.nil? || @session.inputs.size > 0
+        @source_session_id = @session.inputs[0].source_session_id
+      else
+        @source_session_id = @session.source_session_id
+      end
+
+      if LiveSession.find_by_id(@source_session_id).published
+        @live_themes = LiveTheme.where("live_session_id = #{@source_session_id} AND order_id > 0").order('order_id ASC')
         @live_themes.reject!{ |theme| theme.visible == false }
         @table_id = @live_node.name.match(/\d+/)
         @table_id = @table_id.nil? ? 0 : @table_id[0].to_i
         @voter_id = params[:voter_id]
 
         # get the voter_ids that have already voted
-        @voters = LiveThemeAllocation.get_voters(@session.source_session_id, @table_id)
+        @voters = LiveThemeAllocation.get_voters(@source_session_id, @table_id)
 
       else
         @warning = "We're sorry, the results of this session have not been published yet"
@@ -561,52 +567,61 @@ class CeLiveController < ApplicationController
     render :template => 'ce_live/session_allocation_options', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation options', :role=>'Themer'}
   end
 
-  def session_allocation_voting
-    @session = LiveSession.find_by_id(params[:session_id])
-    
-    @page_title = "Prioritisation for: #{@session.name}"
-
-    if @live_node.name.match(/\d+/).nil?
-      @not_scribe_message = "You must be signed in as a table scribe to record allocation votes"
-    end
-    if LiveSession.find_by_id(@session.id).published
-      @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
-      @live_themes.reject!{ |theme| theme.visible == false }
-      @table_id = @live_node.name.match(/\d+/)
-      @table_id = @table_id.nil? ? 0 : @table_id[0].to_i
-      @voter_id = params[:voter_id]
-      
-      # get the voter_ids that have already voted
-      @voters = LiveThemeAllocation.get_voters(params[:session_id], @table_id)
-      
-    else
-      @warning = "We're sorry, the results of this session have not been published yet"
-    end
-
-    @channels = ["_event_#{@live_node.live_event_id}" ]    
-    render :template => 'ce_live/session_allocation_voting', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation voting', :role=>'Themer'}
-  end
+  #def session_allocation_voting
+  #  @session = LiveSession.find_by_id(params[:session_id])
+  #  
+  #  @page_title = "Prioritisation for: #{@session.name}"
+  #
+  #  if @live_node.name.match(/\d+/).nil?
+  #    @not_scribe_message = "You must be signed in as a table scribe to record allocation votes"
+  #  end
+  #  if LiveSession.find_by_id(@session.id).published
+  #    @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
+  #    @live_themes.reject!{ |theme| theme.visible == false }
+  #    @table_id = @live_node.name.match(/\d+/)
+  #    @table_id = @table_id.nil? ? 0 : @table_id[0].to_i
+  #    @voter_id = params[:voter_id]
+  #    
+  #    # get the voter_ids that have already voted
+  #    @voters = LiveThemeAllocation.get_voters(params[:session_id], @table_id)
+  #    
+  #  else
+  #    @warning = "We're sorry, the results of this session have not been published yet"
+  #  end
+  #
+  #  @channels = ["_event_#{@live_node.live_event_id}" ]    
+  #  render :template => 'ce_live/session_allocation_voting', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation voting', :role=>'Themer'}
+  #end
   
   def session_allocation_results
     @session = LiveSession.find_by_id(params[:session_id])
     
     @page_title = "Prioritisation for: #{@session.name}"
 
-    if LiveSession.find_by_id(@session.id).published
-      @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
+    if @session.source_session_id.nil? || @session.inputs.size > 0
+      source_session_id = @session.inputs[0].source_session_id
+    else
+      source_session_id = @session.source_session_id
+    end
+
+    if LiveSession.find_by_id(source_session_id).published
+      @live_themes = LiveTheme.where("live_session_id = #{source_session_id} AND order_id > 0").order('order_id ASC')
       @live_themes.reject!{ |theme| theme.visible == false }
-      @allocated_points = LiveThemeAllocation.select("theme_id, sum(points) as points").where(:session_id => @session.id).group("theme_id")
+
+      @allocated_points = LiveThemeAllocation.select("theme_id, sum(points) as points").where(:session_id => source_session_id).group("theme_id")
       @total_points = 0
       @max_points = 0
-      @allocated_points.each{|ap| @total_points += ap.points; @max_points = ap.points if ap.points > @max_points}
+      @allocated_points.each{|ap| @total_points += ap.points; @max_points = ap.points if ap.points > @max_points} 
       @live_themes.each do |theme|
-        points = @allocated_points.detect{ |ap| ap.theme_id == theme.id}.points
+        points = @allocated_points.detect{ |ap| ap.theme_id == theme.id}
+        points = points.nil? ? 0 : points.points
         theme[:points] = points
-        theme[:percentage] = points.to_f/@total_points
+        theme[:percentage] = @total_points > 0 ? points.to_f/@total_points : 0
       end
+
     else
       @warning = "We're sorry, the results of this session have not been published yet"
-    end
+    end    
 
     @channels = ["_event_#{@session.live_event_id}" ]
     render :template => 'ce_live/session_allocation_results', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation results', :role=>'Themer'}
