@@ -180,7 +180,7 @@ class CeLiveController < ApplicationController
         @voter_id = params[:voter_id]
 
         # get the voter_ids that have already voted
-        @voters = LiveThemeAllocation.get_voters(@source_session_id, @table_id)
+        @voters = LiveThemeAllocation.get_voters(@session.id, @table_id)
 
       else
         @warning = "We're sorry, the results of this session have not been published yet"
