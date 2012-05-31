@@ -11,7 +11,7 @@
 			}
 			// check the total
 			var sum = show_vote_sum();
-			console.log("the sum is " + sum);
+			//console.log("the sum is " + sum);
 			if(sum>100){
 				var reset_val = val - (sum - 100);
 				reset_val = reset_val >= 0 ? reset_val : 0;
@@ -76,7 +76,18 @@
       event.preventDefault();
       // move to next input
       var inputs = $(this).closest('form').find(':input');
-      inputs.eq( inputs.index(this)+ 1 ).focus( function() { $(this).select(); } );
+      var next_input = inputs.eq( inputs.index(this)+ 1 );
+      next_input.focus();
       return false;
     }
   });
+  $(':text').bind('focus', function(){
+    var inp = $(this);
+    if(inp.val() == 0)inp.val('');
+  });
+  $(':text').bind('blur', function(){
+    var inp = $(this);
+    if(inp.val() == '')inp.val(0);
+  });
+  
+  $(':text:first').focus();

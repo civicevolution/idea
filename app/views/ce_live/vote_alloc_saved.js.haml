@@ -1,11 +1,6 @@
 = render :template => 'shared/clear_sign_in_form.js'
 - if status == 'saved'
 	:plain
-		var ack = $("#{escape_javascript(
-			render( :template => 'ce_live/vote_alloc_saved.html', :locals=>{:status => 'saved'} )
-		)}");
-
-		var dialog = ack.dialog( {title : 'Thank you', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
 		$('td.points input').val(0);
 		$('input[id="voter_id"]').val('');
 		$('span.voter_id').html('New');
@@ -27,6 +22,10 @@
 			a.attr('href', a.attr('href').replace('TABLE_ID',#{params[:table_id]}).replace('VOTER_ID',#{@voter_id}) );
 			voter_list.append(li)
 		}
+		voter_list.append(li)
+		$('<p class="ack"">The vote has been saved</p>').appendTo(voter_list).fadeTo(1500,1, function(){ $(this).fadeTo(2000,0,function(){$(this).remove();})});
+		
+		$(':text:first').focus()
 - else
 	:plain
 		var ack = $("#{escape_javascript(
