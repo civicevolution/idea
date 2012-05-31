@@ -85,6 +85,12 @@
 	= javascript_include_tag 'app_ce_live_table.js'
 	:javascript
 		var pub_sub_channels = #{@channels}
+		if(#{@not_scribe_message.nil? ? false : true}){
+			// disable the form inputs
+			$('form :input').attr('disabled','disabled')
+			$('a.new_live_talking_point').remove();
+		}
+		
 		//if(#{@session.published}){
 		//	// disable the form inputs
 		//	$('form.post_live_tp :input').attr('disabled','disabled')
@@ -92,6 +98,11 @@
 		//}
 
 %div#table
+	
+	- if @warning.nil?		
+		- if @not_scribe_message
+			%div.not_scribe_message.screen
+				%p.warn= @not_scribe_message
 	
 	-#%div.request_help
 		= link_to 'Request help'

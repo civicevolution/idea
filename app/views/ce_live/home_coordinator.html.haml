@@ -104,6 +104,10 @@
 											%p= link_to "View final themes", live_session_themes_path(final_session.id)
 										- else
 											%p.warn Please set the session data source in Event setup page
+											
+									- when 'allocation'
+										%p= link_to "#{session.name}", live_scribe_path(:dest => "allocation_#{session.id}")
+											
 										
 									- when 'feedback_allocation_results'
 										- if session.source_session_id.nil? || session.inputs.size > 0
