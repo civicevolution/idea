@@ -31,58 +31,73 @@
 %div#live_home
 	%h3 Report and projection links
 	%table
-		- @sessions.each do |session|
-			- if session.session_type == 'feedback_allocation_results' || session.session_type == 'allocation' || session.session_type == 'feedback_themes'
-				- if !session.source_session_id.nil?
-					- session_source = LiveSession.find_by_id(session.source_session_id)
-
-				%tr
-					%td
-						%h3.time
-							= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
-					%td
-						%p
-							= session.name
-					%td
-						%p
-							%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
-
-				%tr
-					%td
-					%td{:colspan=>2}
-
-						%div.session_details
-							- case session.session_type
-								- when 'feedback_themes'
-									- if !session.source_session_id.nil?
-										- if !session_source.published
-											%p.warn Themes have not been published yet
-										
-										%p.report_link= link_to "Session feedback to be projected", live_session_themes_path(session.source_session_id)
-										
-										%p.report_link= link_to "Session - Full data report", live_session_full_data_path(session.source_session_id)
-										
-										
-									- else
-										%p.warn Please check the session data source in Event setup page
-									
-								- when 'allocation'
-									- if !session.source_session_id.nil?
-										- if !session_source.published
-											%p.warn Themes have not been published yet
-
-										%p.report_link= link_to "Allocation worksheet to be printed", live_session_allocation_voting_path(session.source_session_id)
-										%p.report_link= link_to "Allocation guide (theme/no examples) that can be projected", live_session_allocation_options_path(session.source_session_id)
-										
-									- else
-										%p.warn Please check the session data source in Event setup page
-									
-								- when 'feedback_allocation_results'
-									- if !session.source_session_id.nil?
-										- if !session_source.published
-											%p.warn Themes have not been published yet
-										
-										%p.report_link= link_to "Allocation results to be projected", live_session_allocation_results_path(session.source_session_id)
-									- else
-										%p.warn Please check the session data source in Event setup page
+		- @sessions.select{|es| es.session_type == 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |group|
+		
+			%tr 
+				%td{colspan: 4}
+					%h2
+						Session actions for #{group.name}:
+		
+			- @sessions.select{|s| s.group_id == group.id && s.session_type != 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |session|
+				-#%tr
+					%td{colspan:3} session_type: #{session.session_type}
+				- if session.session_type == 'feedback_allocation_results' || session.session_type == 'view_final_themes'
+					- if !session.source_session_id.nil?
+						- session_source = LiveSession.find_by_id(session.source_session_id)
+		
+					%tr
+						%td.left_margin
+						%td
+							%h3.time
+								= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
+						%td
+							%h3
+								= session.name
+						%td
+							%h3
+								%span.nobreak= "(#{session.duration} min)" unless session.duration.nil?
+		
+					%tr
+						%td.left_margin
+						%td
+						%td{:colspan=>2}
 	
+							%div.session_details
+								- case session.session_type
+									- when 'view_final_themes'
+										- final_session = @sessions.detect{|s| s.id == session.inputs[0].source_session_id }
+										- if !final_session.nil?
+											- if !final_session.published
+												%p.warn Themes have not been published yet
+
+											%p= link_to "View final themes", live_session_themes_path(final_session.id)
+											-#%p.report_link= link_to "Session feedback to be projected", live_session_themes_path(session.source_session_id)
+											-#%p.report_link= link_to "Session - Full data report", live_session_full_data_path(final_session.id)
+											
+										- else
+											%p.warn Please set the session data source in Event setup page
+											
+											- if !session_source.published
+												%p.warn Themes have not been published yet
+
+											- else
+												%p.warn Please check the session data source in Event setup page
+											
+										
+									- when 'feedback_allocation_results'
+										- debugger
+										- if session.source_session_id.nil? || session.inputs.size > 0
+											- source_session_id = session.inputs.size > 0 ? session.inputs[0].source_session_id : 0
+										- else
+											- source_session_id = session.source_session_id
+
+										-# if !session_source.published
+											%p.warn Themes have not been published yet
+
+								    
+										- if !source_session_id.nil?
+											%p.report_link= link_to "Allocation results to be projected", live_session_allocation_results_path(source_session_id)
+										- else
+											%p.warn Please check the session data source in Event setup page
+	
+									
