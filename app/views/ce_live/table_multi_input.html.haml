@@ -112,11 +112,11 @@
 				= hidden_field_tag :s_id, @session.id
 				= hidden_field_tag :form_id, 1
 				
-				- @session.outputs.each do |field|
+				- @session.outputs.sort{|a,b| a.primary_field ? -1 : 1  }.each do |field|
 					%p.section_title= field.label
 					- for ctr in 1..field.qty
 					
-						%textarea{id: "_tp_#{field.tag}_#{ctr}", name: "_tp_#{field.tag}_#{ctr}", class: 'autosize', rows: 3}
+						%textarea{id: "_tp_#{field.tag}_#{ctr}", name: "_tp_#{field.tag}_#{ctr}", class: 'autosize', field_height: field.height}
 						
 						%div.form_controls
 							%span.char_ctr{:cnt=>250}

@@ -113,6 +113,7 @@ function activate_text_counters_grow(els, height){
 				if(el[0].nodeName == 'TEXTAREA'){
 					// if the el is not displayed, IE gives it a width of 0 and the el cannot be setup to grow
 					if(el[0].offsetWidth > 0){
+					  if( el.attr('field_height') ) height = 30 * el.attr('field_height');
 						el.autoGrow({
 							minHeight  : height,
 							maxHeight : 500
