@@ -608,7 +608,7 @@ class CeLiveController < ApplicationController
       @live_themes = LiveTheme.where("live_session_id = #{source_session_id} AND order_id > 0").order('order_id ASC')
       @live_themes.reject!{ |theme| theme.visible == false }
 
-      @allocated_points = LiveThemeAllocation.select("theme_id, sum(points) as points").where(:session_id => source_session_id).group("theme_id")
+      @allocated_points = LiveThemeAllocation.select("theme_id, sum(points) as points").where(:session_id => @session.id).group("theme_id")
       @total_points = 0
       @max_points = 0
       @allocated_points.each{|ap| @total_points += ap.points; @max_points = ap.points if ap.points > @max_points} 

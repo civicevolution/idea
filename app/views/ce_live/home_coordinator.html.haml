@@ -107,15 +107,12 @@
 										
 									- when 'feedback_allocation_results'
 										- if session.source_session_id.nil? || session.inputs.size > 0
-											- source_session_id = session.inputs[0].source_session_id
+											- source_session_id = session.inputs.size > 0 ? session.inputs[0].source_session_id : 0
 										- else
 											- source_session_id = session.source_session_id
 
 								    
 										- if !source_session_id.nil?
-											- if !LiveSession.find_by_id(source_session_id).published
-												%p.warn Themes have not been published yet
-
 											%p.report_link= link_to "Allocation results to be projected", live_session_allocation_results_path(source_session_id)
 										- else
 											%p.warn Please check the session data source in Event setup page
