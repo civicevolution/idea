@@ -1254,12 +1254,19 @@ class CeLiveController < ApplicationController
         cookies[:user_name] = { :value => params[:user_name], :expires => Time.now + 48*60*60}
         cookies[:password] = { :value => params[:password], :expires => Time.now + 48*60*60}
       end
-      redirect_to live_home_path
+      respond_to do |format|
+        format.js { render 'ce_live/sign_in_acknowledge.js' }
+        format.html { redirect_to live_home_path }
+      end
     else # no live_event_staff was retrieved with password and email
       flash.keep # keep the info I saved till I successfully process the sign in
       logger.debug "Invalid username/password combination for this event code"
       flash[:notice] = "Invalid username/password combination for this event code"
-      redirect_to sign_in_all_path(:controller=> params[:controller], :user_email=>params[:user_email], :event_code=>params[:event_code])
+      respond_to do |format|
+        format.js { render 'ce_live/sign_in_form.js' }
+        format.html { redirect_to sign_in_all_path(:controller=> params[:controller], :user_email=>params[:user_email], :event_code=>params[:event_code]) }
+      end
+      
     end # end if member
   end
   

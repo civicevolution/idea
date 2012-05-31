@@ -76,6 +76,15 @@ $('form[data-remote]').live('ajax:beforeSend',
 	}
 )
 
+$('a[data-remote], form[data-remote]').live('ajax:error',
+  function(event, xhr){
+    console.log("An error was detected on data remote");
+    var error_dlg = $('<div><p class="warn">Your changes are not being saved!</p><p class="warn">Please report this to IT person:</p><p class="warn">' + xhr.statusText + '</p>' + xhr.responseText + '</div>');
+    var dialog = error_dlg.dialog( {title : 'Critical data connection error', modal : false, width : 'auto', closeOnEscape: false, close: function(){$(this).remove()} });
+  }
+)
+
+
 function getUrlVars()
 {
     var vars = [], hash;
@@ -140,7 +149,13 @@ function post_theme_changes( data ){
 	  url: url, 
 	  data: data,
 	  type: 'POST',
-	  dataType: 'script'
+	  dataType: 'script',
+	  error: 
+	    function(xhr, textStatus, errorThrown){
+        console.log("An error was detected on post_theme_changes submit");
+        var error_dlg = $('<div><p class="warn">Your changes are not being saved!</p><p class="warn">Please report this to IT person:</p><p class="warn">' + xhr.statusText + '</p>' + xhr.responseText + '</div>');
+        var dialog = error_dlg.dialog( {title : 'Critical data connection error', modal : false, width : 'auto', closeOnEscape: false, close: function(){$(this).remove()} });
+      }
 	});
 	if(post_theme_changes.update_fn){
 	  setTimeout(post_theme_changes.update_fn,1200);

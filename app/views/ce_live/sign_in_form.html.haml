@@ -1,3 +1,4 @@
+- remote ||= false
 %div#sign_in_form
 	%style
 		:sass
@@ -7,7 +8,7 @@
 						border: none
 						
 	%p.error= flash[:notice]
-	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form'}) do
+	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form', :remote => remote}) do
 		= hidden_field_tag :event_id, 1
 		%table{:border=>0, :cellspacing=>0}
 			%tr

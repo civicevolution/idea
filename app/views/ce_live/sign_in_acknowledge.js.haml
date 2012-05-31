@@ -1,0 +1,4 @@
+:plain
+	console.log("sign_in_acknowledge.js");
+	$('div#sign_in_form').closest('div.ui-dialog').dialog('destroy').remove();
+	$('<p>You are now signed in as #{@live_node.username}</p>').dialog( {title : 'Thank you', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
