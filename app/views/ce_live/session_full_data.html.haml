@@ -68,23 +68,21 @@
 					%td= theme.text	
 					
 
-		%h3 All talking points
-		- ctr = 0
-		%table.talking_points
-			%th #
-			%th Table talking point
-			%th.tabnum Table#
-			%th Vote
-			- @live_talking_points.each do |tp|
-				%tr{:class=>cycle('stripe','')}
-					%td #{ctr += 1}.
-					%td= tp.text
-					%td= tp.group_id
-					%td
-						+#{tp.pos_votes}/-#{tp.neg_votes}
+		- if !@live_talking_points.nil?			
+			%h3 All talking points
+			- ctr = 0
+			%table.talking_points
+				%th #
+				%th Table talking point
+				%th.tabnum Table#
+				%th Vote
+				- @live_talking_points.each do |tp|
+					%tr{:class=>cycle('stripe','')}
+						%td #{ctr += 1}.
+						%td= tp.text
+						%td= tp.group_id
+						%td
+							+#{tp.pos_votes}/-#{tp.neg_votes}
 						
-
-
-	
 	- else
 		%h3= @warning

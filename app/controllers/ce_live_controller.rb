@@ -666,20 +666,29 @@ class CeLiveController < ApplicationController
     @session = LiveSession.find_by_id(params[:session_id])
     
     @page_title = "Full data for: #{@session.name}"
-
     if LiveSession.find_by_id(@session.id).published
-      #@live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
-      @live_themes = LiveTheme.where(:live_session_id => @session.id).order('id ASC')
-      
-      
-      @micro_themes = @live_themes.collect{|lt| lt if lt.order_id <= 0 }.compact
-      @macro_themes = @live_themes.collect{|lt| lt if lt.order_id > 0 }.compact.sort{|a,b| a.order_id <=> b.order_id }
-      @macro_themes.reject!{ |theme| theme.visible == false }
-      
-      @live_talking_points = LiveTalkingPoint.where(:live_session_id=>@session.id).order('id ASC')
-      
+      # collect data according to the final edit source session type
+      case @session.session_type
+        when 'macrotheme'
+          @macro_themes = LiveTheme.where(live_session_id: @session.id, visible: true).order('id ASC')
+          @micro_themes = []
+          @live_talking_points = []
+          @session.inputs.each do |inp|
+            @micro_themes += LiveTheme.where(:live_session_id => inp.source_session_id, :tag => inp.tag)
+            LiveSession.find(inp.source_session_id).inputs.each do |tp_inp|
+              @live_talking_points = LiveTalkingPoint.where(:live_session_id=>tp_inp.source_session_id, :tag => tp_inp.tag)
+            end
+          end
+
+        when 'macromacrotheme'  
+          @macro_themes = LiveTheme.where(live_session_id: @session.id, visible: true).order('id ASC')
+          @micro_themes = []
+          @session.inputs.each do |inp|
+            @micro_themes += LiveTheme.where(:live_session_id => inp.source_session_id, :tag => inp.tag)
+          end
+      end
     else
-      @warning = "We're sorry, the results of this session have not been published yet"
+      @warning = "We're sorry, the results of this session have not been published yet"  
     end
 
     @channels = ["_event_#{@session.live_event_id}" ]
