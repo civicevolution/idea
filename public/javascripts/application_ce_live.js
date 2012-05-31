@@ -141,9 +141,17 @@ Function.prototype.bind = function (obj) {
 	}
 };
 
+var post_theme_changes_ack_waiting;
 function post_theme_changes( data ){
   console.log("post theme data to server");
   data.live_session_id = live_session_id;
+  post_theme_changes_ack_waiting = 
+    setTimeout( 
+      function(){
+        alert("Your last theming update may have failed! Please refresh your browser to check your work" );
+      },
+      20000
+    );
   var url = '/live/post_theme';
   $.ajax({
 	  url: url, 
