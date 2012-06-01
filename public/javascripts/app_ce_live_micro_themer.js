@@ -622,7 +622,10 @@ if(!disable_editing){
 var adjust_in_process = false;
 function adjust_columns(){
   var force_single_column = false;
-  if( $('div.list_column div.idea_list').size() == 0 ) return;
+  if( $('div.list_column div.idea_list').size() == 0 ){
+    adjust_auto_scroll_width();
+    return;
+  }
 	if(adjust_in_process){
 	  //console.log("call adjust_columns in 1 sec because the adjust columns is in process");
 		setTimeout(adjust_columns, 800);
@@ -798,13 +801,14 @@ function adjust_columns(){
 	}else{
 		//console.log("No satisfactory fit was achieved");
 	}
-	
+	adjust_auto_scroll_width();
+	adjust_in_process = false;
+}
+function adjust_auto_scroll_width(){
 	$('div.incoming_ideas div#auto_bottom.auto-scroll.incoming_scroll').width( $('div.incoming_ideas').width());
 	var lists = $('div.lists');
 	lists.find('div#auto_bottom.auto-scroll.lists_scroll').width( lists.width() ).css('left', lists.offset().left);
-	adjust_in_process = false;
 }
-
 $('div.auto-scroll')
 	.mousemove(function(e) {checkMouse(e.pageX, e.pageY, this);})
 	.bind('mouseleave', function() {stopMoving();})
