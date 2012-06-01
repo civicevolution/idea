@@ -1119,7 +1119,10 @@ $('div.chat p.hdr a').live('click',
 $(function(){
   $('div.join_com').prepend(' /');
   $('div.join_com').prepend( $('<a href="#" class="coord_chat">Chat with coordinator</a>') );
+  $('div.join_com').prepend(' / ');
+  $('div.join_com').prepend( $('<a href="#" class="fix_page">Fix page</a>') );
 });
+$('a.fix_page').live('click',function(){live_resize(); return false;});
 $('a.coord_chat').live('click',
   function(){
     var chat = $('div#coord_chat');

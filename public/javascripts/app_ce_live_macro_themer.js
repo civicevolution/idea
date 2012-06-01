@@ -624,7 +624,10 @@ if(!disable_editing){
 var adjust_in_process = false;
 function adjust_columns(){
   var force_single_column = false;
-  if( $('div.list_column div.idea_list').size() == 0 ) return;
+  if( $('div.list_column div.idea_list').size() == 0 ){
+    adjust_auto_scroll_width();
+    return;
+  }
 	if(adjust_in_process){
 	  //console.log("call adjust_columns in 1 sec because the adjust columns is in process");
 		setTimeout(adjust_columns, 800);
@@ -800,13 +803,14 @@ function adjust_columns(){
 	}else{
 		//console.log("No satisfactory fit was achieved");
 	}
-	
+	adjust_auto_scroll_width();
+	adjust_in_process = false;
+}
+function adjust_auto_scroll_width(){
 	$('div.incoming_ideas div#auto_bottom.auto-scroll.incoming_scroll').width( $('div.incoming_ideas').width());
 	var lists = $('div.lists');
 	lists.find('div#auto_bottom.auto-scroll.lists_scroll').width( lists.width() ).css('left', lists.offset().left);
-	adjust_in_process = false;
 }
-
 $('div.auto-scroll')
 	.mousemove(function(e) {checkMouse(e.pageX, e.pageY, this);})
 	.bind('mouseleave', function() {stopMoving();})
@@ -1174,3 +1178,9 @@ $('div.show_tp').live('click',
     $(this).closest('div.table_menu').hide();
   }
 );
+
+$(function(){
+  $('div.join_com').prepend(' /');
+  $('div.join_com').prepend( $('<a href="#" class="fix_page">Fix page</a>') );
+});
+$('a.fix_page').live('click',function(){live_resize(); return false;});
