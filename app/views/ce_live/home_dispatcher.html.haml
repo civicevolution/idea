@@ -83,9 +83,10 @@
 		Set all scribes to page: 
 		%select
 			%option{:value=>'standby_0'} Standby page
-			- @sessions.each do |session|
-				- if session.session_type == 'collect' || session.session_type == 'allocation'
-					%option{:value=>"#{session.session_type}_#{session.id}"}= session.name[0..80]
+			- @sessions.select{|es| es.session_type == 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |group|
+				- @sessions.select{|s| s.group_id == group.id && s.session_type != 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |session|
+					- if session.session_type == 'collect' || session.session_type == 'allocation'
+						%option{:value=>"#{session.session_type}_#{session.id}"}= session.name[0..80]
 		%input.set_scribes{:type=>'button', :value => 'Update all'}
 	%table
 		%tr
