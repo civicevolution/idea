@@ -262,7 +262,7 @@ class ApplicationController < ActionController::Base
           params[:_app_name] = 'Skyline Students Step Up Campaign'
           params[:_app_page_title] = 'Skyline Students Step Up! 2012 Campaign @ CivicEvolution'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/skyline" ])
-        when /^live$/i
+        when /^live/i
           params[:_initiative_id] = 7
           params[:_app_name] = 'CivicEvolution Live'
           params[:_app_page_title] = 'CivicEvolution Live'
