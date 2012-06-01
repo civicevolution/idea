@@ -592,6 +592,8 @@ class CeLiveController < ApplicationController
       @total_points = 0
       @max_points = 0
       @allocated_points.each{|ap| @total_points += ap.points; @max_points = ap.points if ap.points > @max_points} 
+      @voters = ActiveRecord::Base.connection.select_value(
+        %Q| select count(*) FROM (SELECT distinct table_id, voter_id from live_theme_allocations where session_id = #{@session.id}) AS voters |)
       @live_themes.each do |theme|
         points = @allocated_points.detect{ |ap| ap.theme_id == theme.id}
         points = points.nil? ? 0 : points.points

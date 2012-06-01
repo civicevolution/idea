@@ -25,7 +25,8 @@
 		voter_list.append(li)
 		$('<p class="ack"">The vote has been saved</p>').appendTo(voter_list).fadeTo(1500,1, function(){ $(this).fadeTo(2000,0,function(){$(this).remove();})});
 		
-		$(':text:first').focus()
+		show_vote_sum();
+		$(':text:first').focus();
 - else
 	:plain
 		var ack = $("#{escape_javascript(

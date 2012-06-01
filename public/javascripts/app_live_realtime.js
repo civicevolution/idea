@@ -254,6 +254,9 @@ function report_status(){
           $('div.list_column div.theme').size() + ' macro themes<br/>' +
           $('div.list_column div.idea').size() + ' themed micro themes<br/>';
         break;
+      case 'coord home page':
+        activity = 'home page';
+        break;
       
       default:
         console.log("XXXXXX determine activity for " + page_data.type);
