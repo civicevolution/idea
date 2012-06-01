@@ -208,7 +208,7 @@ class CeLiveController < ApplicationController
     @event_nodes = LiveNode.where(:live_event_id => params[:event_id])
     @channels = ["_event_#{params[:event_id]}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
-
+    @page_data = {type: 'event setup'};
     render :template => 'ce_live/event_setup', :layout => 'ce_live', :locals=>{ :title=>'Cordinator page for CivicEvolution Live', :role=>'Coordinator'}
   end
 
@@ -241,6 +241,7 @@ class CeLiveController < ApplicationController
 
     @live_themes.compact!
     
+    @page_data = {type: 'session report'};
     # I now have the themes in order
     render :template => 'ce_live/session_report', :layout => 'ce_live', :locals=>{ :inc_js => 'none', :title=>'Theming coordination page', :role=>'Public'}
 
@@ -552,6 +553,7 @@ class CeLiveController < ApplicationController
     end
 
     @channels = ["_event_#{@session.live_event_id}" ]
+    @page_data = {type: 'view final themes'};
     render :template => 'ce_live/session_themes', :layout => 'ce_live', :locals=>{ :title=>'Themes', :role=>'Themer'}
   end
 
@@ -606,6 +608,7 @@ class CeLiveController < ApplicationController
     end    
 
     @channels = ["_event_#{@session.live_event_id}" ]
+    @page_data = {type: 'session allocation results'};
     render :template => 'ce_live/session_allocation_results', :layout => 'ce_live', :locals=>{ :title=>'Prioritisation results', :role=>'Themer'}
   end
 
@@ -673,6 +676,7 @@ class CeLiveController < ApplicationController
       @warning = "We're sorry, the results of this session have not been published yet"  
     end
 
+    @page_data = {type: 'session full data'};
     @channels = ["_event_#{@session.live_event_id}" ]
     render :template => 'ce_live/session_full_data', :layout => 'ce_live', :locals=>{ :title=>'Full session data', :role=>'Themer'}
   end

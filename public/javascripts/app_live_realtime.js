@@ -257,7 +257,21 @@ function report_status(){
       case 'coord home page':
         activity = 'home page';
         break;
-      
+      case 'final edit themes':
+        activity = 'final theme editing';
+        break;
+      case 'view final themes':
+        activity = 'view final themes';
+        break;
+      case 'session allocation results':
+        activity = 'view allocation results';
+        break;
+      case 'dispatcher home page':
+        activity = 'dispatcher home page';
+        break;
+      case 'reporter home page':
+        activity = 'reporter home page';
+        break;
       default:
         console.log("XXXXXX determine activity for " + page_data.type);
       
