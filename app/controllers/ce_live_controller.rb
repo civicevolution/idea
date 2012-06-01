@@ -716,13 +716,13 @@ class CeLiveController < ApplicationController
       
     end
     
-    
     if @session.outputs.size == 0
       output_tag = 'default'
     else
-      output_tag = @session.outputs[0].tag
+      primary_output_field = @session.outputs.detect{|o| o.primary_field } || @session.outputs[0]
+      output_tag = primary_output_field.tag 
     end
-    
+
     # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
     @live_themes = []
     if !@live_theming_session[0].nil?
@@ -1047,9 +1047,6 @@ class CeLiveController < ApplicationController
         @live_theming_session.save
       when 'receive_live_talking_point', 'remove_live_talking_point', 'update_list_idea_ids'
         logger.debug "receive/remove_live_talking_point act: #{params[:act]}"
-
-        @live_theme = LiveTheme.find_by_id( params[:list_id])
-        
         if params[:ltp_ids].nil?
           ltp_ids = ''
         elsif params[:ltp_ids].class.to_s == 'Array'
@@ -1058,8 +1055,15 @@ class CeLiveController < ApplicationController
           ltp_ids = params[:ltp_ids].scan(/\d+/).uniq.join(',')
         end
         
-        @live_theme.live_talking_point_ids = ltp_ids
-        @live_theme.save
+        if params[:list_id] == "misc"
+          @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
+          @live_theming_session.unthemed_ids = ltp_ids
+          @live_theming_session.save
+        else
+          @live_theme = LiveTheme.find_by_id( params[:list_id])
+          @live_theme.live_talking_point_ids = ltp_ids
+          @live_theme.save
+        end
         
       when 'update_final_theme_order'
         logger.debug 'update_final_theme_order'
