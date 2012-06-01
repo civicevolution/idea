@@ -393,8 +393,10 @@ class CeLiveController < ApplicationController
     if @session.outputs.size == 0
       output_tag = 'default'
     else
-      output_tag = @session.outputs[0].tag
+      primary_output_field = @session.outputs.detect{|o| o.primary_field } || @session.outputs[0]
+      output_tag = primary_output_field.tag 
     end
+    
 
     # i need to put my_themes in the order according to @live_theming_session.theme_group_ids
     @my_themes = []
