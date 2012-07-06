@@ -39,8 +39,10 @@ class Comment < ActiveRecord::Base
   attr_accessor :par_member_id
   attr_accessor :member
   
-  attr_accessor_with_default :coms, 0
-  attr_accessor_with_default :new_coms, 0
+  attr_accessor :coms
+  attr_accessor :new_coms
+  
+  after_initialize :init
   
   
   def question
@@ -138,7 +140,6 @@ class Comment < ActiveRecord::Base
   def self.member_confirmed_publish(member_id)
     ActiveRecord::Base.connection.update_sql("UPDATE comments SET publish = true where member_id = #{member_id} AND status != 'prereview'");    
   end
-  
 
   def o_type
     3 #type for Comments
@@ -146,5 +147,12 @@ class Comment < ActiveRecord::Base
   def type_text
     'comment' #type for Comments
   end
+
+protected
+  def init
+    self.coms = 0
+    self.new_coms = 0
+  end
+  
 
 end

@@ -32,7 +32,7 @@
 			%tr.signin
 				%td
 				%td.button
-					= submit_tag "Sign In", :name=>'sign_in', :tabindex => 4 * tabindex_mult, :disable_with => 'Submitting…'
+					= submit_tag "Sign In", :name=>'sign_in', :tabindex => 4 * tabindex_mult, 'data-disable-with' => 'Submitting…'
 					
 			%tr.signin
 				%td.lbl.ta_left{:colspan=>3}
@@ -52,7 +52,7 @@
 			%tr.signup
 				%td
 				%td.button
-					= submit_tag "Create my account", :name=>'join', :tabindex => 6 * tabindex_mult, :disable_with => 'Submitting…'
+					= submit_tag "Create my account", :name=>'join', :tabindex => 6 * tabindex_mult, 'data-disable-with' => 'Submitting…'
 				
 			%tr.signup 
 				%td.lbl.ta_left{:colspan=>3}
@@ -68,7 +68,7 @@
 			%tr.reset
 				%td
 				%td.button
-					= submit_tag "Reset password", :name=>'reset', :tabindex => 8 * tabindex_mult, :disable_with => 'Submitting…'
+					= submit_tag "Reset password", :name=>'reset', :tabindex => 8 * tabindex_mult, 'data-disable-with' => 'Submitting…'
 
 			%tr.reset 
 				%td.lbl.ta_left{:colspan=>3}

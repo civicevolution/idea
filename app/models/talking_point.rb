@@ -10,16 +10,16 @@ class TalkingPoint < ActiveRecord::Base
   scope :sibling_talking_points, lambda { |id| select('id, text').where("question_id = (SELECT question_id FROM talking_points WHERE id = ?)", id) }
   
   
-  attr_accessor_with_default :preference_votes, 0
-  attr_accessor_with_default :rating_votes, [0,0,0,0,0]
+  attr_accessor :preference_votes
+  attr_accessor :rating_votes
   attr_accessor :my_preference
   attr_accessor :my_rating
-  attr_accessor_with_default :coms, 0
-  attr_accessor_with_default :new_coms, 0
+  attr_accessor :coms
+  attr_accessor :new_coms
   
   attr_accessor :member
   attr_accessor :team_id
-  attr_accessor_with_default :selected, false
+  attr_accessor :selected
    
   before_validation :check_initiative_restrictions#, :on=>:create
   before_create :set_member_id
@@ -29,6 +29,8 @@ class TalkingPoint < ActiveRecord::Base
   after_save :log_team_content
   around_update :update_version
   after_create :check_auto_curate
+  
+  after_initialize :init
 
   def check_length
     @question = Question.find(self.question_id)
@@ -208,6 +210,14 @@ protected
       @question.auto_curate_talking_points()
     end
   end
+  
+  def init
+    self.preference_votes = 0
+    self.rating_votes = [0,0,0,0,0]
+    self.coms = 0
+    self.new_coms = 0
+    self.selected = false
+  end  
   
   
 end

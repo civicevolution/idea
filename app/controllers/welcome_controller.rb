@@ -30,7 +30,7 @@ class WelcomeController < ApplicationController
   def home  
     logger.debug "Show the CE home page"
     respond_to do |format|
-      format.html { render :template=>'welcome/home1.html', :layout=>'civicevolution', :locals => { :inc_js => 'none'} }
+      format.html { render :template=>'welcome/home1', :layout=>'civicevolution', :locals => { :inc_js => 'none'} }
       format.text { render :text => 'http://civicevolution.org is only available as HTML' }
     end
   end

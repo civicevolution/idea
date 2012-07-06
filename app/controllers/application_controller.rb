@@ -277,7 +277,8 @@ class ApplicationController < ActionController::Base
   
   
     def add_member_data
-      logger.silence(3) do
+      old_log_level = Rails.logger.level
+  	  Rails.logger.level = 3
         if params[:_mlc]
           @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.request_uri} )
           if @member.nil?
@@ -306,7 +307,7 @@ class ApplicationController < ActionController::Base
           @member.id = 0
           @member.email = ''
         end
-      end
+        Rails.logger.level = old_log_level
     end
 
     def authorize

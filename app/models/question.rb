@@ -51,7 +51,9 @@ class Question < ActiveRecord::Base
   attr_accessor :new_comments
   attr_accessor :unrated_talking_points
   attr_accessor :updated_talking_points
-  attr_accessor_with_default :show_new, false
+  attr_accessor :show_new
+  
+  after_initialize :init
   
   def self.update_curated_talking_point_ids(question_id, tp_ids, mode, member)
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => question_id}, 'curate_talking_points', member)
@@ -191,5 +193,9 @@ class Question < ActiveRecord::Base
     
   end
   
+protected
+  def init
+    self.show_new = false
+  end
   
 end

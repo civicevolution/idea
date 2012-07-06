@@ -1,8 +1,8 @@
-class ActiveSupport::TimeWithZone
-  def to_s
-    self.iso8601
-  end
-end
+#class ActiveSupport::TimeWithZone
+#  def to_s
+#    self.iso8601
+#  end
+#end
 
 ## disable the sql logging
 #class ActiveRecord::ConnectionAdapters::AbstractAdapter

@@ -8,13 +8,14 @@ class TeamRegistration < ActiveRecord::Base
   validates_presence_of :accept_groundrules, :message => "must accept the ground rules"
 
   after_create :check_if_I_should_launch_team
+  after_initialize :init
   
   attr_accessor :accept_groundrules
   attr_accessor :text
   attr_accessor :team
   attr_accessor :num_members
   attr_accessor :host
-  attr_accessor_with_default :team_just_launched, false
+  attr_accessor :team_just_launched
   
   
   def self.my_teams(member_id)
@@ -34,6 +35,10 @@ class TeamRegistration < ActiveRecord::Base
     mem_ids.map { |tr| tr.member_id }
   end
 
+  protected
+    def init
+      self.team_just_launched = false
+    end
   
   private
   

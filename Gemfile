@@ -1,15 +1,10 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'bundler', '~> 1.0.15'
-gem 'rails', '3.0.5'
-
-# Use unicorn as the web server
-gem 'unicorn'
+gem 'rails', '3.2.6'
 
 group :development do
-	# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-	# gem 'ruby-debug'
-	gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'thin'
+  gem 'debugger'
 end
 
 # Bundle gems for the local environment. Make sure to
@@ -20,6 +15,8 @@ end
 # end
 
 group :production do
+  # Use unicorn as the web server
+  gem 'unicorn'
 	gem 'newrelic_rpm'
 end
 
@@ -37,6 +34,7 @@ gem "uuidtools"
 gem "json"
 gem 'aws-s3', :require => 'aws/s3'
 gem "aws-ses"
+gem 'aws-sdk'
 gem 'delayed_job'
 
 gem 'jquery-rails', '= 1.0.16'
