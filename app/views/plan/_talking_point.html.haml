@@ -10,7 +10,7 @@
 		%p.talking_point{:id=>talking_point.id,:tp_id=>talking_point.id}= talking_point.text
 
 	%div.talking_point_details
-		= link_to talking_point_comments_path(talking_point), {:remote=>true, :class=>'tp_show_coms'} do
+		= link_to talking_point_comments_path(talking_point.id), {:remote=>true, :class=>'tp_show_coms'} do
 			%div.talking_point_com_count
 				- if talking_point.coms > 0
 					%p{:title => "Click to see #{pluralize(talking_point.coms, 'comment')}"}= talking_point.coms

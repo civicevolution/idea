@@ -21,14 +21,14 @@
 
 				var author = '<a href="/members/' + context.ape_code + '/profile" class="com_author" data-remote="true">' + unescape(context.author.first_name + ' ' + context.author.last_name) + '</a>'
 
-			  s = s.replace(/<p>/,'<p>' + author + ' ')
+				s = s.replace(/<p>/,'<p>' + author + ' ')
 				//console.log("simple_com_format s: " + s)
 				return s;
 			}
 			
 	%script#comment_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'plan/comment.html', :object => @comment)}
+			#{render( :partial => 'plan/comment', :object => @comment)}
 		
 	%script#create_comment_template
 		:plain
@@ -103,7 +103,7 @@
 
 	%script#talking_point_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'plan/talking_point_post_it.html', :object => @talking_point, :as => :talking_point)}
+			#{render( :partial => 'plan/talking_point_post_it', :object => @talking_point, :as => :talking_point)}
 
 	%script#create_talking_point_template
 		:plain

@@ -42,9 +42,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def render_404
+  def render_404(exception)
+    logger.error "Error detected: #{exception.message}"
     @member = member = Member.find_by_id(session[:member_id])
-    render :template=> 'errors/404_not_found', :layout=>'plan', :locals => {:member=>member, :path=> request.url }
+    render :template=> 'errors/404_not_found', :layout=>'plan', :locals => {:member=>member, :path=> request.url, :inc_js => 'none' }
   end
 
 

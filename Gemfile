@@ -45,3 +45,4 @@ gem "juggernaut"
 
 gem "redis"
 
+gem 'rails_autolink'

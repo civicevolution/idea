@@ -46,16 +46,16 @@
 								- if archived == true && link_text == "Reply"
 									Discussion is closed
 								- elsif comment.parent_type == 1
-									= link_to link_text, comment_comments_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>false}
+									= link_to link_text, comment_comments_path(comment.id), { :class=> 'reply', :id=>comment.id, :remote=>false}
 								- else 
-									= link_to link_text, comment_reply_path(comment), { :class=> 'reply', :id=>comment.id, :remote=>false}
+									= link_to link_text, comment_reply_path(comment.id), { :class=> 'reply', :id=>comment.id, :remote=>false}
 
 						%p.other
 							%abbr.timeago{:title=>comment.created_at}= time_ago_in_words(comment.created_at) + ' ago'	
 							- if comment.member_id == @member.id && !archived
-								= link_to "Edit", edit_comment_path(comment), {:class => 'edit', :rel=>'nofollow', :remote=>true}
+								= link_to "Edit", edit_comment_path(comment.id), {:class => 'edit', :rel=>'nofollow', :remote=>true}
 							- elsif !archived
-								= link_to "Report", report_comment_path(comment), {:class=>'report', :rel=>'nofollow', :remote=>true}
+								= link_to "Report", report_comment_path(comment.id), {:class=>'report', :rel=>'nofollow', :remote=>true}
 
 	- if comment['comments']
 		= render :partial => 'comments/comment_comments.html', :locals=> {:comment => comment, :comments => comment['comments'], :com_criteria => @team.com_criteria}

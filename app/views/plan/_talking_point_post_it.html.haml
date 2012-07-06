@@ -22,14 +22,14 @@
 						%p{:title => 'Click to add a comment'} +
 			
 			- else
-				= link_to talking_point_comments_path(talking_point), {:remote=>true, :class=>'tp_show_coms', 'data-disable-with'=>'<img src="/images/wait3.gif"/>'} do
+				= link_to talking_point_comments_path(talking_point.id), {:remote=>true, :class=>'tp_show_coms', 'data-disable-with'=>'<img src="/images/wait3.gif"/>'} do
 					%div.talking_point_com_count.pointer
 						- if talking_point.coms > 0
 							%p{:title => "Click to see #{pluralize(talking_point.coms, 'comment')}"}= talking_point.coms
 						- else
 							%p{:title => 'Click to add a comment'} +
 
-			= link_to "v#{talking_point.version}", talking_point_versions_path(talking_point), {:class => talking_point.version > 1 ? 'versions' : 'versions hide', :title => "Click to view #{pluralize(talking_point.version-1, 'older version')}", :rel=>'nofollow', :remote=>true}
+			= link_to "v#{talking_point.version}", talking_point_versions_path(talking_point.id), {:class => talking_point.version > 1 ? 'versions' : 'versions hide', :title => "Click to view #{pluralize(talking_point.version-1, 'older version')}", :rel=>'nofollow', :remote=>true}
 	
 
 		
