@@ -1,4 +1,4 @@
-= render :template => 'shared/clear_sign_in_form.js'
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
 :plain
 	var msg = $("#{escape_javascript(
 		render( :template => 'questions/what_do_you_think_must_select.html')

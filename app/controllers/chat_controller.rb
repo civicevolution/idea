@@ -48,7 +48,7 @@ class ChatController < ApplicationController
       # Juggernaut.publish( channel, params[:jug_data], :except => request.headers["X-Juggernaut-Id"]  )
     end
     
-    render :template => 'chat/ack_juggernaut_xmit.js'
+    render :template => 'chat/ack_juggernaut_xmit', :formats => [:js]
   end
 
   

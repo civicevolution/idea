@@ -1,4 +1,4 @@
-= render :template => 'shared/clear_sign_in_form.js'
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
 :plain
 	var message = $("#{escape_javascript(
 		render( :template => 'questions/curate_not_allowed.html', :locals => {:message=>message})

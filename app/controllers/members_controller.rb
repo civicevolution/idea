@@ -77,7 +77,7 @@ class MembersController < ApplicationController
     @form_errors ||= flash[:form_errors]
     respond_to do |format|
       format.html { render 'invite_friends_form.html', :locals => { :team => team } }
-      format.js { render 'invite_friends_form.js', :locals => { :team => team } }
+      format.js { render 'invite_friends_form', :formats => [:js], :locals => { :team => team } }
     end
   end
   

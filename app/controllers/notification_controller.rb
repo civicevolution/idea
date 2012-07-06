@@ -51,7 +51,7 @@ class NotificationController < ApplicationController
     
     respond_to do |format|
       format.html { render :template=>'notification/update_notification_settings', :locals=>{:team_id=>params[:team_id]}, :layout=> 'plan'  }
-      format.js { render :template=>'notification/update_notification_settings.js', :locals=>{:team_id=>params[:team_id]} }
+      format.js { render :template=>'notification/update_notification_settings', :formats => [:js], :locals=>{:team_id=>params[:team_id]} }
     end
   end
   

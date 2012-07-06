@@ -1,4 +1,4 @@
-= render :template => 'shared/clear_sign_in_form.js'
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
 :plain
 	var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
 	var tp_coms = $('div.talking_point_comments[id="#{comment.parent_id}"]');

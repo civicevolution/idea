@@ -228,7 +228,7 @@ class PlanController < ApplicationController
     @talking_point.version = 1
 
     # the templates are built in get_templates.js
-    render :template => 'plan/get_templates.html' #, :content_type => 'application/javascript'
+    render :template => 'plan/get_templates', layout: false #, :content_type => 'application/javascript'
     
   end
 

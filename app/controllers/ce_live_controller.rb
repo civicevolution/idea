@@ -507,7 +507,7 @@ class CeLiveController < ApplicationController
   def group_talking_points
     return not_authorized unless @live_node.role == 'theme' || @live_node.role == 'coord'
     @live_talking_points = LiveTalkingPoint.where(group_id: params[:group_id], live_session_id: params[:session_id]).order('id ASC')
-    render :template => 'ce_live/group_talking_points.js', :layout => false, :content_type => 'application/javascript'
+    render :template => 'ce_live/group_talking_points', :formats => [:js], :layout => false, :content_type => 'application/javascript'
   end
 
   def themer_themes
@@ -536,7 +536,7 @@ class CeLiveController < ApplicationController
       theme[:examples] = example_talking_points
     end
     
-    render :template => 'ce_live/themer_themes.js', :layout => false, :content_type => 'application/javascript'
+    render :template => 'ce_live/themer_themes', :formats => [:js], :layout => false, :content_type => 'application/javascript'
   end
 
   def session_themes
@@ -903,12 +903,12 @@ class CeLiveController < ApplicationController
   def get_tp_test_ids
     group_range = params[:group_range].split('..').map{|d| Integer(d)}
     ltp_ids = LiveTalkingPoint.select('id').where(:live_session_id => params[:live_session_id], :group_id => group_range[0]..group_range[1] ).collect{|ltp| ltp.id}.shuffle
-    render( :template => 'ce_live/get_tp_test_ids.js', :locals =>{:live_talking_point_ids => ltp_ids})
+    render( :template => 'ce_live/get_tp_test_ids', :formats => [:js], :locals =>{:live_talking_point_ids => ltp_ids})
   end
   
   def post_talking_point_from_group
     #if LiveSession.find(params[:s_id]).published
-    #  render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => nil})
+    #  render( :template => 'ce_live/post_talking_point_from_group', :formats => [:js], :locals =>{:live_talking_point => nil})
     #  return
     #end
     
@@ -968,7 +968,7 @@ class CeLiveController < ApplicationController
     end
       
     Juggernaut.publish("_session_#{params[:s_id]}_microthemer_#{@live_node.parent_id}", {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
-    render( :template => 'ce_live/post_talking_point_from_group.js', :locals =>{:live_talking_point => ltp})
+    render( :template => 'ce_live/post_talking_point_from_group', :formats => [:js], :locals =>{:live_talking_point => ltp})
   end
   
   def post_theme_update
@@ -985,7 +985,7 @@ class CeLiveController < ApplicationController
     #params[:list_id] = 123
     #@live_theme = LiveTheme.first
     #
-    #render( :template => 'ce_live/post_theme.js', :locals =>{:live_talking_point => nil})
+    #render( :template => 'ce_live/post_theme', :formats => [:js], :locals =>{:live_talking_point => nil})
     #return 
     
     
@@ -1178,7 +1178,7 @@ class CeLiveController < ApplicationController
         logger.debug "I do not know how to handle a request like this\nparams.inspect"
     end
 
-    render( :template => 'ce_live/post_theme.js', :locals =>{:live_talking_point => nil})
+    render( :template => 'ce_live/post_theme', :formats => [:js], :locals =>{:live_talking_point => nil})
   end
   
   def get_templates
@@ -1245,7 +1245,7 @@ class CeLiveController < ApplicationController
         cookies[:password] = { :value => params[:password], :expires => Time.now + 48*60*60}
       end
       respond_to do |format|
-        format.js { render 'ce_live/sign_in_acknowledge.js' }
+        format.js { render 'ce_live/sign_in_acknowledge', :formats => [:js] }
         format.html { redirect_to live_home_path }
       end
     else # no live_event_staff was retrieved with password and email
@@ -1253,7 +1253,7 @@ class CeLiveController < ApplicationController
       logger.debug "Invalid username/password combination for this event code"
       flash[:notice] = "Invalid username/password combination for this event code"
       respond_to do |format|
-        format.js { render 'ce_live/sign_in_form.js' }
+        format.js { render 'ce_live/sign_in_form', :formats => [:js] }
         format.html { redirect_to sign_in_all_path(:controller=> params[:controller], :user_email=>params[:user_email], :event_code=>params[:event_code]) }
       end
       

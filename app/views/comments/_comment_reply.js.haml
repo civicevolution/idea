@@ -1,4 +1,4 @@
-= render :template => 'shared/clear_sign_in_form.js'
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
 :plain
 	var com_form = $("#{escape_javascript(
 		render( :partial => 'plan/comment_form', :locals => {:id=>comment.id, :type=>'comments', :criteria => com_criteria, :text=>text} )

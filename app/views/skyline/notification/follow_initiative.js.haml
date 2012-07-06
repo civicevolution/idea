@@ -1,4 +1,4 @@
-= render :template => 'shared/clear_sign_in_form.js'
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
 :plain
 	$('div#follow_initiative').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	var follow_form = $("#{escape_javascript(

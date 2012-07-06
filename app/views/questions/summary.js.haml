@@ -1,6 +1,6 @@
 :plain
 	var summary = $("#{escape_javascript(
-		render( :partial => 'plan/question_summary.html', :locals => {:question => question } )
+		render( :partial => 'plan/question_summary', :formats => [:html], :locals => {:question => question } )
 	)}");
 
 	$('div.question_summary[id="#{question.id}"]').replaceWith(summary);

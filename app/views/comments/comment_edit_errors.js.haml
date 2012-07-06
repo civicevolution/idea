@@ -1,4 +1,4 @@
-= render :template => 'shared/clear_sign_in_form.js'
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
 :plain
 	var errors = $("#{escape_javascript( render :partial => 'shared/error_messages', :locals => {:target => comment})}");
 	var form = $('form.comment_edit_form[id="#{params[:comment_id]}"]');

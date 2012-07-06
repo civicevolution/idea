@@ -204,7 +204,7 @@ class QuestionsController < ApplicationController
     # FIX this to be done only when needed
     @default_answers = DefaultAnswer.select('id,checklist').where(:id=>question.default_answer_id) if question.curated_talking_points.size == 0
     			
-    render :template=>'questions/summary.js', :layout => false, :locals=>{:question=>question}
+    render :template=>'questions/summary', :formats => [:js], :layout => false, :locals=>{:question=>question}
   end
   
   
@@ -272,7 +272,7 @@ class QuestionsController < ApplicationController
   def curate_tps
     updated,message = Question.update_curated_talking_point_ids(params[:question_id],params[:tp_ids],'manual',@member)
     if updated
-      render :template=>'questions/curate_tps_ok.js', :layout => false
+      render :template=>'questions/curate_tps_ok', :formats => [:js], :layout => false
     else
       if @member.id == 0
         force_sign_in
@@ -286,7 +286,7 @@ class QuestionsController < ApplicationController
     end
 
     # Do I need this?
-    #render :template=>'questions/curate_failed.js', :layout => false, :locals=>{:question=>question}
+    #render :template=>'questions/curate_failed', :formats => [:js], :layout => false, :locals=>{:question=>question}
   end
   
   def update_worksheet_ratings

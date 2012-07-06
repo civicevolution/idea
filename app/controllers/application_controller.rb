@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
     flash.keep # keep the info I saved till I successfully process the sign in
     respond_to do |format|
       format.html {render :template => 'right_panel/_sign_in', :layout => 'home', :locals => { :inc_js => 'none'}}
-      format.js {render :template => 'sign_in/sign_in_form.js', :layout => false}
+      format.js {render :template => 'sign_in/sign_in_form', :formats => [:js], :layout => false}
     end
   end
 
@@ -187,7 +187,7 @@ class ApplicationController < ActionController::Base
             send params[:action] # this will execute the method stored in params[:action]
           else
             #render 'redirect_to_home_page'
-            render 'sign_in/reload.js'
+            render 'sign_in/reload', :formats => [:js]
           end
         }
       end
@@ -334,7 +334,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format| 
       if activity_was_queued
         format.js {
-           render :template => 'sign_in/acknowledge_preliminary_participation.js' }
+           render :template => 'sign_in/acknowledge_preliminary_participation', :formats => [:js] }
         format.html {
           msg, redirect_url = get_redirect
           render :template => 'sign_in/acknowledge_preliminary_participation_and_redirect.html', :locals => {:msg => msg, :redirect_url => redirect_url}, :layout => 'plan'
@@ -344,7 +344,7 @@ class ApplicationController < ActionController::Base
           flash[:params] = request.params
           flash[:fullpath] = request.fullpath unless request.method.match(/POST/i)
           flash[:notice] = "Please sign in to continue"
-          render :template => 'sign_in/sign_in_form.js', :layout => false#, :status => 409
+          render :template => 'sign_in/sign_in_form', :formats => [:js], :layout => false#, :status => 409
         }
         format.html {
           # this shouldn't be accessed as all ajax is now via UJS, as js
