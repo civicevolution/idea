@@ -1,6 +1,6 @@
 :plain
 	var form = $("#{escape_javascript(
-		render( :template => 'sign_in/join_email_address_in_use.html')
+		render( :template => 'sign_in/join_email_address_in_use', :formats => [:html])
 	)}");
 	form.find('form, a.reset_password').attr('data-remote','true');
 	$('div.ui-dialog div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();

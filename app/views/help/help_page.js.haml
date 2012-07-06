@@ -2,7 +2,7 @@
 	$('div.help_page').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	
 	var help = $("#{escape_javascript(
-		render( :template => 'help/help_page.html', :locals => { :inc_js => 'none', :toc => toc, :default_page => default_page, :introduction_haml => introduction_haml} )
+		render( :template => 'help/help_page', :formats => [:html], :locals => { :inc_js => 'none', :toc => toc, :default_page => default_page, :introduction_haml => introduction_haml} )
 	)}");
 	
 	help.find('h3.title').remove();

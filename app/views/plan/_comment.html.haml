@@ -58,4 +58,4 @@
 								= link_to "Report", report_comment_path(comment.id), {:class=>'report', :rel=>'nofollow', :remote=>true}
 
 	- if comment['comments']
-		= render :partial => 'comments/comment_comments.html', :locals=> {:comment => comment, :comments => comment['comments'], :com_criteria => @team.com_criteria}
+		= render :partial => 'comments/comment_comments', :formats => [:html], :locals=> {:comment => comment, :comments => comment['comments'], :com_criteria => @team.com_criteria}

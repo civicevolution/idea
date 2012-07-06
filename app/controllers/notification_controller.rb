@@ -173,7 +173,7 @@ class NotificationController < ApplicationController
     if params[:text]
       render :template => 'notification_mailer/periodic_report.text', :layout=>'email_preview' 
     else
-      render :template => 'notification_mailer/periodic_report.html', :layout=>'email_preview' 
+      render :template => 'notification_mailer/periodic_report', :formats => [:html], :layout=>'email_preview' 
     end
     
     #render :text=>'NotificationRequest.send_periodic_report(0,0,logger) was called'

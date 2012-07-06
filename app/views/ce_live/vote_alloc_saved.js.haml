@@ -30,7 +30,7 @@
 - else
 	:plain
 		var ack = $("#{escape_javascript(
-			render( :template => 'ce_live/vote_alloc_saved.html', :locals=>{:status => 'failed', :err_msgs=>err_msgs} )
+			render( :template => 'ce_live/vote_alloc_saved', :formats => [:html], :locals=>{:status => 'failed', :err_msgs=>err_msgs} )
 		)}");
 
 		var dialog = ack.dialog( {title : 'Warning', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });

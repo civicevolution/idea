@@ -1,6 +1,6 @@
 :plain
 	var form = $("#{escape_javascript(
-		render( :template => 'members/invite_friends_form.html', :locals => { :team => team } )
+		render( :template => 'members/invite_friends_form', :formats => [:html], :locals => { :team => team } )
 	)}");
 
 	var dialog = form.dialog( {title : 'Invite your friends', modal : false, width : 'auto', closeOnEscape: false, close: function(){$(this).remove()} });

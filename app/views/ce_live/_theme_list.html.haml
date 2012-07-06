@@ -21,4 +21,4 @@
 		= image_tag 'delete_icon_16t.gif', :class=>"tp_delete"
 		- if themes
 			- themes.each do |tp|
-				= render( :partial => 'ce_live/live_theme.html', :locals =>{:live_theme => tp, :as => :live_theme, :mode => 'right_side_meta_themes'})
+				= render( :partial => 'ce_live/live_theme', :formats => [:html], :locals =>{:live_theme => tp, :as => :live_theme, :mode => 'right_side_meta_themes'})

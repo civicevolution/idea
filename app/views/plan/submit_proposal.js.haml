@@ -1,6 +1,6 @@
 :plain
 	var form = $("#{escape_javascript(
-		render( :template => 'plan/submit_proposal.html' )
+		render( :template => 'plan/submit_proposal', :formats => [:html] )
 	)}");
 
 	var dialog = form.dialog( {title : 'Submit your proposal', modal : false, width : 'auto', closeOnEscape: false, close: function(){$(this).remove()} });

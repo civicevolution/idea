@@ -2,7 +2,7 @@
 	$('div#question_old_data').closest('div.ui-dialog').dialog('destroy').remove();
 		
 	var old_data = $("#{escape_javascript(
-		render( :template => 'questions/old_data.html', :locals => {:question => question} )
+		render( :template => 'questions/old_data', :formats => [:html], :locals => {:question => question} )
 	)}");
 
 	var dialog = old_data.dialog( {title : 'The old questions and talking points for this question', modal : false, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} });

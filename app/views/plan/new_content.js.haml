@@ -1,6 +1,6 @@
 :plain
 	var new_content = $("#{escape_javascript(
-		render( :template => 'plan/new_content.html')
+		render( :template => 'plan/new_content', :formats => [:html])
 	)}");
 	
 	//var dialog = new_content.dialog( {title : 'New content', modal : false, width : '600px', position: [60,'center']	, closeOnEscape: true, close: function(){$(this).remove()} });

@@ -1,6 +1,6 @@
 :plain
 	var form = $("#{escape_javascript(
-		render( :template => 'plan/submit_proposal_acknowledge.html', :locals=>{:status => status} )
+		render( :template => 'plan/submit_proposal_acknowledge', :formats => [:html], :locals=>{:status => status} )
 	)}");
 
 	var title = "#{status == 'ok' ? 'Thank you' : "We're sorry"}"

@@ -1,6 +1,6 @@
 :plain
 	var preview = $("#{escape_javascript(
-		render( :template => 'members/preview_invite_request.html', :locals=>{:team=>team} )
+		render( :template => 'members/preview_invite_request', :formats => [:html], :locals=>{:team=>team} )
 	)}");
 
 	var dialog = preview.dialog( {title : 'Preview your invite email', modal : false, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });

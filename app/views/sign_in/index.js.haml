@@ -5,6 +5,6 @@
 	var left = pos.left - 600 + link.width();
 	pos = [left,top]
 	var dialog = $('<div id="sign_in_dialog"></div>').dialog( {title : 'Please sign in', modal : true, width: '600px', position : pos } ).
-		append( "#{escape_javascript(render(  :template => 'sign_in/index.html'))}" );
+		append( "#{escape_javascript(render(  :template => 'sign_in/index', :formats => [:html]))}" );
 	dialog.find(':text:first').focus()
 	

@@ -2,7 +2,7 @@
 :plain
 	$('div#follow_initiative').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	var follow_form = $("#{escape_javascript(
-		render( :template => 'notification/initiative_subscribed.html' )
+		render( :template => 'notification/initiative_subscribed', :formats => [:html] )
 	)}");
 	
 	var dialog = follow_form.dialog( {title : 'Thank you', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });

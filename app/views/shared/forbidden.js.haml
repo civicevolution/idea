@@ -1,7 +1,7 @@
 = render :template => 'shared/clear_sign_in_form', :formats => [:js]
 :plain
 	var message = $("#{escape_javascript(
-		render( :template => 'shared/forbidden.html', :locals => {:message => message})
+		render( :template => 'shared/forbidden', :formats => [:html], :locals => {:message => message})
 	)}");
 
 	var dialog = message.dialog( {title : 'We\'re sorry', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} });

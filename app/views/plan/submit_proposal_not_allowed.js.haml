@@ -1,6 +1,6 @@
 :plain
 	var form = $("#{escape_javascript(
-		render( :template => 'plan/submit_proposal_not_allowed.html', :locals => {:message=>message})
+		render( :template => 'plan/submit_proposal_not_allowed', :formats => [:html], :locals => {:message=>message})
 	)}");
 
 	var dialog = form.dialog( {title : "We're sorry", modal : false, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} });

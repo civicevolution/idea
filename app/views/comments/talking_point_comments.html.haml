@@ -2,5 +2,5 @@
 %h4= link_to "Q#{@talking_point.question.order_id}: #{@talking_point.question.text}", question_worksheet_path(@talking_point.question), {:class=> 'open_worksheet'}
 %h4= @talking_point.text
 
-= render :partial=> 'talking_point_comments.html', :locals=> {:talking_point => talking_point, :comments => comments, :com_criteria => com_criteria }
+= render :partial=> 'talking_point_comments', :formats => [:html], :locals=> {:talking_point => talking_point, :comments => comments, :com_criteria => com_criteria }
 	

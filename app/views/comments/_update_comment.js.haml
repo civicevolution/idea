@@ -1,7 +1,7 @@
 = render :template => 'shared/clear_sign_in_form', :formats => [:js]
 :plain
 	var new_com = $("#{escape_javascript(
-		render( :partial => 'plan/comment.html', :object => comment )
+		render( :partial => 'plan/comment', :formats => [:html], :object => comment )
 	)}");
 
 	var com = $('div.Comment[id="#{comment.id}"]')

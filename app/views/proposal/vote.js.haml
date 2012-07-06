@@ -2,7 +2,7 @@
 	$('div#proposal_vote').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	
 	var vote = $("#{escape_javascript(
-		render( :template => 'proposal/vote.html' )
+		render( :template => 'proposal/vote', :formats => [:html] )
 	)}");
 	
 	var dialog = vote.dialog( {title : 'Vote for your favorite proposals', modal : false, width : '600px', closeOnEscape: false, close: function(){$(this).remove()}, open: function(){$('a').blur();} });

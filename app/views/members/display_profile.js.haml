@@ -1,6 +1,6 @@
 :plain
 	var profile = $("#{escape_javascript(
-		render( :template => 'members/display_profile.html', :locals=>{:profile=>profile} )
+		render( :template => 'members/display_profile', :formats => [:html], :locals=>{:profile=>profile} )
 	)}");
 
 	var dialog = profile.dialog( {title : 'Member profile', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });

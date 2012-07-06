@@ -1,7 +1,7 @@
 :plain
 	console.log("show report form")
 	var report_form = $("#{escape_javascript(
-		render( :template => 'client_debug/report.html' )
+		render( :template => 'client_debug/report', :formats => [:html] )
 	)}");
 	
 	var dialog = report_form.dialog( {title : 'Report content', modal : true, width : '500px', closeOnEscape: false, close: function(){$(this).remove()} });

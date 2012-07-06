@@ -367,7 +367,7 @@
 							- tp.text = "[#{cnt+=1}:#{tp.id}] #{tp.text}"
 						= render :partial=> 'ce_live/live_talking_point', :collection => talking_points, :locals =>{:mode => 'incoming'}
 					- else
-						= render :partial => 'ce_live/live_talking_point.html', :locals =>{:mode => 'incoming'}, :collection => @live_talking_points, :as => :live_talking_point
+						= render :partial => 'ce_live/live_talking_point', :formats => [:html], :locals =>{:mode => 'incoming'}, :collection => @live_talking_points, :as => :live_talking_point
 						
 		%div.lists
 			%div#auto_bottom.auto-scroll.lists_scroll Autoscroll

@@ -2,7 +2,7 @@
 	console.log("please sign in ");
 	$('div#sign_in_form').closest('div.ui-dialog').dialog('destroy').remove();
 	var form = $("#{escape_javascript(
-		render( :template => 'ce_live/sign_in_form.html', locals: {remote: true})
+		render( :template => 'ce_live/sign_in_form', :formats => [:html], locals: {remote: true})
 	)}");
 	var dialog = form.dialog( {title : 'Your are not signed in', modal : false, width : 'auto', closeOnEscape: false, close: function(){$(this).remove()} });
 

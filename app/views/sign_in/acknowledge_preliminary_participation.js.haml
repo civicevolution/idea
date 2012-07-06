@@ -19,7 +19,7 @@
 
 :plain
 	var msg = $("#{escape_javascript(
-		render( :template => 'sign_in/acknowledge_preliminary_participation.html')
+		render( :template => 'sign_in/acknowledge_preliminary_participation', :formats => [:html])
 	)}");
 
 	var dialog = msg.dialog( {title : 'Thank you for your contribution', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });

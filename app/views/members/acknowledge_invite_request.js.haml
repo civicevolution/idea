@@ -1,6 +1,6 @@
 :plain
 	var ack = $("#{escape_javascript(
-		render( :template => 'members/acknowledge_invite_request.html', :locals=>{:team_id=>flash[:team_id], :invite=>flash[:invite]})
+		render( :template => 'members/acknowledge_invite_request', :formats => [:html], :locals=>{:team_id=>flash[:team_id], :invite=>flash[:invite]})
 	)}");
 
 	var dialog = ack.dialog( {title : 'Thank you', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });

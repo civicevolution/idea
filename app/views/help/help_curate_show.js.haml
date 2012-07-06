@@ -3,7 +3,7 @@
 	$('div#help_endorse_proposal').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	
 	var help = $("#{escape_javascript(
-		render( :template => 'help/help_curate_show.html' )
+		render( :template => 'help/help_curate_show', :formats => [:html] )
 	)}");
 	
 	var dialog = help.dialog( {title : 'CivicEvolution Help: Help select and order the talking points', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();} });

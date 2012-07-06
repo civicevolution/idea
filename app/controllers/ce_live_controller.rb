@@ -1202,7 +1202,7 @@ class CeLiveController < ApplicationController
     @live_theme.themer_id = 0
     @live_theme.text = ''
     # the templates are built in get_templates.js
-    render :template => 'ce_live/get_templates.html', :layout => false #, :content_type => 'application/javascript'
+    render :template => 'ce_live/get_templates', :formats => [:html], :layout => false #, :content_type => 'application/javascript'
     
   end
   

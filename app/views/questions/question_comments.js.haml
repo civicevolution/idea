@@ -1,5 +1,5 @@
 :plain
-	var comments = $("#{escape_javascript( render( :template=> 'questions/question_comments.html' ) )}");
+	var comments = $("#{escape_javascript( render( :template=> 'questions/question_comments', :formats => [:html] ) )}");
 
 	comments.hide();
 	$('body').append(comments);

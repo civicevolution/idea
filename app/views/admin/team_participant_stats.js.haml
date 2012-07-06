@@ -1,6 +1,6 @@
 :plain
 	var participants = $("<td colspan='20'>#{escape_javascript(
-		render( :template => 'admin/team_participant_stats.html', :locals => {:standalone => false, :email=>email})
+		render( :template => 'admin/team_participant_stats', :formats => [:html], :locals => {:standalone => false, :email=>email})
 	)}</td>");
 	
 	var tr = $('tr[id="#{params[:team_id]}"]');

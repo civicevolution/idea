@@ -3,7 +3,7 @@
 	$('div#notification_settings').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	$('div#notification_acknowledgment').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	var acknowledgment = $("#{escape_javascript(
-		render( :template => 'notification/update_notification_settings.html', :locals=>{:team_id=>team_id} )
+		render( :template => 'notification/update_notification_settings', :formats => [:html], :locals=>{:team_id=>team_id} )
 	)}");
 	
 	var dialog = acknowledgment.dialog( {title : 'Thank you', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });

@@ -2,7 +2,7 @@
 	$('div#quick_instructions').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	
 	var help = $("#{escape_javascript(
-		render( :template => 'help/quick_instructions_pi.html' )
+		render( :template => 'help/quick_instructions_pi', :formats => [:html] )
 	)}");
 	
 	var dialog = help.dialog( {title : 'Quick instructions', modal : false, width : '600px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();} });

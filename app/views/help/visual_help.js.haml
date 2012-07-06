@@ -2,7 +2,7 @@
 	$('div#visual_help').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	
 	var help = $("#{escape_javascript(
-		render( :template => 'help/visual_help.html' )
+		render( :template => 'help/visual_help', :formats => [:html] )
 	)}");
 	
 	var dialog = help.dialog( {title : 'CivicEvolution Help', modal : false, width : '1000px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();$.scrollTo($('body'),1000);} });

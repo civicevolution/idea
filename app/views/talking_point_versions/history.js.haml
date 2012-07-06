@@ -1,7 +1,7 @@
 = render :template => 'shared/clear_sign_in_form', :formats => [:js]
 :plain
 	var history_form = $("#{escape_javascript(
-		render( :template => 'talking_point_versions/history.html', :locals => {:talking_point => talking_point, :diffs=>diffs} )
+		render( :template => 'talking_point_versions/history', :formats => [:html], :locals => {:talking_point => talking_point, :diffs=>diffs} )
 	)}");
 	
 	var dialog = history_form.dialog( {title : 'Edit history for this talking point', modal : false, width : '600px', position: [60,'center']	, closeOnEscape: true, close: function(){$(this).remove()} });

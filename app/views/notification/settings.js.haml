@@ -2,7 +2,7 @@
 :plain
 	$('div#notification_settings').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
 	var notification_form = $("#{escape_javascript(
-		render( :template => 'notification/settings.html' )
+		render( :template => 'notification/settings', :formats => [:html] )
 	)}");
 	
 	var dialog = notification_form.dialog( {title : 'Follow this proposal', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });

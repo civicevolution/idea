@@ -35,7 +35,7 @@
 
 	%script#live_talking_point_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'ce_live/live_talking_point.html', :locals =>{:live_talking_point => @live_talking_point, :mode => 'incoming'})}
+			#{render( :partial => 'ce_live/live_talking_point', :formats => [:html], :locals =>{:live_talking_point => @live_talking_point, :mode => 'incoming'})}
 		
 	%script#create_live_talking_point_template
 		:plain
@@ -89,7 +89,7 @@
 
 	%script#live_theme_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'ce_live/live_theme.html', :locals =>{:live_theme => @live_theme, :mode => 'left_side_list'})}
+			#{render( :partial => 'ce_live/live_theme', :formats => [:html], :locals =>{:live_theme => @live_theme, :mode => 'left_side_list'})}
 		
 	%script#create_live_theme_template
 		:plain
@@ -168,15 +168,15 @@
 
 	%script#live_micro_theme_form_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'ce_live/edit_micro_theme.html')}
+			#{render( :partial => 'ce_live/edit_micro_theme', :formats => [:html])}
 			
 	%script#live_macro_theme_form_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'ce_live/edit_macro_theme.html')}
+			#{render( :partial => 'ce_live/edit_macro_theme', :formats => [:html])}
 			
 	%script#live_macro_theme_example_form_template{:type=>'text/html'}
 		:plain
-			#{render( :partial => 'ce_live/edit_macro_theme_example.html')}
+			#{render( :partial => 'ce_live/edit_macro_theme_example', :formats => [:html])}
 
 		
 	%script#create_live_edit_theme_template

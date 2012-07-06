@@ -2,7 +2,7 @@
 - if status == 'saved'
 	:plain
 		var ack = $("#{escape_javascript(
-			render( :template => 'proposal/vote_saved.html', :locals=>{:status => 'saved'} )
+			render( :template => 'proposal/vote_saved', :formats => [:html], :locals=>{:status => 'saved'} )
 		)}");
 
 		var dialog = ack.dialog( {title : 'Thank you', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });
@@ -11,7 +11,7 @@
 - else
 	:plain
 		var ack = $("#{escape_javascript(
-			render( :template => 'proposal/vote_saved.html', :locals=>{:status => 'failed', :err_msgs=>err_msgs} )
+			render( :template => 'proposal/vote_saved', :formats => [:html], :locals=>{:status => 'failed', :err_msgs=>err_msgs} )
 		)}");
 
 		var dialog = ack.dialog( {title : 'Warning', modal : false, width : 'auto', closeOnEscape: true, close: function(){$(this).remove()} });

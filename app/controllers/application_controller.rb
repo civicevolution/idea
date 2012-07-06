@@ -137,7 +137,7 @@ class ApplicationController < ActionController::Base
           params[:action] = flash[:params][:action] if flash[:params]
           params[:team_id] = flash[:params][:team_id] if flash[:params]
           msg, redirect_url = get_redirect
-          render :template => 'sign_in/acknowledge_preliminary_participation_and_redirect.html', :locals => {:msg => msg, :redirect_url => redirect_url}, :layout => 'plan'
+          render :template => 'sign_in/acknowledge_preliminary_participation_and_redirect', :formats => [:html], :locals => {:msg => msg, :redirect_url => redirect_url}, :layout => 'plan'
         }
       else
         format.js { }
@@ -337,7 +337,7 @@ class ApplicationController < ActionController::Base
            render :template => 'sign_in/acknowledge_preliminary_participation', :formats => [:js] }
         format.html {
           msg, redirect_url = get_redirect
-          render :template => 'sign_in/acknowledge_preliminary_participation_and_redirect.html', :locals => {:msg => msg, :redirect_url => redirect_url}, :layout => 'plan'
+          render :template => 'sign_in/acknowledge_preliminary_participation_and_redirect', :formats => [:html], :locals => {:msg => msg, :redirect_url => redirect_url}, :layout => 'plan'
            }
       else
         format.js { 
