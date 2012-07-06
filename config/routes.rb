@@ -1,4 +1,4 @@
-G3::Application.routes.draw do |map|
+G3::Application.routes.draw do
 
   get 'teams(/:team_id)/setup' => 'teams#setup_form', :as => 'setup_team_form'
   match 'teams(/:team_id)/update_setup' => 'teams#update_setup', :via => [:put, :post], :as => 'setup_team_post'
@@ -293,10 +293,10 @@ G3::Application.routes.draw do |map|
 	  end
 	end
 
-  #match ':controller/:action/:id'
-  #match ':controller/:action/:id.:format'
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  match ':controller/:action/:id'
+  match ':controller/:action/:id.:format'
+  #map.connect ':controller/:action/:id'
+  #map.connect ':controller/:action/:id.:format'
   
     
   # The priority is based upon order of creation:
