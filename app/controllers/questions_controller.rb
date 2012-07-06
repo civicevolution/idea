@@ -140,8 +140,8 @@ class QuestionsController < ApplicationController
     
     @question = Question.find(params[:question_id])
     if !request.xhr?
-      @question['talking_points_to_display'] = @question.top_talking_points
-      @question['talking_points_to_display'] += @question.remaining_new_talking_points( @question['talking_points_to_display'].map(&:id), @member.last_visits[@question.team_id.to_s])
+      @question.talking_points_to_display = @question.top_talking_points
+      @question.talking_points_to_display += @question.remaining_new_talking_points( @question.talking_points_to_display.map(&:id), @member.last_visits[@question.team_id.to_s])
       worksheet
     else
       talking_points_to_display = @question.remaining_new_talking_points( params[:ids].split('-'), @member.last_visits[@question.team_id.to_s])
@@ -168,10 +168,10 @@ class QuestionsController < ApplicationController
     
     @question = Question.find(params[:question_id])
     if !request.xhr?
-      @question['comments_to_display'] = @question.comments
+      @question.comments_to_display = @question.comments
       worksheet
     else
-      @question['comments_to_display'] = @question.comments
+      @question.comments_to_display = @question.comments
       @question.get_talking_point_ratings(@member)
       render :question_comments, :layout => false
     end
@@ -237,16 +237,17 @@ class QuestionsController < ApplicationController
     
     @question.member = @member
     
-    @question['talking_points_to_display'] ||= @question.all_talking_points
+    #@question.talking_points_to_display ||= @question.all_talking_points
+    @question.talking_points_to_display ||= @question.all_talking_points
 
     if !@question.curated_tp_ids.nil?
       # set the order according to question.curated_tp_ids and set as selected
       @question.curated_tp_ids.scan(/\d+/).reverse.each do |id|
-        selected_tp = @question['talking_points_to_display'].detect{|tp| tp.id == id.to_i}
+        selected_tp = @question.talking_points_to_display.detect{|tp| tp.id == id.to_i}
         if !selected_tp.nil?
           selected_tp.selected = true
-          @question['talking_points_to_display'].delete_if{|tp| tp == selected_tp}
-          @question['talking_points_to_display'].unshift(selected_tp)
+          @question.talking_points_to_display.delete_if{|tp| tp == selected_tp}
+          @question.talking_points_to_display.unshift(selected_tp)
         end
       end
     end
@@ -255,7 +256,7 @@ class QuestionsController < ApplicationController
     if flash[:unrecorded_talking_point_preferences]
       # if flash unrecorded_talking_point_preferences, show the check marks the user tried to save and reinforce message to only select 5
       flash[:unrecorded_talking_point_preferences].each do |id|
-        @question['talking_points_to_display'].detect{ |tp| tp.id == id}.my_preference = true
+        @question.talking_points_to_display.detect{ |tp| tp.id == id}.my_preference = true
       end
     end
     

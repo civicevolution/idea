@@ -15,7 +15,7 @@
 					%p.clear_both
 			- else
 				= form_tag update_worksheet_ratings_path(question), :class=>'update_worksheet' do
-					= hidden_field_tag :tp_ids, "#{ question['talking_points_to_display'].map(&:id).join(',') }"
+					= hidden_field_tag :tp_ids, "#{ question.talking_points_to_display.map(&:id).join(',') }"
 
 					= render :partial => 'plan/question_contents', :locals => {:question => question, :questions => questions, :question_counter => question.order_id }
 					= submit_tag "Save your ratings and preferences", :class=>'submit_ratings'
@@ -26,16 +26,16 @@
 			= render :partial => 'plan/talking_point_form', :locals => {:question_id=>question.id}
 			
 			%div.ques_discussion.discussion{:id=>question.id}
-				- if @question.show_new && question['comments_to_display'].length > 0
+				- if @question.show_new && question.comments_to_display.length > 0
 					%h4.ques_sub_hdg New comments about this question and talking points
 				- elsif !@question.show_new
 					%h4.ques_sub_hdg Latest comments about this question and talking points
-					- if !question.coms.nil? && question.coms > question['comments_to_display'].length
-						= link_to "Show #{ pluralize((question.coms - question['comments_to_display'].length), 'more comment')}", question_all_comments_path(question), { :class=> 'show_new_comments', :id=>question.id, :remote => true }
+					- if !question.coms.nil? && question.coms > question.comments_to_display.length
+						= link_to "Show #{ pluralize((question.coms - question.comments_to_display.length), 'more comment')}", question_all_comments_path(question), { :class=> 'show_new_comments', :id=>question.id, :remote => true }
 					
 
-				- if question['comments_to_display'].size > 0
-					= render :partial=> 'plan/comment', :collection => question['comments_to_display'].select{|c| c.parent_type == 1}.sort{|a,b| a.id<=>b.id}
+				- if question.comments_to_display.size > 0
+					= render :partial=> 'plan/comment', :collection => question.comments_to_display.select{|c| c.parent_type == 1}.sort{|a,b| a.id<=>b.id}
 				- else
 					%div.Comment.hide
 						

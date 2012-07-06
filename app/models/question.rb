@@ -42,6 +42,7 @@ class Question < ActiveRecord::Base
   attr_accessor :num_talking_points
   attr_accessor :num_new_talking_points
   attr_accessor :talking_points_to_display
+  attr_accessor :comments_to_display
   attr_accessor :member
   attr_accessor :curated_talking_points_set
   attr_accessor :previousText

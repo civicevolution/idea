@@ -23,8 +23,8 @@ module LibGetTalkingPointsRatings
       q.talking_points_to_display.each do |tp| 
         talking_point_ids << tp.id
       end
-      q['comments_to_display'] ||= []
-      q['comments_to_display'].each do |c|
+      q.comments_to_display ||= []
+      q.comments_to_display.each do |c|
         comment_ids << c.id
       end
     end
@@ -91,7 +91,7 @@ module LibGetTalkingPointsRatings
         end
       end
       
-      q['comments_to_display'].each do |c|
+      q.comments_to_display.each do |c|
         ccom = stats[:comment_coms].detect{|cc| cc['comment_id'].to_i == c.id}
         c.coms = ccom['coms'].to_i
         #c.new_coms = ccom['new_coms'].to_i
