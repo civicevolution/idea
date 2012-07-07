@@ -312,11 +312,12 @@ class ApplicationController < ActionController::Base
     end
 
     def authorize
-      logger.silence(3) do
-        unless Member.find_by_id(session[:member_id])
-          force_sign_in
-        end
+      old_log_level = Rails.logger.level
+  	  Rails.logger.level = 3
+      unless Member.find_by_id(session[:member_id])
+        force_sign_in
       end
+      Rails.logger.level = old_log_level
     end
 
   def force_sign_in
