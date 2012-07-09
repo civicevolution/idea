@@ -14,7 +14,9 @@
 		%title= title
 		:javascript
 			var am_curator = #{(!@team.nil? && @team.org_id == @member.id || (!@participant_stats.nil? && @participant_stats.level >= 3)) ? true : false};
-		=	stylesheet_link_tag 'plan.css', 'talking_point.css'
+		
+		= stylesheet_link_tag "application_ce"
+		
 		- if params[:monitor] != 'true'
 			:javascript
 				var _gaq = _gaq || [];
@@ -43,14 +45,7 @@
 				var com_criteria = Number('#{@team.com_criteria}'.match(/\d+$/));
 				var res_criteria = Number('#{@team.res_criteria}'.match(/\d+$/));
 			
-	
-		= javascript_include_tag :defaults
-		
-		- if inc_js == 'all'
-			= javascript_include_tag 'app_ce_realtime.js','app_right_panel.js','jquery.scrollTo-min.js','jquery.autogrow.js','jquery.isonscreen.js',"jquery.show_char_limit-1.1.1.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js',"jquery.timeago.js"
-		
-		
-		= stylesheet_link_tag 'cupertino/jquery-ui-1.8.17.custom.css', '../plugins/prettyPhoto/css/prettyPhoto.css'
+		= javascript_include_tag 'application_ce'
 
 		= yield :script
 		

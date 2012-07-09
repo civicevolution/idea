@@ -1,0 +1,472 @@
+$off_black: #2b3e42
+$new_item_color: #F2583E
+$navy_blue: #23238E
+$help_tag: #f3973a
+$new_tag: #f3973a
+$light_stripe: #ececec // rgb(242,233,195) 
+$lightest_bg: #ececec //#F9F3DE
+
+////sass mixin for opacity
+//=opacity(!opacity)
+//	:filter alpha(opacity= !opacity * 100)
+//	:-moz-opacity = !opacity
+//	:-khtml-opacity = !opacity
+//	:opacity = !opacity
+
+.wordwrap
+	white-space: pre-wrap /* css-3 */
+	white-space: -moz-pre-wrap  /* Mozilla, since 1999 */
+	white-space: -pre-wrap /* Opera 4-6 */
+	white-space: -o-pre-wrap /* Opera 7 */
+	word-wrap: break-word /* Internet Explorer 5.5+ */ 
+
+.nobreak	
+	white-space: nowrap
+	
+
+$page_width: 980px
+$page_indent: 16px
+$side_bar_width: 180px
+
+body, p, ol, ul, td, textarea
+	font-family: verdana, arial, helvetica, sans-serif
+	font-size:   13px 
+
+div#tooltip_source
+	display: none
+
+img
+	border: none
+	
+td
+	vertical-align: top
+
+div.logo
+	margin-top: 10px
+
+div#load_mask
+	background-color: $navy_blue
+	//+opacity(0.1)
+	z-index: 1000
+	position: absolute
+	top: 0
+	left: 0
+	display: none
+	height: 1000px
+
+h2#load_message
+	color: $navy_blue
+	display: none
+	border: 2px solid $navy_blue
+	padding: 10px
+
+a.help_tag
+	z-index: 100
+	position: fixed
+	top: 25%
+	right: 0
+	color: $help_tag
+	width: 32px
+	height: 183px
+	background: image-url('help_feedback_tag.gif') no-repeat top right
+a.help_tag:hover
+	border-right: 2px solid white
+a.help_tag.loading
+	width: 150px
+	font-size: 1.4em
+	font-weight: bold
+
+a.new_tag
+	z-index: 100
+	position: fixed
+	top: 25%
+	left: 0
+	color: $new_tag
+	width: 32px
+	height: 183px
+	background: image-url('new_content_tag.gif') no-repeat 0 0
+a.new_tag:hover
+	border-left: 2px solid white
+a.new_tag.loading
+	padding-left: 40px
+	font-size: 1.4em
+	font-weight: bold
+
+div.page
+	width: $page_width
+	margin: auto
+
+div.logo
+	text-align: left
+	float: left
+	img
+		margin-bottom: 8px
+
+iframe.ape
+	display: none
+	position: absolute
+	left: -300px
+	top: -300px
+
+
+div.member_info
+	float: right
+	width: $side_bar_width
+	margin-top: 18px
+	color: $off_black
+	div.member
+		padding: 0 0 4px 42px
+		margin: 0
+		text-align: left
+		font-weight: bold
+		position: relative
+		img
+			display: block
+			cursor: pointer
+			position: absolute
+			top: 0
+			left: 0
+	p.signout 
+		margin: 0
+		a.my_teams
+			margin-right: 10px
+
+	//	font-size: 88%
+	//	position: absolute
+	//	bottom: 0
+	//	right: 0
+	form.upload_member_photo
+		display: none
+
+div.join_com
+	float: right
+	margin-top: 55px
+	a
+		font-size: 14px
+		font-weight: bold
+
+hr.top
+	clear: both
+	margin-bottom: 0
+
+div.footer_logo
+	margin: 20px
+	width: 100%
+
+div.ce_credit
+	width: 100%
+	a
+		text-decoration: none
+		color: black
+	div.powered
+		float: left
+		h3
+			margin-bottom: 6px
+		p.tag_line 
+			margin-top: 4px		
+			font-weight: bold
+	div.lottery
+		float: left
+		margin-left: 50px
+		margin-top: 16px
+
+hr.bottom, .clear
+	clear: both
+	margin-top: 40px
+
+.hide
+	display: none
+
+tr.stripe
+	background-color: $light_stripe //#ddd//$nav_link_bg
+
+p.loading
+	font-weight: bold
+	font-size: 1.2em
+
+div.side_bar
+	width: $side_bar_width
+	float: left
+	margin-left: 20px
+	//div.share
+	//	margin: 20px 0
+	a.request_help
+		display: block
+		font-size: 1.2em
+		font-weight: bold
+
+div.help_intro
+	margin-top: 16px
+	img.me
+		float: left
+		margin: 4px 10px 10px 0
+	h3
+		margin: 0 0 6px 0
+	p
+		margin: 0 0 8px 0
+	
+		
+form.request_help
+	textarea
+		width: 500px
+		font-size: 1.2em
+	label
+		display: block
+		font-weight: bold
+		margin-top: 16px
+	input
+		display: block
+	select
+		font-size: 1.28em
+
+div.report
+	max-width: 500px
+	p.cat
+		margin: 0 0 4px 0
+	label
+		font-weight: bold	
+		display: block
+		margin-top: 10px
+	a.cancel
+		font-size: 80%
+		
+img.i36
+	width: 36px
+	height: 36px
+
+textarea
+	height: 100px
+
+.form_error_border
+	border: 1px solid $new_item_color
+.form_error_text, .error
+	color: $new_item_color
+	font-weight: bold
+
+div#errorExplanation
+	color: red
+	margin-bottom: 1em
+
+
+form.what_do_you_think, form.std_form, form.comment_form //add_comment_form,form.add_answer_form, form.std_form
+	//margin-left: $page_indent
+	margin-bottom: 40px
+	margin-right: 0px
+	width: 100%
+	max-width: 500px
+	clear: both
+	label
+		display: block
+		clear: both
+		margin-top: 0px
+		font-weight: bold
+		font-style: italic
+		color: #888
+	img
+		display: block
+		float: left
+		margin: 6px 10px 0 0
+	textarea, input[type=text]
+		width: 100%
+		font-size: 1.2em
+		background-color: $lightest_bg		
+	input[type=submit]
+		margin: 0 10px 0 10px
+
+	input[type=file]
+		margin: 12px 0 16px 0
+	//input[type=text] 
+	//	font-size: 1.2em
+	div.controls
+		position: absolute
+		right: 0
+	div.control_line
+		position: relative
+		margin-bottom: 10px
+		img
+			cursor: pointer
+	div.add_comment,div.add_link,div.attach_file
+		clear: both
+		margin-right: 20px
+		border: 0px solid #dddddd
+		p
+			img
+				display: block
+				margin-top: -2px
+	div.add_link,div.attach_file
+		display: none
+	button
+		margin-left: 15px
+	p.resource_warning
+		margin-top: -12px
+
+form.std_form
+	label
+		margin-bottom: 8px 
+form.add_bs_idea_form
+	font-size: 1em
+
+
+
+div#submit_proposal
+	p.title
+		font-style: italic
+		margin: 0 20px
+	max-width: 500px
+	p.cat
+		margin: 0 0 4px 0
+	label
+		font-weight: bold	
+		display: block
+		margin-top: 10px
+	a.cancel
+		font-size: 80%
+		
+div#submit_proposal_acknowledge	
+	max-width: 500px
+
+div.preview_email
+	border: 1px solid #666
+	padding: 20px
+	word-wrap: break-word
+	div.email_headers		
+		p
+			margin: 0
+		p.subject
+			margin-top: 10px
+		p.recipients
+			margin-left: 20px
+	pre.email_body
+		margin: 10px 0 30px 0
+
+
+form.reset_password_form, form.signin_form, form.register_form, div#join_email_address_ok
+	max-width: 500px
+	label
+		font-weight: bold
+	input[type='text'], input[type='password'] 
+		width: 250px
+	input[type='submit']
+		background-color: $help_tag
+		color: $navy_blue
+		font-size: 1.2em
+		font-weight: bold
+	//	margin: 20px 0
+	a.cancel
+		margin-left: 20px
+		
+form.signin_form
+	td.sign_in
+		padding-right: 40px
+		border-right: 1px solid black
+	td.join
+		padding-left: 40px
+	td.hdr
+		font-size: 1.2em
+		font-weight: bold
+	td.lbl
+		padding-top: 8px
+	td
+		vertical-align: top
+	p
+		width: 240px
+		margin: 0 20px 10px 40px
+	p.signin_warn
+		margin: 0
+		//font-size: 80%
+		padding: 4px
+		border: 1px solid $new_item_color
+		width: 240px	
+	p.signin_action_warn
+		color: red
+		font-weight: bold
+	
+div#email_participants
+	th, td
+		text-align: left
+		padding-left: 20px
+	th.ctr, td.ctr
+		text-align: center
+	textarea:
+		height: 100px
+
+table.tablesorter th
+	cursor: pointer
+	
+div#invite_friends
+	max-width: 500px
+	font-size: 1em
+	form
+		label
+			p.instr
+				color: #aaa
+				font-style: normal
+	
+ul.teams_list	
+	li
+		margin-bottom: 8px
+		
+.clear_both
+	clear: both
+	
+.warn
+	color: red
+	font-weight: bold	
+	
+p.app_error_msg
+	color: #999
+	font-size: 1em
+	margin: 3em 0 0 0
+	
+input.submit_ratings	
+	margin-right: 40px
+	float: right
+	font-size: 1.4em
+	
+div#join_email_address_ok
+	padding-bottom: 1em
+	li
+		margin-bottom: .5em
+		
+		
+/* For the home page */
+div.team_entry
+	margin: 0 2em 0 1em
+	table
+		width: 100%
+		background-color: $lightest_bg
+		cursor: pointer
+	div.resources
+		margin: 1em 0 72px 0
+	a.team_entry_title
+		display: block
+		font-weight: bold
+		color: $off_black
+	p.controls
+		a
+			font-weight: bold
+			margin-right: 2em
+			color: $off_black
+	
+div.homepage_intro
+	margin: 0 2em 0 1em
+	h2
+		margin-top: 0
+	p
+		font-size: 1em
+	span.promise, p.promise
+		font-weight: bold
+		color: $off_black
+		font-size: 96%
+
+/* END for the home page */
+
+div#follow_initiative
+	p
+		font-size: 1.2em
+	input[type=text]
+		width: 300px
+	input
+		font-size: 1.2em
+div.cta_block
+	font-size: 13px

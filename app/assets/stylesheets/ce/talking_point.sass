@@ -1,0 +1,2018 @@
+/*
+ * Comprehensive Base Stylesheet - http://fvsch.com/code/base-stylesheet/
+ * Makes browser default styles more consistent, creating a canvas that you
+ * should modify for your project. Fully commented. Last update: 2011-10-02.
+/* CONTAINERS
+
+body
+	margin: 0
+	padding: 0
+	/* Browsers have default 8px margins _or_ padding!
+	font-size: 100%
+	/* See: http://www.informationarchitects.jp/en/100e2r/
+	line-height: 1.3
+	/* Default value, `normal`, depends on the font
+
+/* HTML5 blocks - needed in older browsers
+
+article, aside, figcaption, figure, footer, header, hgroup, nav, section
+	display: block
+
+/* PARAGRAPHS
+
+h1, h2, h3, h4
+	margin: 1em 0 .5em
+	/* Titles should be close to the text they describe
+	line-height: 1.25
+	/* Bigger text is often nicer with smaller line height
+	font-weight: bold
+	/* Browser default. Use `normal` for less bulky titles
+
+h1
+	font-size: 1.5em
+
+h2
+	font-size: 1.3em
+
+h3
+	font-size: 1.2em
+
+h4
+	font-size: 1em
+
+ul, ol
+	margin: 1em 0
+	/* Default for all browsers except IE
+	padding-left: 40px
+	/* IE has a 40px margin-left instead
+
+p
+	margin: 1em 0
+
+blockquote
+	margin: 1em 40px
+	/* Same for all browsers - Customize or remove
+
+figure
+	margin: 1em 0
+	/* Default in HTML5 spec: `1em 40px`
+
+/* LINKS
+/* Default browser styles (from Firefox, similar in most browsers)
+
+a
+	text-decoration: underline
+	&:link
+		color: #0000EE
+	&:visited
+		color: #551A8B
+	&:active
+		color: #EE0000
+	&:hover, &:focus
+		/* ...
+	&:active, &:hover
+		outline: none
+	img
+		border: none
+
+/* Add your own styles for hover _and_ focus styles
+
+/* Remove dotted outline clicked links - Keeps outline on focus
+
+/* No border around images in links
+
+/* MISC TEXT-LEVEL ELEMENTS
+/* Make quotations and references more visible
+
+q, cite
+	font-style: italic
+
+/* Remove automatic quotation marks for inline quotations
+ * (`q {quotes:none}` not implemented in WebKit)
+
+q
+	&:before, &:after
+		content: ""
+
+/* Stopping superscript and subscript from adding to the line's leading
+
+sup, sub
+	line-height: 0
+
+/* FORMS
+
+fieldset
+	margin: 0
+	/* Common default is `0 2px`
+	padding: 0
+	/* Common default (roughly): `.35em .625em .75em`
+	border: none
+
+input, button, select
+	vertical-align: middle
+	/* Helps keep form elements roughly aligned
+
+/* TABLES
+
+table
+	border-collapse: collapse
+	/* Merges cell borders together
+	/* Browser default: border-collapse: separate; border-spacing: 2px;
+
+td, th
+	padding: 1px
+	/* Same as browser default - set to "0" to remove padding
+	vertical-align: top
+	/* Default is "middle"
+	text-align: left
+	/* Default for TH elements is "center"
+
+td:first-child, th:first-child
+	empty-cells: hide
+	/* Hide empty cells when they're the first in the row
+
+// http://colorschemedesigner.com/#1V41T9lCrw0w0
+
+$question_bg: rgb(245,230,190)
+$talking_point_bg: #c7c7c7 // #BCC3D0 //rgb(192,228,154)
+$acceptable_bg: #C8BCD1 //rgb(232,237,238)
+$prefence_bg: #C8BCD1 //C5B4D1 //B4BED0 //rgb(222,222,236)
+$input_bg: #ececec // rgb(251,248,237)
+$pale_input: rgb(51, 51, 51)
+$new_item_color: #F2583E
+$comments_block_bg: #F9F3DE
+$com_quote_bg: #E5F8C2 // #BCC3D0
+
+$cta_bg_left: #e1e8c4 // #ececec // #dbe0e8 //#d7dde8
+$cta_bg_right: #00ff00
+
+$talking_points_list: #ececec
+
+$graph_green: #759564
+$graph_greenish: #cdd89d
+$graph_yellow: #c5b19b // a38361 //657383 //f0ecc1
+$graph_reddish: #e2b68c
+$graph_red: #cf725f
+
+$talking_points_page_width: 778px
+$page_indent: 20px
+$talking_point_width: 400px
+
+
+$stats_background: #e1e8c4 // #cdd89d
+$stat_cta_background: #e1e8c4 // #cdd89d
+$tools_info_bg: #e1e8c4 // #cdd89d
+$stats_stripe: #e1e8c4
+$endorsements_bg: #cdd89d
+
+input
+	margin: 0
+textarea
+	padding: 4px
+
+
+
+=radius
+	-webkit-border-radius: 10px
+	-moz-border-radius: 10px
+	border-radius: 10px
+
+.corner
+	+radius
+
+p
+	margin: 1em 0
+
+abbr
+	border: none
+
+div.suggest_title
+	position: relative
+	margin-bottom: 0
+	img.i36
+		position: absolute
+		top: 4px
+		left: 0
+		//vertical-align: -25px
+	h3
+		margin-left: 40px
+
+//div.talking_points_page
+	//float: left
+	//width: $talking_points_page_width
+
+
+h2.home_title
+	font-size: 1em
+	margin: 18px 0 0px 0
+	a
+		font-size: .6em
+		margin-left: 0px
+		font-weight: normal
+		
+div.summary
+	margin: -10px 0 0 0
+	font-size: 1.12em
+div.summary.collapse
+	margin-bottom: 20px
+	
+
+	
+div.form_controls
+	position: relative
+	margin-top: 8px
+	span.char_ctr
+		display: block
+		position: absolute
+		left: 200px
+		top: 2px
+	a
+		position: absolute
+		display: block
+		right: 0
+		top: 0
+		margin: 0
+	
+	
+
+/* Proposal summary page */
+
+div.talking_points_page, div.home_page
+	position: relative
+	padding-top: 30px
+//div.question_summary
+	//margin-bottom: 4em
+p.question
+	font-weight: bold
+	margin-left: 20px
+	margin-top: 2em
+	cursor: pointer
+div.intro
+
+div.left_side
+	width: 680px
+	float: left
+	//border: 1px solid red
+	position: relative
+	
+div.talking_points_list
+	ul.talking_points
+		margin-left: -20px
+		li
+			margin-bottom: 8px
+	div.talking_point_placeholder
+		background: $talking_point_bg image-url('white_bulb_sm.gif') no-repeat 8px 10px
+		width: $talking_point_width
+		padding-left: 50px
+		padding-bottom: 20px
+		p
+			font-size: 1.2em
+			width: 400px
+	h2.ellipsis
+		margin: 1em
+div.resources
+	margin-left: 40px
+	margin-top: -10px
+	div 
+		width: 48px
+		height: 48px
+		border: 1px solid #ccc
+		float: left
+		cursor: pointer
+div.proposal
+	padding-right: 20px
+	margin-top: 30px
+div.endorsements
+	position: relative
+	margin-top: 20px
+	//width: 600px
+	table
+		margin-right: 1em
+	h3
+		width: 100%
+		text-align: left
+		font-size: 1em
+	td,th
+		text-align: left
+div#submit
+	h3
+		font-size: 1em
+div.progress
+	//border: 1px solid #ccc
+	padding: 1em
+	margin: 40px 0
+	background-color: $stats_background
+	h3
+		font-size: 1em
+		margin: 0 0 8px 0
+	div.participants
+		//float: right
+		//border: 1px solid green
+		//width: 194px
+		tr.stripe						
+			background-color: $stats_stripe
+		img
+			padding: 0 8px 8px 0
+	div.leaderboard
+		//float: left
+		//margin-right: 20px
+		//border: 1px solid blue
+		//width: 180px
+		td
+			padding: 0 8px 8px 0
+			font-size: .8em
+div.tools_info
+	background-color: $tools_info_bg
+	//width: 100%
+	padding: 1em
+	div.tools
+		float: left
+		iframe
+			width: 50px
+		p,div
+			margin: 10px 0 0 0
+		a
+			height: 16px
+	div.videos
+		p
+			font-weight: bold
+div.cta_block
+	background-color: $stat_cta_background
+	//height: 100px
+	width: 100%
+	margin-bottom: 20px
+	padding-bottom: 10px
+	div.text
+		float: left
+		width: 76%
+		//border: 1px solid green
+		padding-right: 10px
+		h3
+			margin-bottom: 0
+		p
+			margin-top: 8px
+		p.cta
+			//font-weight: bold
+			line-height: 1em
+	div.num
+		//order: 1px solid blue
+		float: left
+		width: 18%
+		color: white
+		font-size: 80px
+		text-align: center
+	//div.tools
+	//	font-weight: bold
+	
+
+/* END Proposal summary page */
+
+div.proposal.inview
+	background-color: $question_bg
+	h2.question
+		font-size: 1.2em
+	padding: 20px 0
+
+div.question_worksheet
+	clear: both
+	//border: 1px solid yellow
+	//background-color: $question_bg
+	padding: 20px 0 20px 20px
+	margin-bottom: 40px
+	h2.worksheet_team
+		text-align: center
+	a.open_worksheet
+		display: none
+		margin: 20px 0 20px $page_indent
+		font-size: 1.2em
+		font-weight: bold
+	div.navigation
+		position: relative
+		text-align: center
+		a.prev
+			left: 0
+			display: block
+			position: absolute
+			top: 0
+		a.next
+			right: 0
+			display: block
+			position: absolute
+			top: 0
+			margin-right: $page_indent
+			
+			
+div.question_worksheet.noview
+	background-color: none
+	margin: 0
+	padding-top: 0
+	padding-bottom: 10px
+	div.talking_point_sec
+		margin-left: 0
+	div.talking_points_list p.show_more_link
+		display: none
+	a.open_worksheet
+		display: block
+	h2.question
+		cursor: pointer
+	.navigation
+		display: none
+	
+h3.ques_sub_hdg
+	margin-bottom: 0
+	a
+		font-size: .7em
+		font-weight: normal
+
+div.talking_point_sec
+	margin-left: $page_indent
+	div.instr.arrow	
+		background: image-url('red_arrow.gif') no-repeat 0px 12px
+	div.instr
+		width: $talking_point_width
+		p.instr
+			float:left
+			margin: 0 0 0 40px
+			font-size: 1em
+	p.question_show_talking_points
+		margin-top: 30px
+	
+div.talking_points_list	
+	//border: 1px solid green
+	margin-left: $page_indent
+			
+div.ques_discussion
+	//border: 1px solid red
+	margin-top: 50px
+	margin-left: 0 // $page_indent
+	div.Comment
+		//margin-left: $page_indent
+	p.count_link
+		margin-left: $page_indent
+	div.question_discussion_placeholder
+		margin: 0 0 40px 20px
+		p
+			font-size: 1.2em
+			width: 400px
+
+div.comment_comments
+	margin-left: $page_indent*2
+	form.comment_form
+		margin-left: 20px
+		
+		
+/* CSS FOR Talking Points */
+
+div.talking_point_entry		
+	clear: both
+	margin-bottom: 15px
+	margin-top: 16px
+
+div.talking_point_body
+	//background-color: $talking_point_bg
+	//background: $talking_point_bg image-url('white_bulb_sm.gif') no-repeat 8px 10px
+	float: left
+	width: $talking_point_width
+	padding: 0 10px
+	min-height: 40px
+	//> *
+	//	margin-left: 40px
+	p.talking_point
+		font-size: 1.28em
+		margin-right: 10px
+	div.talking_point_controls
+		display: none
+		margin-right: 10px
+		p
+			margin-top: -4px
+		p.coms
+			float: left
+		p.other
+			float: right
+	
+//div.talking_point_body.new
+//	background: image-url('red_bulb_new_sm.gif') no-repeat 8px 10px
+
+
+div.talking_point_preferable
+	background-color: $prefence_bg
+	float: left
+	height: 70px
+	width: 148px
+	padding: 10px 10px 10px 10px
+	margin-right: 15px
+	p.total_preference
+		margin-top: 0
+	p.my_preference
+		label
+			cursor: pointer
+		input
+			margin-left: 0
+			margin-bottom: 0
+		
+div.talking_point_acceptable	
+	background-color: $acceptable_bg
+	position: relative
+	float: left
+	height: auto
+	width: 222px
+	//margin: 0 15px
+	padding: 10px 10px 10px 0
+	p.suggest
+		margin: 1em 0 0 0em
+	div.my_rating
+		width: 160px
+		float: left
+		p.option
+			display: none
+		p.title
+			width: 100%
+			text-align: center
+			margin: 0 0 7px 0
+		div.radios
+			//margin: 0 15px
+			//font-size: 75%
+			//white-space: nowrap
+			input, label
+				cursor: pointer
+			label
+				vertical-align: 25%
+				margin-left: 2px
+			div.bar1
+				background-color: $graph_red
+			div.bar2
+				background-color: $graph_reddish
+			div.bar3
+				background-color: $graph_yellow
+			div.bar4
+				background-color: $graph_greenish
+			div.bar5
+				background-color: $graph_green
+				
+			div
+				height: 22px
+				width: 20px
+				cursor: pointer
+				position: relative
+				input.rating
+					height: 16px
+					width: 16px
+					margin: 3px 0 0 3px
+					padding: 0
+	div.my_rating.js
+		width: 105px
+		div.radios
+			div
+				float: left
+				width: 21px
+				height: 23px
+				input
+					display: block
+			label
+				display: none
+			p.clear_both
+				margin: 0
+			p.option
+				margin: 4px 0 0 0px
+				//font-size: 75%
+				clear: both  
+				text-align: center
+				display: block
+			p.please_rate
+				//font-size: 1.12em
+				color: red
+				//font-weight: bold
+				clear: both  
+		
+div.community_rating
+	//width: 150px
+	float: left
+	margin-right: 15px
+	div.graph
+		position: relative
+		margin-left: 6px
+	div.graph.js
+		margin-left: 0px
+		height: 37px
+	div.graph.no_js
+		display: none
+	div.mine
+		background: image-url('dot.gif') no-repeat center 20px
+	div.bar
+		width: 13px
+		bottom: 0
+		position: absolute
+		
+	div.bar.bar1
+		background-color: $graph_red
+	div.bar2	
+		background-color: $graph_reddish
+	div.bar3
+		background-color: $graph_yellow
+	div.bar4
+		background-color: $graph_greenish
+	div.bar5
+		background-color: $graph_green
+		
+	div.bar.zero
+		background-color: #fff
+		
+div.community_rating.no_js
+	position: absolute
+	right: 8px
+	top: 10px
+	margin-right: 0
+	text-align: right
+	div.graph.js
+		display: none
+	div.graph.no_js
+		display: block
+		width: 50px
+		position: absolute
+		top: 24px
+		right: 0px
+	
+		
+		
+div.Comment.highlight
+	border: 2px solid red
+
+p.show_more_link
+	margin-top: 2em
+	a
+		margin-right: 1em
+
+div.talking_point_entry.highlight
+	border: 2px solid red
+	
+div.talking_point_entry.header
+	margin-bottom: 30px
+	div.talking_point_body
+		background: none
+		div.instr 
+			margin: 0
+			font-size: .94em
+	p.title
+		margin: 0
+	div.talking_point_acceptable
+		margin-top: 5px
+		width: 222px
+		height: 20px
+		text-align: center
+		font-weight: bold
+	div.talking_point_preferable	
+		margin-top: 5px
+		width: 148px
+		height: 20px
+		text-align: center
+		font-weight: bold
+				
+/* End CSS FOR Talking Points */
+	
+	
+	
+/* CSS FOR What do you think form */	
+div.what_do_you_think
+	position: relative
+	margin-top: 50px
+	margin-left: $page_indent
+	clear: both
+	li.em
+		font-weight: bold
+	label
+		cursor: pointer
+		display: inline
+	form.what_do_you_think
+		margin-left: $page_indent
+		max-width: none
+		width: 550px
+		margin-top: 1em
+		
+	h3.ques_sub_hdg
+		margin-bottom: 0
+	table
+		width: 100%
+		td ul
+			margin: 0 0 10px -20px
+		td
+			white-space: nowrap
+		td.label
+			padding-top: 12px
+		td.icon
+			div.icon
+				background-color: $talking_point_bg
+				width: 30px
+				height: 30px
+				margin-top: 6px
+				img
+					margin: 3px 0 0 3px
+					width: 24px
+					height: 24px
+	
+				div.icon.talking_point
+					background-color: $talking_point_bg
+				div.icon.comment
+					//border: 1px solid black
+	textarea
+		width: 100%
+		height: 60px
+		margin-top: 6px
+	div.form_controls
+		width: 100%
+	div.instr
+		position: absolute
+		top: 0
+		left: 600px
+		width: 300px
+		font-weight: bold
+		font-size: 1.2em
+		padding-top: 9px
+	
+/* End CSS FOR What do you think form */	
+	
+	
+	
+/* CSS For Comments */
+div.full_comment_display div.comment
+	margin-top: -50px
+	padding-left: 46px
+	width: 100%
+	background: transparent
+
+div.one_line_comment div.comment
+	margin-top: -20px
+	padding-left: 46px
+	width: 100%
+	background: transparent
+
+div.Comment.top_sibling
+	padding-left: 6px
+	//border-left: 2px solid #68b100
+	margin-left: 20px
+
+div.Comment
+	margin-top: 20px
+	max-width: 510px
+	p.clear_both
+		padding-bottom: 4px
+		margin: 0
+
+div.comment
+	width: auto
+	background: transparent
+	
+div.Comment
+	margin-top: 16px
+
+//div.Comment_entry.one_line_comment.new_com
+//	font-weight: bold
+		
+//div.Comment_entry.one_line_comment
+//	margin-bottom: 0px
+//	height: auto
+//	div.close_1com
+//		background-position: 0 0
+//	img
+//		width: 20px
+//		height: 20px
+//		display: block
+//		margin: 0px 10px 0px 0px
+//		cursor: pointer
+//	div.comment
+//		position: relative
+//		margin-top: -20px
+//		padding-left: 46px
+//	span.author
+//		display: none
+//	abbr
+//		display: none
+//	div.comment_text
+//		height: 20px
+//		overflow: hidden
+//		margin-left: -20px
+//		p
+//			display: none
+//		div.one_liner
+//			display: block
+//			position: relative
+//			height: 20px
+//			cursor: pointer
+//			span.txt
+//				white-space: nowrap
+//			img
+//				position: absolute
+//				top: 0
+//				right: 0
+//				width: 12px
+//				height: 12px
+//	div.resource
+//		display: none
+//	span.new
+//		display: none
+//	div.comment_controls
+//		display: none
+//
+//div.coms_show_one_line
+//	.hidden
+//		display: none
+//	form.open_form
+//		clear: both
+//		margin-bottom: 10px
+//		padding-right: 20px
+//		input
+//			color: $pale_input
+//			width: 100%
+
+
+div.Comment_entry.full_comment_display	
+	img
+		display: block
+		margin: 4px 10px 0 0
+	div.comment
+		position: relative
+		margin-top: -50px
+		padding-left: 54px
+		a.com_author
+			color: black
+	//span.author
+	//	display: inline
+	//	font-size: 88%
+	//abbr
+	//	display: block
+	//	font-size: 80%
+	//	margin-top: 2px
+	//	//font-style: italic
+	//	border: none
+	//abbr.move_up
+	//	margin-top: -16px
+	div.comment_text
+		height: auto
+		display: inline
+		p
+			margin: 8px 0
+		div.one_liner
+			display: none
+	span.new
+		//display: block
+		color: $new_item_color
+		font-weight: bold
+	div.comment_controls
+		position: relative
+		margin-top: 0
+
+div.comment_text, div.answer, div.bs_idea
+	p
+		margin: 0 0 8px 0
+
+div.comment_controls
+	height: 50px
+	p.coms
+		float: left
+	p.other
+		float: right
+		abbr
+			margin-right: 12px
+			font-size: 80%
+			margin-top: 2px
+		
+
+div.quote
+	background: $com_quote_bg
+	border: 1px solid #A7B58D
+	padding: 1em
+	p
+		margin-left: 1em
+	p.quote
+		margin-left: 0
+		font-style: italic
+		
+/* end Comment CSS */	
+
+div.endorsements
+	td
+		vertical-align: top
+		padding: 6px
+		p
+			margin-top: 0
+
+/* comments block CSS */
+div.talking_point_comments
+	//background-color: $comments_block_bg
+	margin: 40px 0 0 50px
+	//padding: 1em 0
+	width: 580px
+	//div.Comment
+	//	margin: 1em 1em 0 1em
+
+/* END comments block CSS */
+
+	
+/* notebook and spiral CSS */
+div.book
+	position: relative
+	margin-bottom: 40px
+div.spiral
+	background: image-url('notebook_paper_spiral.gif') repeat-y
+	//border: 1px solid orange
+	position: absolute
+	top: 0
+	left: 0
+	width: 33px
+	height: 100%
+	z-index: 2
+	//margin: 20px 0
+div.notebook
+	//border: 1px solid green
+	//border: 1px solid #CCC
+	margin-left: 12px
+	background: image-url('parchment_tile.jpg')
+	padding-left: 30px
+	padding-top: 20px
+	padding-bottom: 20px
+	
+div.worksheet
+	position: relative
+	margin-top: 30px
+	
+/* End notebook and spiral CSS */	
+
+
+/* talking point history */
+table.talking_point_history
+	td
+		vertical-align: top
+		padding: 4px 12px 4px 4px
+		abbr
+			white-space: nowrap
+	td.ver
+		white-space: nowrap
+/* END talking point history */
+
+table.review_preferences
+	td
+		padding-bottom: 10px
+	
+div.review_preferences
+	font-size: 13px
+
+/* Rules to alter the worksheet */
+div.talking_point_acceptable 
+	//border: 1px solid green
+	background: none
+	margin-left: -10px
+	width: auto
+	div.my_rating 
+		float: left
+		margin-left: 6px
+		//div.radios
+		//	margin: 0 20px
+	div.community_rating
+		float: none		
+	div.my_rating.js
+		//width: 147px
+		p.option
+			height: 36px
+			font-size: .9em
+			margin-top: 4px
+		p.clear_both
+			margin: 0
+	p.talking_point_ratings
+		text-align: center
+		font-size: .9em
+		margin: 6px 0 0 0
+	p.suggest
+		margin-right: -60px
+		width: 200px
+	div.graph.js
+		height: 30px
+div.favorite
+	float: left
+	//margin-left: -20px
+	margin-top: 8px
+	span.fav_cnt
+		font-size: 1.4em
+	button
+		cursor: pointer
+		img
+			display: block
+			margin-left: auto
+			margin-right: auto
+div.talking_point_body
+	background: none
+	//background: image-url('white_bulb_sm.gif') no-repeat 8px 10px
+	//border: 1px solid red
+	a.tp_show_coms
+		font-size: 1.24em
+	a.edit, a.versions, a.report
+		font-size: .9em
+	
+div.talking_point_entry
+	background: $talking_point_bg image-url('rate-bg-g.gif') repeat-y 380px
+	border: 1px solid #BCC3D0
+	width: 100%
+div.talking_points_list
+	margin-left: 0
+div.talking_point_sec
+	margin-left: 0
+div.question_worksheet
+	padding: 0
+	width: 610px
+form.talking_point_form
+	width: 320px
+	div.form_controls 
+		width: 320px
+		span.char_ctr
+			left: 80px
+		
+div.talking_point_form
+	background: $cta_bg_left image-url('rate-bg-gr.gif') repeat-y 380px
+	width: 100%
+	border: 1px solid #BCC3D0
+	div.form
+		background: image-url('white_bulb_gr_sm1.gif') no-repeat 8px 20px
+		float: left
+		//border: 1px solid red
+		width: $talking_point_width
+		padding: 0 10px
+		h3,h4,p
+			margin: 1em 0
+		h3,h4, div.form_controls, textarea, p
+			margin-left: 40px
+		form
+			margin-bottom: 0
+	div.form.cta
+		background: image-url('hand3-gr2.gif') no-repeat 8px 10px
+	div.instr
+		//border: 1px solid green
+		float: left
+		width: 160px
+		//margin-right: 10px
+		//margin-left: 15px
+		//margin-bottom: 1em
+		p
+			font-size: .9em
+			margin: 1em 0
+div.form_controls
+	margin-bottom: 1em
+	//height: 50px
+	input[type="submit"]
+		margin-left: 0
+
+div.talking_point_form.disc
+	margin-top: 2em
+	div.form
+		background: image-url('comment1-gr1.gif') no-repeat 8px 14px
+		//border: 1px solid red
+		//float: left
+		width: 400px
+		p
+			font-size: 1em
+	
+div.ques_discussion
+	margin-top: 30px
+
+p.show_more_link
+	font-size: 1em
+	
+div.new_content
+	div.talking_point_entry
+		margin-top: 0
+		div.favorite
+			margin-left: 20px
+			margin-top: 8px
+
+div.talking_points_page
+	div.notebook
+		padding: 0
+		background: none
+		margin-left: 0
+	p.question
+		margin-left: 0
+		font-size: 1em
+	div.question_com_form
+		margin-left: 40px
+	p.show_more_link
+		margin: 0 0 0 40px
+	div.intro
+		//h3
+		//	margin-top: -7px
+		div.resources
+			height: 50px
+		
+div.talking_point_body p.talking_point
+	font-size: 1em
+	margin-top: 6px
+	margin-bottom: 6px
+	
+div.question_summary
+	h4.loading
+		margin-left: 20px
+	p.question
+		margin-top: 0
+		text-indent: -2.3em
+		margin-left: 2.3em
+		margin-bottom: 24px
+		font-size: .8em
+	div.talking_points_list.summary
+		//background: $talking_points_list
+		padding: 0 16px 16px 16px
+		ul.talking_points
+			margin-top: 0
+			li
+				font-size: 1em
+		p.example
+			margin-top: 0
+		div.talking_point_form.hint		
+			margin-top: 20px
+			margin-left: -20px
+			p
+				//font-size: 1.2em
+				margin-bottom: 0
+			p.close
+				font-size: .8em
+				margin-left: 30px
+
+div.cta_block 
+	div.num
+		margin-right: 12px
+	div.text
+		width: 200px
+
+div.participants
+	margin-top: 2em
+
+a.addthis_button
+	display: block
+	margin-bottom: 8px
+ul.talking_points
+	p
+		font-style: italic
+		font-size: 1.2em
+		margin-left: -20px
+	li.checklist
+		font-style: italic
+		
+div.talking_point_form.hint		
+	//background: $cta_bg_left
+	background: $cta_bg_left image-url('rate-bg-gr.gif') repeat-y 380px
+	p	
+		font-size: .9em
+	div.instr
+		p	
+			font-size: .9em
+div.worksheet
+	margin: 0
+	p.worksheet_intro
+		font-size: 1em
+
+div.endorsements
+	div.cta
+		margin: 32px 0 32px 0
+
+div#submit
+	margin-top: 60px
+
+div.selected_tp_list
+	position: absolute
+	background-color: white
+	border: 2px solid $cta_bg_left
+	div.header
+		img
+			display: block
+			float: right
+			margin: 10px 10px 0 0
+		p.question
+			float: left
+			max-width: 322px
+	div.summary
+		margin-right: 0
+	div.talking_point_form.hint p 
+		font-size: auto
+	div.cta
+		width: auto
+	p
+		margin-left: 20px
+	p.question
+		margin: 10px 0 20px 10px
+		cursor: normal
+	li
+		margin: 0 10px 10px 10px
+	li.talking_point
+		padding-right: 20px
+		position: relative
+		img
+			position: absolute
+			top: 4px
+			right: 0
+			display: none
+		img.show	
+			display: block
+			cursor: pointer
+		a.tp_details
+			display: inline
+			font-size: .8em
+		
+li.talking_point
+	img, a.tp_details
+		display: none
+	
+	
+div.left_side
+	width: 680px
+div.right_side
+	width: 270px
+ul.talking_points
+	position: relative
+	div.msg
+		position: absolute
+		top: 0
+		background-color: white
+		display: none
+		height: 100%
+		width: 100%
+		p
+			font-size: 1.2em
+			margin: 20px
+div.talking_point_sec
+	h2
+		margin: 2em 0 3em 1em
+.curated_list_placeholder
+	height: 4em
+	line-height: 1.2em
+	background-color: $talking_points_list
+
+img.close_worksheet
+	cursor: pointer
+div.talking_point_form	
+	div.instr.icon
+		position: relative
+		img
+			position: absolute
+			top: 16px
+			left: 0
+		p
+			margin-left: 22px
+a.close_worksheet
+	img
+		margin-right: 8px
+
+span.new_com
+	color: $graph_red
+	font-weight: bold
+	
+div.question_summary	
+	div.cta1
+		background: image-url('cta_icon1.gif') no-repeat 0px 0px
+		min-height: 30px
+		margin-bottom: 20px
+		margin-top: -30px
+		div.primary
+			margin-top: 2px
+			margin-left: 30px
+			p
+				//padding-top: 4px
+				margin-bottom: 0
+			ul
+				margin-top: 4px
+				padding-left: 24px
+div.cta
+	background: $cta_bg_left image-url('rate-bg-gr.gif') repeat-y 380px
+	width: 100%
+	border: 1px solid #BCC3D0
+	margin-bottom: 16px	
+	div.primary
+		background: image-url('hand3-gr2.gif') no-repeat 8px 10px
+		float: left
+		width: 400px
+		padding: 0 10px
+		p
+			margin-left: 40px
+			font-size: 13px
+	div.secondary
+		float: left
+		width: 160px
+		p
+			font-size: 13px
+			margin: 1em 0 0 1em 22px
+
+div.curated_list
+	div.cta
+		margin-bottom: 0
+		h4
+			margin-left: 34px
+	div.primary
+		width: auto
+
+div.cta.close_icon
+	div.secondary
+		position: relative
+		img
+			position: absolute
+			top: 16px
+			left: 0
+		p
+			margin-left: 22px
+
+// to keep old cta formatted temporarily
+div.form.cta
+	border: none
+	
+// CSS for the accordion
+div#guideAccordion
+	h3 > span.ui-icon
+		float: left
+	div.member_info
+		float: none
+		width: auto
+		margin: 6px
+	h3#curated_list_t
+		//display: none
+	h3#member_t
+		position: relative
+		a.sign_out
+			position: absolute
+			top: 2px
+			right: 8px
+			font-size: .7em
+			text-decoration: underline
+	a.addthis_button.share_community
+		font-size: 13px
+	h3.ui-accordion-header a
+		font-size: .8em
+		padding: .1em .1em .1em 2em
+		
+	.ui-tabs .ui-tabs-nav li a 
+		padding: .1em 1em
+		font-size: .9em
+		font-weight: normal
+
+	div.ui-accordion-content
+		padding: 0em //1em 2.2em;
+		
+	.ui-tabs
+		.ui-tabs-panel
+			padding: 1em
+		.ui-tabs-panel.hide
+			display: none
+	div.tab_content
+		overflow-y: scroll
+		margin-bottom: 20px
+	div.content
+		overflow: hidden
+		font-size: .8em
+		div.help_intro img
+			width: 60px
+		ul.talking_points
+			padding-left: 6px
+	div.curated_list 
+		p
+			margin: -10px 0
+			font-style: italic
+		li a.q_tab
+			padding: 1px 6px 1px 12px
+		li a.close_worksheet
+			padding: 2px 0
+	div.form_controls span.char_ctr 
+		left: 120px
+	div#activity_chat
+		div#presence
+			height: 36px
+			border: 1px solid #ccc
+			img
+				margin: 0 2px
+			padding: 4px 0
+		div#chat_log
+			overflow: auto
+			overflow-y: scroll
+			height: 50px
+			border: 1px solid black
+			padding: .2em 0
+			p 
+				margin: 0 1em
+		form#chat_form
+			padding: 4px 0
+			input[type=text]
+				width: 190px
+	div#tab_member_sign_in
+		padding-top: 0
+		margin-top: -px
+	div#tab_suggest_you
+		p
+			margin: -10px 0
+			font-style: italic
+	div#request_help
+		margin-top: -20px
+		li
+			line-height: 1.6em
+	div#suggested_actions
+		padding: 0 1em
+
+$right_panel_grey: #BBB
+div.right_master
+	> div
+		margin-bottom: 16px
+		padding: 10px
+		border: 1px solid $right_panel_grey
+		p.label
+			font-style: italic
+			font-weight: bold
+			color: $right_panel_grey
+			margin: -6px 0 8px 0
+	div.help 
+		padding: 0 10px 0 0
+		margin: 8px 0 8px 0
+		border: none
+		p
+			text-align: right
+			margin: 0
+	div.member
+		position: relative
+		p
+			margin: 0 0 4px 0
+		div.name
+			position: absolute
+			top: 10px
+			left: 54px
+			
+		div.links	
+			position: absolute
+			top: 10px
+			right: 10px
+	div.suggested_action
+		div.suggestion
+			position: relative
+			padding-left: 40px
+			img
+				position: absolute
+				top: 0
+				left: 0
+				cursor: pointer
+			p.action
+				padding-top: 6px
+				margin: 0
+				font-weight: bold
+			p.controls
+				height: 16px
+				margin: 6px 0 6px 0 
+				a.show_me
+					display: block
+					float: left
+				a.next
+					display: block
+					float: right
+	div.page_context
+		overflow-y: scroll
+	div.list_tabs
+		padding: 0
+		ul.list_tabs
+			position: relative
+			li
+				background: #dceef9 image-url('tab_close_lt.gif') no-repeat right center
+				a
+					color: #92cfef
+			li.ui-state-active
+				background: #92cfef image-url('tab_close_dk.gif') no-repeat right center
+				a
+					color: white
+				
+			a
+				font-size: 12px
+				padding: 0
+				margin-left: 8px
+			p.label
+				position: absolute
+				top: 10px
+				right: 10px
+		div.selected_tp_list
+			overflow-y: scroll
+			margin: 0 10px 10px 10px
+			p
+				margin: -10px 0 6px -20px
+				font-style: italic
+			ul
+				padding-left: 0
+	div.activity_chat
+		div#presence
+			height: 36px
+			border: 1px solid #ccc
+			img
+				margin: 0 2px
+			padding: 4px 0
+		div#chat_log
+			overflow: auto
+			overflow-y: scroll
+			height: 50px
+			border: 1px solid black
+			padding: .2em 0
+			p 
+				margin: 0 1em
+		form#chat_form
+			margin-top: 0
+			padding: 4px 0
+			input[type=text]
+				width: 190px
+			input[type=submit]	
+				padding: 0 0px
+	td.button 
+		padding: 6px 0
+	td.stay
+		padding-top: 6px
+		
+div#sign_in_form
+	tr.signup, tr.reset
+		display: none
+	td.input input
+		width: 150px
+	td.lbl
+		font-style: italic
+		font-weight: bold
+		text-align: right
+		color: $right_panel_grey
+		padding-right: 10px
+	td.lbl.ta_left
+		text-align: left
+	
+div.talking_points_page
+	padding-top: 0px		
+
+div.talking_points_page
+	div.right_side
+		position: fixed
+		top: 0px
+		left: 720px
+		margin-left: 0
+	
+div.member_info
+	height: 35px
+	div.member
+		float: left
+	div.member_links
+		float: right
+		p
+			margin: 0
+	
+//div.talking_point_details
+//	float: left
+//	width: 30px
+//	text-align: center
+//	margin-right: 8px
+//	div.talking_point_com_count
+//		//border: 1px solid red
+//		width: 30px
+//		height: 32px
+//		background: image-url('tbubble.gif') no-repeat 0 0px
+//		cursor: pointer
+//		p 
+//			margin-top: 10px
+//			font-weight: bold
+//			padding-top: 1px
+//div.talking_point_body
+//	padding-right: 0
+//	width: 352px
+//	a
+//		font-size: .8em
+//	img
+//		vertical-align: text-top
+//		
+//div.talking_point_icon 
+//	float: left
+//	width: 40px
+//	height: 52px
+//	text-align: center
+//	background: image-url('white_bulb_sm.gif') no-repeat 8px 10px
+//	a
+//		display: block
+//		margin-top: 44px
+//		font-size: .8em
+//		margin-left: 6px
+//		img
+//			display: none
+//			margin-left: 10px
+//div.talking_point_entry.mouseover
+//	div.talking_point_icon 
+//		img
+//			display: block
+//div.talking_point_icon.new
+//	background: image-url('red_bulb_new_sm.gif') no-repeat 8px 10px
+//		
+//div.talking_point_entry
+//	a:link
+//		text-decoration: none
+	
+div.talking_point_comments
+	margin: 0 0 0 50px
+	a.tp_hide_coms
+		font-size: .8em
+		margin-left: -50px
+		color: #CCC
+	a.tp_show_coms
+		font-size: .8em
+		margin-left: 10px
+		color: #AAA
+
+		
+div.comment_comments
+	//margin: 0 0 0 50px
+	margin-left: 20px
+	a.com_hide_coms
+		font-size: .8em
+		margin-left: -20px
+		color: #CCC
+		
+div.talking_point_sec
+	h4.ques_sub_hdg
+		position: relative
+		margin-right: -20px
+		a.close_worksheet
+			position: absolute
+			top: 0
+			right: 0
+div.worksheet
+	//background: image-url('up_rt_close.gif') no-repeat top right
+	width: 630px
+//div.question_worksheet
+//	background: image-url('lw_lt_close.gif') no-repeat bottom left	
+h4.ques_sub_hdg
+	a.close_worksheet
+		img
+			margin: 0
+			
+div.curated_list
+	a.close_worksheet
+		img
+			vertical-align: text-bottom
+			
+div#visual_help
+	margin-bottom: 2em
+	img
+		border: 4px outset #EEE
+		padding: 10px
+		margin-bottom: 20px
+	p.tgl_full_proposal
+		margin-bottom: 30px
+	p
+		width: 600px
+	ul
+		width: 540px
+		li
+			margin-bottom: .3em
+			
+div.summary.text
+	float: left
+	width: 460px
+	margin: 8px 16px 0 0
+	//border: 1px solid grey
+	p
+		margin: 0 0 12px 0
+div.resources
+	//border: 1px solid grey
+	width: 420px
+	margin: 16px 0 0 0
+div.proposal_tools			
+	float: left
+	margin-top: 8px
+	margin-bottom: 20px
+	width: 180px
+	border: 1px solid #ddd
+	ul
+		padding-left: 10px
+		li
+			list-style: none
+			margin-bottom: 8px
+			border-bottom: 1px solid #DDD
+			padding-bottom: 8px
+			padding-right: 10px
+			padding-left: 30px
+		li.organizer
+			position: relative
+			padding-left: 0
+			div.member
+				position: relative
+				p.sug
+					margin: -8px 0 4px 0
+					color: #999
+				div.name
+					position: absolute
+					top: 16px
+					left: 46px
+					p 
+						margin: 0
+			
+		li.invite
+			background: image-url('tools/invite_friend.gif') no-repeat 0px 0px
+		li.follow
+			background: image-url('tools/follow.gif') no-repeat 0px 0px
+		li.endorse
+			background: image-url('tools/endorse.gif') no-repeat 0px 0px
+		li.participate
+			background: image-url('tools/participate.gif') no-repeat 0px 0px
+		li.print
+			background: image-url('tools/print.gif') no-repeat 0px 0px
+		li.share		
+			background: image-url('tools/share.gif') no-repeat 0px 0px
+			border: none
+			margin-bottom: 0
+			padding-bottom: 0
+	//div.tools
+	//	margin-left: 30px
+div.tools
+	a.addthis_button
+		font-size: 13px
+
+input.fav_button
+	background-image: url('/images/button_sprite3.gif')
+	background-position: -50px 0
+	background-color: transparent
+	background-repeat: no-repeat
+	border: none
+	cursor: pointer
+	height: 54px
+	width: 44px
+	padding-top: 30px
+	text-align: center
+	font-size: 13px
+	font-weight: bold
+input.fav_button.fav
+	background-position: 0 0
+input.fav_button:hover
+	background-position: -50px -60px
+input.fav_button.fav:hover
+	background-position: 0 -60px
+input.fav_button.mousedown	
+	background-position: -50px -120px
+input.fav_button.mousedown.fav
+	background-position: 0 -120px
+input.fav_button.saving	
+	background-position: -50px -180px
+input.fav_button.saving.fav
+	background-position: 0 -180px	
+	
+body
+	div.ui-dialog
+		font-size: .8em
+		
+div.worksheet
+	position: fixed
+	background-color: white
+	
+div.talking_point_matrix
+	position: relative
+	height: 600px
+	overflow: auto
+	overflow-y: scroll
+	overflow-x: hidden
+	//background: image-url('corkboard3.jpg')
+	padding-top: 20px
+div.question_worksheet
+	width: auto
+	
+div.archived_comments
+	position: fixed
+	background-color: #D3BCDE
+	> *
+		margin-left: 20px
+		margin-right: 10px
+	div.comments
+		overflow-y: scroll
+div.new_content
+	position: relative
+	overflow: auto
+	overflow-y: scroll
+
+$post_it_bg: #fcfeb4
+div.worksheet
+	//background: image-url('corkboard3.jpg')
+	background-color: #A7B58D //#BDBE95
+	h4.question, p.header, p.footer
+		margin-left: 20px
+		margin-right: 10px
+	form textarea
+		background-color: #FDFFD6
+div.talking_point_post_it.selected
+	div.visibility
+		background-position: 0 0
+div.talking_point_post_it
+	position: relative
+	background-color: $post_it_bg
+	width: 200px
+	height: 200px
+	float: left
+	margin-left: 20px
+	margin-bottom: 20px
+	div.visibility
+		height: 12px
+		width: 20px
+		position: absolute
+		top: 0
+		right: 0
+		background: image-url('visible3.gif') no-repeat 0 -12px
+		cursor: pointer
+	p
+		margin: 12px 10px 10px 10px
+	div.details
+		position: absolute
+		left: 0
+		bottom: 0
+		width: 100%
+		background-color: $post_it_bg
+		img
+			display: block
+			float: left
+		div.edit
+			float: left
+			width: 20px
+			height: 32px
+			margin: 10px 0 0 4px
+		div.com_edit
+			float: left
+			margin: 0 10px 0 6px
+			a.tp_show_coms
+				margin-left: 0
+			img
+				display: block
+				width: 30px
+				height: 32px
+				margin-top: 10px
+			div.talking_point_com_count
+				margin-top: 10px
+				width: 30px
+				height: 32px
+				background: image-url('tbubble.gif') no-repeat 0 0
+				p 
+					margin-top: 0px
+					font-weight: bold
+					padding-top: 1px
+			div.talking_point_com_count.pointer
+				cursor: pointer
+			a.versions
+				font-size: 10px
+				display: block
+				margin-top: 2px
+				text-align: center
+			a.versions.hide
+				display: none
+		div.talking_point_acceptable 
+			float: left
+			height: 50px
+			p.talking_point_ratings
+				font-size: 10px
+				margin-top: 4px
+			div.my_rating 
+				width: 80px
+				font-size: 10px
+				div.graph
+					width: 80px
+					background: image-url('graph_bg.jpg') no-repeat 0 0px
+				div.radios 
+					margin: 0
+					div 
+						width: 16px
+						height: 30px
+						input.rating
+							margin: 9px 0 0 2px
+							width: 13px
+							height: 13px
+					p.option
+						font-size: 10px
+
+		div.favorite
+			float: left
+			text-align: center
+			p 
+				margin: 4px 0 0 0
+				font-size: 10px
+			input.fav_button
+				background-image: url('/images/button_sprite5.gif')
+				background-position: -30px 0
+				background-color: transparent
+				background-repeat: no-repeat
+				border: none
+				cursor: pointer
+				height: 32px
+				width: 23px
+				padding: 0px
+				text-align: center
+				font-size: 13px
+				font-weight: bold
+			input.fav_button.fav
+				background-position: 0 0
+			input.fav_button:hover
+				background-position: -30px -40px
+			input.fav_button.fav:hover
+				background-position: 0 -40px
+			input.fav_button.mousedown	
+				background-position: -30px -80px
+			input.fav_button.mousedown.fav
+				background-position: 0 -80px
+			input.fav_button.saving	
+				background-position: -30px -1200px
+			input.fav_button.saving.fav
+				background-position: 0 -120px	
+	div.form
+		padding: 10px
+		p
+			font-weight: bold
+			margin: 0 0 4px 0
+		textarea
+			width: 174px
+			font-size: 14px
+		ul
+			margin: 0
+			padding: 0
+			color: red
+			font-size: 10px
+			width: 180px
+		div.form_controls 
+			width: 180px
+			span.char_ctr
+				font-size: 10px
+				left: 56px
+				top: 4px
+			a.clear
+				font-size: 10px
+				top: 4px
+div.talking_point_post_it.mouseover
+	div.edit.img
+		cursor: pointer
+		background: image-url('pencil_edit.gif') no-repeat 0 0
+h4.question, p.footer
+	position: relative
+	a.close_worksheet
+		font-size: 12px
+		display: block
+		position: absolute
+		top: 2px
+		right: 20px
+div.talking_point_comments
+	background-color: #BDBE95 // #e5f8c2 //#A7B58D // #D8F1AB //#A7B58D
+	position: fixed
+	div.discussion
+		position: relative
+		overflow: auto
+		overflow-y: scroll		
+	p.ques
+		font-weight: bold
+	div.visibility
+		cursor: default
+	form textarea
+		background-color: #EAF8D0
+div.talking_point_comments
+	div.discussion
+		margin-left: 0
+		> h4, > p
+			margin-left: 20px
+			margin-right: 10px
+		form
+			width: auto
+			max-width: 560px
+			padding: 20px 0 20px 20px
+			> *
+				margin: 0 20px
+				max-width: 600px
+		div.Comment
+			max-width: 600px
+			padding: 16px 20px 0 20px
+			margin-top: 0
+			div.comment
+				width: auto
+
+table#new_content
+	width: 230px
+	margin: 0
+	background-color: white
+	font-size: .8em
+	td
+		position: relative
+		img
+			position: absolute
+			top: 0
+			left: 100px
+	tr.title
+		font-style: italic
+	tr.striped
+		background-color: #eee
+	tr.question
+		font-size: 1em
+		font-variant: small-caps
+		padding-top: 10px
+		padding-bottom: 4px
+		cursor: pointer
+	tr.talking_point
+		font-size: 1em
+		ins
+			color: green
+		del 
+			color: red
+		td
+			padding: 3px 0 3px 6px
+		cursor: pointer
+	tr.comment
+		font-size: 1em
+		font-style: italic
+		td
+			padding: 3px 0 3px 12px
+		cursor: pointer
+span.rate
+	color: red
+span.edited
+	color: blue
