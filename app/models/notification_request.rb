@@ -1,5 +1,6 @@
 class NotificationRequest < ActiveRecord::Base
  
+  attr_accessible :member_id, :team_id, :act, :follow_freq, :report_type
   attr_accessor :reply_freq
   attr_accessor :reply_format
   attr_accessor :com_freq

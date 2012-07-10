@@ -14,3 +14,10 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require_directory ./ce
+//= require jquery.autogrow.js
+//= require jquery.isonscreen.min.js
+//= require jquery.prettyPhoto.js
+//= require jquery.scrollTo-min.js
+//= require jquery.show_char_limit-1.1.1.js
+//= require jquery.timeago.js
+
