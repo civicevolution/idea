@@ -173,7 +173,7 @@ class MembersController < ApplicationController
         flash[:team_id] = team_id
         format.html { redirect_to invite_friends_acknowledge_path }
         format.js { 
-          render :template => "members/acknowledge_invite_request.js", :locals=>{:team_id=>team_id, :invite=>@invite}
+          render :template => "members/acknowledge_invite_request", :formats=>[:js], :locals=>{:team_id=>team_id, :invite=>@invite}
         } 
       else
 

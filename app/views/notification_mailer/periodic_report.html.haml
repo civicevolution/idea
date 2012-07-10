@@ -65,16 +65,6 @@
 	Report generated
 	= TZInfo::Timezone.get(location).utc_to_local( Time.now.utc).strftime('%A %B %d, %Y at %I:%M %p')
 
-%p 
-	%b CivicEvolution just released a major redesign	
-%ul
-	%li 
-		Please 
-		= link_to 'view the video', home_url(:host=>@teams[0]['host'],:video=>'play', :_mlc => @mcode) 
-		to see how the new design works
-	%li Please help us by reporting any bugs, problems, or suggestions
-	%li Click "Help and feedback" on the right side of each page
-	%li You can also email us at support@civicevolution.org
 
 %hr
 - if (1..2) === @teams[0].initiative_id 

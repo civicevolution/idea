@@ -9,7 +9,7 @@ class TalkingPoint < ActiveRecord::Base
 
   scope :sibling_talking_points, lambda { |id| select('id, text').where("question_id = (SELECT question_id FROM talking_points WHERE id = ?)", id) }
   
-  
+  attr_accessible :member, :text
   attr_accessor :preference_votes
   attr_accessor :rating_votes
   attr_accessor :my_preference

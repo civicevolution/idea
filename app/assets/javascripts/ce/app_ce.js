@@ -381,18 +381,8 @@ function init_add_this(){
 }
 
 function open_question_worksheet(el){
-	el = $(el);
-	var question_id = el.closest('div.question_summary').attr('id');
-	var order_id = Number(el.html().match(/Q(\d+)/)[1]); 
-	var question_text = el.html().replace(/Q\d+: /,'');
-	
+	var question_id = $(el).closest('div.question_summary').attr('id');
 	$.scrollTo($('div.question_summary[id="' + question_id + '"] p.question'), 600)
-	return false;
-	
-	//update_right_panel_context('worksheet');
-
-  // if( !am_curator ) return;
-	return false;
 }
 
 

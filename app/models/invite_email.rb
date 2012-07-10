@@ -2,6 +2,7 @@ class InviteEmail < Tableless
   column :message,       :text
   column :recipient_emails, :text
   
+  attr_accessible :sender, :recipient_emails, :message
   attr_accessor :sender
   attr_accessor :check_size, :true
   attr_accessor :recipients
