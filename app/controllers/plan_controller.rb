@@ -213,7 +213,9 @@ class PlanController < ApplicationController
     old_ts = Time.local(2020,1,1)
     newer_ts = Time.local(2025,1,1)
 
-    @comment = Comment.new(:created_at => old_ts, :updated_at => newer_ts)
+    @comment = Comment.new #(:created_at => old_ts, :updated_at => newer_ts)
+    @comment.created_at = old_ts
+    @comment.updated_at = newer_ts
 
     # what do I need to know for the comment template?
     @comment[:anonymous] = 'f'
@@ -222,7 +224,9 @@ class PlanController < ApplicationController
     @comment.text = ''
     @comment.id = 0
 
-    @talking_point = TalkingPoint.new(:created_at => old_ts, :updated_at => newer_ts)
+    @talking_point = TalkingPoint.new #(:created_at => old_ts, :updated_at => newer_ts)
+    @talking_point.created_at = old_ts
+    @talking_point.updated_at = newer_ts
     @talking_point.text = ''
     @talking_point.id = 0
     @talking_point.version = 1

@@ -55,7 +55,7 @@ while($running) do
   #Rails.logger.info "This daemon is still running at #{Time.now}.\n"
   #sleep 10
   
-  logger.auto_flushing = true
+  #logger.auto_flushing = true DEPRECATED
   #logger.info "This notification.rb is still running at #{Time.now}.\n"
   
   #logger.debug "LOOP call NotificationRequest.check_team_content_log at #{Time.now} in ENV: #{ENV["RAILS_ENV"]}.\n"

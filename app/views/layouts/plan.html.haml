@@ -44,8 +44,11 @@
 				var team_id = #{@team.id};
 				var com_criteria = Number('#{@team.com_criteria}'.match(/\d+$/));
 				var res_criteria = Number('#{@team.res_criteria}'.match(/\d+$/));
-			
-		= javascript_include_tag 'application_ce'
+
+		- if inc_js == 'all'
+			= javascript_include_tag 'application_ce'
+		- else
+			= javascript_include_tag 'application_ce_no_js'
 
 		= yield :script
 		
