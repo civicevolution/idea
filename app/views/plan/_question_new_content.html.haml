@@ -7,7 +7,7 @@
 		
 					= link_to question_worksheet_path(question, :t=>'tp', :id=>talking_point.id), :class=>'display_talking_point', :id => talking_point.id, :q_id=>question.id, :remote => true do
 						= talking_point.text
-						-# if talking_point['new'].nil?
+						-# if talking_point.is_new.nil?
 							%span.tp_reference For reference
 			
 					= render :partial => 'talking_point_acceptable_ratings/rating', :locals => {:talking_point => talking_point, :mode => 'new_'}	

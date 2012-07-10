@@ -113,7 +113,7 @@ class Team < ActiveRecord::Base
         .joins(" AS tp LEFT JOIN talking_point_acceptable_ratings AS tpar ON tp.id=tpar.talking_point_id AND tpar.member_id = #{member.id}",)
         .where("tpar.id IS NULL AND question_id IN (#{q_ids.join(',')})").order('tp.created_at ASC')
   
-      self.new_talking_points.each{|tp| tp['new'] = true }
+      self.new_talking_points.each{|tp| tp.is_new = true }
       self.new_talking_points_count = self.new_talking_points.count
 
       new_tp_ids = new_talking_points.map{|tp| tp.id.to_i }
@@ -160,7 +160,7 @@ class Team < ActiveRecord::Base
 
     # attach the talking points to the questions
     self.new_talking_points.each do |tp|
-      tp[:comments] = {}
+      tp.comments = {}
       self.new_content[tp.question_id][:talking_points][tp.id] = tp
     end  
 

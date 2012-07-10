@@ -20,7 +20,7 @@
 					
 						- question[:talking_points].each_value do |tp|
 							%tr.talking_point{:tp_id=>tp.id}
-								- if tp['new'] 
+								- if tp.is_new 
 									%td{:title => 'Click here to rate this talking point'}
 										%span.rate Rate:
 										= tp.text

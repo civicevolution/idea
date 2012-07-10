@@ -1,8 +1,8 @@
 %div.talking_point_entry.corner{:id=>talking_point.id, :class => talking_point['highlight'] ? 'highlight' : ''}
-	%div.talking_point_icon{:class => talking_point['new'] ? 'new' : ''}
+	%div.talking_point_icon{:class => talking_point.is_new ? 'new' : ''}
 		= link_to edit_talking_point_path(talking_point), {:remote=>true, :class=>'edit'} do
 			= image_tag 'pencil_edit.gif', {:title=>'Click to edit this talking point'}
-	%div.talking_point_body{:class => talking_point['new'] ? 'new' : ''}
+	%div.talking_point_body{:class => talking_point.is_new ? 'new' : ''}
 		- if talking_point.id == 0
 			%p.talking_point
 				%b This is an example of a talking point
@@ -27,5 +27,5 @@
 	
 	
 	%p.clear_both
-- if talking_point['comments']
-	= render :partial => 'comments/talking_point_comments', :formats => [:html], :locals => { :talking_point => talking_point, :comments => talking_point['comments'], :com_criteria => @team.com_criteria }
+- if talking_point.comments
+	= render :partial => 'comments/talking_point_comments', :formats => [:html], :locals => { :talking_point => talking_point, :comments => talking_point.comments, :com_criteria => @team.com_criteria }
