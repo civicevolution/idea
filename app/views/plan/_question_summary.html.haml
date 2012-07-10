@@ -1,6 +1,6 @@
 %div.question_summary{:id=>question.id}
 	%p.question
-		= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question, :date=>params[:date]), {:class=> 'display_worksheet', :remote => true, 'data-disable-with'=>'<img src="/images/wait3.gif"/>'}
+		= link_to "Q#{question.order_id}: #{question.text}", question_worksheet_path(question, :date=>params[:date]), {:class=> 'display_worksheet', :remote => true, 'data-disable-with'=>'<img src="/assets/wait3.gif"/>'}
 	
 	%div.talking_point_sec
 		%div.talking_points_list.summary.corner{:id=>question.id}

@@ -116,7 +116,7 @@
 
 	function send_email(form){
 		var btn = $('button, input[type="submit"]',form);
-		btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+		btn.attr('disabled',true).after('<img src="/assets/rotating_arrow.gif"/>')
 		console.log("send_email() has been called")
 		$(':input',form).removeClass('form_error_border');
 		$('.form_error_border',form).removeClass('form_error_border');

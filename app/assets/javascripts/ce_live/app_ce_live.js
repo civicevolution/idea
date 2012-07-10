@@ -34,7 +34,7 @@ function ajaxDisableElement(el){
 	var element = $(el);
 	element.data('ujs:enable_with', element.html()); // store enabled state+      
 	element.html( element.attr('data-disable-with') || 'Loading...' ); // set to disabled state
-	//element.html( element.attr('data-disable-with') || '<img src="/images/wait5.gif"/>' ); // set to disabled state
+	//element.html( element.attr('data-disable-with') || '<img src="/assets/wait5.gif"/>' ); // set to disabled state
 	element.addClass('loading');
 	//element.bind('click.railsDisable', function(e) { // prevent further clicking
 	//	return rails.stopEverything(e)
@@ -67,7 +67,7 @@ $('a[data-remote]').live('ajax:beforeSend',
 $('form[data-remote]').live('ajax:beforeSend', 
 	function(){
 		//console.log("form ajax beforeSend");
-		$(this).find(':submit').hide().after('<img src="/images/wait5.gif"/>');
+		$(this).find(':submit').hide().after('<img src="/assets/wait5.gif"/>');
 	}
 ).live('ajax:complete', 
 	function(){

@@ -24,7 +24,7 @@
 		
 		function submit_recaptcha(form){
 			var btn = $('button',form);
-			btn.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+			btn.attr('disabled',true).after('<img src="/assets/rotating_arrow.gif"/>')
 			//console.log("do confirm_reg_captcha")
 			$(':input',form).removeClass('form_error_border');
 			$('p.form_error_text',form).remove();
@@ -56,7 +56,7 @@
 				console.log("send broadcast_email_opt_in: " + weekly)
 				var inp = $(this);
 				var form = inp.closest('form');
-				inp.attr('disabled',true).after('<img src="/images/rotating_arrow.gif"/>')
+				inp.attr('disabled',true).after('<img src="/assets/rotating_arrow.gif"/>')
         
 				form.ajaxSubmit({ 					
 				  type: "POST", 

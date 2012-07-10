@@ -12,8 +12,8 @@
 		- else
 			%h4.question 
 				Q#{question.order_id}: #{question.text}
-				-#= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/images/wait3.gif"/>'
-				= link_to 'Close', question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close worksheet'
+				-#= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/assets/wait3.gif"/>'
+				= link_to 'Close', question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/assets/wait3.gif"/>', :title=>'Click to close worksheet'
 			%p.header
 				- if question.talking_points_to_display.size == 0
 					Suggest a talking point to answer this question
@@ -35,7 +35,7 @@
 		%p.footer
 			- if question.archived_com_count > 0
 				= link_to "Show #{ pluralize((question.archived_com_count), 'archived comment')}", question_all_comments_path(question), { :class=> 'show_new_comments', :id=>question.id, :remote => true }		
-			= link_to 'Close', question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close worksheet'
+			= link_to 'Close', question_summary_path(question.id), :remote=>true, :class=>'close_worksheet', 'data-disable-with'=>'<img src="/assets/wait3.gif"/>', :title=>'Click to close worksheet'
 
 
 		-#	= link_to image_tag('close_corner.gif',{:title=>'Click to close worksheet', :class=>'close_worksheet'}), question_summary_path(question.id), :remote=>true, :class=>'close_worksheet'

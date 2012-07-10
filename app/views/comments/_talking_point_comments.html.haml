@@ -9,7 +9,7 @@
 	%div.discussion{:id=> talking_point.id, :num_coms => talking_point.coms }
 		%h4.question  
 			Talking point discussion
-			= link_to 'Close', {}, :remote=>false, :class=>'close_worksheet close_talking_point_comments', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close talking point discussion'
+			= link_to 'Close', {}, :remote=>false, :class=>'close_worksheet close_talking_point_comments', 'data-disable-with'=>'<img src="/assets/wait3.gif"/>', :title=>'Click to close talking point discussion'
 
 		%p.ques Q#{@question.order_id}: #{@question.text}
 
@@ -32,4 +32,4 @@
 
 
 	%p.footer
-		= link_to 'Close', {}, :remote=>false, :class=>'close_worksheet close_talking_point_comments', 'data-disable-with'=>'<img src="/images/wait3.gif"/>', :title=>'Click to close talking point discussion'
+		= link_to 'Close', {}, :remote=>false, :class=>'close_worksheet close_talking_point_comments', 'data-disable-with'=>'<img src="/assets/wait3.gif"/>', :title=>'Click to close talking point discussion'

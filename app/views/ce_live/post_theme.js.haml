@@ -17,7 +17,7 @@
 	:plain
 		var link = $('a.publish_link[id="#{params[:live_session_id]}"]');
 		if( #{params[:new_publish_status] =='true'} ){
-			link.parent().find('.status').html('<img alt="Completed_on" src="/images/completed_on.gif">Themes have been published');
+			link.parent().find('.status').html('<img alt="Completed_on" src="/assets/completed_on.gif">Themes have been published');
 			link.html('Unpublish themes');
 			link.removeClass('unpublished').addClass('published')
 		}else{

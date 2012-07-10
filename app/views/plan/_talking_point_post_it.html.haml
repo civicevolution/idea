@@ -6,7 +6,7 @@
 
 	%div.details
 		- if @edit_tps_allowed
-			= link_to edit_talking_point_path(talking_point), {:remote=>true, :class=>'edit', 'data-disable-with'=>'<img src="/images/wait3.gif"/>'} do
+			= link_to edit_talking_point_path(talking_point), {:remote=>true, :class=>'edit', 'data-disable-with'=>'<img src="/assets/wait3.gif"/>'} do
 				%div.edit.img{:title=>'Click to edit this talking point'}
 				-#= image_tag 'pencil_edit.gif', {:title=>'Click to edit this talking point'}
 		- else
@@ -14,7 +14,7 @@
 			
 		%div.com_edit
 			- if no_com_link
-				-#= link_to talking_point_comments_path(talking_point), {:remote=>true, :class=>'tp_show_coms', 'data-disable-with'=>'<img src="/images/wait3.gif"/>'} do
+				-#= link_to talking_point_comments_path(talking_point), {:remote=>true, :class=>'tp_show_coms', 'data-disable-with'=>'<img src="/assets/wait3.gif"/>'} do
 				%div.talking_point_com_count
 					- if talking_point.coms > 0
 						%p{:title => "Click to see #{pluralize(talking_point.coms, 'comment')}"}= talking_point.coms
@@ -22,7 +22,7 @@
 						%p{:title => 'Click to add a comment'} +
 			
 			- else
-				= link_to talking_point_comments_path(talking_point.id), {:remote=>true, :class=>'tp_show_coms', 'data-disable-with'=>'<img src="/images/wait3.gif"/>'} do
+				= link_to talking_point_comments_path(talking_point.id), {:remote=>true, :class=>'tp_show_coms', 'data-disable-with'=>'<img src="/assets/wait3.gif"/>'} do
 					%div.talking_point_com_count.pointer
 						- if talking_point.coms > 0
 							%p{:title => "Click to see #{pluralize(talking_point.coms, 'comment')}"}= talking_point.coms

@@ -37,7 +37,7 @@ function ajaxDisableElement(el){
 	var element = $(el);
 	element.data('ujs:enable_with', element.html()); // store enabled state+      
 	element.html( element.attr('data-disable-with') || 'Loading...' ); // set to disabled state
-	//element.html( element.attr('data-disable-with') || '<img src="/images/wait5.gif"/>' ); // set to disabled state
+	//element.html( element.attr('data-disable-with') || '<img src="/assets/wait5.gif"/>' ); // set to disabled state
 	element.addClass('loading');
 	//element.bind('click.railsDisable', function(e) { // prevent further clicking
 	//	return rails.stopEverything(e)
@@ -94,7 +94,7 @@ $('a[data-remote]').live('ajax:beforeSend',
 $('form[data-remote]').live('ajax:beforeSend', 
 	function(){
 		//console.log("form ajax beforeSend");
-		$(this).find(':submit').hide().after('<img src="/images/wait5.gif"/>');
+		$(this).find(':submit').hide().after('<img src="/assets/wait5.gif"/>');
 	}
 ).live('ajax:complete', 
 	function(){
@@ -175,7 +175,7 @@ $('div.my_rating :radio').die('change').live('change',
 		}else{
 			$.post('/talking_points/' + id + '/rate', {rating: this.value}, function(){}, "script");
 			//$(this).closest('div.radios').find('p.option').html('Saving...');
-			$(this).closest('div.my_rating').html('<img src="/images/wait3.gif"/><br/>Saving...')
+			$(this).closest('div.my_rating').html('<img src="/assets/wait3.gif"/><br/>Saving...')
 		}
 	}
 );
@@ -235,7 +235,7 @@ $('input.fav_button').die('mouseup mousedown')
 			}else if( !button.hasClass('saving') ) {
 				var new_pref = button.hasClass('fav') ? 'false' : 'true';
 				//button.addClass('saving');
-				button.closest('.favorite').html('<img src="/images/wait3.gif"/>')
+				button.closest('.favorite').html('<img src="/assets/wait3.gif"/>')
 				$.post('/talking_points/' + id + '/prefer', {prefer: new_pref}, function(){}, "script");
 			}
 		}
@@ -401,7 +401,7 @@ function close_question_worksheet(el){
 	var worksheet = el.closest('div.worksheet');
 	var question_id = worksheet.attr('id');
 	//$('div.question_summary[id="' + question_id +'"]').append('<h4 class="loading">Loading...</h4>')
-	$('div.question_summary[id="' + question_id +'"]').append('<img src="/images/wait3.gif"/>');
+	$('div.question_summary[id="' + question_id +'"]').append('<img src="/assets/wait3.gif"/>');
 	worksheet.slideUp(800, function(){$(this).remove();});
 	
 	return false;
@@ -436,7 +436,7 @@ $('table#new_content tr').die('click').live('click',
   			}
 		  }else{
 		    // load the page now
-  		  tr.find('td').append('<img src="/images/wait3.gif"/>');
+  		  tr.find('td').append('<img src="/assets/wait3.gif"/>');
   			$.ajax({
   			  url: url, 
   			  complete: function(){
