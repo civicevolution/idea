@@ -167,7 +167,7 @@ class Team < ActiveRecord::Base
     # attach the comments to the talking points in the quetions
     #needed_tp_ids = []
     self.new_comments.each do |c|
-      self.new_content[c.question_id][:talking_points][c.parent_id][:comments][c.id] = c
+      self.new_content[c.question_id][:talking_points][c.parent_id].comments[c.id] = c
     end  
   end
   

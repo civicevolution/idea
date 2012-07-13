@@ -1,33 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require "daemons"
-#require 'yaml'
-#require 'erb'
 
-#gem 'activesupport', '>=3.0.0.beta4'
-#require 'active_support'
-
-# For some reason, ActiveSupport 3.0.0 doesn't load.
-# Load needed extension directly for now.
-#require "active_support/core_ext/object"
-#require "active_support/core_ext/hash"
-
-
-# Options from daemons.yml
-# dir_mode: script
-# dir: ../../log
-# multiple: false
-# backtrace: true
-# monitor: false
-# ontop: false
-
-#options = YAML.load(
-#  ERB.new(
-#    IO.read(
-#      File.dirname(__FILE__) + "/../../config/daemons.yml"
-#  )).result).with_indifferent_access
-#options[:dir_mode] = options[:dir_mode].to_sym    
-    
 #	Options:
 #	:app_name:	The name of the application. This will be used to contruct the name of the pid files and log files. Defaults to the basename of the script.
 #	:dir_mode:	Either :script (the directory for writing files to given by :dir is interpreted relative to the script location given by script, the default) or :normal (the directory given by :dir is interpreted as a (absolute or relative) path) or :system (/var/run is used as the file directory)
@@ -37,7 +11,7 @@ require "daemons"
   options = {
     :app_name   => "notify_d_tp",
     :dir_mode   => :normal,
-    :dir        => ENV['RAILS_ENV'] == 'production' ? '/var/run' : 'log',
+    :dir        => ENV['RAILS_ENV'] == 'production' ? '/var/run' : '/ce_development/Rails/tp/tmp/pids',
     :log_dir    => '../../log',
     :multiple   => false,
     :ontop      => false,
@@ -45,6 +19,4 @@ require "daemons"
     :monitor    => false
   }
 
-puts "Start the notification daemon with RAILS_ENV"
-puts ENV['RAILS_ENV']
 Daemons.run File.dirname(__FILE__) + "/notification.rb", options
