@@ -18,16 +18,17 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::RoutingError, :with => :render_404
   
   def error_generic(exception)
-    logger.error "Error detected: #{exception.message}"
-    gems_line_ctr = 0
-    exception.backtrace.each do |line|
-      if line.match(/\/gems\//)
-        gems_line_ctr += 1
-        break if gems_line_ctr > 5
-      else
-        logger.error "#{line}\n"
+    logger.error "\n\nError detected: #{exception.message}"
+    exception.backtrace[0..5].each_index do |ind|
+      Rails.logger.error "    #{ind}: #{exception.backtrace[ind]}"
+    end            
+    exception.backtrace[6..250].each do |line|
+      if !line.match(/\/gems\//) 
+        Rails.logger.error ">>>>#{line}" unless line.match(/\Ascript/)
       end
-    end
+    end            
+    Rails.logger.error "\n\n"
+    
     begin
       member = Member.find_by_id(session[:member_id])
       respond_to do |format|

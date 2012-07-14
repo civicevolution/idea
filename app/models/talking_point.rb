@@ -22,7 +22,6 @@ class TalkingPoint < ActiveRecord::Base
   attr_accessor :team_id
   attr_accessor :selected
   attr_accessor :is_new
-  attr_accessor :comments
    
   before_validation :check_initiative_restrictions#, :on=>:create
   before_create :set_member_id

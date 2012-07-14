@@ -30,7 +30,7 @@ class Comment < ActiveRecord::Base
   before_destroy :check_item_delete_access
   after_create :log_team_content
   
-  attr_accessible :member_id, :anonymous, :status, :text, :team_id, :publish, :parent_type, :parent_id, :question_id
+  attr_accessible :member_id, :anonymous, :status, :text, :team_id, :publish, :parent_type, :parent_id, :question_id, :member
   
   attr_accessor :par_id
   attr_accessor :target_id
