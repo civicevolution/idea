@@ -1,6 +1,9 @@
 require 'uuidtools'
 class EmailLookupCode < ActiveRecord::Base
   
+  attr_accessible :code, :email
+
+  
   validates_uniqueness_of :code
   
   def self.get_code(email)

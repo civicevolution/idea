@@ -1,5 +1,7 @@
 class ProposalVote < ActiveRecord::Base
   
+  attr_accessible :initiative_id, :member_id, :team_id, :points
+  
   def self.save_votes(init_id, member_id, votes)
     # check that the votes are allowed limits
     vote_sum = 0

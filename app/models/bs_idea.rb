@@ -16,6 +16,8 @@ class BsIdea < ActiveRecord::Base
     
   #before_destroy :check_item_delete_access
   
+  attr_accessible :question_id, :member_id, :text, :team_id, :publish
+  
   attr_accessor :item_id
   attr_accessor :par_id
   attr_accessor :target_id

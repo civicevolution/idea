@@ -13,6 +13,8 @@ class Member < ActiveRecord::Base
   #InitiativeMembers
   has_many :initiatives, :class_name => 'Initiative', :through => :initiative_members 
 
+  attr_accessible :email, :first_name, :last_name, :pic_id, :init_id, :hashed_pwd, :confirmed, :city, :state, :country, :location, :access_code, :salt, :ape_code, :photo_file_name, :photo_content_type, :photo_file_size, :ip, :email_ok
+  
   validates_presence_of :first_name
   validates_presence_of :last_name
   validates_presence_of :email

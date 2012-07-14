@@ -1,5 +1,7 @@
 class ChatActiveSession < ActiveRecord::Base
   
+  attr_accessible :chat_session_id, :team_id, :status, :item_id, :list_id
+  
   public
     def self.getSession(cm)
       # I need an active session

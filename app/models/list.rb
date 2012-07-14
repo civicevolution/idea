@@ -10,6 +10,8 @@ class List < ActiveRecord::Base
   after_destroy :delete_item_record
   before_destroy :check_item_delete_access
   
+  attr_accessible :format, :anonymous, :status, :title, :text, :member_id
+  
   attr_accessor :par_id
   attr_accessor :team_id
   attr_accessor :insert_mode

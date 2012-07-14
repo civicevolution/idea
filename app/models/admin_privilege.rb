@@ -1,4 +1,5 @@
 class AdminPrivilege < ActiveRecord::Base
+  attr_accessible :admin_group_id, :title
   
   def self.read_privileges( member_id, initiative_id )
     privs = AdminPrivilege.find_by_sql([ %q| select ap.title 

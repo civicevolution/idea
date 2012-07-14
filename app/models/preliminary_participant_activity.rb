@@ -3,6 +3,8 @@ class PreliminaryParticipantActivity < ActiveRecord::Base
   
   before_create :trim_email
   
+  attr_accessible :email, :flash_params, :init_id
+  
   def self.process_all( member, init_id, host, destroy_records = true )
     
     # process the participant activities that I logged before they signed in 

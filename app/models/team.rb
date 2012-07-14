@@ -13,6 +13,9 @@ class Team < ActiveRecord::Base
   has_one :proposal_stats
   has_many :participant_stats, :class_name => 'ParticipantStats'
   
+  attr_accessible :initiative_id, :org_id, :title, :problem_statement, :solution_statement, :status, :min_members, :max_members, :timezone, :lang, :config_id, :public_face, :public_face_rating_threshold, :archived, :signup_mode, :join_test, :join_code, :approve_join, :send_invites, :approve_invites, :admin_groups, :country, :state, :county, :city, :com_criteria, :res_criteria, :launched
+
+  
   attr_accessor :member
   attr_accessor :new_talking_points
   attr_accessor :new_talking_points_count

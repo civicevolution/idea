@@ -1,5 +1,7 @@
 class AnswerRating < ActiveRecord::Base
   
+  attr_accessible :answer_id, :member_id, :rating
+  
   belongs_to :answer
   #has_many :bs_idea_rating, :dependent => :destroy
   

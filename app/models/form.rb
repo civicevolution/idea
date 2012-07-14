@@ -1,5 +1,6 @@
 class Form < ActiveRecord::Base
-
+  attr_accessible :member_id, :form_name
+  
 # Stores input for randomly structured forms
 # form contains member_id and form_name
 # form_item contains form_id, name, and value

@@ -1,7 +1,8 @@
 require 'uuidtools'
 class MemberLookupCode < ActiveRecord::Base
   
-  attr_accessible :member_id, :code, :scenario
+  attr_accessible :code, :member_id, :scenario
+  
   
   validates_uniqueness_of :code
   

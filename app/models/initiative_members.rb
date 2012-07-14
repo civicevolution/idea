@@ -1,5 +1,7 @@
 class InitiativeMembers < ActiveRecord::Base
 
+  attr_accessible :initiative_id, :member_id, :accept_tos, :member_category, :email_opt_in
+  
   belongs_to :initiative
   belongs_to :member
 

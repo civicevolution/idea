@@ -11,6 +11,8 @@ class Page < ActiveRecord::Base
   after_destroy :delete_item_record
   before_destroy :check_item_delete_access
   
+  attr_accessible :page_title, :html, :chat_par_id, :chat_title, :discussion, :classname, :css, :nav_title
+  
   attr_accessor :par_id
   attr_accessor :team_id
   attr_accessor :insert_mode

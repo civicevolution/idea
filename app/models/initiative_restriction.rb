@@ -1,5 +1,6 @@
 class InitiativeRestriction < ActiveRecord::Base
-
+  attr_accessible :initiative_id, :action, :restriction, :arg, :mandatory
+  
   def self.allow_actionX(initiative_id, action, member)
     # the first argument is the initiative_id if it is an integer
     # otherwise it is a hash such as :team_id=>, :question_id=>, or :answer_id=>

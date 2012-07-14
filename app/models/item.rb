@@ -16,4 +16,7 @@ class Item < ActiveRecord::Base
   belongs_to :rating, :foreign_key => 'id'
   belongs_to :thumbs_rating, :foreign_key => 'id'
   
+  attr_accessible :team_id, :o_id, :o_type, :par_id, :order, :sib_id, :ancestors, :target_id, :target_type
+  
+  
 end

@@ -10,6 +10,8 @@ class TeamRegistration < ActiveRecord::Base
   after_create :check_if_I_should_launch_team
   after_initialize :init
   
+  attr_accessible :team_id, :member_id, :status, :access_details
+  
   attr_accessor :accept_groundrules
   attr_accessor :text
   attr_accessor :team

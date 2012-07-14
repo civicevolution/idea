@@ -1,6 +1,7 @@
 class MemberLookupCodeLog < ActiveRecord::Base
   
-  attr_accessible :member_id, :code, :scenario, :target_id
+  attr_accessible :code, :member_id, :scenario, :target_id, :target_url
+  
   
   def self.get_all(start_time = Time.local(2000,"jan",1), end_time = Time.now)
     

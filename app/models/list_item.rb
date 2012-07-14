@@ -14,7 +14,8 @@ class ListItem < ActiveRecord::Base
 #  after_destroy :delete_item_record
   before_destroy :check_item_delete_access
 
-
+  attr_accessible :list_id, :order, :member_id, :anonymous, :text, :ver, :deleted
+  
   attr_accessor :team_id  
   attr_accessor :itemDestroyed
 

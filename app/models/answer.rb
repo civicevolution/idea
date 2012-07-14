@@ -15,6 +15,8 @@ class Answer < ActiveRecord::Base
   after_save :check_record_saved
   after_save :create_history_record
 
+  attr_accessible :member_id, :anonymous, :status, :text, :ver, :team_id, :question_id, :lock_member_id
+  
   attr_accessor :par_id
   attr_accessor :target_id
   attr_accessor :target_type

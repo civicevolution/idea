@@ -30,6 +30,8 @@ class Question < ActiveRecord::Base
   validates_presence_of :text
   validates_length_of :text, :in => 12..200, :allow_blank => false
   
+  attr_accessible :member_id, :status, :text, :num_answers, :anonymous, :ver, :idea_criteria, :answer_criteria, :default_answer_id, :team_id, :order_id, :talking_point_criteria, :talking_point_preferences, :inactive, :curated_tp_ids, :auto_curated
+  
   attr_accessor :par_id
   attr_accessor :target_id
   attr_accessor :target_type

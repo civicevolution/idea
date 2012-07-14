@@ -1,5 +1,7 @@
 class CallToActionEmailsSent < ActiveRecord::Base
   
+  attr_accessible :member_id, :member_lookup_code_id, :scenario, :version, :team_id, :opened_email, :visit_site
+  
   def self.get_all(start_time = Time.local(2000,"jan",1), end_time = Time.now)
     
     CallToActionEmailsSent.all(

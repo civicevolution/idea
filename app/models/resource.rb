@@ -21,7 +21,8 @@ class Resource < ActiveRecord::Base
   
   before_post_process :image?
                                 
-  attr_protected :resource_file_name, :resource_content_type, :resource_size
+  attr_accessible :comment_id, :member_id, :title, :description, :link_url, :resource_file_name, :resource_file_size, :resource_content_type, :resource_size
+  
   
   attr_accessor :resource_type
   attr_accessor :team_id

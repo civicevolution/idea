@@ -1,5 +1,7 @@
 class TeamMemberRole < ActiveRecord::Base
-
+  
+  attr_accessible :team_id, :member_id, :role_id
+  
   def after_create
     logger.debug "Created TeamMemberRole: #{self.inspect}"
     logger.debug "Email role information"

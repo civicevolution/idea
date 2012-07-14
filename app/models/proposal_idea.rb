@@ -8,6 +8,8 @@ class ProposalIdea < ActiveRecord::Base
   validate :member_is_confirmed
   before_validation :check_initiative_restrictions, :on=>:create
 
+  attr_accessible :initiative_id, :member_id, :accept_guidelines, :title, :text, :launched
+  
   attr_accessor :member
   
   def o_type

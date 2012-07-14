@@ -2,6 +2,8 @@ class ProposalSubmit < ActiveRecord::Base
 
   validate :check_init_access
   
+  attr_accessible :team_id, :member_id, :submit_type, :name, :email, :phone, :text
+  
   attr_accessor :member
   
   def check_init_access

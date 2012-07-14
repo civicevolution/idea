@@ -6,6 +6,8 @@ class TalkingPointAcceptableRating < ActiveRecord::Base
   
   scope :my_votes, lambda { |ids,member_id| select('talking_point_id, rating').where("talking_point_id IN(?) AND member_id = ?", ids, member_id) }
 
+  attr_accessible :talking_point_id, :member_id, :rating
+  
   attr_accessor :member
     
   before_validation :check_initiative_restrictions

@@ -1,5 +1,7 @@
 class LiveThemeAllocation < ActiveRecord::Base
-
+  
+  attr_accessible :session_id, :theme_id, :table_id, :voter_id, :points
+  
   def self.save_votes(session_id, table_id, voter_id, votes)
     # check that the votes are allowed limits
     vote_sum = 0

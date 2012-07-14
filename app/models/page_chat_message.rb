@@ -7,7 +7,9 @@ class PageChatMessage < ActiveRecord::Base
   #validates_length_of :text, :in => 2..1000, :allow_blank => false
   validates_length_of :text, :maximum=>1000, :message=>"must be less than {{count}} characters"
   #validates_length_of :text, :minimum=>2, :message=>"must be more than {{count}} characters"
-
+  
+  attr_accessible :page_id, :member_id, :text
+  
   attr_accessor :team_id
 
   def self.get_transcript(mem_id,page_id)

@@ -1,3 +1,4 @@
 class HelpRequest < ActiveRecord::Base
-  attr_accessible :category, :name, :email, :message
+  attr_accessible :client_details_id, :name, :email, :category, :message
+  
 end

@@ -2,6 +2,8 @@ class BsIdeaFavorite < ActiveRecord::Base
   
   validate :check_init_access
   
+  attr_accessible :bs_idea_id, :member_id, :favorite
+  
   attr_accessor :team_id
   attr_accessor :member
   

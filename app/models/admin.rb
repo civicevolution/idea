@@ -1,5 +1,7 @@
 class Admin < ActiveRecord::Base
   
+  #attr_accessible :member_id, :admin_group_id, :initiative_id
+  
   def self.list_admins
     Admin.find_by_sql([ %q| SELECT id, first_name, last_name FROM members WHERE id IN (SELECT DISTINCT member_id FROM admins) ORDER BY first_name, last_name;| ] )
     

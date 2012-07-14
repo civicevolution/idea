@@ -8,6 +8,8 @@ class BsIdeaRating < ActiveRecord::Base
     
   #before_destroy :check_item_delete_access
   
+  attr_accessible :idea_id, :member_id, :rating
+  
   attr_accessor :team_id
   #attr_accessor :question_id
   

@@ -2,6 +2,8 @@ class BsIdeaFavoritePriority < ActiveRecord::Base
   
   validate :check_init_access
   
+  attr_accessible :question_id, :member_id, :priority
+  
   attr_accessor :member
   
   def check_init_access

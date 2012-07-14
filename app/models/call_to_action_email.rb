@@ -1,4 +1,6 @@
 class CallToActionEmail < ActiveRecord::Base
+  
+    attr_accessible :scenario, :version, :subject, :message, :data, :description
     
     def self.get_most_recent
       email = CallToActionEmail.find_by_id(1)

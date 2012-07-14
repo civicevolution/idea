@@ -11,6 +11,8 @@ class ChatSession < ActiveRecord::Base
   after_destroy :delete_item_record
   before_destroy :check_item_delete_access
   
+  attr_accessible :status
+  
   attr_accessor :par_id
   attr_accessor :team_id
   attr_accessor :insert_mode

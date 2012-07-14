@@ -10,6 +10,7 @@ class ItemDiff < ActiveRecord::Base
   belongs_to :list_item, :foreign_key => "o_id",
               :conditions => 'o_type = 8'
   
+  attr_accessible :o_id, :o_type, :ver, :member_id, :anonymous, :diff
 
   attr_accessor :item
   attr_accessor :base_version_of_request

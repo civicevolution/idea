@@ -4,6 +4,8 @@ class ChatMessage < ActiveRecord::Base
 
   validates_presence_of :text
 
+  attr_accessible :chat_session_id, :member_id, :text
+  
   attr_accessor :item_id
   attr_accessor :team_id
 

@@ -4,6 +4,8 @@ class ComRating < ActiveRecord::Base
   
   validate :check_rating_access
   
+  attr_accessible :comment_id, :member_id, :up, :down
+  
   attr_accessor :team_id
   attr_accessor :member
   
