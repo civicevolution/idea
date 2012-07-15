@@ -1,7 +1,7 @@
 - resource = @resources.detect { |r| r.comment_id == comment.id }
 - if comment.anonymous == 't'
 	- name = 'Anonymous'
-	- pic_src = '/images/members_default/36/m.jpg'
+	- pic_src = '/assets/members_default/36/m.jpg'
 - else
 	- member = @com_authors.detect {|ca| ca[:id] == comment.member_id }
 	- if member

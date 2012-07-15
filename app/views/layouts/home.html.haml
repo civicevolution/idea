@@ -14,7 +14,9 @@
 		%title= title
 		:javascript
 			var am_curator = #{(!@team.nil? && @team.org_id == @member.id || (!@participant_stats.nil? && @participant_stats.level >= 3)) ? true : false};
+			
 		=	stylesheet_link_tag 'application_ce_home.css'
+		
 		- if params[:monitor] != 'true'
 			:javascript
 				var _gaq = _gaq || [];
@@ -57,17 +59,12 @@
 				var com_criteria = Number('#{@team.com_criteria}'.match(/\d+$/));
 				var res_criteria = Number('#{@team.res_criteria}'.match(/\d+$/));
 			
-	
-		= javascript_include_tag :defaults
-
 		- if inc_js == 'all'
-			= javascript_include_tag 'app_ce_realtime.js','jquery.scrollTo-min.js','jquery.autogrow.js','jquery.isonscreen.js',"jquery.show_char_limit-1.1.1.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js',"jquery.timeago.js"
-			
+			= javascript_include_tag 'application_ce_home_all'
 		- elsif inc_js == 'home'
-			= javascript_include_tag 'jquery.scrollTo-min.js','jquery.autogrow.js','jquery.isonscreen.js',"jquery.show_char_limit-1.1.1.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js',"jquery.timeago.js"
+			= javascript_include_tag 'application_ce_home_home'
+		- else
+			= javascript_include_tag 'application_ce_home_no_js'
 			
 		= yield :script
-		
-		
-		-# 'jquery.MetaData.js', "pure.js", "jquery.timeago.js", "jquery.json-2.2.min.js"
 		

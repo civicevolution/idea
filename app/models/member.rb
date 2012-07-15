@@ -37,7 +37,7 @@ class Member < ActiveRecord::Base
   
 #  validates_attachment_size :photo, :less_than => 2.megabytes if :resource_type == 'upload'
   has_attached_file :photo, 
-    :default_url => "/images/:class_default/:style/m.jpg",
+    :default_url => "/assets/:class_default/:style/m.jpg",
     :storage => :s3,
     :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
     :path => "mp/:ape_code/:style/m.jpg",

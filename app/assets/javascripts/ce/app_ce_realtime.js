@@ -174,7 +174,7 @@ function update_presence(roster){
 			new_presence_img.attr('title',mem.name);
 			new_presence_img.attr('id',mem.ape_code);
 			new_presence_img[0].onerror = function(){
-				this.src = 'http://2029.civicevolution.dev/images/members_default/36/m.jpg';
+				this.src = 'http://2029.civicevolution.dev/assets/members_default/36/m.jpg';
 			};
 			new_presence_img.attr('src',src);
 			$('div#presence').append(new_presence_img);

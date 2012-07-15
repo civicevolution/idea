@@ -9,7 +9,7 @@ class ImgController < ApplicationController
       #logger.debug "sql: #{sql}"
       ActiveRecord::Base::connection().update( sql )
     end
-    send_file "#{Rails.root.to_s}/public/images/1x1.gif", :type => 'image/gif', :disposition => 'inline'
+    send_file "#{Rails.root.to_s}/public/assets/1x1.gif", :type => 'image/gif', :disposition => 'inline'
   end
 
 end
