@@ -12,7 +12,7 @@ class Resource < ActiveRecord::Base
   validates_attachment_size :resource, :less_than => 2.megabytes if :resource_type == 'upload'
   has_attached_file :resource,
     :storage => :s3,
-    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
     :path => "res/:res_base/:id/:style/:basename.:extension",
     :url => "http://assets.civicevolution.org/res/:res_base/:id/:style/:basename.:extension",
     :bucket => 'assets.civicevolution.org',

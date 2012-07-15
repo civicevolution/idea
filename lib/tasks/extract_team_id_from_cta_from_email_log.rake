@@ -6,7 +6,7 @@ task :extract_team_id_from_cta_from_email_log => :environment do
   
   rec_ctr = 1;
   sent_date = nil
-  filepath = "#{RAILS_ROOT}/lib/tasks/prod_log"
+  filepath = "#{Rails.root}/lib/tasks/prod_log"
   line = nil
   
   begin
