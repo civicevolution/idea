@@ -21,3 +21,4 @@ config/database.yml
 *.pid
 vendor/bundle
 .sass_cache/
+public/assets/
