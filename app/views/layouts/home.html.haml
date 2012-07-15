@@ -14,7 +14,7 @@
 		%title= title
 		:javascript
 			var am_curator = #{(!@team.nil? && @team.org_id == @member.id || (!@participant_stats.nil? && @participant_stats.level >= 3)) ? true : false};
-		=	stylesheet_link_tag 'home.css'
+		=	stylesheet_link_tag 'application_ce_home.css'
 		- if params[:monitor] != 'true'
 			:javascript
 				var _gaq = _gaq || [];
@@ -66,10 +66,6 @@
 		- elsif inc_js == 'home'
 			= javascript_include_tag 'jquery.scrollTo-min.js','jquery.autogrow.js','jquery.isonscreen.js',"jquery.show_char_limit-1.1.1.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js',"jquery.timeago.js"
 			
-		
-		
-		= stylesheet_link_tag 'cupertino/jquery-ui-1.8.17.custom.css', '../plugins/prettyPhoto/css/prettyPhoto.css'
-
 		= yield :script
 		
 		
