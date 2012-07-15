@@ -66,7 +66,7 @@ module G3
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
     
-    config.assets.precompile += %w( application_ce.css, application_ce_live.css, application_ce.js, application_ce_no_js.js )
+    config.assets.precompile += %w( application_ce.css application_ce_live.css application_ce.js application_ce_no_js.js )
     
     #APP_NAME = Rails.root.to_s.match(/^\/data\//) ? Rails.root.to_s.match(/\/data\/(\w+)\//)[1] : Rails.root.to_s.match(/\/ce_development\/Rails\/(\w+)/)[1]
 
