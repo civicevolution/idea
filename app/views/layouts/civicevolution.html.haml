@@ -3,7 +3,7 @@
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
 		%title CivicEvolution - Think together to act together
-		=	stylesheet_link_tag 'civic_home.css'
+		=	stylesheet_link_tag 'application_civic_home.css'
 		- if params[:monitor] != 'true'
 			-#logger.debug "add google analytics code"
 			:javascript
@@ -40,8 +40,8 @@
 
 			= yield
 
-		= javascript_include_tag '../plugins/prettyPhoto/js/jquery-1.6.1.min.js', '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
-		=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
+		= javascript_include_tag 'application_civic_home'
+		
 		:javascript
 			console.log("do prettyPhoto")
 			try{
