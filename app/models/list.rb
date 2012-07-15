@@ -3,8 +3,8 @@ class List < ActiveRecord::Base
   has_one :item
   has_many :list_item, :dependent => :destroy
   
-  validate_on_create :check_team_access
-  validate_on_update :check_item_edit_access
+  validate :check_team_access, :on => :create
+  validate :check_item_edit_access, :on => :update
     
   after_create :create_item_record
   after_destroy :delete_item_record

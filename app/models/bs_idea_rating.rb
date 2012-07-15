@@ -3,8 +3,8 @@ class BsIdeaRating < ActiveRecord::Base
   has_one :bs_idea
   #has_many :bs_idea_rating, :dependent => :destroy
   
-  validate_on_create :check_team_access
-  validate_on_update :check_item_edit_access
+  validate :check_team_access, :on => :create
+  validate :check_item_edit_access, :on => :update
     
   #before_destroy :check_item_delete_access
   

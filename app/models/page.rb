@@ -2,8 +2,8 @@ class Page < ActiveRecord::Base
   
   has_one :item
   
-  validate_on_create :check_team_access
-  validate_on_update :check_team_update_access
+  validate :check_team_access, :on => :create
+  validate :check_team_update_access, :on => :update
   
   #validate_on_update :check_item_edit_access
     
