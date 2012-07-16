@@ -35,7 +35,7 @@
 								%p.clear_both
 							
 							- if @member.id == @team.org_id
-								= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"} ) + '</p>')
+								!= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"} ) + '</p>')
 							- else
 								= simple_format h @team.solution_statement
 
