@@ -27,5 +27,5 @@
 	
 	
 	%p.clear_both
-- if talking_point.comments
-	= render :partial => 'comments/talking_point_comments', :formats => [:html], :locals => { :talking_point => talking_point, :comments => talking_point.comments, :com_criteria => @team.com_criteria }
+- if talking_point.tp_comments
+	= render :partial => 'comments/talking_point_comments', :formats => [:html], :locals => { :talking_point => talking_point, :comments => talking_point.tp_comments, :com_criteria => @team.com_criteria }

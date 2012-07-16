@@ -32,7 +32,7 @@
 									%td
 										= tp.text
 								
-							- tp.comments.each_value do |com|
+							- tp.tp_comments.each_value do |com|
 								- pcs = com.text.split('[/quote]')
 								- if pcs.size > 1
 									- text = 're... ' + pcs.last.gsub(/[\r\n]/,'')

@@ -163,7 +163,7 @@ class Team < ActiveRecord::Base
 
     # attach the talking points to the questions
     self.new_talking_points.each do |tp|
-      tp.comments = {}
+      tp.tp_comments = {}
       self.new_content[tp.question_id][:talking_points][tp.id] = tp
     end  
 
