@@ -13,7 +13,9 @@
 		
 		
 		%title= title
-		=	stylesheet_link_tag 'plan.css', 'talking_point.css', 'ce_live.css'
+		
+		= stylesheet_link_tag "application_ce_live"
+		
 			
 	%body
 		%div.page
@@ -80,16 +82,11 @@
 				var pub_sub_channels = #{@channels}
 				var client;
 				var get_templates = #{get_templates};
-		
-		-#= javascript_include_tag :defaults
-		
-		= javascript_include_tag 'jquery.js', 'jquery-ui.js', 'jquery_ujs.js', 'application_ce_live.js'
-    
 
 		- if inc_js == 'all'
-			= javascript_include_tag 'app_live_realtime.js','jquery.scrollTo-min.js','jquery.autogrow.js','jquery.isonscreen.js',"jquery.show_char_limit-1.1.1.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js',"jquery.timeago.js"
-	
-		= stylesheet_link_tag 'cupertino/jquery-ui-1.8.17.custom.css'
-		-# stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css'
+			= javascript_include_tag 'application_ce_live'
+		- else
+			= javascript_include_tag 'application_ce_live_no_js'
 
+	
 		= yield :script

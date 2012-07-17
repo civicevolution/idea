@@ -14,11 +14,3 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require ./ce_live/app_ce_live
-//= require ./ce_live/app_ce_live_realtime
-//= require jquery.autogrow.js
-//= require jquery.isonscreen.min.js
-//= require jquery.prettyPhoto.js
-//= require jquery.scrollTo-min.js
-//= require jquery.show_char_limit-1.1.1.js
-//= require jquery.timeago.js
-

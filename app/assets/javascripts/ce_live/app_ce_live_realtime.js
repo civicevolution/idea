@@ -8,7 +8,7 @@ $(function(){
 });
 
 function load_templates(){
-	$.getScript('/javascripts/pure.js',
+	$.getScript('/assets/opt/pure.js',
 		function(){
 			//console.log("PURE is loaded, now load and process the templates")
 			$('<div id="123123"></div>').appendTo('body').load('/live/get_templates',null,

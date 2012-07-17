@@ -784,18 +784,18 @@ class CeLiveController < ApplicationController
   end
 
   def authorize_juggernaut_channels(session_id, channels )
-    # read all the channels for this session_id and clear them
-    old_channels = REDIS_CLIENT.HGET "session_id_channels", session_id
-    if old_channels
-      JSON.parse(old_channels).each do |channel|
-        REDIS_CLIENT.SREM channel,session_id
-      end
-    end
-    # add this session_id to the new channels
+    ## read all the channels for this session_id and clear them
+    #old_channels = REDIS_CLIENT.HGET "session_id_channels", session_id
+    #if old_channels
+    #  JSON.parse(old_channels).each do |channel|
+    #    REDIS_CLIENT.SREM channel,session_id
+    #  end
+    #end
+    ## add this session_id to the new channels
     channels.each do |channel|
       REDIS_CLIENT.sadd channel,session_id
     end
-    REDIS_CLIENT.HSET "session_id_channels", session_id, channels
+    #REDIS_CLIENT.HSET "session_id_channels", session_id, channels
   end
     
   def send_chat_message
@@ -1191,13 +1191,18 @@ class CeLiveController < ApplicationController
     old_ts = Time.local(2020,1,1)
     newer_ts = Time.local(2025,1,1)
 
-    @live_talking_point = LiveTalkingPoint.new(:created_at => old_ts, :updated_at => newer_ts)
+    @live_talking_point = LiveTalkingPoint.new
+    @live_talking_point.created_at = old_ts
+    @live_talking_point.updated_at = newer_ts
     # what do I need to know for the comment template?
     @live_talking_point.text = ''
     @live_talking_point.id = 0
     @live_talking_point.pos_votes = 5
     
-    @live_theme = LiveTheme.new(:created_at => old_ts, :updated_at => newer_ts)
+    @live_theme = LiveTheme.new
+    @live_theme.created_at = old_ts
+    @live_theme.updated_at = newer_ts
+    
     @live_theme.id = 0
     @live_theme.themer_id = 0
     @live_theme.text = ''
@@ -1275,15 +1280,16 @@ class CeLiveController < ApplicationController
   end
   
   def authorize
-    logger.silence(3) do
-      if @live_node.nil?
-        flash[:fullpath] = request.fullpath
-        flash[:params] = request.params
-        flash[:notice] = "Please sign in to continue"
-        #redirect_to :action=>'sign_in_form'
-        redirect_to sign_in_all_path(:controller=> params[:controller])
-      end
+    old_log_level = Rails.logger.level
+	  Rails.logger.level = 3
+    if @live_node.nil?
+      flash[:fullpath] = request.fullpath
+      flash[:params] = request.params
+      flash[:notice] = "Please sign in to continue"
+      #redirect_to :action=>'sign_in_form'
+      redirect_to sign_in_all_path(:controller=> params[:controller])
     end
+    Rails.logger.level = old_log_level
   end
   
   def not_authorized
