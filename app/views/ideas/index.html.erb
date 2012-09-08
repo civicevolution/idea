@@ -1,0 +1,39 @@
+<h1>Listing ideas</h1>
+
+<table>
+  <tr>
+    <th>Text</th>
+    <th>Is theme</th>
+    <th>Member</th>
+    <th>Team</th>
+    <th>Question</th>
+    <th>Parent</th>
+    <th>Order</th>
+    <th>Visible</th>
+    <th>Version</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @ideas.each do |idea| %>
+  <tr>
+    <td><%= idea.text %></td>
+    <td><%= idea.is_theme %></td>
+    <td><%= idea.member_id %></td>
+    <td><%= idea.team_id %></td>
+    <td><%= idea.question_id %></td>
+    <td><%= idea.parent_id %></td>
+    <td><%= idea.order_id %></td>
+    <td><%= idea.visible %></td>
+    <td><%= idea.version %></td>
+    <td><%= link_to 'Show', idea %></td>
+    <td><%= link_to 'Edit', edit_idea_path(idea) %></td>
+    <td><%= link_to 'Destroy', idea, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Idea', new_idea_path %>

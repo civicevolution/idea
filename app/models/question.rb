@@ -2,6 +2,11 @@ class Question < ActiveRecord::Base
   include LibGetTalkingPointsRatings
     
   belongs_to :team
+  
+  has_many :ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false', :order => 'order_id asc'
+  has_many :themes, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = true', :order => 'order_id asc'
+  
+  
   has_many :talking_points, :dependent => :destroy
 
   has_many :top_talking_points, :class_name => 'TalkingPoint', :finder_sql => 

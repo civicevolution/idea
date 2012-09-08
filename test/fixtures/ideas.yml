@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  text: MyText
+  is_theme: false
+  member_id: 1
+  team_id: 1
+  question_id: 1
+  parent_id: 1
+  order_id: 1
+  visible: false
+  version: 1
+
+two:
+  text: MyText
+  is_theme: false
+  member_id: 1
+  team_id: 1
+  question_id: 1
+  parent_id: 1
+  order_id: 1
+  visible: false
+  version: 1

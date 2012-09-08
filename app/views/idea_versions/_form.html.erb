@@ -1,0 +1,37 @@
+<%= form_for(@idea_version) do |f| %>
+  <% if @idea_version.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@idea_version.errors.count, "error") %> prohibited this idea_version from being saved:</h2>
+
+      <ul>
+      <% @idea_version.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :idea_id %><br />
+    <%= f.number_field :idea_id %>
+  </div>
+  <div class="field">
+    <%= f.label :member_id %><br />
+    <%= f.number_field :member_id %>
+  </div>
+  <div class="field">
+    <%= f.label :text %><br />
+    <%= f.text_area :text %>
+  </div>
+  <div class="field">
+    <%= f.label :version %><br />
+    <%= f.number_field :version %>
+  </div>
+  <div class="field">
+    <%= f.label :lock_member_id %><br />
+    <%= f.number_field :lock_member_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

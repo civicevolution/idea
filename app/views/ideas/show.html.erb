@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Text:</b>
+  <%= @idea.text %>
+</p>
+
+<p>
+  <b>Is theme:</b>
+  <%= @idea.is_theme %>
+</p>
+
+<p>
+  <b>Member:</b>
+  <%= @idea.member_id %>
+</p>
+
+<p>
+  <b>Team:</b>
+  <%= @idea.team_id %>
+</p>
+
+<p>
+  <b>Question:</b>
+  <%= @idea.question_id %>
+</p>
+
+<p>
+  <b>Parent:</b>
+  <%= @idea.parent_id %>
+</p>
+
+<p>
+  <b>Order:</b>
+  <%= @idea.order_id %>
+</p>
+
+<p>
+  <b>Visible:</b>
+  <%= @idea.visible %>
+</p>
+
+<p>
+  <b>Version:</b>
+  <%= @idea.version %>
+</p>
+
+
+<%= link_to 'Edit', edit_idea_path(@idea) %> |
+<%= link_to 'Back', ideas_path %>

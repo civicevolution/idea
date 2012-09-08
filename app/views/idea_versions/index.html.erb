@@ -1,0 +1,31 @@
+<h1>Listing idea_versions</h1>
+
+<table>
+  <tr>
+    <th>Idea</th>
+    <th>Member</th>
+    <th>Text</th>
+    <th>Version</th>
+    <th>Lock member</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @idea_versions.each do |idea_version| %>
+  <tr>
+    <td><%= idea_version.idea_id %></td>
+    <td><%= idea_version.member_id %></td>
+    <td><%= idea_version.text %></td>
+    <td><%= idea_version.version %></td>
+    <td><%= idea_version.lock_member_id %></td>
+    <td><%= link_to 'Show', idea_version %></td>
+    <td><%= link_to 'Edit', edit_idea_version_path(idea_version) %></td>
+    <td><%= link_to 'Destroy', idea_version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Idea version', new_idea_version_path %>

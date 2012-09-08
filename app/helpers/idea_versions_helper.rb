@@ -1,0 +1,2 @@
+module IdeaVersionsHelper
+end

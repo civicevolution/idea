@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120529151846) do
+ActiveRecord::Schema.define(:version => 20120908071323) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -318,6 +319,38 @@ ActiveRecord::Schema.define(:version => 20120529151846) do
     t.text     "message",           :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "idea_ratings", :force => true do |t|
+    t.integer  "idea_id"
+    t.integer  "member_id"
+    t.integer  "rating"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "idea_versions", :force => true do |t|
+    t.integer  "idea_id"
+    t.integer  "member_id"
+    t.text     "text"
+    t.integer  "version"
+    t.integer  "lock_member_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "ideas", :force => true do |t|
+    t.text     "text"
+    t.boolean  "is_theme"
+    t.integer  "member_id"
+    t.integer  "team_id"
+    t.integer  "question_id"
+    t.integer  "parent_id"
+    t.integer  "order_id"
+    t.boolean  "visible"
+    t.integer  "version"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "initiative_members", :force => true do |t|

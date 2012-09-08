@@ -1,0 +1,2 @@
+module IdeaRatingsHelper
+end

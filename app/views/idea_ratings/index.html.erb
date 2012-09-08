@@ -1,0 +1,27 @@
+<h1>Listing idea_ratings</h1>
+
+<table>
+  <tr>
+    <th>Idea</th>
+    <th>Member</th>
+    <th>Rating</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @idea_ratings.each do |idea_rating| %>
+  <tr>
+    <td><%= idea_rating.idea_id %></td>
+    <td><%= idea_rating.member_id %></td>
+    <td><%= idea_rating.rating %></td>
+    <td><%= link_to 'Show', idea_rating %></td>
+    <td><%= link_to 'Edit', edit_idea_rating_path(idea_rating) %></td>
+    <td><%= link_to 'Destroy', idea_rating, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Idea rating', new_idea_rating_path %>

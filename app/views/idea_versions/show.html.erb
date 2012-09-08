@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Idea:</b>
+  <%= @idea_version.idea_id %>
+</p>
+
+<p>
+  <b>Member:</b>
+  <%= @idea_version.member_id %>
+</p>
+
+<p>
+  <b>Text:</b>
+  <%= @idea_version.text %>
+</p>
+
+<p>
+  <b>Version:</b>
+  <%= @idea_version.version %>
+</p>
+
+<p>
+  <b>Lock member:</b>
+  <%= @idea_version.lock_member_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_idea_version_path(@idea_version) %> |
+<%= link_to 'Back', idea_versions_path %>
