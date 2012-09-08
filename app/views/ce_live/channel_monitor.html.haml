@@ -1,0 +1,88 @@
+- content_for (:script) do
+	= javascript_include_tag '/assets/load_test/channel_monitor.js'
+		
+%style
+	:sass
+		div#channel_log
+			height: 500px
+			width: 100%
+			border: 1px solid black
+			overflow: auto
+			overflow-y: scroll
+			p
+				margin: .5em 0
+		th
+			padding: 0 8px
+		body
+			padding-bottom: 4em
+
+%h3 Monitoring channel: #{params[:ch]}
+
+%div#channel_log
+
+%button.toggle_log
+	Stop log
+		
+%button.clear_log
+	Clear
+	
+%button.jug_stats
+	Get Jug stats
+
+%button.load_stats
+	Get Load stats
+	
+%h3 
+	Server stats	
+	%span.message_ctr
+%table
+	%tbody
+		%tr
+			%th server
+			%th latency
+			%th conns
+			%th msg int
+			%th msgs
+			%th msgs_sec
+			%th rss
+			%th heapTotal
+			%th heapUsed
+			%th uptime
+			%th pid
+			%th load avg
+			
+	%tr.load
+		%td Load
+		%td.latency
+		%td.conns
+			%span
+			= link_to 'Edit', {}, {:class=>'adj_num_cons'}
+		%td.msg_int
+			%span
+			= link_to 'Edit', {}, {:class=>'adj_msg_int'}
+		%td.msgs
+		%td.msgs_sec
+		%td.rss
+		%td.heapTotal
+		%td.heapUsed
+		%td.uptime
+		%td.pid
+		%td.loadavg
+		
+	%tr.jug
+		%td Jug
+		%td.latency
+		%td.conns
+		%td.msg_int
+		%td.msgs
+		%td.msgs_sec
+		%td.rss
+		%td.heapTotal
+		%td.heapUsed
+		%td.uptime
+		%td.pid
+		%td.loadavg
+%p 
+	%span.num_jug_clients
+	Juggernaut clients
+%table.jug_clients
