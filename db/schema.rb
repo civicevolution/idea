@@ -264,7 +264,6 @@ ActiveRecord::Schema.define(:version => 20120529151846) do
     t.string   "locked_by"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "queue"
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
@@ -489,7 +488,7 @@ ActiveRecord::Schema.define(:version => 20120529151846) do
     t.integer  "io_type"
     t.integer  "source_session_id"
     t.string   "label"
-    t.string   "tag"
+    t.string   "tag",               :default => "default"
     t.integer  "qty"
     t.integer  "chars"
     t.integer  "height"

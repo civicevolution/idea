@@ -77,7 +77,8 @@
 				var get_templates = false;
 		- else
 			:javascript
-				var node = {id: "#{@live_node.id}", name: "#{@live_node.name}", username: "#{@live_node.username}", role: "#{@live_node.role}", parent_id: "#{@live_node.parent_id}"}
+				var node = {id: "#{@live_node.id}", name: "#{@live_node.name}", username: "#{@live_node.username}", 
+					role: "#{@live_node.role}", parent_id: "#{@live_node.parent_id}", ror_session_id: "#{request.session_options[:id]}"}
 				var page_data = #{@page_data.to_json}
 				var pub_sub_channels = #{@channels}
 				var client;

@@ -102,6 +102,15 @@ class CeLiveController < ApplicationController
     
     
   end  
+
+  def channel_monitor   
+    @page_title = "Channel monitor"
+
+    @channels = ["_event_#{ params[:ch] || 2 }" ]
+    authorize_juggernaut_channels(request.session_options[:id], @channels )
+    
+    render :template => 'ce_live/channel_monitor', :layout => 'ce_live', :locals=>{ :title=>'Channel monitor page for development and testing'}
+  end
   
   def dispatcher   
     #return not_authorized unless @live_node.role == 'scribe'

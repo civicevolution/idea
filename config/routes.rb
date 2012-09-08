@@ -9,6 +9,7 @@ G3::Application.routes.draw do
   get 'proposal_vote' => 'proposal#vote', :as => 'proposal_vote'
   post 'proposal_vote' => 'proposal#vote_save', :as => 'proposal_vote'
   
+  get 'live/channel_monitor' => 'ce_live#channel_monitor', :as => 'live_channel_monitor'
   match 'jug' => 'chat#jug'
   match "juggernaut_xmit" => 'chat#juggernaut_xmit', :as => 'juggernaut_xmit'
 

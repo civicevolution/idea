@@ -39,7 +39,6 @@ function custom_subscribe(channel, callback){
   if ( !channel ) throw "Must provide a channel";
 	//console.log("Juggernaut.fn.subscribe MODIFIED with member info");
   this.on(channel + ":data", callback);
-
   var connectCallback = this.proxy(function(){
     var message     = new Juggernaut.Message;
     message.type    = "subscribe";
@@ -48,6 +47,7 @@ function custom_subscribe(channel, callback){
 		message.ape_code = {
 		    node_id: node.id,
 		    jug_id: jug.sessionID,
+				ror_session_id: node.ror_session_id,
 		    role: node.role,
 				browser: $.browser,
 				height: $(window).height(), 
@@ -87,6 +87,7 @@ function custom_publish(channel, data){
   }
 };
 
+var report_status_interval;
 function init_juggernaut(){
     //console.log("init_juggernaut");
 		Juggernaut.fn.subscribe = custom_subscribe;
@@ -94,12 +95,20 @@ function init_juggernaut(){
 		log = function(data){
 			//console.log("juggernaut log: " + data)
 		}
-
+		
+		var host = params['host'] || document.location.hostname;
+		var port = params['port'] || document.location.port || 80;
 		jug = new Juggernaut({
 		  secure: ('https:' == document.location.protocol),
-		  host: document.location.hostname,
-		  port: document.location.port || 80
+		  host: host,
+		  port: port
 		});
+		
+		//jug = new Juggernaut({
+		//  secure: ('https:' == document.location.protocol),
+		//  host: document.location.hostname,
+		//  port: document.location.port || 80
+		//});
 
 		jug.on("connect", function(){ 
 			log("Connected");
@@ -114,6 +123,8 @@ function init_juggernaut(){
 		  xhr.setRequestHeader("X-Juggernaut-Id", jug.sessionID);
 		});	
 		$.get('/live/jug_id');
+		
+		report_status_interval = setInterval(report_status,15000);
 }
 var event_channel;
 var theme_channel;
@@ -135,7 +146,7 @@ function init_juggernaut_subscribe(){
 		}
 	}
 	
-	setTimeout(report_status,10);
+	//setTimeout(report_status,10);
 	
 	if(params['test']){
   	console.log("autostart the test in init_juggernaut_subscribe")
@@ -206,13 +217,13 @@ function update_presence(roster){
 	    //console.log("add to dispatcher_jug_ids: " + mem.ape_code.jug_id);
 	    dispatcher_jug_ids.push( mem.ape_code.jug_id );
 	    $.unique(dispatcher_jug_ids);
-	    setTimeout(report_status,10);
+	    //setTimeout(report_status,10);
 	  }
 	  if(mem.ape_code.node_id == node.parent_id){
 	    //console.log("add to themer_parent_jug_id: " + mem.ape_code.jug_id);
 	    themer_parent_jug_id = mem.ape_code.jug_id;
 	    $('div.chat.parent input#jug_id').val(themer_parent_jug_id);
-	    setTimeout(report_status,10);
+	    //setTimeout(report_status,10);
 	  }
 	  
 	  if(update_roster){
@@ -231,7 +242,7 @@ function update_presence(roster){
 function report_status(){
   //console.log("report_status");
   var recipient_jug_ids = dispatcher_jug_ids.concat( themer_parent_jug_id );
-  if(recipient_jug_ids.length>0){
+  if(recipient_jug_ids.length>0 && jug){
     // get the activity status depending on the page
     var activity = 'n/a';
     switch(page_data.type){
@@ -291,10 +302,11 @@ function report_status(){
 				page_type: page_data, 
 				activity: activity
 		}
-		
+		//console.log("Send report status: " + Date() );	
+		console.log("send status report " + new Date().getTime() );
     jug.publish(event_channel,{act: 'status_report', message: status_message, only: recipient_jug_ids });		
   }
-  setTimeout(report_status,10000);
+  //setTimeout(report_status,10000);
 }
 
 //function send_chat_msg(recipient_jug_ids, message){
