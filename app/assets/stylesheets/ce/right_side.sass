@@ -1,0 +1,142 @@
+$help_tag: #f3973a
+$navy_blue: #23238E
+
+$right_panel_grey: #BBB
+div.right_master
+	> div
+		margin-bottom: 16px
+		padding: 10px
+		border: 1px solid $right_panel_grey
+		p.label
+			font-style: italic
+			font-weight: bold
+			color: $right_panel_grey
+			margin: -6px 0 8px 0
+	div.help 
+		padding: 0 10px 0 0
+		margin: 8px 0 8px 0
+		border: none
+		p
+			text-align: right
+			margin: 0
+	div.member
+		position: relative
+		p
+			margin: 0 0 4px 0
+		div.name
+			position: absolute
+			top: 10px
+			left: 54px
+			
+		div.links	
+			position: absolute
+			top: 10px
+			right: 10px
+	div.suggested_action
+		div.suggestion
+			position: relative
+			padding-left: 40px
+			img
+				position: absolute
+				top: 0
+				left: 0
+				cursor: pointer
+			p.action
+				padding-top: 6px
+				margin: 0
+				font-weight: bold
+			p.controls
+				height: 16px
+				margin: 6px 0 6px 0 
+				a.show_me
+					display: block
+					float: left
+				a.next
+					display: block
+					float: right
+	div.page_context
+		overflow-y: scroll
+	div.list_tabs
+		padding: 0
+		ul.list_tabs
+			position: relative
+			li
+				background: #dceef9 image-url('tab_close_lt.gif') no-repeat right center
+				a
+					color: #92cfef
+			li.ui-state-active
+				background: #92cfef image-url('tab_close_dk.gif') no-repeat right center
+				a
+					color: white
+				
+			a
+				font-size: 12px
+				padding: 0
+				margin-left: 8px
+			p.label
+				position: absolute
+				top: 10px
+				right: 10px
+		div.selected_tp_list
+			overflow-y: scroll
+			margin: 0 10px 10px 10px
+			p
+				margin: -10px 0 6px -20px
+				font-style: italic
+			ul
+				padding-left: 0
+	div.activity_chat
+		div#presence
+			height: 36px
+			border: 1px solid #ccc
+			img
+				margin: 0 2px
+			padding: 4px 0
+		div#chat_log
+			overflow: auto
+			overflow-y: scroll
+			height: 50px
+			border: 1px solid black
+			padding: .2em 0
+			p 
+				margin: 0 1em
+		form#chat_form
+			margin-top: 0
+			padding: 4px 0
+			input[type=text]
+				width: 190px
+			input[type=submit]	
+				padding: 0 0px
+	td.button 
+		padding: 6px 0
+	td.stay
+		padding-top: 6px
+
+div#sign_in_form
+	tr.signup, tr.reset
+		display: none
+	td.input input
+		width: 150px
+	td.lbl
+		font-style: italic
+		font-weight: bold
+		text-align: right
+		color: $right_panel_grey
+		padding-right: 10px
+	td.lbl.ta_left
+		text-align: left
+
+form.reset_password_form, form.signin_form, form.register_form, div#join_email_address_ok
+	max-width: 500px
+	label
+		font-weight: bold
+	input[type='text'], input[type='password'] 
+		width: 250px
+	input[type='submit']
+		background-color: $help_tag
+		color: $navy_blue
+		font-size: 1.2em
+		font-weight: bold
+	//	margin: 20px 0
+	a.cancel
+		margin-left: 20px

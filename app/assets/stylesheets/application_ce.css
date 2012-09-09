@@ -8,8 +8,16 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
- *= require_directory ./ce
+ * Don't include self = require_self
+ * Use more fine grained control = require_directory ./ce
+ *= require ./ce/base.sass
+ *= require ./ce/layout.sass
+ *= require ./ce/right_side.sass
+ *= require ./ce/proposal_theme_display.sass
  *= require cupertino/jquery-ui-1.8.17.custom.css
  *= require prettyPhoto.css
+ * XXX = require ./ce/home.sass
+ * XXX = require ./ce/plan.sass
+ * XXX = require ./ce/talking_point.sass
+
  */
