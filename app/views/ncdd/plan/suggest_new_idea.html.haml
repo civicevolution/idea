@@ -1,0 +1,109 @@
+- content_for (:script) do
+	= javascript_include_tag 'jquery.autogrow.js',"jquery.show_char_limit-1.1.1.js"
+	:javascript
+		$(function(){
+			activate_text_counters_grow($('textarea, input[type="text"]'), 120)
+		});
+		
+		function activate_text_counters_grow(els, height){
+			height = height? height : 50
+			els.each(
+				function(){
+					var el = $(this);
+					var span = el.next().find('span.char_ctr');
+					while(span.size() == 0 && !el[0].nodeName.match(/BODY/i) ){
+						el = el.parent();
+						span = el.find('span.char_ctr');
+					}
+					if(span.size() == 1){
+						el = $(this);
+						var cnt = Number(span.html().match(/\d+/));
+						el.show_char_limit(cnt, {
+					    error_element: span,
+							status_element: span
+					  });
+						if(el[0].nodeName == 'TEXTAREA'){
+							// if the el is not displayed, IE gives it a width of 0 and the el cannot be setup to grow
+							if(el[0].offsetWidth > 0){
+								el.autoGrow({
+									minHeight  : height,
+									maxHeight : 500
+								});
+							}
+						}
+					}
+				}
+			)
+		}
+	%style		
+		:sass
+			div#suggest_new_idea
+				position: relative
+				margin-top: 2em
+				textarea
+					height: 250px
+				div#tab_suggest_idea
+					padding-left: 2em
+		
+
+%div#suggest_new_idea.home_forms.home_pages
+	%div.spiral
+	%div.notebook.corner
+	
+		-#= render :partial=>'welcome/logo_links', :locals=>{:active=>'about'}
+
+		%div{:id=>"tab_suggest_idea"}
+
+			- if proposal_idea.errors.size > 0
+				%div.warn
+					%p Errors were reported
+					%ul
+						- proposal_idea.errors.full_messages.each do |msg| 
+							%li= msg
+
+			%h3 We invite you to suggest an idea to help "Bring out the Community in our College"
+
+			%div.ground_rules
+				%p 
+					All ideas need to meet these 
+					%b ground rules 
+					to be accepted and published:
+				%ul
+					%li Be legal
+					%li Not be insulting of any individuals or groups
+					%li Propose an improvement to Skyline’s Campus & Community
+					%li Answer all the questions proposed on this site
+					%li Propose effective use of the grant
+					%li Project applications due March 30, 2012. Email mairj@smccd.edu for application.
+					%li Qualifying project ideas will be presented to and voted on by students April 19, 2012.  
+
+			%p Step Up! Share your best ideas here for improving our Skyline Campus and Community. Collaborate! Your ideas are rated, commented on, and developed with your peers, so we can “Think Together.” SHARE your best ideas, RATE others’ ideas, INVITE friends to contribute, COLLABORATE together to vision the best possible projects. 
+			%p In short, anyone can suggest an idea, but only ideas that have been developed into a proposal for action are eligible to compete for the grants. 
+
+
+			%div.guidelines
+				%p 
+					Proposals must meet these 
+					%b guidelines 
+					to earn review:	
+
+				%ul
+					%li Work in a team with at least 4 active Skyline students.
+					%li Maintain an open and inclusive team that welcomes, shares, considers and incorporates others’ ideas.
+					%li Engage in adequate discussion, collaboration and consensus on each question.
+					%li Openly communicate with the community via this site and other forms of community outreach.
+					%li Ensure a respectful, collaborative environment.
+					%li Demonstrate appropriate consideration of feedback.
+					%li Meet all criteria specified here and in the application.  Email mairj@smccd.edu for an application.
+					%li Comply with the general ground rules.
+
+
+
+			%p If you are committed to your idea, this website can help you form a team and develop your proposal.
+
+			- if @member && !@member.confirmed
+				%p.suggest_sign_in You must confirm your CivicEvolution account by email before you can suggest an idea. You can request a confirmation email on the right.
+			- elsif @member.nil?
+				%p.suggest_sign_in You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.
+
+			= render :partial => 'plan/idea_form', :locals=> {:proposal_idea => proposal_idea}

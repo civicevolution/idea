@@ -1,0 +1,326 @@
+- content_for (:script) do
+	= javascript_include_tag "jquery-1.4.2.min.js", 'jquery-ui-1.8.custom.min.js', 'jquery.form.js', "jquery.autogrow.js", "jquery.show_char_limit-1.1.1.js", "ce/gen/forms.js", "ce/activate/act_welcome_layout.js", "ce/welcome.js", '../plugins/prettyPhoto/js/jquery.prettyPhoto.js'
+	=	stylesheet_link_tag '../plugins/prettyPhoto/css/prettyPhoto.css', 'ncdd.css'
+	
+
+- team_ids = !@mem_teams.nil? ? @mem_teams.collect{ |mt| mt.id}.join(',') : ''
+:javascript
+	var member_id = #{ @member.nil? ? 0 : @member.id }
+	var my_team_ids = [ #{team_ids} ];
+	
+%div.mission
+
+	%h3 Conference planning and discussion site
+	%p This page is dedicated to helping you get the most out of this hands on conference by focusing on the afternoon workshops
+	%ul
+		%li Explains the "Anatomy of a Public Engagement" model we developed for the afternoon workshops
+		%li Helps presenters develop their workshops
+		%li Provides a forum for attendees to explore their workshop options before the conference day
+		%li Provides feedback to the presenters about the needs and interests of potential attendees
+		%li Offers forums for attendees and non-attendees to continue these important conversations after the workshop
+		%li 
+			%b Offers you a chance to propose your own workshop
+		
+
+	
+%div.videos{:style=>'{text-align:left}'}	
+	%p
+		%b Event flyer
+	%a{:rel=>'prettyPhoto', :href=>'http://www.ncdd.org/files/ncddnorcalflier-lg.jpg'} 
+		= image_tag 'https://s3.amazonaws.com/ncdd/ncddnorcalflier-tiny.jpg', :style=>'{width: 108px; height: 140px}', :alt=>'Norcal NCDD event flyer' 
+	%p	
+		%a{:href=>'http://www.ncdd.org/files/ncddnorcalflier.pdf'}
+			Event flyer as a pdf
+	-#%p 
+	-#	%b 1: CivicEvolution Illustrated
+	-#-#%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=WS_EzJ0UW00'}
+	-#%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14870900', :title=>'CivicEvolution Illustrated'} 
+	-#	= image_tag 'video_placeholder.jpg', :alt=>'CivicEvolution Illustrated video' 
+	-#%p.link
+	-#	%a{:rel=>'prettyPhoto', :href=>'http://vimeo.com/14627369', :title=>'Getting started with CivicEvolution'} 2: Getting started 
+	-#%p.link
+	-#	%a{:rel=>'prettyPhoto', :href=>'http://www.youtube.com/watch?v=tdA-xYEfw7s'} 3: CivicEvolution Demonstration 
+			
+
+		
+%p.clear_both.tall
+
+%div.left_col
+
+	-#%h3 Come hear about successful public engagement from these local leaders:
+	-#
+	-#%p.presenter Terry Amsler Program Director, Collaborative Governance Initiative
+	-#%p Terry Amsler is the Director of the Institute for Local Government’s Collaborative Governance Initiative. Situated in a broader program to enhance public confidence in government, the Collaborative Governance Initiative supports effective and inclusive public engagement in local decision making and helps local officials in cities and counties throughout California successfully navigate among the array of community engagement options that bring resident voice to the table on important issues.
+	-#
+	-#%p.presenter Ed Everett, City Manager of Redwood City, CA 
+	-#%p Ed Everett has been the city manager of Redwood City since 1992. Prior to that, he served as city manager of Belmont, assistant county manager for Washoe County, Nevada, and program analyst/fire chief for the City of Palo Alto.
+	-#%p After obtaining a degree in economics from U.C. Davis and a graduate degree in urban affairs from Princeton University, Ed gained valuable experience during several years as a VISTA volunteer. Today, while overseeing what some call the renaissance of Redwood City, he is focusing a great deal of research and study on the concept of ‘community building,’ what makes a real community, and how we achieve that in Redwood City.
+	-#
+	-#%p.presenter Dave Knapp, City Manager of Cupertino, CA
+	-#%p City Manager David Knapp is a professional manager with 34 years of municipal experience appointed by the City Council - the equivalent to a Chief Executive Officer in the private sector. He is charged with implementing policy decisions made by the elected Council, which he accomplishes through delegation to appropriate departments. He is also responsible for preparation of the annual city budget consisting of an operating budget of $38 million and a capital improvement budget of $22 million. The City Manager supports programs that empower residents to "Build Community" in their neighborhoods, such as the Neighborhood Block Leaders program and Community Emergency Response Teams.
+	-#
+	-#%p.presenter Daniel Homsey, Director, Neighborhood Empowerment Network
+	-#%p Daniel Homsey is the Director of the Neighborhood Empowerment Network (NEN), a coalition of residents and community organizations, non-profit organizations, academic institutions, and private and government agencies.
+	-#%p Previously Director of the Mayor’s Office of Neighborhood Services (MONS), and now a member of the City Administrator’s team, Daniel is a third-generation San Franciscan who believes that neighborhoods are, and should be, the stewards of their sustainability.
+	-#
+	-#%p.presenter Pete Petersen, Executive Director, Davenport Institute for Public Engagement and Civic Leadership/Common Sense California
+	-#%p The Davenport Institute for Public Engagement and Civic Leadership supports and promotes public participation as a way of developing more creative and sustainable policy decisions, and more engaged and informed citizens through consulting on projects, funding them through grant programs and relationships with concerned foundations, and promoting the ever-growing field of public engagement through training, writing, and public speaking.
+	-#
+
+
+	%h2.com_title Conference Workshops
+	%ul.marketplace
+		%li These are the workshops under consideration for the conference
+		%li
+			%b We are actively recruiting additional workshops - please use the link below to propose a workshop
+		%li Coming soon: You can help the presenters prepare for their workshops by suggesting topics and resources
+		%li Coming soon: You can help yourself get the most out of the each workshop by reviewing the recommended resources before attending the workshop
+		%li Finally, the learning and collaboration doesn't end when the workshop is over. Each workshop can host conversations for participants interested in learning more and doing it themselves.
+
+
+	%p These are some of the workshops we already have planned
+		
+	%div.team_entry
+		%a.team_entry_title Face to Face public engagement tools 										
+		-#%p.desc Description
+		
+	%div.team_entry			
+		%a.team_entry_title Online Engagement tools 										
+		-#%p.desc Description
+
+	%div.team_entry			
+		%a.team_entry_title Making tough budget choices 										
+		-#%p.desc Description
+
+	%div.team_entry			
+		%a.team_entry_title Making quick decisions, while incorporating the citizens' input 										
+		-#%p.desc Description
+
+	%div.team_entry
+		%a.team_entry_title How to begin building community engagement
+		-#%p.desc Description
+
+	%div.team_entry			
+		%a.team_entry_title How to build ongoing sustainable communities
+		-#%p.desc Description
+
+
+	%div.my_proposals
+		- if !@member.nil?
+			- props = Form.find_all_by_member_id_and_form_name(@member.id,'workshop_proposal')
+			- if props.size > 0
+				%h3 Your workshop proposals
+				- props.each do |prop|
+					- title = FormItem.find_by_form_id_and_name(prop.id,'title')
+					- title = !title.nil? ? title.value : 'Untitled'
+					- title = 'Untitled' if title.nil? || title == '' 
+					%p= link_to title, {:controller=>'workshop',:action => 'proposal_form', :id=>prop.id}, {:class=>'propose_workshop'}
+
+		%h2
+			= link_to "Submit a workshop proposal", {:controller=>'workshop',:action => 'proposal_form'}, {:class=>'propose_workshop'}
+
+
+
+
+
+	-#%div.ideas_and_teams
+	-#	%div.tabs
+	-#		%ul
+	-#			%li
+	-#				%a{:href=>"#tab_teams"} Workshops
+	-#			%li
+	-#				%a{:href=>"#tab_ideas"} Ideas
+	-#			-#%li
+	-#			-#	%a{:href=>"#tab_suggest_idea"} Suggest an idea
+
+
+	-#		%div.tab_window{:id=>"tab_teams"}
+
+	-#			%ul.team_list
+	-#				-#- if  @teams_launched.size() == 0
+	-#				-#	%li No teams have started developing their proposals yet
+	-#				-#- elsif  @teams_launched.size() == 0
+	-#				-#	%li This team is working on its proposal. Click the team title to learn more
+	-#				-#- else
+	-#				-#	%li These #{@teams_launched.size()} teams are working on their proposal. Click a team title to learn more.
+	-#				%li These are some of the workshops that are planned
+	-#				%p
+			
+	-#			%div.team_entry
+	-#				%a.team_entry_title Face to Face public engagement tools 										
+	-#				-#%p.desc Description
+				
+	-#				%a.team_entry_title Online Engagement tools 										
+	-#				-#%p.desc Description
+
+	-#				%a.team_entry_title Making tough budget choices 										
+	-#				-#%p.desc Description
+
+	-#				%a.team_entry_title Making quick decisions, while incorporating the citizens' input 										
+	-#				-#%p.desc Description
+
+	-#				%a.team_entry_title How to begin building community engagement
+	-#				-#%p.desc Description
+
+	-#				%a.team_entry_title How to build ongoing sustainable communities
+	-#				-#%p.desc Description
+
+
+	-#			- @teams_launched.each do |team|
+	-#				%div.team_entry
+	-#					= link_to team.title, {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'team_entry_title',:launched=>'t'}
+	-#					%p.desc= team.solution_statement
+	-#					%p.controls
+	-#						-#%span 0 comments
+	-#						%span= pluralize( team['members'], 'member')
+	-#						-#%span active one day ago
+	-#						-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
+
+	-#					-#%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
+	-#					-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
+
+	-#		%div.tab_window{:id=>"tab_ideas"}
+
+	-#			%ul.team_list
+	-#				%li Ideas must recruit at least four committed members before they can begin working on their proposal
+	-#				- if  @team_ideas.size() == 0
+	-#					%li No teams are waiting for members
+	-#				- elsif  @team_ideas.size() == 1
+	-#					%li This team needs additional committed members before it can start working on its proposal. Click the team title to learn more.
+	-#				- else
+	-#					These #{@team_ideas.size()} teams need additional committed members before they can start working on their proposal. Click a team title to learn more.
+	-#				%li You can suggest your own idea for proposal by clicking the "Suggest an idea" tab above
+
+
+	-#			- @team_ideas.each do |team|
+	-#				%div.team_entry
+	-#					= link_to team.title, {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'team_entry_title', :launched=>'f'}
+	-#					%p.desc= team.solution_statement
+	-#					%p.controls
+	-#						-#%span 0 comments
+	-#						%span= pluralize( team['members'], 'member')
+	-#						-#%span active one day ago
+	-#						-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
+
+
+	-#		-#%div.tab_window{:id=>"tab_suggest_idea"}
+	-#		-#	%h3 We invite you to suggest an idea to help our city region become more sustainable
+
+	-#		-#	%div.ground_rules
+	-#		-#		%p 
+	-#		-#			All ideas need to meet these 
+	-#		-#			%b ground rules 
+	-#		-#			to be accepted and published:
+	-#		-#		%ul
+	-#		-#			%li Be legal
+	-#		-#			%li Be consistent with the City of Geraldton-Greenough Organisational Values
+	-#		-#			%li Focus on organisational processes in order to help the City work better with the community
+	-#		-#			%li Demonstrate effective use of rate payer funds, if appropriate
+
+	-#		-#	%p
+	-#		-#		The Executive Management Team promises to review and respond to all actionable proposals that meet their guidelines
+	-#		-#		for relevance, completeness, evidence, and community support.
+
+	-#		-#	%p 
+	-#		-#		In short, anyone can suggest an idea, but the Executive Management Team
+	-#		-#		will only review ideas that have been developed into actionable
+	-#		-#		proposals.
+
+	-#		-#	%div.guidelines
+	-#		-#		%p 
+	-#		-#			Proposals must meet these 
+	-#		-#			%b guidelines 
+	-#		-#			to earn official review:	
+
+	-#		-#		%ul
+	-#		-#			%li Comply with the general ground rules
+	-#		-#			%li Answer all questions in the proposal outline
+	-#		-#			%li Work in a team with at least 4 staff members of the City of Geraldton-Greenough
+	-#		-#			%li Maintain an open and inclusive team
+	-#		-#			%li Ensure a respectful team environment
+	-#		-#			%li Engage in adequate discussion, collaboration and consensus on each question
+	-#		-#			%li Openly communicate with the other staff via online public access as well as community outreach, and demonstrate appropriate consideration of feedback				
+
+	-#		-#	%p If you are committed to your idea, this website can help you form a team and develop your proposal.
+
+	-#		-#	- if @member && !@member.confirmed
+	-#		-#		%p.suggest_sign_in You must confirm your CivicEvolution account by email before you can suggest an idea. You can request a confirmation email on the right.
+	-#		-#	- elsif @member.nil?
+	-#		-#		%p.suggest_sign_in You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.
+
+	-#		-#	- form_for( :proposal_idea, :url => { :controller=> :team, :action => :submit_proposal_idea}, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
+	-#		-#		= form.hidden_field :initiative_id, options = {:value=>1}
+	-#		-#		%div.add_idea
+	-#		-#			= form.label :title, "Idea title"
+	-#		-#			= form.text_field :title, :class=>'title', :alias=>'Title'
+	-#		-#			%div.control_line.title
+	-#		-#				%div.controls
+	-#		-#					%span.char_ctr 255 characters left
+
+
+	-#		-#			= form.label :text, "Please summarise your idea to improve our sustainability"
+	-#		-#			= form.text_area :text, :class=>'comment', :size=>"1x2", :alias=>'Proposal idea'
+	-#		-#			%div.control_line
+	-#		-#				%div.controls
+	-#		-#					%span.char_ctr 
+	-#		-#						1000
+	-#		-#						characters left
+	-#		-#						= link_to 'Clear', {:action => 'index'}, {:class=>'clear'}
+
+	-#		-#			%p.acknowledge
+	-#		-#				= form.check_box :accept_guidelines, {:value=>'true', :alias=>'You'}
+	-#		-#				I agree to the ground rules and guidelines above. I understand my idea will be reviewed for relevance before it is published.
+	-#		-#			%div#recaptcha_suggest_idea
+	-#		-#			%p
+	-#		-#				= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'
+
+%div.right_col
+	= render( :partial => 'welcome/signin_register' )
+
+
+	%div.stats
+		%p
+			%b Community achievements
+		%table
+			%tr
+				%td
+					Ideas
+				%td
+					2
+			%tr
+				%td
+					Participants
+				%td
+					5
+			%tr
+				%td
+					Teams
+				%td
+					2
+			%tr					
+				%td
+					Visitors
+				%td
+					12
+			%tr
+				%td
+					Team comments
+				%td
+					73
+			%tr					
+				%td
+					Public comments
+				%td
+					0
+			%tr
+				%td
+					Completed proposals
+				%td
+					0
+			%tr					
+				%td
+					Proposal endorsements
+				%td
+					0
+
+%p.clear_both

@@ -1,0 +1,14 @@
+%div#follow_initiative
+	%h3 Thank you for wanting to follow the Skyline Students Step Up! 2012 Campaign ideas
+	= form_tag  follow_initiative_post_path, {:remote=>true} do
+		%p
+			= check_box_tag :follow
+			Please send me occasional emails so I can follow the progress of Skyline Students Step Up! 2012 Campaign ideas and 
+			discover opportunities to develop and support change in our community
+
+		- if @member.email.nil?	|| @member.email.length == 0
+			%p Your email address: #{text_field_tag 'email',''}
+		%p.submit
+			= submit_tag "Save my request", :name=>'invite_friends', :alias=>'Please'
+			
+		%p= link_to 'Return to Skyline Students Step Up! 2012 Campaign home page', home_path, {:class=>'cancel'}

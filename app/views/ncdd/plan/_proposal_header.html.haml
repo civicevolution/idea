@@ -1,0 +1,19 @@
+%style
+	:sass
+		div.logo
+			margin-top: 10px
+		div.tagline
+			float: left
+			margin-left: 20px	
+			h3 a
+				text-decoration: none
+				color: black
+		
+%div.logo
+	%a{ :href=> '/'}
+		= image_tag("ncdd/logo.gif")
+%div.tagline
+	%h3 
+		= link_to 'NCDD Catalyst Awards', home_path
+	%h4 Crowdsourcing Innovation in the NCDD Community
+

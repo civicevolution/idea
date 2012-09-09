@@ -259,6 +259,11 @@ class ApplicationController < ActionController::Base
           params[:_app_name] = 'CivicEvolution Demo'
           params[:_app_page_title] = 'CivicEvolution -- Think together to act together'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/civic" ])
+        when /^ncdd$/i
+          params[:_initiative_id] = 4
+          params[:_app_name] = 'NCDD Catalyst Awards'
+          params[:_app_page_title] = 'NCDD Catalyst Awards'
+          self.prepend_view_path([ Rails::root.to_s + "/app/views/ncdd" ])
         when /^skyline$/i
           params[:_initiative_id] = 5
           params[:_app_name] = 'Skyline Students Step Up Campaign'

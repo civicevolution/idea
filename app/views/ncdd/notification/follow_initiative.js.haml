@@ -1,0 +1,17 @@
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
+:plain
+	$('div#follow_initiative').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+	var follow_form = $("#{escape_javascript(
+		render( :template => 'skyline/notification/follow_initiative', :formats => [:html] )
+	)}");
+	
+	var dialog = follow_form.dialog( {title : 'Follow request', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+	
+	$('div#follow_initiative a.cancel').html('Cancel').die('click').live('click',
+		function(){
+			$(this).closest('div.ui-dialog').dialog('destroy').remove();
+			return false;
+		}
+	);
+
+	
