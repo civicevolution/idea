@@ -1,0 +1,20 @@
+%div.question_summary{:id=>question.id}
+	%h2.question Q#{question.order_id}: #{question.text}
+
+	- if question.themes.empty?
+		%p Please create at least one theme
+	- else
+		- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
+			%h3.theme= theme.text
+	
+	= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form suggest_idea' do 
+		%div.add_answer
+			= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2"
+			%div.form_controls
+				= submit_tag "I endorse this proposal", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+
+				%span.char_ctr 200 characters
+				= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
+
+		%p.clear
+
