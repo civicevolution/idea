@@ -94,7 +94,7 @@ $('a[data-remote]').live('ajax:beforeSend',
 $('form[data-remote]').live('ajax:beforeSend', 
 	function(){
 		//console.log("form ajax beforeSend");
-		$(this).find(':submit').hide().after('<img src="/assets/wait5.gif"/>');
+		$(this).find(':submit').hide().after('<img class="wait" src="/assets/wait5.gif"/>');
 	}
 ).live('ajax:complete', 
 	function(){
