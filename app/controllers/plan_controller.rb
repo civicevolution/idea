@@ -53,8 +53,7 @@ class PlanController < ApplicationController
     end
     
     # What do I need for new content?
-    #@team.assign_new_content(@member, @last_visit)
-    @team.new_content = []
+    @team.assign_new_theme_content(@member, @last_visit)
     
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
 

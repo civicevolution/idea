@@ -53,6 +53,30 @@ class IdeaRatingsController < ApplicationController
     end
   end
 
+
+  # POST /idea_ratings
+  # POST /idea_ratings.json
+  def update_rating
+    
+    @idea_rating = IdeaRating.where(idea_id: params[:id], member_id: @member.id).first_or_initialize
+    @idea_rating.rating = params[:rating]
+    
+    logger.debug @idea_rating.inspect
+    
+    respond_to do |format|
+      if @idea_rating.save
+        format.js { render 'idea_ratings/update_rating_ok', locals: { idea_rating: @idea_rating } }
+        #format.html { redirect_to @idea_rating, notice: 'Idea rating was successfully created.' }
+        #format.json { render json: @idea_rating, status: :created, location: @idea_rating }
+      else
+        format.js { render 'idea_ratings/update_rating_errors', locals: {idea_rating: @idea_rating } }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea_rating.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  
   # PUT /idea_ratings/1
   # PUT /idea_ratings/1.json
   def update

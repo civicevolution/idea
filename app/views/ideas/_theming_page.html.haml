@@ -1,0 +1,194 @@
+%div.theming_page_popup
+	%div.theming_page
+		%h3 Theming page for question: #{question.text}
+		= link_to "Close theming page", {}, class: 'close_theming_page'
+
+		%div.theme_cols_window_outer
+			%div.theme_cols_window
+				%div.theme_col.unthemed_ideas
+					%h3 New ideas
+					%ul.sortable_ideas
+						- random_ind = rand.to_s.scan(/\d/)[1..20]
+						- question.unthemed_ideas.each do |idea|
+							%li.idea_post_it
+								%a{href: '#', class: "R#{random_ind.pop}"}
+									%p.idea= idea.text
+			
+
+				- question.themes.each do |theme|
+					%div.theme_col.themes
+						- random_ind = rand.to_s.scan(/\d/)[1..20]
+				
+						%ul
+							%li.theme_post_it
+								%a{href: '#', class: "R#{random_ind.pop}"}
+									%p.idea T: #{theme.text}
+						%ul.sortable_ideas
+							- question.themed_ideas.select{|idea| idea.parent_id == theme.id}.each do |idea|
+								%li.idea_post_it
+									%a{href: '#', class: "R#{random_ind.pop}"}
+										%p.idea I: #{idea.text}
+								
+				- question.themes.each do |theme|
+					%div.theme_col.themes
+				
+						%ul.sortable_ideas
+							%li.theme_post_it
+								%a{href: '#', class: "R#{random_ind.pop}"}
+									%p.idea T: #{theme.text}
+
+							- question.themed_ideas.select{|idea| idea.parent_id == theme.id}.each do |idea|
+								%li.idea_post_it
+									%a{href: '#', class: "R#{random_ind.pop}"}
+										%p.idea I: #{idea.text}
+
+				%div.theme_col.parked_ideas
+					%h3 Parked ideas
+					%ul.sortable_ideas
+						- random_ind = rand.to_s.scan(/\d/)[1..20]
+						- question.unthemed_ideas.each do |idea|
+							%li.idea_post_it
+								%a{href: '#', class: "R#{random_ind.pop}"}
+									%p.idea= idea.text
+				
+	%style
+		:sass
+			$post_it_bg: #fcfeb4
+			$theme_bg: #73ffff
+			
+			div.theming_page_popup
+				position: absolute
+				left: 0
+				width: 100%
+				height: 100%
+				background-color: white
+				div.theming_page
+					position: relative
+					padding: 20px
+					div.theme_cols_window_outer
+						overflow-x: scroll
+						overflow: scroll
+					a.close_theming_page
+						position: absolute
+						top: 20px
+						right: 20px
+					div.theme_cols_window	
+						border: 1px solid red
+						
+						div.theme_col
+							border: 1px solid blue
+							overflow-y: scroll
+							overflow: scroll
+							width: 200px
+							float: left
+							max-height: 100%
+				
+				div.theme_col.unthemed_ideas
+					background: #cfb
+					h3
+						margin-left: 10px
+				div.theme_col.theme
+				div.theme_col.parked_ideas
+					background: #f97
+					h3
+						margin-left: 10px
+
+				// post-it styling							
+				ul, li
+					list-style: none
+
+				ul
+					overflow: hidden
+					padding: 0em
+					li
+						a
+							text-decoration: none
+							color: #000
+							display: block
+							height: auto
+							width: 10em
+							padding: 1em
+						margin: 1em
+						float: left
+
+				ul a
+					text-decoration: none
+					color: #000
+					display: block
+					height: 10em
+					width: 10em
+					padding: 1em
+					/* Firefox
+					-moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1)
+					/* Safari+Chrome
+					-webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7)
+					/* Opera
+					box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7)
+				
+				ul	
+					li.idea_post_it a
+						background: #ffc
+					li.theme_post_it a
+						background: #ccf
+					
+				ul li
+					a.R0
+						-o-transform: rotate(1deg)
+						-webkit-transform: rotate(1deg)
+						-moz-transform: rotate(1deg)
+						position: relative
+						top: 3px
+					a.R1
+						-o-transform: rotate(-1deg)
+						-webkit-transform: rotate(-1deg)
+						-moz-transform: rotate(-1deg)
+						position: relative
+						top: -5px
+					a.R2
+						-o-transform: rotate(2deg)
+						-webkit-transform: rotate(2deg)
+						-moz-transform: rotate(2deg)
+						position: relative
+						top: -10px
+					a.R3
+						-o-transform: rotate(-1deg)
+						-webkit-transform: rotate(-2deg)
+						-moz-transform: rotate(-2deg)
+						position: relative
+						top: 5px
+					a.R4
+						-o-transform: rotate(3deg)
+						-webkit-transform: rotate(3deg)
+						-moz-transform: rotate(3deg)
+						position: relative
+						top: -4px
+					a.R5
+						-o-transform: rotate(-3deg)
+						-webkit-transform: rotate(-3deg)
+						-moz-transform: rotate(-3deg)
+						position: relative
+						top: -6px
+					a.R6
+						-o-transform: rotate(4deg)
+						-webkit-transform: rotate(4deg)
+						-moz-transform: rotate(4deg)
+						position: relative
+						top: 8px
+					a.R7
+						-o-transform: rotate(-4deg)
+						-webkit-transform: rotate(-4deg)
+						-moz-transform: rotate(-4deg)
+						position: relative
+						top: -5px
+					a.R8
+						-o-transform: rotate(5deg)
+						-webkit-transform: rotate(5deg)
+						-moz-transform: rotate(5deg)
+						position: relative
+						top: -8px
+					a.R9
+						-o-transform: rotate(-5deg)
+						-webkit-transform: rotate(-5deg)
+						-moz-transform: rotate(-5deg)
+						position: relative
+						top: 4px

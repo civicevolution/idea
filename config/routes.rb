@@ -127,6 +127,18 @@ G3::Application.routes.draw do
   post 'endorsements/:team_id/edit', :to => 'endorsements#edit', :as => 'edit_plan_endorsement'
   match 'endorsements/:team_id/update', :to => 'endorsements#update', :via => [:put, :post], :as => 'update_plan_endorsement'
 
+
+  match 'idea/:question_id/add', :to => 'ideas#create', :via => [:put, :post], :as => 'add_idea'
+  post 'idea/:question_id/delete', :to => 'ideas#destroy', :as => 'delete_idea'
+  post 'idea/:question_id/edit', :to => 'ideas#edit', :as => 'edit_idea'
+  match 'idea/:question_id/update', :to => 'ideas#update', :via => [:put, :post], :as => 'update_idea'
+  get 'idea/:question_id/new', to: 'ideas#view_unrated_ideas', as: 'view_unrated_ideas'
+
+  post 'idea/rating', to: 'idea_ratings#update_rating', as: 'update_idea_rating'
+	
+  get 'idea/:question_id/theme_page', to: 'ideas#theming_page', as: 'theme_question_ideas'
+
+
   get 'plan/:team_id/new_content(/:time_stamp)' => 'plan#summary', :as => 'new_content'
 
   #match 'plan/:id', :controller => 'plan', :action => 'index', :requirements => { :id => /\d+/ }

@@ -28,7 +28,9 @@ jQuery.fn.autoGrow = function(o){
 			fixed_width = true;
 		}
 
-		if(o && o.minHeight){
+		if(this.getAttribute('fixed_rows')=='true'){
+			// used the preset rows attribute
+		}else if(o && o.minHeight){
 			//temp.ta = this;
 			//console.log("set the # of rows for minHeight: " + o.minHeight)
 			//this.rows = 1;

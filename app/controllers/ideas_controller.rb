@@ -36,23 +36,58 @@ class IdeasController < ApplicationController
   def edit
     @idea = Idea.find(params[:id])
   end
+  
+  def view_unrated_ideas
+    question = Question.find(params[:question_id])
+    respond_to do |format|
+      if question
+        format.js { render 'ideas/view_question_unrated_ideas', locals: { question: question} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: @idea }
+      else
+        format.js { render 'ideas/question_not_found' }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def theming_page
+    question = Question.find(params[:question_id])
+    respond_to do |format|
+      if question
+        format.js { render 'ideas/theming_page', locals: { question: question} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: @idea }
+      else
+        format.js { render 'ideas/question_not_found' }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   # POST /ideas
   # POST /ideas.json
   def create
-    @idea = Idea.new(params[:idea])
+
+    question = Question.find(params[:question_id])
+    @idea = question.ideas.new(text: params[:text], is_theme: false, member_id: @member.id, team_id: question.team_id, visible: true, version: 1)
 
     respond_to do |format|
       if @idea.save
+        format.js { render 'ideas/idea_for_question', locals: { idea: @idea, question: question} }
         format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
         format.json { render json: @idea, status: :created, location: @idea }
       else
+        format.js { render 'ideas/idea_for_question_errors', locals: {idea: @idea, question: question} }
         format.html { render action: "new" }
         format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
     end
   end
-
+  
   # PUT /ideas/1
   # PUT /ideas/1.json
   def update

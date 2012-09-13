@@ -1,0 +1,4 @@
+= render :template => 'shared/clear_sign_in_form', formats: [:js]
+
+:plain
+	$('div#chat_log').append('<p>Idea #{idea_rating.idea_id} was rated to #{idea_rating.rating}</p>');

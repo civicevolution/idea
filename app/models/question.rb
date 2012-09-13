@@ -4,8 +4,9 @@ class Question < ActiveRecord::Base
   belongs_to :team
   
   has_many :ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false', :order => 'order_id asc'
+  has_many :unthemed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id IS NULL', :order => 'order_id asc'
+  has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id IS NOT NULL', :order => 'order_id asc'
   has_many :themes, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = true', :order => 'order_id asc'
-  
   
   has_many :talking_points, :dependent => :destroy
 
@@ -60,8 +61,16 @@ class Question < ActiveRecord::Base
   attr_accessor :unrated_talking_points
   attr_accessor :updated_talking_points
   attr_accessor :show_new
+  attr_accessor :unrated_ideas_count
+  
   
   after_initialize :init
+  
+  def unrated_ideas(member_id)
+    Idea.select('ideas.*')
+      .joins("LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{member_id.to_i}")
+      .where("ideas.question_id = ? AND ideas.is_theme = false AND idea_ratings.id IS null", self.id)
+  end
   
   def self.update_curated_talking_point_ids(question_id, tp_ids, mode, member)
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => question_id}, 'curate_talking_points', member)

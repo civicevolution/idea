@@ -1,0 +1,23 @@
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
+-#var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
+:plain
+	
+		
+	var question = $('div.question_summary[id="#{question.id}"]');	
+	var form = question.find('form.suggest_idea');
+	form.find('textarea').val('');
+	form.find('p.warn').remove();
+	form.find('div#errorExplanation').remove();	
+	
+	$('<span class="ack">Thank you</span>').insertAfter(form.find(':submit'))
+		.effect('highlight', {color: '#45BC74'},3000, function(){ $(this).remove();});
+
+	var question_review_ideas = question.find('h2.question p.review');
+	//var review_link = 
+	if(question_review_ideas.size() > 0){
+	
+	
+	}else{
+	
+	
+	}

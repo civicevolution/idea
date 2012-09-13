@@ -101,6 +101,32 @@ class Team < ActiveRecord::Base
     self.title
   end
     
+  def assign_new_theme_content(member,last_stat_update)
+    q_ids = self.questions.map(&:id)
+    q_ids = [0] if q_ids.size == 0
+    
+    self.new_content = {}
+
+    if member.id != 0
+      # gets the unrated ideas
+      
+      unrated_ideas = ActiveRecord::Base.connection.select_rows(
+        %Q|SELECT COUNT(ideas.id), ideas.question_id FROM ideas
+          LEFT OUTER JOIN idea_ratings
+          ON ideas.id = idea_ratings.idea_id
+          WHERE 
+          ideas.question_id IN (#{q_ids.join(',')})
+          AND ideas.is_theme = false
+          AND idea_ratings.id IS null
+          GROUP BY ideas.question_id|)
+      
+      self.questions.each{|question| question.unrated_ideas_count = 0 }
+      unrated_ideas.each{|rec| self.questions.detect{|q| q.id==rec[1].to_i}.unrated_ideas_count = rec[0].to_i }
+
+    end
+    
+  end  
+  
   def assign_new_content(member,last_stat_update)
     q_ids = self.questions.map(&:id)
     q_ids = [0] if q_ids.size == 0

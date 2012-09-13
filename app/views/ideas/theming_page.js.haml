@@ -1,0 +1,159 @@
+= render :template => 'shared/clear_sign_in_form', formats: [:js]
+
+:plain
+	var theming_page = $("#{escape_javascript(render( partial: 'ideas/theming_page', locals: { question: question}, content_type: 'html'  ))}");
+
+	$('div.ui-slider').hide();
+	$('body').append(theming_page);
+	$("body").css('overflow', 'hidden');
+	
+
+	theming_page.css({ top: $('body').scrollTop()});
+	var theme_cols_window = theming_page.find('div.theme_cols_window');
+	theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 40 );
+	var theme_cols = theming_page.find('div.theme_col');
+	theme_cols_window.width( theme_cols.size() * ( theme_cols.eq(0).width() + 2) );
+
+	theming_page.find('a.close_theming_page').click(function(){
+		theming_page.remove();
+		$("body").css('overflow', 'visible');
+		$('div.ui-slider').show();
+		return false;
+	});
+
+	function make_new_ideas_draggable($ideas){
+		$ideas.draggable( {
+			revert: function(socketObj) {
+			    //console.log("new ideas draggable revert socketObj: " + socketObj)
+			    if (socketObj === false) {
+			        // Drop was rejected, revert the helper.
+			        //console.log("rejected")
+			        return true;
+			    } else {
+			        //console.log("accepted")
+			        // Drop was accepted, don't revert.
+			        return false;
+			    }
+			},
+			revertDuration: 600,
+			delay: 50,
+			start: function(event,ui){
+			  dragging_new_idea = true;
+			  //console.log("start drag make_new_ideas_draggable")
+				// refresh your sortable -- so you can drop
+				$('.sortable_ideas').sortable('refresh');
+				// collapse the incoming list so I can see the target lists
+				//$('div.incoming_ideas').width( '' );
+				ui.helper.addClass('dragged_idea');
+			},
+			stop: function(event,ui){
+			  //console.log("New Ideas stop");
+			  dragging_new_idea = false;
+			},
+			tolerance: 'pointer',
+			connectToSortable: '.sortable_ideas',
+			cursorAt: {left: 10, top: 10},
+			cursor: 'move',
+			//distance: 6,
+			//helper: 'original',
+			helper: 'clone',
+			//appendTo: 'body',
+			opacity: .35,
+			zIndex: 2700,
+			scroll: false
+		});
+	}
+	
+	//make_new_ideas_draggable( $('.sortable_ideas') );
+	
+	// Sort the ideas within a list
+	function make_idea_lists_sortable($idea_lists){
+	  //console.log("make_idea_lists_sortable for " + $idea_lists.size() )
+	  $idea_lists.sortable(
+	  	{
+	  		start: function(event,ui){
+	  		  //var idea_list = $(this).closest('div.idea_list');
+
+	  		  //var ltp_ids = [];
+	  	    //idea_list.find('div.idea').each(
+	  	    //  function(){
+	  	    //    ltp_ids.push($(this).attr('idea_id') );
+	  	    //  }
+	  	    //);
+	  		  //idea_list.attr('idea_ids',ltp_ids.join(',') );
+	  		  //console.log("start sortable with idea_ids: " + ltp_ids.join(',') );
+	  		  //var theme = idea_list.find('p.theme').html();
+	  		  ////console.log("sortable start " + theme); 
+	  		  //if( !ui.item.hasClass('live_talking_point') ){
+	  		  //  ui.item.attr('source_list_id',idea_list.attr('list_id'));
+	    		//  ui.item.attr('prev_idea_id',ui.item.prev('.idea').attr('idea_id'));
+	    		//  dragging_idea = true;
+	  		  //}else{
+	  		  //  dragging_new_idea = true;
+	  		  //}
+	  		  //if(idea_list.hasClass('misc_list')){
+	  		  //  //console.log("hide the misc list immediately");
+	  		  //  idea_list.hide();
+	  		  //  collapse_idea_listX(idea_list);
+	  		  //  $(this).show();
+	  		  //  $('div.lists').append(ui.helper)
+	  		  //}
+	  		  //expand_idea_listX(idea_list);
+	  		},
+	  		over: function(event,ui){
+	  		  //var list = $(this).closest('div.idea_list');
+	  		  //console.log("expand for sortable over " + list.find('p.theme').html())
+	  		  //expand_idea_list(list);
+			  },
+	  		stop: function(event,ui){
+	  		  //var idea_list = $(this).closest('div.idea_list');
+	  		  //var theme = idea_list.find('p.theme').html();
+	        ////console.log("sortable stop " + theme);
+	  			//setTimeout(function(){clean_up_theme(this);}.bind(idea_list),100);
+	  			//dragging_idea = false;
+	  			////console.log("call adjust_columns in 1 sec because the sortable ideas has stopped: CHECK IF ACTUAL CHANGE");
+	  		  //setTimeout(adjust_columns, 400);
+
+	  	    //setTimeout( function(){ post_idea_ids('update_list_idea_ids', this) }.bind(idea_list), 400);
+
+	  		},
+	  		remove: function(event,ui){
+	  		  //var idea_list = $(this).closest('div.idea_list');
+	  		  //var theme = idea_list.find('p.theme').html();
+	        ////console.log("sortable remove " + theme);
+
+	  	    //setTimeout( function(){ post_idea_ids('remove_live_talking_point', this) }.bind(idea_list), 400);
+
+	  		},
+	  		receive: function(event,ui){
+	  		  //var idea_list = $(this).closest('div.idea_list');
+	  		  //var theme = idea_list.find('p.theme').html();
+	        ////console.log("sortable receive " + theme);
+	  		  //if(ui.item.hasClass('live_talking_point')){
+	    		//  new_idea = $(this).find('div.live_talking_point')
+	    		//  new_idea.attr('class', 'idea');
+	    		//  new_idea.removeAttr('style');
+	    		//  remove_talking_point( new_idea );
+	  		  //}
+
+	  	    //setTimeout( function(){ post_idea_ids('receive_live_talking_point', this) }.bind(idea_list), 400);
+
+	  		  //setTimeout(function(){clean_up_theme(this);}.bind(idea_list),100);
+	  		},
+	  		//appendTo: 'div.lists',
+	  		//helper: 'clone',
+	  		//containment: 'div.lists',
+	  		delay: 50,
+	  		//cursorAt: {left: 10, top: 10},
+	  		cursor: 'move',
+	  		//distance: 6,
+	  		tolerance: 'pointer',
+	  		//tolerance: 'intersect',
+	  		connectWith: '.sortable_ideas',
+	  		//placeholder: 'curated_list_placeholder'
+	  	}
+	  );
+	}
+	//if(!disable_editing){
+	//  make_idea_lists_sortable( $('.sortable_ideas') );
+	//}
