@@ -10,10 +10,21 @@
 			
 			%p CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
 			
-			%p{:style=>'margin-top: 48px'} 
+			%p{:style=>'margin-top: 24px'} 
 				We work with citizens and community leaders. Click 
 				%b= link_to "Get started", :get_started
 				to find out how we can help your community.
+			
+			%div.ncdd
+				%div{:style=>'float:left; margin-top: 20px'}
+					%a{ :href=> 'http://ncdd.org'}
+						= image_tag("ncdd/logo.gif")
+				%div{:style=>'float:left; width: 200px; margin: 20px 0 0 20px'}
+					%p{:style=>'margin:0'} 
+						We’re excited to be hosting NCDD’s 				
+						%a{ :href=> 'http://ncdd.org/catalyst-awards'} Catalyst Awards!
+				%p{:style=>'margin:16px 0 0 0; clear: both'}
+					The project launches right here on Thursday September 20th.
 			
 		%div.video
 			-#<iframe src="http://player.vimeo.com/video/22453947?title=0&amp;byline=0&amp;portrait=0" width="400" height="310" frameborder="0"></iframe>
@@ -35,23 +46,23 @@
 					%span.bright Watch video 
 					How CivicEvolution works
 					
-		%p.clear_both			
+			-#%p.clear_both			
 
-		%div.call_to_action_div
-			= link_to :get_started do
-				%div.call_to_action
-					Get started
+			-#%div.call_to_action_div
+				= link_to :get_started do
+					%div.call_to_action
+						Get started
 				
-		%div.subscribe
-			- if ! flash[:subscribed].nil?
-				%p= flash[:subscribed]
-			- else 
-				= form_tag("/subscribe", :remote=>false, :id=>'subscribe_form', :class=>'orig') do
-					%p Keep me updated!
-					%p
-						Email: 
-						= text_field_tag :email
-						= submit_tag "Subscribe"
+			%div.subscribe
+				- if ! flash[:subscribed].nil?
+					%p= flash[:subscribed]
+				- else 
+					= form_tag("/subscribe", :remote=>false, :id=>'subscribe_form', :class=>'orig') do
+						%p Keep me updated!
+						%p
+							Email: 
+							= text_field_tag :email
+							= submit_tag "Subscribe"
 			
 %div.social_proof_logos
 	= link_to 'http://2029.civicevolution.org', {:target=>'_blank'} do
