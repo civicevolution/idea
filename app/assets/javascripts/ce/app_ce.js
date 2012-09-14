@@ -8,7 +8,8 @@
 
 var console_log='';
 if(typeof console == 'undefined') console = {log:function(str){console_log += str + '\n' }};
-temp = {};
+var temp = {};
+var templates_loaded = false;
 
 //console.log("Loading application.js");
 

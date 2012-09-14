@@ -1,14 +1,16 @@
 $(function(){
-		//if(params['rt']){
+		if(!templates_loaded){
 			setTimeout(load_templates, 100);
-		//}
+		}else if(!jug){
+			setTimeout(init_load_juggernaut, 100);
+		}
 });
 
 function load_templates(){
 	$.getScript('/assets/opt/pure.js',
 		function(){
 			//console.log("PURE is loaded, now load and process the templates")
-			$('<div id="123123"></div>').appendTo('body').load('/plan/get_templates',null,
+			$('<div id="123123"></div>').appendTo('body').load('/idea/get_templates',null,
 				function(){
 					//if(params['rt']){
 						setTimeout(init_load_juggernaut, 100);

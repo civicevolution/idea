@@ -7,28 +7,33 @@
 	$('body').append(theming_page);
 	$("body").css('overflow', 'hidden');
 	
+	//
 	//resize code
-	theming_page.css({ top: $('body').scrollTop()});
-	var theme_cols_window = theming_page.find('div.theme_cols_window');
-	theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 100 );
-	var theme_cols = theming_page.find('div.theme_col');
-	var width = theme_cols.size() * ( theme_cols.eq(0).width() + 12);
-	theme_cols_window.width( width );
-	var win_top = theme_cols_window.position().top;
-	var win_left = theme_cols_window.position().left;
-	var win_bottom = win_top + theme_cols_window.height();
-	$('div.theme_col').each(
-		function(){
-			var col = $(this);
-			var left = col.position().left + win_left;
-			var width = col.width();
-			col.find('div.auto-scroll.top').width(width).css({top: win_top, left: left});
-			col.find('div.auto-scroll.bottom').width(width).css({top: win_bottom - 24, left: left});
-			col.find('div.new_group_drop_zone').css({top: win_top - 40, left: left + width - 60});
-		}
-	);
-	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() ).css({top: win_top, left: win_left});
-	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() ).css({top: win_top, left: win_left + theme_cols_window.parent().width() - 24 });
+	//
+	function resize_theming_page(){
+		theming_page.css({ top: $('body').scrollTop()});
+		var theme_cols_window = theming_page.find('div.theme_cols_window');
+		theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 100 );
+		var theme_cols = theming_page.find('div.theme_col');
+		var width = theme_cols.size() * ( theme_cols.eq(0).width() + 12);
+		theme_cols_window.width( width );
+		var win_top = theme_cols_window.position().top;
+		var win_left = theme_cols_window.position().left;
+		var win_bottom = win_top + theme_cols_window.height();
+		$('div.theme_col').each(
+			function(){
+				var col = $(this);
+				var left = col.position().left + win_left;
+				var width = col.width();
+				col.find('div.auto-scroll.top').width(width).css({top: win_top, left: left});
+				col.find('div.auto-scroll.bottom').width(width).css({top: win_bottom - 24, left: left});
+				col.find('div.new_group_drop_zone').css({top: win_top - 40, left: left + width - 60});
+			}
+		);
+		theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() ).css({top: win_top, left: win_left});
+		theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() ).css({top: win_top, left: win_left + theme_cols_window.parent().width() - 24 });
+	}
+	resize_theming_page();
 
 	//
 	// Set up theming page sortable
@@ -111,7 +116,9 @@
 		par.prev('div.theme_col').find('div.new_group_drop_zone').show();
 	}
 	function createNewThemeGroup(par){
-		console.log("createNewThemeGroup: Now reate a new list for sortable receive " + par.attr('id') );
+		var idea = par.find('li.idea_post_it').remove();
+		console.log("createNewThemeGroup: Now create a new list for sortable receive " + par.attr('id') );
+		realtime_data_update_functions['theme_col']( { data: { id: par.attr('id'), theme_idea: idea.find('p.idea').html() }, col_par: par });
 	}
 	
 	

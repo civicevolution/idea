@@ -10,6 +10,7 @@ G3::Application.routes.draw do
   match 'teams(/:team_id)/update_setup' => 'teams#update_setup', :via => [:put, :post], :as => 'setup_team_post'
 
   match 'plan/get_templates' => 'plan#get_templates'
+  match 'idea/get_templates' => 'plan#get_ideas_templates'
   match 'plan/checklist' => 'plan#checklist', :as=> 'checklist'
   
   get 'proposal_vote' => 'proposal#vote', :as => 'proposal_vote'

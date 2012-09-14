@@ -1,0 +1,69 @@
+%div#get_templates_scripts
+	- if debug
+		%h2 ideas/get_templates.html.haml
+		= javascript_include_tag 'application_ce'
+		= javascript_include_tag 'opt/pure.js'
+		
+
+	%script
+		:plain
+			templates_loaded = true;
+			// some common functions
+			templates = {};
+			template_functions = {};
+			realtime_data_update_functions = {};
+			
+			function simple_format(s){
+				var strs = unescape(s).split(/\n\n/)
+				s = ''
+				for(var i=0;str=strs[i];i++) s += '<p>'+str+'</p>'
+				return s.replace(/\n/g,'<br/>')
+			}
+			function simple_com_format(context){
+				var s = unescape(context.data.comment.text);
+				var strs = s.split(/\n\n/)
+				s = ''
+				for(var i=0;str=strs[i];i++) s += '<p>'+str+'</p>'
+				s = s.replace(/\n/g,'<br/>')
+
+				var author = '<a href="/members/' + context.ape_code + '/profile" class="com_author" data-remote="true">' + unescape(context.author.first_name + ' ' + context.author.last_name) + '</a>'
+
+				s = s.replace(/<p>/,'<p>' + author + ' ')
+				//console.log("simple_com_format s: " + s)
+				return s;
+			}
+		
+
+	- if debug
+		%h3 ideas/theming_page
+		= render( :partial => 'ideas/theming_page', locals: { debug: debug, question: question })
+
+	%script#theme_page_template{:type=>'text/html'}
+		:plain
+			#{ render( :partial => 'ideas/theming_page', locals: { debug: debug, question: question })}
+	
+	%script#create_theme_page_template
+		:plain
+			templates['theme_page'] = $('<div></div>').html($.trim( $('script#theme_page_template').html() )).find('div:first');
+			templates['new_theme_col'] = templates['theme_page'].find('div.theme_col.themes:first');
+			
+			template_functions['theme_col'] = templates['new_theme_col'].compile(
+				{
+					// directives go here
+					'@id' : 'data.id',
+					'li.theme_post_it p.idea' : 'My new column',
+					'li.idea_post_it p.idea' : 'data.theme_idea'	
+				}
+			);
+			
+			realtime_data_update_functions['theme_col'] = 
+				function(data){
+					var new_theme_col = template_functions['theme_col']( data );
+					// figure out where to insert this new column
+					// insert after data.col_par
+					data.col_par.after(new_theme_col);
+					resize_theming_page();
+					return new_theme_col;
+				}
+			
+			// realtime_data_update_functions['theme_col']( { data: { id: 123, theme_idea: 'This is my new theme'},   });	
