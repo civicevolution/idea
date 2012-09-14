@@ -24,8 +24,20 @@
 	});
 
 	theming_page.find('ul.sortable_ideas').sortable({
+		helper: 'clone',
+		appendTo: 'body',
+		items: 'li.idea_post_it',
 		connectWith: ".sortable_ideas",
-		start: function(event, ui) { console.log("Start sortable drag"); },
+		start: function(event, ui) { 
+			console.log("Start sortable drag"); 
+			temp.ui = ui;
+		},
+		change: function(event,ui){
+			console.log("Sortable change");
+			//debugger;
+			//console.log("ui.item.parent()[0].nodeName: " + ui.item.parent()[0].nodeName);
+			//console.log("ui.helper.parent()[0].nodeName: " + ui.helper.parent()[0].nodeName);
+		},
 		stop: function(event, ui) { console.log("stop sortable drag"); }
 	});
 

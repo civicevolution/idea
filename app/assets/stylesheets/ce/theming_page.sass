@@ -80,37 +80,33 @@ div.theming_page_popup
 		position: relative
 		padding: 20px
 		div.theme_cols_window_outer
-			overflow: scroll
-			overflow-x: scroll
-			//overflow-y: hidden
+			overflow-x: auto
+			overflow-y: hidden
 		a.close_theming_page
 			position: absolute
 			top: 20px
 			right: 20px
 		div.theme_cols_window	
 			border: 1px solid green
-			div.auto-scroll
-				z-index: 1000
-				position: absolute
-				width: 100%
-				height: 24px
-				left: 0
-				background-color: red
-				@include opacity(10)
-				&.top
-					top: 0
-				&.bottom
-					bottom: 0
-			
 			div.theme_col
 				position: relative
-				border: 1px solid blue
-				//overflow: hidden
-				//overflow-x: hidden
-				//overflow-y: auto
+				overflow-x: hidden
+				overflow-y: auto
 				width: 200px
 				float: left
 				max-height: 100%
+				div.auto-scroll
+					z-index: 1000
+					position: absolute
+					width: 100px
+					height: 24px
+					left: 0
+					background-color: red
+					@include opacity(10)
+					&.top
+						top: 0
+					&.bottom
+						bottom: 0
 	
 	div.theme_col.unthemed_ideas
 		background: #cfb
@@ -122,98 +118,97 @@ div.theming_page_popup
 		h3
 			margin-left: 10px
 
-	// post-it styling							
-	ul, li
-		list-style: none
+// post-it styling							
+ul, li
+	list-style: none
 
-	ul
-		overflow: hidden
-		padding: 0em
-		&.sortable_ideas
-			min-height: 60px
-			padding-bottom: 40px
-		li
-			a
-				text-decoration: none
-				color: #000
-				display: block
-				height: auto
-				width: 10em
-				padding: 1em
-				/* Firefox
-				-moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1)
-				/* Safari+Chrome
-				-webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7)
-				/* Opera
-				box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7)
-				
-			margin: 1em
-			float: left
+ul
+	overflow: hidden
+	padding: 0em
+	&.sortable_ideas
+		min-height: 60px
+		padding-bottom: 40px
+li.idea_post_it, li.theme_post_it
+	a
+		text-decoration: none
+		color: #000
+		display: block
+		height: auto
+		width: 10em
+		padding: 1em
+		/* Firefox
+		-moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1)
+		/* Safari+Chrome
+		-webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7)
+		/* Opera
+		box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7)
+			
+	margin: 1em
+	float: left
+
+li.idea_post_it a
+	background: #ffc
+li.theme_post_it a
+	background: #ccf
 	
-	ul	
-		li.idea_post_it a
-			background: #ffc
-		li.theme_post_it a
-			background: #ccf
-		
-	ul li
-		a.R0
-			-o-transform: rotate(1deg)
-			-webkit-transform: rotate(1deg)
-			-moz-transform: rotate(1deg)
-			position: relative
-			top: 3px
-		a.R1
-			-o-transform: rotate(-1deg)
-			-webkit-transform: rotate(-1deg)
-			-moz-transform: rotate(-1deg)
-			position: relative
-			top: -5px
-		a.R2
-			-o-transform: rotate(2deg)
-			-webkit-transform: rotate(2deg)
-			-moz-transform: rotate(2deg)
-			position: relative
-			top: -10px
-		a.R3
-			-o-transform: rotate(-1deg)
-			-webkit-transform: rotate(-2deg)
-			-moz-transform: rotate(-2deg)
-			position: relative
-			top: 5px
-		a.R4
-			-o-transform: rotate(3deg)
-			-webkit-transform: rotate(3deg)
-			-moz-transform: rotate(3deg)
-			position: relative
-			top: -4px
-		a.R5
-			-o-transform: rotate(-3deg)
-			-webkit-transform: rotate(-3deg)
-			-moz-transform: rotate(-3deg)
-			position: relative
-			top: -6px
-		a.R6
-			-o-transform: rotate(4deg)
-			-webkit-transform: rotate(4deg)
-			-moz-transform: rotate(4deg)
-			position: relative
-			top: 8px
-		a.R7
-			-o-transform: rotate(-4deg)
-			-webkit-transform: rotate(-4deg)
-			-moz-transform: rotate(-4deg)
-			position: relative
-			top: -5px
-		a.R8
-			-o-transform: rotate(5deg)
-			-webkit-transform: rotate(5deg)
-			-moz-transform: rotate(5deg)
-			position: relative
-			top: -8px
-		a.R9
-			-o-transform: rotate(-5deg)
-			-webkit-transform: rotate(-5deg)
-			-moz-transform: rotate(-5deg)
-			position: relative
-			top: 4px
+li
+	a.R0
+		-o-transform: rotate(1deg)
+		-webkit-transform: rotate(1deg)
+		-moz-transform: rotate(1deg)
+		position: relative
+		top: 3px
+	a.R1
+		-o-transform: rotate(-1deg)
+		-webkit-transform: rotate(-1deg)
+		-moz-transform: rotate(-1deg)
+		position: relative
+		top: -5px
+	a.R2
+		-o-transform: rotate(2deg)
+		-webkit-transform: rotate(2deg)
+		-moz-transform: rotate(2deg)
+		position: relative
+		top: -10px
+	a.R3
+		-o-transform: rotate(-1deg)
+		-webkit-transform: rotate(-2deg)
+		-moz-transform: rotate(-2deg)
+		position: relative
+		top: 5px
+	a.R4
+		-o-transform: rotate(3deg)
+		-webkit-transform: rotate(3deg)
+		-moz-transform: rotate(3deg)
+		position: relative
+		top: -4px
+	a.R5
+		-o-transform: rotate(-3deg)
+		-webkit-transform: rotate(-3deg)
+		-moz-transform: rotate(-3deg)
+		position: relative
+		top: -6px
+	a.R6
+		-o-transform: rotate(4deg)
+		-webkit-transform: rotate(4deg)
+		-moz-transform: rotate(4deg)
+		position: relative
+		top: 8px
+	a.R7
+		-o-transform: rotate(-4deg)
+		-webkit-transform: rotate(-4deg)
+		-moz-transform: rotate(-4deg)
+		position: relative
+		top: -5px
+	a.R8
+		-o-transform: rotate(5deg)
+		-webkit-transform: rotate(5deg)
+		-moz-transform: rotate(5deg)
+		position: relative
+		top: -8px
+	a.R9
+		-o-transform: rotate(-5deg)
+		-webkit-transform: rotate(-5deg)
+		-moz-transform: rotate(-5deg)
+		position: relative
+		top: 4px
