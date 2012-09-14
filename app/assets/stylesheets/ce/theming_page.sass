@@ -83,7 +83,18 @@ div.theming_page_popup
 					width: 100px
 					height: 24px
 					left: 0
-	
+				div.new_group_drop_zone
+					position: fixed
+					z-index: 10
+					height: 162px
+					background: image-url('new_group_drop_zone.gif') no-repeat
+					display: none
+					&.drop_hover
+						background: image-url('new_group_drop_zone_hover.gif') no-repeat
+					ul.sortable_ideas
+						height: 43px
+						margin-top: 0
+						width: 114px
 			div.theme_col.unthemed_ideas
 				background: #cfb
 				h3
@@ -125,8 +136,11 @@ li.idea_post_it, li.theme_post_it
 	margin: 1em
 	float: left
 
-li.idea_post_it a
-	background: #ffc
+li.idea_post_it
+	a
+		background: #ffc
+	&.drop_hover
+		+opacity(50)
 li.theme_post_it a
 	background: #ccf
 	

@@ -12,6 +12,8 @@
 				%div.theme_col.unthemed_ideas.fancy-scrollbar{ id:  'unthemed'}
 					%div.auto-scroll.top
 					%div.auto-scroll.bottom
+					%div.new_group_drop_zone
+						%ul.sortable_ideas
 					
 					%h3 New ideas
 					%ul.sortable_ideas
@@ -22,12 +24,15 @@
 									%a{href: '#', class: "R#{random_ind.pop}"}
 										%p.idea= idea.text
 			
-				- 5.times do
+				- 1.times do
 					- question.themes.each do |theme|
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
 						%div.theme_col.themes.fancy-scrollbar{ id:  theme.id }
 							%div.auto-scroll.top
 							%div.auto-scroll.bottom
+							%div.new_group_drop_zone
+								%ul.sortable_ideas
+							
 							%ul.sortable_ideas
 								%li.theme_post_it
 									%a{href: '#', class: "R#{random_ind.pop}"}
