@@ -7,13 +7,25 @@
 	$('body').append(theming_page);
 	$("body").css('overflow', 'hidden');
 	
-
+	//resize code
 	theming_page.css({ top: $('body').scrollTop()});
 	var theme_cols_window = theming_page.find('div.theme_cols_window');
 	theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 100 );
 	var theme_cols = theming_page.find('div.theme_col');
 	var width = theme_cols.size() * ( theme_cols.eq(0).width() + 12);
 	theme_cols_window.width( width );
+	var win_top = theme_cols_window.position().top;
+	var win_left = theme_cols_window.position().left;
+	var win_bottom = win_top + theme_cols_window.height();
+	$('div.theme_col').each(
+		function(){
+			var col = $(this);
+			var left = col.position().left + win_left;
+			col.find('div.auto-scroll.top').width(col.width()).css({top: win_top, left: left});
+			col.find('div.auto-scroll.bottom').width(col.width()).css({top: win_bottom - 24, left: left});
+		}
+	);
+	
 	//$('div.auto-scroll').width( width );
 
 	theming_page.find('a.close_theming_page').click(function(){
@@ -30,32 +42,73 @@
 		connectWith: ".sortable_ideas",
 		start: function(event, ui) { 
 			console.log("Start sortable drag"); 
-			temp.ui = ui;
+			$('div.auto-scroll')
+				.bind('mouseleave', autoscroll_mouseleave )
+				.mousemove(function(e) {autoscroll_mousemove(e.pageX, e.pageY, this);});
 		},
 		change: function(event,ui){
 			console.log("Sortable change");
-			//debugger;
-			//console.log("ui.item.parent()[0].nodeName: " + ui.item.parent()[0].nodeName);
-			//console.log("ui.helper.parent()[0].nodeName: " + ui.helper.parent()[0].nodeName);
 		},
-		stop: function(event, ui) { console.log("stop sortable drag"); }
+		stop: function(event, ui) { 
+			console.log("stop sortable drag"); 
+			$('div.auto-scroll')
+				.unbind('mousemove')
+				.unbind('mouseleave')
+				.unbind('mouseenter');
+		}
 	});
 
-
-	function autoscroll_mousemove(x,y,obj){
-		console.log("autoscroll_mousemove");
-	}
-	
+	var auto_scroll_params = { direction: 0, speed: 2, timer: 0, interval: 50, intervalTimer: null };
 	function autoscroll_mouseleave(){
-		console.log("autoscroll_mouseleave");
+		//console.log("autoscroll_mouseleave v1");
+		clearInterval(auto_scroll_params.intervalTimer );
+		auto_scroll_params.intervalTimer = null;
+		//console.log("stopMoving");
+		auto_scroll_params.speed = 2;
+		auto_scroll_params.direction = 0;
 	}
 	
-	function autoscroll_mouseenter(){
-		console.log("autoscroll_mouseenter");
+	function autoscroll_mousemove(x, y, ctnr) {
+		var ctnr = $(ctnr);
+		y = y - ctnr.offset().top;
+		// convert y to speed
+		if( ctnr.hasClass('top') ){
+			auto_scroll_params.direction = -1;
+			speed = 21 - y;
+		}else{
+			auto_scroll_params.direction = 1;
+			speed = y + 1;
+		}
+		speed = Math.round( speed/2 );
+		speed = speed < 2 ? 2 : speed;
+		auto_scroll_params.speed = speed;
+		if(!auto_scroll_params.intervalTimer){
+		  auto_scroll_params.intervalTimer = setInterval( function(){move(this);}.bind(ctnr), auto_scroll_params.interval);
+		}
+		//console.log("autoscroll_mousemove auto_scroll_params.direction: " + auto_scroll_params.direction + ", 	auto_scroll_params.speed: " + 	auto_scroll_params.speed);
 	}
 	
-	$('div.auto-scroll')
-		.mousemove(function(e) {autoscroll_mousemove(e.pageX, e.pageY, this);})
-		.bind('mouseleave', function() {autoscroll_mouseleave();})
-		.bind('mouseenter', function() { autoscroll_mouseenter(); });
+	function move(ctnr) {
+		if(auto_scroll_params.direction == 0){
+			stopMoving();
+			return;
+		}
+		var scrollIncrement = auto_scroll_params.direction * auto_scroll_params.speed;
+		console.log("move with speed: " + auto_scroll_params.speed + " scrollIncrement: " + scrollIncrement);
+		temp.ctnr = ctnr;
+		ctnr.parent().scrollTop( ctnr.parent().scrollTop() + scrollIncrement );
+		//if(ctnr.hasClass('lists_scroll')){
+		//  ctnr = $('div#lists');
+		//}else{
+		//  ctnr = $('div#live_talking_points div.inner');
+		//}
+		//ctnr.scrollTop( ctnr.scrollTop() + scrollIncrement );
+	}
 	
+	function stopMoving(){
+		clearInterval(auto_scroll_params.intervalTimer );
+		auto_scroll_params.intervalTimer = null;
+		//console.log("stopMoving");
+		auto_scroll_params.speed = 2;
+		auto_scroll_params.direction = 0;
+	}

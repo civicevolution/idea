@@ -87,6 +87,7 @@ div.theming_page_popup
 			top: 20px
 			right: 20px
 		div.theme_cols_window	
+			position: relative
 			border: 1px solid green
 			div.theme_col
 				position: relative
@@ -96,27 +97,29 @@ div.theming_page_popup
 				float: left
 				max-height: 100%
 				div.auto-scroll
-					z-index: 1000
-					position: absolute
+					z-index: 10000
+					position: fixed
 					width: 100px
 					height: 24px
 					left: 0
-					background-color: red
 					@include opacity(10)
 					&.top
-						top: 0
+						background-color: red
 					&.bottom
-						bottom: 0
+						background-color: blue
 	
-	div.theme_col.unthemed_ideas
-		background: #cfb
-		h3
-			margin-left: 10px
-	div.theme_col.theme
-	div.theme_col.parked_ideas
-		background: #f97
-		h3
-			margin-left: 10px
+			div.theme_col.unthemed_ideas
+				background: #cfb
+				h3
+					margin-left: 10px
+			//div.theme_col.theme
+			div.theme_col.parked_ideas
+				position: absolute
+				right: 0
+				top: 0
+				background: #f97
+				h3
+					margin-left: 10px
 
 // post-it styling							
 ul, li
