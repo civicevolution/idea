@@ -89,6 +89,12 @@ div.theming_page_popup
 		div.theme_cols_window	
 			position: relative
 			border: 1px solid green
+			div.auto-scroll
+				z-index: 10000
+				position: fixed
+				width: 24px
+				background-color: transparent
+			
 			div.theme_col
 				position: relative
 				overflow-x: hidden
@@ -97,16 +103,11 @@ div.theming_page_popup
 				float: left
 				max-height: 100%
 				div.auto-scroll
-					z-index: 10000
+					z-index: 10001
 					position: fixed
 					width: 100px
 					height: 24px
 					left: 0
-					@include opacity(10)
-					&.top
-						background-color: red
-					&.bottom
-						background-color: blue
 	
 			div.theme_col.unthemed_ideas
 				background: #cfb

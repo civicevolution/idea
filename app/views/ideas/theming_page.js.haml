@@ -25,9 +25,12 @@
 			col.find('div.auto-scroll.bottom').width(col.width()).css({top: win_bottom - 24, left: left});
 		}
 	);
-	
-	//$('div.auto-scroll').width( width );
+	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() ).css({top: win_top, left: win_left});
+	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() ).css({top: win_top, left: win_left + theme_cols_window.parent().width() - 24 });
 
+	//
+	// Set up theming page sortable
+	//
 	theming_page.find('a.close_theming_page').click(function(){
 		theming_page.remove();
 		$("body").css('overflow', 'visible');
@@ -43,7 +46,7 @@
 		start: function(event, ui) { 
 			console.log("Start sortable drag"); 
 			$('div.auto-scroll')
-				.bind('mouseleave', autoscroll_mouseleave )
+				.bind('mouseleave', stopAutoScroll )
 				.mousemove(function(e) {autoscroll_mousemove(e.pageX, e.pageY, this);});
 		},
 		change: function(event,ui){
@@ -53,62 +56,77 @@
 			console.log("stop sortable drag"); 
 			$('div.auto-scroll')
 				.unbind('mousemove')
-				.unbind('mouseleave')
-				.unbind('mouseenter');
+				.unbind('mouseleave');
 		}
 	});
 
-	var auto_scroll_params = { direction: 0, speed: 2, timer: 0, interval: 50, intervalTimer: null };
-	function autoscroll_mouseleave(){
-		//console.log("autoscroll_mouseleave v1");
+
+	//
+	// Set up theming page auto scrolling with hotspots
+	//
+
+	var auto_scroll_params = { direction: 0, speed: 2, timer: 0, interval: 50, intervalTimer: null, scrollAxis: null };
+	function stopAutoScroll(){
+		console.log("Stop autoscrolling #########");
 		clearInterval(auto_scroll_params.intervalTimer );
 		auto_scroll_params.intervalTimer = null;
-		//console.log("stopMoving");
 		auto_scroll_params.speed = 2;
 		auto_scroll_params.direction = 0;
 	}
 	
 	function autoscroll_mousemove(x, y, ctnr) {
 		var ctnr = $(ctnr);
-		y = y - ctnr.offset().top;
+		//console.log("autoscroll_mousemove x: " + x + " y: " + y);
 		// convert y to speed
 		if( ctnr.hasClass('top') ){
+			y = y - ctnr.offset().top;
 			auto_scroll_params.direction = -1;
-			speed = 21 - y;
-		}else{
+			speed = 24 - y;
+			auto_scroll_params.scrollAxis = 'vertical';
+			var scrollElement = ctnr.parent();
+		}else if( ctnr.hasClass('bottom') ){
+			y = y - ctnr.offset().top;
 			auto_scroll_params.direction = 1;
 			speed = y + 1;
+			auto_scroll_params.scrollAxis = 'vertical';
+			var scrollElement = ctnr.parent();
+		}else if( ctnr.hasClass('left') ){
+			x = x - ctnr.offset().left;
+			auto_scroll_params.direction = -1;
+			speed = 24 - x;
+			auto_scroll_params.scrollAxis = 'horizontal';
+			var scrollElement = ctnr.parent().parent();
+		}else if( ctnr.hasClass('right') ){
+			x = x - ctnr.offset().left;
+			auto_scroll_params.direction = 1;
+			speed = x + 1;
+			auto_scroll_params.scrollAxis = 'horizontal';  
+			var scrollElement = ctnr.parent().parent();
 		}
+		
 		speed = Math.round( speed/2 );
 		speed = speed < 2 ? 2 : speed;
 		auto_scroll_params.speed = speed;
 		if(!auto_scroll_params.intervalTimer){
-		  auto_scroll_params.intervalTimer = setInterval( function(){move(this);}.bind(ctnr), auto_scroll_params.interval);
+		  auto_scroll_params.intervalTimer = setInterval( function(){autoScroll(this);}.bind(scrollElement), auto_scroll_params.interval);
 		}
 		//console.log("autoscroll_mousemove auto_scroll_params.direction: " + auto_scroll_params.direction + ", 	auto_scroll_params.speed: " + 	auto_scroll_params.speed);
 	}
 	
-	function move(ctnr) {
+	function autoScroll(scrollElement) {
 		if(auto_scroll_params.direction == 0){
-			stopMoving();
+			stopAutoScroll();
 			return;
 		}
 		var scrollIncrement = auto_scroll_params.direction * auto_scroll_params.speed;
-		console.log("move with speed: " + auto_scroll_params.speed + " scrollIncrement: " + scrollIncrement);
-		temp.ctnr = ctnr;
-		ctnr.parent().scrollTop( ctnr.parent().scrollTop() + scrollIncrement );
-		//if(ctnr.hasClass('lists_scroll')){
-		//  ctnr = $('div#lists');
-		//}else{
-		//  ctnr = $('div#live_talking_points div.inner');
-		//}
-		//ctnr.scrollTop( ctnr.scrollTop() + scrollIncrement );
+		console.log("autoScroll with speed: " + auto_scroll_params.speed + " scrollIncrement: " + scrollIncrement);
+		temp.scrollElement = scrollElement;
+		temp.scrollIncrement = scrollIncrement
+		if(auto_scroll_params.scrollAxis == 'vertical'){
+			scrollElement.scrollTop( scrollElement.scrollTop() + scrollIncrement );
+		}else{
+			scrollElement.scrollLeft( scrollElement.scrollLeft() + scrollIncrement );
+		}
+
 	}
 	
-	function stopMoving(){
-		clearInterval(auto_scroll_params.intervalTimer );
-		auto_scroll_params.intervalTimer = null;
-		//console.log("stopMoving");
-		auto_scroll_params.speed = 2;
-		auto_scroll_params.direction = 0;
-	}

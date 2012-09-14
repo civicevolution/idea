@@ -6,8 +6,11 @@
 
 		%div.theme_cols_window_outer.fancy-scrollbar
 			%div.theme_cols_window
+				%div.auto-scroll.left
+				%div.auto-scroll.right
+				
 				-#%div.theme_col.unthemed_ideas.list-cards.fancy-scrollbar.clearfix
-				%div.theme_col.unthemed_ideas{ id:  'unthemed'}
+				%div.theme_col.unthemed_ideas.fancy-scrollbar{ id:  'unthemed'}
 					%div.auto-scroll.top
 					%div.auto-scroll.bottom
 					
@@ -20,7 +23,7 @@
 									%a{href: '#', class: "R#{random_ind.pop}"}
 										%p.idea= idea.text
 			
-				- 1.times do
+				- 5.times do
 					- question.themes.each do |theme|
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
 						-#%div.theme_col.themes.Xlist-cards.fancy-scrollbar.Xclearfix
@@ -31,14 +34,14 @@
 								%li.theme_post_it
 									%a{href: '#', class: "R#{random_ind.pop}"}
 										%p.idea= theme.text
-								- 3.times do 
+								- 30.times do 
 									- question.themed_ideas.select{|idea| idea.parent_id == theme.id}.each do |idea|
 										%li.idea_post_it
 											%a{href: '#', class: "R#{random_ind.pop}"}
 												%p.idea= idea.text
 								
 				-#%div.theme_col.parked_ideas.list-cards.fancy-scrollbar.clearfix
-				%div.theme_col.parked_ideas{ id:  'parked_ideas'}
+				%div.theme_col.parked_ideas.fancy-scrollbar{ id:  'parked_ideas'}
 					%div.auto-scroll.top
 					%div.auto-scroll.bottom
 					
