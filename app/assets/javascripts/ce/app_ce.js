@@ -19,6 +19,15 @@ jQuery(function() {
 		if(document.body.style[this] !== undefined) jQuery.support.borderRadius = true;
 		return (!jQuery.support.borderRadius);
 	});
+	$("div.theme_slider").slider({
+		stop: function(event, ui) { 
+			$.post('/idea/rating', {id: $(ui.handle).parent().attr('id'), rating: ui.value}, function(){}, "script");
+			//$(this).closest('div.my_rating').html('<img src="/assets/wait3.gif"/><br/>Saving...')
+		},
+		value: 50,
+		range: "min"
+	});
+	
 });
 
 $(function(){

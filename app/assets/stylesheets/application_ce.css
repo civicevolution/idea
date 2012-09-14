@@ -14,6 +14,7 @@
  *= require ./ce/layout.sass
  *= require ./ce/right_side.sass
  *= require ./ce/proposal_theme_display.sass
+ *= require ./ce/theming_page.sass
  *= require cupertino/jquery-ui-1.8.17.custom.css
  *= require prettyPhoto.css
  * XXX = require ./ce/home.sass
