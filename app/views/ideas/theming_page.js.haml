@@ -15,7 +15,7 @@
 		var theme_cols_window = theming_page.find('div.theme_cols_window');
 		theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 100 );
 		var theme_cols = theming_page.find('div.theme_col');
-		var width = theme_cols.size() * ( theme_cols.eq(0).width() + 12);
+		var width = theme_cols.size() * ( theme_cols.eq(0).width() );
 		theme_cols_window.width( width );
 		var win_top = theme_cols_window.position().top;
 		var win_left = theme_cols_window.position().left;
@@ -126,7 +126,13 @@
 		realtime_data_update_functions['theme_col']( { data: { id: par.attr('id'), theme_idea: idea.find('p.idea').html() }, col_par: par });
 	}
 	
+	$('div.theming_page').on("click", "img.delete", delete_idea_post_it_from_list);
 	
+	function delete_idea_post_it_from_list(event){
+		console.log("Record delete_idea_post_it_from_list");
+		var post_it = $(this).closest('li.idea_post_it').remove();
+		$('div.unthemed_ideas ul.sortable_ideas').append(post_it);
+	}
 
 	//
 	// Set up theming page auto scrolling with hotspots

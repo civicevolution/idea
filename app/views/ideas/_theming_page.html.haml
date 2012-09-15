@@ -23,6 +23,7 @@
 								%li.idea_post_it
 									%a{href: '#', class: "R#{random_ind.pop}"}
 										%p.idea= idea.text
+										= image_tag 'delete_icon_16t.gif', :class=>"delete"
 			
 				- 1.times do
 					- question.themes.each do |theme|
@@ -42,6 +43,7 @@
 										%li.idea_post_it
 											%a{href: '#', class: "R#{random_ind.pop}"}
 												%p.idea= idea.text
+												= image_tag 'delete_icon_16t.gif', :class=>"delete"
 								
 				%div.theme_col.parked_ideas.fancy-scrollbar{ id:  'parked_ideas'}
 					%div.auto-scroll.top
@@ -54,4 +56,5 @@
 							%li.idea_post_it
 								%a{href: '#', class: "R#{random_ind.pop}"}
 									%p.idea= idea.text
+									= image_tag 'delete_icon_16t.gif', :class=>"delete"
 				
