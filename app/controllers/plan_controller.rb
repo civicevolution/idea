@@ -333,9 +333,9 @@ class PlanController < ApplicationController
 
     # the templates are built in get_templates.js
     if params[:debug]
-      render :template => 'ideas/get_templates', layout: 'plan', locals: { debug: true, question: question, inc_js: 'none' } #, :content_type => 'application/javascript'
+      render :template => 'ideas/templates', layout: 'plan', locals: { debug: true, question: question, inc_js: 'none' } #, :content_type => 'application/javascript'
     else
-      render :template => 'ideas/get_templates', layout: false, locals: { debug: false, question: question } #, :content_type => 'application/javascript'
+      render :template => 'ideas/templates', layout: false, locals: { debug: false, question: question } #, :content_type => 'application/javascript'
     end
     
   end
