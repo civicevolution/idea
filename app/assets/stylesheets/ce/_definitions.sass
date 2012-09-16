@@ -1,0 +1,14 @@
+$purple_post_it: #ccf
+$yellow_post_it: #ffc
+$light_purple: #eee1ff
+$light_yellow_background: #fffcde
+
+
+
+@mixin opacity($value)
+	opacity: #{"." + $value}
+	filter: alpha(opacity=$value)
+	-ms-filter: "alpha(opacity=$value)"
+	-khtml-opacity: #{"." + $value}
+	-webkit-opacity: #{"." + $value}
+	-moz-opacity: #{"." + $value}

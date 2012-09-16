@@ -1,0 +1,22 @@
+%div.comment
+	- if comment.anonymous == 't'
+		- name = 'Anonymous'
+		- pic_src = '/assets/members_default/36/m.jpg'
+	- else
+		- name = comment.author.first_name + ' ' + comment.author.last_name
+		- pic_src = comment.author.photo.url('36')
+
+
+	- if comment['new']
+		%span.new_com New
+	
+	%img{:src=>pic_src,:class=>'i36'}		
+	
+	%div.comment_body
+
+		%p.name= name					
+			
+		%p.text= comment.text				
+		
+		%p.timestamp
+			#{time_ago_in_words(comment.updated_at)} ago

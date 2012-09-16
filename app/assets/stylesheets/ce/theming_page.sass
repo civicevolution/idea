@@ -1,10 +1,4 @@
-@mixin opacity($value)
-	opacity: #{"." + $value}
-	filter: alpha(opacity=$value)
-	-ms-filter: "alpha(opacity=$value)"
-	-khtml-opacity: #{"." + $value}
-	-webkit-opacity: #{"." + $value}
-	-moz-opacity: #{"." + $value}
+@import "definitions"
 
 .fancy-scrollbar
 	&::-webkit-scrollbar
@@ -114,6 +108,14 @@ div.theming_page_popup
 ul, li
 	list-style: none
 
+div.status
+	height: 20px
+img.delete
+	display: none 
+li.idea_post_it:hover
+	img.delete
+		display: block
+
 ul
 	overflow: hidden
 	padding: 0em
@@ -140,11 +142,11 @@ li.idea_post_it, li.theme_post_it
 
 li.idea_post_it
 	a
-		background: #ffc
+		background: $yellow_post_it
 	&.drop_hover
 		+opacity(50)
 li.theme_post_it a
-	background: #ccf
+	background: $purple_post_it
 	
 li
 	a.R0

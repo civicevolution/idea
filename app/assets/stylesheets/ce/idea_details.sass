@@ -1,3 +1,5 @@
+@import "definitions"
+
 #simplemodal-container a.modalCloseImg
 	background: image-url('x.png') no-repeat
 	width: 25px
@@ -28,9 +30,13 @@ div.idea_details
 		top: 10px
 		right: 20px
 	
+	ul
+		padding-top: 10px
 	li.theme_post_it, li.idea_post_it
 		a
 			width: 350px
+		img.delete
+			display: none
 		
 	p.timestamp
 		clear: both
@@ -48,27 +54,69 @@ div.idea_details
 			width: 100px
 			display: block
 			margin-bottom: 16px
-		
-	div.rater_faces
-		position: relative
-		width: 400px
-		height: 38px
-		img
-			position: absolute
-			top: 0
-		img.yuck
-			left: 0
-		img.meh
-			left: 33%
-		img.good
-			left: 66%
-		img.great
-			right: 0
+	
+	div.rater
+		background: $light_yellow_background
+		padding: 10px
+		width: 380px
+		margin-bottom: 20px
+		p.label
+			margin: 0 0 10px 0
+			font-weight: bold
+		div.rater_faces
+			position: relative
+			width: 380px
+			height: 38px
+			img
+				position: absolute
+				top: 0
+				&.yuck
+					left: 0
+				&.meh
+					left: 33%
+				&.good
+					left: 66%
+				&.great
+					right: 0
 		div.theme_slider
 			width: 100%
-			top: 32px
-			left: 0
+		p.results
+			margin-bottom: 0
+			
 
-	form.std_form textarea
-		background-color: white
-		color: black
+	form.std_form 
+		textarea
+			background-color: white
+			color: black
+		p.form_controls
+			position: relative
+			margin-top: 0px
+			input[type="submit"]
+				margin: 0 
+			span.char_ctr
+				display: block
+				position: absolute
+				left: 160px
+				top: 2px
+			a
+				position: absolute
+				display: block
+				right: 0
+				top: 0
+				margin: 0
+				
+			
+
+div.comment
+	img
+		margin-bottom: -42px
+	div.comment_body
+		padding-left: 42px
+		p.name
+			font-weight: bold
+			margin: 0 0 -.6em 0
+		p.text
+		p.timestamp
+			color: #666
+			font-style: italic
+			margin: -1.4em 0 1em 0

@@ -1,6 +1,11 @@
 %div.idea_details
 	= stylesheet_link_tag "ce/idea_details"
-	-#= link_to "Close", {}, class: 'simplemodal-close'
+
+	- if idea.is_theme
+		%h3 Theme
+	- else
+		%h3 Idea
+
 	%div.details_left
 		%h3 Show the details for idea ##{idea.id}
 		
@@ -21,19 +26,23 @@
 						= image_tag 'delete_icon_16t.gif', :class=>"delete"
 				%p.timestamp
 					#{time_ago_in_words(idea.updated_at)} ago
-		%div.rater_faces
-			= image_tag('rater/yuck.gif', class: 'yuck')		
-			= image_tag('rater/meh.gif', class: 'meh')		
-			= image_tag('rater/good.gif', class: 'good')		
-			= image_tag('rater/great.gif', class: 'great')		
+					
+		%div.rater.corner
+			%p.label Rate this #{idea.is_theme ? 'theme' : 'idea' }
+			%div.rater_faces
+				= image_tag('rater/yuck.gif', class: 'yuck')		
+				= image_tag('rater/meh.gif', class: 'meh')		
+				= image_tag('rater/good.gif', class: 'good')		
+				= image_tag('rater/great.gif', class: 'great')		
 			
 			%div.theme_slider{id: idea.id}		
 		
-		%p.timestamp
-			- votes = 37
-			= pluralize(votes,'vote')
-			- if votes > 1
-				= link_to "View results", {}
+			%p.results
+				- votes = 37
+				%span.vote_count
+					= pluralize(votes,'vote')
+				- if votes > 1
+					= link_to "View results", {}
 
 		= form_tag add_idea_comment_path(idea.id), :class=>'std_form suggest_idea', :remote=>true do 
 			%div.add_idea
@@ -41,33 +50,16 @@
 			
 			%p.form_controls
 				= submit_tag "Add comment", :name=>'endorse', 'data-disable-with'=>'Submitting...'
-				%span.char_ctr 200 characters
+				%span.char_ctr 1500 characters
 				= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
 
 			%p.clear
+			
+		= submit_tag "Follow this discussion", :name=>'endorse', 'data-disable-with'=>'Submitting...'
 		
 		%div.activity_stream
 			- idea.comments.each do |comment|
-				-#%p	#{comment.author.first_name} #{comment.author.last_name}
-
-				- if comment.anonymous == 't'
-					- name = 'Anonymous'
-					- pic_src = '/assets/members_default/36/m.jpg'
-				- else
-					- name = comment.author.first_name + ' ' + comment.author.last_name
-					- pic_src = comment.author.photo.url('36')
-
-
-				- if comment['new']
-					%span.new_com New
-					
-				%img{:src=>pic_src,:class=>'i36'}		
-				
-				%p= name					
-							
-				%p= comment.text				
-				%p.timestamp
-					#{time_ago_in_words(comment.updated_at)} ago
+				= render( :partial=> 'ideas/comment', :locals=>{:comment=>comment}, formats: [:html]  )
 		
 		
 	%div.details_right
