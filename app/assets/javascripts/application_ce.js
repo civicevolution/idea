@@ -20,4 +20,5 @@
 //= require jquery.scrollTo-min.js
 //= require jquery.show_char_limit-1.1.1.js
 //= require jquery.timeago.js
+//= require jquery.simplemodal.js
 
