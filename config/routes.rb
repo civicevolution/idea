@@ -134,8 +134,9 @@ G3::Application.routes.draw do
   post 'idea/:question_id/edit', :to => 'ideas#edit', :as => 'edit_idea'
   match 'idea/:question_id/update', :to => 'ideas#update', :via => [:put, :post], :as => 'update_idea'
   get 'idea/:question_id/new', to: 'ideas#view_unrated_ideas', as: 'view_unrated_ideas'
-
   get 'idea/:idea_id/details', to: 'ideas#view_idea_details', as: 'view_idea_details'
+  post 'idea/:idea_id/add_comment', to: 'ideas#add_comment', as: 'add_idea_comment'
+  
   post 'idea/rating', to: 'idea_ratings#update_rating', as: 'update_idea_rating'
 	
   get 'idea/:question_id/theme_page', to: 'ideas#theming_page', as: 'theme_question_ideas'

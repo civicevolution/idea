@@ -10,6 +10,8 @@ class Comment < ActiveRecord::Base
   #belongs_to :question, :foreign_key => 'parent_id', :conditions => "parent_type = 1"
   belongs_to :comment, :foreign_key => 'parent_id'
   
+  belongs_to :idea, :foreign_key => 'parent_id'
+  
   # I'm not sure if I want to use this association. It works, but it is less efficient
   # I will eager load members for each set of comments instead of all comments
   #belongs_to :member
@@ -55,6 +57,8 @@ class Comment < ActiveRecord::Base
         Comment.find(self.parent_id).question
       when 13
         TalkingPoint.find(self.parent_id).question
+      when 20
+        Idea.find(self.parent_id).question
       end
   end
   

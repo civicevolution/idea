@@ -8,6 +8,8 @@ class InitiativeRestriction < ActiveRecord::Base
     if initiative_id.class.to_s == 'Hash'
       arg_hash = initiative_id
       case
+        when arg_hash[:parent_type] == 20 # this is an idea comment
+          rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, team_id FROM teams t, ideas i WHERE i.id = #{arg_hash[:parent_id]} AND i.team_id = t.id")
         when arg_hash[:parent_type] == 1 # this is a question comment
           rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, team_id FROM teams t left join questions q ON t.id = q.team_id WHERE q.id = #{arg_hash[:parent_id]}")
         when arg_hash[:parent_type] == 13 # this is a talking point comment

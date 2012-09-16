@@ -83,6 +83,24 @@ class IdeasController < ApplicationController
     end
   end
   
+  def add_comment
+    idea = Idea.find(params[:idea_id])    
+    comment = idea.comments.new(text: params[:text], member_id: @member.id, team_id: idea.question.team_id,
+      parent_type: 20, parent_id: idea.id, question_id: idea.question_id, member: @member )
+    
+    respond_to do |format|
+      if comment.save
+        format.js { render 'ideas/comment_for_idea', locals: { idea: @idea, comment: comment} }
+        format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        format.json { render json: @idea, status: :created, location: @idea }
+      else
+        format.js { render 'ideas/idea_for_question_errors', locals: {idea: @idea, comment: comment} }
+        format.html { render action: "new" }
+        format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /ideas
   # POST /ideas.json
   def create
