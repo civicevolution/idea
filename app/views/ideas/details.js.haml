@@ -1,0 +1,15 @@
+:plain
+	var details = $("#{escape_javascript(render( :template=> 'ideas/details', :locals=>{:idea=>idea}, formats: [:html]  ))}");
+	
+	details.find("div.theme_slider").slider({
+		stop: function(event, ui) { 
+			$.post('/idea/rating', {id: $(ui.handle).parent().attr('id'), rating: ui.value}, function(){}, "script");
+			//$(this).closest('div.my_rating').html('<img src="/assets/wait3.gif"/><br/>Saving...')
+		},
+		value: 50,
+		range: "min"
+	});
+	
+	details.modal( );
+	activate_text_counters_grow(details.find('textarea'), 120);
+	//details.modal( {escClose: false});

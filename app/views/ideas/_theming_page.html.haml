@@ -21,7 +21,7 @@
 						- 1.times do
 							- question.unthemed_ideas.each do |idea|
 								%li.idea_post_it
-									%a{href: '#', class: "R#{random_ind.pop}"}
+									%a{href: '#', class: "R#{random_ind.pop} post-it", id: idea.id}
 										%p.idea= idea.text
 										= image_tag 'delete_icon_16t.gif', :class=>"delete"
 			
@@ -36,12 +36,12 @@
 							
 							%ul.sortable_ideas
 								%li.theme_post_it
-									%a{href: '#', class: "R#{random_ind.pop}"}
+									%a{href: '#', class: "R#{random_ind.pop} post-it", id: theme.id}
 										%p.idea= theme.text
 								- 1.times do 
 									- question.themed_ideas.select{|idea| idea.parent_id == theme.id}.each do |idea|
 										%li.idea_post_it
-											%a{href: '#', class: "R#{random_ind.pop}"}
+											%a{href: '#', class: "R#{random_ind.pop} post-it", id: idea.id}
 												%p.idea= idea.text
 												= image_tag 'delete_icon_16t.gif', :class=>"delete"
 								
@@ -54,7 +54,7 @@
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
 						- question.unthemed_ideas.each do |idea|
 							%li.idea_post_it
-								%a{href: '#', class: "R#{random_ind.pop}"}
+								%a{href: '#', class: "R#{random_ind.pop} post-it", id: idea.id}
 									%p.idea= idea.text
 									= image_tag 'delete_icon_16t.gif', :class=>"delete"
 				

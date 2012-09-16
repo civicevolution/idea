@@ -125,9 +125,14 @@
 		console.log("createNewThemeGroup: Now create a new list for sortable receive " + par.attr('id') );
 		realtime_data_update_functions['theme_col']( { data: { id: par.attr('id'), theme_idea: idea.find('p.idea').html() }, col_par: par });
 	}
+
+	$('div.theming_page').on('mouseup', 'a.post-it', show_idea_details);
+	function show_idea_details(event){
+		console.log("show_idea_details for this.id: " + this.id);
+		$.getScript('/idea/' + this.id + '/details');
+	}
 	
 	$('div.theming_page').on("click", "img.delete", delete_idea_post_it_from_list);
-	
 	function delete_idea_post_it_from_list(event){
 		console.log("Record delete_idea_post_it_from_list");
 		var post_it = $(this).closest('li.idea_post_it').remove();

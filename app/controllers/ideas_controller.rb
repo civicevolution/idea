@@ -68,6 +68,21 @@ class IdeasController < ApplicationController
   end
 
 
+  def view_idea_details
+    idea = Idea.find(params[:idea_id])
+    respond_to do |format|
+      if idea
+        format.js { render 'ideas/details', locals: { idea: idea} }
+        format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }
+        #format.json { render json: @idea, status: :created, location: @idea }
+      else
+        format.js { render 'ideas/idea_not_found' }
+        format.html { render 'ideas/idea_not_found' }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
   # POST /ideas
   # POST /ideas.json
   def create
