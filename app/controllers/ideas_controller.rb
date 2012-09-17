@@ -70,6 +70,8 @@ class IdeasController < ApplicationController
 
   def view_idea_details
     idea = Idea.find(params[:idea_id])
+    idea.current_member = @member
+
     respond_to do |format|
       if idea
         format.js { render 'ideas/details', locals: { idea: idea} }
@@ -87,9 +89,10 @@ class IdeasController < ApplicationController
     idea = Idea.find(params[:idea_id])    
     comment = idea.comments.new(text: params[:text], member_id: @member.id, team_id: idea.question.team_id,
       parent_type: 20, parent_id: idea.id, question_id: idea.question_id, member: @member )
+    #comment = Comment.includes(:author).find(1207)
     
     respond_to do |format|
-      if comment.save
+      if comment.save  # true
         format.js { render 'ideas/comment_for_idea', locals: { idea: @idea, comment: comment} }
         format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
         format.json { render json: @idea, status: :created, location: @idea }

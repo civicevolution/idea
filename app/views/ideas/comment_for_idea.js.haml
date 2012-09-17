@@ -1,5 +1,6 @@
 = render :template => 'shared/clear_sign_in_form', :formats => [:js]
 -#var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
 :plain
-	alert('your comment has been saved');
+	var com = #{ { data: {comment: comment, author: comment.author, photo_url: comment.author.photo.url('36')}}.to_json }
+	realtime_data_update_functions['comment'](com);
 

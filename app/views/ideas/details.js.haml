@@ -1,12 +1,14 @@
+- my_rating = idea.idea_ratings.detect{|r| r.member_id == @member.id}
+
 :plain
-	var details = $("#{escape_javascript(render( :template=> 'ideas/details', :locals=>{:idea=>idea}, formats: [:html]  ))}");
+	var details = $("#{escape_javascript(render( :template=> 'ideas/details', :locals=>{idea: idea, my_rating: my_rating}, formats: [:html]  ))}");
 	
 	details.find("div.theme_slider").slider({
 		stop: function(event, ui) { 
 			$.post('/idea/rating', {id: $(ui.handle).parent().attr('id'), rating: ui.value}, function(){}, "script");
 			//$(this).closest('div.my_rating').html('<img src="/assets/wait3.gif"/><br/>Saving...')
 		},
-		value: 50,
+		value: #{my_rating.nil? ? 50 : my_rating.rating},
 		range: "min"
 	});
 	

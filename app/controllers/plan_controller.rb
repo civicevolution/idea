@@ -305,37 +305,16 @@ class PlanController < ApplicationController
 
   def get_ideas_templates
     flash.keep
-    # Set up all of the data I need for the templates to run
+    # Set up all of the data I need for the templates to run in the template so I can eventually build this as an asset with preprocessing
     # Build the templates in the templates.js template which will insert the HTML in script blocks text/html to hide them from browser processing
     # Add the directives to templates.js
     # Compile the templates when this loads into the browser
-
-    old_ts = Time.local(2020,1,1)
-    newer_ts = Time.local(2025,1,1)
-
-    question = Question.new member_id: 1, status: "ok", text: 'Question text', num_answers: 1000, anonymous: false, ver: 1, idea_criteria: "5..1000", answer_criteria: "5..1500", default_answer_id: nil, team_id: 1, order_id: 1
-    question.created_at = old_ts
-    question.updated_at = newer_ts
-    question.id = 1
-
-    theme = Idea.new text: 'theme text', is_theme: true, member_id: 1, team_id: 1, question_id: 1, parent_id: 1, order_id: 1, visible: true, version: 1
-    theme.created_at = old_ts
-    theme.updated_at = newer_ts
-    theme.id = 1
-
-    idea = Idea.new text: 'idea text', is_theme: false, member_id: 1, team_id: 1, question_id: 1, parent_id: 1, order_id: 1, visible: true, version: 1
-    idea.created_at = old_ts
-    idea.updated_at = newer_ts
-    idea.id = 2
-
-    question.themes = [theme]	
-    question.themed_ideas = [idea]
-
+    
     # the templates are built in get_templates.js
     if params[:debug]
-      render :template => 'ideas/templates', layout: 'plan', locals: { debug: true, question: question, inc_js: 'none' } #, :content_type => 'application/javascript'
+      render :template => 'ideas/templates', layout: 'plan', locals: { debug: true, inc_js: 'none' } #, :content_type => 'application/javascript'
     else
-      render :template => 'ideas/templates', layout: false, locals: { debug: false, question: question } #, :content_type => 'application/javascript'
+      render :template => 'ideas/templates', layout: false, locals: { debug: false } #, :content_type => 'application/javascript'
     end
     
   end

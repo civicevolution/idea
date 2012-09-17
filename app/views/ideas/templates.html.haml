@@ -1,3 +1,34 @@
+- old_ts = Time.local(2020,1,1)
+- newer_ts = Time.local(2025,1,1)
+
+- question = Question.new member_id: 1, status: "ok", text: 'Question text', num_answers: 1000, anonymous: false, ver: 1, idea_criteria: "5..1000", answer_criteria: "5..1500", default_answer_id: nil, team_id: 1, order_id: 1
+- question.created_at = old_ts
+- question.updated_at = newer_ts
+- question.id = 1
+
+- theme = Idea.new text: 'theme text', is_theme: true, member_id: 1, team_id: 1, question_id: 1, parent_id: 1, order_id: 1, visible: true, version: 1
+- theme.created_at = old_ts
+- theme.updated_at = newer_ts
+- theme.id = 1
+
+- idea = Idea.new text: 'idea text', is_theme: false, member_id: 1, team_id: 1, question_id: 1, parent_id: 1, order_id: 1, visible: true, version: 1
+- idea.created_at = old_ts
+- idea.updated_at = newer_ts
+- idea.id = 2
+
+- question.themes = [theme]	
+- question.themed_ideas = [idea]
+
+- comment = Comment.new #(:created_at => old_ts, :updated_at => newer_ts)
+- comment.created_at = old_ts
+- comment.updated_at = newer_ts
+- comment.anonymous = false
+-	comment.publish = true
+- comment.author = Member.find(1)
+- comment.text = 'This is the comment text'
+- comment.id = 0
+
+
 %div#get_templates_scripts
 	- if debug
 		%h2 ideas/get_templates.html.haml
@@ -36,7 +67,14 @@
 
 	- if debug
 		%h3 ideas/theming_page
+					
 		= render( :partial => 'ideas/theming_page', locals: { debug: debug, question: question })
+		= stylesheet_link_tag "ce/theming_page"
+		%style
+			:sass
+				div.theming_page_popup
+					position: static
+
 
 	%script#theme_page_template{:type=>'text/html'}
 		:plain
@@ -67,3 +105,35 @@
 				}
 			
 			// realtime_data_update_functions['theme_col']( { data: { id: 123, theme_idea: 'This is my new theme'},   });	
+
+	- if debug
+		%h3 ideas/_comment
+		= render( :partial => 'ideas/comment', locals: { debug: debug, comment: comment })
+
+	%script#comment_template{:type=>'text/html'}
+		:plain
+			#{ render( :partial => 'ideas/comment', locals: { debug: debug, comment: comment })}
+
+	%script#create_comment_template
+		:plain
+			templates['comment'] = $('<div></div>').html($.trim( $('script#comment_template').html() )).find('div:first');
+			template_functions['comment'] = templates['comment'].compile(
+				{
+					'p.text' : function(arg){ return simple_format(arg.context.data.comment.comment.text)},
+					'p.name' : '\#{data.author.member.first_name} \#{data.author.member.last_name}',
+					'p.timeago @title' : 'data.comment.comment.created_at',
+					'img.i36 @src' : 'data.photo_url'
+				}
+			);
+			
+			// template_functions['comment']( com )
+			
+			realtime_data_update_functions['comment'] = 
+				function(data){
+					var new_comment = template_functions['comment']( data );
+					var details_div = $('div.details_left');
+					new_comment = $(new_comment).prependTo(details_div.find('div.activity_stream'));
+					new_comment.find('p.timeago').timeago();
+					details_div.find('form.add_comment textarea').val('');
+					return new_comment;
+				}

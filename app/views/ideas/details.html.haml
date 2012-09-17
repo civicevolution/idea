@@ -3,11 +3,12 @@
 
 	- if idea.is_theme
 		%h3 Theme
+	- elsif idea.parent_id.nil?
+		%h3 New idea of #{idea.siblings_count}
 	- else
-		%h3 Idea
+		%h3 Idea #{idea.order_id} of #{idea.siblings_count}
 
 	%div.details_left
-		%h3 Show the details for idea ##{idea.id}
 		
 		%ul
 			- if idea.is_theme
@@ -28,7 +29,10 @@
 					#{time_ago_in_words(idea.updated_at)} ago
 					
 		%div.rater.corner
-			%p.label Rate this #{idea.is_theme ? 'theme' : 'idea' }
+			- if my_rating.nil?
+				%p.label.please-rate Please rate this #{idea.is_theme ? 'theme' : 'idea' }
+			-else
+				%p.label Your rating on this #{idea.is_theme ? 'theme' : 'idea' }
 			%div.rater_faces
 				= image_tag('rater/yuck.gif', class: 'yuck')		
 				= image_tag('rater/meh.gif', class: 'meh')		
@@ -38,13 +42,13 @@
 			%div.theme_slider{id: idea.id}		
 		
 			%p.results
-				- votes = 37
+				- votes = idea.idea_ratings.size
 				%span.vote_count
 					= pluralize(votes,'vote')
 				- if votes > 1
 					= link_to "View results", {}
 
-		= form_tag add_idea_comment_path(idea.id), :class=>'std_form suggest_idea', :remote=>true do 
+		= form_tag add_idea_comment_path(idea.id), :class=>'std_form add_comment', :remote=>true do 
 			%div.add_idea
 				= text_area_tag :text, '', class: 'answer autosize empty', size: "1x2", fixed_rows: true, placeholder: 'Write your comment...'
 			
