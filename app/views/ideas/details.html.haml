@@ -4,10 +4,48 @@
 	- if idea.is_theme
 		%h3 Theme
 	- elsif idea.parent_id.nil?
-		%h3 New idea of #{idea.siblings_count}
+		%h3.popup_nav
+			- if idea.siblings.count > 1
+				= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
+				New idea of #{idea.siblings.count}
+				= image_tag('right-arrow.gif', class: 'next', id: idea.id)
+			- else
+				New idea of #{idea.siblings.count}
+		
 	- else
-		%h3 Idea #{idea.order_id} of #{idea.siblings_count}
-
+		
+		%h3.popup_nav
+			- if idea.siblings.count > 1
+				= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
+				Idea #{idea.order_id} of #{idea.siblings.count}
+				= image_tag('right-arrow.gif', class: 'next', id: idea.id)
+			- else
+				Idea #{idea.order_id} of #{idea.siblings.count}
+		
+	-#debugger
+	%div.navigation
+		%div.proposal
+			%a.item{href: {}, id: idea.team.id, title: idea.team.title}
+		%div.questions
+			- idea.team.questions.each do |question|
+				%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
+			
+		%div.themes
+			- idea.question.themes.each do |theme|
+				- if idea.is_theme
+					%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.id ? 'current' : ''}
+				- else
+					%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.parent_id ? 'current' : ''}
+				
+		
+		%div.ideas
+			- ( idea.is_theme ? idea.ideas : idea.siblings ).each do |sibling|
+				- if idea.is_theme
+					%a.item{href: {}, id: sibling.id, title: sibling.text }
+				- else
+					%a.item{href: {}, id: sibling.id, title: sibling.text, class: sibling.id == idea.id ? 'current' : '' }
+		
+		
 	%div.details_left
 		
 		%ul
@@ -66,7 +104,7 @@
 				= render( :partial=> 'ideas/comment', :locals=>{:comment=>comment}, formats: [:html]  )
 		
 		
-	%div.details_right
+	-#%div.details_right
 		%div.right_buttons
 			= button_tag "Edit"
 			= button_tag "Browse ideas"

@@ -141,7 +141,7 @@
 
 	$('div.theming_page').on('mouseup', 'a.post-it', show_idea_details);
 	function show_idea_details(event){
-		console.log("show_idea_details for this.id: " + this.id);
+		//console.log("show_idea_details for this.id: " + this.id);
 		$.getScript('/idea/' + this.id + '/details');
 	}
 	

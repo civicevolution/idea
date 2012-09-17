@@ -9,6 +9,7 @@
 var console_log='';
 if(typeof console == 'undefined') console = {log:function(str){console_log += str + '\n' }};
 var temp = {};
+var $modal;
 var templates_loaded = false;
 
 //console.log("Loading application.js");

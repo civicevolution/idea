@@ -30,6 +30,35 @@ div.idea_details
 		top: 10px
 		right: 20px
 	
+	div.navigation
+		background: $navigation_bg
+		padding: 10px 10px 0 10px
+		div
+			height: 30px
+		a.item
+			display: block
+			height: 20px
+			width: 20px
+			float: left
+			margin-right: 10px
+			cursor: pointer
+			&.current
+				cursor: default
+		div.proposal a
+			background: $proposal_icon_bg
+		div.questions a
+			background: $question_icon_bg
+			&.current
+				background: $question_icon_bg-current
+		div.themes a
+			background: $purple_post_it
+			&.current
+				background: $purple_post_it-current
+		div.ideas a
+			background: $yellow_post_it
+			&.current
+				background: $yellow_post_it-current
+			
 	ul
 		padding-top: 10px
 	li.theme_post_it, li.idea_post_it

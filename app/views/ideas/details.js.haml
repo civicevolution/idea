@@ -11,7 +11,49 @@
 		value: #{my_rating.nil? ? 50 : my_rating.rating},
 		range: "min"
 	});
+	if($modal){$modal.close();}
 	
-	details.modal( );
+	$modal = details.modal( );
+
 	activate_text_counters_grow(details.find('textarea'), 120);
 	//details.modal( {escClose: false});
+	
+	// set the width of the navigation area
+	temp.details = details;
+	// details = temp.details
+	var max_markers = 1;
+	details.find('div.navigation > div').each(
+		function(){
+			var cnt = $(this).find('> a').size();
+			if(cnt>max_markers){max_markers = cnt}
+		}
+	);
+	details.find('div.navigation').width( max_markers * 30);
+	
+	details.on('click', 'a.item', load_details_popup);
+	function load_details_popup(event){
+		var link = $(this);
+		if( !link.hasClass('current') ){
+			var par = link.parent();
+			if( par.hasClass('themes') || par.hasClass('ideas')){
+				console.log("load_ idea details_popup for this.id: " + this.id);
+				$.getScript('/idea/' + this.id + '/details');
+			}else if(par.hasClass('questions')){
+				console.log("Need Show the question popup for this.id: " + this.id);
+			}else if(par.hasClass('proposal')){
+				console.log("Need Show the proposal popup for this.id: " + this.id);			
+			}
+		}
+		return false;
+	}
+
+	details.find('h3.popup_nav').on('click', 'img', nav_details_popup);
+	function nav_details_popup(event){
+		var link = $(this);
+		console.log("nav_details_popup");
+		
+		$.getScript('/idea/' + this.id + '/details?nav=' + link.attr('class'));
+
+		return false;
+	}
+	

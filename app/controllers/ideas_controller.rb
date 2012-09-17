@@ -70,10 +70,18 @@ class IdeasController < ApplicationController
 
   def view_idea_details
     idea = Idea.find(params[:idea_id])
-    idea.current_member = @member
-
+    if params[:nav]
+      # get the next or first sibling idea
+      new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: idea.order_id + 1)
+      if new_ideas.empty?
+         new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: 1)
+      end
+      idea = new_ideas[0]
+    end
+    
     respond_to do |format|
       if idea
+        idea.current_member = @member
         format.js { render 'ideas/details', locals: { idea: idea} }
         format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }
         #format.json { render json: @idea, status: :created, location: @idea }
