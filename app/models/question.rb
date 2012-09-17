@@ -5,6 +5,7 @@ class Question < ActiveRecord::Base
   
   has_many :ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false', :order => 'order_id asc'
   has_many :unthemed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id IS NULL', :order => 'order_id asc'
+  has_many :parked_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id = 0', :order => 'order_id asc'	
   has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id IS NOT NULL', :order => 'order_id asc'
   has_many :themes, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = true', :order => 'order_id asc'
   

@@ -101,6 +101,40 @@ class IdeasController < ApplicationController
     end
   end
 
+  def theme_ideas_order
+    logger.debug "theme_ideas_reorder for idea #{params[:idea_id]} to new ordered_ids: params[:ordered_ids]"
+    idea = nil
+    begin
+      
+      if params[:idea_id] == 'unthemed_ideas'
+        idea_id = 'null'
+      elsif params[:idea_id] == 'parked_ideas'
+        idea_id = 0
+      elsif params[:idea_id]
+        idea = Idea.find(params[:idea_id])
+        idea_id = idea.id
+      end
+      ctr = 0
+      order_string = params[:ordered_ids].map{|o| "(#{ctr+=1},#{o})" }.join(',')
+      
+      sql = %Q|UPDATE ideas SET parent_id = #{idea_id}, order_id = new_order_id FROM ( SELECT * FROM (VALUES #{order_string}) vals (new_order_id,idea_id)	) t WHERE id = t.idea_id|
+      logger.debug "Use sql: #{sql}"
+      ActiveRecord::Base.connection.update_sql(sql)    
+      
+      respond_to do |format|
+        format.js { render 'ideas/theme_ideas_order_ok', locals: { idea: idea} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      end
+    rescue
+      respond_to do |format|
+        format.js { render 'ideas/theme_ideas_order_errors', locals: {idea: idea} }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /ideas
   # POST /ideas.json
   def create

@@ -86,13 +86,16 @@ div.theming_page_popup
 					&.drop_hover
 						background: image-url('new_group_drop_zone_hover.gif') no-repeat
 					ul.sortable_ideas
-						height: 43px
-						margin-top: 0
+						height: 100px //43px
+						margin-top: -23px //0
 						width: 114px
 			div.theme_col.unthemed_ideas
-				background: #cfb
+				background: #a3a3bf //#cfb
+				ul.sortable_ideas.highlight_dropzone
+					background-color: #d9d9ff
 				h3
 					margin-left: 10px
+					color: white
 				li.idea_post_it img.delete
 					display: none
 			//div.theme_col.theme
@@ -100,9 +103,12 @@ div.theming_page_popup
 				position: absolute
 				right: 0
 				top: 0
-				background: #f97
+				background: #bfbc93 //#a69c3f //#f97
+				ul.sortable_ideas.highlight_dropzone
+					background-color: #fffbd2
 				h3
 					margin-left: 10px
+					color: white
 
 // post-it styling							
 ul, li
@@ -122,6 +128,9 @@ ul
 	&.sortable_ideas
 		min-height: 60px
 		padding-bottom: 40px
+		&.highlight_dropzone
+			background-color: #e3e3ff // for themes
+		
 li.idea_post_it, li.theme_post_it
 	a
 		text-decoration: none

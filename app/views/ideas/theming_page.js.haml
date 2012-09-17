@@ -61,9 +61,6 @@
 				var par = list.closest('div.theme_col');	
 				showColumnDropZones(par);	
 			},
-			change: function(event,ui){
-				//console.log("Sortable change");
-			},
 			stop: function(event, ui) { 
 				//console.log("stop sortable drag"); 
 				stopAutoScroll();
@@ -84,6 +81,7 @@
 					clearTimeout(hideDropZonesTimeout);
 					$('div.new_group_drop_zone').hide();
 					showColumnDropZones(par);
+					list.addClass('highlight_dropzone');
 				}
 			
 			},
@@ -97,6 +95,7 @@
 					if(ui.helper){ui.helper.removeClass('drop_hover');}
 				}else{
 					//console.log("Column out, hide the drop zones in 500 ms");
+					list.removeClass('highlight_dropzone');
 					hideDropZonesTimeout = setInterval( function(){ $('div.new_group_drop_zone').hide();}, 500);
 				}
 			
@@ -110,6 +109,20 @@
 				//console.log("Hide the drop zones");
 				$('div.new_group_drop_zone').hide();
 			},
+			update: function(event,ui){
+				var list = $(this);
+				var par = list.closest('div.theme_col');
+				console.log("sortable update for theme: " + par.attr('id') );
+				temp['par' + par.attr('id')] = par
+				//console.log("ordered_ids: " + par.find('li.idea_post_it a.post-it').map(function(){return this.id;}));
+				// send the theme order data
+				$.post('/idea/' + par.attr('id') + '/idea_order', 
+					{	
+						ordered_ids: $.makeArray(par.find('li.idea_post_it a.post-it').map(function(){return Number(this.id);}))
+					}, 
+					"script"
+				);
+			}
 		});
 	}
 	
