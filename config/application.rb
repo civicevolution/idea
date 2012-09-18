@@ -74,7 +74,7 @@ module G3
     config.assets.precompile += %w( application_ce.css application_ce.js application_ce_no_js.js )
     
     #config.assets.precompile += %w(  application_ce_live.css  application_ce_no_js.js application_ce_home.css opt/pure.js )
-    config.assets.precompile += %w( application_ce_home.css application_ce_home_all.js application_ce_home_home.js application_ce_home_no_js.js )
+    #config.assets.precompile += %w( application_ce_home.css application_ce_home_all.js application_ce_home_home.js application_ce_home_no_js.js )
     #config.assets.precompile += %w( application_civic_home.css application_civic_home.js)
     
     
