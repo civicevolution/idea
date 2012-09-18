@@ -60,7 +60,8 @@
 				var res_criteria = Number('#{@team.res_criteria}'.match(/\d+$/));
 			
 		- if inc_js == 'all'
-			= javascript_include_tag 'application_ce_home_all'
+			-#= javascript_include_tag 'application_ce_home_all'
+			= javascript_include_tag 'application_ce_home_home'
 		- elsif inc_js == 'home'
 			= javascript_include_tag 'application_ce_home_home'
 		- else
