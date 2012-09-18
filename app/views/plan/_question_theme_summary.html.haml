@@ -16,10 +16,11 @@
 	= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 
 		%div.add_idea
 			= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true
-			= submit_tag "Add my idea", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+			
 			
 			
 		%p.form_controls
+			= submit_tag "Add my idea", :name=>'endorse', 'data-disable-with'=>'Submitting...'
 			%span.char_ctr 200 characters
 			= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
 
