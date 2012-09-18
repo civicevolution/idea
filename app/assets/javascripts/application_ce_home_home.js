@@ -21,4 +21,3 @@
 //= require jquery.timeago.js
 //= require jquery.simplemodal.js
 
-
