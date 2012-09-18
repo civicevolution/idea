@@ -37,21 +37,6 @@ class IdeasController < ApplicationController
     @idea = Idea.find(params[:id])
   end
   
-  def view_unrated_ideas
-    question = Question.find(params[:question_id])
-    respond_to do |format|
-      if question
-        format.js { render 'ideas/view_question_unrated_ideas', locals: { question: question} }
-        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
-        #format.json { render json: @idea, status: :created, location: @idea }
-      else
-        format.js { render 'ideas/question_not_found' }
-        #format.html { render action: "new" }
-        #format.json { render json: @idea.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   def theming_page
     question = Question.find(params[:question_id])
     respond_to do |format|
@@ -69,18 +54,29 @@ class IdeasController < ApplicationController
 
 
   def view_idea_details
-    idea = Idea.find(params[:idea_id])
-    if params[:nav]
-      # get the next or first sibling idea
-      new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: idea.order_id + 1)
-      if new_ideas.empty?
-         new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: 1)
+    idea = nil
+    if params[:act] = 'review_unrated_ideas'
+      idea = Question.find(params[:question_id]).unrated_ideas(@member.id).limit(1)
+      if idea.empty?
+        idea = nil
+      else
+        idea = idea[0]
       end
-      idea = new_ideas[0]
+      
+    else
+      idea = Idea.find(params[:idea_id])
+      if params[:nav]
+        # get the next or first sibling idea
+        new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: idea.order_id + 1)
+        if new_ideas.empty?
+           new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: 1)
+        end
+        idea = new_ideas[0]
+      end
     end
     
     respond_to do |format|
-      if idea
+      if !idea.nil?
         idea.current_member = @member
         format.js { render 'ideas/details', locals: { idea: idea} }
         format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }

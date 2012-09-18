@@ -5,7 +5,7 @@ class Team < ActiveRecord::Base
   has_many :team_registrations
   has_many :members, :through => :team_registrations
   
-  has_many :questions, :conditions => 'inactive = false'
+  has_many :questions, :conditions => 'inactive = false', order: "order_id ASC"
   has_many :all_questions, :class_name => 'Question'
   
   has_one :organizer, :class_name => 'Member', :foreign_key => 'id', :primary_key => 'org_id'

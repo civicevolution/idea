@@ -6,6 +6,7 @@
 	$('div.ui-slider').hide();
 	$('body').append(theming_page);
 	$("body").css('overflow', 'hidden');
+
 	
 	//
 	//resize code
@@ -34,6 +35,9 @@
 		theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() ).css({top: win_top, left: win_left + theme_cols_window.parent().width() - 24 });
 	}
 	resize_theming_page();
+
+
+
 
 	//
 	// Set up theming page sortable
@@ -151,6 +155,9 @@
 		var post_it = $(this).closest('li.idea_post_it').remove();
 		$('div.unthemed_ideas ul.sortable_ideas').append(post_it);
 	}
+
+
+
 
 	//
 	// Set up theming page auto scrolling with hotspots

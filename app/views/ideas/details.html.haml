@@ -1,28 +1,38 @@
 %div.idea_details
 	= stylesheet_link_tag "ce/idea_details"
 
-	- if idea.is_theme
-		%h3 Theme
-	- elsif idea.parent_id.nil?
-		%h3.popup_nav
-			- if idea.siblings.count > 1
-				= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
-				New idea of #{idea.siblings.count}
-				= image_tag('right-arrow.gif', class: 'next', id: idea.id)
-			- else
-				New idea of #{idea.siblings.count}
+	- case
+		- when params[:act] = 'review_unrated_ideas'
+			%h3.popup_nav
+				- if idea.siblings.count > 1
+					-#= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
+					Unrated idea 1 of #{idea.siblings.count}
+					-#= image_tag('right-arrow.gif', class: 'next', id: idea.id)
+				- else
+					Unrated idea of #{idea.siblings.count}
+			
+		- when idea.is_theme
+			%h3 Theme
 		
-	- else
+		- when idea.parent_id.nil?
+			%h3.popup_nav
+				- if idea.siblings.count > 1
+					= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
+					Unthemed idea of #{idea.siblings.count}
+					= image_tag('right-arrow.gif', class: 'next', id: idea.id)
+				- else
+					Unthemed idea of #{idea.siblings.count}
 		
-		%h3.popup_nav
-			- if idea.siblings.count > 1
-				= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
-				Idea #{idea.order_id} of #{idea.siblings.count}
-				= image_tag('right-arrow.gif', class: 'next', id: idea.id)
-			- else
-				Idea #{idea.order_id} of #{idea.siblings.count}
+		- else
+			%h3.popup_nav
+				- if idea.siblings.count > 1
+					= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
+					Idea #{idea.order_id} of #{idea.siblings.count}
+					= image_tag('right-arrow.gif', class: 'next', id: idea.id)
+				- else
+					Idea #{idea.order_id} of #{idea.siblings.count}
 		
-	-#debugger
+
 	%div.navigation
 		%div.proposal
 			%a.item{href: {}, id: idea.team.id, title: idea.team.title}

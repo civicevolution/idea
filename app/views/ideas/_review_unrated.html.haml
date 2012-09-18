@@ -1,8 +1,0 @@
-%div.review_unrated_ideas
-	= link_to "Hide these ideas", {}, class: 'hide_ideas'
-	-#%p Review unrated ideas for #{question.text}
-	
-	- question.unrated_ideas(@member.id).each do |idea|
-		%p.idea= idea.text
-		%div.idea_slider{id: idea.id}
-	

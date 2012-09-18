@@ -133,7 +133,6 @@ G3::Application.routes.draw do
   post 'idea/:question_id/delete', :to => 'ideas#destroy', :as => 'delete_idea'
   post 'idea/:question_id/edit', :to => 'ideas#edit', :as => 'edit_idea'
   match 'idea/:question_id/update', :to => 'ideas#update', :via => [:put, :post], :as => 'update_idea'
-  get 'idea/:question_id/new', to: 'ideas#view_unrated_ideas', as: 'view_unrated_ideas'
   get 'idea/:idea_id/details', to: 'ideas#view_idea_details', as: 'view_idea_details'
   post 'idea/:idea_id/add_comment', to: 'ideas#add_comment', as: 'add_idea_comment'
   post 'idea/:idea_id/idea_order', to: 'ideas#theme_ideas_order', as: 'theme_ideas_order'
