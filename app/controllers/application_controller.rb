@@ -353,10 +353,10 @@ class ApplicationController < ActionController::Base
           flash[:notice] = "Please sign in to continue"
           render :template => 'sign_in/sign_in_form', :formats => [:js], :layout => false#, :status => 409
         }
-        format.html {
-          # this shouldn't be accessed as all ajax is now via UJS, as js
-          render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member, :exception => exception} 
-        } if request.xhr?
+        #format.html {
+        #  # this shouldn't be accessed as all ajax is now via UJS, as js
+        #  render :template=> 'errors/generic_error', :layout=>false, :locals => {:member=>member, :exception => exception} 
+        #} if request.xhr?
         format.html {
           flash[:params] = request.params
           flash[:fullpath] = request.fullpath unless request.method.match(/POST/i)

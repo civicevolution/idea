@@ -1,4 +1,5 @@
 class IdeasController < ApplicationController
+  skip_before_filter :authorize, :only => [ :theming_page, :view_idea_details]
   # GET /ideas
   # GET /ideas.json
   def index
@@ -55,7 +56,8 @@ class IdeasController < ApplicationController
 
   def view_idea_details
     idea = nil
-    if params[:act] = 'review_unrated_ideas'
+    #debugger
+    if params[:act] == 'review_unrated_ideas'
       idea = Question.find(params[:question_id]).unrated_ideas(@member.id).limit(1)
       if idea.empty?
         idea = nil

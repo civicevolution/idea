@@ -106,7 +106,8 @@ class Team < ActiveRecord::Base
     q_ids = [0] if q_ids.size == 0
     
     self.new_content = {}
-
+    self.questions.each{|question| question.unrated_ideas_count = 0 }
+    
     if member.id != 0
       # gets the unrated ideas
       
