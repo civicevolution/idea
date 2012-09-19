@@ -137,6 +137,7 @@ G3::Application.routes.draw do
   post 'idea/:idea_id/add_comment', to: 'ideas#add_comment', as: 'add_idea_comment'
   post 'idea/:idea_id/idea_order', to: 'ideas#theme_ideas_order', as: 'theme_ideas_order'
   post 'idea/:idea_id/create_theme', to: 'ideas#create_theme', as: 'create_theme'
+  post 'idea/:idea_id/remove_from_parent', to: 'ideas#remove_from_parent', as: 'remove_from_parent'
   
   post 'idea/rating', to: 'idea_ratings#update_rating', as: 'update_idea_rating'
 	

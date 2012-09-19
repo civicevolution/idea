@@ -140,7 +140,6 @@ class IdeasController < ApplicationController
     end
   end
 
-
   def create_theme
     logger.debug "create_theme to right of col with id #{params[:par_id]} with idea #{params[:child_idea_id]}"
     
@@ -166,6 +165,25 @@ class IdeasController < ApplicationController
         #format.json { render json: @idea, status: :created, location: iidea }
       else
         format.js { render 'ideas/create_theme_errors', locals: {new_theme: new_theme, idea: idea} }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def remove_from_parent
+    logger.debug "remove_from_parent id #{params[:idea_id]}"
+    
+    idea = Idea.find(params[:idea_id])
+    idea.update_attribute(:parent_id, nil) 
+
+    respond_to do |format|
+      if idea.save
+        format.js { render 'ideas/remove_from_parent_ok', locals: { idea: idea} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      else
+        format.js { render 'ideas/remove_from_parent_errors', locals: { idea: idea} }
         #format.html { render action: "new" }
         #format.json { render json: @idea.errors, status: :unprocessable_entity }
       end

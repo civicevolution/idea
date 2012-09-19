@@ -1,6 +1,7 @@
 %div.idea_details
-	= stylesheet_link_tag "ce/idea_details"
-
+	- if !Rails.env.production?
+		= stylesheet_link_tag "ce/idea_details"
+	
 	- case
 		- when params[:act] = 'review_unrated_ideas'
 			%h3.popup_nav

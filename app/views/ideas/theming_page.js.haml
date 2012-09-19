@@ -157,15 +157,19 @@
 
 	$('div.theming_page').on('mouseup', 'a.post-it', show_idea_details);
 	function show_idea_details(event){
-		//console.log("show_idea_details for this.id: " + this.id);
-		$.getScript('/idea/' + this.id + '/details');
+		if( !$(event.srcElement).hasClass('delete') ){
+			console.log("show_idea_details for this.id: " + this.id);
+			$.getScript('/idea/' + this.id + '/details');
+		}
 	}
 	
-	$('div.theming_page').on("click", "img.delete", delete_idea_post_it_from_list);
-	function delete_idea_post_it_from_list(event){
-		console.log("Record delete_idea_post_it_from_list");
-		var post_it = $(this).closest('li.idea_post_it').remove();
-		$('div.unthemed_ideas ul.sortable_ideas').append(post_it);
+	$('div.theming_page').on('click','a.post-it img.delete', remove_idea_from_parent);
+	function remove_idea_from_parent(event){
+		var post_it = $(this).closest('a.post-it');
+		console.log("remove idea " + post_it.attr('id'));
+		$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 
+			"script"
+		);
 	}
 
 
