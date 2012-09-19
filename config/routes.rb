@@ -136,6 +136,7 @@ G3::Application.routes.draw do
   get 'idea/:idea_id/details', to: 'ideas#view_idea_details', as: 'view_idea_details'
   post 'idea/:idea_id/add_comment', to: 'ideas#add_comment', as: 'add_idea_comment'
   post 'idea/:idea_id/idea_order', to: 'ideas#theme_ideas_order', as: 'theme_ideas_order'
+  post 'idea/:idea_id/create_theme', to: 'ideas#create_theme', as: 'create_theme'
   
   post 'idea/rating', to: 'idea_ratings#update_rating', as: 'update_idea_rating'
 	

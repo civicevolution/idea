@@ -17,7 +17,9 @@
 		theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 100 );
 		var theme_cols = theming_page.find('div.theme_col');
 		var width = theme_cols.size() * ( theme_cols.eq(0).width() );
-		theme_cols_window.width( width );
+		var outer_win = theme_cols_window.parent();
+		var max_width = outer_win.width() - outer_win.position().left;
+		theme_cols_window.width( width > (max_width - 40) ? width : max_width );
 		var win_top = theme_cols_window.position().top;
 		var win_left = theme_cols_window.position().left;
 		var win_bottom = win_top + theme_cols_window.height();
@@ -140,7 +142,17 @@
 	function createNewThemeGroup(ui, list, par){
 		var idea = list.find('li.idea_post_it').remove();
 		console.log("createNewThemeGroup: Now create a new list for sortable receive " + par.attr('id') );
-		realtime_data_update_functions['theme_col']( { data: { id: par.attr('id'), theme_idea: idea.find('p.idea').html() }, col_par: par });
+		
+		// send the theme order data
+		$.post('/idea/' + par.attr('id') + '/create_theme', 
+			{	
+				par_id: par.attr('id') ,
+				child_idea_id: idea.find('a.post-it').attr('id') 
+			}, 
+			"script"
+		);
+		
+		//realtime_data_update_functions['theme_col']( { data: { id: par.attr('id'), theme_idea: idea.find('p.idea').html() }, col_par: par });
 	}
 
 	$('div.theming_page').on('mouseup', 'a.post-it', show_idea_details);

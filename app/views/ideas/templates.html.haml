@@ -89,13 +89,16 @@
 				{
 					// directives go here
 					'@id' : 'data.id',
-					'li.theme_post_it p.idea' : 'My new column',
+					'li.theme_post_it a @id' : 'data.theme_id',
+					'li.theme_post_it p.idea' : 'data.theme_text',
+					'li.idea_post_it a @id' : 'data.theme_idea_id',						
 					'li.idea_post_it p.idea' : 'data.theme_idea'	
 				}
 			);
 			
 			realtime_data_update_functions['theme_col'] = 
 				function(data){
+					//debugger
 					var new_theme_col = template_functions['theme_col']( data );
 					// insert after data.col_par
 					new_theme_col = $(new_theme_col).insertAfter(data.col_par);

@@ -1,0 +1,5 @@
+:plain
+	console.log("create theme is ok");
+	var col_par = $('div.theme_col[id="#{params[:par_id]}"]');
+	var data = { data: { id: #{new_theme.id}, theme_id: #{new_theme.id}, theme_text: "#{new_theme.text}", 	theme_idea_id: #{idea.id}, theme_idea: "#{idea.text}" }, col_par: col_par };
+	realtime_data_update_functions['theme_col']( data );

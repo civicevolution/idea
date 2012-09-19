@@ -123,12 +123,8 @@ class IdeasController < ApplicationController
         idea = Idea.find(params[:idea_id])
         idea_id = idea.id
       end
-      ctr = 0
-      order_string = params[:ordered_ids].map{|o| "(#{ctr+=1},#{o})" }.join(',')
       
-      sql = %Q|UPDATE ideas SET parent_id = #{idea_id}, order_id = new_order_id FROM ( SELECT * FROM (VALUES #{order_string}) vals (new_order_id,idea_id)	) t WHERE id = t.idea_id|
-      logger.debug "Use sql: #{sql}"
-      ActiveRecord::Base.connection.update_sql(sql)    
+      Idea.reorder_siblings( idea_id, params[:ordered_ids] )
       
       respond_to do |format|
         format.js { render 'ideas/theme_ideas_order_ok', locals: { idea: idea} }
@@ -144,6 +140,39 @@ class IdeasController < ApplicationController
     end
   end
 
+
+  def create_theme
+    logger.debug "create_theme to right of col with id #{params[:par_id]} with idea #{params[:child_idea_id]}"
+    
+    idea = Idea.find(params[:child_idea_id])
+    new_theme = idea.question.ideas.create(text: 'My new group of ideas ' + Time.now.to_s, is_theme: true, member_id: @member.id, order_id: 1,
+      team_id: idea.question.team_id, parent_id: idea.question.id, visible: true, version: 1, current_member: @member)
+    idea.update_attribute(:parent_id, new_theme.id) 
+    
+    ordered_ids = new_theme.siblings.map(&:id)
+    ordered_ids.delete(new_theme.id)
+    if params[:par_id] == 'unthemed_ideas'
+      ordered_ids = [new_theme.id] + ordered_ids
+    else
+      ordered_ids.insert( ordered_ids.index(params[:par_id].to_i) + 1,  new_theme.id )
+    end
+    # now I need to set the order
+    Idea.reorder_siblings( new_theme.parent_id, ordered_ids )
+    
+    respond_to do |format|
+      if new_theme.save
+        format.js { render 'ideas/create_theme_ok', locals: { new_theme: new_theme, idea: idea} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      else
+        format.js { render 'ideas/create_theme_errors', locals: {new_theme: new_theme, idea: idea} }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  
   # POST /ideas
   # POST /ideas.json
   def create

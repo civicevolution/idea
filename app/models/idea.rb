@@ -8,7 +8,7 @@ class Idea < ActiveRecord::Base
   has_many :ideas, foreign_key: 'parent_id', order: 'id asc'
   has_many :siblings, class_name: 'Idea', finder_sql: proc { 
     if self.is_theme
-      %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and is_theme = true ORDER BY id DESC| 
+      %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and is_theme = true ORDER BY order_id ASC| 
     elsif self.parent_id.nil?
       %Q|SELECT * FROM ideas WHERE question_id = #{self.question_id} AND parent_id IS null ORDER BY id DESC|
     else
@@ -30,7 +30,7 @@ class Idea < ActiveRecord::Base
   before_validation :check_initiative_restrictions, :on=>:create
   
   validates :text, length: { 
-    minimum: 2,
+    minimum: 10,
     too_short: "must be at least 2 characters",
     maximum: 200,
     too_long: "must have at most %{count} characters"
@@ -43,6 +43,15 @@ class Idea < ActiveRecord::Base
       return false
     end
     true
+  end
+  
+  def self.reorder_siblings( idea_id, ordered_ids )
+    ctr = 0
+    order_string = ordered_ids.map{|o| "(#{ctr+=1},#{o})" }.join(',')
+    
+    sql = %Q|UPDATE ideas SET parent_id = #{idea_id}, order_id = new_order_id FROM ( SELECT * FROM (VALUES #{order_string}) vals (new_order_id,idea_id)	) t WHERE id = t.idea_id|
+    logger.debug "Use sql: #{sql}"
+    ActiveRecord::Base.connection.update_sql(sql)
   end
   
   def o_type
