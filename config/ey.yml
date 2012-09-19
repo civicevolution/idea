@@ -2,10 +2,9 @@
 # set migration command, but only run them when –migrate is specified
 
 environments:
-  production:
+  idea:
     branch: idea
     migrate: false
     migration_command: bundle exec rake db:migrate 
     maintenance_on_migrate: true
     precompile_assets: true
-    
