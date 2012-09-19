@@ -1,0 +1,5 @@
+- errors = target.errors unless defined?(target).nil?
+- if errors.any?
+	%div#errorExplanation
+		- errors.full_messages.each do |msg|
+			%h4= msg

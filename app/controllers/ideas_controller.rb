@@ -103,7 +103,7 @@ class IdeasController < ApplicationController
         format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
         format.json { render json: @idea, status: :created, location: @idea }
       else
-        format.js { render 'ideas/idea_for_question_errors', locals: {idea: @idea, comment: comment} }
+        format.js { render 'ideas/comment_for_idea_errors', locals: {idea: @idea, comment: comment} }
         format.html { render action: "new" }
         format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
@@ -149,7 +149,7 @@ class IdeasController < ApplicationController
   def create
 
     question = Question.find(params[:question_id])
-    @idea = question.ideas.new(text: params[:text], is_theme: false, member_id: @member.id, team_id: question.team_id, visible: true, version: 1)
+    @idea = question.ideas.new(text: params[:text], is_theme: false, member_id: @member.id, team_id: question.team_id, visible: true, version: 1, current_member: @member)
 
     respond_to do |format|
       if @idea.save

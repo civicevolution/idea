@@ -1,5 +1,5 @@
 class Idea < ActiveRecord::Base
-  attr_accessible :is_theme, :member_id, :order_id, :parent_id, :question_id, :team_id, :text, :version, :visible
+  attr_accessible :is_theme, :member_id, :order_id, :parent_id, :question_id, :team_id, :text, :version, :visible, :current_member
 
   belongs_to :team
   belongs_to :question
@@ -25,9 +25,25 @@ class Idea < ActiveRecord::Base
       end  
       }
     
-      
-
   attr_accessor :current_member
+  
+  before_validation :check_initiative_restrictions, :on=>:create
+  
+  validates :text, length: { 
+    minimum: 2,
+    too_short: "must be at least 2 characters",
+    maximum: 200,
+    too_long: "must have at most %{count} characters"
+  }
+
+  def check_initiative_restrictions
+    allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.question_id, :parent_type => 1}, 'contribute_to_proposal', self.current_member)
+    if !allowed
+      errors.add(:base, "Sorry, you do not have permission to add an idea.") 
+      return false
+    end
+    true
+  end
   
   def o_type
     20 #type for Idea

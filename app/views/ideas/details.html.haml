@@ -96,7 +96,7 @@
 				- if votes > 1
 					= link_to "View results", {}
 
-		= form_tag add_idea_comment_path(idea.id), :class=>'std_form add_comment', :remote=>true do 
+		= form_tag add_idea_comment_path(idea.id), :class=>"std_form add_comment", id: idea.id, :remote=>true do 
 			%div.add_idea
 				= text_area_tag :text, '', class: 'answer autosize empty', size: "1x2", fixed_rows: true, placeholder: 'Write your comment...'
 			
