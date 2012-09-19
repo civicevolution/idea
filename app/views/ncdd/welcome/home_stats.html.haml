@@ -70,7 +70,7 @@
 	%p.clear_both					
 					
 					
-%div.progress.corner
+-#%div.progress.corner
 	%h3 Proposals in which I participate
 	- if !@member.nil? && @member.id != 0
 		
@@ -135,7 +135,7 @@
 	
 	%p.clear_both	
 
-%div.tools_info.corner
+-#%div.tools_info.corner
 	-#%p= link_to "Email participants",{},{:class=>'email_participants'}
 	-#%p= link_to "Print proposal",{},{:class=>'invite'}
 

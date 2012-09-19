@@ -9,6 +9,8 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  * Don't include self = require_self
+ *= require ./ce/base.sass
+ *= require ./ce/layout.sass
  *= require ./ce/home.css
  *= require cupertino/jquery-ui-1.8.17.custom.css
  *= require prettyPhoto.css
