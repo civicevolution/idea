@@ -163,9 +163,6 @@ class PlanController < ApplicationController
       if @proposal_idea.save
         ProposalMailer.delay.submit_receipt(@member, @proposal_idea, params[:_app_name] )
         ProposalMailer.delay.review_request(@member, @proposal_idea, request.env["HTTP_HOST"], params[:_app_name] )
-        if params[:_initiative_id] == 5
-          ProposalMailer.delay.review_request_JM(@member, @proposal_idea, request.env["HTTP_HOST"], params[:_app_name] )
-        end
         format.html { render :template => "plan/acknowledge_proposal_idea", :layout => 'plan' }
         format.js
       else
