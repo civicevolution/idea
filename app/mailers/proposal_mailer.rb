@@ -1,38 +1,36 @@
 class ProposalMailer < ActionMailer::Base
+  before_create :set_initiative_parameters
   self.default :from => "CivicEvolution <no-reply@auto.civicevolution.org>",
     :reply_to => "support@civicevolution.org"
-  
 
-  def submit_receipt(member, proposal, app_name, sent_at = Time.now)
+  def submit_receipt(init_id, member, proposal)
     @member = member 
     @proposal = proposal
-    @app_name = app_name
-    
+
     mail(:to => "#{member.first_name} #{member.last_name} <#{member.email}>",
-      :subject => 'Your proposal idea has been submitted for review'
+      :subject => 'Your proposal idea has been submitted for review',
+      :template_path => @template_path, :template_name => @template_name
     )
-    
   end
 
-  def review_request(member, proposal, host, app_name, sent_at = Time.now)
+  def review_request(init_id, member, proposal)
     @member = member
     @proposal = proposal
-    @host = host
-    @app_name = app_name
     
     mail(:to => "Brian Sullivan <support@civicevolution.org>",
-      :subject => "Please review this proposal idea for #{app_name}"
+      :subject => "Please review this proposal idea for #{@app_name}",
+      :template_path => @template_path, :template_name => @template_name
     )
   end
   
-  def approval_notice(member, proposal, team, host, sent_at = Time.now)
+  def approval_notice(init_id, member, proposal, team)
     @member = member
     @proposal = proposal
-    @host = host
     @team = team
     
     mail(:to => "#{member.first_name} #{member.last_name} <#{member.email}>",
-      :subject => "Your proposal idea has been approved and a proposal page has been created"
+      :subject => "Your proposal idea has been approved and a proposal page has been created",
+      :template_path => @template_path, :template_name => @template_name
     )
   end
 
@@ -45,23 +43,6 @@ class ProposalMailer < ActionMailer::Base
       :subject => "Thank you for joining a team with CivicEvolution"
     )
   end
-
-  def team_workspace_available(member, team, host, sent_at = Time.now)
-    @member = member
-    @host = host
-    @team = team
-    mail(:to => "#{member.first_name} #{member.last_name} <#{member.email}>",
-      :subject => "A CivicEvolution proposal workspace has been created for your team"
-    )
-  end
-
-  #def team_send_invite(member, recipient, invite, team, host, sent_at = Time.now)
-  #  subject    "#{member.first_name} #{member.last_name} has invited you to view a proposal for change at CivicEvolution"
-  #  recipients "#{recipient[:first_name]} #{recipient[:last_name]} <#{recipient[:email]}>"
-  #  from       "\"2029 and Beyond at CivicEvolution\" <no-reply@auto.civicevolution.org>"
-  #    #  
-  #  :member => member, :recipient => recipient, :invite => invite, :team => team, :host => host
-  #end
 
   def team_send_invite(member, recipient, message, team, host, app_name, sent_at = Time.now)
     @member = member

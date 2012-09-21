@@ -161,8 +161,8 @@ class PlanController < ApplicationController
 
     respond_to do |format|
       if @proposal_idea.save
-        ProposalMailer.delay.submit_receipt(@member, @proposal_idea, params[:_app_name] )
-        ProposalMailer.delay.review_request(@member, @proposal_idea, request.env["HTTP_HOST"], params[:_app_name] )
+        ProposalMailer.delay.submit_receipt({init_id: params[:_initiative_id]}, @member, @proposal_idea )
+        ProposalMailer.delay.review_request({init_id: params[:_initiative_id]}, @member, @proposal_idea )
         format.html { render :template => "plan/acknowledge_proposal_idea", :layout => 'plan' }
         format.js
       else
@@ -218,8 +218,7 @@ class PlanController < ApplicationController
         @proposal_idea.update_attribute('launched',true)
         
         #notify the author
-        @host = request.env["HTTP_HOST"]
-        ProposalMailer.delay.approval_notice(@submittor, @proposal_idea, @team, @host )
+        ProposalMailer.delay.approval_notice({init_id: params[:_initiative_id]}, @submittor, @proposal_idea, @team )
 
         render :action => "proposal_idea_published", :layout => 'plan'
       else

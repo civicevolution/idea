@@ -4,6 +4,9 @@ GEM
     actionmailer (3.2.6)
       actionpack (= 3.2.6)
       mail (~> 2.4.4)
+    actionmailer-callbacks (1.1.0)
+      actionmailer (~> 3.0)
+      activesupport
     actionpack (3.2.6)
       activemodel (= 3.2.6)
       activesupport (= 3.2.6)
@@ -173,6 +176,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionmailer-callbacks
   airbrake
   aws-s3
   aws-sdk
