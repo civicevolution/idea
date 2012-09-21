@@ -70,10 +70,6 @@
 					
 		= render( :partial => 'ideas/theming_page', locals: { debug: debug, question: question })
 		= stylesheet_link_tag "ce/theming_page"
-		%style
-			:sass
-				div.theming_page_popup
-					position: static
 
 
 	%script#theme_page_template{:type=>'text/html'}

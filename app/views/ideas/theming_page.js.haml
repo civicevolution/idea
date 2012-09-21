@@ -3,16 +3,17 @@
 :plain
 	var theming_page = $("#{escape_javascript(render( partial: 'ideas/theming_page', locals: { question: question}, content_type: 'html'  ))}");
 
-	$('div.ui-slider').hide();
 	$('body').append(theming_page);
-	$("body").css('overflow', 'hidden');
-
+	$('div.page div.right_side ').fadeTo(300,0);
+	$('div.page').slideUp(800, function(){
+		theming_page.after( $('div.page') )
+		resize_theming_page();
+	})
 	
 	//
 	//resize code
 	//
 	function resize_theming_page(){
-		theming_page.css({ top: $('body').scrollTop()});
 		var theme_cols_window = theming_page.find('div.theme_cols_window');
 		theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 100 );
 		var theme_cols = theming_page.find('div.theme_col');
@@ -36,20 +37,21 @@
 		theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() ).css({top: win_top, left: win_left});
 		theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() ).css({top: win_top, left: win_left + theme_cols_window.parent().width() - 24 });
 	}
-	resize_theming_page();
 
-
-
+	theming_page.find('a.close_theming_page').click(function(){
+		$('div.page').show();
+		theming_page.slideUp(800, function(){
+			theming_page.remove();
+			$('div.page div.right_side ').fadeTo(300,1);
+			}
+		);
+		return false;
+	});
+	
 
 	//
 	// Set up theming page sortable
 	//
-	theming_page.find('a.close_theming_page').click(function(){
-		theming_page.remove();
-		$("body").css('overflow', 'visible');
-		$('div.ui-slider').show();
-		return false;
-	});
 
 	var hideDropZonesTimeout = null;
 	function make_ideas_sortable(idea_lists_ul){
