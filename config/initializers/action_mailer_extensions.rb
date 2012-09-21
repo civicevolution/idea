@@ -32,6 +32,9 @@ class ActionMailer::Base
           @host = 'live.civicevolution.org'
           @app_name = 'CivicEvolution Live'
       end
+      if Rails.env.development?
+        @host.sub!(/\.org/, '.dev')
+      end
       @template_path = dir + '/' + 'proposal_mailer'
       @template_name = args[0]
     end
