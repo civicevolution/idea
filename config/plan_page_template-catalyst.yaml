@@ -1,0 +1,40 @@
+# this is the data I need to construct a proposal plan for the 2029/cgg initiative
+# read the data file
+# add each question as shown
+
+what_page:
+  question:         What is your project? 
+  order_id: 1
+  default_answer_id: 5
+  num_answers:      1
+  answer_criteria:  5..4000
+  talking_point_criteria: 20..200
+  talking_point_preferences:  5
+
+why_page:
+  question:         How does this project address our Bridge Building and/or Civic Infrastructure challenges?
+  order_id: 2
+  default_answer_id: 6
+  num_answers:      1
+  answer_criteria:  5..4000
+  talking_point_criteria: 20..200  
+  talking_point_preferences:  5
+
+how_page:
+  question:         Who will be involved in implementing this project?
+  order_id: 3
+  default_answer_id: 7
+  num_answers:      1
+  answer_criteria:  5..4000
+  talking_point_criteria: 20..200
+  talking_point_preferences:  5
+
+who_page:
+  question:         What is your plan for successfully implementing this project?
+  order_id: 4
+  default_answer_id: 8
+  num_answers:      1
+  answer_criteria:  5..4000
+  talking_point_criteria: 20..200
+  talking_point_preferences:  5
+

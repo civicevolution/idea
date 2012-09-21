@@ -3,9 +3,9 @@
 	%div.home_page
 		%div.left_side
 			%div.intro_block.corner
+				%h2 Crowdsourcing Innovation in the NCDD Community
 				%div.homepage_intro
 					%div.mission
-						%h2 Crowdsourcing Innovation in the NCDD Community
 						= image_tag('ncdd/ncdd-whats-next.jpg')
 						%div.intro_float
 							%h2 Two $10K Prizes
@@ -30,7 +30,7 @@
 																								
 				%p.clear_both
 					
-			%h2 Ideas proposed by your campus community		
+			%h1 Projects proposed by the NCDD community		
 			%p
 				%b
 					If you have a new idea that's not listed, 
@@ -97,7 +97,7 @@
 					
 
 		%div.right_side
-			= image_tag('ncdd/catalyst-rocket.gif', class: 'rocket')
+			= link_to image_tag('ncdd/catalyst-rocket.gif', class: 'rocket'), 'http://ncdd.org/catalyst-awards'
 			= render :template => 'welcome/home_stats'
 
 	%p.clear_both

@@ -167,6 +167,51 @@ init_3: #demo
       restriction: 'talking_point_author'
       message: 'You must be the author of this talking point to $act'
 
+init_4: # NCDD Catalyst awards
+  
+  action_rules:
+    
+    suggest_idea:
+      act: 'suggest an idea'
+      mandatory: ['$confirmed']
+  
+    contribute_to_proposal:
+      act: 'contribute to this proposal'
+      mandatory: ['$confirmed']
+    
+    edit_talking_point:
+      act: 'edit this talking point'
+      mandatory: ['$confirmed']
+      #pass_one: ['$team_org', '$level(2)', '$talking_point_author']
+
+    curate_talking_points:
+      act: 'select and order these talking points'
+      mandatory: ['$confirmed']
+      #pass_one: ['$team_org', '$level(3)']
+    
+    edit_team_summary:
+      act: 'edit the proposal title and summary'
+      mandatory: ['$confirmed']
+      pass_one: ['$team_org', '$level(4)']
+    
+    submit_proposal:
+      act: 'submit this proposal'
+      mandatory: ['$confirmed']
+      pass_one: ['$team_org', '$level(4)']
+
+  rule_definitions:
+    
+    confirmed:
+      restriction: 'confirmed_member'
+      message: 'You must confirm your email address before you can $act'
+    team_org:
+      restriction: 'team_org'
+      message: 'You must be the team organizer to $act'
+    level:
+      restriction: 'minimum_level'
+      message: 'You must achieve at least level $level to $act'
+
+
 init_5: # skyline
   
   action_rules:

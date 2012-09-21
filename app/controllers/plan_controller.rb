@@ -147,7 +147,7 @@ class PlanController < ApplicationController
     logger.debug "show form for suggest_new_idea"
     @proposal_idea = ProposalIdea.new params[:proposal_idea] unless @proposal_idea
     respond_to do |format|
-      format.html { render :template => "plan/suggest_new_idea", :layout=> 'plan', :locals=>{:proposal_idea=>@proposal_idea, :inc_js=>'none'} }
+      format.html { render :template => "plan/suggest_new_idea", :layout=> 'home', :locals=>{:proposal_idea=>@proposal_idea, :inc_js=>'home'} }
       format.js
     end
     
@@ -163,7 +163,7 @@ class PlanController < ApplicationController
       if @proposal_idea.save
         ProposalMailer.delay.submit_receipt({init_id: params[:_initiative_id]}, @member, @proposal_idea )
         ProposalMailer.delay.review_request({init_id: params[:_initiative_id]}, @member, @proposal_idea )
-        format.html { render :template => "plan/acknowledge_proposal_idea", :layout => 'plan' }
+        format.html { render :template => "plan/acknowledge_proposal_idea", :layout=>'home', :locals => { :inc_js => 'none'} }
         format.js
       else
         # what do I do if there is an error saving the proposal?
@@ -218,9 +218,10 @@ class PlanController < ApplicationController
         @proposal_idea.update_attribute('launched',true)
         
         #notify the author
+        @host = request.env["HTTP_HOST"]
         ProposalMailer.delay.approval_notice({init_id: params[:_initiative_id]}, @submittor, @proposal_idea, @team )
 
-        render :action => "proposal_idea_published", :layout => 'plan'
+        render :action => "proposal_idea_published", :layout=>'home', :locals => { :inc_js => 'none'}
       else
         logger.debug "This proposal: #{@proposal_idea} has already been converted into a team"
         render :text=> "This proposal: #{@proposal_idea} has already been converted into a team", :layout => 'plan'

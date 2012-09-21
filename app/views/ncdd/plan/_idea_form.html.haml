@@ -1,0 +1,33 @@
+- edit ||= false
+- proposal_idea ||= ProposalIdea.new
+= form_for( proposal_idea, :url => edit ? edit_plan_summary_path(team_id) : submit_proposal_idea_path, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
+	= form.hidden_field :initiative_id, options = {:value=> params[:_initiative_id] }
+	%div.add_idea
+		%div.title
+			= form.label :title, "Project title"
+			= form.text_field :title, :class=>'title', :alias=>'Title'
+			%div.control_line.title
+				%div.controls
+					%span.char_ctr 255 characters
+
+		%div.text
+			= form.label :text, "Please provide a brief summary of your project"
+			= form.text_area :text, :class=>'comment', :class=>'autosize', :rows => 8, :alias=>'Proposal idea'
+			%div.control_line
+				%div.controls
+					%span.char_ctr 
+						1000
+						characters
+						= link_to 'Cancel', home_path, {:class=>'clear'}
+
+		- if !edit
+			%p.acknowledge
+				= form.check_box :accept_guidelines, {:value=>'true', :alias=>'You'}
+				I agree to the eligibility criteria above. I understand my idea will be reviewed for relevance before it is published.
+		%div#recaptcha_suggest_idea
+		%p
+			= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'
+			- if edit
+				= link_to "Cancel", plan_path(params[:team_id]), :class=>'cancel'
+			- else
+				= link_to 'Return to home page', home_path, {:class=>'clear'}
