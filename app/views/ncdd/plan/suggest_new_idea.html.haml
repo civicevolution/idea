@@ -51,4 +51,4 @@
 				
 		%div.right_side
 			= link_to image_tag('ncdd/catalyst-rocket.gif', class: 'rocket'), 'http://ncdd.org/catalyst-awards'
-			= render :template => 'welcome/home_stats'
+			= render :template => 'welcome/home_stats', locals: { _page: 'suggest_idea'}

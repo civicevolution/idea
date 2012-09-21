@@ -1,3 +1,4 @@
+- _page ||= 'home'
 %div.cta_block.corner
 	%div.num 1
 	%div.text
@@ -15,8 +16,11 @@
 	%div.text
 		%h3 Think together
 		%p CivicEvolution provides a continuum of possibilities to participate such as suggesting ideas, commenting, rating, helping to theme ideas into coherent plans, and endorsing proposals.
-		%p.cta.primary Click a project on the left to get started
-		
+		- if _page == 'home'
+			%p.cta.primary Click a project on the left to get started
+		- elsif _page == 'suggest_idea'
+			%p.cta.primary 
+				Suggest your project idea now
 					
 	%p.clear_both
 	
