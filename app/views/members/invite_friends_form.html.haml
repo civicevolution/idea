@@ -17,6 +17,8 @@
 			%p You can email them this link: #{plan_url(team)}
 			
 		%p If you #{link_to 'sign in or join', sign_in_path}, we can send this link directly to your friends for you and you'll get the credit and recognition for supporting this proposal.
+		
+		= link_to 'Cancel', {}, {:class=>'clear', :rel=>'nofollow'}
 	- else
 		%p 
 			The email addresses you enter here will be used just one time to send this email.
