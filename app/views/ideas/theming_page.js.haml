@@ -176,18 +176,29 @@
 	}
 
 	$('div.theming_page').on('click','div.post-it img.edit',
-		function edit_theme(event){
-			$(this).closest('div.theme_col').addClass('edit_mode')
+		function(event){
+			var theme_col = $(this).closest('div.theme_col').addClass('edit_mode');
+			theme_col.find('ul.sortable_ideas').eq(1).sortable('disable');
+			theme_col.find('textarea').autoGrow({
+				minHeight  : 100,
+				maxHeight : 500
+			})
 		}
 	);
+
+	//$('div.theming_page').on('click','div.post-it img.clipboard',
+	//	function(event){
+	//		var post_it = $(this).closest('div.post-it');
+	//		console.log("copy text to clipboard: " + post_it.find('p.idea').html() );
+	//		//var theme = post_it.closest('div.theme_col')
+	//	}
+	//);
 
 	$('div.theming_page').on('click','div.post-it a.cancel',
 		function edit_theme(event){
-			$(this).closest('div.theme_col').removeClass('edit_mode')
+			$(this).closest('div.theme_col').removeClass('edit_mode').find('ul.sortable_ideas').eq(1).sortable('enable');
 		}
 	);
-
-
 
 	//
 	// Set up theming page auto scrolling with hotspots
