@@ -73,6 +73,8 @@
 					'@id' : 'data.id',
 					'li.theme_post_it div.post-it @id' : 'data.theme_id',
 					'li.theme_post_it p.idea' : 'data.theme_text',
+					'li.theme_post_it form @href' : '/idea/\#{data.theme_id}/edit_theme',
+					'li.theme_post_it form @action' : '/idea/\#{data.theme_id}/edit_theme',
 					'li.idea_post_it div.post-it @id' : 'data.theme_idea_id',						
 					'li.idea_post_it p.idea' : 'data.theme_idea'	
 				}
@@ -86,6 +88,8 @@
 					new_theme_col = $(new_theme_col).insertAfter(data.col_par);
 					resize_theming_page();
 					make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
+					
+					// insert the new theme into the proposal page
 					return new_theme_col;
 				}
 			

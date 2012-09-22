@@ -138,6 +138,7 @@ G3::Application.routes.draw do
   post 'idea/:idea_id/idea_order', to: 'ideas#theme_ideas_order', as: 'theme_ideas_order'
   post 'idea/:idea_id/create_theme', to: 'ideas#create_theme', as: 'create_theme'
   post 'idea/:idea_id/remove_from_parent', to: 'ideas#remove_from_parent', as: 'remove_from_parent'
+  post 'idea/:idea_id/edit_theme', to: 'ideas#edit_theme', as: 'edit_theme'
   
   post 'idea/rating', to: 'idea_ratings#update_rating', as: 'update_idea_rating'
 	

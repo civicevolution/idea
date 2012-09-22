@@ -141,7 +141,8 @@ ul, li
 div.status
 	height: 20px
 img.delete, img.edit
-	display: none 
+	display: none
+	cursor: pointer 
 li.idea_post_it:hover
 	img.delete
 		display: block
@@ -252,7 +253,6 @@ li
 //
 
 form.std_form.edit_theme
-	display: none
 	margin-bottom: 0
 	p.form_controls
 		postion: relative
@@ -261,5 +261,20 @@ form.std_form.edit_theme
 		a.cancel
 			position: absolute
 			right: 10px
+
+div.theme_col
+	li.theme_post_it
+		form.std_form.edit_theme
+			display: none
+		p.idea, div.status
+			display: block
+
+div.theme_col.edit_mode
+	li.theme_post_it
+		form.std_form.edit_theme
+			display: block
+		p.idea, div.status
+			display: none
+
 		
 		

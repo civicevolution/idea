@@ -11,7 +11,7 @@
 		%p Please create at least one theme
 	- else
 		- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
-			%h3.theme= theme.text
+			%h3.theme{id: theme.id}= theme.text
 	
 	= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 
 		%div.add_idea

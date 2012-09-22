@@ -159,7 +159,8 @@
 
 	$('div.theming_page').on('mouseup', 'div.post-it', show_idea_details);
 	function show_idea_details(event){
-		if( !$(event.srcElement).is('img') && !$(event.srcElement).is('a') ){
+		var edit_mode = $(this).closest('div.theme_col').hasClass('edit_mode');
+		if( !edit_mode && !$(event.srcElement).is('img') ){
 			console.log("show_idea_details for this.id: " + this.id);
 			$.getScript('/idea/' + this.id + '/details');
 		}
@@ -176,22 +177,13 @@
 
 	$('div.theming_page').on('click','div.post-it img.edit',
 		function edit_theme(event){
-			var post_it = $(this).closest('div.post-it');
-			temp.post_it = post_it;
-			console.log("edit theme " + post_it.attr('id'));
-			post_it.children().hide();
-			post_it.find('form').show();
+			$(this).closest('div.theme_col').addClass('edit_mode')
 		}
 	);
 
 	$('div.theming_page').on('click','div.post-it a.cancel',
 		function edit_theme(event){
-			var post_it = $(this).closest('div.post-it');
-			temp.post_it = post_it;
-			console.log("cancel theme edit " + post_it.attr('id'));
-			post_it.find('form').hide();
-			post_it.children().not('form').show();
-			return false;
+			$(this).closest('div.theme_col').removeClass('edit_mode')
 		}
 	);
 

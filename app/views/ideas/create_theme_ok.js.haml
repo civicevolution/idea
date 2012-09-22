@@ -2,4 +2,11 @@
 	console.log("create theme is ok");
 	var col_par = $('div.theme_col[id="#{params[:par_id]}"]');
 	var data = { data: { id: #{new_theme.id}, theme_id: #{new_theme.id}, theme_text: "#{new_theme.text}", 	theme_idea_id: #{idea.id}, theme_idea: "#{idea.text}" }, col_par: col_par };
-	realtime_data_update_functions['theme_col']( data );
+	realtime_data_update_functions['theme_col']( data );	
+	var new_proposal_page_theme = $('<h3 class="theme" id=-"#{idea.id}">#{idea.text}</h3>');
+
+	if( #{ params[:par_id] == 'unthemed_ideas' } ){
+		$('div.question_summary[id="#{idea.question_id}"] h3.theme').eq(0).before( new_proposal_page_theme );
+	}else{
+		$('div.question_summary[id="#{idea.question_id}"] h3.theme[id="#{params[:par_id]}"]').after( new_proposal_page_theme );
+	}

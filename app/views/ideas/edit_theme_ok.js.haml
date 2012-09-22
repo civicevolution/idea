@@ -1,0 +1,10 @@
+:plain
+	console.log("edit theme ok - determine if edit in theming page, theme edit page, or theme popup");
+	var idea = #{idea.to_json}.idea;
+	$('h3.theme[id="#{idea.id}"]').html(idea.text);
+	if( $('div.theming_page')){
+		var post_it = $('div.post-it[id="#{idea.id}"]');
+		post_it.find('textarea').val(idea.text);
+		post_it.find('p.idea').html(idea.text);	
+		post_it.closest('div.theme_col').removeClass('edit_mode');
+	}
