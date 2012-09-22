@@ -37,7 +37,7 @@
 							%ul.sortable_ideas
 								%li.theme_post_it
 									%div{class: "R#{random_ind.pop} post-it", id: theme.id}
-										= form_tag edit_theme_path(theme.id), :class=>'std_form edit_theme', :remote=>true do 
+										= form_tag edit_theme_path(theme.id), :class=>'std_form edit_theme', id: theme.id, :remote=>true do 
 											%div.edit_theme
 												= text_area_tag :text, theme.text, :class=>'theme autosize', :size=>"1x2", :fixed_rows=>true
 											%p.form_controls

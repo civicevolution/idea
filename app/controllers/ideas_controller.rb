@@ -164,7 +164,7 @@ class IdeasController < ApplicationController
         #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
         #format.json { render json: @idea, status: :created, location: iidea }
       else
-        format.js { render 'ideas/create_theme_errors', locals: {new_theme: new_theme, idea: idea} }
+        format.js { render 'ideas/create_theme_error', locals: {new_theme: new_theme, idea: idea} }
         #format.html { render action: "new" }
         #format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
@@ -202,7 +202,7 @@ class IdeasController < ApplicationController
         #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
         #format.json { render json: @idea, status: :created, location: iidea }
       else
-        format.js { render 'ideas/edit_theme_errors', locals: { idea: idea} }
+        format.js { render 'ideas/edit_theme_error', locals: { idea: idea} }
         #format.html { render action: "new" }
         #format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
