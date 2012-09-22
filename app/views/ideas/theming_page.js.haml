@@ -122,11 +122,11 @@
 				var par = list.closest('div.theme_col');
 				console.log("sortable update for theme: " + par.attr('id') );
 				temp['par' + par.attr('id')] = par
-				//console.log("ordered_ids: " + par.find('li.idea_post_it a.post-it').map(function(){return this.id;}));
+				//console.log("ordered_ids: " + par.find('li.idea_post_it div.post-it').map(function(){return this.id;}));
 				// send the theme order data
 				$.post('/idea/' + par.attr('id') + '/idea_order', 
 					{	
-						ordered_ids: $.makeArray(par.find('li.idea_post_it a.post-it').map(function(){return Number(this.id);}))
+						ordered_ids: $.makeArray(par.find('li.idea_post_it div.post-it').map(function(){return Number(this.id);}))
 					}, 
 					"script"
 				);
@@ -149,7 +149,7 @@
 		$.post('/idea/' + par.attr('id') + '/create_theme', 
 			{	
 				par_id: par.attr('id') ,
-				child_idea_id: idea.find('a.post-it').attr('id') 
+				child_idea_id: idea.find('div.post-it').attr('id') 
 			}, 
 			"script"
 		);
@@ -157,7 +157,7 @@
 		//realtime_data_update_functions['theme_col']( { data: { id: par.attr('id'), theme_idea: idea.find('p.idea').html() }, col_par: par });
 	}
 
-	$('div.theming_page').on('mouseup', 'a.post-it', show_idea_details);
+	$('div.theming_page').on('mouseup', 'div.post-it', show_idea_details);
 	function show_idea_details(event){
 		if( !$(event.srcElement).is('img') ){
 			console.log("show_idea_details for this.id: " + this.id);
@@ -165,18 +165,18 @@
 		}
 	}
 	
-	$('div.theming_page').on('click','a.post-it img.delete', remove_idea_from_parent);
+	$('div.theming_page').on('click','div.post-it img.delete', remove_idea_from_parent);
 	function remove_idea_from_parent(event){
-		var post_it = $(this).closest('a.post-it');
+		var post_it = $(this).closest('div.post-it');
 		console.log("remove idea " + post_it.attr('id'));
 		$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 
 			"script"
 		);
 	}
 
-	$('div.theming_page').on('click','a.post-it img.edit', edit_theme);
+	$('div.theming_page').on('click','div.post-it img.edit', edit_theme);
 	function edit_theme(event){
-		var post_it = $(this).closest('a.post-it');
+		var post_it = $(this).closest('div.post-it');
 		temp.post_it = post_it;
 		console.log("edit theme " + post_it.attr('id'));
 		//$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 

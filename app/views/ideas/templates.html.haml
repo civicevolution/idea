@@ -50,20 +50,6 @@
 				for(var i=0;str=strs[i];i++) s += '<p>'+str+'</p>'
 				return s.replace(/\n/g,'<br/>')
 			}
-			function simple_com_format(context){
-				var s = unescape(context.data.comment.text);
-				var strs = s.split(/\n\n/)
-				s = ''
-				for(var i=0;str=strs[i];i++) s += '<p>'+str+'</p>'
-				s = s.replace(/\n/g,'<br/>')
-
-				var author = '<a href="/members/' + context.ape_code + '/profile" class="com_author" data-remote="true">' + unescape(context.author.first_name + ' ' + context.author.last_name) + '</a>'
-
-				s = s.replace(/<p>/,'<p>' + author + ' ')
-				//console.log("simple_com_format s: " + s)
-				return s;
-			}
-		
 
 	- if debug
 		%h3 ideas/theming_page
@@ -85,9 +71,9 @@
 				{
 					// directives go here
 					'@id' : 'data.id',
-					'li.theme_post_it a @id' : 'data.theme_id',
+					'li.theme_post_it div.post-it @id' : 'data.theme_id',
 					'li.theme_post_it p.idea' : 'data.theme_text',
-					'li.idea_post_it a @id' : 'data.theme_idea_id',						
+					'li.idea_post_it div.post-it @id' : 'data.theme_idea_id',						
 					'li.idea_post_it p.idea' : 'data.theme_idea'	
 				}
 			);
