@@ -37,6 +37,13 @@
 							%ul.sortable_ideas
 								%li.theme_post_it
 									%div{class: "R#{random_ind.pop} post-it", id: theme.id}
+										= form_tag edit_theme_path(theme.id), :class=>'std_form edit_theme', :remote=>true do 
+											%div.edit_theme
+												= text_area_tag :text, '', :class=>'theme autosize', :size=>"1x2", :fixed_rows=>true
+											%p.form_controls
+												= submit_tag "Save", :name=>'add_idea', 'data-disable-with'=>'Submitting...'
+												= link_to 'Cancel', '#', {:class=>'cancel', :rel=>'nofollow'}
+
 										%p.idea= theme.text
 										%div.status
 											= image_tag 'blue-pencil-24.png', :class=>"edit"
