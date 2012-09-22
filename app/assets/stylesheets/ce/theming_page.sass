@@ -120,7 +120,7 @@ div.theming_page_outer
 				h3
 					margin-left: 10px
 					color: white
-				li.idea_post_it img.delete
+				li.idea_post_it img.delete, li.theme_post_it img.edit
 					display: none
 			//div.theme_col.theme
 			div.theme_col.parked_ideas
@@ -140,10 +140,13 @@ ul, li
 
 div.status
 	height: 20px
-img.delete
+img.delete, img.edit
 	display: none 
 li.idea_post_it:hover
 	img.delete
+		display: block
+li.theme_post_it:hover
+	img.edit
 		display: block
 
 ul
