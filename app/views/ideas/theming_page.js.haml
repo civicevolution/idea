@@ -5,8 +5,10 @@
 
 	$('body').append(theming_page);
 	$('div.page div.right_side ').fadeTo(300,0);
+	$('body').scrollTo(0,500);
 	$('div.page').slideUp(800, function(){
-		theming_page.after( $('div.page') )
+		$('body').scrollTop(0);
+		theming_page.after( $('div.page') );
 		resize_theming_page();
 	})
 	
@@ -39,9 +41,11 @@
 	}
 
 	theming_page.find('a.close_theming_page').click(function(){
+		var question = $('div.question_summary[id="' + this.id + '"]');
 		$('div.page').show();
 		theming_page.slideUp(800, function(){
 			theming_page.remove();
+			$('body').scrollTo(question, 300);
 			$('div.page div.right_side ').fadeTo(300,1);
 			}
 		);
