@@ -82,10 +82,14 @@
 			
 			realtime_data_update_functions['theme_col'] = 
 				function(data){
-					//debugger
 					var new_theme_col = template_functions['theme_col']( data );
-					// insert after data.col_par
-					new_theme_col = $(new_theme_col).insertAfter(data.col_par);
+					if(data.side == 'left'){
+						// insert after data.col_par
+						new_theme_col = $(new_theme_col).insertBefore(data.col_par);
+					}else{
+						// insert after data.col_par
+						new_theme_col = $(new_theme_col).insertAfter(data.col_par);
+					}
 					resize_theming_page();
 					make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
 					

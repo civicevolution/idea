@@ -124,14 +124,20 @@ div.new_group_drop_zone
 	position: absolute
 	z-index: 10
 	height: 162px
-	background: image-url('new_group_drop_zone.gif') no-repeat
+	&.left
+		background: image-url('drop-left.gif') no-repeat
+	&.right
+		background: image-url('drop-right.gif') no-repeat
 	display: none
 	&.drop_hover
-		background: image-url('new_group_drop_zone_hover.gif') no-repeat
+		&.left
+			background: image-url('drop-hover-left.gif') no-repeat
+		&.right
+			background: image-url('drop-hover-right.gif') no-repeat
 	ul.sortable_ideas
-		height: 100px //43px
-		margin-top: -23px //0
-		width: 114px
+		height: 43px
+		margin-top: 0
+		width: 83px
 
 
 // post-it styling							
@@ -168,6 +174,7 @@ ul
 	overflow: hidden
 	padding: 0em
 	&.sortable_ideas
+		margin-top: 0
 		min-height: 60px
 		padding-bottom: 40px
 		&.highlight_dropzone
@@ -295,4 +302,14 @@ div.theme_col.edit_mode
 		display: block
 	img.delete
 		display: none
+		
+
+
+div.new_group_drop_zone
+	ul.sortable_ideas
+		border: 1px solid red
+
+div.theme_col
+	ul.sortable_ideas
+		border: 1px solid orange
 		

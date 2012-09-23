@@ -153,7 +153,16 @@ class IdeasController < ApplicationController
     if params[:par_id] == 'unthemed_ideas'
       ordered_ids = [new_theme.id] + ordered_ids
     else
-      ordered_ids.insert( ordered_ids.index(params[:par_id].to_i) + 1,  new_theme.id )
+      par_col_index = ordered_ids.index(params[:par_id].to_i);
+      case
+        when par_col_index == 0 && params[:side] == 'left'
+           ordered_ids = [new_theme.id] + ordered_ids
+        when params[:side] == 'left'
+          ordered_ids.insert( par_col_index,  new_theme.id )
+        else
+          ordered_ids.insert( par_col_index + 1,  new_theme.id )
+      end
+      
     end
     # now I need to set the order
     Idea.reorder_siblings( new_theme.parent_id, ordered_ids )
