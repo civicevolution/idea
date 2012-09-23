@@ -13,14 +13,15 @@ function resize_theming_page(){
 	theme_cols_window.width( width > (max_width - 40) ? width : max_width );
 	var win_top = theme_cols_window.position().top;
 	var win_left = theme_cols_window.position().left;
-	var win_bottom = win_top + theme_cols_window.height();
+	var lower_hotpsot_top = theme_cols_window.height() - 24;
 	$('div.theme_col').each(
 		function(){
 			var col = $(this);
-			var left = col.position().left + win_left;
+			var left = col.position().left;
 			var width = col.width();
-			col.find('div.auto-scroll.top').width(width).css({top: win_top, left: left});
-			col.find('div.auto-scroll.bottom').width(width).css({top: win_bottom - 24, left: left});
+			// insert drag hotspots
+			$('<div class="auto-scroll top"></div>').appendTo(theme_cols_window).width(width).css({top: 0, left: left}).attr('id',this.id);
+			$('<div class="auto-scroll bottom"></div>').appendTo(theme_cols_window).width(width).css({top: lower_hotpsot_top, left: left}).attr('id',this.id);
 			col.find('div.new_group_drop_zone').css({top: win_top - 40, left: left + width - 60});
 		}
 	);
@@ -218,13 +219,13 @@ function autoscroll_mousemove(x, y, ctnr) {
 		auto_scroll_params.direction = -1;
 		speed = 24 - y;
 		auto_scroll_params.scrollAxis = 'vertical';
-		var scrollElement = ctnr.parent();
+		var scrollElement = $('div.theme_col[id="' + ctnr.attr('id') + '"]');
 	}else if( ctnr.hasClass('bottom') ){
 		y = y - ctnr.offset().top;
 		auto_scroll_params.direction = 1;
 		speed = y + 1;
 		auto_scroll_params.scrollAxis = 'vertical';
-		var scrollElement = ctnr.parent();
+		var scrollElement = $('div.theme_col[id="' + ctnr.attr('id') + '"]');
 	}else if( ctnr.hasClass('left') ){
 		x = x - ctnr.offset().left;
 		auto_scroll_params.direction = -1;

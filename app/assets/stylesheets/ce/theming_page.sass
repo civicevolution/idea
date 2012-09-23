@@ -87,6 +87,12 @@ div.theming_page_outer
 				position: fixed
 				width: 24px
 				background-color: transparent
+			div.auto-scroll.top, div.auto-scroll.bottom
+				z-index: 10001
+				position: absolute
+				width: 100px
+				height: 24px
+				left: 0
 			
 			div.theme_col
 				position: relative
@@ -95,12 +101,6 @@ div.theming_page_outer
 				width: 200px
 				float: left
 				max-height: 100%
-				div.auto-scroll
-					z-index: 10001
-					position: fixed
-					width: 100px
-					height: 24px
-					left: 0
 				div.new_group_drop_zone
 					position: fixed
 					z-index: 10
