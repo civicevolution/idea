@@ -120,8 +120,6 @@ div.theming_page_outer
 				h3
 					margin-left: 10px
 					color: white
-				li.idea_post_it img.delete, li.theme_post_it img.edit
-					display: none
 			//div.theme_col.theme
 			div.theme_col.parked_ideas
 				position: absolute
@@ -143,12 +141,26 @@ div.status
 img.delete, img.edit, img.clipboard
 	display: none
 	cursor: pointer 
-li.idea_post_it:hover
-	img.delete
-		display: block
-li.theme_post_it:hover
-	img.edit
-		display: block
+div.theme_col
+	li.idea_post_it:hover
+		img.delete
+			display: block
+	li.theme_post_it:hover
+		img.edit
+			display: block
+
+
+div.theme_col.unthemed_ideas
+	li.idea_post_it:hover
+		img.delete
+			display: none
+	li.theme_post_it:hover
+		img.edit
+			display: none
+
+	li.idea_post_it img.delete, li.theme_post_it img.edit
+		display: none
+
 
 ul
 	overflow: hidden
@@ -281,5 +293,4 @@ div.theme_col.edit_mode
 		display: block
 	img.delete
 		display: none
-		
 		
