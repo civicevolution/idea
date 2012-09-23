@@ -14,17 +14,23 @@ function resize_theming_page(){
 	var win_top = theme_cols_window.position().top;
 	var win_left = theme_cols_window.position().left;
 	var lower_hotpsot_top = theme_cols_window.height() - 24;
-	$('div.theme_col').each(
-		function(){
-			var col = $(this);
-			var left = col.position().left;
-			var width = col.width();
-			// insert drag hotspots
-			$('<div class="auto-scroll top"></div>').appendTo(theme_cols_window).width(width).css({top: 0, left: left}).attr('id',this.id);
-			$('<div class="auto-scroll bottom"></div>').appendTo(theme_cols_window).width(width).css({top: lower_hotpsot_top, left: left}).attr('id',this.id);
-			col.find('div.new_group_drop_zone').css({top: win_top - 40, left: left + width - 60});
-		}
-	);
+	if( $('div.new_group_drop_zone').size() == 0 ){ // only insert once to the same theming page
+		$('div.theme_col').each(
+			function(){
+				var col = $(this);
+				var left = col.position().left;
+				var width = col.width();
+				// insert and position the autoscroll hotspots
+				$('<div class="auto-scroll top"></div>').appendTo(theme_cols_window).width(width).css({top: 0, left: left}).attr('id',this.id);
+				$('<div class="auto-scroll bottom"></div>').appendTo(theme_cols_window).width(width).css({top: lower_hotpsot_top, left: left}).attr('id',this.id);
+				// insert and position the new group dropzones
+				if(this.id != 'parked_ideas'){
+					$('<div class="new_group_drop_zone"><ul class="sortable_ideas"></ul></div>').appendTo(theme_cols_window)
+						.css({top: 0, left: left + width - 60}).attr('id',this.id);
+				}
+			}
+		);
+	}
 	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() ).css({top: win_top, left: win_left});
 	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() ).css({top: win_top, left: win_left + theme_cols_window.parent().width() - 24 });
 }
@@ -55,6 +61,7 @@ function make_ideas_sortable(idea_lists_ul){
 		appendTo: 'body',
 		items: 'li.idea_post_it',
 		connectWith: ".sortable_ideas",
+		cursor: 'move',
 		start: function(event, ui) { 
 			//console.log("Start sortable drag"); 
 			$('div.auto-scroll')
@@ -70,13 +77,13 @@ function make_ideas_sortable(idea_lists_ul){
 			$('div.auto-scroll')
 				.unbind('mousemove')
 				.unbind('mouseleave');
-			$('div.new_group_drop_zone').hide();	
+			$('div.new_group_drop_zone').removeClass('drop_hover').hide();	
 		}, 
 		over: function(event,ui){
 			var list = $(this);
 			var par = list.closest('div.theme_col');
 			if(list.parent().hasClass('new_group_drop_zone')){
-				//console.log("cancel drop zone hide");
+				//console.log("cancel drop zone hide with id: " + list.parent().attr('id'));
 				clearTimeout(hideDropZonesTimeout);
 				list.parent().addClass('drop_hover');
 				ui.helper.addClass('drop_hover');
@@ -106,16 +113,16 @@ function make_ideas_sortable(idea_lists_ul){
 		receive: function(event,ui){
 			var list = $(this);
 			if(list.parent().hasClass('new_group_drop_zone')){
-				var par = list.closest('div.theme_col');
+				var par = $('div.theme_col[id="' + list.parent().attr('id') + '"]');
 				createNewThemeGroup(ui, list, par);
 			}
 			//console.log("Hide the drop zones");
-			$('div.new_group_drop_zone').hide();
+			$('div.new_group_drop_zone').removeClass('drop_hover').hide();
 		},
 		update: function(event,ui){
 			var list = $(this);
 			var par = list.closest('div.theme_col');
-			console.log("sortable update for theme: " + par.attr('id') );
+			//console.log("sortable update for theme: " + par.attr('id') );
 			temp['par' + par.attr('id')] = par
 			//console.log("ordered_ids: " + par.find('li.idea_post_it div.post-it').map(function(){return this.id;}));
 			// send the theme order data
@@ -132,12 +139,12 @@ function make_ideas_sortable(idea_lists_ul){
 
 function showColumnDropZones(par){
 	//console.log("Show the dropzones for this this column: " + par.attr('id') );
-	par.find('div.new_group_drop_zone').show();
-	par.prev('div.theme_col').find('div.new_group_drop_zone').show();
+	$('div.new_group_drop_zone[id="' + par.attr('id') + '"]').show();
+	$('div.new_group_drop_zone[id="' + par.prev('div.theme_col').attr('id') + '"]').show();
 }
 function createNewThemeGroup(ui, list, par){
 	var idea = list.find('li.idea_post_it').remove();
-	console.log("createNewThemeGroup: Now create a new list for sortable receive " + par.attr('id') );
+	//console.log("createNewThemeGroup: Now create a new list for sortable receive " + par.attr('id') );
 	
 	// send the theme order data
 	$.post('/idea/' + par.attr('id') + '/create_theme', 
@@ -155,7 +162,7 @@ $('body').on('mouseup', 'div.theming_page div.post-it', show_idea_details);
 function show_idea_details(event){
 	var edit_mode = $(this).closest('div.theme_col').hasClass('edit_mode');
 	if( !edit_mode && !$(event.srcElement).is('img') ){
-		console.log("show_idea_details for this.id: " + this.id);
+		//console.log("show_idea_details for this.id: " + this.id);
 		$.getScript('/idea/' + this.id + '/details');
 	}
 }
@@ -163,7 +170,7 @@ function show_idea_details(event){
 $('body').on('click','div.theming_page div.post-it img.delete', remove_idea_from_parent);
 function remove_idea_from_parent(event){
 	var post_it = $(this).closest('div.post-it');
-	console.log("remove idea " + post_it.attr('id'));
+	//console.log("remove idea " + post_it.attr('id'));
 	$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 
 		"script"
 	);

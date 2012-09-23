@@ -101,18 +101,6 @@ div.theming_page_outer
 				width: 200px
 				float: left
 				max-height: 100%
-				div.new_group_drop_zone
-					position: fixed
-					z-index: 10
-					height: 162px
-					background: image-url('new_group_drop_zone.gif') no-repeat
-					display: none
-					&.drop_hover
-						background: image-url('new_group_drop_zone_hover.gif') no-repeat
-					ul.sortable_ideas
-						height: 100px //43px
-						margin-top: -23px //0
-						width: 114px
 			div.theme_col.unthemed_ideas
 				background: #a3a3bf //#cfb
 				ul.sortable_ideas.highlight_dropzone
@@ -131,6 +119,20 @@ div.theming_page_outer
 				h3
 					margin-left: 10px
 					color: white
+
+div.new_group_drop_zone
+	position: absolute
+	z-index: 10
+	height: 162px
+	background: image-url('new_group_drop_zone.gif') no-repeat
+	display: none
+	&.drop_hover
+		background: image-url('new_group_drop_zone_hover.gif') no-repeat
+	ul.sortable_ideas
+		height: 100px //43px
+		margin-top: -23px //0
+		width: 114px
+
 
 // post-it styling							
 ul, li

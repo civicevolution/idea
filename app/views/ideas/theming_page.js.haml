@@ -10,8 +10,9 @@
 		$('body').scrollTop(0);
 		theming_page.after( $('div.page') );
 		resize_theming_page();
+		setTimeout(function(){make_ideas_sortable(this.find('ul.sortable_ideas'))}.bind(theming_page),200);
 	})
 	
-	make_ideas_sortable(theming_page.find('ul.sortable_ideas'));
+	
 	
 	

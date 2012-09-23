@@ -9,8 +9,6 @@
 				%div.auto-scroll.right
 				
 				%div.theme_col.unthemed_ideas.fancy-scrollbar{ id:  'unthemed_ideas'}
-					%div.new_group_drop_zone
-						%ul.sortable_ideas
 					
 					%h3 New ideas
 					%ul.sortable_ideas
@@ -27,8 +25,6 @@
 					- question.themes.each do |theme|
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
 						%div.theme_col.themes.fancy-scrollbar{ id:  theme.id }
-							%div.new_group_drop_zone
-								%ul.sortable_ideas
 							
 							%ul.sortable_ideas
 								%li.theme_post_it
