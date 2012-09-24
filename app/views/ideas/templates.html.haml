@@ -92,6 +92,7 @@
 					}
 					resize_theming_page();
 					make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
+					make_ideas_sortable($('div.theming_page').find('div.new_group_drop_zone[id="' + new_theme_col.attr('id') + '"] ul.sortable_ideas'));
 					
 					// insert the new theme into the proposal page
 					return new_theme_col;

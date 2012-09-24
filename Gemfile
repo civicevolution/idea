@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.6'
 
 group :development do
-  gem 'thin'
-  gem 'debugger'
+  gem 'thin', '1.4.1'
+  gem 'debugger', '= 1.1.4'
 end
 
 # Gems used only for assets and not required
@@ -25,6 +25,7 @@ group :production do
 	gem 'newrelic_rpm'
 end
 
+gem 'eventmachine', '= 0.12.10'
 gem "bluecloth"
 gem "daemons"
 gem "diff-lcs"
@@ -32,11 +33,11 @@ gem "differ"
 gem "haml"
 gem 'sass'
 gem 'paperclip'
-gem "pg"
+gem "pg", '= 0.14.0'
 gem "recaptcha", :require => "recaptcha/rails"
 gem "tzinfo"
 gem "uuidtools"
-gem "json"
+gem "json", '= 1.7.3'
 gem 'aws-s3', :require => 'aws/s3'
 gem "aws-ses"
 gem 'aws-sdk'
