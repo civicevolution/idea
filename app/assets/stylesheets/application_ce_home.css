@@ -12,6 +12,5 @@
  *= require ./ce/base.sass
  *= require ./ce/layout.sass
  *= require ./ce/home.css
- *= require cupertino/jquery-ui-1.8.17.custom.css
- *= require prettyPhoto.css
+ *= require_tree ../../../vendor/assets/stylesheets
  */

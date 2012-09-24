@@ -15,6 +15,5 @@
  *= require ./ce/proposal_theme_display.sass
  *= require ./ce/theming_page.sass
  *= require ./ce/idea_details.sass
- *= require start/jquery-ui-1.8.23.custom.css
- *= require prettyPhoto.css
+ *= require_tree ../../../vendor/assets/stylesheets
 */

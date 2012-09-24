@@ -10,5 +10,5 @@
  *
  * Don't include self = require_self
  *= require ./ce_home/civic_home.css
- *= require prettyPhoto.css
+ *= require_tree ../../../vendor/assets/stylesheets
  */
