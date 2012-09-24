@@ -11,4 +11,5 @@
  * Don't include self = require_self
  *= require ./ce_home/civic_home.css
  *= require_tree ../../../vendor/assets/stylesheets
+ *= require_tree ./start
  */

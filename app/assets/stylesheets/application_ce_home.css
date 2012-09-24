@@ -13,4 +13,5 @@
  *= require ./ce/layout.sass
  *= require ./ce/home.css
  *= require_tree ../../../vendor/assets/stylesheets
+ *= require_tree ./start
  */

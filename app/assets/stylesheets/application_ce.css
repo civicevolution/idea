@@ -16,4 +16,5 @@
  *= require ./ce/theming_page.sass
  *= require ./ce/idea_details.sass
  *= require_tree ../../../vendor/assets/stylesheets
+ *= require_tree ./start
 */
