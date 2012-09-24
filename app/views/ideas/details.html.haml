@@ -62,8 +62,12 @@
 		%ul
 			- if idea.is_theme
 				%li.theme_post_it
-					%a{href: '#', class: "R#{idea.id.to_s.match(/\d$/)[0]}"}
+					%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
 						%p.idea= idea.text
+						-#%div.status
+							-#= image_tag 'delete_icon_16t.gif', :class=>"delete"
+							-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+						
 				%p.timestamp
 					#{time_ago_in_words(idea.updated_at)} ago,
 					Version #{idea.version}
@@ -71,9 +75,12 @@
 						= link_to "View history", {}
 			- else
 				%li.idea_post_it
-					%a{href: '#', class: "R#{idea.id.to_s.match(/\d$/)[0]}"}
+					%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
 						%p.idea= idea.text
-						= image_tag 'delete_icon_16t.gif', :class=>"delete"
+						%div.status
+							= image_tag 'delete_icon_16t.gif', :class=>"delete"
+							-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+						
 				%p.timestamp
 					#{time_ago_in_words(idea.updated_at)} ago
 					

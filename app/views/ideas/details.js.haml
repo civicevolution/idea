@@ -10,9 +10,35 @@
 		value: #{my_rating.nil? ? 50 : my_rating.rating},
 		range: "min"
 	});
-	if($modal){$modal.close();}
 	
-	$modal = details.modal( );
+	dialog = details.dialog(  {
+		title : '', 
+		modal : true, 
+		width :'auto',
+		show: 'slide',
+		height: $(window).height() - 8,
+		open: function(event,ui){
+			$(this).find('a').blur();
+			$(this).parent().find('span.ui-dialog-title').remove()
+		},
+		beforeClose: function(event,ui){
+			var dialog = $(this).parent();
+			var deleteNow = false;                                       	
+			if(dialog.find('textarea').val() == ''){           	
+				deleteNow = true                                           	
+			}else{                                                       	
+				deleteNow = confirm("Do you want to discard your writing?")	
+			}                                                            	
+			if(deleteNow){                                               	
+				dialog.slideUp(800, function () { 
+					dialog.dialog('destroy').remove();
+			  });                                                        	
+			}else{ 
+				return false;
+			}                                                            	
+		}
+	 } );
+	
 
 	activate_text_counters_grow(details.find('textarea'), 120);
 	//details.modal( {escClose: false});
