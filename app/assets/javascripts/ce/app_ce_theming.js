@@ -21,8 +21,8 @@ function resize_theming_page(){
 			var col = $(this);
 			var left = col.position().left;
 			var width = col.width();
-			if( $('div.new_group_drop_zone[id="' + this.id +'"]').size() == 0 ){ // only insert once to the same theming page
-				console.log("insert new drop zone and hotspots for " + this.id );
+			if( $('div.auto-scroll[id="' + this.id +'"]').size() == 0 ){ // only insert once to the same theming page	
+				//console.log("insert new drop zone and hotspots for " + this.id );
 				// insert and position the autoscroll hotspots
 				$('<div class="auto-scroll top"></div>').appendTo(theme_cols_window).width(width).css({top: 0, left: left}).attr('id',this.id);
 				$('<div class="auto-scroll bottom"></div>').appendTo(theme_cols_window).width(width).css({top: lower_hotpsot_top, left: left}).attr('id',this.id);
@@ -146,7 +146,12 @@ function make_ideas_sortable(idea_lists_ul){
 					if(debug) console.log("CANCEL RECEIVE b/c no hover, sortable id: " + list.parent().attr('id') + ', class: ' + list.parent().attr('class'));
 					$('ul.sortable_ideas').sortable('cancel');
 				}
+			}else{
+				if( !list.hasClass('highlight_dropzone')){
+					$('ul.sortable_ideas').sortable('cancel');
+				}
 			}
+			
 			//if(debug) console.log("Hide the drop zones");
 			$('div.new_group_drop_zone').removeClass('drop_hover').hide();
 		},
@@ -203,16 +208,17 @@ function show_idea_details(event){
 	}
 }
 
-$('body').on('click','div.theming_page div.post-it img.delete', remove_idea_from_parent);
-function remove_idea_from_parent(event){
-	var post_it = $(this).closest('div.post-it');
-	//console.log("remove idea " + post_it.attr('id'));
-	$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 
-		"script"
-	);
-}
+$('body').on('click','div.theming_page li.idea_post_it img.delete', 
+	function(event){
+		var post_it = $(this).closest('div.post-it');
+		//console.log("remove idea " + post_it.attr('id'));
+		$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 
+			"script"
+		);
+	}
+);
 
-$('body').on('click','div.theming_page div.post-it img.edit',
+$('body').on('click','div.theming_page li.theme_post_it img.edit',
 	function(event){
 		var theme_col = $(this).closest('div.theme_col').addClass('edit_mode');
 		theme_col.find('ul.sortable_ideas').eq(1).sortable('disable');
@@ -222,6 +228,22 @@ $('body').on('click','div.theming_page div.post-it img.edit',
 		})
 	}
 );
+
+$('body').on('click','div.theming_page li.theme_post_it img.delete',
+	function(event){
+		console.log("delete this theme if no children");
+		var theme = $(this).closest('div.post-it');
+		if(theme.closest('ul.sortable_ideas').find('li.idea_post_it').size() == 0){
+			console.log("delete this list now");
+			$.post('/idea/' + theme.attr('id') + '/remove_theme', 
+				"script"
+			);
+		}else{
+			alert('Sorry, you cannot delete a theme with ideas');
+		}
+	}
+);
+
 
 //$('body').on('click','div.theming_page div.post-it img.clipboard',
 //	function(event){

@@ -1,0 +1,6 @@
+:plain
+	console.log("sorry, there was an error removing this theme");
+
+	var errors = $("#{escape_javascript( render :partial => 'shared/error_message', :locals => {:target => idea})}");
+	temp.errors = errors;
+	errors.modal();

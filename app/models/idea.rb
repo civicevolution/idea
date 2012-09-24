@@ -28,6 +28,7 @@ class Idea < ActiveRecord::Base
   attr_accessor :current_member
   
   before_validation :check_initiative_restrictions, :on=>:create
+  before_destroy :check_destroyable
   
   validates :text, length: { 
     minimum: 10,
@@ -36,6 +37,18 @@ class Idea < ActiveRecord::Base
     too_long: "must have at most %{count} characters"
   }
 
+  def check_destroyable
+    if self.version > 0 
+      errors.add(:base, "Sorry, you cannot delete a theme that has been edited, but you can hide it.") 
+      return false
+    end
+    if self.ideas.count > 0 
+      errors.add(:base, "Sorry, you cannot delete a theme that contains ideas.") 
+      return false
+    end
+    
+  end
+  
   def check_initiative_restrictions
     allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.question_id, :parent_type => 1}, 'contribute_to_proposal', self.current_member)
     if !allowed

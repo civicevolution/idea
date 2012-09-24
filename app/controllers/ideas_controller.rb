@@ -145,7 +145,7 @@ class IdeasController < ApplicationController
     
     idea = Idea.find(params[:child_idea_id])
     new_theme = idea.question.ideas.create(text: 'New theme group', is_theme: true, member_id: @member.id, order_id: 1,
-      team_id: idea.question.team_id, parent_id: idea.question.id, visible: true, version: 1, current_member: @member)
+      team_id: idea.question.team_id, parent_id: idea.question.id, visible: true, version: 0, current_member: @member)
     idea.update_attribute(:parent_id, new_theme.id) 
     
     ordered_ids = new_theme.siblings.map(&:id)
@@ -199,11 +199,30 @@ class IdeasController < ApplicationController
     end
   end
   
+  def remove_theme
+    logger.debug "remove_theme id #{params[:idea_id]}"
+    
+    idea = Idea.find(params[:idea_id])
+    
+    respond_to do |format|
+      if idea.destroy
+        format.js { render 'ideas/remove_theme_ok', locals: { idea: idea} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      else
+        format.js { render 'ideas/remove_theme_error', locals: { idea: idea} }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
   def edit_theme
     logger.debug "edit_theme id #{params[:idea_id]}"
     
     idea = Idea.find(params[:idea_id])
     idea.update_attribute(:text, params[:text]) 
+    idea.update_attribute(:version, idea.version + 1) 
 
     respond_to do |format|
       if idea.save

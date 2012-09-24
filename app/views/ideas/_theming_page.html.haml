@@ -39,6 +39,8 @@
 										%p.idea= theme.text
 										%div.status
 											= image_tag 'blue-pencil-24.png', :class=>"edit"
+											- if theme.version == 0
+												= image_tag 'delete_icon_16t.gif', :class=>"delete"
 										
 								- 1.times do 
 									- question.themed_ideas.select{|idea| idea.parent_id == theme.id}.each do |idea|

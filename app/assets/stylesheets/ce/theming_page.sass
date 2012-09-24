@@ -148,11 +148,14 @@ ul, li
 
 div.status
 	height: 20px
-img.delete, img.edit, img.clipboard
-	display: none
-	cursor: pointer 
+div.post-it	
+	img.delete, img.edit, img.clipboard
+		display: none
+		cursor: pointer 
+		float: left
+		margin-right: 4px
 div.theme_col
-	li.idea_post_it:hover
+	li.idea_post_it:hover, li.theme_post_it:hover
 		img.delete
 			display: block
 	li.theme_post_it:hover

@@ -7,4 +7,5 @@
 		post_it.find('textarea').val(idea.text);
 		post_it.find('p.idea').html(idea.text);	
 		post_it.closest('div.theme_col').removeClass('edit_mode').find('ul.sortable_ideas').eq(1).sortable('enable');
+		post_it.find('img.delete').remove();
 	}
