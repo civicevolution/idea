@@ -3,7 +3,25 @@
 		render( :template => 'members/invite_friends_form', :formats => [:html], :locals => { :team => team } )
 	)}");
 
-	var dialog = form.dialog( {title : 'Invite your friends', modal : false, width : 'auto', closeOnEscape: false, close: function(){$(this).remove()} });
+	var dialog = form.dialog( {title : 'Invite your friends', modal : false, width : 'auto', 
+		beforeClose: function(event,ui){
+			var dialog = $(this).parent();
+			var deleteNow = false;                                       	
+			if( dialog.find('textarea').size() == 0 || dialog.find('textarea').val() == ''){           	
+				deleteNow = true                                           	
+			}else{                                                       	
+				deleteNow = confirm("Do you want to close this form?")	
+			}                                                            	
+			if(deleteNow){                                               	
+				dialog.slideUp(800, function () { 
+					dialog.dialog('destroy').remove();
+			  });                                                        	
+			}else{ 
+				return false;
+			}                                                            	
+		}
+		
+	});
 	
 	$('div#invite_friends a.clear').live('click',
 		function(){
