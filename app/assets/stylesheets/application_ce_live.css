@@ -12,6 +12,5 @@
  *= require ./ce/plan.css
  *= require ./ce/talking_point.css
  *= require ./ce_live/ce_live.css
- *= require_tree ../../../vendor/assets/stylesheets
- *= require_tree ./start 
+ *= require_tree ../../../vendor/assets/stylesheets 
  */
