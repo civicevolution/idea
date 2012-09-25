@@ -14,7 +14,7 @@ class PlanController < ApplicationController
     logger.debug "\n\n******************************************\nStart plan/theme_summary\n"
     
     begin
-      @team = Team.includes(:questions => [:themes, :default_answer]).find(params[:team_id])
+      @team = Team.includes(:question_ideas => [:themes, :prompt]).find(params[:team_id])
       raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
     rescue
       render :template => 'team/proposal_not_found', :layout=> 'plan'
