@@ -1,0 +1,12 @@
+- case params[:act]
+- when 'review_unrated_ideas'
+	:plain
+		// clicked link to view an idea that doesn't exist
+		$('<p>There are no more unrated ideas at this time</p>').dialog({title: 'Warning'});
+		$('div.question_summary[id="#{question.id}"] a.view_unrated_ideas').remove();
+		
+- else
+	:plain
+		// clicked link to view an idea that doesn't exist
+		$('<p>Sorry, we cannot find the idea you requested</p>').dialog({title: 'Warning'});
+	

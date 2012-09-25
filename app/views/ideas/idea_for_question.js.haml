@@ -1,22 +1,16 @@
 = render :template => 'shared/clear_sign_in_form', :formats => [:js]
--#var com = $("#{escape_javascript(render(  :partial=> 'plan/comment', :locals=>{:comment=>comment, :members => members}, :content_type => 'html'  ))}");
 :plain
-		
 	var question = $('div.question_summary[id="#{question.id}"]');	
 	var form = question.find('form.suggest_idea');
 	form.find('textarea').val('');
 	form.find('p.warn').remove();
 	form.find('div#errorExplanation').remove();	
-	
 	$('<span class="ack">Thank you</span>').insertAfter(form.find(':submit'))
 		.effect('highlight', {color: '#45BC74'},3000, function(){ $(this).remove();});
-
-	var question_review_ideas = question.find('h2.question p.review');
-	//var review_link = 
-	if(question_review_ideas.size() > 0){
+	var unrated_ideas_link = $('#{ link_to "Review and rate #{pluralize(question.unrated_ideas.count, 'idea')}", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true } }');
 	
-	
+	if( $('div.question_summary[id="#{question.id}"] a.view_unrated_ideas').size() > 0 ){
+		$('div.question_summary[id="#{question.id}"] a.view_unrated_ideas').replaceWith(unrated_ideas_link);
 	}else{
-	
-	
+		$('div.question_summary[id="#{question.id}"] a.theme_question_ideas').after(unrated_ideas_link);		
 	}

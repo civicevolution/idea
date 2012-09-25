@@ -2,8 +2,8 @@
 	%h2.question Q#{question.order_id}: #{question.text}
 	- if true
 		= link_to "Theme this question", theme_question_ideas_path(question.id), {class: 'theme_question_ideas', rel: 'nofollow', remote: true }
-	- if question.unrated_ideas_count > 0 
-		= link_to "Review and rate #{pluralize(question.unrated_ideas_count, 'idea')}", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true }
+	- if question.unrated_ideas.count > 0 
+		= link_to "Review and rate #{pluralize(question.unrated_ideas.count, 'idea')}", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true }
 		
 	- else
 		%p There are no unrated ideas for this question

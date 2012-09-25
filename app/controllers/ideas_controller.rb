@@ -58,11 +58,11 @@ class IdeasController < ApplicationController
     idea = nil
     #debugger
     if params[:act] == 'review_unrated_ideas'
-      idea = Question.find(params[:question_id]).unrated_ideas(@member.id).limit(1)
-      if idea.empty?
-        idea = nil
-      else
-        idea = idea[0]
+      question = Question.find(params[:question_id])
+      question.member = @member
+      unrated_ideas = question.unrated_ideas
+      if unrated_ideas.count > 0
+        idea = unrated_ideas[0]
       end
       
     else
@@ -74,17 +74,18 @@ class IdeasController < ApplicationController
            new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: 1)
         end
         idea = new_ideas[0]
+        question = idea.question
       end
     end
     
     respond_to do |format|
       if !idea.nil?
         idea.current_member = @member
-        format.js { render 'ideas/details', locals: { idea: idea} }
+        format.js { render 'ideas/details', locals: { idea: idea, question: question } }
         format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }
         #format.json { render json: @idea, status: :created, location: @idea }
       else
-        format.js { render 'ideas/idea_not_found' }
+        format.js { render 'ideas/idea_not_found', locals: { idea: idea, question: question } }
         format.html { render 'ideas/idea_not_found' }
         #format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
@@ -242,6 +243,7 @@ class IdeasController < ApplicationController
   def create
 
     question = Question.find(params[:question_id])
+    question.member = @member
     @idea = question.ideas.new(text: params[:text], is_theme: false, member_id: @member.id, team_id: question.team_id, visible: true, version: 1, current_member: @member)
 
     respond_to do |format|

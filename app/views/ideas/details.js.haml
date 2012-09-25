@@ -1,6 +1,6 @@
 - my_rating = idea.idea_ratings.detect{|r| r.member_id == @member.id}
 :plain
-	var details = $("#{escape_javascript(render( :template=> 'ideas/details', :locals=>{idea: idea, my_rating: my_rating}, formats: [:html]  ))}");
+	var details = $("#{escape_javascript(render( :template=> 'ideas/details', :locals=>{idea: idea, my_rating: my_rating, question: question}, formats: [:html]  ))}");
 	
 	details.find("div.theme_slider").slider({
 		stop: function(event, ui) { 
@@ -10,6 +10,9 @@
 		value: #{my_rating.nil? ? 50 : my_rating.rating},
 		range: "min"
 	});
+	
+	// kill any existing detail popups
+	$('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove();
 	
 	dialog = details.dialog(  {
 		title : '', 

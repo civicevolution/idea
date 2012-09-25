@@ -1,16 +1,11 @@
 %div.idea_details
 	- if !Rails.env.production?
 		= stylesheet_link_tag "ce/idea_details"
-	
+
 	- case
 		- when params[:act] = 'review_unrated_ideas'
 			%h3.popup_nav
-				- if idea.siblings.count > 1
-					-#= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
-					Unrated idea 1 of #{idea.siblings.count}
-					-#= image_tag('right-arrow.gif', class: 'next', id: idea.id)
-				- else
-					Unrated idea of #{idea.siblings.count}
+				= pluralize(question.unrated_ideas.count, 'Unrated Idea')
 			
 		- when idea.is_theme
 			%h3 Theme
@@ -58,6 +53,7 @@
 		
 		
 	%div.details_left
+		%h3.question= question.text
 		
 		%ul
 			- if idea.is_theme
@@ -86,9 +82,11 @@
 					
 		%div.rater.corner
 			- if my_rating.nil?
-				%p.label.please-rate Please rate this #{idea.is_theme ? 'theme' : 'idea' }
+				%p.label.please-rate 
+					%span Please rate this #{idea.is_theme ? 'theme' : 'idea' }
 			-else
-				%p.label Your rating on this #{idea.is_theme ? 'theme' : 'idea' }
+				%p.label
+					%span Your rating on this #{idea.is_theme ? 'theme' : 'idea' }
 			%div.rater_faces
 				= image_tag('rater/yuck.gif', class: 'yuck')		
 				= image_tag('rater/meh.gif', class: 'meh')		

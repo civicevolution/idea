@@ -9,6 +9,20 @@ class Question < ActiveRecord::Base
   has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id IS NOT NULL', :order => 'order_id asc'
   has_many :themes, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = true', :order => 'order_id asc'
   
+  has_many :unrated_ideas, class_name: 'Idea', 
+    finder_sql: proc { 
+      %Q|SELECT ideas.* FROM "ideas" 
+      LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{self.member.id} 
+      WHERE ideas.question_id = #{self.id} AND ideas.is_theme = false AND idea_ratings.id IS null
+      ORDER BY id ASC|
+    },
+    counter_sql: proc { 
+      %Q|SELECT COUNT(ideas.*) FROM "ideas" 
+      LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{self.member.id} 
+      WHERE ideas.question_id = #{self.id} AND ideas.is_theme = false AND idea_ratings.id IS null|
+    }
+
+
   has_many :talking_points, :dependent => :destroy
 
   has_many :top_talking_points, :class_name => 'TalkingPoint', :finder_sql => 
@@ -66,12 +80,6 @@ class Question < ActiveRecord::Base
   
   
   after_initialize :init
-  
-  def unrated_ideas(member_id)
-    Idea.select('ideas.*')
-      .joins("LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{member_id.to_i}")
-      .where("ideas.question_id = ? AND ideas.is_theme = false AND idea_ratings.id IS null", self.id)
-  end
   
   def self.update_curated_talking_point_ids(question_id, tp_ids, mode, member)
     allowed,message,team_id = InitiativeRestriction.allow_actionX({:question_id => question_id}, 'curate_talking_points', member)

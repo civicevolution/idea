@@ -121,7 +121,7 @@ class Team < ActiveRecord::Base
           AND idea_ratings.id IS null
           GROUP BY ideas.question_id|)
       
-      self.questions.each{|question| question.unrated_ideas_count = 0 }
+      self.questions.each{|question| question.member = member; question.unrated_ideas_count = 0 }
       unrated_ideas.each{|rec| self.questions.detect{|q| q.id==rec[1].to_i}.unrated_ideas_count = rec[0].to_i }
 
     end

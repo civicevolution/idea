@@ -60,6 +60,7 @@ class IdeaRatingsController < ApplicationController
     
     @idea_rating = IdeaRating.where(idea_id: params[:id], member_id: @member.id).first_or_initialize
     @idea_rating.rating = params[:rating]
+    @idea_rating.member = @member
     
     logger.debug @idea_rating.inspect
     
