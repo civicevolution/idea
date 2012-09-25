@@ -59,6 +59,7 @@ class IdeasController < ApplicationController
     #debugger
     if params[:act] == 'review_unrated_ideas'
       question = Question.find(params[:question_id])
+      question.member = @member
       unrated_ideas = question.unrated_ideas
       if unrated_ideas.count > 0
         idea = unrated_ideas[0]
@@ -68,7 +69,7 @@ class IdeasController < ApplicationController
       idea = Idea.find(params[:idea_id])
       if params[:nav]
         # get the next or first sibling idea
-        new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: idea.order_id + 1)
+        new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: idea.order_id + ( params[:nav]=='next' ? 1 : -1) )
         if new_ideas.empty?
            new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: 1)
         end

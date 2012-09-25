@@ -4,28 +4,35 @@
 
 	- question ||= idea.question
 	- case
-		- when params[:act] = 'review_unrated_ideas'
+		- when params[:act] == 'review_unrated_ideas'
 			%h3.popup_nav
 				= pluralize(question.unrated_ideas.count, 'Unrated Idea')
 			
 		- when idea.is_theme
-			%h3 Theme
+			%h3.popup_nav
+				- if idea.siblings.count > 1
+					= image_tag('details_prev.gif', class: 'prev', id: idea.id)
+					Theme #{idea.order_id} of #{idea.siblings.count}
+					= image_tag('details_next.gif', class: 'next', id: idea.id)
+				- else
+					Theme #{idea.order_id} of #{idea.siblings.count}
+			
 		
 		- when idea.parent_id.nil?
 			%h3.popup_nav
 				- if idea.siblings.count > 1
-					= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
+					= image_tag('details_prev.gif', class: 'prev', id: idea.id)
 					Unthemed idea of #{idea.siblings.count}
-					= image_tag('right-arrow.gif', class: 'next', id: idea.id)
+					= image_tag('details_next.gif', class: 'next', id: idea.id)
 				- else
 					Unthemed idea of #{idea.siblings.count}
 		
 		- else
 			%h3.popup_nav
 				- if idea.siblings.count > 1
-					= image_tag('left-arrow.gif', class: 'prev', id: idea.id)
+					= image_tag('details_prev.gif', class: 'prev', id: idea.id)
 					Idea #{idea.order_id} of #{idea.siblings.count}
-					= image_tag('right-arrow.gif', class: 'next', id: idea.id)
+					= image_tag('details_next.gif', class: 'next', id: idea.id)
 				- else
 					Idea #{idea.order_id} of #{idea.siblings.count}
 		
@@ -46,7 +53,7 @@
 				
 		
 		%div.ideas
-			- ( idea.is_theme ? idea.ideas : idea.siblings ).each do |sibling|
+			- ( idea.is_theme ? idea.theme_ideas : idea.siblings ).each do |sibling|
 				- if idea.is_theme
 					%a.item{href: {}, id: sibling.id, title: sibling.text }
 				- else

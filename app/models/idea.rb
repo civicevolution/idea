@@ -6,13 +6,14 @@ class Idea < ActiveRecord::Base
   has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 20', :order => 'id desc', :include => :author
   has_many :idea_ratings, select: 'member_id, rating'
   has_many :ideas, foreign_key: 'parent_id', order: 'id asc'
+  has_many :theme_ideas, class_name: 'Idea', foreign_key: 'parent_id', order: 'order_id asc'
   has_many :siblings, class_name: 'Idea', finder_sql: proc { 
     if self.is_theme
       %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and is_theme = true ORDER BY order_id ASC| 
     elsif self.parent_id.nil?
-      %Q|SELECT * FROM ideas WHERE question_id = #{self.question_id} AND parent_id IS null ORDER BY id DESC|
+      %Q|SELECT * FROM ideas WHERE question_id = #{self.question_id} AND parent_id IS null ORDER BY id ASC|
     else
-      %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and is_theme = false ORDER BY id DESC| 
+      %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and is_theme = false ORDER BY id ASC| 
     end  
     },
     counter_sql: proc { 
