@@ -59,7 +59,6 @@ class IdeasController < ApplicationController
     #debugger
     if params[:act] == 'review_unrated_ideas'
       question = Question.find(params[:question_id])
-      question.member = @member
       unrated_ideas = question.unrated_ideas
       if unrated_ideas.count > 0
         idea = unrated_ideas[0]
@@ -74,9 +73,11 @@ class IdeasController < ApplicationController
            new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: 1)
         end
         idea = new_ideas[0]
-        question = idea.question
       end
     end
+
+    question ||= idea.question
+    question.member = @member
     
     respond_to do |format|
       if !idea.nil?

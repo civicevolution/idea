@@ -221,7 +221,7 @@ $('body').on('click','div.theming_page li.idea_post_it img.delete',
 $('body').on('click','div.theming_page li.theme_post_it img.edit',
 	function(event){
 		var theme_col = $(this).closest('div.theme_col').addClass('edit_mode');
-		theme_col.find('ul.sortable_ideas').eq(1).sortable('disable');
+		theme_col.find('ul.sortable_ideas').sortable('disable');
 		theme_col.find('textarea').autoGrow({
 			minHeight  : 100,
 			maxHeight : 500
@@ -231,10 +231,10 @@ $('body').on('click','div.theming_page li.theme_post_it img.edit',
 
 $('body').on('click','div.theming_page li.theme_post_it img.delete',
 	function(event){
-		console.log("delete this theme if no children");
+		//console.log("delete this theme if no children");
 		var theme = $(this).closest('div.post-it');
 		if(theme.closest('ul.sortable_ideas').find('li.idea_post_it').size() == 0){
-			console.log("delete this list now");
+			//console.log("delete this list now");
 			$.post('/idea/' + theme.attr('id') + '/remove_theme', 
 				"script"
 			);
@@ -255,7 +255,7 @@ $('body').on('click','div.theming_page li.theme_post_it img.delete',
 
 $('body').on('click','div.theming_page div.post-it a.cancel',
 	function edit_theme(event){
-		$(this).closest('div.theme_col').removeClass('edit_mode').find('ul.sortable_ideas').eq(1).sortable('enable');
+		$(this).closest('div.theme_col').removeClass('edit_mode').find('ul.sortable_ideas').sortable('enable');
 	}
 );
 

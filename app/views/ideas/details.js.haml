@@ -18,7 +18,7 @@
 		title : '', 
 		modal : true, 
 		width :'auto',
-		show: 'slide',
+		show : { effect: 'drop', direction: "up", speed: 400 },
 		height: $(window).height() - 8,
 		open: function(event,ui){
 			$(this).find('a').blur();
@@ -33,12 +33,11 @@
 				deleteNow = confirm("Do you want to close this form?")	
 			}                                                            	
 			if(deleteNow){                                               	
-				dialog.slideUp(800, function () { 
+				dialog.slideUp(400, function () { 
 					dialog.dialog('destroy').remove();
 			  });                                                        	
-			}else{ 
-				return false;
-			}                                                            	
+			}
+			return false;
 		}
 	 } );
 	
