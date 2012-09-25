@@ -8,9 +8,12 @@
 	$('<span class="ack">Thank you</span>').insertAfter(form.find(':submit'))
 		.effect('highlight', {color: '#45BC74'},3000, function(){ $(this).remove();});
 	var unrated_ideas_link = $('#{ link_to "Review and rate #{pluralize(question.unrated_ideas.count, 'idea')}", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true } }');
-	
+
+	close_idea_help_popup( question.find('div.form_help_slide') );
+
 	if( $('div.question_summary[id="#{question.id}"] a.view_unrated_ideas').size() > 0 ){
 		$('div.question_summary[id="#{question.id}"] a.view_unrated_ideas').replaceWith(unrated_ideas_link);
 	}else{
 		$('div.question_summary[id="#{question.id}"] a.theme_question_ideas').after(unrated_ideas_link);		
 	}
+	$.getScript('/idea/#{idea.id}/details');

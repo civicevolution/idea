@@ -258,7 +258,7 @@ G3::Application.routes.draw do
   post 'get_started' => 'welcome#get_started_post'
 
   get 'visual_help' => 'help#visual_help'
-  get 'help' => 'help#help_page'  
+  get 'help' => 'help#help_page', as: 'help'  
   get 'help_topic' => 'help#help_topic'  
   get 'help_develop' => 'help#help_develop_proposal'
   get 'help_quick_instructions' => 'help#quick_instructions_pi'

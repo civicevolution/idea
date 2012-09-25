@@ -81,8 +81,46 @@ div.tools
 
 div.proposal
 	div.question_summary
-		h3.theme
-			margin-left: 20px
+		h2.question 
+			a
+				font-size: .8em
+				font-weight: normal
+				margin-left: 20px
+		ul.themes
+			li.theme
+				margin: 0 0 0 40px
+				font-size: 1.08em
+				list-style-type: 	disc
+	div.form_help_slide
+		background-color: #e3e3ff
+		padding: 0 1em
+		margin-left: 10px
+		width: 500px
+		position: relative
+		a.close
+			position: absolute
+			top: 8px
+			right: 8px
+		div.help_header
+			h3.label
+				padding-top: 10px
+		div.help_body	
+			display: none
+			h4.framing, h4.cta
+				margin-bottom: 4px
+			ul.framing_questions, ul.instructions
+				margin: 0
+				width: 500px
+				li
+					margin: 0 0 0 40px
+					list-style-type: 	disc
+			p.learn_more
+				padding-bottom: 10px
+		&.collapsed
+			background-color: white
+			a.close
+				display: none
+				
 	form.suggest_idea
 		margin-left: 20px
 		textarea
@@ -91,6 +129,11 @@ div.proposal
 			padding: 12px
 		div.add_idea
 			position: relative
+			width: 420px
+			a.show_idea_help_popup
+				position: absolute
+				top: -4px
+				right: 8px
 			input[type=submit], img.wait
 				position: absolute
 				top: 6px

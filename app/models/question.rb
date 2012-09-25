@@ -9,6 +9,8 @@ class Question < ActiveRecord::Base
   has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id IS NOT NULL', :order => 'order_id asc'
   has_many :themes, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = true', :order => 'order_id asc'
   
+  has_one :default_answer, :class_name => 'DefaultAnswer', :foreign_key => 'id',  :primary_key => 'default_answer_id'
+    
   has_many :unrated_ideas, class_name: 'Idea', 
     finder_sql: proc { 
       %Q|SELECT ideas.* FROM "ideas" 

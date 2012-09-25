@@ -518,3 +518,36 @@ $('a.add_talking_point').die('click').live('click',
   }
 );
 
+$('div.proposal').on('click', 'div.form_help_slide a.close', function(){
+	close_idea_help_popup(this);
+	return false;
+});
+$('div.proposal').on('click', 'div.add_idea a.show_idea_help_popup', function(){
+	open_idea_help_popup(this);
+	return false;
+});
+$('div.proposal').on('focus', 'div.add_idea textarea', function(){
+	open_idea_help_popup(this);
+	return false;
+});
+
+function open_idea_help_popup(el){
+	console.log("show idea help popup");
+	var help_slide = $(el).closest('div.question_summary').find('div.form_help_slide');
+	if(el.nodeName == 'TEXTAREA' && help_slide.hasClass('auto-opened')){
+		console.log("help was already opened once on this question");
+		return;
+	}
+	help_slide.removeClass('collapsed');
+	help_slide.addClass('auto-opened');
+	var body = help_slide.find('div.help_body');
+	body.slideDown(800);
+}
+function close_idea_help_popup(el){
+	console.log("close help");
+	var help_slide = $(el).closest('div.question_summary').find('div.form_help_slide');
+	var body = help_slide.find('div.help_body');
+	body.slideUp(800, function(){
+		$(this).closest('div.form_help_slide').addClass('collapsed');
+	});
+}

@@ -1,22 +1,47 @@
 %div.question_summary{:id=>question.id}
-	%h2.question Q#{question.order_id}: #{question.text}
-	- if true
-		= link_to "Theme this question", theme_question_ideas_path(question.id), {class: 'theme_question_ideas', rel: 'nofollow', remote: true }
+	%h2.question 
+		Q#{question.order_id}: #{question.text}
+		- if true
+			= link_to "Theme this question", theme_question_ideas_path(question.id), {class: 'theme_question_ideas', rel: 'nofollow', remote: true }
+			
 	- if question.unrated_ideas.count > 0 
 		= link_to "Review and rate #{pluralize(question.unrated_ideas.count, 'idea')}", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true }
 		
-	- else
-		%p There are no unrated ideas for this question
 	- if question.themes.empty?
 		%p Please create at least one theme
 	- else
-		- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
-			%h3.theme{id: theme.id}= theme.text
+		%ul.themes
+			- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
+				- if theme.version > 0
+					%li.theme{id: theme.id}= theme.text
 	
+	
+	%div.form_help_slide.collapsed
+		= link_to 'close', {}, class: 'close'
+		%div.help_header
+			%h3.label Suggest an idea for this answer
+		%div.help_body
+			%h4.cta State one idea clearly in less than 200 characters
+			%ul.instructions
+				%li Anyone can suggest an idea
+				%li Each idea should clearly convey a single point
+				%li Your community will discuss and rate the ideas
+				%li The project coordinator(s) will work on behalf of the community to theme the ideas into coherent answers under each question
+
+			- if !question.default_answer.nil?
+				%h4.framing Framing issues for you to consider for this question
+				%ul.framing_questions
+					- question.default_answer.checklist.split(/\n/).each do |issue|
+						%li= issue
+			%p.learn_more
+				To learn more see the 
+				= link_to 'help', help_path, remote: true
+				section
+			
 	= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 
 		%div.add_idea
 			= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true
-			
+			= link_to image_tag('idea_help.gif'), {}, class: 'show_idea_help_popup'
 			
 			
 		%p.form_controls
