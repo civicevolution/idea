@@ -3,11 +3,11 @@ class Question < ActiveRecord::Base
     
   belongs_to :team
   
-  has_many :ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false', :order => 'order_id asc'
-  has_many :unthemed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id IS NULL', :order => 'order_id asc'
-  has_many :parked_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id = 0', :order => 'order_id asc'	
-  has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = false AND parent_id IS NOT NULL', :order => 'order_id asc'
-  has_many :themes, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'is_theme = true', :order => 'order_id asc'
+  has_many :ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1', :order => 'order_id asc'
+  has_many :unthemed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NULL', :order => 'order_id asc'
+  has_many :parked_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id = 0', :order => 'order_id asc'	
+  has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NOT NULL', :order => 'order_id asc'
+  has_many :themes, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 2', :order => 'order_id asc'
   
   has_one :default_answer, :class_name => 'DefaultAnswer', :foreign_key => 'id',  :primary_key => 'default_answer_id'
     
@@ -15,13 +15,13 @@ class Question < ActiveRecord::Base
     finder_sql: proc { 
       %Q|SELECT ideas.* FROM "ideas" 
       LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{self.member.id} 
-      WHERE ideas.question_id = #{self.id} AND ideas.is_theme = false AND idea_ratings.id IS null
+      WHERE ideas.question_id = #{self.id} AND ideas.role = 1 AND idea_ratings.id IS null
       ORDER BY id ASC|
     },
     counter_sql: proc { 
       %Q|SELECT COUNT(ideas.*) FROM "ideas" 
       LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{self.member.id} 
-      WHERE ideas.question_id = #{self.id} AND ideas.is_theme = false AND idea_ratings.id IS null|
+      WHERE ideas.question_id = #{self.id} AND ideas.role = 1 AND idea_ratings.id IS null|
     }
 
 

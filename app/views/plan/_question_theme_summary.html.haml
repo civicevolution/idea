@@ -3,7 +3,7 @@
 		Q#{question.order_id}: #{question.text}
 		- if true
 			= link_to "Theme this question", theme_question_ideas_path(question.id), {class: 'theme_question_ideas', rel: 'nofollow', remote: true }
-			
+	
 	- if question.unrated_ideas.count > 0 
 		= link_to "Review and rate #{pluralize(question.unrated_ideas.count, 'idea')}", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true }
 		
@@ -28,10 +28,10 @@
 				%li Your community will discuss and rate the ideas
 				%li The project coordinator(s) will work on behalf of the community to theme the ideas into coherent answers under each question
 
-			- if !question.default_answer.nil?
+			- if !question.prompt.nil?
 				%h4.framing Framing issues for you to consider for this question
 				%ul.framing_questions
-					- question.default_answer.checklist.split(/\n/).each do |issue|
+					- question.prompt.checklist.split(/\n/).each do |issue|
 						%li= issue
 			%p.learn_more
 				To learn more see the 

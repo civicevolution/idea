@@ -69,9 +69,9 @@ class IdeasController < ApplicationController
       idea = Idea.find(params[:idea_id])
       if params[:nav]
         # get the next or first sibling idea
-        new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: idea.order_id + ( params[:nav]=='next' ? 1 : -1) )
+        new_ideas = Idea.where(parent_id: idea.parent_id, role: idea.role, order_id: idea.order_id + ( params[:nav]=='next' ? 1 : -1) )
         if new_ideas.empty?
-           new_ideas = Idea.where(parent_id: idea.parent_id, is_theme: idea.is_theme, order_id: 1)
+           new_ideas = Idea.where(parent_id: idea.parent_id, role: idea.role, order_id: 1)
         end
         idea = new_ideas[0]
       end
@@ -82,7 +82,7 @@ class IdeasController < ApplicationController
     
     respond_to do |format|
       if !idea.nil?
-        idea.current_member = @member
+        idea.member = @member
         format.js { render 'ideas/details', locals: { idea: idea, question: question } }
         format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }
         #format.json { render json: @idea, status: :created, location: @idea }
@@ -147,8 +147,8 @@ class IdeasController < ApplicationController
     logger.debug "create_theme to right of col with id #{params[:par_id]} with idea #{params[:child_idea_id]}"
     
     idea = Idea.find(params[:child_idea_id])
-    new_theme = idea.question.ideas.create(text: 'New theme group', is_theme: true, member_id: @member.id, order_id: 1,
-      team_id: idea.question.team_id, parent_id: idea.question.id, visible: true, version: 0, current_member: @member)
+    new_theme = idea.question.ideas.create(text: 'New theme group', role: 2, member_id: @member.id, order_id: 1,
+      team_id: idea.question.team_id, parent_id: idea.question.id, visible: true, version: 0, member: @member)
     idea.update_attribute(:parent_id, new_theme.id) 
     
     ordered_ids = new_theme.siblings.map(&:id)
@@ -246,7 +246,7 @@ class IdeasController < ApplicationController
 
     question = Question.find(params[:question_id])
     question.member = @member
-    @idea = question.ideas.new(text: params[:text], is_theme: false, member_id: @member.id, team_id: question.team_id, visible: true, version: 1, current_member: @member)
+    @idea = question.ideas.new(text: params[:text], role: 1, member_id: @member.id, team_id: question.team_id, visible: true, version: 1, member: @member)
 
     respond_to do |format|
       if @idea.save

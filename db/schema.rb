@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120908071323) do
+ActiveRecord::Schema.define(:version => 20120925201231) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -351,6 +351,15 @@ ActiveRecord::Schema.define(:version => 20120908071323) do
     t.integer  "version"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "role"
+    t.integer  "aux_id"
+  end
+
+  create_table "ideas1", :id => false, :force => true do |t|
+    t.integer "row_num"
+    t.integer "order_id"
+    t.integer "id"
+    t.text    "text"
   end
 
   create_table "initiative_members", :force => true do |t|
@@ -950,6 +959,21 @@ ActiveRecord::Schema.define(:version => 20120908071323) do
     t.boolean  "launched",                     :default => false,     :null => false
   end
 
+  create_table "temp_ideas", :id => false, :force => true do |t|
+    t.integer  "id"
+    t.text     "text"
+    t.boolean  "is_theme"
+    t.integer  "member_id"
+    t.integer  "team_id"
+    t.integer  "question_id"
+    t.integer  "parent_id"
+    t.integer  "order_id"
+    t.boolean  "visible"
+    t.integer  "version"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "thumbs_ratings", :force => true do |t|
     t.integer  "item_id"
     t.integer  "member_id"
@@ -960,5 +984,10 @@ ActiveRecord::Schema.define(:version => 20120908071323) do
   end
 
   add_index "thumbs_ratings", ["item_id", "member_id"], :name => "unique_thumbs_ratings_item_id_member_id", :unique => true
+
+  create_table "tt1", :id => false, :force => true do |t|
+    t.integer "unnest"
+    t.integer "?column?"
+  end
 
 end

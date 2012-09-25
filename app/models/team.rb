@@ -13,6 +13,8 @@ class Team < ActiveRecord::Base
   has_one :proposal_stats
   has_many :participant_stats, :class_name => 'ParticipantStats'
   
+  has_many :question_ideas, class_name: 'Idea', conditions: 'role = 3', order: 'order_id asc'
+  
   attr_accessible :initiative_id, :org_id, :title, :problem_statement, :solution_statement, :status, :min_members, :max_members, :timezone, :lang, :config_id, :public_face, :public_face_rating_threshold, :archived, :signup_mode, :join_test, :join_code, :approve_join, :send_invites, :approve_invites, :admin_groups, :country, :state, :county, :city, :com_criteria, :res_criteria, :launched
 
   
@@ -106,7 +108,7 @@ class Team < ActiveRecord::Base
     q_ids = [0] if q_ids.size == 0
     
     self.new_content = {}
-    self.questions.each{|question| question.unrated_ideas_count = 0 }
+    self.question_ideas.each{|question| question.unrated_ideas_count = 0 }
     
     if member.id != 0
       # gets the unrated ideas
@@ -117,7 +119,7 @@ class Team < ActiveRecord::Base
           ON ideas.id = idea_ratings.idea_id
           WHERE 
           ideas.question_id IN (#{q_ids.join(',')})
-          AND ideas.is_theme = false
+          AND ideas.role = 1
           AND idea_ratings.id IS null
           GROUP BY ideas.question_id|)
       

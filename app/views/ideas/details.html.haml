@@ -8,7 +8,7 @@
 			%h3.popup_nav
 				= pluralize(question.unrated_ideas.count, 'Unrated Idea')
 			
-		- when idea.is_theme
+		- when idea.role == 2
 			%h3.popup_nav
 				- if idea.siblings.count > 1
 					= image_tag('details_prev.gif', class: 'prev', id: idea.id)
@@ -46,15 +46,15 @@
 			
 		%div.themes
 			- idea.question.themes.each do |theme|
-				- if idea.is_theme
+				- if idea.role == 2
 					%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.id ? 'current' : ''}
 				- else
 					%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.parent_id ? 'current' : ''}
 				
 		
 		%div.ideas
-			- ( idea.is_theme ? idea.theme_ideas : idea.siblings ).each do |sibling|
-				- if idea.is_theme
+			- ( idea.role == 2 ? idea.theme_ideas : idea.siblings ).each do |sibling|
+				- if idea.role == 2
 					%a.item{href: {}, id: sibling.id, title: sibling.text }
 				- else
 					%a.item{href: {}, id: sibling.id, title: sibling.text, class: sibling.id == idea.id ? 'current' : '' }
@@ -65,7 +65,7 @@
 		%h3.question= question.text
 		
 		%ul
-			- if idea.is_theme
+			- if idea.role == 2
 				%li.theme_post_it
 					%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
 						%p.idea= idea.text
@@ -92,10 +92,10 @@
 		%div.rater.corner
 			- if my_rating.nil?
 				%p.label.please-rate 
-					%span Please rate this #{idea.is_theme ? 'theme' : 'idea' }
+					%span Please rate this #{idea.role == 2 ? 'theme' : 'idea' }
 			-else
 				%p.label
-					%span Your rating on this #{idea.is_theme ? 'theme' : 'idea' }
+					%span Your rating on this #{idea.role == 2 ? 'theme' : 'idea' }
 			%div.rater_faces
 				= image_tag('rater/yuck.gif', class: 'yuck')		
 				= image_tag('rater/meh.gif', class: 'meh')		

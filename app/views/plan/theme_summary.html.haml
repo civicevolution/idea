@@ -41,7 +41,7 @@
 				%p.clear_both
 			%p.clear_both
 
-			- questions = @team.questions.sort {|a,b| a.order_id <=> b.order_id }
+			- questions = @team.question_ideas.sort {|a,b| a.order_id <=> b.order_id }
 			%div.proposal
 				= render :partial=> 'question_theme_summary', :collection => questions, :as => :question, :locals => {:questions => questions}
 

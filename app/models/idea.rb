@@ -1,5 +1,5 @@
 class Idea < ActiveRecord::Base
-  attr_accessible :is_theme, :member_id, :order_id, :parent_id, :question_id, :team_id, :text, :version, :visible, :current_member
+  attr_accessible :member_id, :order_id, :parent_id, :question_id, :team_id, :text, :version, :visible, :member, :role, :aux_id
 
   belongs_to :team
   belongs_to :question
@@ -7,26 +7,45 @@ class Idea < ActiveRecord::Base
   has_many :idea_ratings, select: 'member_id, rating'
   has_many :ideas, foreign_key: 'parent_id', order: 'id asc'
   has_many :theme_ideas, class_name: 'Idea', foreign_key: 'parent_id', order: 'order_id asc'
+    
+  has_many :themes, class_name: 'Idea', foreign_key: 'question_id', conditions: 'role = 2', order: 'order_id asc'
+  has_one :prompt, :class_name => 'DefaultAnswer', :foreign_key => 'id',  :primary_key => 'aux_id'
+
   has_many :siblings, class_name: 'Idea', finder_sql: proc { 
-    if self.is_theme
-      %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and is_theme = true ORDER BY order_id ASC| 
+    if self.role == 2
+      %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and role = 2 ORDER BY order_id ASC| 
     elsif self.parent_id.nil?
       %Q|SELECT * FROM ideas WHERE question_id = #{self.question_id} AND parent_id IS null ORDER BY id ASC|
     else
-      %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and is_theme = false ORDER BY id ASC| 
+      %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and role = 1 ORDER BY id ASC| 
     end  
     },
     counter_sql: proc { 
-      if self.is_theme
-        %Q|SELECT COUNT( * ) FROM ideas WHERE parent_id = #{self.parent_id} and is_theme = true| 
+      if self.role == 2
+        %Q|SELECT COUNT( * ) FROM ideas WHERE parent_id = #{self.parent_id} and role = 2| 
       elsif self.parent_id.nil?
         %Q|SELECT COUNT( * ) FROM ideas WHERE question_id = #{self.question_id} AND parent_id IS null|
       else
-        %Q|SELECT COUNT( * ) FROM ideas WHERE parent_id = #{self.parent_id} and is_theme = false| 
+        %Q|SELECT COUNT( * ) FROM ideas WHERE parent_id = #{self.parent_id} and role = 1| 
       end  
       }
+      
+  has_many :unrated_ideas, class_name: 'Idea', 
+    finder_sql: proc { 
+      %Q|SELECT ideas.* FROM "ideas" 
+      LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{self.member.id} 
+      WHERE ideas.question_id = #{self.id} AND ideas.role = 1 AND idea_ratings.id IS null
+      ORDER BY id ASC|
+    },
+    counter_sql: proc { 
+      %Q|SELECT COUNT(ideas.*) FROM "ideas" 
+      LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{self.member.id} 
+      WHERE ideas.question_id = #{self.id} AND ideas.role = 1 AND idea_ratings.id IS null|
+    }
+  
     
-  attr_accessor :current_member
+  attr_accessor :member
+  attr_accessor :unrated_ideas_count
   
   before_validation :check_initiative_restrictions, :on=>:create
   before_destroy :check_destroyable
@@ -51,7 +70,7 @@ class Idea < ActiveRecord::Base
   end
   
   def check_initiative_restrictions
-    allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.question_id, :parent_type => 1}, 'contribute_to_proposal', self.current_member)
+    allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.question_id, :parent_type => 1}, 'contribute_to_proposal', self.member)
     if !allowed
       errors.add(:base, "Sorry, you do not have permission to add an idea.") 
       return false

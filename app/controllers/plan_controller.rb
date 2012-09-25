@@ -37,6 +37,8 @@ class PlanController < ApplicationController
       return
     end
 
+    @team.question_ideas.each{|q| q.member = @member}
+    
     @participant_stats = ParticipantStats.find_by_member_id_and_team_id(@member.id,@team.id) || ParticipantStats.new
     if params[:date]
       # force  a timestamp for testing
