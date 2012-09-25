@@ -13,16 +13,17 @@
 	
 	// kill any existing detail popups
 	$('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove();
-	
 	dialog = details.dialog(  {
 		title : '', 
 		modal : true, 
 		width :'auto',
-		show : { effect: 'drop', direction: "up", speed: 400 },
 		height: $(window).height() - 8,
+		position: ["center","top"],
 		open: function(event,ui){
-			$(this).find('a').blur();
-			$(this).parent().find('span.ui-dialog-title').remove()
+			var dlg = $(this);
+			dlg.hide().slideDown(400)
+			dlg.find('a').blur();
+			dlg.parent().find('span.ui-dialog-title').remove()
 		},
 		beforeClose: function(event,ui){
 			var dialog = $(this).parent();
