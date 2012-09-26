@@ -2,7 +2,7 @@ class Idea < ActiveRecord::Base
   attr_accessible :member_id, :order_id, :parent_id, :question_id, :team_id, :text, :version, :visible, :member, :role, :aux_id
 
   belongs_to :team
-  belongs_to :question
+  belongs_to :question, class_name: 'Idea', foreign_key: 'question_id', primary_key: 'id', conditions: 'role = 3'
   has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 20', :order => 'id desc', :include => :author
   has_many :idea_ratings, select: 'member_id, rating'
   has_many :ideas, foreign_key: 'parent_id', order: 'id asc'
@@ -10,6 +10,9 @@ class Idea < ActiveRecord::Base
     
   has_many :themes, class_name: 'Idea', foreign_key: 'question_id', conditions: 'role = 2', order: 'order_id asc'
   has_one :prompt, :class_name => 'DefaultAnswer', :foreign_key => 'id',  :primary_key => 'aux_id'
+  has_many :unthemed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NULL', :order => 'order_id asc'
+  has_many :parked_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id = 0', :order => 'order_id asc'	
+  has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NOT NULL', :order => 'order_id asc'
 
   has_many :siblings, class_name: 'Idea', finder_sql: proc { 
     if self.role == 2

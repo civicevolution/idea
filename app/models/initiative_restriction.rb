@@ -36,7 +36,7 @@ class InitiativeRestriction < ActiveRecord::Base
         when arg_hash.key?(:talking_point_id) # this is a talking_point
           rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, team_id FROM teams t, questions q, talking_points tp WHERE t.id = q.team_id AND q.id = tp.question_id AND tp.id = #{arg_hash[:talking_point_id]}")
         when arg_hash.key?(:idea_id) # this is an idea
-          rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, q.team_id FROM teams t, questions q, ideas i WHERE t.id = q.team_id AND q.id = i.question_id AND i.id = #{arg_hash[:idea_id]}")
+          rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, team_id FROM teams t, ideas i WHERE i.id = #{arg_hash[:idea_id]} AND i.team_id = t.id")
         when arg_hash.key?(:team_id)
           rec = ActiveRecord::Base.connection.select_one("SELECT initiative_id, id AS team_id FROM teams t WHERE t.id = #{arg_hash[:team_id]}")
       end

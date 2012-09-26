@@ -39,7 +39,7 @@ class IdeasController < ApplicationController
   end
   
   def theming_page
-    question = Question.find(params[:question_id])
+    question = Idea.find_by_id_and_role(params[:question_id],3)
     respond_to do |format|
       if question
         format.js { render 'ideas/theming_page', locals: { question: question} }
