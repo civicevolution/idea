@@ -4,6 +4,16 @@
 
 	- question ||= idea.question
 	- case
+		- when params[:act] == 'view_question'
+			%h3.popup_nav
+				- if idea.siblings.count > 1
+					= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_question', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
+					Question #{idea.order_id} of #{idea.siblings.count}
+					= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_question', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
+				- else
+					Question #{idea.order_id} of #{idea.siblings.count}
+				
+				
 		- when params[:act] == 'review_unrated_ideas'
 			%h3.popup_nav
 				= pluralize(question.unrated_ideas.count, 'Unrated Idea')
@@ -11,9 +21,9 @@
 		- when idea.role == 2
 			%h3.popup_nav
 				- if idea.siblings.count > 1
-					= image_tag('details_prev.gif', class: 'prev', id: idea.id)
+					= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
 					Theme #{idea.order_id} of #{idea.siblings.count}
-					= image_tag('details_next.gif', class: 'next', id: idea.id)
+					= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
 				- else
 					Theme #{idea.order_id} of #{idea.siblings.count}
 			
@@ -21,18 +31,18 @@
 		- when idea.parent_id.nil?
 			%h3.popup_nav
 				- if idea.siblings.count > 1
-					= image_tag('details_prev.gif', class: 'prev', id: idea.id)
-					Unthemed idea of #{idea.siblings.count}
-					= image_tag('details_next.gif', class: 'next', id: idea.id)
+					= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_unthemed_idea', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
+					Unthemed idea #{idea.order_id} of #{idea.siblings.count}
+					= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_unthemed_idea', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
 				- else
 					Unthemed idea of #{idea.siblings.count}
 		
 		- else
 			%h3.popup_nav
 				- if idea.siblings.count > 1
-					= image_tag('details_prev.gif', class: 'prev', id: idea.id)
+					= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_idea', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
 					Idea #{idea.order_id} of #{idea.siblings.count}
-					= image_tag('details_next.gif', class: 'next', id: idea.id)
+					= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_idea', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
 				- else
 					Idea #{idea.order_id} of #{idea.siblings.count}
 		
@@ -41,8 +51,13 @@
 		%div.proposal
 			%a.item{href: {}, id: idea.team.id, title: idea.team.title}
 		%div.questions
-			- idea.team.questions.each do |question|
-				%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
+			- idea.question.siblings.each do |question|
+				- if idea.role == 3
+					%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.id ? 'current' : ''}
+				- else
+					%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
+				
+					-#%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
 			
 		%div.themes
 			- idea.question.themes.each do |theme|
@@ -53,11 +68,12 @@
 				
 		
 		%div.ideas
-			- ( idea.role == 2 ? idea.theme_ideas : idea.siblings ).each do |sibling|
-				- if idea.role == 2
-					%a.item{href: {}, id: sibling.id, title: sibling.text }
-				- else
-					%a.item{href: {}, id: sibling.id, title: sibling.text, class: sibling.id == idea.id ? 'current' : '' }
+			- if idea.role < 3
+				- ( idea.role == 2 ? idea.theme_ideas : idea.siblings ).each do |sibling|
+					- if idea.role == 2
+						%a.item{href: {}, id: sibling.id, title: sibling.text }
+					- else
+						%a.item{href: {}, id: sibling.id, title: sibling.text, class: sibling.id == idea.id ? 'current' : '' }
 		%div.clear_both
 		
 		
@@ -92,10 +108,24 @@
 		%div.rater.corner
 			- if my_rating.nil?
 				%p.label.please-rate 
-					%span Please rate this #{idea.role == 2 ? 'theme' : 'idea' }
+					- case idea.role
+					- when 1
+						%span Please rate this idea
+					- when 2
+						%span Please rate this theme
+					- when 3
+						%span Please rate this overall answer
+						
 			-else
 				%p.label
-					%span Your rating on this #{idea.role == 2 ? 'theme' : 'idea' }
+					- case idea.role
+					- when 1
+						%span Your rating for this idea
+					- when 2
+						%span Your rating for this theme
+					- when 3
+						%span Your rating for this overall answer
+					
 			%div.rater_faces
 				= image_tag('rater/yuck.gif', class: 'yuck')		
 				= image_tag('rater/meh.gif', class: 'meh')		

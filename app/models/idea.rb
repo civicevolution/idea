@@ -17,6 +17,8 @@ class Idea < ActiveRecord::Base
   has_many :siblings, class_name: 'Idea', finder_sql: proc { 
     if self.role == 2
       %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and role = 2 ORDER BY order_id ASC| 
+    elsif self.role == 3
+      %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and role = 3 ORDER BY order_id ASC| 
     elsif self.parent_id.nil?
       %Q|SELECT * FROM ideas WHERE question_id = #{self.question_id} AND parent_id IS null ORDER BY id ASC|
     else
@@ -26,6 +28,8 @@ class Idea < ActiveRecord::Base
     counter_sql: proc { 
       if self.role == 2
         %Q|SELECT COUNT( * ) FROM ideas WHERE parent_id = #{self.parent_id} and role = 2| 
+      elsif self.role == 3
+        %Q|SELECT COUNT( * ) FROM ideas WHERE parent_id = #{self.parent_id} and role = 3| 
       elsif self.parent_id.nil?
         %Q|SELECT COUNT( * ) FROM ideas WHERE question_id = #{self.question_id} AND parent_id IS null|
       else

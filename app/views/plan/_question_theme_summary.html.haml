@@ -1,6 +1,7 @@
 %div.question_summary{:id=>question.id}
 	%h2.question 
 		Q#{question.order_id}: #{question.text}
+		= link_to "View", view_idea_details_path(question.id, act: 'view_question'), {class: 'view_question', rel: 'nofollow', remote: true }
 		- if true
 			= link_to "Theme this question", theme_question_ideas_path(question.id), {class: 'theme_question_ideas', rel: 'nofollow', remote: true }
 	

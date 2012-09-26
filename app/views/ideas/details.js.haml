@@ -67,21 +67,11 @@
 				console.log("load_ idea details_popup for this.id: " + this.id);
 				$.getScript('/idea/' + this.id + '/details');
 			}else if(par.hasClass('questions')){
-				console.log("Need Show the question popup for this.id: " + this.id);
+				//console.log("Need Show the question popup for this.id: " + this.id);
+				$.getScript('/idea/' + this.id + '/details?act=view_question');
 			}else if(par.hasClass('proposal')){
 				console.log("Need Show the proposal popup for this.id: " + this.id);			
 			}
 		}
 		return false;
 	}
-
-	details.find('h3.popup_nav').on('click', 'img', nav_details_popup);
-	function nav_details_popup(event){
-		var link = $(this);
-		console.log("nav_details_popup");
-		
-		$.getScript('/idea/' + this.id + '/details?nav=' + link.attr('class'));
-
-		return false;
-	}
-	
