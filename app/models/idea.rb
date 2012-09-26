@@ -73,7 +73,7 @@ class Idea < ActiveRecord::Base
   end
   
   def check_initiative_restrictions
-    allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.question_id, :parent_type => 1}, 'contribute_to_proposal', self.member)
+    allowed,message, self.team_id = InitiativeRestriction.allow_actionX({:parent_id=>self.question_id, :parent_type => 20}, 'contribute_to_proposal', self.member)
     if !allowed
       errors.add(:base, "Sorry, you do not have permission to add an idea.") 
       return false

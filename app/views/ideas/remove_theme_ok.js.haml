@@ -1,4 +1,4 @@
 :plain
 	console.log("remove theme is ok");
-	$('div.post-it[id="#{idea.id}"]').closest('div.theme_col').slideUp(800,function(){ $(this).remove();});
-	setTimeout(resize_theming_page,100);
+	$('div.post-it[id="#{idea.id}"]').closest('div.theme_col').slideUp(800,function(){ $(this).remove(); setTimeout(resize_theming_page,600); });
+	

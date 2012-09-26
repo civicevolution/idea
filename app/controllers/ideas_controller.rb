@@ -58,7 +58,7 @@ class IdeasController < ApplicationController
     idea = nil
     #debugger
     if params[:act] == 'review_unrated_ideas'
-      question = Question.find(params[:question_id])
+      question = Idea.find_by_id_and_role(params[:question_id],3)
       question.member = @member
       unrated_ideas = question.unrated_ideas
       if unrated_ideas.count > 0
@@ -148,9 +148,9 @@ class IdeasController < ApplicationController
     
     idea = Idea.find(params[:child_idea_id])
     new_theme = idea.question.ideas.create(text: 'New theme group', role: 2, member_id: @member.id, order_id: 1,
-      team_id: idea.question.team_id, parent_id: idea.question.id, visible: true, version: 0, member: @member)
+      team_id: idea.question.team_id, question_id: idea.question.id, parent_id: idea.question.id, visible: true, version: 0, member: @member)
     idea.update_attribute(:parent_id, new_theme.id) 
-    
+
     ordered_ids = new_theme.siblings.map(&:id)
     ordered_ids.delete(new_theme.id)
     if params[:par_id] == 'unthemed_ideas'
@@ -243,11 +243,9 @@ class IdeasController < ApplicationController
   # POST /ideas
   # POST /ideas.json
   def create
-
-    question = Question.find(params[:question_id])
+    question = Idea.find_by_id_and_role(params[:question_id],3)
     question.member = @member
-    @idea = question.ideas.new(text: params[:text], role: 1, member_id: @member.id, team_id: question.team_id, visible: true, version: 1, member: @member)
-
+    @idea = question.ideas.new(text: params[:text], role: 1, member_id: @member.id, team_id: question.team_id, question_id: question.id, visible: true, version: 1, member: @member)
     respond_to do |format|
       if @idea.save
         format.js { render 'ideas/idea_for_question', locals: { idea: @idea, question: question} }

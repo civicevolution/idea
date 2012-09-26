@@ -122,20 +122,10 @@
 
 			%p.clear
 			
-		= submit_tag "Follow this discussion", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+		-#= submit_tag "Follow this discussion", :name=>'endorse', 'data-disable-with'=>'Submitting...'
 		
 		%div.activity_stream
 			- idea.comments.each do |comment|
 				= render( :partial=> 'ideas/comment', :locals=>{:comment=>comment}, formats: [:html]  )
-		
-		
-	-#%div.details_right
-		%div.right_buttons
-			= button_tag "Edit"
-			= button_tag "Browse ideas"
-			= button_tag "Theme page"
-			= button_tag "Format answer"
-			= button_tag "Add comment"
-			= button_tag "Follow"
-			= button_tag "Browse attachments"
+
 
