@@ -1,2 +1,11 @@
 :plain
 	console.log("The theme ideas order has been updated for col: #{params[:idea_id]}");
+	var final_edit_ul =  $('ul.themes[id=#{params[:idea_id]}]');
+	if( final_edit_ul.size() > 0){
+		var ltr_ctr = 1;
+		final_edit_ul.find('li').each( function(){
+			var li = $(this);
+			li.find('div.controls span.ltr').html( int_to_letters( ltr_ctr++ )  );
+		});
+		clear_theme_edit_wait();
+	}

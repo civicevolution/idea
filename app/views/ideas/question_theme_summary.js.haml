@@ -1,0 +1,4 @@
+:plain
+	var summary = $("#{escape_javascript(render( partial: 'plan/question_theme_summary', locals: {question: question}, formats: [:html]  ))}");
+
+	$('div.question_summary[id="#{params[:question_id]}"]').replaceWith(summary);

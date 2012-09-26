@@ -54,6 +54,31 @@ class IdeasController < ApplicationController
   end
 
 
+  def theme_final_edit
+    question = Idea.find_by_id_and_role(params[:question_id],3)
+    
+    respond_to do |format|
+      if !question.nil?
+        format.js { render 'ideas/theme_final_edit', locals: { question: question } }
+        #format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }
+        #format.json { render json: @idea, status: :created, location: @idea }
+      else
+        format.js { render 'ideas/idea_not_found', locals: { idea: idea, question: question } }
+        #format.html { render 'ideas/idea_not_found' }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def theme_summary
+    question = Idea.find(params[:question_id])
+    question.member = @member
+    respond_to do |format|
+      format.js { render 'ideas/question_theme_summary', locals: { question: question } }
+      format.html { render 'plan/question_theme_summary', layout: "plan", locals: { question: question} }
+    end
+  end
+
   def view_idea_details
     idea = nil
     #debugger
@@ -137,6 +162,23 @@ class IdeasController < ApplicationController
     rescue
       respond_to do |format|
         format.js { render 'ideas/theme_ideas_order_errors', locals: {idea: idea} }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def idea_visbility
+    logger.debug "idea_visbility for idea #{params[:idea_id]} to params[:visible]"
+    idea = Idea.find(params[:idea_id])
+
+    respond_to do |format|
+      if idea.update_attribute(:visible, params[:visible])
+        format.js { render 'ideas/visiblity_update_ok', locals: { idea: idea} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      else
+        format.js { render 'ideas/visiblity_update_ok_error', locals: { idea: idea} }
         #format.html { render action: "new" }
         #format.json { render json: @idea.errors, status: :unprocessable_entity }
       end

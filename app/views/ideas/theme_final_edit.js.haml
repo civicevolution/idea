@@ -1,0 +1,43 @@
+:plain
+	var disable_editing = false
+	var published = false;
+	
+	
+	var details = $("#{escape_javascript(render( template: 'ideas/theme_final_edit', locals: {question: question}, formats: [:html]  ))}");
+	
+	// kill any existing detail popups
+	$('div.theme_final_edit').closest('div.ui-dialog').dialog('destroy').end().remove();
+	
+	dialog = details.dialog(  {
+		title : '', 
+		modal : true, 
+		width :'auto',
+		height: $(window).height() - 8,
+		position: ["center","top"],
+		open: function(event,ui){
+			var dlg = $(this);
+			dlg.hide().slideDown(400)
+			dlg.find('a').blur();
+			dlg.parent().find('span.ui-dialog-title').remove()
+		},
+		beforeClose: function(event,ui){
+			var dialog = $(this).parent();
+			var deleteNow = false;   
+			if(dialog.find('textarea:visible').size() == 0){           	
+				deleteNow = true                                           	
+			}else{                                                       	
+				deleteNow = confirm("Do you want to close this form?")	
+			}                                                            	
+			if(deleteNow){                                               	
+				dialog.slideUp(400, function () { 
+					dialog.dialog('destroy').remove();
+			  });                                                        	
+			}
+			$.getScript('/idea/#{params[:question_id]}/theme_summary');
+			return false;
+		}
+	 } );
+
+	temp.dialog = dialog
+	
+	make_final_edit_themes_sortable( dialog.find('ul.themes') );

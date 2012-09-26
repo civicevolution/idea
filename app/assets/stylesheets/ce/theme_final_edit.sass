@@ -1,0 +1,82 @@
+div.theme_final_edit
+	textarea.theme
+		width: 600px
+		height: 60px
+	textarea.example
+		width: 600px
+		height: 60px
+		margin-bottom: 30px
+	body
+		padding-bottom: 40px
+	p.lbl_theme
+		margin: 0
+	p.lbl_example
+		margin: 6px 0 0 0 
+	
+	p.theme
+		font-size: 1.2em
+		margin: 0
+		width: 600px
+	
+	p.example
+		font-style: italic
+		color: blue
+		margin: 6px 0 16px 0
+		width: 600px
+	div.controls
+		width: 60px
+		text-align: center
+		font-size: 1.6em
+	ul.themes
+		list-style: none
+		li
+			min-height: 60px
+			div
+				float: left
+		a.show_ideas
+			display: block
+			margin-left: 60px
+			color: #aaa
+		ul.constituent_ideas
+			margin: 10px 0 20px 60px
+			display: none
+			li
+				list-style-type: circle
+				margin: 0 0 8px 20px
+				min-height: 1px
+				max-width: 400px
+	div.edit_form
+		width: 400px
+		display: none
+		form.theme_edit
+			margin-bottom: 10px
+		div#errorExplanation
+			float: none
+	p.clear_both
+		clear: both
+	li.theme.model
+		display: none
+	div.controls
+		position: relative
+		div.edit
+			background: image-url('blue-pencil-24.png') no-repeat top right 
+			position: absolute
+			top: 30px
+			left: 26px
+			cursor: pointer
+			width: 24px
+			height: 24px
+		
+	div.visibility
+		height: 12px
+		width: 20px
+		position: absolute
+		top: 32px
+		left: 10px
+		background: image-url('visible3.gif') no-repeat 0 -12px
+		cursor: pointer
+	li.visible
+		div.visibility
+			background-position: 0 0
+	ul.themes
+		width: 900px

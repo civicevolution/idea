@@ -10,6 +10,7 @@
  *
  * Don't include self = require_self
  *= require ./ce/base.sass
+ *= require ./ce/theme_final_edit.sass
  *= require ./ce/layout.sass
  *= require ./ce/right_side.sass
  *= require ./ce/proposal_theme_display.sass

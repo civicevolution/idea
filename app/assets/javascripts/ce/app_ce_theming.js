@@ -52,6 +52,7 @@ function resize_theming_page(){
 $('body').on( 'click', 'div.theming_page a.close_theming_page', 
 	function(){
 		var question = $('div.question_summary[id="' + this.id + '"]');
+		$.getScript('/idea/' + this.id + '/theme_summary');
 		$('div.page').show();
 		theming_page.slideUp(800, function(){
 			theming_page.remove();

@@ -1,0 +1,42 @@
+%div.theme_final_edit
+
+	%h3 Theme final edit
+	- theme_letter = 'A'
+	%ul.themes{:id_order=> question.themes.map(&:id).join(','), id: question.id }
+		- question.themes.each do |theme|
+			%li.theme{:theme_id=>theme.id, :class => theme.visible ? 'visible' : ''}
+				%div.controls
+					%span.ltr= theme_letter
+					%div.edit
+					%div.visibility
+				- theme_letter.succ!
+				%div.theme
+					%p.theme= theme.text
+				%p.clear_both
+				= link_to "Show themed ideas", {}, class: 'show_ideas'
+				%ul.constituent_ideas
+					- theme.ideas.each do |idea|
+						%li= idea.text
+						
+				
+				
+	%h4 
+		= link_to 'Close', {}, class: 'close'
+
+	%div.edit_form			
+		= form_tag(edit_theme_path(0), :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
+			= hidden_field_tag :act, 'theme_final_edit'
+			= text_area_tag :text, nil, {:class=>'autosize'}
+			%button{'data-disable-with' =>'Submitting...'}
+				Save
+			= link_to 'Cancel', {}, {:class=>'cancel'}
+
+	%li.theme.model
+		%div.controls
+			%span.ltr
+			%div.edit
+			%div.visibility
+		%div.theme
+			%p.theme
+			%p.example
+		%p.clear_both

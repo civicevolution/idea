@@ -59,7 +59,7 @@ class Idea < ActiveRecord::Base
   
   validates :text, length: { 
     minimum: 10,
-    too_short: "must be at least 2 characters",
+    too_short: "must be at least 10 characters",
     maximum: 200,
     too_long: "must have at most %{count} characters"
   }
