@@ -2,7 +2,7 @@
 :plain
 	var question = $('div.question_summary[id="#{question.id}"]');	
 	var form = question.find('form.suggest_idea');
-	form.find('textarea').val('');
+	form.find('textarea').val('').focus();
 	form.find('p.warn').remove();
 	form.find('div#errorExplanation').remove();	
 	$('<span class="ack">Thank you</span>').insertAfter(form.find(':submit'))

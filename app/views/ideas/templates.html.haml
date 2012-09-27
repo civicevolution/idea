@@ -135,6 +135,7 @@
 						//if(!new_comment.isOnScreen()){
 							var new_scroll_pos = $('div.idea_details').scrollTop() + new_comment.height() + 40;
 							$('div.idea_details').animate({scrollTop: new_scroll_pos }, 800);
+							$('div.idea_details textarea').focus();
 						//}
 					}.bind(new_comment),100
 					);

@@ -264,14 +264,14 @@ $('a.endorse_this_proposal').live('click',function(){
 
 $('form#talking_point_form a.clear').live('click',
 	function(){
-		$(this).closest('form').find('textarea').val('');
+		$(this).closest('form').find('textarea').val('').focus();
 		return false;
 	}
 );
 
 $('form.comment_form a.clear').live('click',
 	function(){
-		$(this).closest('form').find('textarea').val('');
+		$(this).closest('form').find('textarea').val('').focus();
 		return false;
 	}
 );
@@ -352,7 +352,8 @@ function activate_text_counters_grow(els, height){
 			  });
 				span.siblings('a.clear').click(
 					function(){
-						el.val('')
+						el.val('');
+						el.focus();
 						return false;
 					}
 				);
