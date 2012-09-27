@@ -8,14 +8,11 @@
 		
 		%div.notebook.corner
 			%div.intro
-				%h2.home_title 
-					%span #{@team.title}
-					- if @member.id == @team.org_id
-						= link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"}
+				%h2.home_title= @team.title
 						
 				%div.summary_block
 					%div.summary.text
-						- if params[:_initiative_id].to_i == 5 && params[:team_id].to_i == 10080 # show microwave pics
+						-# if params[:_initiative_id].to_i == 5 && params[:team_id].to_i == 10080 # show microwave pics
 							- pics_array = ['10080-1','10080-2','10080-3','10080-4']
 							%div.resources.sky
 								- pics_array.each do |pic|
@@ -23,11 +20,10 @@
 										%div= image_tag("sky/misc/#{pic}-sm.jpg")
 							%p.clear_both
 						
-						- if @member.id == @team.org_id
-							!= simple_format( h @team.solution_statement ).sub(/<\/p>$/, ' ' + (link_to "edit", edit_plan_summary_path(@team), {:class => "edit_summary"} ) + '</p>')
-						- else
-							= simple_format h @team.solution_statement
+						= simple_format h @team.solution_statement
 
+						= link_to "View", view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true }
+							
 						- if @team.initiative_id < 3 # show AU pics for now
 							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
 							%div.resources

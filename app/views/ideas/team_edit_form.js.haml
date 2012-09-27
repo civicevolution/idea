@@ -1,0 +1,27 @@
+:plain
+	var form = $("#{escape_javascript(render( :partial=> 'ideas/team_edit_form', locals: {}, formats: [:html]  ))}");
+- if params[:target] == 'title'
+	:plain
+		console.log("insert an edit form for the title");
+		form.addClass('edit_title');
+		form.find('span.char_ctr').html(255);
+		form.find('input[name="target"]').val('title');
+		var h3 = $('div.idea_details').find('a.edit_title').hide().end().find('h3.question').after(form).hide();
+		activate_text_counters_grow( form.find('textarea').val( h3.html().trim() ), 80 )
+		form.on('click','a.cancel',function(){
+			$('div.idea_details').find('a.edit_title').show().end().find('h3.question').show().next('div.edit_form').remove();;
+			return false;
+		});
+- else
+	:plain
+		console.log("insert an edit form for the summary");
+		form.addClass('edit_summary');
+		form.find('span.char_ctr').html(1000);
+		form.find('input[name="target"]').val('summary');
+		var post_it = $('div.idea_details').find('a.edit_summary').hide().end().find('div.post-it').children().hide().end().append(form);
+		activate_text_counters_grow( form.find('textarea').val( post_it.find('p.idea').html().trim() ), 360 );
+		form.on('click','a.cancel',function(){
+			$('div.idea_details').find('a.edit_summary').show().end().find('div.post-it').children().show().end().find('div.edit_form').remove()
+			return false;
+		});
+		

@@ -144,6 +144,9 @@ G3::Application.routes.draw do
   post 'idea/:idea_id/visbility', to: 'ideas#idea_visbility', as: 'idea_visbility'
   get 'idea/:question_id/theme_summary', to: 'ideas#theme_summary', as: 'theme_summary'
   
+  get 'idea/:team_id/team_edit', to: 'ideas#team_edit', as: 'team_edit'
+  post 'idea/:team_id/team_edit', to: 'ideas#team_edit_post', as: 'team_edit'
+  
   post 'idea/rating', to: 'idea_ratings#update_rating', as: 'update_idea_rating'
 	
   get 'idea/:question_id/theme_page', to: 'ideas#theming_page', as: 'theme_question_ideas'

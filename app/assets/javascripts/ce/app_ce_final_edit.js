@@ -71,7 +71,6 @@ function int_to_letters(val){
 }
 
 function update_new_theme( act, form_id, theme_json ){
-	temp.theme_json = theme_json
 	if(act == 'insert'){
 		console.log("add_new_theme with text: " + theme_json.live_theme.text);
 		var li = $('li.theme.model').clone();
@@ -99,14 +98,11 @@ $('body').on('click','div.theme_final_edit div.edit',
 		var li = $(this).closest('li');
 		if(li.find('form').size() > 0 )return;
 		var theme_id = li.attr('theme_id');
-		//var form = $('form.theme_edit').eq(0).clone();
 		var form = $('div.edit_form').eq(0).clone();
 		form.show();
-		form.find('form').attr('action', form.find('form').attr('action').replace(/\d/,theme_id));
+		form.find('form').attr('action', form.find('form').attr('action').replace(/\d+/,theme_id));
 		form.find('textarea[name="text"]').val( li.find('p.theme').html().trim() );
 		li.find('div.theme').after(form).hide();
-		//var dialog = form.dialog( {title : 'Edit this theme and example', modal : true, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });
-		temp.form = form
 		return false;
 	}
 );

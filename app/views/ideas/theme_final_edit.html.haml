@@ -17,6 +17,8 @@
 				%ul.constituent_ideas
 					- theme.ideas.each do |idea|
 						%li= idea.text
+		- if question.themes.size == 0
+			%li No themes have been created yet. Enter some ideas and create some themes
 						
 				
 				

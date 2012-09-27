@@ -81,6 +81,7 @@ class IdeasController < ApplicationController
 
   def view_idea_details
     idea = nil
+    question = nil
     #debugger
     if params[:act] == 'review_unrated_ideas'
       question = Idea.find_by_id_and_role(params[:question_id],3)
@@ -89,7 +90,7 @@ class IdeasController < ApplicationController
       if unrated_ideas.count > 0
         idea = unrated_ideas[0]
       end
-      
+    
     else
       idea = Idea.find(params[:idea_id])
       if params[:nav]
@@ -101,7 +102,7 @@ class IdeasController < ApplicationController
         idea = new_ideas[0]
       end
     end
-
+    
     question ||= idea.question
     question.member = @member
     
@@ -121,7 +122,7 @@ class IdeasController < ApplicationController
   
   def add_comment
     idea = Idea.find(params[:idea_id])    
-    comment = idea.comments.new(text: params[:text], member_id: @member.id, team_id: idea.question.team_id,
+    comment = idea.comments.new(text: params[:text], member_id: @member.id, team_id: idea.team_id,
       parent_type: 20, parent_id: idea.id, question_id: idea.question_id, member: @member )
     #comment = Comment.includes(:author).find(1207)
     
@@ -282,12 +283,62 @@ class IdeasController < ApplicationController
     end
   end
   
+  def team_edit
+    #debugger
+    # check if privileged
+    auth = true
+    respond_to do |format|
+      if auth
+        format.js { render 'ideas/team_edit_form' }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      else
+        format.js { render 'ideas/edit_theme_error' }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+
+  def team_edit_post
+    # check if privileged
+    saved = false
+    team = Team.find(params[:team_id])
+    team.member = @member
+    if params[:target] == 'title'
+      team.title = params[:text]
+      saved = team.save
+      if saved
+        team.idea.text = params[:text]
+        saved = team.idea.save
+      end
+    elsif params[:target] == 'summary'
+      team.solution_statement = params[:text]
+      saved = team.save
+    end
+        
+    respond_to do |format|
+      if saved
+        format.js { render 'ideas/team_edit_ok', locals: { team: team} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      else
+        format.js { render 'ideas/edit_theme_error', locals: { team: team} }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
   # POST /ideas
   # POST /ideas.json
   def create
     question = Idea.find_by_id_and_role(params[:question_id],3)
     question.member = @member
     @idea = question.ideas.new(text: params[:text], role: 1, member_id: @member.id, team_id: question.team_id, question_id: question.id, visible: true, version: 1, member: @member)
+    @idea.parent_id = nil
+
     respond_to do |format|
       if @idea.save
         format.js { render 'ideas/idea_for_question', locals: { idea: @idea, question: question} }

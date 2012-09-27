@@ -1,0 +1,8 @@
+%div.edit_form			
+	= form_tag(team_edit_path(params[:team_id]), :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
+		= hidden_field_tag :target, 'title'
+		= text_area_tag :text, nil, {:class=>'autosize'}
+		%p.form_controls
+			= submit_tag "Update", 'data-disable-with'=>'Submitting...'
+			%span.char_ctr 1000 characters
+			= link_to 'Cancel', {}, class: 'cancel', rel: 'nofollow'

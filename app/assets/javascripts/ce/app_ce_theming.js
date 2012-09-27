@@ -322,8 +322,6 @@ function autoScroll(scrollElement) {
 	}
 	var scrollIncrement = auto_scroll_params.direction * auto_scroll_params.speed;
 	//console.log("autoScroll with speed: " + auto_scroll_params.speed + " scrollIncrement: " + scrollIncrement);
-	temp.scrollElement = scrollElement;
-	temp.scrollIncrement = scrollIncrement
 	if(auto_scroll_params.scrollAxis == 'vertical'){
 		scrollElement.scrollTop( scrollElement.scrollTop() + scrollIncrement );
 	}else{

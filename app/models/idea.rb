@@ -1,5 +1,16 @@
 class Idea < ActiveRecord::Base
   attr_accessible :member_id, :order_id, :parent_id, :question_id, :team_id, :text, :version, :visible, :member, :role, :aux_id
+  
+  after_find do |idea|
+    if idea.role == 4
+      begin
+        idea.question_id = idea.questions[0].id
+      rescue
+        idea.question_id = 0
+      end
+    end
+  end  
+  
 
   belongs_to :team
   belongs_to :question, class_name: 'Idea', foreign_key: 'question_id', primary_key: 'id', conditions: 'role = 3'
@@ -13,6 +24,8 @@ class Idea < ActiveRecord::Base
   has_many :unthemed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NULL', :order => 'order_id asc'
   has_many :parked_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id = 0', :order => 'order_id asc'	
   has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NOT NULL', :order => 'order_id asc'
+
+  has_many :questions, class_name: 'Idea', conditions: 'role = 3', foreign_key: 'parent_id', primary_key: 'team_id', order: 'order_id asc'
 
   has_many :siblings, class_name: 'Idea', finder_sql: proc { 
     if self.role == 2

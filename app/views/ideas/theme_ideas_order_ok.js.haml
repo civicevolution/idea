@@ -3,7 +3,7 @@
 	var final_edit_ul =  $('ul.themes[id=#{params[:idea_id]}]');
 	if( final_edit_ul.size() > 0){
 		var ltr_ctr = 1;
-		final_edit_ul.find('li').each( function(){
+		final_edit_ul.find('li.theme').each( function(){
 			var li = $(this);
 			li.find('div.controls span.ltr').html( int_to_letters( ltr_ctr++ )  );
 		});

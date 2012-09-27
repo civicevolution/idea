@@ -17,6 +17,10 @@
 		- when params[:act] == 'review_unrated_ideas'
 			%h3.popup_nav
 				= pluralize(question.unrated_ideas.count, 'Unrated Idea')
+
+		- when params[:act] == 'view_team'
+			%h3.popup_nav Team details
+
 			
 		- when idea.role == 2
 			%h3.popup_nav
@@ -49,7 +53,7 @@
 
 	%div.navigation
 		%div.proposal
-			%a.item{href: {}, id: idea.team.id, title: idea.team.title}
+			%a.item{href: {}, id: idea.team.idea.id, title: idea.team.title}
 		%div.questions
 			- idea.question.siblings.each do |question|
 				- if idea.role == 3
@@ -78,29 +82,55 @@
 		
 		
 	%div.details_left
-		%h3.question= question.text
+		- if idea.role == 4
+			%h3.question= idea.team.title
+			- if @member.id == idea.team.org_id
+				= link_to "edit", team_edit_path(idea.team.id, target: 'title'), class: "edit_title", remote: true
+			
+		- else 
+			%h3.question= question.text
 		
 		%ul
-			- if idea.role == 2
-				%li.theme_post_it
-					%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
-						%p.idea= idea.text
-						-#%div.status
-							-#= image_tag 'delete_icon_16t.gif', :class=>"delete"
-							-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+			- case
+				- when idea.role == 4
+					%li.team_post_it
+						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
+							%p.idea= idea.team.solution_statement
+							%div.status
+								- if @member.id == idea.team.org_id
+									= link_to "edit", team_edit_path(idea.team.id, target: 'summary'), class: "edit_summary", remote: true
+								-#= image_tag 'delete_icon_16t.gif', :class=>"delete"
+								-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+
+				- when idea.role == 3
+					%li.question_post_it
+						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
+							%p.idea= idea.text
+							-#%div.status
+								-#= image_tag 'delete_icon_16t.gif', :class=>"delete"
+								-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+
+			
+				- when idea.role == 2
+					%li.theme_post_it
+						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
+							%p.idea= idea.text
+							-#%div.status
+								-#= image_tag 'delete_icon_16t.gif', :class=>"delete"
+								-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
 						
-				%p.timestamp
-					#{time_ago_in_words(idea.updated_at)} ago,
-					Version #{idea.version}
-					-# if idea.version > 1
-						= link_to "View history", {}
-			- else
-				%li.idea_post_it
-					%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
-						%p.idea= idea.text
-						%div.status
-							= image_tag 'delete_icon_16t.gif', :class=>"delete"
-							-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+					%p.timestamp
+						#{time_ago_in_words(idea.updated_at)} ago,
+						Version #{idea.version}
+						-# if idea.version > 1
+							= link_to "View history", {}
+				- else
+					%li.idea_post_it
+						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
+							%p.idea= idea.text
+							%div.status
+								= image_tag 'delete_icon_16t.gif', :class=>"delete"
+								-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
 						
 				%p.timestamp
 					#{time_ago_in_words(idea.updated_at)} ago
@@ -115,6 +145,8 @@
 						%span Please rate this theme
 					- when 3
 						%span Please rate this overall answer
+					- when 4
+						%span Please rate this proposal
 						
 			-else
 				%p.label
@@ -125,6 +157,8 @@
 						%span Your rating for this theme
 					- when 3
 						%span Your rating for this overall answer
+					- when 4
+						%span Your rating for this proposal
 					
 			%div.rater_faces
 				= image_tag('rater/yuck.gif', class: 'yuck')		
@@ -132,7 +166,7 @@
 				= image_tag('rater/good.gif', class: 'good')		
 				= image_tag('rater/great.gif', class: 'great')		
 			
-			%div.theme_slider{id: idea.id}		
+			%div.theme_slider{id: idea.id, my_rating: my_rating.nil? ? 50 : my_rating.rating }		
 		
 			%p.results
 				- votes = idea.idea_ratings.size
@@ -157,5 +191,4 @@
 		%div.activity_stream
 			- idea.comments.each do |comment|
 				= render( :partial=> 'ideas/comment', :locals=>{:comment=>comment}, formats: [:html]  )
-
 

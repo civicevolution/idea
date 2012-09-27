@@ -14,6 +14,7 @@ class Team < ActiveRecord::Base
   has_many :participant_stats, :class_name => 'ParticipantStats'
   
   has_many :question_ideas, class_name: 'Idea', conditions: 'role = 3', order: 'order_id asc'
+  has_one :idea, class_name: 'Idea', conditions: 'role = 4'
   
   attr_accessible :initiative_id, :org_id, :title, :problem_statement, :solution_statement, :status, :min_members, :max_members, :timezone, :lang, :config_id, :public_face, :public_face_rating_threshold, :archived, :signup_mode, :join_test, :join_code, :approve_join, :send_invites, :approve_invites, :admin_groups, :country, :state, :county, :city, :com_criteria, :res_criteria, :launched
 
@@ -322,6 +323,11 @@ class Team < ActiveRecord::Base
   
     if !self.launched
       member = Member.find(self.org_id)
+      
+      # add an idea for the team
+      team_idea = Idea.new  text: self.title, member_id: self.org_id, team_id: self.id, parent_id: self.id, order_id: 1, visible: true, version: 1, role: 4, aux_id: self.initiative_id
+      team_idea.save(:validate => false)
+      
       yml.each_pair { |key, value|
         rec = value
         # create a quesstion record
@@ -329,7 +335,15 @@ class Team < ActiveRecord::Base
           :answer_criteria=>rec['answer_criteria'], :num_answers=>rec['num_answers'], :default_answer_id=>rec['default_answer_id'],
           :order_id=>rec['order_id'], :talking_point_criteria=>rec['talking_point_criteria'], 
           :talking_point_preferences=>rec['talking_point_preferences']
-        question.save   
+        question.save  
+      
+        # add an idea for each question
+        idea = Idea.new  text: rec['question'], member_id: self.org_id, team_id: self.id, parent_id: self.id, 
+          order_id: rec['order_id'], visible: true, version: 1, role: 3, aux_id: rec['default_answer_id']
+        idea.save(:validate => false)
+        # update ideas set question_id = id where role = 3;
+        idea.question_id = idea.id
+        idea.save(:validate => false)
       }
       
       # add team_id to the participation_events rec and find how many points did the originator get for this team_proposal and add to stats

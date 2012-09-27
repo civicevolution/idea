@@ -5,7 +5,7 @@
 		var div_edit = $('div.theme_final_edit li.theme[theme_id="#{idea.id}"] div.edit_form');
 		var theme = div_edit.parent().find('div.theme');
 		theme.find('p.theme').html(idea.text);
-		div_edit.hide();
+		div_edit.remove();
 		theme.show();
 
 - else

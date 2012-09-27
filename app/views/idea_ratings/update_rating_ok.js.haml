@@ -2,20 +2,24 @@
 - question = idea_rating.idea.question
 - question.member = @member
 :plain
-	$('div.rater p.label span').html('Thanks for rating this').effect('highlight', {color: '#8DEE00'},2000);	
-	if(#{question.unrated_ideas.count > 0 }){
+	$('div.rater p.label span').html('Thanks for rating this').effect('highlight', {color: '#8DEE00'},2000);		
+	$('div.idea_details span.vote_count').html( '#{ pluralize( idea_rating.num_idea_votes, 'vote' )  }');
+	
+- if idea_rating.idea.role != 4 && question.unrated_ideas.count > 0
+	:plain
 		$('#{link_to "Rate next idea", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'next', rel: 'nofollow', remote: true }}').appendTo( $('p.results')).effect('highlight', {color: '#8DEE00'},2000);	
 
 		$('div.question_summary[id="#{question.id}"] a.view_unrated_ideas').html(
 			'#{ link_to "Review and rate #{pluralize(question.unrated_ideas.count, 'idea')}", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true } }'
 		);
 		
-	}else{
+- else
+	:plain
 		var done_link = $('#{link_to "Done", {}, {class: 'done', rel: 'nofollow', remote: false }}').appendTo( $('p.results')).effect('highlight', {color: '#8DEE00'},2000);	
 		done_link.click(function(){$(this).closest('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove(); return false; });
+- if idea_rating.idea.role != 4
+	:plain
 		$('div.question_summary[id="#{question.id}"] a.view_unrated_ideas').remove();
-		
-	}
 	
-	$('div.idea_details span.vote_count').html( '#{ pluralize( idea_rating.num_idea_votes, 'vote' )  }');
+	
 	

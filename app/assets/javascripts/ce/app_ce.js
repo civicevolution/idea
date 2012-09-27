@@ -64,7 +64,6 @@ $('a.display_worksheet').live('ajax:beforeSend',
 		console.log("display_worksheet beforeSend disable_flag: " + disable_flag )
 		if(disable_flag){
 			// make sure the link is restored
-			temp.dw_link = this;
 			setTimeout(function(){ajaxEnableElement(this)}.bind(this),10);
 			return false;
 		}else{

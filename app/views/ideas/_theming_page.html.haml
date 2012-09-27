@@ -1,7 +1,7 @@
 %div.theming_page_outer
 	%div.theming_page
 		%h3 Theming page for question: #{question.text}
-		= link_to "Close theming page", {}, class: 'close_theming_page', id: question.id
+		= link_to "Close theming page", {}, class: 'close_theming_page top_right', id: question.id
 
 		%div.theme_cols_window_outer.fancy-scrollbar
 			%div.theme_cols_window
@@ -9,7 +9,7 @@
 				%div.auto-scroll.right
 				
 				%div.theme_col.unthemed_ideas.fancy-scrollbar{ id:  'unthemed_ideas'}
-					
+						
 					%h3 New ideas
 					%ul.sortable_ideas
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
@@ -50,6 +50,24 @@
 												%div.status
 													= image_tag 'delete_icon_16t.gif', :class=>"delete"
 													-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+													
+				- if question.themes.size == 0
+					%div.intro_instruction
+						- if question.unthemed_ideas.size == 0
+							%h3 You need to enter some ideas before you can use this theming page 
+							%p 
+								= link_to "Return", {}, class: 'close_theming_page', id: question.id
+								to the proposal page and enter a few ideas under each question and then return to this theming page
+						- else
+							%h3 Group ideas and create themes
+							%p In this page you can start to create groups of ideas. 
+							%ol 
+								%li Start by dragging an idea from the "New ideas" column on the left
+								%li Green flags will appear at the top of the columns when you start to drag an idea
+								%li Drop an idea on the green flag to start a new group
+								%li A purple post-it will appear at the top of each group
+								%li Put the mouse over the purple post-it to expose the pencil icon.
+								%li Click the pencil icon to give the group a name
 								
 				%div.theme_col.parked_ideas.fancy-scrollbar{ id:  'parked_ideas'}
 					%h3 Parked ideas

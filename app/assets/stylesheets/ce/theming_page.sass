@@ -75,7 +75,7 @@ div.theming_page_outer
 		div.theme_cols_window_outer
 			overflow-x: auto
 			overflow-y: hidden
-		a.close_theming_page
+		a.close_theming_page.top_right
 			position: absolute
 			top: 20px
 			right: 20px
@@ -185,7 +185,8 @@ ul
 		&.highlight_dropzone
 			background-color: #e3e3ff // for themes
 		
-li.idea_post_it, li.theme_post_it
+li.idea_post_it, li.theme_post_it, li.question_post_it, li.team_post_it
+	cursor: pointer
 	div.post-it
 		text-decoration: none
 		color: #000
@@ -203,6 +204,10 @@ li.idea_post_it, li.theme_post_it
 	margin: 1em
 	float: left
 
+div.theme_col.edit_mode
+	li.idea_post_it, li.theme_post_it, li.question_post_it, li.team_post_it
+		cursor: default
+		
 li.idea_post_it
 	div.post-it
 		background: $yellow_post_it
@@ -210,6 +215,12 @@ li.idea_post_it
 		+opacity(20)
 li.theme_post_it div.post-it
 	background: $purple_post_it
+
+li.question_post_it div.post-it
+	background: $question_icon_bg
+
+li.team_post_it div.post-it
+	background: $proposal_icon_bg
 	
 li
 	div.R0
@@ -317,4 +328,14 @@ div.new_group_drop_zone
 div.theme_col
 	ul.sortable_ideas
 		//border: 1px solid orange
-		
+
+div.theming_page_outer		
+	div.intro_instruction
+		margin-left: 40px
+		color: 888
+		float: left
+		width: 360px
+		ul,ol,li 
+			list-style-type: decimal
+		li
+			margin-bottom: 8px
