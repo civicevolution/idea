@@ -22,16 +22,24 @@
 						
 						= simple_format h @team.solution_statement
 
-						= link_to "View", view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true }
-							
-						- if @team.initiative_id < 3 # show AU pics for now
-							- pics_array = ['beach','cathedral','dock','HMAS','tree','lake','turbine','island'].shuffle
-							%div.resources
-								= link_to proposal_pic_path(@team.id), {:rel=>'nofollow'} do
-									- pics_array.each do |pic|
-										%div= image_tag("misc/48/#{pic}.jpg")
-								%p.clear_both
-						
+						%div.call-to-action.summary
+							%div.custom
+							-# if question.unrated_ideas.count > 0 
+								%div.comments
+									= link_to image_tag('comment-sketch.gif'), view_idea_details_path(@team.idea.id, act: 'view_team' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
+									%span.cnt
+										#{question.unrated_ideas.count} new
+
+							%div.explore
+								= link_to image_tag('magnify.gif'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
+								%span
+
+							- if @team.org_id == @member.id
+								%div.theming
+									= link_to image_tag('blue-pencil-24.png'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
+
+						%p.clear_both
+
 					= render :partial => 'plan/proposal_tools'
 					%p.clear_both
 				%p.clear_both
@@ -39,7 +47,7 @@
 
 			- questions = @team.question_ideas.sort {|a,b| a.order_id <=> b.order_id }
 			%div.proposal
-				= render :partial=> 'question_theme_summary', :collection => questions, :as => :question, :locals => {:questions => questions}
+				= render :partial=> 'question_theme_summary', :collection => questions, :as => :question, :locals => { questions: questions, team: @team}
 
 		= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}
 		

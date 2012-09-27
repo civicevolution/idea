@@ -36,9 +36,12 @@ $(function(){
 
 function ajaxDisableElement(el){
 	var element = $(el);
-	element.data('ujs:enable_with', element.html()); // store enabled state+      
-	element.html( element.attr('data-disable-with') || 'Loading...' ); // set to disabled state
-	//element.html( element.attr('data-disable-with') || '<img src="/assets/wait5.gif"/>' ); // set to disabled state
+	element.data('ujs:enable_with', element.html()); // store enabled state+     
+	if(element.attr('wait') == 'gif'){
+		element.html( element.attr('data-disable-with') || '<img src="/assets/wait5.gif"/>' ); // set to disabled state
+	}else{
+		element.html( element.attr('data-disable-with') || 'Loading...' ); // set to disabled state
+	}
 	element.addClass('loading');
 	//element.bind('click.railsDisable', function(e) { // prevent further clicking
 	//	return rails.stopEverything(e)
