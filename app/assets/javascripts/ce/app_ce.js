@@ -534,7 +534,6 @@ $('div.proposal').on('focus', 'div.add_idea textarea', function(){
 });
 
 function open_idea_help_popup(el){
-	console.log("show idea help popup");
 	var help_slide = $(el).closest('div.question_summary').find('div.form_help_slide');
 	if(el.nodeName == 'TEXTAREA' && help_slide.hasClass('auto-opened')){
 		console.log("help was already opened once on this question");
@@ -543,10 +542,12 @@ function open_idea_help_popup(el){
 	help_slide.removeClass('collapsed');
 	help_slide.addClass('auto-opened');
 	var body = help_slide.find('div.help_body');
-	body.slideDown(800);
+	var new_scroll_pos = $(document).scrollTop() + body.height();
+	if(new_scroll_pos>40) new_scroll_pos -= 40;
+	body.slideDown(800);	
+	$('html, body').animate({scrollTop: new_scroll_pos }, 800);
 }
 function close_idea_help_popup(el){
-	console.log("close help");
 	var help_slide = $(el).closest('div.question_summary').find('div.form_help_slide');
 	var body = help_slide.find('div.help_body');
 	body.slideUp(800, function(){
