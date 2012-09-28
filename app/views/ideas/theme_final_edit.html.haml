@@ -20,11 +20,6 @@
 		- if question.themes.size == 0
 			%li No themes have been created yet. Enter some ideas and create some themes
 						
-				
-				
-	%h4 
-		= link_to 'Close', {}, class: 'close'
-
 	%div.edit_form			
 		= form_tag(edit_theme_path(0), :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
 			= hidden_field_tag :act, 'theme_final_edit'

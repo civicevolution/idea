@@ -1,0 +1,27 @@
+%div.question_tabs{id: question.id}
+	%div#tabs
+		%ul
+			%li
+				%a{href: "#tabs-summary"}
+					Discussion and rating
+			%li
+				%a{href: "#tabs-theming"}
+					Idea Theming
+					
+			%li
+				%a{href: "#tabs-editing"}
+					Theme editing
+					
+		%div#tabs-summary
+			%div.proposal
+				= render :partial=> 'plan/question_theme_summary', :locals => { question: question, team: @team, link: 'no'}
+				%div.idea_details
+					= render( partial: 'rating', locals: { idea: question, my_rating: my_rating } )			
+
+					= render( partial: 'idea_discussion', locals: { idea: question } )			
+			
+			
+		%div#tabs-theming
+			= render( partial: 'ideas/theming_page', locals: { question: question}, content_type: 'html'  )
+		%div#tabs-editing
+			= render( template: 'ideas/theme_final_edit', locals: {question: question}, formats: [:html]  )

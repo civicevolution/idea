@@ -1,0 +1,10 @@
+- my_rating = question.idea_ratings.detect{|r| r.member_id == @member.id}
+:plain
+	var question_view = $("#{escape_javascript(render( :template=> 'ideas/question_view', :locals=>{my_rating: my_rating, question: question}, formats: [:html]  ))}");
+	
+	init_question_tabs(question_view);
+	
+	
+	
+	
+	

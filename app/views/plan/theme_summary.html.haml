@@ -34,7 +34,7 @@
 								= link_to image_tag('magnify.gif'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
 								%span
 
-							- if @team.org_id == @member.id
+							-# if @team.org_id == @member.id
 								%div.theming
 									= link_to image_tag('blue-pencil-24.png'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
 

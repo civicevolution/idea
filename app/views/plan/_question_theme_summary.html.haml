@@ -1,36 +1,35 @@
+- link ||= 'yes'
 %div.question_summary{:id=>question.id}
 	%h2.question 
+		- if link == 'yes'
+			%div.explore
+				= link_to image_tag('magnify.gif'), question_view_path(question.id), {class: 'view_question', rel: 'nofollow', remote: true, wait: 'gif' }
+				%span
+		
 		Q#{question.order_id}: #{question.text}
+		
 	%div.call-to-action
 		%div.custom
 
-
-		- if question.unrated_ideas.count > 0 
-			%div.ideas
-				= link_to image_tag('idea-icon.gif'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-				%span.cnt
-					#{question.unrated_ideas.count} new
+		- if link == 'yes'
+			- if question.unrated_ideas.count > 0 
+				%div.ideas
+					= link_to image_tag('idea-icon.gif'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
+					%span.cnt
+						#{question.unrated_ideas.count} new
 		
-		-# if question.unrated_ideas.count > 0 
-			%div.themes
-				= link_to image_tag('theme-icon.gif'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-				%span.cnt
-					#{question.unrated_ideas.count} new
+			-# if question.unrated_ideas.count > 0 
+				%div.themes
+					= link_to image_tag('theme-icon.gif'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
+					%span.cnt
+						#{question.unrated_ideas.count} new
 
-		-# if question.unrated_ideas.count > 0 
-			%div.comments
-				= link_to image_tag('comment-sketch.gif'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-				%span.cnt
-					#{question.unrated_ideas.count} new
+			-# if question.unrated_ideas.count > 0 
+				%div.comments
+					= link_to image_tag('comment-sketch.gif'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
+					%span.cnt
+						#{question.unrated_ideas.count} new
 
-		%div.explore
-			= link_to image_tag('magnify.gif'), view_idea_details_path(question.id, act: 'view_question'), {class: 'view_question', rel: 'nofollow', remote: true, wait: 'gif' }
-			%span
-			
-		- if team.org_id == @member.id
-			%div.theming
-				= link_to image_tag('blue-pencil-24.png'), theme_final_edit_path(question.id), {class: 'edit_question', rel: 'nofollow', remote: true, wait: 'gif' }
-		
 	%p.clear_both
 			
 		

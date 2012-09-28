@@ -1,0 +1,17 @@
+= form_tag add_idea_comment_path(idea.id), :class=>"std_form add_comment", id: idea.id, :remote=>true do 
+	%div.add_idea
+		= text_area_tag :text, '', class: 'answer autosize empty', size: "1x2", fixed_rows: true, placeholder: 'Write your comment...'
+	
+	%p.form_controls
+		= submit_tag "Add comment", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+		%span.char_ctr 1500 characters
+		= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
+
+	%p.clear
+	
+-#= submit_tag "Follow this discussion", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+
+%div.activity_stream
+	- idea.comments.each do |comment|
+		= render( :partial=> 'ideas/comment', :locals=>{:comment=>comment}, formats: [:html]  )
+

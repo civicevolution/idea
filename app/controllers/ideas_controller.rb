@@ -54,6 +54,22 @@ class IdeasController < ApplicationController
   end
 
 
+  def question_view
+    question = Idea.find_by_id(params[:question_id])
+    
+    respond_to do |format|
+      if !question.nil?
+        format.js { render 'ideas/question_view', locals: { question: question } }
+        #format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }
+        #format.json { render json: @idea, status: :created, location: @idea }
+      else
+        format.js { render 'ideas/idea_not_found', locals: { idea: idea, question: question } }
+        #format.html { render 'ideas/idea_not_found' }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def theme_final_edit
     question = Idea.find_by_id_and_role(params[:question_id],3)
     

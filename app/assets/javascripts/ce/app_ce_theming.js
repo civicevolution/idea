@@ -4,10 +4,15 @@
 //resize code
 //
 function resize_theming_page(){
-	console.log("\n\nresize_theming_page\n\n");
+	//console.log("\n\nresize_theming_page\n\n");
+	var theming_height = $('div.theming_page_outer').height();
+	//console.log("resize_theming_page to height: " + theming_height );
+	var theming_page = $('div.theming_page');
 	var theme_cols_window = theming_page.find('div.theme_cols_window');
-	theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 20 );
+	theme_cols_window.height( theming_height );
+	
 	var theme_cols = theming_page.find('div.theme_col');
+	theme_cols.height( theming_height - 8 );
 	var width = theme_cols.size() * ( theme_cols.eq(0).width() );
 	var outer_win = theme_cols_window.parent();
 	var max_width = outer_win.width() - outer_win.position().left;
@@ -26,6 +31,7 @@ function resize_theming_page(){
 				// insert and position the autoscroll hotspots
 				$('<div class="auto-scroll top"></div>').appendTo(theme_cols_window).width(width).css({top: 0, left: left}).attr('id',this.id);
 				$('<div class="auto-scroll bottom"></div>').appendTo(theme_cols_window).width(width).css({top: lower_hotpsot_top, left: left}).attr('id',this.id);
+
 				// insert and position the new group dropzones
 				if(this.id != 'parked_ideas'){
 					if(this.id != 'unthemed_ideas'){
@@ -47,6 +53,16 @@ function resize_theming_page(){
 		
 	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() ).css({top: win_top, left: win_left});
 	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() ).css({top: win_top, left: win_left + theme_cols_window.parent().width() - 24 });
+	//setTimeout(resize_dims, 1000);
+}
+
+
+function resize_dims(){
+	console.log("$('div.theming_page_outer').height(): " + $('div.theming_page_outer').height());
+	console.log("$('div.theming_page').height(): " + $('div.theming_page').height());
+	console.log("$('div.theme_cols_window_outer').height():" + $('div.theme_cols_window_outer').height());
+	console.log("$('div.theme_cols_window').height(): " + $('div.theme_cols_window').height());
+	console.log("$('div.theme_col').height(): " + $('div.theme_col').height());
 }
 
 $('body').on( 'click', 'div.theming_page a.close_theming_page', 

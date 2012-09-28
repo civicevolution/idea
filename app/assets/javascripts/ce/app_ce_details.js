@@ -1,4 +1,4 @@
-function init_details_popup(details, my_rating){
+function init_details_popup(details){
 	
 	// kill any existing detail popups
 	$('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove();
@@ -31,7 +31,10 @@ function init_details_popup(details, my_rating){
 		}
 	 } );
 	
-
+	activate_details(details);
+}
+function activate_details(details){
+	
 	activate_text_counters_grow(details.find('textarea'), 120);
 	//details.modal( {escClose: false});
 	

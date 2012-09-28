@@ -16,7 +16,7 @@ function editing_disabled(){
 function update_status_report(){}
 
 function make_final_edit_themes_sortable(themes){
-	if(!disable_editing){
+	if(!editing_disabled() ){
 		themes.sortable({
 			stop: function(event,ui){
 				//console.log("update the theme sort order");

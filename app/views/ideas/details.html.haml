@@ -134,61 +134,7 @@
 						
 				%p.timestamp
 					#{time_ago_in_words(idea.updated_at)} ago
-					
-		%div.rater.corner
-			- if my_rating.nil?
-				%p.label.please-rate 
-					- case idea.role
-					- when 1
-						%span Please rate this idea
-					- when 2
-						%span Please rate this theme
-					- when 3
-						%span Please rate this overall answer
-					- when 4
-						%span Please rate this proposal
-						
-			-else
-				%p.label
-					- case idea.role
-					- when 1
-						%span Your rating for this idea
-					- when 2
-						%span Your rating for this theme
-					- when 3
-						%span Your rating for this overall answer
-					- when 4
-						%span Your rating for this proposal
-					
-			%div.rater_faces
-				= image_tag('rater/yuck.gif', class: 'yuck')		
-				= image_tag('rater/meh.gif', class: 'meh')		
-				= image_tag('rater/good.gif', class: 'good')		
-				= image_tag('rater/great.gif', class: 'great')		
-			
-			%div.theme_slider{id: idea.id, my_rating: my_rating.nil? ? 50 : my_rating.rating }		
+				
+		= render( partial: 'rating', locals: { idea: idea, my_rating: my_rating } )			
 		
-			%p.results
-				- votes = idea.idea_ratings.size
-				%span.vote_count
-					= pluralize(votes,'vote')
-				- if votes > 1
-					= link_to "View results", {}
-
-		= form_tag add_idea_comment_path(idea.id), :class=>"std_form add_comment", id: idea.id, :remote=>true do 
-			%div.add_idea
-				= text_area_tag :text, '', class: 'answer autosize empty', size: "1x2", fixed_rows: true, placeholder: 'Write your comment...'
-			
-			%p.form_controls
-				= submit_tag "Add comment", :name=>'endorse', 'data-disable-with'=>'Submitting...'
-				%span.char_ctr 1500 characters
-				= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
-
-			%p.clear
-			
-		-#= submit_tag "Follow this discussion", :name=>'endorse', 'data-disable-with'=>'Submitting...'
-		
-		%div.activity_stream
-			- idea.comments.each do |comment|
-				= render( :partial=> 'ideas/comment', :locals=>{:comment=>comment}, formats: [:html]  )
-
+		= render( partial: 'idea_discussion', locals: { idea: idea } )			
