@@ -4,7 +4,8 @@ function init_question_tabs(question_view){
 			show: function(event,ui){
 				//console.log("show tab");
 				if( $(ui.panel).attr('id') == 'tabs-theming'){
-					resize_theming_page();
+				 	resize_theming_page();
+					make_ideas_sortable($(ui.panel).find('ul.sortable_ideas'));
 				}
 			}
 		}
