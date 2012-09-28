@@ -35,7 +35,12 @@
 			
 		
 	- if question.themes.empty?
-		%p Please create at least one theme
+		%ul.themes.instructions 
+			%li.theme This question will be answered collaboratively by your community
+			%li.theme Anyone can suggest an idea for this answer
+			%li.theme Each idea should clearly convey a single point
+			%li.theme Your community will discuss and rate the ideas
+			%li.theme The project coordinator(s) will work on behalf of the community to theme the ideas into a coherent answer
 	- else
 		%ul.themes
 			- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|

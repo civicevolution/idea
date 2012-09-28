@@ -6,7 +6,7 @@
 function resize_theming_page(){
 	console.log("\n\nresize_theming_page\n\n");
 	var theme_cols_window = theming_page.find('div.theme_cols_window');
-	theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 100 );
+	theme_cols_window.height( $(window).height() - theme_cols_window.position().top - 20 );
 	var theme_cols = theming_page.find('div.theme_col');
 	var width = theme_cols.size() * ( theme_cols.eq(0).width() );
 	var outer_win = theme_cols_window.parent();
