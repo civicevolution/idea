@@ -1,3 +1,4 @@
+- my_rating = idea.idea_ratings.detect{|r| r.member_id == @member.id}
 %div.rater.corner
 	- if my_rating.nil?
 		%p.label.please-rate 

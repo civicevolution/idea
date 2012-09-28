@@ -1,4 +1,4 @@
-%div.idea_details
+%div.idea_details.popup
 	- if !Rails.env.production?
 		= stylesheet_link_tag "ce/idea_details"
 
@@ -135,6 +135,6 @@
 				%p.timestamp
 					#{time_ago_in_words(idea.updated_at)} ago
 				
-		= render( partial: 'rating', locals: { idea: idea, my_rating: my_rating } )			
+		= render( partial: 'rating', locals: { idea: idea } )			
 		
 		= render( partial: 'idea_discussion', locals: { idea: idea } )			

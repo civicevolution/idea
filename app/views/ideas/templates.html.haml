@@ -126,16 +126,20 @@
 			realtime_data_update_functions['comment'] = 
 				function(data){
 					var new_comment = template_functions['comment']( data );
-					var details_div = $('div.details_left');
-					new_comment = $(new_comment).prependTo(details_div.find('div.activity_stream'));
+					var form = $('form.add_comment[id="' + com.data.comment.comment.parent_id + '"]')
+					new_comment = $(new_comment).prependTo( form.siblings('div.activity_stream') );
 					new_comment.find('p.timeago').timeago();
-					details_div.find('form.add_comment textarea').val('');
+					form.val('').focus();
 					setTimeout(function(){ 
 						var new_comment = $(this);   
-						//if(!new_comment.isOnScreen()){
-							var new_scroll_pos = $('div.idea_details').scrollTop() + new_comment.height() + 40;
-							$('div.idea_details').animate({scrollTop: new_scroll_pos }, 800);
-							$('div.idea_details textarea').focus();
+						//if(!new_comment.isOnScreen())
+						var par = new_comment.closest('div.ui-tabs-panel');
+						if(par.size() == 0){
+							par = new_comment.closest('div.idea_details');
+						}
+						var new_scroll_pos = par.scrollTop() + new_comment.height() + 40;
+						par.animate({scrollTop: new_scroll_pos }, 800);
+						par.find('form.add_comment textarea').val('').focus();
 						//}
 					}.bind(new_comment),100
 					);

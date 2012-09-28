@@ -1,7 +1,7 @@
 function init_details_popup(details){
 	
 	// kill any existing detail popups
-	$('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove();
+	$('div.idea_details.popup').closest('div.ui-dialog').dialog('destroy').end().remove();
 	dialog = details.dialog(  {
 		title : '', 
 		modal : true, 
@@ -48,7 +48,7 @@ function activate_details(details){
 	);
 	details.find('div.navigation').width( max_markers * 30);
 	
-	var my_rating = Number($('div.rater div.theme_slider').attr('my_rating'));
+	var my_rating = Number(details.find('div.rater div.theme_slider').attr('my_rating'));
 	details.find("div.theme_slider").slider({
 		stop: function(event, ui) { 
 			$.post('/idea/rating', {id: $(ui.handle).parent().attr('id'), rating: ui.value}, function(){}, "script");

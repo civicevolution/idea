@@ -1,4 +1,3 @@
-- my_rating = idea.idea_ratings.detect{|r| r.member_id == @member.id}
 :plain
-	var details = $("#{escape_javascript(render( :template=> 'ideas/details', :locals=>{idea: idea, my_rating: my_rating, question: question}, formats: [:html]  ))}");
+	var details = $("#{escape_javascript(render( :template=> 'ideas/details', :locals=>{idea: idea,question: question}, formats: [:html]  ))}");
 	init_details_popup(details);
