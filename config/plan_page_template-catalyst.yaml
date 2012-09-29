@@ -5,7 +5,7 @@
 what_page:
   question:         What is your project? 
   order_id: 1
-  default_answer_id: 5
+  default_answer_id: 10
   num_answers:      1
   answer_criteria:  5..4000
   talking_point_criteria: 20..200
@@ -14,7 +14,7 @@ what_page:
 why_page:
   question:         How does this project address our Bridge Building and/or Civic Infrastructure challenges?
   order_id: 2
-  default_answer_id: 6
+  default_answer_id: 11
   num_answers:      1
   answer_criteria:  5..4000
   talking_point_criteria: 20..200  
@@ -23,7 +23,7 @@ why_page:
 how_page:
   question:         Who will be involved in implementing this project?
   order_id: 3
-  default_answer_id: 7
+  default_answer_id: 12
   num_answers:      1
   answer_criteria:  5..4000
   talking_point_criteria: 20..200
@@ -32,7 +32,7 @@ how_page:
 who_page:
   question:         What is your plan for successfully implementing this project?
   order_id: 4
-  default_answer_id: 8
+  default_answer_id: 13
   num_answers:      1
   answer_criteria:  5..4000
   talking_point_criteria: 20..200

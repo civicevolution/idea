@@ -3,7 +3,7 @@
 	%h2.question 
 		- if link == 'yes'
 			%div.explore
-				= link_to image_tag('magnify.gif'), question_view_path(question.id), {class: 'view_question', rel: 'nofollow', remote: true, wait: 'gif' }
+				= link_to image_tag('magnify.gif', title: 'Click to discuss and rate this question and see how the themes were formed'), question_view_path(question.id), {class: 'view_question', rel: 'nofollow', remote: true, wait: 'gif' }
 				%span
 		
 		Q#{question.order_id}: #{question.text}
@@ -39,7 +39,8 @@
 			%li.theme Anyone can suggest an idea for this answer
 			%li.theme Each idea should clearly convey a single point
 			%li.theme Your community will discuss and rate the ideas
-			%li.theme The project coordinator(s) will work on behalf of the community to theme the ideas into a coherent answer
+			%li.theme The project coordinator(s) will transparently sort the ideas and create themes guided by the community's comments and ratings
+			%li.theme The themes will appear under this question to provide a coherent answer
 	- else
 		%ul.themes
 			- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
@@ -58,6 +59,9 @@
 				%li Each idea should clearly convey a single point
 				%li Your community will discuss and rate the ideas
 				%li The project coordinator(s) will work on behalf of the community to theme the ideas into coherent answers under each question
+				%li The project coordinator(s) will transparently sort the ideas and create themes guided by the community's comments and ratings
+				%li The themes will appear under this question to provide a coherent answer
+				
 
 			- if !question.prompt.nil?
 				%h4.framing Framing issues for you to consider for this question

@@ -15,7 +15,7 @@
 						%div.call-to-action.summary
 						
 							%div.explore
-								= link_to image_tag('magnify.gif'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
+								= link_to image_tag('magnify.gif', title: 'Click here to discuss and rate this proposal'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
 						
 							%div.custom
 							-# if question.unrated_ideas.count > 0 
