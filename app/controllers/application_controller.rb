@@ -244,7 +244,7 @@ class ApplicationController < ActionController::Base
           params[:_app_name] = '2029 and Beyond for Staff'
           params[:_app_page_title] = 'Welcome to the 2029 and Beyond Sustainable Future City Project'
           self.prepend_view_path([ Rails::root.to_s + "/app/views/cgg" ])
-        when /^2029$/	
+        when /^2029/	
           params[:_initiative_id] = 2
           params[:_app_name] = '2029 and Beyond'
           params[:_app_page_title] = 'Welcome to the 2029 and Beyond Sustainable Future City Project'

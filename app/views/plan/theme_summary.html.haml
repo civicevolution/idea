@@ -12,31 +12,23 @@
 						
 				%div.summary_block
 					%div.summary.text
-						-# if params[:_initiative_id].to_i == 5 && params[:team_id].to_i == 10080 # show microwave pics
-							- pics_array = ['10080-1','10080-2','10080-3','10080-4']
-							%div.resources.sky
-								- pics_array.each do |pic|
-									= link_to "/images/sky/misc/#{pic}-lg.jpg", :rel=>'prettyPhoto', :title=>'Pictures related to this proposal' do
-										%div= image_tag("sky/misc/#{pic}-sm.jpg")
-							%p.clear_both
-						
-						= simple_format h @team.solution_statement
-
 						%div.call-to-action.summary
+						
+							%div.explore
+								= link_to image_tag('magnify.gif'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
+						
 							%div.custom
 							-# if question.unrated_ideas.count > 0 
 								%div.comments
 									= link_to image_tag('comment-sketch.gif'), view_idea_details_path(@team.idea.id, act: 'view_team' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
 									%span.cnt
-										#{question.unrated_ideas.count} new
+										5
+										-#{question.unrated_ideas.count} new
+						
+						
+						
+						%p= @team.solution_statement
 
-							%div.explore
-								= link_to image_tag('magnify.gif'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
-								%span
-
-							-# if @team.org_id == @member.id
-								%div.theming
-									= link_to image_tag('blue-pencil-24.png'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
 
 						%p.clear_both
 
