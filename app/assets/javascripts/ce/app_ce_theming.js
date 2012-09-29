@@ -65,21 +65,6 @@ function resize_dims(){
 	console.log("$('div.theme_col').height(): " + $('div.theme_col').height());
 }
 
-$('body').on( 'click', 'div.theming_page a.close_theming_page', 
-	function(){
-		var question = $('div.question_summary[id="' + this.id + '"]');
-		$.getScript('/idea/' + this.id + '/theme_summary');
-		$('div.page').show();
-		theming_page.slideUp(800, function(){
-			theming_page.remove();
-			$('body').scrollTo(question, 300);
-			$('div.page div.right_side ').fadeTo(300,1);
-			}
-		);
-		return false;
-	}
-);
-
 
 //
 // Set up theming page sortable

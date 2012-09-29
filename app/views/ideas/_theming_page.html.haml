@@ -52,10 +52,19 @@
 				- if question.themes.size == 0
 					%div.intro_instruction
 						- if question.unthemed_ideas.size == 0
-							%h3 You need to enter some ideas before you can use this theming page 
+							%h3 No ideas have been suggested yet
 							%p 
 								= link_to "Return", {}, class: 'close_theming_page', id: question.id
-								to the proposal page and enter a few ideas under each question and then return to this theming page
+								to the proposal page and enter a few ideas under each question 
+							%p
+								The new ideas will then appear under this 
+								%b Idea theming 
+								tab where the proposal coordinator(s) can transparently sort the ideas and create the themes guided by the community's comments and ratings
+							%p 
+								The themes created on this page will also appear under the
+								%b Theme editing
+								tab and on the main proposal page
+								
 						- else
 							%h3 Group ideas and create themes
 							%p In this page you can start to create groups of ideas. 

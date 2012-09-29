@@ -36,11 +36,12 @@ function init_question_view(question_view){
 }
 
 
-$('body').on('click','ul.ui-tabs-nav a.close', function(){
-	var question = $('div.question_summary[id="' + this.id + '"]');
-	$.getScript('/idea/' + this.id + '/theme_summary');
+$('body').on('click','ul.ui-tabs-nav a.close, div.theming_page a.close_theming_page, div.theme_final_edit a.close_theming_page', function(){
+	var question_tabs = $(this).closest('div.question_tabs');
+	var question_id = question_tabs.attr('id');
+	var question = $('div.question_summary[id="' + question_id + '"]');
+	$.getScript('/idea/' + question_id + '/theme_summary');
 	$('div.page').show();
-	var question_tabs = $('div.question_tabs[id="' + this.id + '"]');
 	question_tabs.slideUp(800, function(){
 		question_tabs.remove();
 		$('body').scrollTo(question, 300);

@@ -1,24 +1,49 @@
 %div.theme_final_edit
 
-	%h3 Theme final edit
-	- theme_letter = 'A'
-	%ul.themes{:id_order=> question.themes.map(&:id).join(','), id: question.id }
-		- question.themes.each do |theme|
-			%li.theme{:theme_id=>theme.id, :class => theme.visible ? 'visible' : ''}
-				%div.controls
-					%span.ltr= theme_letter
-					%div.edit
-					%div.visibility
-				- theme_letter.succ!
-				%div.theme
-					%p.theme= theme.text
-				%p.clear_both
-				= link_to "Show themed ideas", {}, class: 'show_ideas'
-				%ul.constituent_ideas
-					- theme.ideas.each do |idea|
-						%li= idea.text
-		- if question.themes.size == 0
-			%li No themes have been created yet. Enter some ideas and create some themes
+	%h3 Theme editing
+	- if question.themes.size == 0
+		%div.help
+			- if question.unthemed_ideas.size > 0 
+				%h3 No themes have been created yet
+				%p The new ideas under the theming page tab have not yet been sorted into themes by the proposal coordinator(s) 
+				%p 
+					You can add more ideas or discuss this question under the 
+					%b Discussion and rating 
+					tab
+			- else
+				%h3 No ideas have been suggested yet
+				%p 
+					= link_to "Return", {}, class: 'close_theming_page', id: question.id
+					to the proposal page and enter a few ideas under each question.
+				%p 
+					The new ideas will then appear under the 
+					%b Idea theming 
+					tab where the proposal coordinator(s) can transparently sort the ideas and create the themes guided by the community's comments and ratings
+				%p
+					The themes created under the 
+					%b Idea theming 
+					tab will then appear under this
+					%b Theme editing
+					tab		
+			
+	- else  
+		- theme_letter = 'A'
+		%ul.themes{:id_order=> question.themes.map(&:id).join(','), id: question.id }
+			- question.themes.each do |theme|
+				%li.theme{:theme_id=>theme.id, :class => theme.visible ? 'visible' : ''}
+					%div.controls
+						%span.ltr= theme_letter
+						%div.edit
+						%div.visibility
+					- theme_letter.succ!
+					%div.theme
+						%p.theme= theme.text
+					%p.clear_both
+					= link_to "Show themed ideas", {}, class: 'show_ideas'
+					%ul.constituent_ideas
+						- theme.ideas.each do |idea|
+							%li= idea.text
+			
 						
 	%div.edit_form			
 		= form_tag(edit_theme_path(0), :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
