@@ -287,7 +287,7 @@ class ApplicationController < ActionController::Base
       old_log_level = Rails.logger.level
   	  Rails.logger.level = 3
         if params[:_mlc]
-          @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.request_uri} )
+          @member = MemberLookupCode.get_member(params[:_mlc], {:target_url=>request.fullpath} )
           if @member.nil?
             if session[:_mlc] != params[:_mlc] || session[:member_id].nil?
               render :template=>'members/request_new_access_code', :layout=>'plan'

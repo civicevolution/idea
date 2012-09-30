@@ -344,10 +344,8 @@ class WelcomeController < ApplicationController
   end
   
   def terms_of_service
-
     respond_to do |format|
-      format.html { render :action => "terms_of_service", :layout => false } if request.xhr?  
-      format.js { render :action => "terms_of_service" }
+      format.js { render :template => "welcome/terms_of_service", formats: [:js] }
       format.html { render :action => "terms_of_service", layout: 'home' }
     end
         

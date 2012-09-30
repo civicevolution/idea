@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require ./ce/app_ce_base
 //= require ./ce/app_ce_realtime
 //= require jquery.autogrow.js
 //= require jquery.isonscreen.min.js
@@ -20,5 +21,4 @@
 //= require jquery.scrollTo-min.js
 //= require jquery.show_char_limit-1.1.1.js
 //= require jquery.timeago.js
-//= require ./ce/app_ce_home.js
 

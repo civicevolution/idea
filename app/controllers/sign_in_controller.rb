@@ -28,7 +28,9 @@ class SignInController < ApplicationController
   end
   
   def password_reset_form
-    
+    respond_to do |format|
+      format.html { render :action => "password_reset_form", layout: 'home' }
+    end
   end
 
   def password_reset_post
