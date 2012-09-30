@@ -19,10 +19,11 @@ function dispatcher_test(data){
 	console.log("dispatcher_test " + data);
 }
 
-dispatcher.register_listener('color', dispatcher_test);
-
-dispatcher.dispatch('color', 'red');
-
-dispatcher.register_listener('color', function(data){
-	console.log("the data is " data);
-});
+//dispatcher.register_listener('color', dispatcher_test);
+//
+//dispatcher.dispatch('color', 'red');
+//
+//dispatcher.register_listener('color', function(data){
+//	console.log("the data is " +  data);
+//});
+//
