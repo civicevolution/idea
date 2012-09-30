@@ -92,7 +92,7 @@
 				- #@team.participants.each do |participant|
 					%tr
 						%td
-							%img{:src=>participant.photo.url('36'),:class=>'i36'}	
+							%img{:src=>participant.photo.url(:small),:class=>'i36'}	
 						%td 
 							%b
 								Citizen
@@ -107,7 +107,7 @@
 		-#%p These community members are already involved in creating this proposal
 
 		-# @team.participants.each do |participant|
-			%img{:src=>participant.photo.url('36'),:class=>'i36'}
+			%img{:src=>participant.photo.url(:small),:class=>'i36'}
 
 		-#%h3 They've made great progress
 		%table

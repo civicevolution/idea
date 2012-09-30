@@ -64,9 +64,9 @@
 				= check_box_tag :accept_tos, true, !flash[:join_in_params].nil? && flash[:join_in_params][:accept_tos]== 'true', :html=>{:id=>'accept_tos_true'}
 				= label_tag :accept_tos do
 					I accept the 
-					%a{:href=>'#', :class=>'terms_of_use'} terms of use
+					= link_to 'terms of use', tos_path, class: 'terms_of_use', remote: true
 					and this fundamental ground rule:
-					%b Be respectful toward individuals and groups.
+					%b Be respectful toward each other.
 				
 		%div.opt_in
 			%b Stay in touch with our community (optional)

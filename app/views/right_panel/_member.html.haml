@@ -1,6 +1,6 @@
 %div.member.corner.fix_ht
 	- if !@member.nil? && @member.id != 0
-		= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :alt=>'Picture of organizer'}
+		= image_tag @member.photo.url(:small), {:class=>'i36 signin_pic', :alt=>'Picture of organizer'}
 		%div.name
 			%p= @member.first_name
 			%p= @member.last_name

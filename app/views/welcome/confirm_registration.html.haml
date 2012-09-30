@@ -143,7 +143,7 @@
 			%li 
 				Now put a face on your humanity
 				%div.member_info{:style=>'float: none'}
-					- pic_url = @member.photo.url('36')
+					- pic_url = @member.photo.url(:small)
 					- if !pic_url.match(/members_default/).nil?
 						%span.default_pic Don't look like this...
 					= image_tag pic_url, {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}

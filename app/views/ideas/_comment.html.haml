@@ -4,7 +4,7 @@
 		- pic_src = '/assets/members_default/36/m.jpg'
 	- else
 		- name = comment.author.first_name + ' ' + comment.author.last_name
-		- pic_src = comment.author.photo.url('36')
+		- pic_src = comment.author.photo.url(:small)
 
 
 	- if comment['new']

@@ -34,7 +34,7 @@
 				%tr{:class=> cycle('','stripe'), :id=>e.member.ape_code}
 					%td.pic
 						- if !e.id.nil?
-							%img{:src=> e.member.photo.url('36')} 
+							%img{:src=> e.member.photo.url(:small)} 
 					%td.name
 						%span.member& #{e.member.first_name} #{e.member.last_name}
 					%td.text= simple_format( e.text )

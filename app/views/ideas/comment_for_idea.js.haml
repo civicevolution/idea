@@ -4,7 +4,7 @@
 	form.find('p.warn').remove();
 	form.find('div#errorExplanation').remove();	
 	
-	var com = #{ { data: {comment: comment, author: comment.author, photo_url: comment.author.photo.url('36')}}.to_json }
+	var com = #{ { data: {comment: comment, author: comment.author, photo_url: comment.author.photo.url(:small)}}.to_json }
 	realtime_data_update_functions['comment'](com);
 
 

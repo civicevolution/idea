@@ -44,10 +44,8 @@ class Member < ActiveRecord::Base
     :url => "http://assets.civicevolution.org/mp/:ape_code/:style/m.jpg",
     :bucket => 'assets.civicevolution.org',
     :styles => {
-      '16'  =>   ['16x16#', :jpg],
-      '28' =>   ['28x28#', :jpg],
-      '36' =>  ['36x36#', :jpg],
-      :original => ['250x250>', :jpg]
+      small: ['36x36#', :jpg],
+      original: ['250x250>', :jpg]
     }  
   
   before_post_process :image?

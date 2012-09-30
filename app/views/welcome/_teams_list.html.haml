@@ -2,7 +2,7 @@
 	%div.teams_list 
 		%div.member
 			-#%img{:src=>"/images/36x36/#{@member.pic_id}.gif",:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
-			= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+			= image_tag @member.photo.url(:small), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
 			Welcome back 
 			%br
 			#{@member.first_name}
@@ -32,7 +32,7 @@
 	%div.teams_list 
 		%div.member
 			-#%img{:src=>"/images/36x36/#{@member.pic_id}.gif",:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
-			= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
+			= image_tag @member.photo.url(:small), {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
 			Welcome back 
 			%br
 			#{@member.first_name}

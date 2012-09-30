@@ -12,7 +12,7 @@ class MembersController < ApplicationController
       email = EmailLookupCode.get_email( params[:code] )
       @email = email unless email.nil?
       session[:code] = params[:code] unless params[:code].nil?
-      render 'new_profile_form'
+      render 'new_profile_form', layout: 'home'
     end
   end
 
@@ -39,7 +39,9 @@ class MembersController < ApplicationController
   end
   
   def edit_profile_form
-
+    respond_to do |format|
+      format.html { render 'edit_profile_form', layout: 'home' }
+    end
   end
   
   def edit_profile_post
@@ -60,7 +62,7 @@ class MembersController < ApplicationController
     
     @member.photo = params[:photo]
     if @member.save
-      ActiveSupport::Notifications.instrument( 'tracking', :event => 'Upload profile photo', :params => params.merge(:member_id => @member.id))
+      #ActiveSupport::Notifications.instrument( 'tracking', :event => 'Upload profile photo', :params => params.merge(:member_id => @member.id))
     end
     respond_to do |format|
       format.html { redirect_to edit_profile_form_path(@member.ape_code) }

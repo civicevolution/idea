@@ -152,6 +152,7 @@ G3::Application.routes.draw do
 	
   get 'idea/:question_id/theme_page', to: 'ideas#theming_page', as: 'theme_question_ideas'
 
+  get 'tos', to: 'welcome#terms_of_service', as: 'tos'
 
   get 'plan/:team_id/new_content(/:time_stamp)' => 'plan#summary', :as => 'new_content'
 

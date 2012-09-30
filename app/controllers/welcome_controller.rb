@@ -347,7 +347,8 @@ class WelcomeController < ApplicationController
 
     respond_to do |format|
       format.html { render :action => "terms_of_service", :layout => false } if request.xhr?  
-      format.html { render :action => "terms_of_service" }
+      format.js { render :action => "terms_of_service" }
+      format.html { render :action => "terms_of_service", layout: 'home' }
     end
         
     
@@ -361,10 +362,10 @@ class WelcomeController < ApplicationController
     @member.photo = params[:photo]
     @member.save
     
-    logger.debug "url: #{@member.photo.url('36')}"
-    render :text => @member.photo.url('36')
+    logger.debug "url: #{@member.photo.url(:small)}"
+    render :text => @member.photo.url(':small')
     #respond_to do |format|
-    #  format.json { render :text => ["url = '#{ member.photo.url('36')}'"].to_json }
+    #  format.json { render :text => ["url = '#{ member.photo.url(:small)}'"].to_json }
     #end
       
   end 

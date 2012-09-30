@@ -3,7 +3,7 @@
 		%li.organizer
 			%div.member
 				%p.sug Suggested by
-				= image_tag @team.organizer.photo.url('36'), {:class=>'i36'}
+				= image_tag @team.organizer.photo.url(:small), {:class=>'i36'}
 				%div.name
 					%p= @team.organizer.first_name
 					%p= @team.organizer.last_name

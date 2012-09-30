@@ -1,0 +1,4 @@
+:plain
+	var tos = $("#{escape_javascript(render( :template=> 'welcome/terms_of_service', formats: [:html]  ))}");
+	
+	tos.dialog( {title : 'CivicEvolution Terms of Service', modal : true, width : '700px', closeOnEscape: true, close: function(){$(this).remove()} });

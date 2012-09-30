@@ -24,7 +24,7 @@
 		- else
 			%h3 Update your profile picture
 		%div.member_info{:style=>'float: none'}
-			- pic_url = @member.photo.url('36')
+			- pic_url = @member.photo.url('small')
 			
 			= image_tag pic_url, {:class=>'i36 signin_pic', :title=>'Click to upload your photo'}
 		- if @member.hashed_pwd.nil?	

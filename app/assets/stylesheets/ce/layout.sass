@@ -1,5 +1,10 @@
-$page_width: 980px
-$lightest_bg: #ececec
+@import "definitions"
+
+//$page_width: 980px
+//$lightest_bg: #ececec
+//$navy_blue: #23238E
+//$help_tag: #f3973a
+//$new_item_color: #F2583E
 
 div.page
 	width: $page_width
@@ -139,7 +144,58 @@ div.form_controls
 		top: 0
 		margin: 0
 
+div.preview_email
+	border: 1px solid #666
+	padding: 20px
+	word-wrap: break-word
+	div.email_headers		
+		p
+			margin: 0
+		p.subject
+			margin-top: 10px
+		p.recipients
+			margin-left: 20px
+	pre.email_body
+		margin: 10px 0 30px 0
 
-div#errorExplanation
-	color: red
-	margin-bottom: 1em
+
+form.reset_password_form, form.signin_form, form.register_form, div#join_email_address_ok
+	max-width: 500px
+	label
+		font-weight: bold
+	input[type='text'], input[type='password'] 
+		width: 250px
+	input[type='submit']
+		background-color: $help_tag
+		color: $navy_blue
+		font-size: 1.2em
+		font-weight: bold
+	//	margin: 20px 0
+	a.cancel
+		margin-left: 20px
+		
+form.signin_form
+	td.sign_in
+		padding-right: 40px
+		border-right: 1px solid black
+	td.join
+		padding-left: 40px
+	td.hdr
+		font-size: 1.2em
+		font-weight: bold
+	td.lbl
+		padding-top: 8px
+	td
+		vertical-align: top
+	p
+		width: 240px
+		margin: 0 20px 10px 40px
+	p.signin_warn
+		margin: 0
+		//font-size: 80%
+		padding: 4px
+		border: 1px solid $new_item_color
+		width: 240px	
+	p.signin_action_warn
+		color: red
+		font-weight: bold

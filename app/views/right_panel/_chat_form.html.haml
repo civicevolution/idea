@@ -1,6 +1,6 @@
 %div#presence
 	- if !@member.nil? && @member.id > 0
-		= image_tag @member.photo.url('36'), {:class=>'i36 signin_pic', :title=> "#{@member.first_name} #{@member.last_name.slice(0)}", :id=>@member.ape_code}
+		= image_tag @member.photo.url(:small), {:class=>'i36 signin_pic', :title=> "#{@member.first_name} #{@member.last_name.slice(0)}", :id=>@member.ape_code}
 	- else
 		= image_tag '/assets/members_default/36/m.jpg', {:class=>'i36 signin_pic', :title=> "Visitor", :id=>0}
 		
