@@ -18,7 +18,7 @@
 		%li.endorse
 			= link_to "Endorse",{},{:class=>'endorse_this_proposal'}
 
-		%li.participate
+		-#%li.participate
 			- if params[:_initiative_id] == 5
 				= link_to "How to participate", help_develop_path, {:remote=>true}
 			- else 

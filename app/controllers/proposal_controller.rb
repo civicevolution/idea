@@ -2,7 +2,7 @@ class ProposalController < ApplicationController
   skip_before_filter :authorize, :only => [ :print, :vote ]
     
   def print
-    @team = Team.find(params[:team_id])
+    @team = Team.includes(:idea, :question_ideas => :themes).find(params[:team_id])
     @endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
     
     render :template=>'proposal/print', :locals=>{:team => @team}, :layout => 'print'

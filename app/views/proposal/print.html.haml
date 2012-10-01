@@ -1,4 +1,4 @@
-- @css_name = 'proposal_print'
+- @css_name = 'ce/proposal_print'
 
 %div.proposal_page
 	%div.no_print
@@ -13,17 +13,17 @@
 		%div.summary
 			= simple_format h team.solution_statement
 
-	- team.questions.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
+	- team.question_ideas.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
 		%h4.question
 			Q#{question.order_id}: #{question.text}
-			
-		- if question.curated_talking_points.size == 0
-			%p.no_talking_points No talking points have been selected for this answer
+		
+		- if question.themes.detect{|t| t.visible && t.version > 0}.nil?
+			%p.no_themes No answer has been provided for this question
 		- else
-			%ul.talking_points
-				- question.curated_talking_points.each do |talking_point|
-					%li.talking_point{:id=>talking_point.id}
-						= talking_point.text
+			%ul.talking_points.themes
+				- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
+					- if theme.version > 0 && theme.visible
+						%li.theme.talking_point{id: theme.id}= theme.text
 
 %div.page-break
 	%h3 #{@endorsements.size} Community endorsements
@@ -41,7 +41,7 @@
 				%td.time
 					%abbr.timeago{:title=>e.updated_at}= time_ago_in_words(e.updated_at) + ' ago'
 
-%div.page-break
+-#%div.page-break
 	%h3 Proposal development details
 
 	%h4 This proposal was developed by 
