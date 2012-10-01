@@ -97,9 +97,8 @@ $('body').on('click','div.idea_details a.view_results',
 			var bar_full_width = $('div.vote_results').width() / 10;
 			var bar_width = $('div.vote_results').width() / 10 *.75;
 			var bar_margin = $('div.vote_results').width() / 10 *.25;
-			
-			
-			var idea_votes = vote_results_div.attr('votes').match(/(\d+)/g).map( function(el){return Number(el) });
+
+			var idea_votes = $.map(vote_results_div.attr('votes').match(/(\d+)/g), function(el){return Number(el) });
 			
 			var vote_buckets = [0,0,0,0,0,0,0,0,0,0];
 			var max_votes = 0
