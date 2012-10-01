@@ -18,6 +18,10 @@ Function.prototype.bind = function (obj) {
 	}
 };
 
+String.prototype.trim = String.prototype.trim || function() {
+        return this.replace(/^\s+|\s+$/,"");
+}
+
 jQuery(function() {
 	//console.log("********** Update support.borderRadius")
 	jQuery.support.borderRadius = false;
