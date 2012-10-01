@@ -27,7 +27,13 @@
 					%p This category encourages collaborative projects that help our field, communities and nation make great strides in bridging political divides and crossing boundaries.
 					%p.explain What projects can we launch together to make significant progress in this area? How can we build upon past and current efforts in political bridge building in ways that move our field forward–and gain the attention and support of those with the financial and other resources needed to sustain the work?
 					
-																								
+					%p.help
+						#{link_to "Read more", short_help_path(tab: 0), {:remote=>true}},
+						view a 
+						= link_to "video", short_help_path(tab: 1), {:remote=>true}
+						showing how CivicEvolution works or
+						= link_to "Contact us", short_help_path(tab: 2), { :remote => true}	
+																									
 				%p.clear_both
 					
 			%h1 Projects proposed by the NCDD community		
@@ -36,6 +42,7 @@
 					If you have a new idea that's not listed, 
 					#{link_to 'suggest it now', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}}.
 	
+			- @init_teams.delete(10093)
 			- @init_teams.each do |team|
 				%div.team_block.corner{:id=>team.team_id}
 					%div.team_entry{:class=> cycle('stripe_bg','')}

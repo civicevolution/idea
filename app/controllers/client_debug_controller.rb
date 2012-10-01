@@ -82,7 +82,10 @@ class ClientDebugController < ApplicationController
   end
   
   def request_help
-    render :action => "request_help", :layout => 'plan' 
+    respond_to do |format|
+      format.js { render template: 'client_debug/request_help', formats: [:js] }
+      format.html { render template: 'client_debug/request_help' }
+    end
   end
   
   def request_help_post

@@ -1,9 +1,11 @@
 %div.right_master
 	%div.help.fix_ht
 		%p
-			= link_to "Help", help_path, {:remote=>true}
+			= link_to "Help", short_help_path(tab: 0), {:remote=>true}
 			&bull;
-			= link_to "Contact us", request_help_path, { :remote => true}
+			= link_to "video", short_help_path(tab: 1), {:remote=>true}
+			&bull;
+			= link_to "Contact us", short_help_path(tab: 2), { :remote => true}	
 		
 	= render :partial => 'right_panel/member'	
 	

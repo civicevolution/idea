@@ -37,10 +37,14 @@
 						%li Identify benchmarks of success, whether quantitative or qualitative.
 
 				
-					%p.intro Please review the #{ link_to "NCDD's principles for the Catalyst Awards program", 'http://ncdd.org/catalyst-awards#principles' } for more guidance and inspiration.
-				
-				
-
+					%p.intro 
+						Please review the #{ link_to "NCDD's principles for the Catalyst Awards program", 'http://ncdd.org/catalyst-awards#principles' } for more guidance and inspiration.
+						#{link_to "Read more", short_help_path(tab: 0), {:remote=>true}},
+						view a 
+						= link_to "video", short_help_path(tab: 1), {:remote=>true}
+						showing how CivicEvolution works or
+						= link_to "Contact us", short_help_path(tab: 2), { :remote => true}	
+						
 				- if @member && !@member.confirmed
 					%p.suggest_sign_in You must confirm your CivicEvolution account by email before you can suggest an idea. You can request a confirmation email on the right.
 				- elsif @member.nil?

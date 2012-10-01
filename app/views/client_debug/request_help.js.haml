@@ -4,7 +4,7 @@
 		render( :template => 'client_debug/request_help', :formats => [:html] )
 	)}");
 	
-	var dialog = report_form.dialog( {title : '2029 and Beyond Help and Feedback', modal : true, width : '500px', closeOnEscape: false, close: function(){$(this).remove()}, open: function(){$('a').blur();} });
+	var dialog = report_form.dialog( {title : "#{params[:_app_name]} Help and Feedback", modal : true, width : '500px', closeOnEscape: false, close: function(){$(this).remove()}, open: function(){$('a').blur();} });
 	var form = $('form.request_help');
 	temp.form = form;
 	activate_text_counters_grow( form.find('textarea'), 120 )

@@ -1,0 +1,15 @@
+:plain
+	$('div.short_help_page').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+	
+	var help = $("#{escape_javascript(
+		render( :template => 'help/short_help_page', :formats => [:html] )
+	)}");
+	
+	var dialog = help.dialog( {title : 'CivicEvolution Help', width: 700, modal : true, closeOnEscape: true, close: function(){$(this).dialog('destroy').remove()}, open: function(){ $('a').blur();} });
+	
+	var tab = #{ params[:tab] || 0 }
+	dialog.find('div.help_tabs').tabs( { selected: tab });
+	
+	activate_text_counters_grow(dialog.find('textarea'), 300);
+	
+	

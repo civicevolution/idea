@@ -40,7 +40,14 @@ class HelpController < ApplicationController
       :locals => { :inc_js => 'none', :toc => toc, :default_page => default_page, :introduction_haml => introduction_haml}
     
   end
-    
+
+  def short_help
+    respond_to do |format|
+      format.js { render 'help/short_help_page' }
+      format.html { render 'help/short_help_page' }
+    end
+  end
+  
   def help_topic
     topic_id = params[:id].size > 0 ? params[:id] : 'Introduction'
     conf = YAML.load_file("#{Rails.root}/config/help.yaml")		
