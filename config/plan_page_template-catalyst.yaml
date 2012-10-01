@@ -3,7 +3,7 @@
 # add each question as shown
 
 what_page:
-  question:         What is your project? 
+  question:         What is your big idea?
   order_id: 1
   default_answer_id: 10
   num_answers:      1
@@ -12,7 +12,7 @@ what_page:
   talking_point_preferences:  5
 
 why_page:
-  question:         How does this project address our Bridge Building and/or Civic Infrastructure challenges?
+  question:         Why is it important?
   order_id: 2
   default_answer_id: 11
   num_answers:      1
@@ -21,7 +21,7 @@ why_page:
   talking_point_preferences:  5
 
 how_page:
-  question:         Who will be involved in implementing this project?
+  question:         Who will be involved?
   order_id: 3
   default_answer_id: 12
   num_answers:      1
@@ -30,7 +30,7 @@ how_page:
   talking_point_preferences:  5
 
 who_page:
-  question:         What is your plan for successfully implementing this project?
+  question:         What is your high level plan for getting this done?
   order_id: 4
   default_answer_id: 13
   num_answers:      1
