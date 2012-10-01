@@ -41,9 +41,8 @@
 				%b
 					If you have a new idea that's not listed, 
 					#{link_to 'suggest it now', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}}.
-	
-			- @init_teams.delete(10093)
-			- @init_teams.each do |team|
+
+			- @init_teams.select{|team| team.team_id != 10093 }.each do |team|
 				%div.team_block.corner{:id=>team.team_id}
 					%div.team_entry{:class=> cycle('stripe_bg','')}
 						= link_to team.title, proposal_path(team.team_id), {:class=>'team_entry_title',:launched=>'t'}
