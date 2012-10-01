@@ -38,7 +38,13 @@
 			
 		
 		%div#tab_help_video
-			%iframe{:allowfullscreen => "", :frameborder => "0", :height => "480", :src => "http://www.youtube.com/embed/Y1oy10ja7us?rel=0", :width => "640"}
+			%object{:height => "360", :width => "480"}
+				%param{:name => "movie", :value => "http://www.youtube.com/v/Y1oy10ja7us?version=3&hl=en_US&rel=0"}
+				%param{:name => "allowFullScreen", :value => "true"}
+				%param{:name => "allowscriptaccess", :value => "always"}
+				%embed{:allowfullscreen => "true", :allowscriptaccess => "always", :height => "480", :src => "http://www.youtube.com/v/Y1oy10ja7us?version=3&hl=en_US&rel=0", :type => "application/x-shockwave-flash", :width => "640"}
+
+			-#%iframe{:allowfullscreen => "", :frameborder => "0", :height => "480", :src => "http://www.youtube.com/embed/Y1oy10ja7us?rel=0", :width => "640"}
 	
 		%div#tab_help_contact_us
 			= render :template=>'client_debug/request_help', :formats => [:html], :locals=>{:in_help=>'yes'}

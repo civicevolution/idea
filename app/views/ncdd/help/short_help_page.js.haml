@@ -11,5 +11,8 @@
 	dialog.find('div.help_tabs').tabs( { selected: tab });
 	
 	activate_text_counters_grow(dialog.find('textarea'), 300);
+	var close_btn = $('div.ui-dialog-titlebar').hide().find('a.ui-dialog-titlebar-close');
+	dialog.find('ul.ui-tabs-nav').append( close_btn ).css('position','relative');
+	dialog.css('padding', 0);
 	
 	
