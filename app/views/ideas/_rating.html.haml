@@ -31,10 +31,14 @@
 		= image_tag('rater/great.gif', class: 'great')		
 	
 	%div.theme_slider{id: idea.id, my_rating: my_rating.nil? ? 50 : my_rating.rating }		
-
 	%p.results
-		- votes = idea.idea_ratings.size
+		- votes = idea.votes.size
 		%span.vote_count
 			= pluralize(votes,'vote')
-		- if votes > 1
-			= link_to "View results", {}
+		- if votes > 0
+			= link_to "View results", {}, class: 'view_results'
+
+		%div.vote_results{ votes: "#{idea.votes}"}
+			- (0..9).each do |i|
+				%div.bar
+	

@@ -107,6 +107,10 @@ class Idea < ActiveRecord::Base
     ActiveRecord::Base.connection.update_sql(sql)
   end
   
+  def votes
+    IdeaRating.votes(self.id)
+  end
+  
   def o_type
     20 #type for Idea
   end

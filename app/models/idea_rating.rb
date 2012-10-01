@@ -17,6 +17,10 @@ class IdeaRating < ActiveRecord::Base
     true
   end
   
+  def self.votes(idea_id)
+    IdeaRating.where(idea_id: idea_id ).pluck('rating')
+  end
+  
   after_save do |rating|
     rating.num_idea_votes = IdeaRating.where( idea_id: rating.idea_id).count
   end

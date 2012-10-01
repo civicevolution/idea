@@ -79,3 +79,57 @@ $('body').on('click', 'div.idea_details div.navigation a.item',
 		return false;
 	}
 );
+
+$('body').on('click','div.idea_details a.view_results', 
+	function(){
+		try{
+			var link = $(this);
+			var vote_results_div = $(this).closest('div.idea_details').find('div.vote_results');
+			if(link.html().match(/View/i)){
+				link.html( link.html().replace(/View/, 'Hide') );
+			}else{
+				link.html( link.html().replace(/Hide/, 'View') );
+				vote_results_div.hide(800);
+				return false;
+			}
+			
+			var max_height = $('div.vote_results').height();
+			var bar_full_width = $('div.vote_results').width() / 10;
+			var bar_width = $('div.vote_results').width() / 10 *.75;
+			var bar_margin = $('div.vote_results').width() / 10 *.25;
+			
+			
+			var idea_votes = vote_results_div.attr('votes').match(/(\d+)/g).map( function(el){return Number(el) });
+			
+			var vote_buckets = [0,0,0,0,0,0,0,0,0,0];
+			var max_votes = 0
+			//console.log("idea_votes: " + idea_votes);
+			for(var i=0,vote;(vote=idea_votes[i]);i++){
+				//console.log("vote: " + vote);
+				++vote_buckets[ Math.floor( (vote - 1)/10 )]
+			}
+			//console.log("vote_buckets: " + vote_buckets);
+			//for(var j=0,num_votes;(num_votes=vote_buckets[j]);j++){
+			//	console.log("num_votes: " + num_votes);
+			//	//max_votes = (max_votes > num_votes ? max_votes : num_votes);
+			//}
+			for(var j=0;j < vote_buckets.length;j++){
+				var num_votes = vote_buckets[j];
+				//console.log("num_votes: " + num_votes);
+				max_votes = (max_votes > num_votes ? max_votes : num_votes);
+			}
+			//console.log("max_votes: " + max_votes);
+			var max_height = $('div.vote_results').height();
+			//console.log("max_height: " + max_height);
+			vote_results_div.find('div.bar').each( 
+				function(i,el){
+				 	$(el).height( vote_buckets[i]>0 ? vote_buckets[i]  * max_height/max_votes : 1 )
+						.css({left: i * bar_full_width, width: bar_width, 'margin-right':  bar_margin })
+						.attr('title', vote_buckets[i] + (vote_buckets[i]==1 ? ' vote' : ' votes'));
+			 }
+			);
+			vote_results_div.show(800);
+		}catch(e){ console.log("Error: " + e);}
+		return false;
+	}
+);
