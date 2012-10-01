@@ -23,6 +23,8 @@ function init_page(){
 		right_panel_init();
 	}
 	
+	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
+	
 	if(!$.support.borderRadius){ 
 		console.log("load corner support script and activate");
 		$.getScript('/javascripts/jquery.corner.js', 
@@ -42,12 +44,6 @@ function init_page(){
 		//console.log("pretty photo is okay")
 	}catch(e){}
 }
-
-
-function init_worksheet(){
-	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
-}
-
 
 $('div.home_page table.proposal_stats').die('click').live('click',
 	function(){

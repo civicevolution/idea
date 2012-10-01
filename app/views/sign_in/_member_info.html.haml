@@ -6,13 +6,13 @@
 		%br
 		#{@member.first_name}
 	%p.signout
-		= link_to "My ideas", {:controller => "profile", :action=> "my_teams"}, {:class => 'my_teams', :rel=>'nofollow', :remote=>true}
+		= link_to "My projects", {:controller => "profile", :action=> "my_teams"}, {:class => 'my_teams', :rel=>'nofollow', :remote=>true}
 		= link_to "Sign out", {:controller => "sign_in", :action=> "sign_out"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow'}
 		-if !@member.confirmed
 			= link_to "Confirm email", {:controller => "welcome", :action=> "request_confirmation_email"}, {:class => 'request_confirmation_email', :rel=>'nofollow'}
 			
 	%div#my_teams.hide	
-		%h2.home_title.my_teams My ideas
+		%h2.home_title.my_teams My projects
 		%div.right_vertical_bar.my_teams
 			- if @member.team_titles.size > 0
 				%ul.teams_list
