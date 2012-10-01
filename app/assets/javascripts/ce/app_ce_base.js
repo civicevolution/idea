@@ -11,6 +11,13 @@ if(typeof console == 'undefined') console = {log:function(str){console_log += st
 var temp = {};
 var templates_loaded = false;
 
+Function.prototype.bind = function (obj) {
+	var fn = this;
+	return function () {
+		return fn.apply(obj, arguments);
+	}
+};
+
 jQuery(function() {
 	//console.log("********** Update support.borderRadius")
 	jQuery.support.borderRadius = false;
