@@ -73,7 +73,7 @@ module G3
     # HOME
     config.assets.precompile += %w( application_ce_home.css application_ce_home_home.js application_ce_home_no_js.js )
     # MISC
-    config.assets.precompile += %w( opt/pure.js ce/proposal_print.css)
+    config.assets.precompile += %w( opt/pure.js opt/json2-min.js ce/proposal_print.css)
     
     #config.assets.precompile += %w( application_ce_live.css  )
     #config.assets.precompile += %w( application_ce_home_all.js )

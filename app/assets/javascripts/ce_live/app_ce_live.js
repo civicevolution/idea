@@ -26,7 +26,7 @@ $(function(){
 		  var token = $("meta[name='csrf-token']").attr("content");
 		  xhr.setRequestHeader("X-CSRF-Token", token);
 		});	
-		if (typeof JSON == 'undefined' || !JSON) { console.log("load json2"); $.getScript('/javascripts/json2-min.js'); }
+		if (typeof JSON == 'undefined' || !JSON) { console.log("load json2"); $.getScript('/assets/opt/json2-min.js'); }
 		activate_text_counters_grow($('textarea'), 120);
 });
 

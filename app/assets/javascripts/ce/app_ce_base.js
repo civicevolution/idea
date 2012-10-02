@@ -23,6 +23,11 @@ String.prototype.trim = String.prototype.trim || function() {
 }
 
 jQuery(function() {
+	
+		if( ($.browser.msie  && parseInt($.browser.version, 10) <= 7) ? true : false  ){
+			$('<div><p class="warn">CivicEvolution has evolved and no longer works with version ' + parseInt($.browser.version, 10) + ' of Microsoft Explorer</p><p>Please use Google Chrome, Firefox, Safari or Internet Explorer version 8 or greater</p></div>').dialog({title: 'Error', modal: true});
+		}
+	
 	//console.log("********** Update support.borderRadius")
 	jQuery.support.borderRadius = false;
 	jQuery.each(['BorderRadius','borderRadius','MozBorderRadius','WebkitBorderRadius','OBorderRadius','KhtmlBorderRadius'], function() {
@@ -39,7 +44,7 @@ $(function(){
 		if(params['video']=='play'){
 			setTimeout(function(){ $('a#play_intro_video').click(); },1000);
 		}
-		if (typeof JSON == 'undefined' || !JSON) { console.log("load json2"); $.getScript('/javascripts/json2-min.js'); }
+		if (typeof JSON == 'undefined' || !JSON) { console.log("load json2"); $.getScript('/assets/opt/json2-min.js'); }
 });
 
 function ajaxDisableElement(el){
