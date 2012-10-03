@@ -25,9 +25,8 @@
 										5
 										-#{question.unrated_ideas.count} new
 						
-						
-						
-						%p= @team.solution_statement
+						- @team.solution_statement.split(/[\r\n]+/).each do |para|
+							%p= para
 
 
 						%p.clear_both
