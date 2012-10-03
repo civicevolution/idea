@@ -42,19 +42,11 @@
 					If you have a new idea that's not listed, 
 					#{link_to 'suggest it now', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}}.
 
-			- @init_teams.select{|team| team.team_id != 10093 }.each do |team|
+			- @init_teams.each do |team|
 				%div.team_block.corner{:id=>team.team_id}
 					%div.team_entry{:class=> cycle('stripe_bg','')}
 						= link_to team.title, proposal_path(team.team_id), {:class=>'team_entry_title',:launched=>'t'}
 
-						- if team.team_id == 10080 # show microwave pics
-							- pics_array = ['10080-1','10080-2','10080-3','10080-4']
-							%div.resources.sky
-								- pics_array.each do |pic|
-									= link_to "/images/sky/misc/#{pic}-lg.jpg", :rel=>'prettyPhoto', :title=>'Pictures related to this proposal' do
-										%div= image_tag("sky/misc/#{pic}-sm.jpg")
-							%p.clear_both
-						
 						%p.desc= team.solution_statement
 						%p.controls
 							%table.proposal_stats
@@ -65,21 +57,12 @@
 							
 								%tr
 									%td= pluralize(team.comments, 'comment')
-									%td= pluralize(team.talking_points, 'talking point')
+									-#%td= pluralize(team.talking_points, 'talking point')
+									%td
 									%td= pluralize(team.endorsements, 'endorsement')
 						
-						
-						
-							-# if team.comments.to_i == 0
-								= link_to "Please start this conversation", proposal_path(team.id)
-							-# else
-								= pluralize(team.comments, 'comment') unless team.comments.to_i == 0
-							-#= pluralize(team.bs_ideas, 'idea') unless team.bs_ideas.to_i == 0
-							-#= pluralize(team.answers, 'answer') unless team.answers.to_i == 0
-							-#= pluralize(team.talking_points, 'talking point')
-						
 						%p.controls
-							= link_to "Help us make a difference", proposal_path(team.team_id)
+							= link_to "Visit our project page", proposal_path(team.team_id)
 							= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
 						-#%p.controls
 							-#%span 0 comments
@@ -95,11 +78,14 @@
 
 
 
-			- if @init_teams.size > 0
+			- if @init_teams.size == 0 
+				%p Ideas will be listed here as they come in
+			- elsif @init_teams.size > 4
 				%p
 					%b
 						If you have a new idea that's not listed, 
 						= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+				
 					
 
 		%div.right_side
