@@ -1,3 +1,4 @@
+- not_confirmed_member =  (@member.nil? || @member && !@member.confirmed) ? true : false
 - edit ||= false
 - proposal_idea ||= ProposalIdea.new
 = form_for( proposal_idea, :url => edit ? edit_plan_summary_path(team_id) : submit_proposal_idea_path, :html => {:class=>'suggest_proposal_idea_form'} ) do |form| 
@@ -5,14 +6,14 @@
 	%div.add_idea
 		%div.title
 			= form.label :title, "Project title"
-			= form.text_field :title, :class=>'title', :alias=>'Title'
+			= form.text_field :title, :class=>'title', :alias=>'Title', disabled: not_confirmed_member
 			%div.control_line.title
 				%div.controls
 					%span.char_ctr 255 characters
 
 		%div.text
 			= form.label :text, "Please provide a brief summary of your project"
-			= form.text_area :text, :class=>'comment', :class=>'autosize', :rows => 8, :alias=>'Proposal idea'
+			= form.text_area :text, :class=>'comment', :class=>'autosize', :rows => 8, :alias=>'Proposal idea', disabled: not_confirmed_member
 			%div.control_line
 				%div.controls
 					%span.char_ctr 
@@ -25,9 +26,25 @@
 				= form.check_box :accept_guidelines, {:value=>'true', :alias=>'You'}
 				I agree to the eligibility criteria above. I understand my idea will be reviewed for relevance before it is published.
 		%div#recaptcha_suggest_idea
-		%p
-			= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'
-			- if edit
-				= link_to "Cancel", plan_path(params[:team_id]), :class=>'cancel'
-			- else
-				= link_to 'Return to home page', home_path, {:class=>'clear'}
+
+		- if not_confirmed_member 
+			%p.warn 
+				You must be signed in with a confirmed email to suggest an idea. 
+				= link_to 'Sign in', sign_in_path(:act=>'sign_in'), {:class=>'sign_in join', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
+				or 
+				= link_to 'Join now', sign_in_path(:act=>'join'), {:class=>'sign_in join', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
+			%p
+				= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please', disabled: true
+				- if edit
+					= link_to "Cancel", plan_path(params[:team_id]), :class=>'cancel'
+				- else
+					= link_to 'Return to home page', home_path, {:class=>'clear'}
+
+
+		- else
+			%p
+				= submit_tag "Submit idea", :name=>'submit_idea', :alias=>'Please'
+				- if edit
+					= link_to "Cancel", plan_path(params[:team_id]), :class=>'cancel'
+				- else
+					= link_to 'Return to home page', home_path, {:class=>'clear'}

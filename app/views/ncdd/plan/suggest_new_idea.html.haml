@@ -45,15 +45,18 @@
 						showing how CivicEvolution works or
 						= link_to "Contact us", short_help_path(tab: 2), { :remote => true}	
 						
-				-# if @member && !@member.confirmed 
-					%p.suggest_sign_in You must confirm your CivicEvolution account by email before you can suggest an idea. You can request a confirmation email on the right.
-				-# elsif @member.nil?
-					%p.suggest_sign_in You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.
+					-# if @member && !@member.confirmed 
+						%p.suggest_sign_in You must confirm your CivicEvolution account by email before you can suggest an idea. You can request a confirmation email on the right.
+					-# elsif @member.nil?
+						%p.suggest_sign_in You must be signed in with a confirmed email to suggest an idea. You can join, sign in, and confirm on the right.
 
-				- if @member.nil? || @member && !@member.confirmed 
-					%p.warn 
-						You must be signed in with a confirmed email to suggest an idea. 
-						= link_to 'Join now', sign_in_path(:act=>'join'), {:class=>'sign_in join', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
+					- if @member.nil? || @member && !@member.confirmed 
+						%p.warn 
+							You must be signed in with a confirmed email to suggest an idea. 
+							%br
+							= link_to 'Sign in', sign_in_path(:act=>'sign_in'), {:class=>'sign_in join', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
+							or
+							= link_to 'Join now', sign_in_path(:act=>'join'), {:class=>'sign_in join', :id=>'sign_in_link', :rel=>'nofollow', :remote=>true}
 
 				= render :partial => 'plan/idea_form', :locals=> {:proposal_idea => proposal_idea}
 
