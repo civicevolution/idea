@@ -36,11 +36,11 @@
 																									
 				%p.clear_both
 					
-			%h1 Projects proposed by the NCDD community		
-			%p
-				%b
-					If you have a new idea that's not listed, 
-					#{link_to 'suggest it now', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}}.
+			%h1#list_of_proposed_projects Projects proposed by the NCDD community	
+			
+			%p.cta_suggest
+				All projects are listed below, click here to
+				#{link_to 'suggest a new project', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}}.					
 
 			- @init_teams.each do |team|
 				%div.team_block.corner{:id=>team.team_id}

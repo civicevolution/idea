@@ -2,24 +2,26 @@
 %div.cta_block.corner
 	%div.num 1
 	%div.text
-		%h3.tagline Collaborate
-		%p The success of the Catalyst projects depends on our ability to tap the best ideas, experiences, and doers in our community.
-		-#%p The catalyst projects jump-start the field’s next best ideas and impact our communities’ and our country’s ability to solve its most challenging problems.
-		
-		-#%p Start by entering your proposal to enhance and improve our Skyline Campus & Community
-		-#%p Your proposal is your plan for putting your ideas into action.  It answers: What change do we want to make? Why is it important to our community? How can the change be made? Who will be involved in making the change? and Where do we start?
+		%h3.tagline Learn
+		%p.help
+			#{link_to "Read more", short_help_path(tab: 0), {:remote=>true}}
+			or view a 
+			= link_to "video", short_help_path(tab: 1), {:remote=>true}
+			showing how CivicEvolution works
 
 	%p.clear_both
 	
 %div.cta_block.corner
 	%div.num 2
 	%div.text
-		%h3 Think together
+		%h3 Collaborate
 		%p CivicEvolution provides a continuum of possibilities to participate such as suggesting ideas, commenting, rating, helping to theme ideas into coherent plans, and endorsing proposals.
 		- if _page == 'home'
 			%p.cta.primary 
 				-#Click a project on the left to get started
-				Propose a project now or (soon) check out others' project ideas listed on the bottom of the page
+				%a.show_projects{href: '#list_of_proposed_projects'}
+					Browse existing projects or create a new one
+				-#Propose a project now or (soon) check out others' project ideas listed on the bottom of the page
 		- elsif _page == 'suggest_idea'
 			%p.cta.primary 
 				Suggest your project idea now
