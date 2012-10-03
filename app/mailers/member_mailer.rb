@@ -1,7 +1,6 @@
 class MemberMailer < ActionMailer::Base
   
-  self.default :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
-    :reply_to => "support@civicevolution.org"
+  self.default :reply_to => "support@civicevolution.org"
   
 
   def confirm_registration(member, mcode, host, app_name, sent_at = Time.now)
@@ -10,7 +9,8 @@ class MemberMailer < ActionMailer::Base
     @host = host
     @app_name = app_name
     mail(:to => "#{member.first_name} #{member.last_name} <#{member.email}>",
-      :subject => 'Confirm your CivicEvolution registration'
+      :subject => 'Confirm your CivicEvolution registration',
+      :from => "#{app_name} <support@civicevolution.org>"
     )
   end
 
@@ -19,7 +19,8 @@ class MemberMailer < ActionMailer::Base
     @mcode = mcode
     @host = host
     mail(:to => "#{member.first_name} #{member.last_name} <#{member.email}>",
-      :subject => 'Reset your CivicEvolution password'
+      :subject => 'Reset your CivicEvolution password',
+      :from => "CivicEvolution <support@civicevolution.org>"
     )
   end
   
@@ -29,7 +30,8 @@ class MemberMailer < ActionMailer::Base
     @uri = uri
     @host = host
     mail(:to => "#{member.first_name} #{member.last_name} <#{member.email}>",
-      :subject => 'Resend email with valid access code'
+      :subject => 'Resend email with valid access code',
+      :from => "CivicEvolution <support@civicevolution.org>"
     )
   end
 
@@ -38,7 +40,8 @@ class MemberMailer < ActionMailer::Base
     @url = url
     @app_name = app_name
     mail(:to => email,
-      :subject => 'Please create your CivicEvolution membership'
+      :subject => 'Please create your CivicEvolution membership',
+      :from => "#{app_name} <support@civicevolution.org>"
     )
   end
 

@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
     # show the sign in form
     flash.keep # keep the info I saved till I successfully process the sign in
     respond_to do |format|
-      format.html {render :template => 'right_panel/_sign_in', :layout => 'home', :locals => { :inc_js => 'none'}}
+      format.html {render :template => 'right_panel/_sign_in', :layout => 'home'}
       format.js {render :template => 'sign_in/sign_in_form', :formats => [:js], :layout => false}
     end
   end
@@ -132,7 +132,7 @@ class ApplicationController < ActionController::Base
           # if js, just close the form, otherwise determine what to show
           params[:action] = flash[:params][:action] if flash[:params]
           params[:input_type] = flash[:params][:input_type] if flash[:params]
-          render :template => 'sign_in/close_temp_join_save_email' 
+          render :template => 'sign_in/acknowledge_confirm_email_sent', formats: [:js]
         }
         format.html {
           params[:action] = flash[:params][:action] if flash[:params]
@@ -332,7 +332,7 @@ class ApplicationController < ActionController::Base
       # this is an action by a user with a preliminary email account
       # for selected actions, store the params with the email
       email_account_actions = [ 'rate_talking_point', 'prefer_talking_point','vote_save', 'add_talking_point',
-          'create_comment_comment','create_talking_point_comment','add_endorsement','update_worksheet_ratings','submit_proposal_idea']
+          'create_comment_comment','create_talking_point_comment','add_endorsement','update_worksheet_ratings','SSSsubmit_proposal_idea']
       if email_account_actions.include?( params[:action])
         PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => params
         activity_was_queued = true

@@ -10,16 +10,21 @@
 		$('div.ui-dialog div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
 
 		var confirmation = $("#{escape_javascript(
-			render( :template => 'sign_in/join_email_address_ok', :formats => [:html])
+			render( :template => 'sign_in/acknowledge_confirm_email_sent', :formats => [:html])
 		)}");
 	
 		$('div.ui-dialog div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();
-		confirmation.find('a.cancel').die('click').live('click', 
+		
+		$('div#sign_in_form').hide().after("<p class='error'>A confirmation email has been sent to #{params[:email]}</p><p>Please confirm your account to continue");
+		//$('div#sign_in_form').hide().after("<p class='error'>You have temporary access as alice@civicevolution.org</p>");
+	
+		var confirmation = confirmation.dialog( {title : 'Your confirmation email was sent', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();} });
+		
+		confirmation.find('a.cancel').live('click', 
 			function(){	
+				debugger
 				$(this).closest('div.ui-dialog').dialog('destroy').remove(); 
 				return false; 
 			}
 		);
-	
-		var confirmation = form.dialog( {title : 'Your confirmation email was sent', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()}, open: function(){$('a').blur();} });
-		
+		temp.confirmation = confirmation

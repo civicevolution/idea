@@ -23,6 +23,7 @@
 			%h3 Please add a picture of yourself to your profile
 		- else
 			%h3 Update your profile picture
+		%p Choose a file and then click the button to upload it
 		%div.member_info{:style=>'float: none'}
 			- pic_url = @member.photo.url('small')
 			
@@ -33,7 +34,7 @@
 			= form_tag( upload_member_photo_path(@member.ape_code), {:class=>'upload_member_photo', :multipart => true }) do
 				= file_field_tag :photo, {:value=>"Choose a photo"}
 				= hidden_field_tag :return_page, 'edit_profile'
-				%p= submit_tag "Make this my profile picture"
+				%p= submit_tag "Upload this picture for my profile"
 
 	%div#my_teams
 		%h3 Proposals you have helped or watched

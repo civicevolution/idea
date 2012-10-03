@@ -1,15 +1,7 @@
 %div#join_email_address_ok
 	%h3 
-		Please check your email address:
+		We have created a temporary account with your email address
 		%span.warn.nobreak #{params[:email_join]}
-
-	%p 
-		If the email address is correct click the 
-		%b Send confirmation email
-		button
-	%p
-		If your email address is not correct click
-		= link_to "I need to fix my email address", {:controller=>'welcome'}, {:class=>'reenter', :rel=>'nofollow', :tabindex => 5}
 		
 	%ul
 		-#%li You can now use CivicEvolution
@@ -18,13 +10,14 @@
 		-#	However, your comments, ideas and ratings 
 		-#	%b won't be displayed 
 		-#	to others until you confirm your email address
-		-#%li 
+		%li 
 			We sent an email with confirmation instructions to 
 			%span.warn.nobreak #{params[:email_join]}
-		-#%li
+		%li
 			%b
 				Please be sure your email address appears correctly, otherwise fix it
 				-#= link_to "reenter your email address", sign_in_path
 	= form_tag temp_join_save_email_path do 
 		= hidden_field_tag :email, params[:email_join]
-		=submit_tag "Send confirmation email"
+		=submit_tag "Continue"
+		= link_to "I need to fix my email address", {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow', :tabindex => 5}

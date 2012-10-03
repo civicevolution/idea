@@ -1,0 +1,12 @@
+%div#acknowledge_confirm_email_sent 
+	%h3 
+		We have sent a confirmation email to 
+		%span.warn.nobreak #{params[:email]}
+		
+	%p
+		If you don't receive your email within a few minutes, please check your SPAM or junk mail folder and please add "support@civicevolution.org" to your contacts list. 
+	%p	
+		If that doesn't help, please 
+		= link_to "contact us", short_help_path(tab: 2), { :remote => true}	
+	-#%p	
+		= link_to "Close", {:controller=>'welcome'}, {:class=>'cancel', :rel=>'nofollow', :tabindex => 5}

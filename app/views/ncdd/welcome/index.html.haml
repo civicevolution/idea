@@ -83,10 +83,9 @@
 			- if @init_teams.size == 0 
 				%p Ideas will be listed here as they come in
 			- elsif @init_teams.size > 4
-				%p
-					%b
-						If you have a new idea that's not listed, 
-						= link_to 'suggest it now.', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}
+				%p.cta_suggest
+					All projects are listed above, click here to
+					#{link_to 'suggest a new project', {:controller=>:plan, :action=>:suggest_new_idea}, {:class=>'suggest_new_idea', :rel=>'nofollow', :remote=>false}}.
 				
 					
 
