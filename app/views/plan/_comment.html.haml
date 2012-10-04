@@ -5,7 +5,7 @@
 	- resource = nil # @resources.detect { |r| r.comment_id == comment.id }
 	- if comment.anonymous == 't'
 		- name = 'Anonymous'
-		- pic_src = '/assets/members_default/36/m.jpg'
+		- pic_src = '/assets/members_default/small/m.jpg'
 	- else
 		- name = comment.author.first_name + ' ' + comment.author.last_name
 		- pic_src = comment.author.photo.url(:small)

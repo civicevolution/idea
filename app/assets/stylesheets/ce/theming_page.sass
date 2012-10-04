@@ -157,6 +157,18 @@ div.theme_col.unthemed_ideas
 	li.idea_post_it img.delete, li.theme_post_it img.edit
 		display: none
 
+div.theming_page_outer.no_theme
+	li.idea_post_it:hover
+		img.delete
+			display: none
+	li.theme_post_it:hover
+		img.edit
+			display: none
+			
+img.magnify
+	display: block
+	float: right
+	+opacity(25)
 
 ul
 	overflow: hidden

@@ -1076,7 +1076,7 @@ class TeamController < ApplicationController
         @members = [ member ]
         
         author = escape_json_text( @comment.anonymous ? 'Anonymous' : (member.nil? ? 'Unknown author' : member.first_name + ' ' + member.last_name) )
-        author_url = @comment.anonymous ? '/images/members_default/36/m.jpg' : (member.nil? ? '/images/members_default/36/m.jpg' : member.photo.url('36')) 
+        author_url = @comment.anonymous ? '/images/members_default/small/m.jpg' : (member.nil? ? '/images/members_default/small/m.jpg' : member.photo.url('small')) 
        # time_ago = escape_json_text( time_ago_in_words(@comment.created_at) + ' ago' )
         #debugger
 
@@ -1473,7 +1473,7 @@ class TeamController < ApplicationController
     respond_to do |format|
       if saved
         serialized = sendApeNotification({:type=>'chat', :channel=>"team#{chat_msg.team_id}", :data => {:text=>chat_msg.text, :name=>name, :pic_id=>member.pic_id, 
-          :pic_url => member.photo.url('36'), :chat_msg_id=>chat_msg.id, :item_id=>params[:page_id] }},session);
+          :pic_url => member.photo.url('small'), :chat_msg_id=>chat_msg.id, :item_id=>params[:page_id] }},session);
         format.html { render :text => serialized } if request.xhr?       
       else
         format.json { render :text => [chat_msg.errors].to_json, :status => 409 }

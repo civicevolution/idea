@@ -3,7 +3,7 @@
 %div#team_members_roster
 	- @members_sorted.each do |m|
 		%div.ape_user{:name=>m.first_name,:ape_code=>m.ape_code, :create_count=>0}
-			%img{:src=> m.photo.url('36')} 
+			%img{:src=> m.photo.url('small')} 
 			%span.member& #{m.first_name} #{m.last_name}
 %p.clear
 

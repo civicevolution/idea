@@ -145,7 +145,7 @@
 							- @members_sorted.each do |m|
 								%tr{:class=> cycle('','stripe')}
 									%td
-										%img{:src=> m.photo.url('36')} 
+										%img{:src=> m.photo.url('small')} 
 									%td
 										%span.member& #{m.first_name} #{m.last_name}
 									%td 
@@ -175,7 +175,7 @@
 								- public_endorsements.each do |m|
 									%tr{:class=> cycle('','stripe')}
 										%td
-											%img{:src=> m.photo.url('36')} 
+											%img{:src=> m.photo.url('small')} 
 										%td
 											%span.member& #{m.first_name} #{m.last_name}
 										%td

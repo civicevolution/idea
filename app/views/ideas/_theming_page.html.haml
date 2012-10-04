@@ -1,4 +1,4 @@
-%div.theming_page_outer
+%div.theming_page_outer{class: (question.team && question.team.org_id == @member.id) ? '' : 'no_theme' }
 	%div.theming_page
 
 		%div.theme_cols_window_outer.fancy-scrollbar
@@ -21,6 +21,7 @@
 											- if idea.comments.size > 0
 												= image_tag('comment-sketch.gif')
 												= idea.comments.size
+											= image_tag('magnify.gif', class: 'magnify')
 											
 			
 				- 1.times do
@@ -46,6 +47,7 @@
 											- if theme.comments.size > 0
 												= image_tag('comment-sketch.gif')
 												= theme.comments.size
+											= image_tag('magnify.gif', class: 'magnify')
 											
 										
 								- 1.times do 
@@ -59,6 +61,7 @@
 													- if idea.comments.size > 0
 														= image_tag('comment-sketch.gif')
 														= idea.comments.size
+													= image_tag('magnify.gif', class: 'magnify')
 													
 				- if question.themes.size == 0
 					%div.intro_instruction
@@ -100,5 +103,6 @@
 										- if idea.comments.size > 0
 											= image_tag('comment-sketch.gif')
 											= idea.comments.size
+										= image_tag('magnify.gif', class: 'magnify')
 										
 				

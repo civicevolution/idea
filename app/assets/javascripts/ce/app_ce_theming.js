@@ -207,7 +207,7 @@ function createNewThemeGroup(ui, list, par){
 $('body').on('mouseup', 'div.theming_page div.post-it', show_idea_details);
 function show_idea_details(event){
 	var edit_mode = $(this).closest('div.theme_col').hasClass('edit_mode');
-	if( !edit_mode && !$(event.srcElement).is('img') ){
+	if( !edit_mode && !($(event.srcElement).is('img.delete') || $(event.srcElement).is('img.edit')) ){
 		//console.log("show_idea_details for this.id: " + this.id);
 		$.getScript('/idea/' + this.id + '/details');
 	}

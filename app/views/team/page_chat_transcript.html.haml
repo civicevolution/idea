@@ -6,7 +6,7 @@
 					- member = @chat_authors.detect {|ca| ca[:id] == cm.member_id }
 					%tr.Chat
 						%td.pic
-							%img{:src=> member.photo.url('36')}
+							%img{:src=> member.photo.url('small')}
 						%td.msg
 							%p.name
 								= member.first_name  
