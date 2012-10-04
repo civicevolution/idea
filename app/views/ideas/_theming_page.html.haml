@@ -18,6 +18,10 @@
 										%p.idea= idea.text
 										%div.status
 											= image_tag 'delete_icon_16t.gif', :class=>"delete"
+											- if idea.comments.size > 0
+												= image_tag('comment-sketch.gif')
+												= idea.comments.size
+											
 			
 				- 1.times do
 					- question.themes.each do |theme|
@@ -39,6 +43,10 @@
 											= image_tag 'blue-pencil-24.png', :class=>"edit"
 											- if theme.version == 0
 												= image_tag 'delete_icon_16t.gif', :class=>"delete"
+											- if theme.comments.size > 0
+												= image_tag('comment-sketch.gif')
+												= theme.comments.size
+											
 										
 								- 1.times do 
 									- question.themed_ideas.select{|idea| idea.parent_id == theme.id}.each do |idea|
@@ -48,6 +56,9 @@
 												%div.status
 													= image_tag 'delete_icon_16t.gif', :class=>"delete"
 													-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+													- if idea.comments.size > 0
+														= image_tag('comment-sketch.gif')
+														= idea.comments.size
 													
 				- if question.themes.size == 0
 					%div.intro_instruction
@@ -86,4 +97,8 @@
 									%p.idea= idea.text
 									%div.status
 										= image_tag 'delete_icon_16t.gif', :class=>"delete"
+										- if idea.comments.size > 0
+											= image_tag('comment-sketch.gif')
+											= idea.comments.size
+										
 				
