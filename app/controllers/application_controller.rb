@@ -291,7 +291,7 @@ class ApplicationController < ActionController::Base
           if @member.nil?
             if session[:_mlc] != params[:_mlc] || session[:member_id].nil?
               render :template=>'members/request_new_access_code', :layout=>'plan'
-              flash[:pre_request_access_code_uri] = request.request_uri #.sub(/\?.*/,'')
+              flash[:pre_request_access_code_uri] = request.fullpath
               return
             else
               @member = Member.find_by_id(session[:member_id]);
