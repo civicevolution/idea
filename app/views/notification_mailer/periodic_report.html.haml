@@ -31,7 +31,7 @@
 		p.unsubscribe_all
 			font-size: .8em
 		div.Comment
-			background-color: rgb(245,230,190)
+			background-color: #EBF6BC
 			padding: 1em
 			-webkit-border-radius: 10px
 			-moz-border-radius: 10px
@@ -48,6 +48,14 @@
 			margin-bottom: 2em
 		p.talking_point
 			font-size: 1.2em
+		div.Idea
+			background-color: #fffac3
+			padding: 1em
+			&.theme
+				background-color: #ccf
+		p.idea
+			font-size: 1.2em
+		
 		div.proposal_report
 			margin-left: 20px
 		div.report
@@ -122,11 +130,24 @@
 								%span.question #{entry.question.text}
 								on
 								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-							
-							
+
 							%div.TalkingPoint
 								!= %Q|<p class="talking_point">#{entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
 								-#%p.view= link_to 'Rate this talking point', question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)
+
+					- when 20
+						- entry = @ideas.detect{|i| i.id == id.to_i}
+						-if !entry.nil?
+							%p.entry_header 
+								This idea was added to the question
+								%span.question #{entry.question.text}
+								on
+								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+
+								%div.Idea{ class: entry.role==2 ? 'theme':''}
+									!= %Q|<p class="idea">#{entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
+
+
 						
 
 			%p.unsubscribe

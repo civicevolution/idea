@@ -60,6 +60,19 @@ We've been working on these proposals and we want you to join us
 					~''
 					~''
 					~''
+					
+			- when 20
+				- entry = @ideas.detect{|i| i.id == id.to_i}
+				-if !entry.nil?
+					This idea was added to the question "#{entry.question.text}" on #{entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')}:
+
+					~''
+					= entry.text
+					~''
+					-#You can rate this talking point at #{question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)}
+					~''
+					~''
+					~''
 
 	You can adjust your notification settings for this proposal at #{notification_settings_form_url(:host=>@host, :team_id => team.id, :_mlc => @mcode)}
 	~''

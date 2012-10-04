@@ -279,7 +279,13 @@ G3::Application.routes.draw do
   get 'admin/team/:team_id/team_participant_stats_email' => 'admin#team_participant_stats_email', :as => 'team_participant_stats_ermail'
 
   get 'test' => 'plan#test'
-
+  
+  
+  get 'notification/display_immediate' => 'notification#display_immediate'
+  get 'notification/send_immediate' => 'notification#send_immediate'
+  get 'notification/display_periodic' => 'notification#display_periodic'
+  get 'notification/send_periodic' => 'notification#send_periodic'
+  
   resources :answer_diffs
 
   #resources :talking_point_versions

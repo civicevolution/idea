@@ -37,6 +37,7 @@ class NotificationRequest < ActiveRecord::Base
   #  11 | public_discussion | public_discussion  
   #  12 | bs_idea           | Brainstorming idea 
   #  13 | talking_point     | talking_point
+  #  20 | idea              | idea
   
   # after_initialize sets the vars I need to adjust settings in browser
   
@@ -171,8 +172,10 @@ class NotificationRequest < ActiveRecord::Base
                     entry = Comment.find_by_id(log_record.o_id)
                   when log_record.o_type ==  12
                     entry = BsIdea.find_by_id(log_record.o_id)
-                  when log_record.o_type ==  13
+                  when log_record.o_type ==  13 
                     entry = TalkingPoint.find_by_id(log_record.o_id)
+                  when log_record.o_type ==  20
+                    entry = Idea.find_by_id(log_record.o_id)
                 end # end case
               end # end if 1 (full)
               #recipient = Member.first(:select=>'first_name, last_name, email', :conditions=>{:id=>request.member_id})
@@ -184,15 +187,21 @@ class NotificationRequest < ActiveRecord::Base
               case team.initiative_id
                 when 1
                   subdomain = 'cgg.'
+                  app_name = '2029 and Beyond for Staff'
                 when 2
                   subdomain = '2029.'
+                  app_name = '2029 and Beyond'
+                when 4
+                  subdomain = 'ncdd.'
+                  app_name = 'NCDD Catalyst Awards'
                 else
                   subdomain = ''
+                  app_name = 'CivicEvolution'
               end
               host = subdomain + (Rails.env == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
 
               if !test_mode
-                NotificationMailer.immediate_report(recipient, team, request, entry, mcode, host).deliver unless team.nil? || entry.nil?
+                NotificationMailer.immediate_report(recipient, app_name, team, request, entry, mcode, host).deliver unless team.nil? || entry.nil?
                   #unless Rails.env=='development' && recipient.email.match(/civicevolution.org/).nil?
               else
                 log_record.update_attribute('processed',true)
@@ -234,7 +243,7 @@ class NotificationRequest < ActiveRecord::Base
     team_ids = []
     recip_ids = []
     member_ids = []
-    displayed_objects = {'2'=>[], '3'=>[], '13'=>[]}
+    displayed_objects = {'2'=>[], '3'=>[], '13'=>[], '20'=>[]}
     recipient_reports = []
     recipient_requests = []
     # and combine reports for the same member
@@ -304,14 +313,27 @@ class NotificationRequest < ActiveRecord::Base
       locations.each{|id,tz| tp[:tz][id] = tz.utc_to_local(tp.updated_at) }
     end    
 
+    @ideas = displayed_objects['20'].size == 0 ? [] : Idea.find_all_by_id(displayed_objects['20'].uniq)
+    @ideas.each do |tp|
+      tp[:tz] = {}
+      locations.each{|id,tz| tp[:tz][id] = tz.utc_to_local(tp.updated_at) }
+    end    
+    
+    app_name = ''
     @teams.each do |team|
       case team.initiative_id
         when 1
           subdomain = 'cgg.'
+          app_name = '2029 and Beyond for Staff'
         when 2
           subdomain = '2029.'
+          app_name = '2029 and Beyond'
+        when 4
+          subdomain = 'ncdd.'
+          app_name = 'NCDD Catalyst Awards'
         else
           subdomain = ''
+          app_name = 'CivicEvolution'
       end
       team['host'] = subdomain + (Rails.env == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
     end
@@ -321,10 +343,10 @@ class NotificationRequest < ActiveRecord::Base
       recipient = @recipients.detect{|r| r.id == reports[0].member_id}
       mcode = MemberLookupCode.get_code(recipient.id, {:scenario=>'periodic team report'} )
       if !test_mode
-        NotificationMailer.periodic_report(recipient, @teams, @comments, @answers, @talking_points, reports, mcode).deliver
+        NotificationMailer.periodic_report(recipient, app_name, @teams, @ideas, @comments, @answers, @talking_points, reports, mcode).deliver
           #unless Rails.env=='development' && recipient.email.match(/civicevolution.org/).nil?
       else
-        return recipient, @teams, @comments, @answers, @talking_points, reports, mcode
+        return recipient, @teams, @ideas, @comments, @answers, @talking_points, reports, mcode
       end
         
         

@@ -71,6 +71,7 @@ class Idea < ActiveRecord::Base
   before_destroy :check_destroyable
 
   validate :check_length
+  after_save :log_team_content
   
   def check_length
     #logger.debug "Answer check_length self.question_id: #{self.question_id}, self.par_id: #{self.par_id}"
@@ -116,6 +117,12 @@ class Idea < ActiveRecord::Base
   def votes
     IdeaRating.votes(self.id)
   end
+  
+  def log_team_content
+    # log this item into the team_content_logs
+    TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
+  end  
+  
   
   def o_type
     20 #type for Idea
