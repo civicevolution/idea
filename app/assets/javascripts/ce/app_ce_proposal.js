@@ -23,6 +23,13 @@ function init_page(){
 		right_panel_init();
 	}
 	
+	if(!member.ape_code){
+		$('body').on('keydown.check_signed_in', 'form.suggest_idea textarea, form.add_comment textarea',function(){
+			$('body').off('keydown.check_signed_in');
+			$.getScript('/sign_in/sign_in_form?act=sign_in');
+		})
+	}
+	
 	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
 	
 	if(!$.support.borderRadius){ 

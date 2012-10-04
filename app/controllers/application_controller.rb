@@ -121,11 +121,12 @@ class ApplicationController < ActionController::Base
     url = new_profile_form_url(:code => code)
     MemberMailer.send_profile_link(params[:email], url, params[:_app_name] ).deliver
     #I should still have flash params and I should execute them
-    if flash[:params]
-      ppa = PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => flash[:params]
-    else
-      ppa = nil
-    end
+    #if flash[:params]
+    #  ppa = PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => flash[:params]
+    #else
+    #  ppa = nil
+    #end
+    ppa = nil
     respond_to do |format|
       if ppa.nil? || ppa.errors.empty?
         format.js { 
@@ -333,10 +334,10 @@ class ApplicationController < ActionController::Base
       # for selected actions, store the params with the email
       email_account_actions = [ 'rate_talking_point', 'prefer_talking_point','vote_save', 'add_talking_point',
           'create_comment_comment','create_talking_point_comment','add_endorsement','update_worksheet_ratings','SSSsubmit_proposal_idea']
-      if email_account_actions.include?( params[:action])
-        PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => params
-        activity_was_queued = true
-      end
+      #if email_account_actions.include?( params[:action])
+      #  PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => params
+      #  activity_was_queued = true
+      #end
     end
     respond_to do |format| 
       if activity_was_queued
