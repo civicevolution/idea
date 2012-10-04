@@ -59,33 +59,13 @@
 							
 								%tr
 									%td= pluralize(team.comments, 'comment')
-									-#%td= pluralize(team.talking_points, 'talking point')
-									%td
+									%td= pluralize(team.ideas, 'idea')
 									%td= pluralize(team.endorsements, 'endorsement')
 						
 						%div.controls
 							= button_to "View our project", proposal_path(team.team_id), :method => :get
-							-#= button_to "Follow our progress", notification_settings_form_path(team.team_id), :method => :get
 							= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
 							%p.clear_both
-							
-						-#%div.controls	
-							= submit_tag "View our project", :name=>'sign_in', 'data-disable-with' => 'Submitting…'
-							= link_to "Visit our project page", proposal_path(team.team_id)
-							= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
-						-#%p.controls
-							-#%span 0 comments
-							%span= pluralize( team['members'], 'member')
-							-#%span active one day ago
-							-#= link_to 'Visit team', {:controller=>'team',:action => 'proposal', :id=>team.id}, {:class=>'visit'}
-
-
-
-						-#%abbr.timeago{:title=>comment.updated_at}= time_ago_in_words(comment.updated_at) + ' ago'
-						-#	%span.rating_results Average score: #{ sprintf("%2.1f", score) } out of 5 with #{pluralize(count, 'vote')}
-
-
-
 
 			- if @init_teams.size == 0 
 				%p Ideas will be listed here as they come in
