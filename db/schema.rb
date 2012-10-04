@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121004180155) do
+ActiveRecord::Schema.define(:version => 20121004182128) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -728,6 +728,8 @@ ActiveRecord::Schema.define(:version => 20121004180155) do
     t.integer  "day_visits",                :default => 1
     t.datetime "last_day_visit"
     t.datetime "next_day_visit"
+    t.integer  "ideas",                     :default => 0
+    t.integer  "idea_ratings",              :default => 0
   end
 
   create_table "participation_event_details", :force => true do |t|

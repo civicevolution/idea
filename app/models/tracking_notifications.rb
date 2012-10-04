@@ -139,6 +139,17 @@ class TrackingNotifications
           obj.member_id = nil
           Juggernaut.publish("_auth_team_#{obj.team_id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj})
           obj.member_id = mem_id
+          
+        when  'IdeaRating' 
+          event_id = 24
+          rating_votes = IdeaRating.votes(obj.idea_id)
+          Juggernaut.publish("_auth_team_#{obj.idea.team.id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>{:id=>obj.idea_id, :votes=>rating_votes}})
+          
+          return if ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :item_id => obj.id).exists?
+          participation_event = ParticipationEvent.new :initiative_id => obj.idea.team.initiative_id, :team_id => obj.idea.team.id, :question_id => obj.idea.question_id,
+          :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
+          #Rails.logger.debug "participation_event: #{participation_event.inspect}"
+
   
         else
           raise "I didn't know how to process #{obj.class.to_s}"

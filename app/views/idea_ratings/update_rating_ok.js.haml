@@ -13,7 +13,9 @@
 
 - elsif idea_rating.idea.role != 4 && question.unrated_ideas.count > 0
 	:plain
-		$('#{link_to "Rate next idea", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'next', rel: 'nofollow', remote: true }}').appendTo( rater.find('p.results')).effect('highlight', {color: '#8DEE00'},2000);	
+		if(rater.find('a.next').size() == 0 ){
+			$('#{link_to "Rate next idea", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'next', rel: 'nofollow', remote: true }}').appendTo( rater.find('p.results')).effect('highlight', {color: '#8DEE00'},2000);	
+		}
 
 		$('div.question_summary[id="#{question.id}"] div.call-to-action div.ideas span.cnt').html( "#{question.unrated_ideas.count} new");
 		

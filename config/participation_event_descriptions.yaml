@@ -154,6 +154,14 @@ item23:
   description: 'Edit idea'
   points: 0
 
+item24:
+  id: 24
+  col_name: 'idea_ratings'
+  code: 'rate_idea'
+  description: 'Rate idea'
+  summary_order: 10
+  summary_title: 'idea rating'
+  points: 40
 
 item100:
   id: 100

@@ -25,4 +25,12 @@ class IdeaRating < ActiveRecord::Base
     rating.num_idea_votes = IdeaRating.where( idea_id: rating.idea_id).count
   end
   
+  def o_type
+    21 #type for Idea
+  end
+  def type_text
+    'idea rating' #type for Idea
+  end
+  
+  
 end
