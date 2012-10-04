@@ -69,13 +69,19 @@ class Idea < ActiveRecord::Base
   
   before_validation :check_initiative_restrictions, :on=>:create
   before_destroy :check_destroyable
+
+  validate :check_length
   
-  validates :text, length: { 
-    minimum: 10,
-    too_short: "must be at least 10 characters",
-    maximum: 200,
-    too_long: "must have at most %{count} characters"
-  }
+  def check_length
+    #logger.debug "Answer check_length self.question_id: #{self.question_id}, self.par_id: #{self.par_id}"
+    #q_id = (self.question_id && self.question_id > 0) ? self.question_id : Item.find(self.par_id).o_id
+    #range = Question.find(q_id).answer_criteria
+    #range = range.match(/(\d+)..(\d+)/)
+    range = [0,10,200]
+    length = text.scan(/\S/).size
+    errors.add(:text, "must be at least #{range[1]} characters") unless length >= range[1].to_i
+    errors.add(:text, "must be no longer than #{range[2]} characters") unless length <= range[2].to_i
+  end
 
   def check_destroyable
     if self.version > 0 
