@@ -2,6 +2,7 @@
 %div.page_content_div
 	:javascript
 		var pub_sub_channels = #{@channels}
+		var theming_auth = #{@team.org_id == @member.id}
 	%div.left_side
 		= render :partial=> 'proposal_header'	
 		%hr.top

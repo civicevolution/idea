@@ -72,6 +72,7 @@ function resize_dims(){
 
 var hideDropZonesTimeout = null;
 function make_ideas_sortable(idea_lists_ul){
+	if(editing_disabled(false))return false;
 	var debug = false;
 	idea_lists_ul.sortable({
 		helper: 'clone',
@@ -184,7 +185,9 @@ function showColumnDropZones(par){
 	//setTimeout(function(){this.find('ul.sortable_ideas').sortable('refresh');}.bind(par);
 	par.find('ul.sortable_ideas').sortable('refresh');
 }
+
 function createNewThemeGroup(ui, list, par){
+	if(editing_disabled())return false;
 	var idea = list.find('li.idea_post_it').remove();
 	//console.log("createNewThemeGroup: Now create a new list for sortable receive " + par.attr('id') );
 	
@@ -212,6 +215,7 @@ function show_idea_details(event){
 
 $('body').on('click','div.theming_page li.idea_post_it img.delete', 
 	function(event){
+		if(editing_disabled())return false;
 		var post_it = $(this).closest('div.post-it');
 		//console.log("remove idea " + post_it.attr('id'));
 		$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 
@@ -222,6 +226,7 @@ $('body').on('click','div.theming_page li.idea_post_it img.delete',
 
 $('body').on('click','div.theming_page li.theme_post_it img.edit',
 	function(event){
+		if(editing_disabled())return false;
 		var theme_col = $(this).closest('div.theme_col').addClass('edit_mode');
 		theme_col.find('ul.sortable_ideas').sortable('disable');
 		theme_col.find('textarea').autoGrow({
@@ -233,6 +238,7 @@ $('body').on('click','div.theming_page li.theme_post_it img.edit',
 
 $('body').on('click','div.theming_page li.theme_post_it img.delete',
 	function(event){
+		if(editing_disabled())return false;
 		//console.log("delete this theme if no children");
 		var theme = $(this).closest('div.post-it');
 		if(theme.closest('ul.sortable_ideas').find('li.idea_post_it').size() == 0){
