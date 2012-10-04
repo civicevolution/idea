@@ -188,6 +188,11 @@ init_4: # NCDD Catalyst awards
       act: 'select and order these talking points'
       mandatory: ['$confirmed']
       #pass_one: ['$team_org', '$level(3)']
+
+    theming:
+      act: 'theme and edit themes'
+      mandatory: ['$confirmed']
+      pass_one: ['$team_org']
     
     edit_team_summary:
       act: 'edit the proposal title and summary'

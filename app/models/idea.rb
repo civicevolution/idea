@@ -105,13 +105,21 @@ class Idea < ActiveRecord::Base
     true
   end
   
-  def self.reorder_siblings( idea_id, ordered_ids )
-    ctr = 0
-    order_string = ordered_ids.map{|o| "(#{ctr+=1},#{o})" }.join(',')
+  def self.reorder_siblings( idea_id, ordered_ids, member )
+    #allowed,message,team_id = InitiativeRestriction.allow_actionX({:idea_id => idea_id}, 'theming', member)
+    allowed = true
+    message = 'ok'
+    if allowed
+      ctr = 0
+      if !ordered_ids.nil?
+        order_string = ordered_ids.map{|o| "(#{ctr+=1},#{o})" }.join(',')
     
-    sql = %Q|UPDATE ideas SET parent_id = #{idea_id}, order_id = new_order_id FROM ( SELECT * FROM (VALUES #{order_string}) vals (new_order_id,idea_id)	) t WHERE id = t.idea_id|
-    logger.debug "Use sql: #{sql}"
-    ActiveRecord::Base.connection.update_sql(sql)
+        sql = %Q|UPDATE ideas SET parent_id = #{idea_id}, order_id = new_order_id FROM ( SELECT * FROM (VALUES #{order_string}) vals (new_order_id,idea_id)	) t WHERE id = t.idea_id|
+        logger.debug "Use sql: #{sql}"
+        ActiveRecord::Base.connection.update_sql(sql)
+      end
+    end
+    return allowed, message
   end
   
   def votes

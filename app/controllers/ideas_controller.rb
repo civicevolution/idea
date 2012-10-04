@@ -168,17 +168,21 @@ class IdeasController < ApplicationController
         idea = Idea.find(params[:idea_id])
         idea_id = idea.id
       end
-      
-      Idea.reorder_siblings( idea_id, params[:ordered_ids] )
+
+      success, message = Idea.reorder_siblings( idea_id, params[:ordered_ids], @member )
       
       respond_to do |format|
-        format.js { render 'ideas/theme_ideas_order_ok', locals: { idea: idea} }
-        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
-        #format.json { render json: @idea, status: :created, location: iidea }
+        if success
+          format.js { render 'ideas/theme_ideas_order_ok', locals: { idea: idea} }
+          #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+          #format.json { render json: @idea, status: :created, location: iidea }
+        else
+          format.js { render 'ideas/theme_ideas_order_errors', locals: {message: message} }
+        end
       end
-    rescue
+    rescue Exception => e
       respond_to do |format|
-        format.js { render 'ideas/theme_ideas_order_errors', locals: {idea: idea} }
+        format.js { render 'ideas/theme_ideas_order_errors', locals: {message: e.message} }
         #format.html { render action: "new" }
         #format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
@@ -227,7 +231,7 @@ class IdeasController < ApplicationController
       
     end
     # now I need to set the order
-    Idea.reorder_siblings( new_theme.parent_id, ordered_ids )
+    Idea.reorder_siblings( new_theme.parent_id, ordered_ids, @member )
     
     respond_to do |format|
       if new_theme.save

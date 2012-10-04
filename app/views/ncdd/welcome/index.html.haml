@@ -50,7 +50,7 @@
 						- team.solution_statement.split(/[\r\n]+/).each do |para|
 							%p.desc= para
 						
-						%p.controls
+						%div.controls
 							%table.proposal_stats
 								%tr
 									%td= pluralize(team.participants, 'participant')
@@ -63,7 +63,14 @@
 									%td
 									%td= pluralize(team.endorsements, 'endorsement')
 						
-						%p.controls
+						%div.controls
+							= button_to "View our project", proposal_path(team.team_id), :method => :get
+							-#= button_to "Follow our progress", notification_settings_form_path(team.team_id), :method => :get
+							= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
+							%p.clear_both
+							
+						-#%div.controls	
+							= submit_tag "View our project", :name=>'sign_in', 'data-disable-with' => 'Submitting…'
 							= link_to "Visit our project page", proposal_path(team.team_id)
 							= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
 						-#%p.controls

@@ -5,5 +5,9 @@
 			- @member.team_titles.each do |team|
 				%li{:class=>'team', :id=>team.id}
 					= link_to team.title, plan_path(team), {}
-	- else 
-		%p You have not participated in, endorsed, or followed any of the proposal ideas yet.
+	- else
+		%p You have not participated in, endorsed, or followed any of the projects yet
+
+		%p.cta 
+			%a.show_projects{href: '#list_of_proposed_projects'}
+				Browse existing projects or create a new one

@@ -158,16 +158,22 @@ div.team_entry
 		font-weight: bold
 		//color: white
 		font-size: 1.4em
-	p.controls
+	div.controls
 		a
 			font-weight: bold
 			margin-right: 2em
 			color: $off_black
-			
-			
-					
-					
-
+			display: block
+			margin-top: 24px
+			float: left
+		form
+			float: left
+			input
+				background-color: #F3973A
+				color: #23238E
+				font-size: 1.2em
+				font-weight: bold
+				margin: 20px 20px 0 0
 
 div.member_info
 	float: right
@@ -501,3 +507,18 @@ div.tos_inner
 			font-size: 1.12em
 p.help
 	font-size: 1.12em
+	
+div#my_teams_dialog
+	p.cta
+		//font-weight: bold
+		line-height: 1em
+		&.primary
+			font-size: 1.2em
+			color: #325B8E
+			font-weight: bold
+	a
+		color: #325B8E
+		font-weight: bold
+		text-decoration: none
+		&:hover
+			text-decoration: underline
