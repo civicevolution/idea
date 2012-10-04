@@ -9,7 +9,7 @@ require "daemons"
 #	:log_dir:	A specific directory to put the log files into (when not given, resort to the default location as derived from the :dir_mode and :dir options
 
   options = {
-    :app_name   => "notify_d_tp",
+    :app_name   => "notify_d_idea",
     :dir_mode   => :normal,
     :dir        => ENV['RAILS_ENV'] == 'production' ? '/var/run' : '/ce_development/Rails/tp/tmp/pids',
     :log_dir    => '../../log',
