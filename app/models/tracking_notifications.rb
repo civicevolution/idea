@@ -130,6 +130,16 @@ class TrackingNotifications
            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           
+        when 'Idea'
+          event_id = name == 'after_create' ? 22 : 23
+          participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question.id,
+           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
+          Rails.logger.debug "participation_event: #{participation_event.inspect}"
+          mem_id = obj.member_id
+          obj.member_id = nil
+          Juggernaut.publish("_auth_team_#{obj.team_id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj})
+          obj.member_id = mem_id
+  
         else
           raise "I didn't know how to process #{obj.class.to_s}"
       end

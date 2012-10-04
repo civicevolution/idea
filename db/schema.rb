@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120925201231) do
+ActiveRecord::Schema.define(:version => 20121004180155) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -74,6 +74,23 @@ ActiveRecord::Schema.define(:version => 20120925201231) do
     t.integer  "team_id",        :default => 0,     :null => false
     t.integer  "question_id",    :default => 0,     :null => false
     t.integer  "lock_member_id"
+  end
+
+  create_table "backup_ideas", :id => false, :force => true do |t|
+    t.integer  "id"
+    t.text     "text"
+    t.boolean  "is_theme"
+    t.integer  "member_id"
+    t.integer  "team_id"
+    t.integer  "question_id"
+    t.integer  "parent_id"
+    t.integer  "order_id"
+    t.boolean  "visible"
+    t.integer  "version"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "role"
+    t.integer  "aux_id"
   end
 
   create_table "bs_idea_favorite_priorities", :force => true do |t|
@@ -776,6 +793,8 @@ ActiveRecord::Schema.define(:version => 20120925201231) do
     t.integer  "points_days14",             :default => 0
     t.integer  "points_days28",             :default => 0
     t.integer  "points_days90",             :default => 0
+    t.integer  "ideas",                     :default => 0
+    t.integer  "idea_ratings",              :default => 0
   end
 
   create_table "proposal_submits", :force => true do |t|

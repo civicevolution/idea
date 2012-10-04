@@ -137,6 +137,23 @@ item21:
   summary_title: 'answer rating'
   points: 60
 
+item22: 
+  id: 22
+  col_name: 'ideas'
+  code: 'idea'
+  description: 'Add idea'
+  summary_order: 8
+  summary_title: 'idea'
+  points: 200
+  min_length: 10 
+
+item23: 
+  id: 23
+  col_name: ''
+  code: 'e_idea'
+  description: 'Edit idea'
+  points: 0
+
 
 item100:
   id: 100
