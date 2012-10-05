@@ -58,6 +58,11 @@ function activate_details(details){
 		range: "min"
 	});
 	
+	details.on('click', 'a.close_details', function(){
+		$(this).closest('div.ui-dialog').find('a.ui-dialog-titlebar-close').click();
+		return false;
+	});
+	
 	
 }
 	

@@ -1,4 +1,4 @@
-%div.idea_details.popup
+%div.idea_details.popup.fancy-scrollbar
 	- if !Rails.env.production?
 		= stylesheet_link_tag "ce/idea_details"
 
@@ -138,3 +138,5 @@
 		= render( partial: 'rating', locals: { idea: idea } )			
 		
 		= render( partial: 'idea_discussion', locals: { idea: idea } )			
+
+		= link_to 'Close', {}, class:'close_details'

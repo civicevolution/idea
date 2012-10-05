@@ -9,7 +9,7 @@ function resize_theming_page(){
 	//console.log("resize_theming_page to height: " + theming_height );
 	var theming_page = $('div.theming_page');
 	var theme_cols_window = theming_page.find('div.theme_cols_window');
-	theme_cols_window.height( theming_height );
+	theme_cols_window.height( theming_height - 10 );
 	
 	var theme_cols = theming_page.find('div.theme_col');
 	theme_cols.height( theming_height - 8 );
