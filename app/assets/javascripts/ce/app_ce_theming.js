@@ -263,6 +263,8 @@ $('body').on('click','div.theming_page li.theme_post_it img.delete',
 
 $('body').on('click','div.theming_page div.post-it a.cancel',
 	function edit_theme(event){
+		var post_it = $(this).closest('div.post-it');
+		post_it.find('textarea').val( post_it.find('p.idea').html() );
 		$(this).closest('div.theme_col').removeClass('edit_mode').find('ul.sortable_ideas').sortable('enable');
 	}
 );

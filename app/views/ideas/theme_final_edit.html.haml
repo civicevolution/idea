@@ -1,5 +1,4 @@
-%div.theme_final_edit
-
+%div.theme_final_edit{class: (question.team && question.team.org_id == @member.id) ? '' : 'no_theme' }
 	%h3 Theme editing
 	- if question.themes.size == 0
 		%div.help
