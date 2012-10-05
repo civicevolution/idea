@@ -1,0 +1,6 @@
+:plain
+	var response = $("#{escape_javascript(
+		render( :template => 'client_debug/request_help_error', :formats => [:html] )
+	)}");
+	response.dialog({title : 'Warning', modal : true, width : '500px', closeOnEscape: true, close: function(){$(this).remove()} })
+	

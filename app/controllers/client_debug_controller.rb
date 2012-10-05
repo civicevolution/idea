@@ -127,28 +127,28 @@ class ClientDebugController < ApplicationController
       if @member.id == 0
         @member = { :first_name=>params[:request_help][:name], :email=>params[:request_help][:email]}
       end
-
-      HelpMailer.delay.help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name])
+      
       begin
-        HelpMailer.delay.help_request_receipt(@member, @help_request, client_details ) unless @member[:email].nil?
+        HelpMailer.help_request_review(@member, @help_request, client_details, request.env['HTTP_HOST'], params[:_app_name]).deliver
+        HelpMailer.help_request_receipt(@member, @help_request, client_details ).deliver
+        
+        if( !@member.nil? && !@member['id'].nil? && @member['id'] > 0)
+          ActiveSupport::Notifications.instrument( 'tracking', :event => 'Request help', :params => params.merge(:member_id => @member.id, :team_id => team_id ))
+        end
+        
+        respond_to do |format|
+          format.js { render :action => "request_help_acknowledgement", :layout => false }
+          format.html { render :action => "request_help_acknowledgement", :layout => 'plan' }
+        end
       rescue
-        @mail_error = true
+        respond_to do |format|
+          format.js { render :action => "request_help_error", :layout => false }
+          format.html { render :action => "request_help_error", :layout => 'plan' }
+        end
       end
 
-      if(!@member.nil? && !@member['id'].nil? && @member['id'] > 0)
-        ActiveSupport::Notifications.instrument( 'tracking', :event => 'Request help', :params => params.merge(:member_id => @member.id, :team_id => team_id ))
-      end
     end
     
-    respond_to do |format|
-      if @saved
-        format.js { render :action => "request_help_acknowledgement", :layout => false }
-        format.html { render :action => "request_help_acknowledgement", :layout => 'plan' }
-        format.html { render :action => "request_help_acknowledgement", :layout => false } if request.xhr?
-      else
-        format.json { render :text => [@proposal_idea.errors].to_json, :status => 409 }
-      end
-    end
     
   end
   

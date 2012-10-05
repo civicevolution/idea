@@ -22,8 +22,7 @@ class HelpMailer < ActionMailer::Base
 
     mail(:to => "CivicEvolution Admin <support@civicevolution.org>",
       :subject => "Please review this request for help at CivicEvolution",
-      :from => "2029 and Beyond at CivicEvolution <support@civicevolution.org>",
-      :reply_to => "support@civicevolution.org"
+      :from => "#{member[:first_name]} #{member[:last_name]} <#{member[:email]}>",
     ) 
   end
   
