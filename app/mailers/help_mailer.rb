@@ -20,7 +20,7 @@ class HelpMailer < ActionMailer::Base
     @host = host
     @app = app
 
-    mail(:to => "CivicEvolution Admin <support@civicevolution.org>",
+    mail(:to => "CivicEvolution Support <support@civicevolution.org>",
       :subject => "Please review this request for help at CivicEvolution",
       :from => "#{member[:first_name]} #{member[:last_name]} <#{member[:email]}>",
     ) 
