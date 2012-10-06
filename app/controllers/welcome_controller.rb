@@ -57,11 +57,17 @@ class WelcomeController < ApplicationController
   
   
   def subscribe
-    AdminMailer.delay.subscribe_to_follow(params[:email]) 
-    
-    respond_to do |format|
-      format.js { render 'general_subscribe' }
-      format.html { redirect_to({:action=>:home}, :flash => { :subscribed => 'Thank you for subscribing to CivicEvoution updates.'}) }
+    if params[:email].match(/\@.*\./)
+      AdminMailer.delay.subscribe_to_follow(params[:email]) 
+      respond_to do |format|
+        format.js { render 'general_subscribe' }
+        format.html { redirect_to({:action=>:home}, :flash => { :subscribed => 'Thank you for subscribing to CivicEvoution updates.'}) }
+      end
+    else
+      respond_to do |format|
+        format.js { render 'general_subscribe' }
+        format.html { redirect_to({:action=>:home}, :flash => { :not_subscribed => "'#{params[:email]}' is not a valid email."}) }
+      end
     end
   end
 

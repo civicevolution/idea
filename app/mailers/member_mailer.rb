@@ -14,6 +14,25 @@ class MemberMailer < ActionMailer::Base
     )
   end
 
+  def report_signup(email, app_name, sent_at = Time.now)
+    @email = email
+    @app_name = app_name
+    mail(:from => "#{app_name} <support@civicevolution.org>",
+      :subject => 'New member just signed up for CivicEvolution',
+      :to => "#{app_name} <support@civicevolution.org>"
+    )
+  end
+
+  def report_confirmation(member, app_name, sent_at = Time.now)
+    @member = member
+    @app_name = app_name
+    mail(:from => "#{member.first_name} #{member.last_name} <#{member.email}>",
+      :subject => 'New member just confirmed CivicEvolution registration',
+      :to => "#{app_name} <support@civicevolution.org>",
+      :reply_to => "#{member.first_name} #{member.last_name} <#{member.email}>"
+    )
+  end
+
   def reset_password(member, mcode, host, sent_at = Time.now)
     @member = member
     @mcode = mcode

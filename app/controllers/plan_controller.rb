@@ -186,7 +186,7 @@ class PlanController < ApplicationController
       if @submittor.nil? 
         format.html { render :text => "Please ignore this suggested idea -- the person that submitted this proposal is no longer a member", :layout => 'plan' } 
       else
-        format.html { render :action => "review_proposal_idea", :layout => 'plan' } 
+        format.html { render :template => "plan/review_proposal_idea", :layout => 'home' } 
       end
     end
   end

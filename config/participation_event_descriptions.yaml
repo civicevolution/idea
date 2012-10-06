@@ -163,6 +163,32 @@ item24:
   summary_title: 'idea rating'
   points: 40
 
+item26: 
+  id: 26
+  col_name: 'themes'
+  code: ''
+  description: 'Add theme'
+  summary_order: 11
+  summary_title: 'theme'
+  points: 200
+  min_length: 10 
+
+item27: 
+  id: 27
+  col_name: ''
+  code: 'e_theme'
+  description: 'Edit theme'
+  points: 0
+
+item28:
+  id: 28
+  col_name: 'theme_ratings'
+  code: 'rate_theme'
+  description: 'Rate theme'
+  summary_order: 10
+  summary_title: 'theme rating'
+  points: 40
+
 item100:
   id: 100
   col_name: 'proposal_views'

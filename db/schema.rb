@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121004182128) do
+ActiveRecord::Schema.define(:version => 20121006204841) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -730,6 +730,8 @@ ActiveRecord::Schema.define(:version => 20121004182128) do
     t.datetime "next_day_visit"
     t.integer  "ideas",                     :default => 0
     t.integer  "idea_ratings",              :default => 0
+    t.integer  "themes",                    :default => 0
+    t.integer  "theme_ratings",             :default => 0
   end
 
   create_table "participation_event_details", :force => true do |t|
@@ -797,6 +799,8 @@ ActiveRecord::Schema.define(:version => 20121004182128) do
     t.integer  "points_days90",             :default => 0
     t.integer  "ideas",                     :default => 0
     t.integer  "idea_ratings",              :default => 0
+    t.integer  "themes",                    :default => 0
+    t.integer  "theme_ratings",             :default => 0
   end
 
   create_table "proposal_submits", :force => true do |t|

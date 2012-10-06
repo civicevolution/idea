@@ -59,6 +59,9 @@
 				- if ! flash[:subscribed].nil?
 					%p= flash[:subscribed]
 				- else 
+					- if ! flash[:not_subscribed].nil?
+						%p.warn= flash[:not_subscribed]
+					
 					= form_tag("/subscribe", :remote=>false, :id=>'subscribe_form', :class=>'orig') do
 						%p Keep me updated!
 						%p

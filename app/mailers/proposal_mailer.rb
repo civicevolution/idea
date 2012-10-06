@@ -1,6 +1,6 @@
 class ProposalMailer < ActionMailer::Base
   before_create :set_initiative_parameters
-  self.default :from => "CivicEvolution <no-reply@auto.civicevolution.org>",
+  self.default :from => "CivicEvolution Support<suppprt@civicevolution.org>",
     :reply_to => "support@civicevolution.org"
 
   def submit_receipt(init_id, member, proposal)
@@ -17,8 +17,10 @@ class ProposalMailer < ActionMailer::Base
     @member = member
     @proposal = proposal
     
-    mail(:to => "Brian Sullivan <support@civicevolution.org>",
+    mail(:from => "#{member.first_name} #{member.last_name} <#{member.email}>",
+      :to => "Brian Sullivan <support@civicevolution.org>",
       :subject => "Please review this proposal idea for #{@app_name}",
+      :reply_to => "#{member.first_name} #{member.last_name} <#{member.email}>",
       :template_path => @template_path, :template_name => @template_name
     )
   end
@@ -34,6 +36,18 @@ class ProposalMailer < ActionMailer::Base
     )
   end
 
+  def report_approval(init_id, member, proposal, team)
+    @member = member
+    @proposal = proposal
+    @team = team
+    
+    mail(:from => "#{member.first_name} #{member.last_name} <#{member.email}>",
+      :subject => "New project just approved for #{app_name}",
+      :to => "#{app_name} <support@civicevolution.org>",
+      :reply_to => "#{member.first_name} #{member.last_name} <#{member.email}>"
+    )
+  end
+  
   def team_join_confirmation(member, team, tr, host, sent_at = Time.now)
     @member = member
     @host = host

@@ -131,9 +131,15 @@ class TrackingNotifications
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           
         when 'Idea'
-          event_id = name == 'after_create' ? 22 : 23
-          participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question.id,
-           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
+          if obj.role == 1
+            event_id = name == 'after_create' ? 22 : 23
+            participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question.id,
+            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
+          elsif obj.role == 2
+            event_id = name == 'after_create' ? 26 : 27
+            participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => obj.question.id,
+            :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
+          end
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           mem_id = obj.member_id
           obj.member_id = nil
@@ -155,7 +161,7 @@ class TrackingNotifications
           raise "I didn't know how to process #{obj.class.to_s}"
       end
 
-      update_stat_records(name, participation_event, obj)
+      update_stat_records(name, participation_event, obj) unless participation_event.nil?
       
     elsif payload.key?(:json) # process the model destroy observers that stored the old model in json
         obj = JSON.parse(payload[:json])
@@ -255,7 +261,7 @@ class TrackingNotifications
         else
           raise "I don't know how to handle #{name} from Notifications"
       end
-      update_stat_records(name, participation_event)
+      update_stat_records(name, participation_event) unless participation_event.nil?
     end
     
     Rails.logger.debug "\n\n\n\n" unless !debug
