@@ -23,3 +23,8 @@
 				}
 			},100
 		);
+		
+		if(#{flash[:action] == 'sign_up'}){
+			$('div#sign_in_form p.error').append( $('a#signup:first').clone().attr('id','signup_error_link') );
+		}
+		

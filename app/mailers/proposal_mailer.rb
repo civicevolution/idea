@@ -36,7 +36,7 @@ class ProposalMailer < ActionMailer::Base
     )
   end
 
-  def report_approval(init_id, member, proposal, team)
+  def report_approval(init_id, app_name, member, proposal, team)
     @member = member
     @proposal = proposal
     @team = team

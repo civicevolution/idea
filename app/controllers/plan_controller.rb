@@ -222,6 +222,7 @@ class PlanController < ApplicationController
         #notify the author
         @host = request.env["HTTP_HOST"]
         ProposalMailer.delay.approval_notice({init_id: params[:_initiative_id]}, @submittor, @proposal_idea, @team )
+        ProposalMailer.delay.report_approval({init_id: params[:_initiative_id]}, params[:_app_name], @submittor, @proposal_idea, @team )
 
         render :action => "proposal_idea_published", :layout=>'home', :locals => { :inc_js => 'none'}
       else

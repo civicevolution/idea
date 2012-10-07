@@ -120,7 +120,7 @@ class ApplicationController < ActionController::Base
     # send the email with this code
     url = new_profile_form_url(:code => code)
     MemberMailer.send_profile_link(params[:email], url, params[:_app_name] ).deliver
-    MemberMailer.report_signup(params[:email], params[:_app_name]).deliver
+    MemberMailer.delay.report_signup(params[:email], params[:_app_name])
     #I should still have flash params and I should execute them
     #if flash[:params]
     #  ppa = PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => flash[:params]
@@ -215,12 +215,16 @@ class ApplicationController < ActionController::Base
         end
       else
         logger.debug "We don't recognize your email: #{params[:email]}."
-        flash[:notice] = "We don't recognize your email: #{params[:email]}. If you're new to CivicEvolution, "
+        flash[:notice] = %Q|We don't recognize your email: \\"#{params[:email]}\\". If your email is correct, please |
         flash[:action] = 'sign_up'
       end
       respond_to do |format|
         format.html { redirect_to sign_in_all_path(:controller=> params[:controller], :email=>params[:email]) }
-        format.js { render 'sign_in/sign_in_form' }
+        format.js { 
+          render 'sign_in/sign_in_form' 
+          flash[:notice] = nil
+          flash[:action] = nil
+          }
       end
     end # end if member
   end

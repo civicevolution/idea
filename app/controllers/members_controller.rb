@@ -28,7 +28,7 @@ class MembersController < ApplicationController
       logger.debug "The member has been saved, process their past activities"
       session[:member_id] = member.id
       session[:code] = nil
-      MemberMailer.report_confirmation(member, params[:_app_name]).deliver
+      MemberMailer.delay.report_confirmation(member, params[:_app_name])
       ActiveSupport::Notifications.instrument( 'tracking', :event => 'Create new profile', :params => params.merge(:member_id => member.id))
       redirect_to edit_profile_form_path(member.ape_code)
     else
