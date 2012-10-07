@@ -14,6 +14,9 @@
 					
 		%div#tabs-summary
 			%div.proposal
+			
+				%h3.view_question Q#{question.order_id}: #{question.text}
+				
 				= render :partial=> 'plan/question_theme_summary', :locals => { question: question, team: @team, link: 'no'}
 				%div.idea_details
 					= render( partial: 'rating', locals: { idea: question, my_rating: my_rating } )			
