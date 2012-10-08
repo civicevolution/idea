@@ -15,28 +15,28 @@ dispatcher = {
 	get_data: function(spec){
 		switch( spec.type ){
 			case 'question_comment_count':
-				if(spec.new){
+				if(spec.new_only){
 					return stat_data.comment_counts['question_new_' + spec.id ] || 0;
 				}else{
 					return stat_data.comment_counts['question_all_' + spec.id ] || 0;
 				}
 				break;
 			case 'theme_count':
-				if(spec.new){
+				if(spec.new_only){
 					return stat_data.idea_counts['question_themes_new_' + spec.id ] || 0;
 				}else{
 					return stat_data.idea_counts['question_themes_all_' + spec.id ] || 0;
 				}
 				break;
 			case 'idea_count':
-				if(spec.new){
+				if(spec.new_only){
 					return stat_data.idea_counts['question_ideas_new_' + spec.id ] || 0;
 				}else{
 					return stat_data.idea_counts['question_ideas_all_' + spec.id ] || 0;
 				}
 				break;
 			case 'idea_comment_count':
-				if(spec.new){
+				if(spec.new_only){
 					return stat_data.comment_counts['idea_new_' + spec.id ] || 0;
 				}else{
 					return stat_data.comment_counts['idea_all_' + spec.id ] || 0;
@@ -62,7 +62,7 @@ dispatcher = {
 			++cstats['idea_all_' + stat[2] ];
 			// now count new stuff
 			if(stat[3] > stat_data.last_visit){
-				stat_data['com_recs'][ stat[0] ].new = true;
+				stat_data['com_recs'][ stat[0] ].new_com = true;
 				// this is a new comment
 				++cstats['total_new'];
 				// new coms under question
@@ -127,13 +127,13 @@ dispatcher = {
 				var question_id = question.attr('id');
 				var cta = question.find('div.call-to-action');
 				cta.find('div.ideas').find('div.new').html(
-					dispatcher.get_data( {type: 'question_comment_count', new: true, id: question_id}) + ' new').end().find('div.total').html(
+					dispatcher.get_data( {type: 'question_comment_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
 					dispatcher.get_data( {type: 'question_comment_count', id: question_id}) + ' total');
 				cta.find('div.themes').find('div.new').html(
-					dispatcher.get_data( {type: 'theme_count', new: true, id: question_id}) + ' new').end().find('div.total').html(
+					dispatcher.get_data( {type: 'theme_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
 					dispatcher.get_data( {type: 'theme_count', id: question_id}) + ' total');
 				cta.find('div.comments').find('div.new').html(
-					dispatcher.get_data( {type: 'idea_count', new: true, id: question_id}) + ' new').end().find('div.total').html(
+					dispatcher.get_data( {type: 'idea_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
 					dispatcher.get_data( {type: 'idea_count', id: question_id}) + ' total');
 			}
 		);	
@@ -148,7 +148,7 @@ dispatcher = {
 					post_it.find('div.comments').hide();
 				}else{
 					post_it.find('div.comments').find('div.new').html(
-						dispatcher.get_data( {type: 'idea_comment_count', new: true, id: post_it_id}) + ' new').end().find('div.total').html(
+						dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: post_it_id}) + ' new').end().find('div.total').html(
 						total_coms + ' total');
 				}
 			}
