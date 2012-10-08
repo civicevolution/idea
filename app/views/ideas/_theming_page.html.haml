@@ -18,9 +18,18 @@
 										%p.idea= idea.text
 										%div.status
 											= image_tag 'delete_icon_16t.gif', :class=>"delete"
-											- if idea.comments.size > 0
+											-# if idea.comments.size > 0
 												= image_tag('comment-sketch.gif')
 												= idea.comments.size
+												
+											%div.comments
+												= image_tag('comment-sketch.gif')
+												%div.counts
+													%div.new
+														0 new
+													%div.total
+														0 total
+											
 											= image_tag('magnify.gif', class: 'magnify')
 											
 			
@@ -44,9 +53,17 @@
 											= image_tag 'blue-pencil-24.png', :class=>"edit"
 											- if theme.version == 0
 												= image_tag 'delete_icon_16t.gif', :class=>"delete"
-											- if theme.comments.size > 0
+											-# if theme.comments.size > 0
 												= image_tag('comment-sketch.gif')
 												= theme.comments.size
+											%div.comments
+												= image_tag('comment-sketch.gif')
+												%div.counts
+													%div.new
+														0 new
+													%div.total
+														0 total
+											
 											= image_tag('magnify.gif', class: 'magnify')
 											
 										
@@ -58,9 +75,17 @@
 												%div.status
 													= image_tag 'delete_icon_16t.gif', :class=>"delete"
 													-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
-													- if idea.comments.size > 0
+													-# if idea.comments.size > 0
 														= image_tag('comment-sketch.gif')
 														= idea.comments.size
+													%div.comments
+														= image_tag('comment-sketch.gif')
+														%div.counts
+															%div.new
+																0 new
+															%div.total
+																0 total
+													
 													= image_tag('magnify.gif', class: 'magnify')
 													
 				- if question.themes.size == 0
@@ -100,9 +125,17 @@
 									%p.idea= idea.text
 									%div.status
 										= image_tag 'delete_icon_16t.gif', :class=>"delete"
-										- if idea.comments.size > 0
+										-# if idea.comments.size > 0
 											= image_tag('comment-sketch.gif')
 											= idea.comments.size
+										%div.comments
+											= image_tag('comment-sketch.gif')
+											%div.counts
+												%div.new
+													0 new
+												%div.total
+													0 total
+										
 										= image_tag('magnify.gif', class: 'magnify')
 										
 				

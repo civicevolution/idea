@@ -1,8 +1,5 @@
 - logger.debug "\n\n*************** Begin to render the plan theme_summary page\n\n"
 %div.page_content_div
-	:javascript
-		var pub_sub_channels = #{@channels}
-		var theming_auth = #{@team.org_id == @member.id}
 	%div.left_side
 		= render :partial=> 'proposal_header'	
 		%hr.top
@@ -52,4 +49,15 @@
 		= render :partial => 'right_panel/master'
 
 %p.clear_both
+:javascript
+	var pub_sub_channels = #{@channels}
+	var theming_auth = #{@team.org_id == @member.id}
+	if(typeof stat_data == 'undefined'){
+		var stat_data = {
+			last_visit: #{@last_visit.to_f},
+			coms: #{@com_data.to_json},
+			ideas: #{@idea_data.to_json},
+			ratings: #{@rating_data.to_json}
+		}
+	}
 

@@ -1,6 +1,20 @@
-function init_question_tabs(question_view){
+function init_question_tabs(question_view, page){
+	switch(page){
+		case 'question':
+			page = 0;
+			break;
+		case 'theming':
+			page = 1;
+			break;
+		case 'themes':
+			page = 2;
+			break;
+		default:
+			page = 0;
+	}		
 	question_view.find( "#tabs" ).tabs(
 		{ 
+			selected: page,
 			show: function(event,ui){
 				//console.log("show tab");
 				if( $(ui.panel).attr('id') == 'tabs-theming'){
@@ -18,6 +32,7 @@ function init_question_tabs(question_view){
 		question_view.after( $('div.page') );
 		setTimeout(function(){init_question_view(this);}.bind(question_view),300);
 	})
+	dispatcher.update_idea_stats(question_view);
 }
 function init_question_view(question_view){
 	//console.log("init_question_view for id: " + question_view.attr('id') );

@@ -71,6 +71,25 @@ class Team < ActiveRecord::Base
     ProposalStats.select("title, solution_statement, ps.*").joins(" as ps JOIN teams AS t ON ps.team_id = t.id").where("t.initiative_id = ? and t.archived = false", initiative_id)
   end
   
+  def proposal_data
+    com_data = ActiveRecord::Base.connection.select_rows(%Q|SELECT id, question_id, parent_id, extract(epoch from created_at)
+    FROM comments 
+    WHERE team_id = #{self.id}
+    ORDER BY question_id, parent_id|)
+
+    idea_data = ActiveRecord::Base.connection.select_rows(%Q|SELECT id, question_id, parent_id, role, extract(epoch from updated_at)
+    FROM ideas 
+    WHERE team_id = #{self.id}
+    ORDER BY role, question_id, parent_id|)
+
+    rating_data = ActiveRecord::Base.connection.select_rows(%Q|SELECT idea_id, ir.member_id, rating
+    FROM idea_ratings ir, ideas i
+    WHERE ir.idea_id = i.id
+    AND i.team_id = #{self.id}|)
+    
+    return com_data, idea_data, rating_data
+  end
+  
   def include_curated_talking_points
     # eager load the curated talking points and attach them to the questions in order as question.curated_talking_points
     #iterate through to collect the curated_ids
