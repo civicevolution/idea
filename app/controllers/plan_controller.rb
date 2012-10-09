@@ -57,7 +57,7 @@ class PlanController < ApplicationController
     # What do I need for new content?
     @team.assign_new_theme_content(@member, @last_visit)
     
-    @com_data, @idea_data, @rating_data = Team.find(10065).proposal_data
+    @com_data, @idea_data, @rating_data = @team.proposal_data
     # clear member id for rating if not my rating
     @rating_data.each{|rec| rec[1] = nil unless rec[1].to_i == 1}
     
