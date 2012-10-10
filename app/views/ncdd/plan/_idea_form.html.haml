@@ -9,10 +9,11 @@
 			= form.text_field :title, :class=>'title', :alias=>'Title', disabled: not_confirmed_member
 			%div.control_line.title
 				%div.controls
-					%span.char_ctr 255 characters
+					%span.char_ctr 80 characters
 
 		%div.text
 			= form.label :text, "Please provide a brief summary of your project"
+			%p.summary_description The summary should be an enticing teaser to attract people to your project idea. The details of your project will be developed collaboratively with them in your CivicEvolution proposal page.	
 			= form.text_area :text, :class=>'comment', :class=>'autosize', :rows => 8, :alias=>'Proposal idea', disabled: not_confirmed_member
 			%div.control_line
 				%div.controls

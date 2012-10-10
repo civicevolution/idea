@@ -22,7 +22,7 @@ class ProposalIdea < ActiveRecord::Base
   def check_title_length
     length = title.scan(/\S/).size
     errors.add(:text, "must be at least 10 characters") unless length >= 10
-    errors.add(:text, "must be no longer than 255 characters") unless length <= 255
+    errors.add(:text, "must be no longer than 100 characters") unless length <= 80
   end
   
   def check_text_length
