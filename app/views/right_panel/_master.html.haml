@@ -11,9 +11,23 @@
 	
 	%div.how_to.corner	
 		%p.label
-			How to participate
+			How it works
 		%div.instructions	
 			%ol
+				%li Participants brainstorm ideas that help answer each of the questions 
+				%li Participants discuss and rate the ideas
+				%li The coordinators for your project sort the ideas and create themes to capture and distill the participants' emerging views
+				%li Participants discuss, challenge, suggest changes, and rate the themes for each question
+				%li The process of brainstorming, discussing, theming, rating, and refining continues until a working agreement emerges
+			%p.label.participate
+				How to participate
+			%ol.participate
+				%li Brainstorm ideas for each question
+				%li Discuss and rate the ideas
+				%li Help theme the ideas
+				%li= link_to "View the Help page", short_help_path(tab: 0), {:remote=>true}
+				
+			-#%ol
 				%li Help develop this proposal by suggesting ideas in the form below each question
 				%li Each idea should clearly convey a single point that helps answer the question
 				%li Discuss and rate new ideas by clicking the yellow post-it below each question that shows new ideas
