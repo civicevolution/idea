@@ -10,6 +10,7 @@
 		%div.custom
 
 		- if link == 'yes'
+			%h3.responses Responses: 
 			-# this one was working okay
 			-# if question.unrated_ideas.count > 0 
 				%div.ideas
@@ -54,6 +55,10 @@
 			%li.theme The project coordinator(s) will transparently sort the ideas and create themes guided by the community's comments and ratings
 			%li.theme The themes will appear under this question to provide a coherent answer
 	- else
+		%h3.summary 
+			Edited summary answer
+			= link_to 'View all ideas', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the theming page for this question' }
+		
 		%ul.themes
 			- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
 				- if theme.version > 0 && theme.visible
@@ -63,29 +68,55 @@
 	%div.form_help_slide.collapsed
 		= link_to 'close', {}, class: 'close'
 		%div.help_header
-			%h3.label Suggest an idea for this answer
+			%h3.label Suggest your idea about how to answer this question
 		%div.help_body
-			%h4.cta State one idea clearly in less than 200 characters
+			-#%h4.cta State one idea clearly in less than 200 characters
 			%ul.instructions
-				%li Anyone can suggest an idea
-				%li Ideas are displayed anonymously, so don't be shy
-				%li Each idea should clearly convey a single point
-				%li Your community will discuss and rate the ideas
-				%li The project coordinator(s) will work on behalf of the community to theme the ideas into coherent answers under each question
-				%li The project coordinator(s) will transparently sort the ideas and create themes guided by the community's comments and ratings
-				%li The themes will appear under this question to provide a coherent answer
+				%li.emphasis Each idea should clearly and briefly state a single point to be considered in answering the question
+				%li 
+					Participants discuss and rate each idea.
+					= link_to 'Ideas are not comments!', {}, class: 'ideas_vs_comments'
+					%ul.ideas_vs_comments
+						%li An idea is very short and to the point
+						%li A comment can be part of a longer discussion that can explore and explain an idea in more detail
+						%li Comments often express multiple ideas, explore relationships and help people come to understanding
+						%li You might use comments to provide background and support for your idea
+						%li Comments keep a conversation going, ideas crystallize key points 
+						%li Because an idea states a single point, people can easily and accurately express their level of `agreement with it. 
+						%li This makes it easier for the project coordinators to understand exactly what their group intends and supports
+				%li Your project's coordinators theme the ideas into the edited summary answer below each question
+				%li They are guided by the group's ideas, comments, and ratings in an open and transparent theming process in which you participate
+				%li.emphasis 
+					Your ideas, comments and ratings are displayed on that theming page, not this proposal page.
+					#{link_to 'Learn more', {}, class: 'theming_page_notes'}
+					%ul.theming_page_notes
+						%li Ideas entered on this page are displayed on the theming page
+						%li Click on the "View all ideas" link above the summary to open the theming page
+						%li The ideas are sorted into affinity clusters on the theming page
+						%li Only project coordinators can sort ideas
+						%li Participants discuss and rate the ideas to guide the project coordinators
+						%li Participants can discuss and challenge the sorting
+						%li The project coordinators create themes to capture and distill the group's emerging views as seen in the idea clusters
+						%li These descriptive themes are automatically transferred to the proposal page so the theming page and proposal are always in sync
+						%li The theming process is always transparent and visible to everyone, but only project coordinators can sort and edit themes.
+						%li Everyone is encouraged to discuss, suggest changes, challenge and rate the themes for each question.
 				
+				%li Any CivicEvolution member can suggest an idea
+				%li Ideas are displayed anonymously so don't be shy
 
+			
 			- if !question.prompt.nil?
-				%h4.framing Framing issues for you to consider for this question
+				%h3.framing Framing issues for you to consider for this question
 				%ul.framing_questions
 					- question.prompt.checklist.split(/\n/).each do |issue|
 						%li= issue
-			%h4.framing Be sure to note what is positive in the other ideas and build on them
+			-#%h4.framing Be sure to note what is positive in the other ideas and build on them
 			%p.learn_more
-				To learn more see the 
-				= link_to 'help', help_path, remote: true
-				section
+				= link_to "Help", short_help_path(tab: 0), {:remote=>true}
+				&bull;
+				= link_to "video", short_help_path(tab: 1), {:remote=>true}
+				&bull;
+				= link_to "Contact us", short_help_path(tab: 2), { :remote => true}	
 			
 	= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 
 		%div.add_idea

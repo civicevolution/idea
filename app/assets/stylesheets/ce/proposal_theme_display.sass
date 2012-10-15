@@ -109,9 +109,25 @@ div.proposal
 		h2.question 
 			img	
 				vertical-align: middle
+		
+		h3.responses
+			float: left
+			color: #296d8A
+			margin: 0 16px 0 0 
+		h3.summary
+			margin-left: 30px
+			color: #296d8A
+			a.view_all_ideas
+				color: #296d8A
+				text-decoration: none
+				margin-left: 20px
+				font-size: .8em
+				&:hover
+					text-decoration: underline
 				
 		ul.themes
 			width: 600px
+			margin-left: 10px
 			&.instructions
 				font-style: italic
 				width: 500px
@@ -132,17 +148,31 @@ div.proposal
 			right: 8px
 		div.help_header
 			h3.label
-				padding-top: 10px
+				padding-top: 16px
+				color: #296d8A
 		div.help_body	
 			display: none
-			h4.framing, h4.cta
+			h3.framing, h4.cta
 				margin-bottom: 4px
+				color: #296d8A
+			ul.framing_questions
+				background: #ccf
 			ul.framing_questions, ul.instructions
 				margin: 0
 				width: 500px
 				li
 					margin: 0 0 0 40px
 					list-style-type: 	disc
+					&.emphasis
+						font-weight: bold
+						color: #296d8A
+						ul
+							font-weight: normal
+							color: black
+					a
+						color: #296d8A
+				ul.ideas_vs_comments, ul.theming_page_notes
+					display: none
 			p.learn_more
 				padding-bottom: 10px
 		&.collapsed
@@ -196,7 +226,7 @@ div.proposal
 			
 div.call-to-action
 	font-weight: bold
-	margin: 8px 0 8px 40px
+	margin: 8px 0 8px 30px
 	&.summary
 		margin-left: 0
 	> div

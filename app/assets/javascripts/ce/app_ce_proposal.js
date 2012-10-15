@@ -152,3 +152,21 @@ function close_idea_help_popup(el){
 		$(this).closest('div.form_help_slide').addClass('collapsed');
 	});
 }
+$('div.proposal').on('click', 'div.form_help_slide a.ideas_vs_comments', function(){
+	var ideas_vs_comments = $(this).closest('div.form_help_slide').find('ul.ideas_vs_comments');
+	if( ideas_vs_comments.is(':visible') ){
+		ideas_vs_comments.hide(400);
+	}else{
+		ideas_vs_comments.show(400);
+	}
+	return false;
+});
+$('div.proposal').on('click', 'div.form_help_slide a.theming_page_notes', function(){
+	var theming_page_notes = $(this).closest('div.form_help_slide').find('ul.theming_page_notes');
+	if( theming_page_notes.is(':visible') ){
+		theming_page_notes.hide(400);
+	}else{
+		theming_page_notes.show(400);
+	}
+	return false;
+});

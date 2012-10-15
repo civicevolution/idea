@@ -1,10 +1,13 @@
 function init_question_tabs(question_view, page){
+	var open_theming_page = false;
 	switch(page){
 		case 'question':
 			page = 0;
 			break;
 		case 'theming':
-			page = 1;
+			// opening directly to theming tab causes an error, so do on a timeout
+			page = 0;
+			open_theming_page = true;
 			break;
 		case 'themes':
 			page = 2;
@@ -31,6 +34,9 @@ function init_question_tabs(question_view, page){
 		$('body').scrollTop(0);
 		question_view.after( $('div.page') );
 		setTimeout(function(){init_question_view(this);}.bind(question_view),300);
+		if(open_theming_page){
+			setTimeout(function(){this.find('a[href="#tabs-theming"]').click();}.bind(question_view), 500);
+		}
 	})
 	dispatcher.update_idea_stats(question_view);
 }
