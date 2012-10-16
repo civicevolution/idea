@@ -8,7 +8,11 @@
 			%h2 Think together 
 			%h2 to act together
 			
-			%p CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
+			-#%p CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
+			%p
+				%b CivicEvolution helps your group organize its ideas
+			
+			%p Our open and transparent process includes brainstorming, discussing, rating, sorting and summarizing ideas. These activities collect and refine your group's ideas into a constructive action plan.
 			
 			%p{:style=>'margin-top: 24px'} 
 				We work with citizens and community leaders. Click 
@@ -68,7 +72,7 @@
 							Email: 
 							= text_field_tag :email
 							= submit_tag "Subscribe"
-			
+		
 %div.social_proof_logos
 	= link_to 'http://2029.civicevolution.org', {:target=>'_blank'} do
 		= image_tag 'mktg/2029_logo_tag_6gs.gif'
