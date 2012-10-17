@@ -134,7 +134,7 @@ $('div.proposal').on('focus', 'div.add_idea textarea', function(){
 function open_idea_help_popup(el){
 	var help_slide = $(el).closest('div.question_summary').find('div.form_help_slide');
 	if(el.nodeName == 'TEXTAREA' && help_slide.hasClass('auto-opened')){
-		console.log("help was already opened once on this question");
+		//console.log("help was already opened once on this question");
 		return;
 	}
 	help_slide.removeClass('collapsed');

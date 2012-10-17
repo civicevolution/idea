@@ -206,3 +206,20 @@ function getUrlVars()
     return vars;
 }
 var params = getUrlVars();
+
+function demo_type_text(selector,text){
+	var target = $(selector);
+	var ctr = 1;
+	var chars = text.split('');
+	setTimeout(function(){
+		target.val('');
+		addChar();
+	}, 3000);
+	function addChar(){
+		target[0].value += chars.shift();
+		target.focus();
+		if(chars.length > 0){
+			setTimeout(addChar, 60);
+		}
+	}
+}
