@@ -13,12 +13,15 @@
 		%p.label
 			How it works
 		%div.instructions	
+			%p.intro CivicEvolution helps your group organize its ideas into a consensus action plan.
 			%ol
-				%li Participants brainstorm ideas that help answer each of the questions 
-				%li Participants discuss and rate the ideas
-				%li The coordinators for your project sort the ideas and create themes to capture and distill the participants' emerging views
-				%li Participants discuss, challenge, suggest changes, and rate the themes for each question
-				%li The process of brainstorming, discussing, theming, rating, and refining continues until a working agreement emerges
+				%li Start by brainstorming ideas under each question.
+				%li The new ideas display anonymously on the theming page.
+				%li Participants discuss and rate each of these ideas.
+				%li The project coordinators use this feedback to sort the ideas into related groups and write descriptive themes.
+				%li The coordinator arranges and edits the themes to create the meaningful answers displayed on this proposal page.
+				-#%li Participants brainstorm, discuss and rate the ideas and themes until they reach agreement on a plan
+		
 			%p.label.participate
 				How to participate
 			%ol.participate
@@ -26,27 +29,7 @@
 				%li Discuss and rate the ideas
 				%li Help theme the ideas
 				%li= link_to "View the Help page", short_help_path(tab: 0), {:remote=>true}
-				
-			-#%ol
-				%li Help develop this proposal by suggesting ideas in the form below each question
-				%li Each idea should clearly convey a single point that helps answer the question
-				%li Discuss and rate new ideas by clicking the yellow post-it below each question that shows new ideas
-				%li Click the magnifying glass next to each question to see its theming and discussion
-				%li Guided by the participants' comments and ratings, the coordinators for your project sort the ideas and create themes in a fully transparent process that everyone can follow
-				%li The themes capture and distill the participants' emerging views
-				%li These emerging views are then displayed under each question
-				%li This process of brainstorming, discussing, theming, rating, and refining continues until a working agreement emerges that empowers your group to act together effectively.
-			
-		-#%div.suggestion
-			= image_tag 'completed_off.gif', :title => 'Click here when you have completed the task'
-			%p.action
-				-#Rate 3 new talking points and read 5 new comments
-				Please rate all of the talking points in this proposal
-			%p.controls
-				= link_to "Show me how", help_path(:topic=>'Rating_talking_points'), { :class=> 'show_me', :id=>'Rating_talking_points', :remote=>true}
-				-#= link_to "Next action", request_help_path, { :class=> 'next'}
-	
-	
+					
 	%div.suggested_action.corner
 		= render( :template => 'plan/new_content')
 	
