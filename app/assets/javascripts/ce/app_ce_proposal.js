@@ -34,7 +34,7 @@ function init_page(){
 	
 	if(!$.support.borderRadius){ 
 		console.log("load corner support script and activate");
-		$.getScript('/javascripts/jquery.corner.js', 
+		$.getScript('/assets/opt/jquery.corner.js', 
 			function(){
 				$('div.right_side div.corner').css('background-color','#eee').corner();
 			}
