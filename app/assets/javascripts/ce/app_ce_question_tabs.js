@@ -32,7 +32,7 @@ function init_question_tabs(question_view, page, idea_id){
 	$('div.page div.right_side ').fadeTo(300,0);
 	
 	// set div.page height to scrollTop + window height, which puts the question_view just below the window
-	var scroll_x = $('body').scrollTop();
+	var scroll_x = $(window).scrollTop();
 	var height = $(window).height();
 	question_view.find('div.ui-tabs-panel').height( height - question_view.find('ul.ui-tabs-nav').outerHeight() - 40 );
 	var page = $('div.page');
@@ -45,7 +45,7 @@ function init_question_tabs(question_view, page, idea_id){
 		function(){
 			// finally, put the div.page below the question view
 			page.hide();
-			$(window).scrollTop(0);
+			$('html,body').scrollTop(0);
 			page.height('auto');
 			page.removeClass('overflow_hidden');
 			question_view.after( $('div.page') );
@@ -86,7 +86,7 @@ $('body').on('click','ul.ui-tabs-nav a.close, div.theming_page a.close_theming_p
 	$('div.page').show();
 	question_tabs.slideUp(800, function(){
 		question_tabs.remove();
-		$(document.body).animate({scrollTop: $('div.page').attr('last_scroll_pos')}, 400);
+		$('html,body').animate({scrollTop: $('div.page').attr('last_scroll_pos')}, 400);
 		$('div.page div.right_side ').fadeTo(300,1);
 		}
 	);
