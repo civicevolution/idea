@@ -62,8 +62,26 @@
 		%ul.themes
 			- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
 				- if theme.version > 0 && theme.visible
-					%li.theme{id: theme.id}= theme.text
-	
+					%li.theme{id: theme.id}
+						= link_to theme.text, question_view_path(question.id, idea_id: theme.id), {class: 'view_theme', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to discuss and rate this theme and see how the it was formed' }
+						
+						%div.ideas
+							= link_to image_tag('idea-icon.gif', title: 'Number of ideas'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
+							%div.counts
+								%div.new
+									0 new
+								%div.total
+									0 total
+						
+						%div.comments
+							= link_to image_tag('comment-sketch.gif', title: 'Number of comments'), question_view_path(question.id, page: 'question'), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
+							%div.counts
+								%div.new
+									0 new
+								%div.total
+									0 total
+						-#%p.clear_both
+
 	
 	%div.form_help_slide.collapsed
 		= link_to 'close', {}, class: 'close'

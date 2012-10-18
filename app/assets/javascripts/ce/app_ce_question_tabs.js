@@ -56,6 +56,7 @@ function init_question_tabs(question_view, page, idea_id){
 		}
 	);
 	dispatcher.update_idea_stats(question_view);
+	dispatcher.update_theme_stats(question_view);
 }
 function init_question_view(question_view, idea_id){
 	//console.log("init_question_view for id: " + question_view.attr('id') );
