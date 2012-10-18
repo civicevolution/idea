@@ -1,8 +1,9 @@
-%div.idea_details.popup.fancy-scrollbar
+%div.idea_details.popup.fancy-scrollbar{ idea_id: idea.id, question_id: idea.question_id}
 	- if !Rails.env.production?
 		= stylesheet_link_tag "ce/idea_details"
 
 	- question ||= idea.question
+	- show_nav = true
 	- case
 		- when params[:act] == 'view_question'
 			%h3.popup_nav
@@ -13,6 +14,9 @@
 				- else
 					Question #{idea.order_id} of #{idea.siblings.count}
 				
+		- when params[:act] == 'review_idea'
+			- show_nav = false
+			%h3.popup_nav Thanks for your idea to the question:
 				
 		- when params[:act] == 'review_unrated_ideas'
 			%h3.popup_nav
@@ -50,18 +54,18 @@
 				- else
 					Idea #{idea.order_id} of #{idea.siblings.count}
 		
-
-	%div.navigation{title: 'Mouseover then click the small squares to view other questions, themes and ideas in this proposal'}
-		%div.proposal
-			%a.item{href: {}, id: idea.team.idea.id, title: idea.team.title}
-		%div.questions
-			- idea.question.siblings.each do |question|
-				- if idea.role == 3
-					%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.id ? 'current' : ''}
-				- else
-					%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
+	- if show_nav
+		%div.navigation{title: 'Mouseover then click the small squares to view other questions, themes and ideas in this proposal'}
+			%div.proposal
+				%a.item{href: {}, id: idea.team.idea.id, title: idea.team.title}
+			%div.questions
+				- idea.question.siblings.each do |question|
+					- if idea.role == 3
+						%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.id ? 'current' : ''}
+					- else
+						%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
 				
-					-#%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
+						-#%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
 			
 		%div.themes
 			- idea.question.themes.each do |theme|
@@ -134,6 +138,17 @@
 						
 				%p.timestamp
 					#{time_ago_in_words(idea.updated_at)} ago
+					
+		- if params[:act] == 'review_idea'			
+			%div.acknowledge_new_idea
+				%ul
+					%li Please be sure to rate your idea and add any comments that might help people understand it better or make a case for it	
+					%li
+						Click open the 
+						= link_to 'theming page', {}, class: 'goto_theming_page'
+						to see your idea
+					
+				
 				
 		= render( partial: 'rating', locals: { idea: idea } )			
 		

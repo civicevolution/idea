@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require ./ce/app_ce_base
+//= require ./ce/app_ce_home
 //= require jquery.autogrow.js
 //= require jquery.isonscreen.min.js
 //= require jquery.prettyPhoto.js
