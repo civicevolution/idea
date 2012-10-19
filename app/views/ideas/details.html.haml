@@ -67,22 +67,22 @@
 				
 						-#%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
 			
-		%div.themes
-			- idea.question.themes.each do |theme|
-				- if idea.role == 2
-					%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.id ? 'current' : ''}
-				- else
-					%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.parent_id ? 'current' : ''}
+			%div.themes
+				- idea.question.themes.each do |theme|
+					- if idea.role == 2
+						%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.id ? 'current' : ''}
+					- else
+						%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.parent_id ? 'current' : ''}
 				
 		
-		%div.ideas
-			- if idea.role < 3
-				- ( idea.role == 2 ? idea.theme_ideas : idea.siblings ).each do |sibling|
-					- if idea.role == 2
-						%a.item{href: {}, id: sibling.id, title: sibling.text }
-					- else
-						%a.item{href: {}, id: sibling.id, title: sibling.text, class: sibling.id == idea.id ? 'current' : '' }
-		%div.clear_both
+			%div.ideas
+				- if idea.role < 3
+					- ( idea.role == 2 ? idea.theme_ideas : idea.siblings ).sort{|a,b| a.order_id<=>b.order_id}.each do |sibling|
+						- if idea.role == 2
+							%a.item{href: {}, id: sibling.id, title: sibling.text }
+						- else
+							%a.item{href: {}, id: sibling.id, title: sibling.text, class: sibling.id == idea.id ? 'current' : '' }
+			%div.clear_both
 		
 		
 	%div.details_left
