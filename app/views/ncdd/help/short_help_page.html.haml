@@ -2,13 +2,17 @@
 	%div.help_tabs
 		%ul
 			%li
-				%a{:href=>"#tab_help_introduction"} Introduction
+				-#%a{:href=>"#tab_help_introduction"} Introduction
+				%a{:href=>"#tab_help_tour"} Tour
 			%li
 				%a{:href=>"#tab_help_video"} Video
 			%li
 				%a{:href=>"#tab_help_contact_us"} Contact us
 		
-		%div#tab_help_introduction						
+		%div#tab_help_tour
+			= render template: 'help/tour'
+		
+		-#%div#tab_help_introduction						
 			%h3.title Catalyst Awards at CivicEvolution help page
 			
 			%h4 How it works

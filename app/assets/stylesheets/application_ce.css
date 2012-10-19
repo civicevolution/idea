@@ -17,6 +17,7 @@
  *= require ./ce/theming_page.sass
  *= require ./ce/idea_details.sass
  *= require ./ce/question_tabs.sass
+ *= require ./ce/help.sass
  *= require jquery-ui-1.8.23.custom.css
  *= require prettyPhoto.css
 */
