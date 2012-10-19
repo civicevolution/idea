@@ -81,7 +81,7 @@ class Idea < ActiveRecord::Base
     range = [0,10,200]
     length = text.scan(/\S/).size
     errors.add(:text, "must be at least #{range[1]} characters") unless length >= range[1].to_i
-    errors.add(:text, "must be no longer than #{range[2]} characters") unless length <= range[2].to_i
+    errors.add(:text, "must be no longer than #{range[2]} characters") unless self.role !=1 || length <= range[2].to_i 
   end
 
   def check_destroyable
