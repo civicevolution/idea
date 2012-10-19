@@ -1,4 +1,6 @@
 :plain
 	var summary = $("#{escape_javascript(render( partial: 'plan/question_theme_summary', locals: {question: question, team: question.team }, formats: [:html]  ))}");
 
-	$('div.question_summary[id="#{params[:question_id]}"] ul.themes').replaceWith(summary.find('ul.themes'));
+	var question_summary = $('div.proposal div.question_summary[id="#{params[:question_id]}"]');
+	question_summary.find('ul.themes').replaceWith(summary.find('ul.themes'));
+	setTimeout(function(){dispatcher.update_theme_stats(this);}.bind(question_summary),1000);

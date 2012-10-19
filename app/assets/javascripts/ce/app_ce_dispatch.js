@@ -156,7 +156,10 @@ dispatcher = {
 	},
 	update_theme_stats: function(page){
 		page = page || $('body');
-		page.find('div.question_summary li.theme').each(
+		var themes = page.hasClass('question_summary') ? 
+			page.find('li.theme') :
+			page.find('div.question_summary li.theme');
+		themes.each(
 			function(){
 				var theme = $(this);
 				var theme_id = theme.attr('id');

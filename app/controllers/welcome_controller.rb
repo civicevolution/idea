@@ -72,14 +72,14 @@ class WelcomeController < ApplicationController
   end
 
   def get_started
-    render :action=>'get_started', :layout=>'civicevolution'
+    render template: 'welcome/get_started', layout: 'civicevolution'
   end
 
   def get_started_post
     AdminMailer.delay.get_started(params)
     
     respond_to do |format|
-      format.html { redirect_to( :action=>'get_started_accepted' ) }
+      format.html { render template: 'welcome/get_started_accepted', layout: 'civicevolution' }
     end
   end
   
