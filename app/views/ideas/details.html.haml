@@ -77,7 +77,7 @@
 		
 			%div.ideas
 				- if idea.role < 3
-					- ( idea.role == 2 ? idea.theme_ideas : idea.siblings ).sort{|a,b| a.order_id<=>b.order_id}.each do |sibling|
+					- ( idea.role == 2 ? idea.theme_ideas : idea.siblings ).each{|i| i.order_id = 1 if i.order_id.nil?}.sort{|a,b| a.order_id<=>b.order_id}.each do |sibling|
 						- if idea.role == 2
 							%a.item{href: {}, id: sibling.id, title: sibling.text }
 						- else
