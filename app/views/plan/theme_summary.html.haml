@@ -25,7 +25,8 @@
 						
 						- @team.solution_statement.split(/[\r\n]+/).each do |para|
 							%p= para
-
+						- if @team.id == 10096	
+							= render partial: 'embedded_video'
 
 						%p.clear_both
 

@@ -140,7 +140,8 @@
 		%div.add_idea
 			%div.form
 				= hidden_field_tag :attachments
-				= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true
+				= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true, placeholder: 'Write your idea...'
+				
 				%div.attachments
 					%p.clear_both
 			= link_to '', {}, class: 'show_idea_help_popup', tabindex: 1000
