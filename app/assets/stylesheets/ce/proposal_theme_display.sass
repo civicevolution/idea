@@ -1,3 +1,5 @@
+@import "definitions"
+
 // Summary section
 h2.home_title
 	font-size: 1em
@@ -204,16 +206,92 @@ div.proposal
 			width: 350px
 			background-color: #FCFEB4
 			padding: 12px
+			margin-bottom: 0px
+		div.attachments
+			background-color: #FCFEB4
+			width: 350px
+			padding: 4px 12px
+			margin-top: -4px
+			border: 1px solid grey
+			border-top: none
+			display: none
+			div.attachment
+				float: left
+				margin-right: 8px
+				max-width: 80px
+				position: relative
+				word-wrap: break-word
+				p
+					margin: 0 8px
+				img	
+					float: none
+					max-height: 50px
+					max-width: 50px
+				img.delete
+					position: absolute
+					top: 0
+					right: 0
+					cursor: pointer
+			p
+				font-size: .8em
 		div.add_idea
 			position: relative
-			width: 420px
+			width: 500px
 			a.show_idea_help_popup
 				position: absolute
 				top: 4px
-				right: 18px
+				right: 98px
 				height: 24px
 				width: 24px
-				background: image-url('idea_help.gif') no-repeat
+				background: image-url('idea_help.gif') no-repeat 0 0
+			p.clear_both
+				margin: 0
+			div.attachment_btn
+				position: absolute
+				//border: 1px solid red
+				top: 30px
+				right: 104px
+				height: 16px
+				width: 16px
+				background: image-url('attachment16.gif') no-repeat 0 0 
+				cursor: pointer
+				&:hover
+					background-color: #ddd
+				&.waiting
+					background: image-url('wait5.gif') no-repeat 0 0
+					right: 90px
+					width: 30px
+				div.inner
+					//border: 1px solid green
+					height: 16px
+					width: 16px
+					position: relative
+					input[type="file"]
+						position: absolute
+						top: 0
+						right: 0
+						margin: 0
+						background-color: transparent
+						color: white
+						cursor: pointer
+						display: block
+						height: 16px
+						line-height: 16px
+						width: 16px
+						+opacity(0)
+						&:hover
+							cursor: pointer
+			div.attachment_upload_progress
+				position: absolute
+				top: 48px
+				right: 0px
+				height: 16px
+				width: 120px
+				div.bar
+					height: 18px
+					background: image-url('upload/progressbar.gif') repeat-x 0 0
+	
+					
 			input[type=submit], img.wait
 				position: absolute
 				top: 6px

@@ -1,5 +1,11 @@
 G3::Application.routes.draw do
 
+  resources :uploads
+  post 'question/:par_id/attachment' => 'uploads#create', defaults: {par_type: 1}, as: 'question_attachment'
+  post 'idea/:par_id/attachment' => 'uploads#create', defaults: {par_type: 3}, as: 'idea_attachment'
+  post 'comment/:par_id/attachment' => 'uploads#create', defaults: {par_type: 22}, as: 'comment_attachment'
+  post 'uploads/:id/destroy' => 'uploads#destroy', as: 'attachment_destroy'
+
   resources :idea_ratings
 
   resources :idea_versions

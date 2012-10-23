@@ -358,9 +358,12 @@ class IdeasController < ApplicationController
     question.member = @member
     @idea = question.ideas.new(text: params[:text], role: 1, member_id: @member.id, team_id: question.team_id, question_id: question.id, visible: true, version: 1, member: @member)
     @idea.parent_id = nil
-
+    saved = @idea.save
+    @idea.add_attachments(params[:attachments]) unless !saved
+    
     respond_to do |format|
-      if @idea.save
+      if saved
+        
         format.js { render 'ideas/idea_for_question', locals: { idea: @idea, question: question} }
         format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
         format.json { render json: @idea, status: :created, location: @idea }

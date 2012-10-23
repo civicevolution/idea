@@ -16,6 +16,13 @@
 								%li.idea_post_it
 									%div{class: "R#{random_ind.pop} post-it", id: idea.id}
 										%p.idea= idea.text
+										- if !idea.attachments.empty?
+											%div.attachments
+												- idea.attachments.each do |att|
+													- icon_url = att.attachment_content_type.match(/image/i) ? att.attachment(:icon) : '/assets/doc_icon.gif'
+													%div.attachment
+														= image_tag(icon_url)
+												%p.clear
 										%div.status
 											= image_tag 'delete_icon_16t.gif', :class=>"delete"
 											-# if idea.comments.size > 0

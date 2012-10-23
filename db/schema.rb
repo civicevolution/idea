@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121006204841) do
+ActiveRecord::Schema.define(:version => 20121021023759) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -74,23 +74,6 @@ ActiveRecord::Schema.define(:version => 20121006204841) do
     t.integer  "team_id",        :default => 0,     :null => false
     t.integer  "question_id",    :default => 0,     :null => false
     t.integer  "lock_member_id"
-  end
-
-  create_table "backup_ideas", :id => false, :force => true do |t|
-    t.integer  "id"
-    t.text     "text"
-    t.boolean  "is_theme"
-    t.integer  "member_id"
-    t.integer  "team_id"
-    t.integer  "question_id"
-    t.integer  "parent_id"
-    t.integer  "order_id"
-    t.boolean  "visible"
-    t.integer  "version"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "role"
-    t.integer  "aux_id"
   end
 
   create_table "bs_idea_favorite_priorities", :force => true do |t|
@@ -370,13 +353,6 @@ ActiveRecord::Schema.define(:version => 20121006204841) do
     t.datetime "updated_at",  :null => false
     t.integer  "role"
     t.integer  "aux_id"
-  end
-
-  create_table "ideas1", :id => false, :force => true do |t|
-    t.integer "row_num"
-    t.integer "order_id"
-    t.integer "id"
-    t.text    "text"
   end
 
   create_table "initiative_members", :force => true do |t|
@@ -984,21 +960,6 @@ ActiveRecord::Schema.define(:version => 20121006204841) do
     t.boolean  "launched",                     :default => false,     :null => false
   end
 
-  create_table "temp_ideas", :id => false, :force => true do |t|
-    t.integer  "id"
-    t.text     "text"
-    t.boolean  "is_theme"
-    t.integer  "member_id"
-    t.integer  "team_id"
-    t.integer  "question_id"
-    t.integer  "parent_id"
-    t.integer  "order_id"
-    t.boolean  "visible"
-    t.integer  "version"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "thumbs_ratings", :force => true do |t|
     t.integer  "item_id"
     t.integer  "member_id"
@@ -1010,9 +971,21 @@ ActiveRecord::Schema.define(:version => 20121006204841) do
 
   add_index "thumbs_ratings", ["item_id", "member_id"], :name => "unique_thumbs_ratings_item_id_member_id", :unique => true
 
-  create_table "tt1", :id => false, :force => true do |t|
-    t.integer "unnest"
-    t.integer "?column?"
+  create_table "uploads", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "question_id"
+    t.integer  "par_type"
+    t.integer  "par_id"
+    t.integer  "order_id"
+    t.integer  "member_id"
+    t.integer  "version"
+    t.text     "description"
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
 end

@@ -4,7 +4,16 @@
 	var form = question.find('form.suggest_idea');
 	form.find('textarea').val('').focus();
 	form.find('p.warn').remove();
-	form.find('div#errorExplanation').remove();	
+	form.find('div#errorExplanation').remove();
+	
+	form.find('input[name="attachments"]').val( '' );
+	
+	var attachments = form.find('div.attachments');
+	attachments.find('div.attachment').hide(800, function(){
+		attachments.find('div.attachment').remove();
+		attachments.hide(800);
+	})
+		
 
 	var unrated_ideas_link = $('<div class="ideas">#{link_to image_tag('idea-icon.gif'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true } }<span class="cnt">#{question.unrated_ideas.count} new</span></div>')
 

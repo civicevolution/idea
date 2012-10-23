@@ -63,6 +63,7 @@ class Idea < ActiveRecord::Base
       WHERE ideas.question_id = #{self.id} AND ideas.role = 1 AND idea_ratings.id IS null|
     }
   
+  has_many :attachments, :class_name => 'Upload', :foreign_key => 'par_id', :conditions => 'par_type = 22', :order => 'order_id asc'
     
   attr_accessor :member
   attr_accessor :unrated_ideas_count
@@ -120,6 +121,13 @@ class Idea < ActiveRecord::Base
       end
     end
     return allowed, message
+  end
+  
+  def add_attachments( attachment_ids )
+    ctr = 0;
+    Upload.where( id: attachment_ids.scan(/\d+/), member_id: self.member_id).order('id ASC').each do |attachment|
+      attachment.update_attributes({team_id: self.team_id, question_id: self.question_id, par_type: 22, par_id: self.id, order_id: ctr += 1})
+    end
   end
   
   def votes

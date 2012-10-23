@@ -60,13 +60,18 @@ class MembersController < ApplicationController
   
   def upload_member_photo
     logger.debug "save_photo member_id: #{@member.id}"
-    
     @member.photo = params[:photo]
-    if @member.save
+    saved = @member.save
+    if saved # @member.save
       #ActiveSupport::Notifications.instrument( 'tracking', :event => 'Upload profile photo', :params => params.merge(:member_id => @member.id))
-    end
-    respond_to do |format|
-      format.html { redirect_to edit_profile_form_path(@member.ape_code) }
+      respond_to do |format|
+        format.html { render template: 'members/upload_member_photo', formats: [:html], locals: { member: @member}, layout: false }
+        format.json { render json: [{ photo_url: @member.photo(:small), photo_file_name: @member.photo_file_name }] }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: [{ errors: @member.errors, photo_file_name: @member.photo_file_name }] }
+      end
     end
   end 
   

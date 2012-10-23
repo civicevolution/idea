@@ -35,11 +35,11 @@ jQuery(function() {
 		return (!jQuery.support.borderRadius);
 	});
 });
-
+var AUTH_TOKEN;
 $(function(){
+		AUTH_TOKEN = $("meta[name='csrf-token']").attr("content");
 		$(document).ajaxSend(function(e, xhr, options) {
-		  var token = $("meta[name='csrf-token']").attr("content");
-		  xhr.setRequestHeader("X-CSRF-Token", token);
+		  xhr.setRequestHeader("X-CSRF-Token", AUTH_TOKEN);
 		});	
 		if(params['video']=='play'){
 			setTimeout(function(){ $('a#play_intro_video').click(); },1000);

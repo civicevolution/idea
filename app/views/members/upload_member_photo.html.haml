@@ -1,0 +1,6 @@
+!!!
+%html{html_attrs('en-en')}
+	%head
+	%body
+		%pre
+			#{[{ photo_url: @member.photo(:small), photo_file_name: @member.photo_file_name }].to_json}

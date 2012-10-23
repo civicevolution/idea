@@ -132,6 +132,13 @@
 					%li.idea_post_it
 						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
 							%p.idea= idea.text
+							- if !idea.attachments.empty?
+								%div.attachments
+									- idea.attachments.each do |att|
+										- icon_url = att.attachment_content_type.match(/image/i) ? att.attachment(:icon) : '/assets/doc_icon.gif'
+										%div.attachment
+											= link_to image_tag(icon_url, title: att.attachment_file_name), "#{att.attachment.url.to_s}", target: '_blank'
+									%p.clear
 							%div.status
 								= image_tag 'delete_icon_16t.gif', :class=>"delete"
 								-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'

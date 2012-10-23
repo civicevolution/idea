@@ -138,9 +138,17 @@
 			
 	= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 
 		%div.add_idea
-			= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true
+			%div.form
+				= hidden_field_tag :attachments
+				= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true
+				%div.attachments
+					%p.clear_both
 			= link_to '', {}, class: 'show_idea_help_popup', tabindex: 1000
-			
+			%div.attachment_btn
+				%div.inner
+					%input.attachment-upload{type: "file", name: "attachment", 'data-url'=>question_attachment_path(question.id) }
+			%div.attachment_upload_progress
+				%div.bar{style: "width: 0%;"}
 			
 		%p.form_controls
 			= submit_tag "Add my idea", :name=>'add_idea', wait: 'gif'

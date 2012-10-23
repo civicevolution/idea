@@ -170,3 +170,75 @@ $('div.proposal').on('click', 'div.form_help_slide a.theming_page_notes', functi
 	}
 	return false;
 });
+
+
+$(function () {
+		//console.log("init fileupload");
+    $('input.attachment-upload').fileupload({
+        dataType: 'json',
+				forceIframeTransport: false,
+				formData: {authenticity_token: AUTH_TOKEN },
+				progressall: function (e, data) {
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					//console.log("progress: " + progress);
+					$(this).closest('div.attachment_btn').next('div.attachment_upload_progress').find('div.bar').css(
+					'width',
+					progress + '%'
+					);
+				},
+				start: function(e){
+					//$('#attachemnt_progress .bar').css('width','0%');
+					var attachment_div = $(this).closest('div.attachment_btn').addClass('waiting');
+					attachment_div.next('div.attachment_upload_progress').find('div.bar').css('width','0%');
+					return true;
+				},
+				always: function(e){
+					//$('#attachemnt_progress .bar').css('width','0%');
+					var attachment_div = $(this).closest('div.attachment_btn').removeClass('waiting');
+					attachment_div.next('div.attachment_upload_progress').find('div.bar').css('width','0%');
+				},
+				fail: function (e,data){
+					var error_message = data.jqXHR.responseText.match(/attachment_file_size[^\w]*([\w ]+)/);
+					if( error_message.length>1 ){
+						error_message = error_message[1];
+					}else{
+						error_message = data.jqXHR.responseText;
+					}
+					$('<p class="warn">' + error_message + '</p>').dialog( {title : 'Sorry', modal : true, width : '200px', closeOnEscape: true, close: function(){$(this).remove()} });
+				},
+				done: function (e, data) {
+					temp.attachment_data = data;
+					//console.log("attachment_url: " + data.result.attachment_url);
+					
+					var icon_url = data.result.attachment_content_type.match(/image/i) ? 
+						data.result.attachment_icon_url : '/assets/doc_icon.gif';
+					var add_idea = $(this).closest('div.add_idea');
+					var attachments = add_idea.find('div.attachments');
+					attachments.find('p.clear_both').before( '<div class="attachment" id="' + data.result.attachment_id + '"><img src="' + icon_url + '"/><img class="delete" src="/assets/circle_x_sm.gif"/><p>' + 	data.result.attachment_file_name + '</p></div>');
+					attachments.show(400);
+					var ids = attachments.find('div.attachment').map( function(){return this.id;});
+					add_idea.find('input[name="attachments"]').val( $.makeArray(ids).join(','));
+				}
+    });
+});
+
+$('body').on('click', 'div.attachments img.delete', function(){
+	var attachment_div = $(this).closest('div');
+	var id = attachment_div.attr('id');
+	console.log("delete " + id);
+	$.ajax({
+	  type: 'POST',
+	  url: '/uploads/' + id + '/destroy',
+	  dataType: 'json'
+	}).done(function(data) { 
+		attachment_div.hide(800,function(){
+			var attachments = attachment_div.closest('div.attachments');
+			attachment_div.remove();
+			var ids = attachments.find('div.attachment').map( function(){return this.id;});
+			attachments.closest('div.add_idea').find('input[name="attachments"]').val( $.makeArray(ids).join(','));
+			if(attachments.find('img').size() == 0){
+				attachments.hide(800);
+			}
+		});
+	}).fail(function() { alert("attachment delete error"); });
+})

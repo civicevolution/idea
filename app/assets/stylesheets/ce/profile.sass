@@ -1,0 +1,49 @@
+@import "definitions"
+
+div#edit_profile
+	div#member_photo_upload_progress
+		margin-top: 4px
+		width: 200px
+		div.bar
+			height: 18px
+			background: image-url('upload/progressbar.gif') repeat-x 0 0
+
+	> div
+		margin-top: 50px
+		margin-left: 20px
+		&.member_info
+			margin-top: 0
+	div.file-input-button
+		width: 84px
+		height: 30px
+		background-color: #5BB75B
+		&:hover
+			cursor: pointer
+			background-color: #51a351
+		position: relative
+		text-align: center
+		vertical-align: middle
+		cursor: pointer
+		overflow: hidden
+		font-size: 14px
+		line-height: 20px
+		color: white
+		text-shadow: rgba(0, 0, 0, 0.247059) 0px -1px 0px
+		margin-top: 8px
+		div
+			margin-top: 4px
+			cursor: pointer
+		input[type="file"]
+			position: absolute
+			top: 0
+			right: 0
+			background-color: transparent
+			color: white
+			cursor: pointer
+			display: block
+			height: 30px
+			line-height: 30px
+			width: 84px
+			+opacity(0)
+			&:hover
+				cursor: pointer

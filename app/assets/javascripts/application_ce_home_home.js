@@ -13,6 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require opt/JQuery-File-Upload/vendor/jquery.ui.widget.js
+//= require opt/JQuery-File-Upload/jquery.iframe-transport.js
+//= require opt/JQuery-File-Upload/jquery.fileupload.js
 //= require ./ce/app_ce_base
 //= require ./ce/app_ce_home
 //= require jquery.autogrow.js
