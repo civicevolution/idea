@@ -50,7 +50,7 @@
 			
 		- if !print			
 					
-			= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form' + ( endorsed ? ' hide' : '' ) do 
+			= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form endorsement' + ( endorsed ? ' hide' : '' ) do 
 				%div.add_answer
 					%p
 					= label_tag :text, "My statement in support of this proposal"
