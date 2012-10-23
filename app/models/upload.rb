@@ -7,8 +7,9 @@ class Upload < ActiveRecord::Base
     :hash_secret => "c1hkKH78WppW",
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/s3.yml",
-    :path => "upload/:res_base/:hash.:extension",
-    :url => "http://assets.civicevolution.org/upload/:res_base/:hash.:extension",
+    :path => "upload/:res_base/:hash/:basename.:extension",
+    #:url => "http://assets.civicevolution.org/upload/:res_base/:hash.:extension",
+    :url => "http://assets.civicevolution.org/upload/:res_base/:hash/:basename.:extension",
     :bucket => 'assets.civicevolution.org',
     :styles => { :icon => '50x50>' }
   
