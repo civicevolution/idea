@@ -1,0 +1,30 @@
+%div{class: "R#{random_ind.pop} post-it", id: idea.id}
+	-if idea.role == 2
+		= form_tag edit_theme_path(idea.id), :class=>'std_form edit_theme', id: idea.id, :remote=>true do 
+			%div.edit_theme
+				= text_area_tag :text, idea.text, :class=>'theme autosize', :size=>"1x2", :fixed_rows=>true
+			%p.form_controls
+				= submit_tag "Save", :name=>'add_idea', 'data-disable-with'=>'Submitting...'
+				= link_to 'Cancel', '#', {:class=>'cancel', :rel=>'nofollow'}
+		
+	%p.idea= idea.text
+	- if !idea.attachments.empty?
+		%div.attachments
+			- idea.attachments.each do |att|
+				%div.attachment
+					= image_tag(att.icon_url)
+			%p.clear
+	%div.status
+		-if idea.role == 2
+			= image_tag 'blue-pencil-24.png', :class=>"edit"
+		- if idea.version == 0 || idea.role != 2
+			= image_tag 'delete_icon_16t.gif', :class=>"delete"
+		
+		%div.comments
+			= image_tag('comment-sketch.gif')
+			%div.counts
+				%div.new
+					0 new
+				%div.total
+					0 total
+		= image_tag('magnify.gif', class: 'magnify')

@@ -14,31 +14,7 @@
 						- 1.times do
 							- question.unthemed_ideas.each do |idea|
 								%li.idea_post_it
-									%div{class: "R#{random_ind.pop} post-it", id: idea.id}
-										%p.idea= idea.text
-										- if !idea.attachments.empty?
-											%div.attachments
-												- idea.attachments.each do |att|
-													- icon_url = att.attachment_content_type.match(/image/i) ? att.attachment(:icon) : '/assets/doc_icon.gif'
-													%div.attachment
-														= image_tag(icon_url)
-												%p.clear
-										%div.status
-											= image_tag 'delete_icon_16t.gif', :class=>"delete"
-											-# if idea.comments.size > 0
-												= image_tag('comment-sketch.gif')
-												= idea.comments.size
-												
-											%div.comments
-												= image_tag('comment-sketch.gif')
-												%div.counts
-													%div.new
-														0 new
-													%div.total
-														0 total
-											
-											= image_tag('magnify.gif', class: 'magnify')
-											
+									= render partial: 'ideas/post_it', locals: {idea: idea, random_ind: random_ind}											
 			
 				- 1.times do
 					- question.themes.each do |theme|
@@ -47,53 +23,12 @@
 							
 							%ul.sortable_ideas
 								%li.theme_post_it
-									%div{class: "R#{random_ind.pop} post-it", id: theme.id}
-										= form_tag edit_theme_path(theme.id), :class=>'std_form edit_theme', id: theme.id, :remote=>true do 
-											%div.edit_theme
-												= text_area_tag :text, theme.text, :class=>'theme autosize', :size=>"1x2", :fixed_rows=>true
-											%p.form_controls
-												= submit_tag "Save", :name=>'add_idea', 'data-disable-with'=>'Submitting...'
-												= link_to 'Cancel', '#', {:class=>'cancel', :rel=>'nofollow'}
-
-										%p.idea= theme.text
-										%div.status
-											= image_tag 'blue-pencil-24.png', :class=>"edit"
-											- if theme.version == 0
-												= image_tag 'delete_icon_16t.gif', :class=>"delete"
-											-# if theme.comments.size > 0
-												= image_tag('comment-sketch.gif')
-												= theme.comments.size
-											%div.comments
-												= image_tag('comment-sketch.gif')
-												%div.counts
-													%div.new
-														0 new
-													%div.total
-														0 total
-											
-											= image_tag('magnify.gif', class: 'magnify')
-											
+									= render partial: 'ideas/post_it', locals: {idea: theme, random_ind: random_ind}											
 										
 								- 1.times do 
 									- question.themed_ideas.select{|idea| idea.parent_id == theme.id}.each do |idea|
 										%li.idea_post_it
-											%div{class: "R#{random_ind.pop} post-it", id: idea.id}
-												%p.idea= idea.text
-												%div.status
-													= image_tag 'delete_icon_16t.gif', :class=>"delete"
-													-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
-													-# if idea.comments.size > 0
-														= image_tag('comment-sketch.gif')
-														= idea.comments.size
-													%div.comments
-														= image_tag('comment-sketch.gif')
-														%div.counts
-															%div.new
-																0 new
-															%div.total
-																0 total
-													
-													= image_tag('magnify.gif', class: 'magnify')
+											= render partial: 'ideas/post_it', locals: {idea: idea, random_ind: random_ind}
 													
 				- if question.themes.size == 0
 					%div.intro_instruction
@@ -128,21 +63,6 @@
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
 						- question.parked_ideas.each do |idea|
 							%li.idea_post_it
-								%div{class: "R#{random_ind.pop} post-it", id: idea.id}
-									%p.idea= idea.text
-									%div.status
-										= image_tag 'delete_icon_16t.gif', :class=>"delete"
-										-# if idea.comments.size > 0
-											= image_tag('comment-sketch.gif')
-											= idea.comments.size
-										%div.comments
-											= image_tag('comment-sketch.gif')
-											%div.counts
-												%div.new
-													0 new
-												%div.total
-													0 total
-										
-										= image_tag('magnify.gif', class: 'magnify')
+								= render partial: 'ideas/post_it', locals: {idea: idea, random_ind: random_ind}
 										
 				
