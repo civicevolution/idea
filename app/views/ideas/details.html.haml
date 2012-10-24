@@ -82,7 +82,7 @@
 							%a.item{href: {}, id: sibling.id, title: sibling.text }
 						- else
 							%a.item{href: {}, id: sibling.id, title: sibling.text, class: sibling.id == idea.id ? 'current' : '' }
-			%div.clear_both
+			%p.clear_both
 		
 		
 	%div.details_left
@@ -137,7 +137,9 @@
 									- idea.attachments.each do |att|
 										- icon_url = att.attachment_content_type.match(/image/i) ? att.attachment(:icon) : '/assets/doc_icon.gif'
 										%div.attachment
-											= link_to image_tag(icon_url, title: att.attachment_file_name), "#{att.attachment.url.to_s}", target: '_blank'
+											= link_to "#{att.attachment.url.to_s}", target: '_blank' do
+												=image_tag(icon_url, title: att.attachment_file_name)
+												%p= att.attachment_file_name
 									%p.clear
 							%div.status
 								= image_tag 'delete_icon_16t.gif', :class=>"delete"

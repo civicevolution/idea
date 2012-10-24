@@ -12,6 +12,8 @@ class Comment < ActiveRecord::Base
   
   belongs_to :idea, :foreign_key => 'parent_id'
   
+  has_many :attachments, :class_name => 'Upload', :foreign_key => 'par_id', :conditions => 'par_type = 3', :order => 'order_id asc'
+  
   # I'm not sure if I want to use this association. It works, but it is less efficient
   # I will eager load members for each set of comments instead of all comments
   #belongs_to :member
@@ -142,6 +144,14 @@ class Comment < ActiveRecord::Base
     end
 
   end  
+  
+  def add_attachments( attachment_ids )
+    ctr = 0;
+    Upload.where( id: attachment_ids.scan(/\d+/), member_id: self.member_id).order('id ASC').each do |attachment|
+      attachment.update_attributes({team_id: self.team_id, question_id: self.question_id, par_type: 3, par_id: self.id, order_id: ctr += 1})
+    end
+  end
+  
   
   def self.member_confirmed_publish(member_id)
     ActiveRecord::Base.connection.update_sql("UPDATE comments SET publish = true where member_id = #{member_id} AND status != 'prereview'");    

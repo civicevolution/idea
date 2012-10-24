@@ -173,8 +173,12 @@ $('div.proposal').on('click', 'div.form_help_slide a.theming_page_notes', functi
 
 
 $(function () {
+	init_file_uploads( $('input.attachment-upload') );
+});
+
+	function init_file_uploads(file_inputs){
 		//console.log("init fileupload");
-    $('input.attachment-upload').fileupload({
+    file_inputs.fileupload({
         dataType: 'json',
 				forceIframeTransport: false,
 				formData: {authenticity_token: AUTH_TOKEN },
@@ -187,13 +191,11 @@ $(function () {
 					);
 				},
 				start: function(e){
-					//$('#attachemnt_progress .bar').css('width','0%');
 					var attachment_div = $(this).closest('div.attachment_btn').addClass('waiting');
 					attachment_div.next('div.attachment_upload_progress').find('div.bar').css('width','0%');
 					return true;
 				},
 				always: function(e){
-					//$('#attachemnt_progress .bar').css('width','0%');
 					var attachment_div = $(this).closest('div.attachment_btn').removeClass('waiting');
 					attachment_div.next('div.attachment_upload_progress').find('div.bar').css('width','0%');
 				},
@@ -220,7 +222,8 @@ $(function () {
 					add_idea.find('input[name="attachments"]').val( $.makeArray(ids).join(','));
 				}
     });
-});
+	}
+
 
 $('body').on('click', 'div.attachments img.delete', function(){
 	var attachment_div = $(this).closest('div');

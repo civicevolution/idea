@@ -4,7 +4,15 @@
 	form.find('p.warn').remove();
 	form.find('div#errorExplanation').remove();	
 	
-	var com = #{ { data: {comment: comment, author: comment.author, photo_url: comment.author.photo.url(:small)}}.to_json }
+	form.find('input[name="attachments"]').val( '' );
+
+	var attachments = form.find('div.attachments');
+	attachments.find('div.attachment').hide(800, function(){
+		attachments.find('div.attachment').remove();
+		attachments.hide(800);
+	})
+	
+	var com = #{ { data: {comment: comment, author: comment.author, photo_url: comment.author.photo.url(:small), attachments: comment.attachments}}.to_json }
 	realtime_data_update_functions['comment'](com);
 
 

@@ -89,7 +89,7 @@ class UploadsController < ApplicationController
   # DELETE /uploads/1.json
   def destroy
     @upload = Upload.find(params[:id])
-    @upload.destroy
+    @upload.destroy if @member.id == @upload.member_id
 
     respond_to do |format|
       format.html { redirect_to uploads_url }

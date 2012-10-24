@@ -142,8 +142,14 @@ class IdeasController < ApplicationController
       parent_type: 20, parent_id: idea.id, question_id: idea.question_id, member: @member )
     #comment = Comment.includes(:author).find(1207)
     
+    saved = comment.save
+    if saved
+      comment.add_attachments(params[:attachments])
+      comment.attachments.each{|att| att[:url] = att.attachment(:original); att[:icon] = att.icon_url}
+    end
+    
     respond_to do |format|
-      if comment.save  # true
+      if saved  # true
         format.js { render 'ideas/comment_for_idea', locals: { idea: @idea, comment: comment} }
         format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
         format.json { render json: @idea, status: :created, location: @idea }

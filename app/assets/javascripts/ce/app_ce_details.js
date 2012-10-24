@@ -63,6 +63,7 @@ function activate_details(details){
 		return false;
 	});
 	
+	init_file_uploads( details.find('input.attachment-upload') );
 	
 }
 	

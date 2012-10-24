@@ -12,6 +12,16 @@ class Upload < ActiveRecord::Base
     :url => "http://assets.civicevolution.org/upload/:res_base/:hash/:basename.:extension",
     :bucket => 'assets.civicevolution.org',
     :styles => { :icon => '50x50>' }
+
+  def icon_url
+    case
+      when self.attachment_content_type.match(/image/i) 
+        self.attachment(:icon)
+      else
+        '/assets/doc_icon.gif'
+    end
+  end
+
   
   before_post_process :image?
   

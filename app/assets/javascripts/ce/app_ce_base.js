@@ -154,6 +154,7 @@ function activate_text_counters_grow(els, height){
 				span.siblings('a.clear').click(
 					function(){
 						el.val('');
+						el.next('div.attachments').find('img.delete').each( function(){ $(this).click(); } );
 						el.focus();
 						return false;
 					}
