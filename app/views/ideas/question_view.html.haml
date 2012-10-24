@@ -25,6 +25,8 @@
 			
 			
 		%div#tabs-theming
+			- question.themes = question.themes.includes(:attachments)
+			- question.themed_ideas = question.themed_ideas.includes(:attachments)
 			= render( partial: 'ideas/theming_page', locals: { question: question}, content_type: 'html'  )
 		%div#tabs-editing
 			= render( template: 'ideas/theme_final_edit', locals: {question: question}, formats: [:html]  )

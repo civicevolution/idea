@@ -32,7 +32,6 @@
 - upload.attachment_file_name = 'filename'
 - comment.attachments = [upload]
 
-
 %div#get_templates_scripts
 	- if debug
 		%h2 ideas/get_templates.html.haml
@@ -70,7 +69,6 @@
 		:plain
 			templates['theme_page'] = $('<div></div>').html($.trim( $('script#theme_page_template').html() )).find('div:first');
 			templates['new_theme_col'] = templates['theme_page'].find('div.theme_col.themes:first');
-			
 			template_functions['theme_col'] = templates['new_theme_col'].compile(
 				{
 					// directives go here
