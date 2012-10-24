@@ -21,6 +21,6 @@
 -#= submit_tag "Follow this discussion", :name=>'endorse', 'data-disable-with'=>'Submitting...'
 
 %div.activity_stream
-	- idea.comments.each do |comment|
+	- idea.comments.includes(:attachments).each do |comment|
 		= render( :partial=> 'ideas/comment', :locals=>{:comment=>comment}, formats: [:html]  )
 

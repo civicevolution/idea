@@ -12,12 +12,12 @@
 					%ul.sortable_ideas
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
 						- 1.times do
-							- question.unthemed_ideas.each do |idea|
+							- question.unthemed_ideas.includes(:attachments).each do |idea|
 								%li.idea_post_it
 									= render partial: 'ideas/post_it', locals: {idea: idea, random_ind: random_ind}											
 			
 				- 1.times do
-					- question.themes.each do |theme|
+					- question.themes.includes(:attachments).each do |theme|
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
 						%div.theme_col.themes.fancy-scrollbar{ id:  theme.id }
 							
@@ -26,7 +26,7 @@
 									= render partial: 'ideas/post_it', locals: {idea: theme, random_ind: random_ind}											
 										
 								- 1.times do 
-									- question.themed_ideas.select{|idea| idea.parent_id == theme.id}.each do |idea|
+									- question.themed_ideas.includes(:attachments).select{|idea| idea.parent_id == theme.id}.each do |idea|
 										%li.idea_post_it
 											= render partial: 'ideas/post_it', locals: {idea: idea, random_ind: random_ind}
 													
@@ -61,7 +61,7 @@
 					%h3 Parked ideas
 					%ul.sortable_ideas
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
-						- question.parked_ideas.each do |idea|
+						- question.parked_ideas.includes(:attachments).each do |idea|
 							%li.idea_post_it
 								= render partial: 'ideas/post_it', locals: {idea: idea, random_ind: random_ind}
 										

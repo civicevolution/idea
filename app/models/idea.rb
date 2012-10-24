@@ -22,8 +22,8 @@ class Idea < ActiveRecord::Base
   has_many :themes, class_name: 'Idea', foreign_key: 'question_id', conditions: 'role = 2', order: 'order_id asc'
   has_one :prompt, :class_name => 'DefaultAnswer', :foreign_key => 'id',  :primary_key => 'aux_id'
   has_many :unthemed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NULL', :order => 'order_id asc'
-  has_many :parked_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id = 0', :order => 'order_id asc'	
-  has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NOT NULL', :order => 'order_id asc'
+  has_many :parked_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id = 0', :order => 'order_id asc'
+  has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NOT NULL AND parent_id != 0', :order => 'order_id asc'
 
   has_many :questions, class_name: 'Idea', conditions: 'role = 3', foreign_key: 'parent_id', primary_key: 'team_id', order: 'order_id asc'
 
