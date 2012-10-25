@@ -312,17 +312,23 @@ namespace :update_participation_stats do
       end
       
       # estimate the base for views
-      stats_rec.proposal_views_base = 
-        stats_rec.endorsements * 5  +
-        stats_rec.ideas * 8 +
-        stats_rec.comments * 4 +
-        stats_rec.participants * 4 +
-        stats_rec.followers * 4
+      if team.initiative_id.between?(1,2)
+        stats_rec.proposal_views_base = 
+          stats_rec.endorsements * 5  +
+          stats_rec.ideas * 8 +
+          stats_rec.comments * 4 +
+          stats_rec.participants * 4 +
+          stats_rec.followers * 4
 
-      stats_rec.question_views_base = 
-        stats_rec.endorsements * 3  +
-        stats_rec.ideas * 6 +
-        stats_rec.comments * 4
+        stats_rec.question_views_base = 
+          stats_rec.endorsements * 3  +
+          stats_rec.ideas * 6 +
+          stats_rec.comments * 4
+      else
+        stats_rec.proposal_views_base = 0
+        stats_rec.question_views_base = 0
+      end
+      stats_rec.points_total += stats_rec.proposal_views_base * 20
       
       puts stats_rec.inspect
       
