@@ -1,5 +1,5 @@
 class Idea < ActiveRecord::Base
-  attr_accessible :member_id, :order_id, :parent_id, :question_id, :team_id, :text, :version, :visible, :member, :role, :aux_id
+  attr_accessible :member_id, :order_id, :parent_id, :question_id, :team_id, :text, :version, :visible, :member, :role, :aux_id, :is_theme, :created_at, :updated_at
   
   after_find do |idea|
     if idea.role == 4

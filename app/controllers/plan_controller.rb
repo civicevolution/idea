@@ -78,6 +78,8 @@ class PlanController < ApplicationController
   end
 
   def summary
+    theme_summary
+    return
     
     if params[:_initiative_id] == 4
       theme_summary
