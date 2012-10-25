@@ -1,0 +1,102 @@
+%div.short_help_page
+	%div.help_tabs
+		%ul
+			%li
+				-#%a{:href=>"#tab_help_introduction"} Introduction
+				%a{:href=>"#tab_help_tour"} Tour
+			%li
+				%a{:href=>"#tab_help_video"} Video
+			%li
+				%a{:href=>"#tab_help_contact_us"} Contact us
+		
+		%div#tab_help_tour
+			= render template: 'help/tour'
+		
+		-#%div#tab_help_introduction						
+			%h3.title Catalyst Awards at CivicEvolution help page
+			
+			%h4 How it works
+			= image_tag('help/Question_and_theming.gif')
+			%div.instructions	
+				%ol
+					%li 
+						Participants brainstorm ideas that help answer each of the questions 
+						%ul
+							%li Ideas are entered into the form on the proposal page
+							%li The ideas are delivered to the Theming page
+					%li 
+						The coordinators for your project sort the ideas
+						%ul
+							%li The ideas are sorted into affinity groups
+							%li Only project coordinators can sort ideas
+							%li Participants can discuss and challenge the sorting
+							
+					%li 
+						Participants discuss and rate the ideas
+						%ul 
+							%li Click on any post-it to rate and discuss it
+							%li You can also discuss and rate the themes
+					%li 
+						The project coordinators create themes to capture and distill the participants' emerging views
+						%ul
+							%li The groups are labelled with a descriptive theme
+							%li These descriptive themes are automatically transferred to the proposal pages so the theming page and proposal are always in sync
+							%li The theming process is always transparent and visible to everyone, but only project coordinators can sort and edit themes. 
+							%li Everyone is encouraged to discuss, challenge, suggest changes, and rate the themes for each question.
+					%p The process of brainstorming, discussing, theming, rating, and refining continues until a working agreement emerges
+			
+			%h4 Details
+			%p.instr_header Participants develop the proposal under each question
+			= image_tag('help/proposal_question.gif')
+			%ol
+				%li Shows the participation under each question. Click the icons to see the new ideas (yellow post-it), themes (blue post-it) and comments
+				%li Click the magnifying glass to open the theming page and discuss the overall question
+				%li The emerging themes are always displayed up-to-date under each question
+				%li Share your ideas about how to answer this question by entering your ideas in the form
+				
+			%p.instr_header Project coordinators sort and theme the ideas
+			= image_tag('help/theming.gif')	
+			%ol
+				%li New ideas are listed on the left side
+				%li The ideas are dragged and sorted into affinity groups in the middle
+				%li The groups are labelled with a descriptive theme
+				%li These descriptive themes are automatically transferred to the proposal pages so the theming page and proposal are always in sync 
+				%li Click any post-it to see its discussion and ratings
+				%li Click the blue post-its to discuss and rate the theming for a group of ideas
+				
+			%p The theming process is always transparent and visible to everyone, but one project coordinators can sort and edit themes. Everyone is encouraged to discuss, challenge, suggest changes, and rate the themes for each question.
+				
+			%h4 More information about the Catalyst Awards
+				 
+
+			%p The Catalyst Award grants will be awarded to the two proposals selected by our community as most likely to have the greatest impact. Their selection will be based on evaluating the proposals for each of the nominees. To ensure that this selection is as informed as possible, each proposal should have a detailed plan that answers these four questions:
+			%ol
+				%li What is your big idea?
+				%li Why is it important?
+				%li Who will be involved?
+				%li What is your high level plan for getting this done?
+
+			%p Your proposal should be the result of a collaborative effort within our NCDD community. Every project should take advantage of the tremendous experience, insight, and ideas of our members. In this spirit, Catalyst Award nominee projects are required to collaborate with our community on the CivicEvolution™ platform. 
+			%p CivicEvolution™ helps you attract collaborators, elicit feedback, and synthesize it into your project proposal in a transparent and constructive process. 
+
+			%p Of course there are many times, such as this conference, when face-to-face collaboration is more productive. It is critical for you to post the highlights of your face-to-face work back to your project. Maintaining an active, up-to-date, and collaborative presence on CivicEvolution™ ensures the broader community has a chance to contribute its extensive knowledge and experience. This collaboration across our field will help us address challenges that are too complex to solve on our own.
+
+			%p Anyone can register with CivicEvolution™ to collaborate on a Catalyst Awards project. Every project also has at least one project coordinator who is responsible for keeping the project up-to-date, typically the person who initiated the project on CivicEvolution™.
+
+			%p Participants collaborate to answer each of the four questions in the proposal.
+			%p Anyone can suggest an idea for an answer and the ideas are always displayed anonymously. Your community discusses and rates each idea. 
+
+			%p Guided by the community's comments and ratings, the project coordinator(s) transparently sort the ideas and create themes. The themes should capture the community's emergent consensus on each question. These generated themes are displayed under each question to express a coherent answer. Participants are encouraged to discuss, rate, and challenge the theming of each question and the overall proposal. 
+
+			%p This process of suggesting, discussing, rating and theming continues until a strong consensus for a working agreement emerges.
+
+			%p Visit the Catalyst Awards project on CivicEvolution™ at http://ncdd.civicevolution.org. You can browse the current Catalyst Award projects or suggest your own project. Each project has dedicated proposal page where the community collaboratively answers the four project questions. A video shows how CivicEvolution™ works, and the proposal pages contain helpful tips. You can also contact brian@civicevolution.org for more information or specific help.
+
+			= link_to "Help us improve this page", request_help_path(:topic=>'improve', :title=>'Introduction'), { :class=>'improve', :remote => true}
+			
+		%div#tab_help_video
+			%iframe{:allowfullscreen => "", :frameborder => "0", :height => "480", :src => "http://www.youtube.com/embed/VYqC-WwleRU?rel=0", :width => "640"}
+			
+		%div#tab_help_contact_us
+			= render :template=>'client_debug/request_help', :formats => [:html], :locals=>{:in_help=>'yes'}
+		
