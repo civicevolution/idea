@@ -325,7 +325,12 @@ namespace :update_participation_stats do
           stats_rec.ideas * 6 +
           stats_rec.comments * 4
       else
-        stats_rec.proposal_views_base = 0
+        stats_rec.proposal_views_base = 
+          stats_rec.endorsements * 2  +
+          stats_rec.ideas * 2 +
+          stats_rec.comments * 2 +
+          stats_rec.followers * 2
+
         stats_rec.question_views_base = 0
       end
       stats_rec.points_total += stats_rec.proposal_views_base * 20

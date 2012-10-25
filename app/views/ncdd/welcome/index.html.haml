@@ -57,11 +57,11 @@
 									-#%td= pluralize( (team.proposal_views + team.proposal_views_base), 'view')
 									%td= pluralize(team.themes, 'theme')
 									%td= pluralize(team.comments, 'comment')
-									%td= pluralize(team.points_total, 'point')
+									%td= pluralize( (team.proposal_views + team.proposal_views_base), 'page view')
 								%tr
 									%td= pluralize(team.ideas, 'idea')
 									%td= pluralize(team.endorsements, 'endorsement')
-						
+									%td= pluralize(team.points_total, 'point')
 						%div.controls
 							= button_to "View our project", proposal_path(team.team_id), :method => :get
 							= link_to "Follow our progress", notification_settings_form_path(team.team_id), {:remote=>true}
