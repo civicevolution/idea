@@ -8,7 +8,7 @@ namespace :update_2029_ideas_coms do
     Idea.record_timestamps = false
     Comment.record_timestamps = false
     
-    questions = Question.where('team_id in (SELECT id FROM teams WHERE initiative_id in (2,3))')
+    questions = Question.where('team_id in (SELECT id FROM teams WHERE initiative_id in (1))')
     puts "There are #{questions.size} questions"
   	question_map = {}
 
@@ -21,7 +21,7 @@ namespace :update_2029_ideas_coms do
 		
 		puts question_map.inspect
 		
-		comments = Comment.where('team_id in (SELECT id FROM teams WHERE initiative_id in (2,3)) AND parent_type = 1')
+		comments = Comment.where('team_id in (SELECT id FROM teams WHERE initiative_id in (1)) AND parent_type = 1')
     puts "There are #{comments.size} comments"
 
     comments.each do |comment|
@@ -32,7 +32,7 @@ namespace :update_2029_ideas_coms do
       
 		end
 
-    talking_points = TalkingPoint.where('question_id in (SELECT q.id FROM questions q, teams t WHERE q.team_id = t.id AND t.initiative_id in (2,3))')
+    talking_points = TalkingPoint.where('question_id in (SELECT q.id FROM questions q, teams t WHERE q.team_id = t.id AND t.initiative_id in (1))')
     puts "There are #{talking_points.size} talking_points"
 
     talking_points.each do |talking_point|

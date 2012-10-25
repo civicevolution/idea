@@ -19,7 +19,7 @@ class WelcomeController < ApplicationController
     end
     
     # get current list of teams for this initiative    
-    @init_teams = Team.proposal_stats(params[:_initiative_id])
+    @init_teams = Team.proposal_stats(params[:_initiative_id]).shuffle
      
     respond_to do |format|
       format.html { render 'index', :layout=>'home', :locals => { :inc_js => 'home'} }
