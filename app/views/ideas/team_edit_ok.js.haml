@@ -1,13 +1,8 @@
-:plain
-	var team = #{team.to_json}.team
 - if params[:target] == 'title'
 	:plain
-		console.log("team title edit is okay");
-		$('div.idea_details').find('a.edit_title').show().end().find('h3.question').html(team.title).show().next('div.edit_form').remove();
-		$('h2.home_title').html( team.title );
-		
+		$('div.idea_details').find('a.edit_title').show().end().find('h3.question').html( #{ team.title.to_json } ).show().next('div.edit_form').remove();
+		$('h2.home_title').html( #{ team.title.to_json } );
 - elsif params[:target] == 'summary'
 	:plain
-		console.log("team summary edit is okay");
-		$('div.idea_details').find('a.edit_summary').show().end().find('div.post-it').find('p.idea').html(team.solution_statement).end()		.children().show().end().find('div.edit_form').remove();
-		$('div.summary.text p').html( team.solution_statement );
+		$('div.idea_details').find('a.edit_summary').show().end().find('div.post-it').find('div.idea_summary').html( simple_format(#{ auto_link(team.solution_statement, :html => { :target => '_blank' }).to_json }) ).end()	.children().show().end().find('div.edit_form').remove();
+		$('div.summary.text div.idea_summary').html( simple_format(#{ auto_link(team.solution_statement, :html => { :target => '_blank' }).to_json } ));

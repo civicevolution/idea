@@ -19,7 +19,7 @@
 		form.find('span.char_ctr').html(1000);
 		form.find('input[name="target"]').val('summary');
 		var post_it = $('div.idea_details').find('a.edit_summary').hide().end().find('div.post-it').children().hide().end().append(form);
-		activate_text_counters_grow( form.find('textarea').val( post_it.find('p.idea').html().trim() ), 360 );
+		activate_text_counters_grow( form.find('textarea').val( sanitize(post_it.find('div.idea_summary').html().trim()) ), 360 );
 		form.on('click','a.cancel',function(){
 			$('div.idea_details').find('a.edit_summary').show().end().find('div.post-it').children().show().end().find('div.edit_form').remove()
 			return false;

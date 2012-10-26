@@ -22,9 +22,9 @@
 									%span.cnt
 										5
 										-#{question.unrated_ideas.count} new
-						
-						- @team.solution_statement.split(/[\r\n]+/).each do |para|
-							%p= para
+						%div.idea_summary
+							- @team.solution_statement.split(/[\r\n]+/).each do |para|
+								%p.summary= auto_link(para, :html => { :target => '_blank' })
 						- if @team.id == 10096	
 							= render partial: 'embedded_video'
 

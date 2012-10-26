@@ -54,6 +54,10 @@
 				return s.replace(/\n/g,'<br/>')
 			}
 
+			function sanitize(s){
+				return s.replace(/\s*(<p[^>]*>)\s*/ig,'$1').replace(/<\/p>/ig,'\n\n').replace(/<\/br\s*\/>/ig,'\n').replace(/<[^>]+>/gm,'');
+			}
+
 	- if debug
 		%h3 ideas/theming_page
 					

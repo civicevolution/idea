@@ -99,7 +99,10 @@
 				- when idea.role == 4
 					%li.team_post_it
 						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
-							%p.idea= idea.team.solution_statement
+							-#%p.idea= idea.team.solution_statement
+							%div.idea_summary
+								- idea.team.solution_statement.split(/[\r\n]+/).each do |para|
+									%p.summary= auto_link(para, :html => { :target => '_blank' })
 							%div.status
 								- if @member.id == idea.team.org_id
 									= link_to "edit", team_edit_path(idea.team.id, target: 'summary'), class: "edit_summary", remote: true
