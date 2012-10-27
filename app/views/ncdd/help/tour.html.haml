@@ -1,157 +1,39 @@
-%h3.title CivicEvolution Tour
-
-%ol.tour
-
-	%li.page
-		%h2 Think together
-		%ul.description
-			%li CivicEvolution helps your group organize its ideas.
-			%li You work together to brainstorm, discuss, rate, sort, and summarize your group's ideas.
-			%li Our open and transparent process helps you collect and refine them into a consensus action plan.
-		%p Watch the video by clicking the Video tab above
-		%p.screenshot Your group's ideas are organized in the Theming page
-		=image_tag('help/600/Theming-page.gif')
-		%p.screenshot The summary of your group's ideas are displayed in the proposal view
-		=image_tag('help/600/Proposal-print-view.gif')
-		%p.callout The group shares its ideas, discusses and rates them
-		%p.callout The coordinator brings order to the ideas in a way that reflects and respects the group
-
-	%li.page
-		%h3 Brainstorming
-		%ul.description
-			%li Participants brainstorm ideas that help answer each of the questions
-			%li The ideas are delivered to the Theming page
-			%li The proposal page always presents an up-to-date organized summary that reflects the ideas and views of the participants
-		%p.screenshot Brainstorming starts by suggesting ideas under each question
-		=image_tag('help/600/Question-form-instructions.gif')
-		%p.callout Each idea should clearly and briefly state a single point to be considered in answering the question
-		%p.callout Ideas are always displayed anonymously
-		%p.callout Your ideas, comments and ratings are displayed on that theming page where they influence the group theming
-		%p.callout This proposal page shows the edited summary that results from the group theming
-	
-
-	%li.page
-		%h3 Discuss and rate ideas
-		%ul.description
-			%li You can also discuss and rate the themes
-			%li The project coordinators use this feedback to sort the ideas into related groups and write descriptive themes.
-		%p.screenshot Your group discusses and rates each idea
-		=image_tag('help/600/Idea-details-over-theming.gif')
-		-#%p.callout Idea
-		%p.callout Participants can discuss and rate every idea
-		%p.callout Click on any post-it to rate and discuss it
-		%p.callout Rating bar
-		%p Rate your reaction to every idea
-		%p You can rerate an idea or theme as often as you like
-		%p.callout Comment form
-		%p Ask questions, provide details, or suggest new information about any idea
-		%p Bring your conversation to the most specific point
-		%p This is a great place to challenge the organization and naming of the themes
-
-	%li.page
-		%h3 Organize and theme ideas
-		%ul.description
-			%li The theming page is where the group's ideas are organized into meaningful answers
-			%li The theming process is fully transparent to ensure that is reflects and respects the contributions and views of the group
-		%p.screenshot Theming page
-		=image_tag('help/600/Theming-page.gif')
-		%p.callout New ideas
-		%p Ideas suggested under each question appear here waiting to be organized
-		%p The ideas are sorted into affinity groups
-		%p.callout Themes
-		%p The project coordinators create themes at the top of each group to capture and distill the participants' emerging views
-		%p.callout Comments
-		%p Participants can discuss and challenge the organization of ideas
-		%p Everyone is encouraged to discuss, challenge, suggest changes, and rate the themes for each question.
-		%p The project coordinators use this feedback to sort the ideas into related groups and write descriptive themes.
-
-	%li.page
-		%h3 How to organize ideas
-		%ul.description
-			%li Every project has at least one coordinator who is responsible for organizing ideas into related groups and writing descriptive themes for each group
-			%li Everyone can review, discuss and challenge the theming done by the project coordinators to ensure that it reflects their collective views
-		%h4 The steps for organizing ideas in the theming page
-		%ol 
-			%li Click the Question link/magnifying glass and then click the "Idea theming" tab
-			%li Drag the ideas from the New ideas list on the left and drop them onto the green "Drop here" flags near the top
-			%li You can create groups with one or more ideas each
-			%li A lavender post-it will appear at the top of the group
-			%li Mouse over the lavender post-it and click the pencil icon to edit the group's theme
-			%li The theme will appear on the main proposal page
-			%li The theme can be edited as often as necessary and ideas can be re-organized as often as necessary
-		%p.screenshot Theming page with a dragged idea
-		=image_tag('help/600/Theming-page-mid-drag.gif')
-		-#%p.callout Drop zone
-		-#%p.callout Dragged idea
+%div.tour
+	- if !Rails.env.production?
+		= stylesheet_link_tag "ce/help"
 		
-	%li.page
-		%h3 Meaningful answers
-		%ul.description
-			%li The coordinator arranges and edits the themes to create the meaningful answers displayed on the proposal page.
-			%li The answers should be coherent and meaningful while reflecting and respecting the group's ideas and views so a new visitor understands the results of your group working together
-			%li These descriptive themes are automatically transferred to the proposal pages so the theming page and proposal are always in sync
-		%p.screenshot Theme editing page
-		=image_tag('help/600/Theme-editing.gif')
-		%p.screenshot The organized and themed answers appear under each question
-		=image_tag('help/600/Question-summary-with-stats.gif')
-		-#%p.callout Drag into order
-		-#%p.callout Edit
-		-#%p.callout Hide
-
-	%li.page
-		%h3 Participants and coordinators
-		%ul.description
-			%li Anyone that signs up with CivicEvolution can participate
-			%li The group of active participants should be representative of everyone affected by this project, not just people who agree with you
-			%li Every project needs at least one coordinator to keep the proposal up-to-date by organizing the ideas and editing the themes
-		-#%p.screenshot Theming page
-		-#=image_tag('help/600/Theming-page.gif')
-		%p.callout It is important for the coordinator to get the project off to a running start by contributing a few ideas to each of the questions and turning  those ideas into a theme for each question.
-		%p.callout But remember, this is a collaborative effort and it is important that the coordinator doesn't independently do too much work too quickly. It is a judgement call–provide enough information and liveliness to attract collaborators, but not so much that they feel their contributions are secondary.
-		%p.callout If a team doesn't have an active project coordinator we will ask a project participant to volunteer
-
-	%li.page
-		%h3 Suggest a project idea
-		%ul.description
-			%li CivicEvolution helps groups co-create an action plan
-			%li Even if you have a very detailed plan, you should share it in a way that engages others creatively
-		%p.screenshot New project form
-		=image_tag('help/600/New-project-form.gif')
-		%p.callout The title should be short and descriptive
-		%p.callout The executive summary is intended to draw people in, not provide all of the detail
-		%p.callout Once you submit your project we will review it asap and contact you when it is approved
-		%p.callout You will be assigned as the initial coordinator. As the project initiator you can increase the likelihood of success by taking an active role in your project and being a good host. If you cannot perform this role, please let us know
-
-	%li.page
-		%h3 Keep engaged
-		%ul.description
-			%li Participants brainstorm, discuss, rate and refine the ideas and themes until they reach agreement on a plan
-			%li You can easily see where new ideas and discussion is taking place
-		%p.screenshot The Edited summary answer with activity stats
-		=image_tag('help/600/Question-summary-with-stats.gif')
-		%p.screenshot You can also request immediate or periodic email notifications about activity
-		=image_tag('help/600/Follow-project.gif')
-		-#%p.callout Link to theming page/tabs
-		-#%p.callout Question stats
-		-#%p.callout Theme stats
-		-#%p.callout Theme links
-		-#%p.callout Suggest idea
-
-	%li.page
-		%h3 Get help
-		%ul.description
-			%li If you have any questions, problems, or suggestions, please contact me at support@civicevolution.org.
-		-#%p.screenshot Proposal page
-		-#=image_tag('help/600/proposal-page.gif')
-		-#%p.callout Help
-		-#%p.callout Video
-		-#%p.callout Contact us
-		
-		
-
-
-
-
-
-
-		
+	%div.tour_header
+		%div.logo
+			= image_tag("ce_logo_20c.gif")
+		%span.next_step Next step
+	%div.tour_body
+		=image_tag('spotlightOverlay.png')
+	%div.tour_nav_footer
+		%div.tour_nav
+			%div.step.current_step{'data-step'=> 1}
+				%div.label Page1
+				%div.btn
+			%div.step{'data-step'=> 2}
+				%div.label.lower Page2
+				%div.btn
+			%div.step{'data-step'=> 3}
+				%div.label Page3
+				%div.btn
+			%div.step{'data-step'=> 4}
+				%div.label.lower Page4
+				%div.btn
+			%div.step{'data-step'=> 5}
+				%div.label Page5
+				%div.btn
+			%div.step{'data-step'=> 6}
+				%div.label.lower Page6
+				%div.btn
+			%div.step{'data-step'=> 7}
+				%div.label Page7
+				%div.btn
+			%div.step{'data-step'=> 8} 
+				%div.label.lower Page8
+				%div.btn
+	%div.tour_container
+		%div.tour_steps
+			= render template: 'help/tour_steps'

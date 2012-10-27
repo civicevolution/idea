@@ -3,6 +3,13 @@ class WelcomeController < ApplicationController
   #include ReCaptcha::AppHelper
   skip_before_filter :authorize
   
+  def tour
+    respond_to do |format|
+      format.html { render :template=>'help/tour', :layout=>'plan' }
+      format.text { render :text => 'http://civicevolution.org is only available as HTML' }
+    end
+  end
+  
   def index
     logger.warn "Welcome controller index request.subdomains.first: #{request.subdomains.first}"
     

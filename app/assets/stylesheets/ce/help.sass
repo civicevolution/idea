@@ -1,18 +1,99 @@
-ol.tour
-	width: 2000px
-	li.page
-		width: 590px
-		//height: 600px
-		//background: #ddd
-		//float: left
-		margin-bottom: 100px
-	.screenshot
-		font-style: italic
-		font-weight: bold
-	
-	.callout
-		color: #296d8A
-		font-weight: bold
-	div.description
-		border: 1px solid #296d8a
-		padding: 1em
+div.short_help_page
+	div#tab_help_tour
+		padding: 0
+div.tour
+	height: 800px
+	width: 684px
+	overflow: hidden
+	border: 1px solid green
+	position: relative
+	div.tour_header
+		height: 50px
+		background-color: #ccf
+		border: 1px solid black
+	div.tour_body
+		height: 400px
+		background-color: #a3a3bf
+	div.tour_nav_footer
+		height: 300px
+		background-color: #6c41a6
+		padding-top: 175px
+		div.tour_nav
+			margin: 0px 40px
+			color: white
+			background: image-url('help/nav_line.gif') 120px 10px repeat-x
+			height: 100px
+			//border: 3px solid green
+			div.step
+				float: left
+				margin: 0 25px
+				position: relative
+				text-align: center
+				border: 1px solid green //transparent
+				&:first-child
+					margin: 0 13px 0 -12px
+				&:last-child
+					margin: 0 12px 0 13px
+				div.btn
+					background: image-url('help/tour_btn_off.png') no-repeat
+					height: 21px
+					width: 21px
+					cursor: pointer
+						
+				div.label
+					position: absolute
+					top: -20px
+					left: 0
+					text-align: center
+					width: 60px
+					border: 1px solid red
+					color: #aaa
+					&.lower
+						top: 20px
+				&.current_step
+					div.label
+						color: white
+					div.btn
+						background: image-url('help/tour_btn_on.png') no-repeat
+						
+					
+	div.tour_container
+		position: absolute 
+		top: 60px
+		left: 0
+		border: 3px solid blue
+		height: 500px
+		width: 680px
+		div.tour_steps
+			width: 100%
+			height: 100%
+			border: 3px solid orange
+			overflow: hidden
+			position: relative
+			
+			ol.tour
+				position: absolute
+				top: 0
+				left: 0
+				color: black
+				width: 20000px
+				margin: 0
+				li.page
+					list-style: none
+					border: 1px solid red
+					width: 684px
+					height: 600px
+					overflow-y: scroll
+					//background: #ddd
+					float: left
+					margin-bottom: 0
+				.screenshot
+					font-style: italic
+					font-weight: bold
+
+				.callout
+					color: #296d8A
+					font-weight: bold
+				div.description
+					border: 1px solid #296d8a
+					padding: 1em

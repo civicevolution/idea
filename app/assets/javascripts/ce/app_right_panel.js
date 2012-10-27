@@ -1,5 +1,3 @@
-console.log("Loading rightpanel.js");
-
 var presence_img;
 function right_panel_init(){
 	// move the Select taling points label into the tab header
@@ -20,6 +18,7 @@ function right_panel_init(){
 }
 
 function right_panel_resize(){
+	if($('div.right_side').size() == 0) return;
 	// get overall avl height
 	var win_height = $(window).height();
 	$('div.right_side').height(win_height); //.css({ height: win_height, overflow: 'hidden'});	

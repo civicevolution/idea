@@ -189,6 +189,7 @@ dispatcher = {
 		);	
 	},
 	init_stat_data: function(){
+		if(typeof stats_data == 'undefined') return;
 		dispatcher.init_stat_comments_data();
 		dispatcher.init_stat_ideas_data();
 		dispatcher.init_stat_ratings();	

@@ -11,6 +11,8 @@ G3::Application.routes.draw do
   resources :idea_versions
 
   resources :ideas
+  
+  get 'tour' => 'Welcome#tour', as: 'welcome_tour'
 
   get 'teams(/:team_id)/setup' => 'teams#setup_form', :as => 'setup_team_form'
   match 'teams(/:team_id)/update_setup' => 'teams#update_setup', :via => [:put, :post], :as => 'setup_team_post'

@@ -18,6 +18,7 @@
 //= require opt/JQuery-File-Upload/jquery.fileupload.js
 //= require ./ce/app_ce_base
 //= require ./ce/app_ce_home
+//= require ./ce/app_ce_help
 //= require jquery.autogrow.js
 //= require jquery.isonscreen.min.js
 //= require jquery.prettyPhoto.js
