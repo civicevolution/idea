@@ -187,7 +187,12 @@ class ApplicationController < ActionController::Base
             # I came here through a redirect after user was told to sign in
             # Assign the params from initial request that are stored in flash
             flash[:params].each_pair{|key,val| params[key] = val }
-            send params[:action] # this will execute the method stored in params[:action]
+            #send params[:action] # this will execute the method stored in params[:action]
+            if flash[:fullpath]
+              redirect_to flash[:fullpath]
+            else
+              render 'sign_in/reload', :formats => [:js]
+            end
           else
             #render 'redirect_to_home_page'
             render 'sign_in/reload', :formats => [:js]
