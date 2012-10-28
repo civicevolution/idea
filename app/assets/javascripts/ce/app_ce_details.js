@@ -9,9 +9,7 @@ function init_details_popup(details){
 		height: $(window).height() - 8,
 		position: ["center","top"],
 		open: function(event,ui){
-			$('body').addClass('modal-open');
 			var dlg = $(this);
-			setTimeout(function(){this.css('overflow-y','scroll');}.bind(dlg),500);
 			dlg.hide().slideDown(400)
 			dlg.find('a').blur();
 			dlg.parent().find('span.ui-dialog-title').remove()
@@ -27,7 +25,6 @@ function init_details_popup(details){
 			if(deleteNow){                                               	
 				dialog.slideUp(400, function () { 
 					dialog.dialog('destroy').remove();
-					$('body').removeClass('modal-open');
 			  });                                                        	
 			}
 			return false;
