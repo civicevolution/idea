@@ -1,18 +1,21 @@
 div.short_help_page
 	div#tab_help_tour
 		padding: 0
+//div.page
+//	width: 100%
 div.tour
-	height: 800px
-	width: 684px
+	height: 959px
+	width: 100%
 	overflow: hidden
 	border: 1px solid green
 	position: relative
 	div.tour_header
 		height: 50px
-		background-color: #ccf
+		//background-color: #ccf
+		background: image-url('help/bamboo-60.jpg') repeat-x
 		border: 1px solid black
 	div.tour_body
-		height: 400px
+		height: 600px
 		background-color: #a3a3bf
 	div.tour_nav_footer
 		height: 300px
@@ -22,39 +25,44 @@ div.tour
 			margin: 0px 40px
 			color: white
 			background: image-url('help/nav_line.gif') 120px 10px repeat-x
-			height: 100px
+			height: 21px
+			width: 800px
 			//border: 3px solid green
 			div.step
 				float: left
-				margin: 0 25px
+				width: 21px
+				height: 21px
+				margin: 0 40px
 				position: relative
 				text-align: center
-				border: 1px solid green //transparent
+				border: 1px solid transparent
+				background: image-url('help/nav_line.gif') 120px 10px repeat-x
 				&:first-child
-					margin: 0 13px 0 -12px
+					margin-left: 0
 				&:last-child
-					margin: 0 12px 0 13px
+					margin-right: 0
 				div.btn
-					background: image-url('help/tour_btn_off.png') no-repeat
+					background: image-url('help/tour_btn_off.png') no-repeat center center
 					height: 21px
 					width: 21px
 					cursor: pointer
+					width: 100%
 						
 				div.label
 					position: absolute
-					top: -20px
-					left: 0
+					top: -24px
+					left: -30px
 					text-align: center
-					width: 60px
-					border: 1px solid red
+					width: 80px
+					//border: 1px solid red
 					color: #aaa
 					&.lower
-						top: 20px
+						top: 24px
 				&.current_step
 					div.label
 						color: white
 					div.btn
-						background: image-url('help/tour_btn_on.png') no-repeat
+						background: image-url('help/tour_btn_on.png') no-repeat center center
 						
 					
 	div.tour_container

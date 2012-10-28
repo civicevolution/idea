@@ -1,6 +1,7 @@
 - @member ||= Member.new :first_name=>'Unknown', :last_name=>'Visitor', :ape_code =>'unknown'
 - title ||= !@team.nil? ? "#{@team.title}" : title || params[:_app_page_title]
 - inc_js ||= 'all'
+- get_templates ||= 'true'
 !!!
 %html{html_attrs('en-en')}
 	%head
@@ -37,13 +38,14 @@
 		:javascript
 			//_load_times.page_loaded = new Date()
 			var client;
-			var member = {first_name: "#{@member.first_name}", last_name: "#{@member.last_name}", ape_code: "#{@member.ape_code}" }
+			var member = {first_name: "#{@member.first_name}", last_name: "#{@member.last_name}", ape_code: "#{@member.ape_code}", ror_session_id: "#{request.session_options[:id]}" }
 			var page_channel = '#{@page_channel}';
 		- if !@team.nil?
 			:javascript
 				var team_id = #{@team.id};
 				var com_criteria = Number('#{@team.com_criteria}'.match(/\d+$/));
 				var res_criteria = Number('#{@team.res_criteria}'.match(/\d+$/));
+				var get_templates = #{get_templates};
 
 		- if inc_js == 'all'
 			= javascript_include_tag 'application_ce'
