@@ -41,7 +41,8 @@
 
 		= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}
 		
-		-#= render :partial => 'submit'
+		- if [1,2].include?( params[:_initiative_id] )
+			= render :partial => 'submit'
 		
 		%hr.bottom	
 		= render :partial=> 'proposal_footer'	
