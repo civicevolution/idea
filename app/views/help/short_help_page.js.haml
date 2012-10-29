@@ -15,4 +15,5 @@
 	dialog.find('ul.ui-tabs-nav').append( close_btn ).css('position','relative');
 	dialog.css('padding', 0);
 	
-	
+	dialog.find('div#tab_help_tour').css('overflow-y','scroll');
+	dialog.find('div#tab_help_tour').height( $(window).height() - 60 );
