@@ -1,6 +1,6 @@
 %div#submit
 	%h3 Proposal review and submission
-	- sponsor = @team.initiative_id == 1 ? 'Executive Management Team' : 'Alliance Governance Group';
+	- sponsor = @team.initiative_id == 1 ? 'Executive Management Team' : '2029 and Beyond Reference Group';
 	%p.desc
 		Completed proposals will be submitted to the #{sponsor} for official review. 
 		- if @team.org_id == @member.id || @participant_stats.level >= 4

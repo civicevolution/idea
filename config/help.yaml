@@ -23,7 +23,7 @@ help:
         %h2 We want you to share your best ideas for improving the Greater Geraldton City Region
         
         %p 
-          The Alliance Governance Group has committed to review every proposal for change that meets its 
+          The 2029 and Beyond Reference Group has committed to review every proposal for change that meets its 
           #{link_to 'guidelines', help_path(:topic=>'Proposal_guidelines'), {:class=>"intro"}}.
           Basically, you have to work together with at least 3 other residents  to develop a proposal that answers four questions: 
         %ul
@@ -319,12 +319,12 @@ help:
             %li Demonstrate effective use of rate payer funds, if appropriate
 
           %p 
-            The Alliance Governance Group
-            -#%a{:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}The Alliance Governance Group 
+            The 2029 and Beyond Reference Group
+            -#%a{:href=>'http://www.cgg.wa.gov.au/about-council/vision-strategy/2029-and-beyond-project/community-leadership', :target=>'_blank', :class=>'mission_link'}The 2029 and Beyond Reference Group 
             promises to review and respond to all actionable proposals that meet their guidelines
             for relevance, completeness, evidence, and community support.
           %p 
-            In short, anyone can suggest an idea, but the Alliance Governance Group 
+            In short, anyone can suggest an idea, but the 2029 and Beyond Reference Group 
             will only review ideas that have been developed into a proposal for action.
 
         %div.guidelines
@@ -774,7 +774,7 @@ help:
       init_id: [1, 2]
       title: Proposal checklist
       haml: |
-        %p When you think your proposal is complete, you should consult the proposal checklist that helps you review your proposal and determine if it is ready for review by the Alliance Governance Group.
+        %p When you think your proposal is complete, you should consult the proposal checklist that helps you review your proposal and determine if it is ready for review by the 2029 and Beyond Reference Group.
         = image_tag 'vhelp1/submit_checklist.gif'
     
     opt2:
@@ -798,7 +798,7 @@ help:
       title: Submit proposal for review
       haml: |
         %p When the proposal is completed and endorsed, and you have consulted the checklist, it can be submitted for official review. 
-        %p Open the checklist with the link at the bottom of the proposal page and click the submit link. Your proposal will be forwarded for review by the Alliance Governance Group.
+        %p Open the checklist with the link at the bottom of the proposal page and click the submit link. Your proposal will be forwarded for review by the 2029 and Beyond Reference Group.
         = image_tag 'vhelp1/submit_checklist.gif'
     
     opt2:

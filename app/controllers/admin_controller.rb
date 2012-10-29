@@ -137,7 +137,7 @@ class AdminController < ApplicationController
           @init_data = [
             {},
             {:sponsor=>'Executive Management Team'},
-            {:sponsor=>'Alliance Governance Group'}        
+            {:sponsor=>'2029 and Beyond Reference Group'}        
           ]
         end
         if message.match(/@mcode/)
@@ -206,7 +206,7 @@ class AdminController < ApplicationController
               @init_data = [
                 {},
                 {:sponsor=>'Executive Management Team'},
-                {:sponsor=>'Alliance Governance Group'}        
+                {:sponsor=>'2029 and Beyond Reference Group'}        
               ]
             end
             # mcode is always needed for unsubscribe built into the template
