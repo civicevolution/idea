@@ -59,7 +59,7 @@ $('div.home_page table.proposal_stats').die('click').live('click',
 )
 
 $('a.endorse_this_proposal').live('click',function(){
-	$.scrollTo("div.endorsements",2000);
+	$('html,body').animate( {scrollTop: $('div.endorsements').offset().top}, 800);
 	return false;
 });
 

@@ -16,7 +16,7 @@
 			= link_to "Follow ", notification_settings_form_path(@team.id), {:remote=>true}
 
 		%li.endorse
-			= link_to "Endorse",{},{:class=>'endorse_this_proposal'}
+			= link_to "Go to endorsements",{},{:class=>'endorse_this_proposal'}
 
 		-#%li.participate
 			- if params[:_initiative_id] == 5
