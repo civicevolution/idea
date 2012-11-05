@@ -15,7 +15,8 @@
 				%tr
 					%td Please email me updates 
 					%td{:colspan=>2}
-						= form.select( :follow_freq, [['When I should review this proposal again','c'],['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Weekly','w'], ['Never','n']])
+						= form.select( :follow_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Weekly','w'], ['Never','n']])
+						-#= form.select( :follow_freq, [['When I should review this proposal again','c'],['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Weekly','w'], ['Never','n']])
 				%tr
 					%td
 					%td 

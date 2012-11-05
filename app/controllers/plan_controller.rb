@@ -62,6 +62,11 @@ class PlanController < ApplicationController
     @rating_data.each{|rec| rec[1] = nil unless rec[1].to_i == 1}
     
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
+  	
+  	@notification_setting = NotificationRequest.find_by_member_id_and_team_id(@member.id, @team.id) || 
+  	  NotificationRequest.new( :member_id=>@member.id, :team_id=>@team.id, :act=>'init')
+  	@notification_setting.act = 'init'
+  	@notification_setting.init_settings
 
     @channels = ["_auth_team_#{@team.id}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )

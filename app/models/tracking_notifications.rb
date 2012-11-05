@@ -59,8 +59,8 @@ class TrackingNotifications
         
         when 'Endorsement'
           event_id = name == 'after_create' ? 7 : 8
-          participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => nil,
-           :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
+          return if ParticipationEvent.where(:member_id => obj.member_id, :event_id => event_id, :team_id => obj.team_id).exists?
+          participation_event = ParticipationEvent.new :initiative_id => obj.team.initiative_id, :team_id => obj.team.id, :question_id => nil, :item_type => obj.o_type, :item_id => obj.id, :member_id => obj.member_id, :event_id => event_id, :points => get_event_points(event_id,obj)
           Rails.logger.debug "participation_event: #{participation_event.inspect}"
           #Juggernaut.publish("_auth_team_#{obj.team_id}", {:act=>'update_page', :type=>obj.class.to_s, :data=>obj})
 
@@ -248,10 +248,10 @@ class TrackingNotifications
           # remove if the notification was cancelled
           if params[:notification].nil?
             # remove it
-            ParticipationEvent.where(:member_id => params[:member_id], :event_id => event_id).each{|n| n.destroy }
+            ParticipationEvent.where(:member_id => params[:member_id], :event_id => event_id, :team_id => params[:team_id]).each{|n| n.destroy }
             return
           else
-            return if ParticipationEvent.where(:member_id => params[:member_id], :event_id => event_id).exists?
+            return if ParticipationEvent.where(:member_id => params[:member_id], :event_id => event_id, :team_id => params[:team_id]).exists?
             participation_event = ParticipationEvent.new :initiative_id => params[:_initiative_id], :team_id => params[:team_id], :question_id => nil,
              :item_type => nil, :item_id => nil, :member_id => params[:member_id], :event_id => event_id, :points => get_event_points(event_id,params)
             Rails.logger.debug "participation_event: #{participation_event.inspect}"
@@ -294,6 +294,10 @@ class TrackingNotifications
               end
               part_stats_rec[:last_day_visit] = time
             end
+          elsif participation_event.event_id == 107
+            part_stats_rec[:following] = 1 # simply indicates that participant has adjusted follow settings
+          elsif participation_event.event_id == 7
+            part_stats_rec[:endorse] = true
           end
           # determine if the level should be increased
           # start at highest level and then let it be decreased by each test, only save it if it is greater than current level

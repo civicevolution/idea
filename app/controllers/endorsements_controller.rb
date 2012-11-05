@@ -21,7 +21,7 @@ class EndorsementsController < ApplicationController
   
   def delete
     endorsement = Endorsement.find_by_member_id_and_team_id(@member.id,params[:team_id])
-    endorsement.member = @member
+    endorsement.member = @member unless endorsement.nil?
     endorsement.destroy unless endorsement.nil?
     respond_to do |format|
       format.html { redirect_to plan_path(params[:team_id]) }

@@ -1,3 +1,5 @@
+if(typeof get_templates == 'undefined') get_templates = false;
+if(typeof pub_sub_channels == 'undefined') pub_sub_channels = [];
 console.log("Loading new app_ce_realtime.js, get_templates: " + get_templates);
 $(function(){
 	if(get_templates){

@@ -53,11 +53,12 @@ class NotificationRequest < ActiveRecord::Base
       self.com_format = 'full'
       self.tp_freq = 'n'
       self.tp_format = 'full'
-      self.follow_freq = 'c'
+      self.follow_freq = 'd'
       recs = NotificationRequest.find_all_by_member_id_and_team_id(self.member_id, self.team_id)
 
       recs.each do |req|
         req.hour_to_run = req.hour_to_run.scan(/\d+/).map{|d| d.to_i} unless req.hour_to_run.nil?
+        req.dow_to_run = req.dow_to_run.scan(/\d+/).map{|d| d.to_i} unless req.dow_to_run.nil?
         case 
           when req.report_type == 4 # new team content
             case

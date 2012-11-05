@@ -43,8 +43,8 @@
 					- if e.member.id == @member.id && !print
 						- endorsed = true
 						%td.delete
-							= form_tag edit_plan_endorsement_path(@team.id) do
-								= submit_tag "Edit", :class => 'link'
+							-#= form_tag edit_plan_endorsement_path(@team.id) do
+							-#	= submit_tag "Edit", :class => 'link'
 							= form_tag delete_plan_endorsement_path(@team.id) do
 								= submit_tag "Delete", :class => 'link'
 			
