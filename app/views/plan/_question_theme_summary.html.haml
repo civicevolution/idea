@@ -47,6 +47,10 @@
 			
 		
 	- if question.themes.empty?
+		%h3.summary 
+			How to answer a question
+			= link_to 'View all ideas', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the theming page for this question' }
+		
 		%ul.themes.instructions 
 			%li.theme This question will be answered collaboratively by your community
 			%li.theme Anyone can suggest an idea for this answer
