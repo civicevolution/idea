@@ -1,20 +1,41 @@
 = render :template => 'shared/clear_sign_in_form', :formats => [:js]
-:plain
-	$('div#notification_settings').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
-	var notification_form = $("#{escape_javascript(
-		render( :template => 'notification/settings', :formats => [:html] )
-	)}");
+- if params[:after_post]
+	:plain
+		$('div#notification_settings').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+		var notification_form = $("#{escape_javascript(
+			render( :template => 'notification/project_settings', :formats => [:html] )
+		)}");
 	
-	var dialog = notification_form.dialog( {title : 'Follow this proposal', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+		var dialog = notification_form.dialog( {title : 'Thanks for posting to this project', modal : false, width : '600px', closeOnEscape: true });
+		
+		//Make this dialog highest 
 	
-	var form = $('div#notification_settings form');
+		var form = $('div#notification_settings form');
 	
-	activate_text_counters_grow( form.find('textarea'), 120 )
-	form.find(' a.cancel').die('click').live('click',
-		function(){
-			$(this).closest('div.ui-dialog').dialog('destroy').remove();
-			return false;
-		}
-	);
+		form.find(' a.cancel').die('click').live('click',
+			function(){
+				member.follow_set = true;
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+				return false;
+			}
+		);
+
+- else	
+	:plain
+		$('div#notification_settings').closest('div.ui-dialog').dialog('destroy').remove().end().remove();
+		var notification_form = $("#{escape_javascript(
+			render( :template => 'notification/settings', :formats => [:html] )
+		)}");
+	
+		var dialog = notification_form.dialog( {title : 'Follow this proposal', modal : true, width : '600px', closeOnEscape: true, close: function(){$(this).remove()} });
+	
+		var form = $('div#notification_settings form');
+	
+		form.find(' a.cancel').die('click').live('click',
+			function(){
+				$(this).closest('div.ui-dialog').dialog('destroy').remove();
+				return false;
+			}
+		);
 
 	

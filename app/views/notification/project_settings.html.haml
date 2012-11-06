@@ -1,0 +1,17 @@
+%div#notification_settings
+	%h4 Please follow this project through email updates
+		
+	= form_for @notification_setting, :as => :notification_setting, :url => notification_settings_post_path(@team.id), :html => {:class=>'update_notification_settings', :remote=>true} do |form|
+
+		%table
+			%tr
+				%td When do you want to receive updates? 
+				%td{:colspan=>2}
+					= form.select( :follow_freq, [['Immediately', 'i'], ['Hourly', 'h'], ['Daily', 'd'], ['Weekly','w'], ['Never','n']])
+			%tr
+				%td
+				%td 
+					= submit_tag "Save my choice", :name=>'invite_friends', :alias=>'Please'
+				%td 	
+					= link_to 'Not now, thanks', plan_path(@team), {:class=>'cancel', :style=>'margin-left: 10px'}
+

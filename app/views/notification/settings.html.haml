@@ -1,5 +1,4 @@
 %div#notification_settings
-	%p I want to follow this proposal:
 
 	%h4= @team.title
 	- if @notification_setting.nil?
@@ -23,27 +22,3 @@
 						= submit_tag "Update settings for this proposal", :name=>'invite_friends', :alias=>'Please'
 					%td 	
 						= link_to 'Cancel', plan_path(@team), {:class=>'cancel', :style=>'margin-left: 10px'}
-		
-		%hr
-		%p.other_ideas Manage the settings for the other proposals in which you participate:
-		= form_tag( notification_settings_form_path, {:remote=>true} ) do
-			%p.other_ideas_sel
-				-#= select_tag( :team_id, @teams,{:style=>'max-width: 500px'})
-				= select_tag( :team_id, options_for_select(@teams),{:style=>'max-width: 500px'} )
-				= submit_tag "Manage settings for selected proposal"
-					
-	%style
-		:sass
-			div#notification_settings
-				p.follow
-					font-weight: bold
-				p.follow_description
-					margin: -16px 0 0 24px
-				p.other_ideas
-					margin: 40px 0 0 0
-					font-weight: bold
-				p.other_ideas_sel
-					margin-top: 6px
-				input[type='submit']
-					font-size: 1.2em
-

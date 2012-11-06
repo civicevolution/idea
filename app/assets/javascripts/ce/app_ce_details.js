@@ -22,12 +22,13 @@ function init_details_popup(details){
 			}else{                                                       	
 				deleteNow = confirm("Do you want to close this form?")	
 			}                                                            	
-			if(deleteNow){                                               	
+			if(deleteNow){  
 				dialog.slideUp(400, function () { 
 					dialog.dialog('destroy').remove();
 			  });                                                        	
+			}else{
+				return false;
 			}
-			return false;
 		}
 	 } );
 	

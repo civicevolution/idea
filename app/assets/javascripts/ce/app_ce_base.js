@@ -225,24 +225,26 @@ function demo_type_text(selector,text){
 	}
 }
 
-
-//$('body').on('dialogopen', 'div.ui-dialog-content', function(event) {
-//	var dlg = $(this);
-//	if(dlg.dialog('option','modal')){
-//		$('body').addClass('modal-open');
-//		setTimeout(function(){
-//			this.css('overflow-y','scroll');
-//			this.find('a,select').blur();
-//			this.find('input[type="text"]:first').focus();
-//			}.bind(dlg),500
-//		);
-//	}
-//});	
-
-$('body').on('dialogclose', 'div.ui-dialog-content', function(event) {
+$('body').on('dialogopen', 'div.ui-dialog-content', function(event) {
 	var dlg = $(this);
 	if(dlg.dialog('option','modal')){
-		$('body').removeClass('modal-open');
+		$('body').addClass('modal-open');
+		setTimeout(function(){
+			this.css('overflow-y','auto');
+			this.find('a,select').blur();
+			this.find('input[type="text"]:first').focus();
+			}.bind(dlg),500
+		);
+		dlg.bind('dialogbeforeclose', function(event) {
+			var dlg = $(this);
+			if(dlg.dialog('option','modal')){
+				$('body').removeClass('modal-open');
+			}
+		});
+		dlg.bind('dialogclose', function(event) {
+			var dlg = $(this);
+			dlg.dialog('destroy').remove();
+		});
 	}
-	dlg.dialog('destroy').remove();
 });	
+

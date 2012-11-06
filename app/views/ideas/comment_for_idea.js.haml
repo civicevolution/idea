@@ -14,5 +14,9 @@
 	
 	var com = #{ { data: {comment: comment, author: comment.author, photo_url: comment.author.photo.url(:small), attachments: comment.attachments}}.to_json }
 	realtime_data_update_functions['comment'](com);
+	
+	if(!member.follow_set){
+		$.getScript('/notification/' + team_id + '/settings?after_post=t')
+	}
 
 
