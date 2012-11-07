@@ -1,6 +1,9 @@
 %div.tour
 	- if !Rails.env.production?
 		= stylesheet_link_tag "ce/help"
+	%style
+		:plain
+			div.page{	width: 100%;}
 		
 	%div.tour_header
 		%div.logo
@@ -10,30 +13,38 @@
 		=image_tag('spotlightOverlay.png')
 	%div.tour_nav_footer
 		%div.tour_nav
-			%div.step.current_step{'data-step'=> 1}
-				%div.label Page1
+			%div.step.current_step#think_intro
+				%div.label Think together
 				%div.btn
-			%div.step{'data-step'=> 2}
-				%div.label.lower Page2
+			%div.step#brainstorm
+				%div.label.lower Brainstorm
 				%div.btn
-			%div.step{'data-step'=> 3}
-				%div.label Page3
+			%div.step#discuss
+				%div.label Discuss & rate
 				%div.btn
-			%div.step{'data-step'=> 4}
-				%div.label.lower Page4
+			%div.step#theme
+				%div.label.lower Theming
 				%div.btn
-			%div.step{'data-step'=> 5}
-				%div.label Page5
+			%div.step#organize
+				%div.label Organize ideas
 				%div.btn
-			%div.step{'data-step'=> 6}
-				%div.label.lower Page6
+			%div.step#answers
+				%div.label.lower Answer the questions
 				%div.btn
-			%div.step{'data-step'=> 7}
-				%div.label Page7
+			%div.step#coordinators 
+				%div.label Project roles
 				%div.btn
-			%div.step{'data-step'=> 8} 
-				%div.label.lower Page8
+			%div.step#suggest_project 
+				%div.label.lower Suggest a project
 				%div.btn
+			%div.step#keep_engaged 
+				%div.label Keep engaged
+				%div.btn
+			%div.step#get_help
+				%div.label.lower Get help
+				%div.btn
+			
+		
 	%div.tour_container
 		%div.tour_steps
 			= render template: 'help/tour_steps'

@@ -7,26 +7,29 @@ div.tour
 	height: 959px
 	width: 100%
 	overflow: hidden
-	border: 1px solid green
+	//border: 1px solid green
 	position: relative
 	div.tour_header
 		height: 50px
 		//background-color: #ccf
 		background: image-url('help/bamboo-60.jpg') repeat-x
-		border: 1px solid black
+		//border: 1px solid black
 	div.tour_body
 		height: 600px
 		background-color: #a3a3bf
 	div.tour_nav_footer
-		height: 300px
+		position: absolute
+		left: 0
+		bottom: 0
+		//height: 300px
 		background-color: #6c41a6
 		padding-top: 175px
 		div.tour_nav
-			margin: 0px 40px
+			margin: 0px 40px 60px 40px
 			color: white
 			background: image-url('help/nav_line.gif') 120px 10px repeat-x
 			height: 21px
-			width: 800px
+			width: 1000px
 			//border: 3px solid green
 			div.step
 				float: left
@@ -50,11 +53,12 @@ div.tour
 						
 				div.label
 					position: absolute
-					top: -24px
+					top: -40px
 					left: -30px
 					text-align: center
 					width: 80px
 					//border: 1px solid red
+					cursor: pointer
 					color: #aaa
 					&.lower
 						top: 24px
@@ -69,13 +73,13 @@ div.tour
 		position: absolute 
 		top: 60px
 		left: 0
-		border: 3px solid blue
+		//border: 3px solid blue
 		height: 500px
-		width: 680px
+		width: 100%
 		div.tour_steps
 			width: 100%
 			height: 100%
-			border: 3px solid orange
+			//border: 3px solid orange
 			overflow: hidden
 			position: relative
 			
@@ -86,22 +90,48 @@ div.tour
 				color: black
 				width: 20000px
 				margin: 0
+				padding: 0
 				li.page
 					list-style: none
-					border: 1px solid red
-					width: 684px
+					//border: 1px solid red
+					width: 900px
 					height: 600px
 					overflow-y: scroll
 					//background: #ddd
 					float: left
 					margin-bottom: 0
-				.screenshot
-					font-style: italic
-					font-weight: bold
-
-				.callout
-					color: #296d8A
-					font-weight: bold
-				div.description
-					border: 1px solid #296d8a
-					padding: 1em
+					position: relative
+					div.text
+						padding: 1em
+						margin-left: 20px
+						position: absolute
+						left: 0
+						top: 0
+						border: 1px solid red
+						width: 30em
+					div.image
+						margin-right: 20px
+						position: absolute
+						bottom: 0
+						right: 0
+						border: 1px solid blue
+						max-width: 600px
+						img
+							float: right
+							max-height: 500px
+							max-width: 500px
+						p.screenshot
+							display: none
+						p.callout
+							display: none
+					.screenshot
+						font-style: italic
+						font-weight: bold
+					img.next
+						width: 127px
+						height: 38px
+						cursor: pointer
+					.callout
+						display: none
+						color: #296d8A
+						font-weight: bold
