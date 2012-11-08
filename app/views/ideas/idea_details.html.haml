@@ -1,0 +1,169 @@
+%div.idea_details.popup.fancy-scrollbar{ idea_id: idea.id, question_id: idea.question_id}
+	- if !Rails.env.production?
+		= stylesheet_link_tag "ce/idea_details"
+
+	- question ||= idea.question
+	- show_nav = true
+	- case
+		- when params[:act] == 'view_question'
+			%h3.popup_nav
+				- if idea.siblings.count > 1
+					= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_question', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
+					Question #{idea.order_id} of #{idea.siblings.count}
+					= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_question', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
+				- else
+					Question #{idea.order_id} of #{idea.siblings.count}
+				
+		- when params[:act] == 'review_idea'
+			- show_nav = false
+			%h3.popup_nav Thanks for your idea to the question:
+				
+		- when params[:act] == 'review_unrated_ideas'
+			%h3.popup_nav
+				= pluralize(question.unrated_ideas.count, 'Unrated Idea')
+
+		- when params[:act] == 'view_team'
+			%h3.popup_nav Team details
+
+			
+		- when idea.role == 2
+			%h3.popup_nav
+				- if idea.siblings.count > 1
+					= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
+					Theme #{idea.order_id} of #{idea.siblings.count}
+					= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
+				- else
+					Theme #{idea.order_id} of #{idea.siblings.count}
+			
+		
+		- when idea.parent_id.nil?
+			%h3.popup_nav
+				- if idea.siblings.count > 1
+					= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_unthemed_idea', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
+					Unthemed idea #{idea.order_id} of #{idea.siblings.count}
+					= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_unthemed_idea', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
+				- else
+					Unthemed idea of #{idea.siblings.count}
+		
+		- else
+			%h3.popup_nav
+				- if idea.siblings.count > 1
+					= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_idea', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
+					Idea #{idea.order_id} of #{idea.siblings.count}
+					= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_idea', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
+				- else
+					Idea #{idea.order_id} of #{idea.siblings.count}
+		
+	- if show_nav
+		%div.navigation{title: 'Mouseover then click the small squares to view other questions, themes and ideas in this proposal'}
+			%div.proposal
+				%a.item{href: {}, id: idea.team.idea.id, title: idea.team.title}
+			%div.questions
+				- idea.question.siblings.each do |question|
+					- if idea.role == 3
+						%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.id ? 'current' : ''}
+					- else
+						%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
+				
+						-#%a.item{href: {}, id: question.id, title: question.text, class: question.id == idea.question_id ? 'current' : ''}
+			
+			%div.themes
+				- idea.question.themes.each do |theme|
+					- if idea.role == 2
+						%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.id ? 'current' : ''}
+					- else
+						%a.item{href: {}, id: theme.id, title: theme.text, class: theme.id == idea.parent_id ? 'current' : ''}
+				
+		
+			%div.ideas
+				- if idea.role < 3
+					- ( idea.role == 2 ? idea.theme_ideas : idea.siblings ).each{|i| i.order_id = 1 if i.order_id.nil?}.sort{|a,b| a.order_id<=>b.order_id}.each do |sibling|
+						- if idea.role == 2
+							%a.item{href: {}, id: sibling.id, title: sibling.text }
+						- else
+							%a.item{href: {}, id: sibling.id, title: sibling.text, class: sibling.id == idea.id ? 'current' : '' }
+			%p.clear_both
+		
+		
+	%div.details_left
+		- if idea.role == 4
+			%h3.question= idea.team.title
+			- if @member.id == idea.team.org_id
+				= link_to "edit", team_edit_path(idea.team.id, target: 'title'), class: "edit_title", remote: true
+			
+		- else 
+			%h3.question= question.text
+		
+		%ul
+			- case
+				- when idea.role == 4
+					%li.team_post_it
+						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
+							-#%p.idea= idea.team.solution_statement
+							%div.idea_summary
+								- idea.team.solution_statement.split(/[\r\n]+/).each do |para|
+									%p.summary= auto_link(para, :html => { :target => '_blank' })
+							%div.status
+								- if @member.id == idea.team.org_id
+									= link_to "edit", team_edit_path(idea.team.id, target: 'summary'), class: "edit_summary", remote: true
+								-#= image_tag 'delete_icon_16t.gif', :class=>"delete"
+								-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+
+				- when idea.role == 3
+					%li.question_post_it
+						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
+							%p.idea= idea.text
+							-#%div.status
+								-#= image_tag 'delete_icon_16t.gif', :class=>"delete"
+								-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+
+			
+				- when idea.role == 2
+					%li.theme_post_it
+						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
+							%p.idea= idea.text
+							-#%div.status
+								-#= image_tag 'delete_icon_16t.gif', :class=>"delete"
+								-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+						
+					%p.timestamp
+						#{time_ago_in_words(idea.updated_at)} ago,
+						Version #{idea.version}
+						-# if idea.version > 1
+							= link_to "View history", {}
+				- else
+					%li.idea_post_it
+						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
+							%p.idea= idea.text
+							- if !idea.attachments.empty?
+								%div.attachments
+									- idea.attachments.each do |att|
+										- icon_url = att.attachment_content_type.match(/image/i) ? att.attachment(:icon) : '/assets/doc_icon.gif'
+										%div.attachment
+											= link_to "#{att.attachment.url.to_s}", target: '_blank' do
+												=image_tag(icon_url, title: att.attachment_file_name)
+												%p= att.attachment_file_name
+									%p.clear
+							%div.status
+								= image_tag 'delete_icon_16t.gif', :class=>"delete"
+								-#= image_tag 'blue-clipboard-24.gif', class: 'clipboard'
+						
+				%p.timestamp
+					#{time_ago_in_words(idea.updated_at)} ago
+					
+		- if params[:act] == 'review_idea'			
+			%div.acknowledge_new_idea
+				%ul
+					%li Please be sure to rate your idea and add any comments that might help people understand it better or make a case for it	
+					%li
+						Click open the 
+						= link_to 'theming page', {}, class: 'goto_theming_page'
+						to see your idea
+					
+				
+				
+		= render( partial: 'rating', locals: { idea: idea } )			
+		
+		= render( partial: 'idea_discussion', locals: { idea: idea } )			
+
+		= link_to 'Close', {}, class:'close_details'
