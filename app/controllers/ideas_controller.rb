@@ -125,7 +125,15 @@ class IdeasController < ApplicationController
     respond_to do |format|
       if !idea.nil?
         idea.member = @member
-        format.js { render 'ideas/details', locals: { idea: idea, question: question } }
+        format.js { 
+          if idea.role == 1
+            render 'ideas/idea_details', locals: { idea: idea, question: question } 
+          elsif idea.role == 2
+            render 'ideas/answer_details', locals: { idea: idea, question: question } 
+          else
+            render 'ideas/details', locals: { idea: idea, question: question } 
+          end
+        }
         format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }
         #format.json { render json: @idea, status: :created, location: @idea }
       else
