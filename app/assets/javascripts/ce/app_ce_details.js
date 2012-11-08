@@ -91,12 +91,13 @@ $('body').on('click','div.idea_details a.view_results',
 	function(){
 		try{
 			var link = $(this);
-			var vote_results_div = $(this).closest('div.idea_details').find('div.vote_results');
+			var results_div = $(this).closest('div.idea_details').find('div.results');
+			var vote_results_div = results_div.find('div.vote_results');
 			if(link.html().match(/View/i)){
 				link.html( link.html().replace(/View/, 'Hide') );
 			}else{
 				link.html( link.html().replace(/Hide/, 'View') );
-				vote_results_div.hide(800);
+				results_div.hide(800);
 				return false;
 			}
 			
@@ -134,7 +135,7 @@ $('body').on('click','div.idea_details a.view_results',
 						.attr('title', vote_buckets[i] + (vote_buckets[i]==1 ? ' vote' : ' votes'));
 			 }
 			);
-			vote_results_div.show(800);
+			results_div.show(800);
 		}catch(e){ console.log("Error: " + e);}
 		return false;
 	}

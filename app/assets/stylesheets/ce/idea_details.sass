@@ -96,15 +96,24 @@ div.idea_details
 				text-decoration: underline
 			
 	div.rater
-		background: $light_yellow_background
+		//background: $light_yellow_background
+		border: 1px solid #7fBDDB
 		padding: 10px
 		width: 400px
 		margin-bottom: 20px
 		p.label
 			margin: 0 0 10px 0
 			font-weight: bold
+			position: relative
 			&.please-rate
 				color: #6c41a6
+				a.view_results
+					display: none
+			a.view_results
+				display: block
+				position: absolute
+				top: 0
+				right: 0
 		div.rater_faces
 			position: relative
 			width: 380px
@@ -177,18 +186,18 @@ div.comment
 div.edit_form
 	&.edit_title
 		margin-top: 20px
-
-div.vote_results
+div.results
 	display: none
-	margin-top: 10px
-	width: 400px
-	height: 60px
-	position: relative
-	div.bar
-		background-color: $proposal_icon_bg
-		height: 40px
-		position: absolute
-		bottom: 0
+	div.vote_results
+		margin-top: 10px
+		width: 400px
+		height: 60px
+		position: relative
+		div.bar
+			background-color: $proposal_icon_bg
+			height: 40px
+			position: absolute
+			bottom: 0
 div.add_idea_comment
 	position: relative
 	width: 460px
