@@ -1,55 +1,22 @@
 - link ||= 'yes'
 %div.question_summary{:id=>question.id}
-	%h2.question 
-		- if link == 'yes'
-			%div.explore
-				-#= link_to image_tag('magnify.gif', title: 'Click to discuss and rate this question and see how the themes were formed'), question_view_path(question.id), {class: 'view_question', rel: 'nofollow', remote: true, wait: 'gif' }
-				= link_to "Q#{question.order_id}: #{question.text}", question_view_path(question.id), {class: 'view_question', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to discuss and rate this question and see how the themes were formed' }
-		
+	%h2.question Q#{question.order_id}: #{question.text}
+			
 	%div.call-to-action
 		%div.custom
-
-		- if link == 'yes'
-			%h3.responses Responses: 
-			-# this one was working okay
-			-# if question.unrated_ideas.count > 0 
-				%div.ideas
-					= link_to image_tag('idea-icon.gif'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-					%span.cnt
-						#{question.unrated_ideas.count} new
-
-			%div.ideas
-				= link_to image_tag('idea-icon.gif', title: 'Number of ideas'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-				%div.counts
-					%div.new
-						0 new
-					%div.total
-						0 total
-					
-			%div.themes
-				= link_to image_tag('theme-icon.gif', title: 'Number of themes'), question_view_path(question.id, page:'themes'), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-				%div.counts
-					%div.new
-						0 new
-					%div.total
-						0 total
-				
-			%div.comments
-				= link_to image_tag('comment-sketch.gif', title: 'Number of comments'), question_view_path(question.id, page: 'question'), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-				%div.counts
-					%div.new
-						0 new
-					%div.total
-						0 total
-					
-					
-	%p.clear_both
-			
 		
 	- if question.themes.empty?
 		%h3.summary 
 			How to answer a question
 			= link_to 'View all ideas', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the theming page for this question' }
+
+			%div.ideas
+				= link_to image_tag('idea-icon.gif', title: 'Number of ideas you have not rated'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
+				%div.counts
+					%div.new
+						0 new
+					%div.total
+						0 total
 		
 		%ul.themes.instructions 
 			%li.theme This question will be answered collaboratively by your community
@@ -60,32 +27,42 @@
 			%li.theme The themes will appear under this question to provide a coherent answer
 	- else
 		%h3.summary 
-			Edited summary answer
+			%span Edited summary answer
 			= link_to 'View all ideas', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the theming page for this question' }
+			
+			%div.ideas
+				= link_to image_tag('idea-icon.gif', title: 'Number of ideas you have not rated'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
+				%div.counts
+					%div.new
+						0 new
+					%div.total
+						0 total
+			
 		
 		%ul.themes
 			- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
 				- if theme.version > 0 && theme.visible
 					%li.theme{id: theme.id}
-						= link_to theme.text, question_view_path(question.id, idea_id: theme.id), {class: 'view_theme', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to discuss and rate this theme and see how the it was formed' }
+						= link_to view_idea_details_path(theme.id), {class: 'view_theme', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to discuss and rate this answer' } do
 						
-						%div.ideas
-							= link_to image_tag('idea-icon.gif', title: 'Number of ideas'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-							%div.counts
-								%div.new
-									0 new
-								%div.total
-									0 total
+							%p= theme.text
 						
-						%div.comments
-							= link_to image_tag('comment-sketch.gif', title: 'Number of comments'), question_view_path(question.id, page: 'question'), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-							%div.counts
-								%div.new
-									0 new
-								%div.total
-									0 total
-						-#%p.clear_both
-
+							%div.ideas
+								= image_tag('idea-icon.gif', title: 'Number of ideas')
+								%div.counts
+									%div.new
+										0 new
+									%div.total
+										0 total
+						
+							%div.comments
+								= image_tag('comment-sketch.gif', title: 'Number of comments')
+								%div.counts
+									%div.new
+										0 new
+									%div.total
+										0 total
+							-#%p.clear_both
 	
 	%div.form_help_slide.collapsed
 		= link_to 'close', {}, class: 'close'
@@ -160,5 +137,24 @@
 			%span.char_ctr 200 characters
 			= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
 
-		%p.clear
+		%p.clear_both
+		
+	- if !question.themes.empty?
+		= render( partial: 'ideas/rating', locals: { idea: question } )
+		
+	%h3.label.discussion
+		= link_to view_idea_details_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the discussion for this question' } do
+			%span Discuss this question
+			%div.comments
+				= image_tag('comment-sketch.gif', title: 'Number of comments')
+				%div.counts
+					%div.new
+						0 new
+					%div.total
+						0 total
+		%p.clear_both
+	%div.discussion
+		
+
+		
 

@@ -4,26 +4,35 @@
 
 :plain
 	var rater = $('div.theme_slider[id="#{idea_rating.idea.id}"]').closest('div.rater');
-	rater.find('p.label span').html('Thanks for rating this').effect('highlight', {color: '#8DEE00'},2000);		
+	var rater_hdr = rater.prev('h3.rating');
+	rater_hdr.find('span').html('Thanks for rating this').effect('highlight', {color: '#8DEE00'},2000);		
 	rater.find('span.vote_count').html( '#{ pluralize( idea_rating.num_idea_votes, 'vote' )  }');
 	rater.find('p.results a.done').remove();
 	rater.find('div.vote_results').attr('votes', "#{idea_rating.idea.votes}"); 
+
+	show_rating_results( rater_hdr.find('a.view_results'), true );
+	if( #{unrated_idea_count > 0} ){
+		rater_hdr.find('a.next').remove();
+		rater_hdr.find('a.view_results').hide();
+		$('#{link_to "Rate next idea", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'next', rel: 'nofollow', remote: true }}').appendTo( rater_hdr ).effect('highlight', {color: '#8DEE00'},2000);	
+	}else{
+		rater_hdr.find('a.view_results').show();
+	}
+	if( !rater_hdr.find('a.view_results').is(':visible') ){
+		rater_hdr.find('a.view_results').html('View results');
+	}
 	
 - if (3..4) === idea_rating.idea.role
 
-- elsif idea_rating.idea.role != 4 && question.unrated_ideas.count > 0
+- elsif idea_rating.idea.role == 1 && question.unrated_ideas.count > 0
 	:plain
-		if(rater.find('a.next').size() == 0 ){
-			$('#{link_to "Rate next idea", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'next', rel: 'nofollow', remote: true }}').appendTo( rater.find('p.results')).effect('highlight', {color: '#8DEE00'},2000);	
-		}
-
 		$('div.question_summary[id="#{question.id}"] div.call-to-action div.ideas span.cnt').html( "#{question.unrated_ideas.count} new");
 		
 - else
 	:plain
 		var done_link = $('#{link_to "Done", {}, {class: 'done', rel: 'nofollow', remote: false }}').insertBefore( rater.find('p.results a')).effect('highlight', {color: '#8DEE00'},2000);	
 		done_link.click(function(){$(this).closest('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove(); return false; });
-- if idea_rating.idea.role != 4 && question.unrated_ideas.count == 0
+- if idea_rating.idea.role == 1 && question.unrated_ideas.count == 0
 	:plain
 		$('div.question_summary[id="#{question.id}"] div.call-to-action div.ideas').remove();
 	

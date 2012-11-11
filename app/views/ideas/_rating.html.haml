@@ -1,43 +1,39 @@
 - my_rating = idea.idea_ratings.detect{|r| r.member_id == @member.id}
 - votes = idea.votes.size
-%div.rater.corner
-	- if my_rating.nil?
-		%p.label.please-rate 
-			- case idea.role
-				- when 1
-					%span Please rate this idea
-				- when 2
-					%span Please rate this theme
-				- when 3
-					%span Please rate this overall answer
-				- when 4
-					%span Please rate this proposal
-			- if votes > 0
-				= link_to "View results", {}, class: 'view_results'
-				
-				
-	-else
-		%p.label
-			- case idea.role
-				- when 1
-					%span Your rating for this idea
-				- when 2
-					%span Your rating for this theme
-				- when 3
-					%span Your rating for this overall answer
-				- when 4
-					%span Your rating for this proposal
-			- if votes > 0
-				= link_to "View results", {}, class: 'view_results'
+- if my_rating.nil?
+	%h3.label.rating.please-rate 
+		- case idea.role
+			- when 1
+				%span Please rate this idea
+			- when 2
+				%span Please rate this answer
+			- when 3
+				%span Please rate this overall answer
+			- when 4
+				%span Please rate this proposal
+		= link_to "View results", {}, class: "view_results hide"
 			
+- else
+	%h3.label.rating
+		- case idea.role
+			- when 1
+				%span Your rating for this idea
+			- when 2
+				%span Your rating for this answer
+			- when 3
+				%span Your rating for this overall answer
+			- when 4
+				%span Your rating for this proposal
+		= link_to "View results", {}, class: "view_results #{votes>0 ? '' : 'hide'}"	
 			
+%div.rater.corner			
 	%div.rater_faces
 		= image_tag('rater/yuck.gif', class: 'yuck')		
 		= image_tag('rater/meh.gif', class: 'meh')		
 		= image_tag('rater/good.gif', class: 'good')		
 		= image_tag('rater/great.gif', class: 'great')		
 	
-	%div.theme_slider{id: idea.id, my_rating: my_rating.nil? ? 50 : my_rating.rating }		
+	%div.theme_slider{id: idea.id, my_rating: my_rating.nil? ? 50 : my_rating.rating, mode: params[:act]=='review_unrated_ideas' ? 'review_unrated' : 'reg' }		
 	%div.results
 		%div.vote_results{ votes: "#{idea.votes}"}
 			- (0..9).each do |i|

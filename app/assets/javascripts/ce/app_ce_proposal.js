@@ -32,6 +32,8 @@ function init_page(){
 	
 	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
 	
+	init_rating_sliders( $("div.theme_slider") );
+	
 	if(!$.support.borderRadius){ 
 		console.log("load corner support script and activate");
 		$.getScript('/assets/opt/jquery.corner.js', 
@@ -50,6 +52,23 @@ function init_page(){
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 		//console.log("pretty photo is okay")
 	}catch(e){}
+}
+
+function init_rating_sliders( sliders ){
+	sliders.each(
+		function(){
+			var slider = $(this);
+			var my_rating = Number( slider.attr('my_rating') );
+			slider.slider({
+				stop: function(event, ui) { 
+					var par = $(ui.handle).parent();
+					$.post('/idea/rating', {id: par.attr('id'), mode: par.attr('mode'), rating: ui.value}, function(){}, "script");
+				},
+				value: my_rating,
+				range: "min"
+			});
+		}
+	);
 }
 
 $('div.home_page table.proposal_stats').die('click').live('click',
@@ -126,7 +145,7 @@ $('div.proposal').on('click', 'div.add_idea a.show_idea_help_popup', function(){
 	open_idea_help_popup(this);
 	return false;
 });
-$('div.proposal').on('focus', 'div.add_idea textarea', function(){
+$('div.proposal').on('focus', 'form.suggest_idea textarea', function(){
 	open_idea_help_popup(this);
 	return false;
 });
@@ -245,3 +264,21 @@ $('body').on('click', 'div.attachments img.delete', function(){
 		});
 	}).fail(function() { alert("attachment delete error"); });
 })
+
+$('body').on('click', 'div.constituent_ideas li.idea_post_it', 
+	function(){
+			var post_it = $(this).find('div.post-it');
+			$.getScript('/idea/' + post_it.attr('id') + '/details');
+			//var constituent_ideas = post_it.closest('div.constituent_idea');
+			//$('div.answer_details').animate({left: constituent_ideas.position().left + 20 },350);
+			$('div.answer_details').animate({left:'-440'},350);
+	}
+);
+
+$('body').on('click', 'div.constituent_idea_details a.return_to_answer_details', 
+	function(){
+			$('div.answer_details').animate({left:'0'},350);
+			return false;
+	}
+);
+

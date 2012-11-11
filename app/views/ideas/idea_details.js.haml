@@ -1,3 +1,10 @@
 :plain
 	var details = $("#{escape_javascript(render( :template=> 'ideas/idea_details', :locals=>{idea: idea,question: question}, formats: [:html]  ))}");
-	init_details_popup(details);
+- if params[:act] == 'review_idea' || idea.parent_id.nil? || idea.parent_id == 0
+	:plain
+		init_details_popup(details);
+- else
+	:plain
+		$('div.constituent_idea_details').html( details );
+		activate_text_counters_grow(details.find('textarea'), 120);
+		init_rating_sliders( details.find("div.theme_slider") );

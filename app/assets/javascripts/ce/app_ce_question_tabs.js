@@ -10,7 +10,7 @@ function init_question_tabs(question_view, page, idea_id){
 			open_theming_page = true;
 			break;
 		case 'themes':
-			page = 2;
+			page = 1;
 			break;
 		default:
 			page = 0;
@@ -21,7 +21,7 @@ function init_question_tabs(question_view, page, idea_id){
 			show: function(event,ui){
 				//console.log("show tab");
 				if( $(ui.panel).attr('id') == 'tabs-theming'){
-				 	resize_theming_page();
+				 	setTimeout(resize_theming_page,300);
 					make_ideas_sortable($(ui.panel).find('ul.sortable_ideas'));
 				}
 			}

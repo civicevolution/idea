@@ -52,7 +52,11 @@ class InitiativeRestriction < ActiveRecord::Base
     
     #irs = YAML.load_file("#{Rails.root}/config/initiative_restrictions.yaml")
     irs = INITIATIVE_RESTRICTIONS
-
+    
+    if irs["init_#{initiative_id}"].nil?
+      return true, 'no restrictions found', team_id
+    end
+    
     action_rules = irs["init_#{initiative_id}"]['action_rules'][action]
 
     if action_rules.nil?

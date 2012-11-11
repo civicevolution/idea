@@ -1,3 +1,7 @@
 :plain
-	var details = $("#{escape_javascript(render( :template=> 'ideas/answer_details', :locals=>{idea: idea,question: question}, formats: [:html]  ))}");
+	var details = $("#{escape_javascript(render( :template=> 'ideas/answer_details', :locals=>{idea: idea,question: question, constituent_idea: constituent_idea}, formats: [:html]  ))}");
 	init_details_popup(details);
+	details.find('li img.delete').remove();
+- if !constituent_idea.nil?	
+	:plain
+		$('div.answer_details').animate({left:'-440'},350);

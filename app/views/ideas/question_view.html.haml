@@ -1,7 +1,7 @@
 %div.question_tabs{id: question.id}
 	%div#tabs
 		%ul
-			%li
+			-#%li
 				%a{href: "#tabs-summary"}
 					Discussion and rating
 			%li
@@ -12,7 +12,7 @@
 				%a{href: "#tabs-editing"}
 					Theme editing
 					
-		%div#tabs-summary
+		-#%div#tabs-summary
 			%div.proposal
 			
 				%h3.view_question Q#{question.order_id}: #{question.text}

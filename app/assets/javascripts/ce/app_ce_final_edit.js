@@ -31,7 +31,7 @@ function make_final_edit_themes_sortable(themes){
 			var ul = ui.item.closest('ul');
 			var new_ids = [];
 			//var ltr_ctr = 1;
-		 	ul.find('li').each( function(){
+		 	ul.find('li.theme').each( function(){
 				var li = $(this);
 				new_ids.push( li.attr('theme_id'));
 				//li.find('div.controls span.ltr').html( int_to_letters( ltr_ctr++ )  );

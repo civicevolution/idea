@@ -103,9 +103,8 @@ div.proposal
 			text-decoration: underline
 	div.question_summary
 		h2.question 
-			img	
-				vertical-align: middle
-		
+			color: #296d8A
+			
 		h3.responses
 			float: left
 			color: #296d8A
@@ -113,14 +112,46 @@ div.proposal
 		h3.summary
 			margin-left: 30px
 			color: #296d8A
+			span
+				display: block
+				float: left
+				margin-right: 30px
 			a.view_all_ideas
+				display: block
+				float: left
+				color: #296d8A
+				text-decoration: none
+				margin-right: 20px
+				margin-top: 4px
+				font-size: .8em
+				&:hover
+					text-decoration: underline
+		h3.rating
+			margin-left: 30px
+			color: #296d8A
+			a
 				color: #296d8A
 				text-decoration: none
 				margin-left: 20px
+				margin-top: 4px
 				font-size: .8em
 				&:hover
 					text-decoration: underline
 				
+		h3.discussion		
+			margin-left: 30px
+			color: #296d8A
+			a
+				color: #296d8A
+				text-decoration: none
+				&:hover
+					text-decoration: underline
+				span
+					float: left
+					margin-right: 20px
+		div.discussion
+			margin-bottom: 60px
+			margin-left: 10px
 		ul.themes
 			width: 660px
 			margin-left: 10px
@@ -129,7 +160,7 @@ div.proposal
 				font-style: italic
 				width: 500px
 			li.theme
-				margin: 0 0 0 40px
+				margin: 0 0 8px 40px
 				font-size: 1.08em
 				list-style-type: 	disc
 				position: relative
@@ -139,6 +170,8 @@ div.proposal
 					text-decoration: none
 					&:hover
 						text-decoration: underline
+					p 
+						margin: 0
 				div.comments, div.ideas
 					display: none
 					float: none
@@ -153,7 +186,7 @@ div.proposal
 	div.form_help_slide
 		background-color: #e3e3ff
 		padding: 0 1em
-		margin-left: 10px
+		margin-left: 20px
 		width: 500px
 		position: relative
 		a.close
@@ -162,7 +195,7 @@ div.proposal
 			right: 8px
 		div.help_header
 			h3.label
-				padding-top: 16px
+				//padding-top: 16px
 				color: #296d8A
 		div.help_body	
 			display: none
@@ -195,7 +228,8 @@ div.proposal
 				display: none
 				
 	form.suggest_idea
-		margin-left: 20px
+		margin-left: 30px
+		margin-bottom: 30px
 		textarea
 			width: 376px
 			background-color: #FCFEB4
@@ -372,4 +406,67 @@ div.endorsements
 			margin-top: 0
 	div.cta
 		margin: 32px 0 32px 0
+
+div.question_summary
+	div.rater
+		margin-left: 30px
+			
+div.rater
+	//background: $light_yellow_background
+	border: 1px solid #7fBDDB
+	padding: 10px
+	width: 400px
+	margin-bottom: 20px
+	p.label
+		margin: 0 0 10px 0
+		font-weight: bold
+		position: relative
+		&.please-rate
+			color: #6c41a6
+			a.view_results
+				display: none
+		a.view_results
+			display: block
+			position: absolute
+			top: 0
+			right: 0
+	div.rater_faces
+		position: relative
+		width: 380px
+		height: 38px
+		img
+			position: absolute
+			top: 0
+			&.yuck
+				left: 0
+			&.meh
+				left: 33%
+			&.good
+				left: 66%
+			&.great
+				right: 0
+	div.theme_slider
+		width: 100%
+	p.results
+		position: relative
+		margin-bottom: 0
+		width: 100%
+		a
+			float: right
+			color: #6c41a6
+			font-weight: bold
+			margin-left: 20px
+			
+div.results
+	display: none
+	div.vote_results
+		margin-top: 10px
+		width: 400px
+		height: 60px
+		position: relative
+		div.bar
+			background-color: $proposal_icon_bg
+			height: 40px
+			position: absolute
+			bottom: 0
 			

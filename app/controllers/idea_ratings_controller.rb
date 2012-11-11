@@ -61,12 +61,18 @@ class IdeaRatingsController < ApplicationController
     @idea_rating = IdeaRating.where(idea_id: params[:id], member_id: @member.id).first_or_initialize
     @idea_rating.rating = params[:rating]
     @idea_rating.member = @member
-    
     logger.debug @idea_rating.inspect
     
     respond_to do |format|
       if @idea_rating.save
-        format.js { render 'idea_ratings/update_rating_ok', locals: { idea_rating: @idea_rating } }
+        unrated_idea_count = 0
+        if params[:mode] == 'review_unrated'
+          question = @idea_rating.idea.question
+          question.member = @member
+          unrated_idea_count = question.unrated_ideas.count
+        end
+        
+        format.js { render 'idea_ratings/update_rating_ok', locals: { idea_rating: @idea_rating, unrated_idea_count: unrated_idea_count } }
         #format.html { redirect_to @idea_rating, notice: 'Idea rating was successfully created.' }
         #format.json { render json: @idea_rating, status: :created, location: @idea_rating }
       else

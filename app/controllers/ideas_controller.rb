@@ -106,22 +106,32 @@ class IdeasController < ApplicationController
       if unrated_ideas.count > 0
         idea = unrated_ideas[0]
       end
-    
+    elsif params[:act] == 'theming_popup'
+      idea = Idea.find(params[:idea_id])
+      if idea.role == 1 && !idea.parent_id.nil? && idea.parent_id != 0
+        constituent_idea = idea
+        idea = Idea.find(constituent_idea.parent_id)
+      end
     else
       idea = Idea.find(params[:idea_id])
       if params[:nav]
         # get the next or first sibling idea
-        new_ideas = Idea.where(parent_id: idea.parent_id, role: idea.role, order_id: idea.order_id + ( params[:nav]=='next' ? 1 : -1) )
+        new_ideas = Idea.where(question_id: idea.question_id, parent_id: idea.parent_id, role: idea.role, order_id: idea.order_id + ( params[:nav]=='next' ? 1 : -1) )
         if new_ideas.empty?
-           new_ideas = Idea.where(parent_id: idea.parent_id, role: idea.role, order_id: 1)
+           new_ideas = Idea.where(question_id: idea.question_id, parent_id: idea.parent_id, role: idea.role, order_id: 1)
         end
         idea = new_ideas[0]
       end
     end
     
-    question ||= idea.question
-    question.member = @member
+    constituent_idea ||= nil
+    if !idea.nil? && idea.role == 3
+      question = idea
+    end
     
+    question ||= idea.question unless idea.nil?
+    question.member = @member
+
     respond_to do |format|
       if !idea.nil?
         idea.member = @member
@@ -129,7 +139,9 @@ class IdeasController < ApplicationController
           if idea.role == 1
             render 'ideas/idea_details', locals: { idea: idea, question: question } 
           elsif idea.role == 2
-            render 'ideas/answer_details', locals: { idea: idea, question: question } 
+            render 'ideas/answer_details', locals: { idea: idea, question: question, constituent_idea: constituent_idea } 
+          elsif idea.role == 3
+            render 'ideas/question_discussion', locals: { idea: idea, question: question } 
           else
             render 'ideas/details', locals: { idea: idea, question: question } 
           end

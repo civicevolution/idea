@@ -1,34 +1,55 @@
 %div.idea_details.popup.fancy-scrollbar{ idea_id: idea.id, question_id: idea.question_id}
 	- if !Rails.env.production?
 		= stylesheet_link_tag "ce/idea_details"
-
-	- question ||= idea.question
-
-	%h3.popup_nav
-		- if idea.siblings.count > 1
-			= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
-			Answer #{idea.order_id} of #{idea.siblings.count}
-			= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
-		- else
-			Answer #{idea.order_id} of #{idea.siblings.count}
-	
+	%div.answer_details_outer
+		%div.answer_details	
+			%div.details_left
+				%h3.popup_nav
+					- if idea.siblings.count > 1
+						= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
+						Answer #{idea.order_id} of #{idea.siblings.count}
+						= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
+					- else
+						Answer #{idea.order_id} of #{idea.siblings.count}
 		
-	%div.details_left
-		%h3.question= question.text
-		
-		%ul
-			%li.theme_post_it
-				%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
-					%p.idea= idea.text
+				- if idea.visible == false
+					%h3.warn This idea has been marked hidden and is no longer part of the answer
+				%ul
+					%li.theme_post_it
+						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
+							%p.idea= idea.text
 				
-			%p.timestamp
-				#{time_ago_in_words(idea.updated_at)} ago,
-				Version #{idea.version}
-				-# if idea.version > 1
-					= link_to "View history", {}
+					%p.timestamp
+						#{time_ago_in_words(idea.updated_at)} ago,
+						Version #{idea.version}
+						-# if idea.version > 1
+							= link_to "View history", {}
 					
-		= render( partial: 'rating', locals: { idea: idea } )			
+				= render( partial: 'rating', locals: { idea: idea } )			
+				
+				%h3.label.discussion
+					%span Discuss this answer
+					%div.comments
+						= image_tag('comment-sketch.gif', title: 'Number of comments')
+						%div.counts
+							%div.new
+								0 new
+							%div.total
+								0 total
+				%p.clear_both
 		
-		= render( partial: 'idea_discussion', locals: { idea: idea } )			
+				= render( partial: 'idea_discussion', locals: { idea: idea } )			
 
-		= link_to 'Close', {}, class:'close_details'
+				= link_to 'Close', {}, class:'close_dialog'
+		
+			%div.constituent_ideas
+				- random_ind = rand.to_s.scan(/\d/)[1..20]
+				%div.theme_col.themes.fancy-scrollbar
+					%ul.sortable_ideas
+						- idea.theme_ideas.each do |idea|
+							%li.idea_post_it
+								= render partial: 'ideas/post_it', locals: {idea: idea, random_ind: random_ind}
+		
+			%div.constituent_idea_details
+				- if !constituent_idea.nil?
+					= render template: 'ideas/idea_details', locals: { idea: constituent_idea, question: question }, formats: [:html] 

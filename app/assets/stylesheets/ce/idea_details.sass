@@ -3,9 +3,19 @@
 div.idea_details.ui-dialog-content
 	overflow-x: hidden
 	
-div.idea_details
+div.idea_details        
 	position: relative
-	width: 460px
+	width: 400px
+	div.activity_stream
+		width: 400px
+	div.answer_details_outer
+		position: relative
+		width: 580px
+		div.answer_details
+			position: absolute
+			top: 0
+			left: 0
+			
 	background-color: white
 	padding: 20px	
 	margin-bottom: 30px
@@ -18,6 +28,9 @@ div.idea_details
 		img	
 			vertical-align: text-top
 			cursor: pointer
+		a.return_to_answer_details, a.close_dialog
+			margin-left: 20px
+			font-size: .8em
 		
 	div.navigation
 		background: $navigation_bg
@@ -73,9 +86,9 @@ div.idea_details
 		padding-top: 10px
 	
 	div.details_left
-		//float: left
-		margin-right: 40px
-		width: 460px
+		float: left
+		margin-right: 0px
+		width: 400px
 		ul
 			padding-left: 0
 		
@@ -88,6 +101,7 @@ div.idea_details
 			margin-bottom: 16px
 	
 	div.acknowledge_new_idea
+		width: 400px
 		a
 			font-weight: bold
 			color: #296d8A
@@ -95,53 +109,6 @@ div.idea_details
 			&:hover
 				text-decoration: underline
 			
-	div.rater
-		//background: $light_yellow_background
-		border: 1px solid #7fBDDB
-		padding: 10px
-		width: 400px
-		margin-bottom: 20px
-		p.label
-			margin: 0 0 10px 0
-			font-weight: bold
-			position: relative
-			&.please-rate
-				color: #6c41a6
-				a.view_results
-					display: none
-			a.view_results
-				display: block
-				position: absolute
-				top: 0
-				right: 0
-		div.rater_faces
-			position: relative
-			width: 380px
-			height: 38px
-			img
-				position: absolute
-				top: 0
-				&.yuck
-					left: 0
-				&.meh
-					left: 33%
-				&.good
-					left: 66%
-				&.great
-					right: 0
-		div.theme_slider
-			width: 100%
-		p.results
-			position: relative
-			margin-bottom: 0
-			width: 100%
-			a
-				float: right
-				color: #6c41a6
-				font-weight: bold
-				margin-left: 20px
-			
-
 	form.std_form 
 		&.add_comment
 			margin-bottom: 0
@@ -151,7 +118,7 @@ div.idea_details
 		p.form_controls
 			position: relative
 			margin-top: 0px
-			width: 440px
+			width: 380px
 			input[type="submit"]
 				margin: 0 
 			span.char_ctr
@@ -186,25 +153,13 @@ div.comment
 div.edit_form
 	&.edit_title
 		margin-top: 20px
-div.results
-	display: none
-	div.vote_results
-		margin-top: 10px
-		width: 400px
-		height: 60px
-		position: relative
-		div.bar
-			background-color: $proposal_icon_bg
-			height: 40px
-			position: absolute
-			bottom: 0
 div.add_idea_comment
 	position: relative
-	width: 460px
+	width: 400px
 	p.form_controls
-		width: 440px
+		width: 380px
 	textarea
-		width: 440px
+		width: 380px
 	div.attachment_btn
 		position: absolute
 		//border: 1px solid red
@@ -253,7 +208,7 @@ div.comment, div.post-it
 	div.attachments
 		margin-bottom: 10px
 		border: 1px solid transparent
-		width: 436px
+		width: 376px
 		padding: 8px 0
 		div.attachment
 			float: left
@@ -267,4 +222,61 @@ div.comment, div.post-it
 			img
 				margin: 0
 				max-height: 60px
-	
+
+
+div.idea_details   
+	div.answer_details_outer
+		position: relative
+		width: 580px
+		div.answer_details
+			position: absolute
+			top: 0
+			left: 0
+			width: 1200px
+			div.details_left
+				float: left
+				margin-left: 20px
+			div.constituent_ideas	
+				float: left
+				width: 180px
+				ul
+					padding-left: 10px
+					li.idea_post_it
+						div.post-it
+							width: 10em
+			div.constituent_idea_details	
+				float: left
+				width: 400px
+				height: 400px
+				ul
+					padding-left: 0
+					overflow: visible
+					li.idea_post_it:hover
+						img.delete
+							display: none
+
+	h3.rating
+		//margin-left: 30px
+		color: #296d8A
+		a
+			color: #296d8A
+			text-decoration: none
+			margin-left: 20px
+			margin-top: 4px
+			font-size: .8em
+			&:hover
+				text-decoration: underline
+
+	h3.discussion		
+		margin-left: 0
+		margin-top: 40px
+		color: #296d8A
+		span
+			float: left
+			margin-right: 20px
+		div.counts
+			div
+				font-size: .8em
+	div.discussion
+		margin-bottom: 60px
+		margin-left: 10px

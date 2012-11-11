@@ -197,7 +197,6 @@ init_1:
             %p 
               If you agree with this proposal, show your support by endorsing it. Add a statement of support in the form below and click the button.
               If you disagree, join the discussion to share your concerns and suggest improvements. 
-              #{link_to "Here's how", help_path(:topic=>'Help_develop_proposal'), {:remote=>true}}
 
   end_summary_print:
     option_1:

@@ -34,6 +34,8 @@ class Idea < ActiveRecord::Base
       %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and role = 3 ORDER BY order_id ASC| 
     elsif self.parent_id.nil?
       %Q|SELECT * FROM ideas WHERE question_id = #{self.question_id} AND parent_id IS null ORDER BY id ASC|
+    elsif self.parent_id == 0
+      %Q|SELECT * FROM ideas WHERE question_id = #{self.question_id} AND parent_id = 0 ORDER BY id ASC|
     else
       %Q|SELECT * FROM ideas WHERE parent_id = #{self.parent_id} and role = 1 ORDER BY id ASC| 
     end  
@@ -45,6 +47,8 @@ class Idea < ActiveRecord::Base
         %Q|SELECT COUNT( * ) FROM ideas WHERE parent_id = #{self.parent_id} and role = 3| 
       elsif self.parent_id.nil?
         %Q|SELECT COUNT( * ) FROM ideas WHERE question_id = #{self.question_id} AND parent_id IS null|
+      elsif self.parent_id == 0
+        %Q|SELECT COUNT( * ) FROM ideas WHERE question_id = #{self.question_id} AND parent_id = 0|
       else
         %Q|SELECT COUNT( * ) FROM ideas WHERE parent_id = #{self.parent_id} and role = 1| 
       end  
@@ -113,7 +117,7 @@ class Idea < ActiveRecord::Base
     if allowed
       ctr = 0
       if !ordered_ids.nil?
-        order_string = ordered_ids.map{|o| "(#{ctr+=1},#{o})" }.join(',')
+        order_string = ordered_ids.reject{|id| id.to_i == 0}.map{|o| "(#{ctr+=1},#{o})" }.join(',')
     
         sql = %Q|UPDATE ideas SET parent_id = #{idea_id}, order_id = new_order_id FROM ( SELECT * FROM (VALUES #{order_string}) vals (new_order_id,idea_id)	) t WHERE id = t.idea_id|
         logger.debug "Use sql: #{sql}"
