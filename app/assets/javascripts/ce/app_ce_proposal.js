@@ -269,9 +269,9 @@ $('body').on('click', 'div.constituent_ideas li.idea_post_it',
 	function(){
 			var post_it = $(this).find('div.post-it');
 			$.getScript('/idea/' + post_it.attr('id') + '/details');
-			//var constituent_ideas = post_it.closest('div.constituent_idea');
-			//$('div.answer_details').animate({left: constituent_ideas.position().left + 20 },350);
-			$('div.answer_details').animate({left:'-440'},350);
+			var constituent_ideas = post_it.closest('div.constituent_ideas');
+			$('div.answer_details').animate({left: -(constituent_ideas.position().left + 20) },350);
+			//$('div.answer_details').animate({left:'-440'},350);
 	}
 );
 

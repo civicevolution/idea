@@ -42,10 +42,10 @@
 		%ul.themes
 			- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
 				- if theme.version > 0 && theme.visible
-					%li.theme{id: theme.id}
+					%li.theme{id: theme.id}	
 						= link_to view_idea_details_path(theme.id), {class: 'view_theme', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to discuss and rate this answer' } do
-						
-							%p= theme.text
+
+							%span= theme.text
 						
 							%div.ideas
 								= image_tag('idea-icon.gif', title: 'Number of ideas')
@@ -128,7 +128,7 @@
 			= link_to '', {}, class: 'show_idea_help_popup', tabindex: 1000
 			%div.attachment_btn
 				%div.inner
-					%input.attachment-upload{type: "file", name: "attachment", 'data-url'=>question_attachment_path(question.id) }
+					%input.attachment-upload{type: "file", name: "attachment", tabindex: 1000, 'data-url'=>question_attachment_path(question.id) }
 			%div.attachment_upload_progress
 				%div.bar{style: "width: 0%;"}
 			

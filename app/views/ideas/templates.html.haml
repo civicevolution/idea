@@ -153,19 +153,16 @@
 						new_comment.find('div.attachments').remove();
 					}
 					
-					
-					
+					new_comment.effect('highlight', {color: '#EAF8D0'},3000);				
 					setTimeout(function(){ 
 						var new_comment = $(this);   
 						//if(!new_comment.isOnScreen())
-						var par = new_comment.closest('div.ui-tabs-panel');
+						var par = new_comment.closest('div.idea_details.popup');
 						if(par.size() == 0){
-							par = new_comment.closest('div.idea_details');
+							par = $('html body');
 						}
 						var new_scroll_pos = par.scrollTop() + new_comment.height() + 40;
 						par.animate({scrollTop: new_scroll_pos }, 800);
-						par.find('form.add_comment textarea').val('').focus();
-						//}
 					}.bind(new_comment),100
 					);
 					

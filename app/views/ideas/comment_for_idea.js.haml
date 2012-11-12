@@ -5,6 +5,8 @@
 	form.find('div#errorExplanation').remove();	
 	
 	form.find('input[name="attachments"]').val( '' );
+	form.find('textarea').val('').focus();
+	
 
 	var attachments = form.find('div.attachments');
 	attachments.find('div.attachment').hide(800, function(){

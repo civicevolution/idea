@@ -7,7 +7,7 @@
 			
 		%div.attachment_btn
 			%div.inner
-				%input.attachment-upload{type: "file", name: "attachment", 'data-url'=>question_attachment_path(idea.id) }
+				%input.attachment-upload{type: "file", name: "attachment", tabindex: 1000, 'data-url'=>question_attachment_path(idea.id) }
 		%div.attachment_upload_progress
 			%div.bar{style: "width: 0%;"}
 		
