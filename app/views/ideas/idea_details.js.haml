@@ -1,6 +1,6 @@
 :plain
 	var details = $("#{escape_javascript(render( :template=> 'ideas/idea_details', :locals=>{idea: idea,question: question}, formats: [:html]  ))}");
-- if params[:act] == 'review_idea' || idea.parent_id.nil? || idea.parent_id == 0
+- if params[:act] == 'review_idea' || params[:act] == 'review_unrated_ideas' || idea.parent_id.nil? || idea.parent_id == 0
 	:plain
 		init_details_popup(details);
 - else

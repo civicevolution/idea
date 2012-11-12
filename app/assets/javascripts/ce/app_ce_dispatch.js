@@ -31,6 +31,8 @@ dispatcher = {
 			case 'question_idea_count':
 				if(spec.new_only){
 					return stat_data.idea_counts['question_ideas_new_' + spec.id ] || 0;
+				}else if(spec.unrated_only){
+					return stat_data.idea_counts['question_ideas_unrated_' + spec.id ] || 0;
 				}else{
 					return stat_data.idea_counts['question_ideas_all_' + spec.id ] || 0;
 				}
@@ -38,6 +40,8 @@ dispatcher = {
 			case 'theme_idea_count':
 				if(spec.new_only){
 					return stat_data.idea_counts['theme_ideas_new_' + spec.id ] || 0;
+				} else if(spec.unrated_only){
+					return stat_data.idea_counts['theme_ideas_unrated_' + spec.id ] || 0;
 				}else{
 					return stat_data.idea_counts['theme_ideas_all_' + spec.id ] || 0;
 				}
@@ -136,26 +140,55 @@ dispatcher = {
 			}
 		}
 	},
+	init_stat_ideas_unrated_data: function(){
+		// ideas [id, question_id, parent_id, role, created_at]
+		istats = stat_data.idea_counts;
+		istats['total_themes_unrated'] = 0;
+		istats['total_ideas_unrated'] = 0;
+		for (var i=0, stat;(stat=stat_data.ideas[i]);i++){
+
+			if(stat[3] == 1){
+				var idea_type = 'idea';
+			}else if(stat[3] == 2){
+				var idea_type = 'theme';
+			}else{
+				continue;
+			}
+			// ideas under question 
+			// now count unrated ideas
+			if(!stat_data.idea_recs[ stat[0] ]['rated']){
+				// this is a unrated idea
+				++istats['total_' + idea_type + 's_unrated'];
+				// unrated ideas under question
+				if(!istats['question_' + idea_type + 's_unrated_' + stat[1] ] ){ istats['question_' + idea_type + 's_unrated_' + stat[1] ] = 0};
+				++istats['question_' + idea_type + 's_unrated_' + stat[1] ];
+				// unrated ideas under theme
+				if(!istats['theme_' + idea_type + 's_unrated_' + stat[2] ] ){ istats['theme_' + idea_type + 's_unrated_' + stat[2] ] = 0};
+				++istats['theme_' + idea_type + 's_unrated_' + stat[2] ];
+			}
+		}
+	},
 	update_question_stats: function(){
 		console.log("update_question_stats");
 		$('div.question_summary').each(
 			function(){
 				var question = $(this);
 				var question_id = question.attr('id');
-				question.find('h3.summary div.ideas').find('div.new').html(
-					dispatcher.get_data( {type: 'question_idea_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
-					dispatcher.get_data( {type: 'question_idea_count', id: question_id}) + ' total');
-				
-				//var cta = question.find('div.call-to-action');
-				//cta.find('div.ideas').find('div.new').html(
-				//	dispatcher.get_data( {type: 'question_idea_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
-				//	dispatcher.get_data( {type: 'question_idea_count', id: question_id}) + ' total');
-				//cta.find('div.themes').find('div.new').html(
-				//	dispatcher.get_data( {type: 'question_theme_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
-				//	dispatcher.get_data( {type: 'question_theme_count', id: question_id}) + ' total');
-				//cta.find('div.comments').find('div.new').html(
-				//	dispatcher.get_data( {type: 'question_comment_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
-				//	dispatcher.get_data( {type: 'question_comment_count', id: question_id}) + ' total');
+				var unrated_ideas = dispatcher.get_data( {type: 'question_idea_count', unrated_only: true, id: question_id});
+				var unrated_link = question.find('h3.summary a.view_unrated_ideas');
+				if(unrated_ideas == 0){
+					unrated_link.addClass('hide');
+				}else{
+					unrated_link.removeClass('hide').html( 'Rate ' + unrated_ideas + ' new idea' + (unrated_ideas != 1 ? 's' : '') );
+				}
+				var total_ideas = dispatcher.get_data( {type: 'question_idea_count', id: question_id});
+				var view_ideas_link = question.find('h3.summary a.view_all_ideas');
+				if(total_ideas == 0){
+					view_ideas_link.addClass('hide');
+				}else{
+					var str = total_ideas == 1 ? "View 1 idea" : "View all " + total_ideas + " ideas"
+					view_ideas_link.removeClass('hide').html( str );
+				}
 			}
 		);	
 	},
@@ -166,9 +199,11 @@ dispatcher = {
 			function(){
 				var header = $(this);
 				var idea_id = header.attr('idea_id');
-				header.find('div.new').html(
-					dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: idea_id}) + ' new').end().find('div.total').html(
-					dispatcher.get_data( {type: 'idea_comment_count', id: idea_id}) + ' total');
+				var new_coms = dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: idea_id});
+				var new_div = header.find('div.total').html(
+					dispatcher.get_data( {type: 'idea_comment_count', id: idea_id}) + ' total').end()
+					.find('div.new').html( new_coms + ' new');
+				if(new_coms == 0 ){new_div.addClass('hide');}
 			}
 		);	
 	},
@@ -182,12 +217,17 @@ dispatcher = {
 			function(){
 				var theme = $(this);
 				var theme_id = theme.attr('id');
-				theme.find('div.ideas').find('div.new').html(
-					dispatcher.get_data( {type: 'theme_idea_count', new_only: true, id: theme_id}) + ' new').end().find('div.total').html(
-					dispatcher.get_data( {type: 'theme_idea_count', id: theme_id}) + ' total');
-				theme.find('div.comments').find('div.new').html(
-					dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: theme_id}) + ' new').end().find('div.total').html(
-					dispatcher.get_data( {type: 'idea_comment_count', id: theme_id}) + ' total');
+				var new_ideas = dispatcher.get_data( {type: 'theme_idea_count', unrated_only: true, id: theme_id});
+				var new_div = theme.find('div.ideas').find('div.total').html(
+					dispatcher.get_data( {type: 'theme_idea_count', id: theme_id}) + ' total').end()
+					.find('div.new').html( new_ideas + ' new');
+					if(new_ideas == 0){new_div.addClass('hide');}
+					
+				var new_coms = dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: theme_id});
+				var new_div = theme.find('div.comments').find('div.total').html(
+					dispatcher.get_data( {type: 'idea_comment_count', id: theme_id}) + ' total').end()
+					.find('div.new').html( new_coms + ' new');
+				if(new_coms == 0){new_div.addClass('hide');}
 			}
 		);	
 	},
@@ -197,13 +237,14 @@ dispatcher = {
 			function(){
 				var post_it = $(this);
 				var post_it_id = post_it.attr('id');
+				var new_coms = dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: post_it_id});
 				var total_coms = dispatcher.get_data( {type: 'idea_comment_count', id: post_it_id});
 				if(total_coms == 0){
 					post_it.find('div.comments').hide();
 				}else{
-					post_it.find('div.comments').find('div.new').html(
-						dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: post_it_id}) + ' new').end().find('div.total').html(
-						total_coms + ' total');
+					var new_div = post_it.find('div.comments').find('div.total').html( total_coms + ' total').end()
+						.find('div.new').html( new_coms + ' new');
+					if(new_coms == 0){new_div.addClass('hide');}
 				}
 			}
 		);	
@@ -213,6 +254,8 @@ dispatcher = {
 		dispatcher.init_stat_comments_data();
 		dispatcher.init_stat_ideas_data();
 		dispatcher.init_stat_ratings();	
+		dispatcher.init_stat_ideas_unrated_data();	
+		
 		dispatcher.update_question_stats();
 		dispatcher.update_theme_stats();
 		dispatcher.update_discussion_stats();

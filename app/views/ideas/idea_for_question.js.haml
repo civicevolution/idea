@@ -14,16 +14,11 @@
 		attachments.hide(800);
 	})
 	
-	var unrated_ideas_link = $('<div class="ideas">#{link_to image_tag('idea-icon.gif'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true } }<span class="cnt">#{question.unrated_ideas.count} new</span></div>')
-
 	close_idea_help_popup( question.find('div.form_help_slide') );
 
-	if( $('div.question_summary[id="#{question.id}"] h3.summary div.ideas').size() > 0 ){
-		$('div.question_summary[id="#{question.id}"] h3.summary div.ideas').replaceWith(unrated_ideas_link);
+	$('div.question_summary[id="#{question.id}"] h3.summary a.view_unrated_ideas').removeClass('hide').html( 
+		"Rate #{pluralize(question.unrated_ideas.count, ' new idea')}" );
 
-	}else{
-		$('div.question_summary[id="#{question.id}"] h3.summary').prepend(unrated_ideas_link);		
-	}
 	$.getScript('/idea/#{idea.id}/details?act=review_idea', 
 		function(){
 			if(!member.follow_set){

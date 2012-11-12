@@ -4,6 +4,7 @@
 		// clicked link to view an idea that doesn't exist
 		$('<p>There are no more unrated ideas at this time</p>').dialog({title: 'Warning'});
 		$('div.question_summary[id="#{question.id}"] h3.summary div.ideas').remove();
+		$('div.question_summary[id="#{question.id}"] h3.summary a.view_unrated_ideas').addClass('hide');
 		
 - else
 	:plain

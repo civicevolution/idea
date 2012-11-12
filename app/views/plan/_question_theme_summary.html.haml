@@ -2,21 +2,13 @@
 %div.question_summary{:id=>question.id}
 	%h2.question Q#{question.order_id}: #{question.text}
 			
-	%div.call-to-action
-		%div.custom
-		
 	%h3.summary 
 		%span Answers composed from ideas
+
+		= link_to 'Rate new ideas', view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas hide', rel: 'nofollow', remote: true, wait: 'gif' }
+		
 		= link_to 'View all ideas', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the theming page for this question' }
-		
-		%div.ideas
-			= link_to image_tag('idea-icon.gif', title: 'Number of ideas you have not rated'), view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-			%div.counts
-				%div.new
-					0 new
-				%div.total
-					0 total
-		
+				
 	%ul.themes
 		- no_themes = true
 		- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
