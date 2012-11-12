@@ -27,7 +27,7 @@
 					
 				= render( partial: 'rating', locals: { idea: idea } )			
 				
-				%h3.label.discussion
+				%h3.label.discussion{idea_id: idea.id}
 					%span Discuss this answer
 					%div.comments
 						= image_tag('comment-sketch.gif', title: 'Number of comments')

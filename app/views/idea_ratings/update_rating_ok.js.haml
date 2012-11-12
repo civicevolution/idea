@@ -26,7 +26,7 @@
 
 - elsif idea_rating.idea.role == 1 && question.unrated_ideas.count > 0
 	:plain
-		$('div.question_summary[id="#{question.id}"] div.call-to-action div.ideas span.cnt').html( "#{question.unrated_ideas.count} new");
+		$('div.question_summary[id="#{question.id}"] h3.summary div.ideas span.cnt').html( "#{question.unrated_ideas.count} new");
 		
 - else
 	:plain
@@ -34,7 +34,7 @@
 		done_link.click(function(){$(this).closest('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove(); return false; });
 - if idea_rating.idea.role == 1 && question.unrated_ideas.count == 0
 	:plain
-		$('div.question_summary[id="#{question.id}"] div.call-to-action div.ideas').remove();
+		$('div.question_summary[id="#{question.id}"] h3.summary div.ideas').remove();
 	
 	
 	

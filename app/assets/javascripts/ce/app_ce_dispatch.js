@@ -137,24 +137,43 @@ dispatcher = {
 		}
 	},
 	update_question_stats: function(){
+		console.log("update_question_stats");
 		$('div.question_summary').each(
 			function(){
 				var question = $(this);
 				var question_id = question.attr('id');
-				var cta = question.find('div.call-to-action');
-				cta.find('div.ideas').find('div.new').html(
+				question.find('h3.summary div.ideas').find('div.new').html(
 					dispatcher.get_data( {type: 'question_idea_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
 					dispatcher.get_data( {type: 'question_idea_count', id: question_id}) + ' total');
-				cta.find('div.themes').find('div.new').html(
-					dispatcher.get_data( {type: 'question_theme_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
-					dispatcher.get_data( {type: 'question_theme_count', id: question_id}) + ' total');
-				cta.find('div.comments').find('div.new').html(
-					dispatcher.get_data( {type: 'question_comment_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
-					dispatcher.get_data( {type: 'question_comment_count', id: question_id}) + ' total');
+				
+				//var cta = question.find('div.call-to-action');
+				//cta.find('div.ideas').find('div.new').html(
+				//	dispatcher.get_data( {type: 'question_idea_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
+				//	dispatcher.get_data( {type: 'question_idea_count', id: question_id}) + ' total');
+				//cta.find('div.themes').find('div.new').html(
+				//	dispatcher.get_data( {type: 'question_theme_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
+				//	dispatcher.get_data( {type: 'question_theme_count', id: question_id}) + ' total');
+				//cta.find('div.comments').find('div.new').html(
+				//	dispatcher.get_data( {type: 'question_comment_count', new_only: true, id: question_id}) + ' new').end().find('div.total').html(
+				//	dispatcher.get_data( {type: 'question_comment_count', id: question_id}) + ' total');
+			}
+		);	
+	},
+	update_discussion_stats: function(page){
+		console.log("update_discussion_stats");
+		page = page || $('body');
+		page.find('h3.discussion').each(
+			function(){
+				var header = $(this);
+				var idea_id = header.attr('idea_id');
+				header.find('div.new').html(
+					dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: idea_id}) + ' new').end().find('div.total').html(
+					dispatcher.get_data( {type: 'idea_comment_count', id: idea_id}) + ' total');
 			}
 		);	
 	},
 	update_theme_stats: function(page){
+		console.log("update_theme_stats");
 		page = page || $('body');
 		var themes = page.hasClass('question_summary') ? 
 			page.find('li.theme') :
@@ -173,6 +192,7 @@ dispatcher = {
 		);	
 	},
 	update_idea_stats: function(theming_page){
+		console.log("update_idea_stats");
 		theming_page.find('div.post-it').each(
 			function(){
 				var post_it = $(this);
@@ -194,7 +214,8 @@ dispatcher = {
 		dispatcher.init_stat_ideas_data();
 		dispatcher.init_stat_ratings();	
 		dispatcher.update_question_stats();
-		dispatcher.update_theme_stats()
+		dispatcher.update_theme_stats();
+		dispatcher.update_discussion_stats();
 	}
 	
 }

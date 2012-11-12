@@ -86,7 +86,7 @@
 	- if !question.themes.empty?
 		= render( partial: 'ideas/rating', locals: { idea: question } )
 		
-	%h3.label.discussion
+	%h3.label.discussion{idea_id: question.id}
 		= link_to view_idea_details_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the discussion for this question' } do
 			%span Discuss this question
 			%div.comments
