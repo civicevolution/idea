@@ -117,7 +117,7 @@ class Idea < ActiveRecord::Base
     message = 'ok'
     if allowed
       ctr = 0
-      if !ordered_ids.nil?
+      if !( ordered_ids.nil? || ordered_ids.empty?)
         order_string = ordered_ids.reject{|id| id.to_i == 0}.map{|o| "(#{ctr+=1},#{o})" }.join(',')
     
         sql = %Q|UPDATE ideas SET parent_id = #{idea_id}, order_id = new_order_id FROM ( SELECT * FROM (VALUES #{order_string}) vals (new_order_id,idea_id)	) t WHERE id = t.idea_id|

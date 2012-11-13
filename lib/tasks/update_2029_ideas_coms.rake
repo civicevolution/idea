@@ -60,6 +60,33 @@ namespace :update_2029_ideas_coms do
     Comment.record_timestamps = true
   end
 
+
+  desc "update idea order_id"
+  task :update_idea_order_id => :environment do
+    puts 'update_idea_order_id'
+ 
+    Idea.record_timestamps = false
+    
+    questions = Idea.where(role: 3)
+    puts "There are #{questions.size} questions"
+
+    questions.each do |question|
+      puts "processing question id: #{question.id}"
+      # order themes for every question
+      Idea.reorder_siblings( question.id, question.themes.map(&:id), nil )
+      # order ideas for every theme
+      question.themes.each do |theme|
+        Idea.reorder_siblings( theme.id, theme.theme_ideas.map(&:id), nil )
+      end
+
+      # order ideas where parent_id is null or 0	
+      Idea.reorder_siblings( "null", question.unthemed_ideas.map(&:id), nil )
+      Idea.reorder_siblings( 0, question.parked_ideas.map(&:id), nil )
+		end
+		
+    Idea.record_timestamps = true
+  end
+
 	
     
 end
