@@ -7,7 +7,7 @@
 
 		= link_to 'Rate new ideas', view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas hide', rel: 'nofollow', remote: true, wait: 'gif' }
 		
-		= link_to 'View all ideas', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the theming page for this question' }
+		= link_to 'View all ideas', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas hide', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the theming page for this question' }
 				
 	%ul.themes
 		- no_themes = true
