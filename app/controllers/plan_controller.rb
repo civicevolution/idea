@@ -59,7 +59,7 @@ class PlanController < ApplicationController
     
     @com_data, @idea_data, @rating_data = @team.proposal_data
     # clear member id for rating if not my rating
-    @rating_data.each{|rec| rec[1] = nil unless rec[1].to_i == 1}
+    @rating_data.each{|rec| rec[1] = nil unless rec[1].to_i == @member.id}
     
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
   	
