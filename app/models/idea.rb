@@ -21,6 +21,7 @@ class Idea < ActiveRecord::Base
     
   has_many :themes, class_name: 'Idea', foreign_key: 'question_id', conditions: 'role = 2', order: 'order_id asc'
   has_one :prompt, :class_name => 'DefaultAnswer', :foreign_key => 'id',  :primary_key => 'aux_id'
+  has_many :question_ideas, class_name: 'Idea', foreign_key: 'question_id', primary_key: 'id', conditions: 'role = 1'
   has_many :unthemed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NULL', :order => 'order_id asc'
   has_many :parked_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id = 0', :order => 'order_id asc'
   has_many :themed_ideas, :class_name => 'Idea', :foreign_key => 'question_id', :conditions => 'role = 1 AND parent_id IS NOT NULL AND parent_id != 0', :order => 'order_id asc'
@@ -120,7 +121,7 @@ class Idea < ActiveRecord::Base
         order_string = ordered_ids.reject{|id| id.to_i == 0}.map{|o| "(#{ctr+=1},#{o})" }.join(',')
     
         sql = %Q|UPDATE ideas SET parent_id = #{idea_id}, order_id = new_order_id FROM ( SELECT * FROM (VALUES #{order_string}) vals (new_order_id,idea_id)	) t WHERE id = t.idea_id|
-        logger.debug "Use sql: #{sql}"
+        #logger.debug "Use sql: #{sql}"
         ActiveRecord::Base.connection.update_sql(sql)
       end
     end

@@ -19,6 +19,10 @@
 	$('div.question_summary[id="#{question.id}"] h3.summary a.view_unrated_ideas').removeClass('hide').html( 
 		"Rate #{pluralize(question.unrated_ideas.count, ' new idea')}" );
 
+	var question_ideas_count = #{question.question_ideas.count};	
+	var str = question_ideas_count == 1 ? "View 1 idea" : "View all " + question_ideas_count + " ideas"
+	$('div.question_summary[id="#{question.id}"] h3.summary a.view_all_ideas').removeClass('hide').html( str );
+
 	$.getScript('/idea/#{idea.id}/details?act=review_idea', 
 		function(){
 			if(!member.follow_set){

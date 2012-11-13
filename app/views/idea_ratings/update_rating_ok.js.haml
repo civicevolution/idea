@@ -1,7 +1,6 @@
 = render :template => 'shared/clear_sign_in_form', formats: [:js]
 - question = idea_rating.idea.question
 - question.member = @member
-
 :plain
 	var rater = $('div.theme_slider[id="#{idea_rating.idea.id}"]').closest('div.rater');
 	var rater_hdr = rater.prev('h3.rating');
@@ -15,6 +14,10 @@
 		rater_hdr.find('a.next').remove();
 		rater_hdr.find('a.view_results').hide();
 		$('#{link_to "Rate next idea", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'next', rel: 'nofollow', remote: true }}').appendTo( rater_hdr ).effect('highlight', {color: '#8DEE00'},2000);	
+	}else if( #{ params[:mode] == 'review_unrated' }){
+		rater_hdr.find('a.next').remove();
+		rater_hdr.find('a.view_results').hide();
+		$('#{link_to "Done", {}, {class: 'close_dialog', rel: 'nofollow' }}').appendTo( rater_hdr ).effect('highlight', {color: '#8DEE00'},2000);	
 	}else{
 		rater_hdr.find('a.view_results').show();
 	}

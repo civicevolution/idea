@@ -389,7 +389,7 @@ class IdeasController < ApplicationController
     
     respond_to do |format|
       if saved
-        
+        Idea.reorder_siblings( "null" , question.unthemed_ideas.map(&:id), Member.find(question.team.org_id) )
         format.js { render 'ideas/idea_for_question', locals: { idea: @idea, question: question} }
         format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
         format.json { render json: @idea, status: :created, location: @idea }
