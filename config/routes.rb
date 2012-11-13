@@ -238,7 +238,7 @@ G3::Application.routes.draw do
   get 'contact_us' => 'welcome#contact_us', :as=>'ce_contact_us'
   post 'contact_us' => 'welcome#contact_us_post', :as=>'ce_contact_us_post'
   get 'admin' => 'admin#index', :as=>'admin'
-
+  match 'admin/:action' => 'admin'
 
   get 'members/new_profile' => 'members#new_profile_form', :as=>'new_profile_form'
   match 'members/new_profile' => 'members#new_profile_post', :via => [:put, :post], :as=>'new_profile_post'

@@ -288,7 +288,10 @@ class AdminController < ApplicationController
         params[:s] = 'list_group_privileges'
       
       when 'add_new_group'
-        a = Admin.new :member_id=>params[:member_id], :admin_group_id=>params[:admin_group_id], :initiative_id=>params[:initiative_id]
+        a = Admin.new 
+        a.member_id= params[:member_id]
+        a.admin_group_id=params[:admin_group_id]
+        a.initiative_id=params[:initiative_id]
         a.save  
         params[:s] = 'list_groups'
       

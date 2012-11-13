@@ -1,5 +1,5 @@
 - content_for (:script) do
-	= javascript_include_tag "jquery.tablesorter.min.js"
+	= javascript_include_tag "opt/jquery.tablesorter.min.js"
 	:javascript
 		$(function() {
 		    // add new widget called indexFirstColumn
@@ -31,6 +31,7 @@
 	%thead
 		%tr
 			%th #
+			%th Id
 			%th
 				Name
 			%th
@@ -48,6 +49,7 @@
 		- @members.each do |m|
 			%tr
 				%td
+				%td= m['id']
 				%td= "#{m.first_name} #{m.last_name}"
 				%td= m['email']
 				-#%td= link_to m['teams'], {:action=>'team_members', :id=>m.id}
