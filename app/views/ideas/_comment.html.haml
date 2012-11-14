@@ -1,4 +1,4 @@
-%div.comment
+%div.comment{id:comment.id}
 	- if comment.anonymous == 't'
 		- name = 'Anonymous'
 		- pic_src = '/assets/members_default/small/m.jpg'
@@ -7,11 +7,11 @@
 		- pic_src = comment.author.photo.url(:small)
 
 
-	- if comment['new']
-		%span.new_com New
-	
-	%img{:src=>pic_src,:class=>'i36'}		
-	
+	%div.img
+		%img{:src=>pic_src,:class=>'i36'}		
+		-# if comment['new']
+		%p.new_com.hide New
+		
 	%div.comment_body
 
 		%p.name= name					

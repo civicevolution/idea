@@ -49,6 +49,14 @@ dispatcher = {
 			case 'idea_comment_count':
 				if(spec.new_only){
 					return stat_data.comment_counts['idea_new_' + spec.id ] || 0;
+				}else if(spec.combined_new_only){
+					return (stat_data.comment_counts['idea_combined_new_' + spec.id ] + stat_data.comment_counts['idea_new_' + spec.id ])|| 0;
+				}else if(spec.combined_only){
+					return (stat_data.comment_counts['idea_combined_' + spec.id ] + stat_data.comment_counts['idea_all_' + spec.id ])|| 0;
+				}else if(spec.ideas_new_only){
+					return stat_data.comment_counts['idea_combined_new_' + spec.id ] || 0;
+				}else if(spec.ideas_only){
+					return stat_data.comment_counts['idea_combined_' + spec.id ] || 0;
 				}else{
 					return stat_data.comment_counts['idea_all_' + spec.id ] || 0;
 				}
@@ -72,7 +80,7 @@ dispatcher = {
 			if(!cstats['idea_all_' + stat[2] ] ){ cstats['idea_all_' + stat[2] ] = 0};
 			++cstats['idea_all_' + stat[2] ];
 			// now count new stuff
-			if(stat[3] > stat_data.last_visit){
+			if(stat[3] > stat_data.last_visit){	
 				stat_data['com_recs'][ stat[0] ].new_com = true;
 				// this is a new comment
 				++cstats['total_new'];
@@ -168,8 +176,28 @@ dispatcher = {
 			}
 		}
 	},
+	init_stat_theme_combined_comments_data: function(){
+		var cstats = stat_data.comment_counts;
+		// add all idea comment counts to the parent_id combined count
+		// ideas [id, question_id, parent_id, role, created_at]
+		for (var i=0, stat;(stat=stat_data.ideas[i]);i++){
+			if(stat[3] != 1){
+				continue;
+			}
+			// total coms under idea (role==1) parent
+			if( cstats['idea_all_' + stat[0] ] > 0 ){
+				if(!cstats['idea_combined_' + stat[2] ] ){ cstats['idea_combined_' + stat[2] ] = 0};
+				cstats['idea_combined_' + stat[2] ] += cstats['idea_all_' + stat[0] ];
+			}
+			// new coms under idea (role==1) parent
+			if( cstats['idea_new_' + stat[0] ] > 0 ){
+				if(!cstats['idea_combined_new_' + stat[2] ] ){ cstats['idea_combined_new_' + stat[2] ] = 0};
+				cstats['idea_combined_new_' + stat[2] ] += cstats['idea_new_' + stat[0] ];
+			}
+		}
+	},
 	update_question_stats: function(){
-		console.log("update_question_stats");
+		//console.log("update_question_stats");
 		$('div.question_summary').each(
 			function(){
 				var question = $(this);
@@ -193,7 +221,7 @@ dispatcher = {
 		);	
 	},
 	update_discussion_stats: function(page){
-		console.log("update_discussion_stats");
+		//console.log("update_discussion_stats");
 		page = page || $('body');
 		page.find('h3.discussion').each(
 			function(){
@@ -206,9 +234,21 @@ dispatcher = {
 				if(new_coms == 0 ){new_div.addClass('hide');}
 			}
 		);	
+		page.find('h3.ideas_discussion').each(
+			function(){
+				var header = $(this);
+				var idea_id = header.attr('idea_id');
+				var new_coms = dispatcher.get_data( {type: 'idea_comment_count', ideas_new_only: true, id: idea_id});
+				var new_div = header.find('div.total').html(
+					dispatcher.get_data( {type: 'idea_comment_count', ideas_only: true, id: idea_id}) + ' total').end()
+					.find('div.new').html( new_coms + ' new');
+				if(new_coms == 0 ){new_div.addClass('hide');}
+			}
+		);	
+		
 	},
 	update_theme_stats: function(page){
-		console.log("update_theme_stats");
+		//console.log("update_theme_stats");
 		page = page || $('body');
 		var themes = page.hasClass('question_summary') ? 
 			page.find('li.theme') :
@@ -217,22 +257,22 @@ dispatcher = {
 			function(){
 				var theme = $(this);
 				var theme_id = theme.attr('id');
-				var new_ideas = dispatcher.get_data( {type: 'theme_idea_count', unrated_only: true, id: theme_id});
-				var new_div = theme.find('div.ideas').find('div.total').html(
-					dispatcher.get_data( {type: 'theme_idea_count', id: theme_id}) + ' total').end()
-					.find('div.new').html( new_ideas + ' new');
-					if(new_ideas == 0){new_div.addClass('hide');}
+				//var new_ideas = dispatcher.get_data( {type: 'theme_idea_count', unrated_only: true, id: theme_id});
+				//var new_div = theme.find('div.ideas').find('div.total').html(
+				//	dispatcher.get_data( {type: 'theme_idea_count', id: theme_id}) + ' total').end()
+				//	.find('div.new').html( new_ideas + ' new');
+				//	if(new_ideas == 0){new_div.addClass('hide');}
 					
-				var new_coms = dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: theme_id});
+				var new_coms = dispatcher.get_data( {type: 'idea_comment_count', combined_new_only: true, id: theme_id});
 				var new_div = theme.find('div.comments').find('div.total').html(
-					dispatcher.get_data( {type: 'idea_comment_count', id: theme_id}) + ' total').end()
+					dispatcher.get_data( {type: 'idea_comment_count', combined_only: true, id: theme_id}) + ' total').end()
 					.find('div.new').html( new_coms + ' new');
 				if(new_coms == 0){new_div.addClass('hide');}
 			}
 		);	
 	},
 	update_idea_stats: function(theming_page){
-		console.log("update_idea_stats");
+		//console.log("update_idea_stats");
 		theming_page.find('div.post-it').each(
 			function(){
 				var post_it = $(this);
@@ -249,12 +289,21 @@ dispatcher = {
 			}
 		);	
 	},
+	update_coms_new: function(page){
+		page.find('div.comment').each(
+			function(){
+				var comment = $(this);
+				if( stat_data.com_recs[ comment.attr('id') ].new_com){ comment.find('p.new_com').removeClass('hide');}
+			}
+		);	
+	},
 	init_stat_data: function(){
 		if(typeof stat_data == 'undefined') return;
 		dispatcher.init_stat_comments_data();
 		dispatcher.init_stat_ideas_data();
 		dispatcher.init_stat_ratings();	
 		dispatcher.init_stat_ideas_unrated_data();	
+		dispatcher.init_stat_theme_combined_comments_data();
 		
 		dispatcher.update_question_stats();
 		dispatcher.update_theme_stats();

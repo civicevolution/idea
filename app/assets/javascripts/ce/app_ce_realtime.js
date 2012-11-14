@@ -1,6 +1,6 @@
 if(typeof get_templates == 'undefined') get_templates = false;
 if(typeof pub_sub_channels == 'undefined') pub_sub_channels = [];
-console.log("Loading new app_ce_realtime.js, get_templates: " + get_templates);
+//console.log("Loading new app_ce_realtime.js, get_templates: " + get_templates);
 $(function(){
 	if(get_templates){
 		//console.log("call load_templates A");
@@ -122,7 +122,7 @@ function init_juggernaut(){
 var team_channel;
 function init_juggernaut_subscribe(){		
 	for(var i in pub_sub_channels){
-		console.log("subscribe to " + pub_sub_channels[i]);
+		//console.log("subscribe to " + pub_sub_channels[i]);
 		jug.subscribe(pub_sub_channels[i], function(data){
 		  log("data for pub_sub_channel " + pub_sub_channels[i] +": " + data);
 			process_juggernaut_input(data)
