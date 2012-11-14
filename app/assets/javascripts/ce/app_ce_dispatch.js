@@ -228,10 +228,12 @@ dispatcher = {
 				var header = $(this);
 				var idea_id = header.attr('idea_id');
 				var new_coms = dispatcher.get_data( {type: 'idea_comment_count', new_only: true, id: idea_id});
+				var total_coms = dispatcher.get_data( {type: 'idea_comment_count', id: idea_id});
 				var new_div = header.find('div.total').html(
-					dispatcher.get_data( {type: 'idea_comment_count', id: idea_id}) + ' total').end()
+					total_coms + ' total').end()
 					.find('div.new').html( new_coms + ' new');
 				if(new_coms == 0 ){new_div.addClass('hide');}
+				if(total_coms == 0 ){ header.find('a span').html('Click to add a comment');}
 			}
 		);	
 		page.find('h3.ideas_discussion').each(
