@@ -280,9 +280,10 @@ class AdminController < ApplicationController
   end
   
   def create_admins
+
     case params[:act]
       when 'add_new_privilege'
-        ap = AdminPrivilege.new :admin_group_id=>params[:id], :title=> params[:title].gsub(/ /,'')
+        ap = AdminPrivilege.new :admin_group_id=>params[:admin_group_id], :title=> params[:title].gsub(/ /,'')
         ap.save
       
         params[:s] = 'list_group_privileges'
@@ -294,7 +295,7 @@ class AdminController < ApplicationController
         a.initiative_id=params[:initiative_id]
         a.save  
         params[:s] = 'list_groups'
-      
+        
       when 'remove_admin_group_privilege'
         ap = AdminPrivilege.find_by_admin_group_id_and_title(params[:admin_group_id],params[:privilege])
         ap.destroy

@@ -1,3 +1,4 @@
+= render :partial => 'admin_nav'
 %h3 Create admins
 
 
@@ -8,16 +9,16 @@
 			- Admin.list_admins.each do |a|
 				%tr
 					%td
-						=link_to "#{a.first_name} #{a.last_name}", {:action=>'create_admins', :id=>a.id, :s=>'list_groups'}
+						=link_to "#{a.first_name} #{a.last_name}", {:action=>'create_admins', :member_id=>a.id, :s=>'list_groups'}
 						
 	- when params[:s] == 'list_groups'
-		- mem = Member.find_by_id(params[:id])
+		- mem = Member.find_by_id(params[:member_id])
 		%p Admin groups for #{mem.first_name} #{mem.last_name}
 		%table
-			- Admin.list_admin_groups(params[:id]).each do |ag|
+			- Admin.list_admin_groups(params[:member_id]).each do |ag|
 				%tr
 					%td
-						=link_to "#{ag.i_title}:  #{ag.ag_title}", {:action=>'create_admins', :id=>ag.ag_id, :s=>'list_group_privileges'}
+						=link_to "#{ag.i_title}:  #{ag.ag_title}", {:action=>'create_admins', :admin_group_id=>ag.ag_id, :s=>'list_group_privileges'}
 					%td
 						=link_to "remove", {:action=>'create_admins', :member_id=>mem.id, :initiative_id=>ag.i_id, :admin_group_id=>ag.ag_id, :act=>'remove_admin_group'}
 
@@ -39,10 +40,10 @@
 		
 
 	- when params[:s] == 'list_group_privileges'
-		- ag = AdminGroup.find_by_id(params[:id])
+		- ag = AdminGroup.find_by_id(params[:admin_group_id])
 		%p Admin privileges for group: #{ag.title}
 		%table
-			- AdminPrivilege.list_privileges(params[:id]).each do |ap|
+			- AdminPrivilege.list_privileges(params[:admin_group_id]).each do |ap|
 				%tr
 					%td
 						#{ap.title}
@@ -50,7 +51,7 @@
 						=link_to "remove", {:action=>'create_admins', :privilege=>ap.title, :admin_group_id=>ag.id, :act=>'remove_admin_group_privilege'}
 		
 		%p
-			= form_tag( {:action=>'create_admins', :id=>ag.id, :act=>'add_new_privilege'} ) do
+			= form_tag( {:action=>'create_admins', :admin_group_id=>ag.id, :act=>'add_new_privilege'} ) do
 				= text_field_tag :title, nil, {:size=>16}
 				= submit_tag "Add new privilege"
 					
@@ -59,3 +60,4 @@
 		%p 
 			Please start 
 			= link_to "again", {:action=> 'create_admins'}
+= render :partial => 'admin_nav'			
