@@ -135,6 +135,7 @@
 					var form = $('form.add_comment[id="' + com.data.comment.comment.parent_id + '"]')
 					new_comment = $(new_comment).prependTo( form.siblings('div.activity_stream') );
 					new_comment.find('p.timeago').timeago();
+					new_comment.find('p.new_com').removeClass('hide');
 					form.val('').focus();
 
 					if( data.data.attachments && data.data.attachments.length > 0){

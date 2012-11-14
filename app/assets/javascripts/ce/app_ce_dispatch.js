@@ -50,9 +50,9 @@ dispatcher = {
 				if(spec.new_only){
 					return stat_data.comment_counts['idea_new_' + spec.id ] || 0;
 				}else if(spec.combined_new_only){
-					return (stat_data.comment_counts['idea_combined_new_' + spec.id ] + stat_data.comment_counts['idea_new_' + spec.id ])|| 0;
+					return (stat_data.comment_counts['idea_combined_new_' + spec.id ] || 0) + (stat_data.comment_counts['idea_new_' + spec.id ] || 0);
 				}else if(spec.combined_only){
-					return (stat_data.comment_counts['idea_combined_' + spec.id ] + stat_data.comment_counts['idea_all_' + spec.id ])|| 0;
+					return (stat_data.comment_counts['idea_combined_' + spec.id ] || 0 ) + ( stat_data.comment_counts['idea_all_' + spec.id ] || 0);
 				}else if(spec.ideas_new_only){
 					return stat_data.comment_counts['idea_combined_new_' + spec.id ] || 0;
 				}else if(spec.ideas_only){
@@ -297,7 +297,7 @@ dispatcher = {
 		page.find('div.comment').each(
 			function(){
 				var comment = $(this);
-				if( stat_data.com_recs[ comment.attr('id') ].new_com){ comment.find('p.new_com').removeClass('hide');}
+				if( stat_data.com_recs[ comment.attr('id') ] && stat_data.com_recs[ comment.attr('id') ].new_com){ comment.find('p.new_com').removeClass('hide');}
 			}
 		);	
 	},
