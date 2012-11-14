@@ -1,5 +1,5 @@
 - content_for (:script) do
-	= javascript_include_tag "jquery.tablesorter.min.js"
+	= javascript_include_tag "opt/jquery.tablesorter.min.js"
 	:javascript
 		$(function(){
 		
@@ -65,7 +65,7 @@
 		:sass
 			div.page
 				width: auto
-				margin-bottom: 200px
+				margin: 0 2em 200px 2em
 			table td 
 				padding: 3px
 			table tr.odd td
@@ -88,6 +88,7 @@
 			.stripe
 				background-color: #eeeeee
 
+= render :partial => 'admin_nav'
 %h3 Team participation statistics
 -#%ul
 	%li Top table shows every team member on every team and the content they have contributed and the last call to action email they received.
@@ -109,10 +110,9 @@
 	%li foll - # of people following this proposal with email notifications
 	%li end - # of endorsements for this proposal
 	%li Com - # of comments
-	%li TP - # of talking points
-	%li Edit - # of talking point edits
-	%li Rate - # of talking point preferences recorded
-	%li Pref - # of talking point preferences recorded
+	%li Ans - # of themed answers
+	%li Idea - # of ideas
+	%li Rate - # of idea ratings recorded
 	%li P1 - P90 - the # of points earned in each period, last 1 day, last 3 days, last 7 days etc
 	%li Tot - the total number of points earned since the proposal was started
 	%li Rep. - the # of items that have been reported as off-topic or abusive, etc on this proposal
@@ -135,10 +135,9 @@
 			%th foll
 			%th end
 			%th Com
-			%th TP
-			%th Edit
+			%th Ans
+			%th Idea
 			%th Rate
-			%th Pref
 			%th P1
 			%th P3
 			%th P7
@@ -169,10 +168,9 @@
 				%td= m.proposal_stats['followers']
 				%td= m.proposal_stats['endorsements']
 				%td.com= m.proposal_stats['comments']
-				%td.tp= m.proposal_stats['talking_points']
-				%td= m.proposal_stats['talking_point_edits']
-				%td= m.proposal_stats['talking_point_ratings']
-				%td= m.proposal_stats['talking_point_preferences']
+				%td.ans= m.proposal_stats['themes']
+				%td.tp= m.proposal_stats['ideas']
+				%td= m.proposal_stats['idea_ratings']
 				%td.pts= m.proposal_stats['points_days1']
 				%td.pts= m.proposal_stats['points_days3']
 				%td.pts= m.proposal_stats['points_days7']
@@ -185,4 +183,4 @@
 				-#%td= m.proposal_stats['question_views_base']
 				%td= link_to 'Participants', team_participant_stats_ermail_path(m['id']), :remote=>true
 				
-				
+= render :partial => 'admin_nav'				

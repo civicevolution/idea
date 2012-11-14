@@ -140,10 +140,10 @@ class Member < ActiveRecord::Base
   def self.gen_report(initiative_id)
     
     Member.find_by_sql([ %q|SELECT m.id, first_name, last_name, email,
-      (SELECT COUNT(*) FROM team_registrations WHERE member_id = m.id) AS teams,
+      (SELECT COUNT(*) FROM participant_stats WHERE member_id = m.id) AS proposals,
       (SELECT COUNT(*) FROM comments WHERE member_id = m.id) AS comments,
-      (SELECT COUNT(*) FROM bs_ideas WHERE member_id = m.id) AS bs_ideas,
-      (SELECT COUNT(*) FROM answers WHERE member_id = m.id) AS answers
+      (SELECT COUNT(*) FROM ideas WHERE member_id = m.id) AS ideas,
+      (SELECT SUM(points_total) FROM participant_stats WHERE member_id = m.id) AS total_points
       FROM members m, initiative_members im
       WHERE im.initiative_id = ? AND m.id = im.member_id
       ORDER BY first_name, last_name|, initiative_id ]

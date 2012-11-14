@@ -1,5 +1,5 @@
 - content_for (:script) do
-	= javascript_include_tag "jquery.tablesorter.min.js"
+	= javascript_include_tag "opt/jquery.tablesorter.min.js"
 	:javascript
 		$(function() {
 		    // add new widget called indexFirstColumn
@@ -42,9 +42,9 @@
 			%th
 				Coms
 			%th
-				Ideas
-			%th
 				Answers
+			%th
+				Ideas
 			%th
 				End
 				
@@ -58,8 +58,8 @@
 				%td= t.launched
 				%td= t['participants']
 				%td= t['comments']
-				%td= t['bs_ideas']
-				%td= t['answers']
+				%td= t['themes']
+				%td= t['ideas']
 				%td= t['endorsements']
 
 			

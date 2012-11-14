@@ -1,7 +1,7 @@
 - email ||= false
 - if standalone
 	- content_for (:script) do
-		= javascript_include_tag "jquery.tablesorter.min.js"
+		= javascript_include_tag "opt/jquery.tablesorter.min.js"
 		:javascript
 			$(function(){
 		
@@ -91,7 +91,8 @@
 					background-color: #c00
 				td.com
 					background-color: #d66
-					
+
+
 %div#team_participant_stats
 	%h3 
 		Team participation statistics
@@ -119,10 +120,8 @@
 				%th foll
 				%th end
 				%th Com
-				%th TP
-				%th Edit
+				%th Idea
 				%th Rate
-				%th Pref
 				%th Rep
 				%th P1
 				%th P3
@@ -150,10 +149,8 @@
 					%td= m['following']
 					%td= m['endorse']
 					%td.com= m['comments']
-					%td.tp= m['talking_points']
-					%td= m['talking_point_edits']
-					%td= m['talking_point_ratings']
-					%td= m['talking_point_preferences']
+					%td.tp= m['ideas']
+					%td= m['idea_ratings']
 					%td= m['content_reports']
 					%td.pts= m['points_days1']
 					%td.pts= m['points_days3']

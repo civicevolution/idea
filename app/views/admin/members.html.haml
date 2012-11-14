@@ -19,11 +19,12 @@
 		});
 	%style
 		:sass
-			table td 
-				padding: 3px
+			table 
+				td, th
+					padding: 3px
 			table tr.odd td
 				background: #e6f2ff
-
+= render :partial => 'admin_nav'
 %h3 Members for #{@initiative.title}
 %p Click columns to sort
 
@@ -37,13 +38,13 @@
 			%th
 				Email
 			%th
-				Teams
+				Proposals
 			%th
 				Coms
 			%th
 				Ideas
 			%th
-				Answers
+				Total points
 				
 	%tbody			
 		- @members.each do |m|
@@ -53,8 +54,8 @@
 				%td= "#{m.first_name} #{m.last_name}"
 				%td= m['email']
 				-#%td= link_to m['teams'], {:action=>'team_members', :id=>m.id}
-				%td= m['teams']
+				%td= m['proposals']
 				%td= m['comments']
-				%td= m['bs_ideas']
-				%td= m['answers']
-			
+				%td= m['ideas']
+				%td= m['total_points']
+= render :partial => 'admin_nav'
