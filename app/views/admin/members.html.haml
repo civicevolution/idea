@@ -47,7 +47,7 @@
 				Total points
 				
 	%tbody			
-		- @members.each do |m|
+		- @members.reject{|m| m.email.match(/civicevolution.org/i)}.each do |m|
 			%tr
 				%td
 				%td= m['id']
