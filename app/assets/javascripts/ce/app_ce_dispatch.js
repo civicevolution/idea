@@ -267,7 +267,11 @@ dispatcher = {
 				var new_div = theme.find('div.comments').find('div.total').html(
 					dispatcher.get_data( {type: 'idea_comment_count', combined_only: true, id: theme_id}) + ' total').end()
 					.find('div.new').html( new_coms + ' new');
-				if(new_coms == 0){new_div.addClass('hide');}
+				if(new_coms == 0){
+					new_div.addClass('hide');
+				}else{
+					theme.addClass('show_new');
+				}
 			}
 		);	
 	},
