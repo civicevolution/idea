@@ -52,6 +52,11 @@ function init_page(){
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 		//console.log("pretty photo is okay")
 	}catch(e){}
+	$('div.intro a.edit').each( 
+		function(){
+			$(this).prev().append(this);
+		}
+	);
 }
 
 function init_rating_sliders( sliders ){

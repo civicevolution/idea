@@ -1,8 +1,10 @@
 - if params[:target] == 'title'
 	:plain
-		$('div.idea_details').find('a.edit_title').show().end().find('h3.question').html( #{ team.title.to_json } ).show().next('div.edit_form').remove();
-		$('h2.home_title').html( #{ team.title.to_json } );
+		$('h2.home_title').find('span').html( #{ team.title.to_json } ).end().show(250).next('div.edit_form').remove();
 - elsif params[:target] == 'summary'
 	:plain
-		$('div.idea_details').find('a.edit_summary').show().end().find('div.post-it').find('div.idea_summary').html( simple_format(#{ auto_link(team.solution_statement, :html => { :target => '_blank' }).to_json }) ).end()	.children().show().end().find('div.edit_form').remove();
-		$('div.summary.text div.idea_summary').html( simple_format(#{ auto_link(team.solution_statement, :html => { :target => '_blank' }).to_json } ));
+		var edit_link = $('div.idea_summary a.edit').remove();
+		$('div.summary.text div.idea_summary').html( simple_format(#{ auto_link(team.solution_statement.strip, :html => { :target => '_blank' }).to_json } ));
+		$('div.summary.text div.idea_summary p:last').append(edit_link);
+		$('div.summary.text div.idea_summary').show(250).next('div.edit_form').remove();
+		

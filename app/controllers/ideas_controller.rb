@@ -142,6 +142,8 @@ class IdeasController < ApplicationController
             render 'ideas/answer_details', locals: { idea: idea, question: question, constituent_idea: constituent_idea } 
           elsif idea.role == 3
             render 'ideas/question_discussion', locals: { idea: idea, question: question } 
+          elsif idea.role == 4
+            render 'ideas/summary_discussion', locals: { idea: idea } 
           else
             render 'ideas/details', locals: { idea: idea, question: question } 
           end

@@ -6,27 +6,37 @@
 		
 		%div.notebook.corner
 			%div.intro
-				%h2.home_title= @team.title
-						
+				%h2.home_title
+					%span= @team.title
+				- if @member.id == @team.org_id
+					= link_to "edit", team_edit_path(@team.id, target: 'title'), class: "edit_title edit", remote: true
+							
 				%div.summary_block
 					%div.summary.text
-						%div.call-to-action.summary
-						
-							%div.explore
-								= link_to image_tag('magnify.gif', title: 'Click here to discuss and rate this proposal'), view_idea_details_path(@team.idea.id, act: 'view_team'), {class: 'view_team', rel: 'nofollow', remote: true, wait: 'gif' }
-						
-							%div.custom
-							-# if question.unrated_ideas.count > 0 
-								%div.comments
-									= link_to image_tag('comment-sketch.gif'), view_idea_details_path(@team.idea.id, act: 'view_team' ), {class: 'view_unrated_ideas', rel: 'nofollow', remote: true, wait: 'gif' }
-									%span.cnt
-										5
-										-#{question.unrated_ideas.count} new
 						%div.idea_summary
 							- @team.solution_statement.split(/[\r\n]+/).each do |para|
 								%p.summary= auto_link(para, :html => { :target => '_blank' })
+							- if @member.id == @team.org_id
+								= link_to "edit", team_edit_path(@team.id, target: 'summary'), class: "edit_summary edit", remote: true
+								
 						- if @team.id == 10096	
 							= render partial: 'embedded_video'
+							
+						= render( partial: 'ideas/rating', locals: { idea: @team.idea } )
+
+						%h3.label.discussion{idea_id: @team.idea.id}
+							= link_to view_idea_details_path(@team.idea.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the discussion for this proposal' } do
+								%span Discuss this question
+								%div.comments
+									= image_tag('comment-sketch.gif', title: 'Number of comments')
+									%div.counts
+										%div.new
+											0 new
+										%div.total
+											0 total
+							%p.clear_both
+						%div.discussion
+					
 
 						%p.clear_both
 
