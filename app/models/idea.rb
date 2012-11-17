@@ -80,8 +80,8 @@ class Idea < ActiveRecord::Base
   before_destroy :check_destroyable
 
   validate :check_length
-  before_save :check_should_log
-  after_save :log_team_content
+  after_update :check_should_log_update
+  after_create :check_should_log_create
   
   def check_length
     #logger.debug "Answer check_length self.question_id: #{self.question_id}, self.par_id: #{self.par_id}"
@@ -143,19 +143,22 @@ class Idea < ActiveRecord::Base
     IdeaRating.votes(self.id)
   end
   
-  @log_idea = false
-  def check_should_log
-    if self.new_record? || ( !self.original_text.nil? && self.text != self.original_text )
-      @log_idea = true
+  def check_should_log_create
+    # save new brainstorming ideas, but do not save new theme/answer till it is edited
+    if self.role != 2
+      log_team_content
+    end
+  end
+
+  def check_should_log_update
+    if !self.original_text.nil? && self.text != self.original_text
+      log_team_content
     end
   end
 
   def log_team_content
-    if @log_idea
-      # log this item into the team_content_logs
-      #logger.debug "record log team content"
-      TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
-    end
+    # log this item into the team_content_logs
+    TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
   end  
   
   
