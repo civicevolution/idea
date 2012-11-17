@@ -256,8 +256,8 @@ class NotificationRequest < ActiveRecord::Base
       
       recip_ids.push report.member_id
       if report.report_format == 1 # only collect ids of elements shown in full display
-        report.match_queue.scan(/(\d+)-(\d+)/).each do |item_type, item_id|
-          #logger.debug "Find type: #{item_type}, id: #{item_id}"
+        report.match_queue.scan(/(\d+)-(\d+)/).uniq.each do |item_type, item_id|
+          #logger.debug "XXXXXX Find type: #{item_type}, id: #{item_id}"
           displayed_objects[item_type].push item_id
         end 
       end
@@ -292,32 +292,14 @@ class NotificationRequest < ActiveRecord::Base
     #) 
     # convert the comment updated_at timestamp for each location
     @comments.each do |c|
-      c[:tz] = {}
-      locations.each{|id,tz| c[:tz][id] = tz.utc_to_local(c.updated_at) }
+      c.tz = {}
+      locations.each{|id,tz| c.tz[id] = tz.utc_to_local(c.updated_at) }
     end
-    
-    @answers = displayed_objects['2'].size == 0 ? [] : Answer.find_all_by_id(displayed_objects['2'].uniq)
-    @answers.each do |a|
-      a[:tz] = {}
-      locations.each{|id,tz| a[:tz][id] = tz.utc_to_local(a.updated_at) }
-    end
-
-    #@bs_ideas = displayed_objects['12'].size == 0 ? [] : BsIdea.find_all_by_id(displayed_objects['12'].uniq)
-    #@bs_ideas.each do |b|
-    #  b[:tz] = {}
-    #  locations.each{|id,tz| b[:tz][id] = tz.utc_to_local(b.updated_at) }
-    #end    
-    
-    @talking_points = displayed_objects['13'].size == 0 ? [] : TalkingPoint.find_all_by_id(displayed_objects['13'].uniq)
-    @talking_points.each do |tp|
-      tp[:tz] = {}
-      locations.each{|id,tz| tp[:tz][id] = tz.utc_to_local(tp.updated_at) }
-    end    
 
     @ideas = displayed_objects['20'].size == 0 ? [] : Idea.find_all_by_id(displayed_objects['20'].uniq)
-    @ideas.each do |tp|
-      tp[:tz] = {}
-      locations.each{|id,tz| tp[:tz][id] = tz.utc_to_local(tp.updated_at) }
+    @ideas.each do |i|
+      i.tz = {}
+      locations.each{|id,tz| i.tz[id] = tz.utc_to_local(i.updated_at) }
     end    
     
     app_name = ''
@@ -336,7 +318,7 @@ class NotificationRequest < ActiveRecord::Base
           subdomain = ''
           app_name = 'CivicEvolution'
       end
-      team['host'] = subdomain + (Rails.env == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
+      team.host = subdomain + (Rails.env == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
     end
 
     recipient_reports.each do |reports| 
@@ -344,10 +326,10 @@ class NotificationRequest < ActiveRecord::Base
       recipient = @recipients.detect{|r| r.id == reports[0].member_id}
       mcode = MemberLookupCode.get_code(recipient.id, {:scenario=>'periodic team report'} )
       if !test_mode
-        NotificationMailer.periodic_report(recipient, app_name, @teams, @ideas, @comments, @answers, @talking_points, reports, mcode).deliver
+        NotificationMailer.periodic_report(recipient, app_name, @teams, @ideas, @comments, reports, mcode).deliver
           #unless Rails.env=='development' && recipient.email.match(/civicevolution.org/).nil?
       else
-        return recipient, @teams, @ideas, @comments, @answers, @talking_points, reports, mcode
+        return recipient, @teams, @ideas, @comments, reports, mcode
       end
         
         

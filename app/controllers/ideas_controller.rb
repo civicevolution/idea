@@ -315,8 +315,8 @@ class IdeasController < ApplicationController
     logger.debug "edit_theme id #{params[:idea_id]}"
     
     idea = Idea.find(params[:idea_id])
-    idea.update_attribute(:text, params[:text]) 
-    idea.update_attribute(:version, idea.version + 1) 
+    idea.text = params[:text]
+    idea.version += 1
 
     respond_to do |format|
       if idea.save

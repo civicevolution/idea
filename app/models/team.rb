@@ -25,6 +25,7 @@ class Team < ActiveRecord::Base
   attr_accessor :updated_talking_points_count
   attr_accessor :new_comments
   attr_accessor :new_content
+  attr_accessor :host
   
   #validate_on_update :check_team_edit_access
   validate :check_team_edit_access, :on=>:update

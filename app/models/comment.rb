@@ -47,6 +47,7 @@ class Comment < ActiveRecord::Base
   
   attr_accessor :coms
   attr_accessor :new_coms
+  attr_accessor :tz
   
   after_initialize :init
   

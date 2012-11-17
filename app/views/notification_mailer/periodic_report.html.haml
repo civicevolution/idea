@@ -39,15 +39,6 @@
 			margin-bottom: 2em
 		p.comment
 			font-size: 1.2em
-		div.TalkingPoint
-			background-color: #BCC3D0
-			padding: 1em
-			-webkit-border-radius: 10px
-			-moz-border-radius: 10px
-			border-radius: 10px
-			margin-bottom: 2em
-		p.talking_point
-			font-size: 1.2em
 		div.Idea
 			background-color: #fffac3
 			padding: 1em
@@ -78,14 +69,13 @@
 - if (1..2) === @teams[0].initiative_id 
 	%img{:src=>"http://2029.civicevolution.org/images/2029beyondemail2.jpg"}
 
-
 %h2 We've been working on these proposals and we want you to join us
 %div.report			
 
 
 	- @reports.each do |report|
 		- team =  @teams.detect{|t| t.id == report.team_id}
-		- @host = team['host']
+		- @host = team.host
 	
 		%h3.team_title
 			= link_to team.title, plan_url(:host=>@host,:team_id=>team.id,:_mlc => @mcode)
@@ -93,21 +83,9 @@
 			%p Below are the posts to this proposal since your last report:
 		
 
-			- report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
+			- report.match_queue.scan(/(\d+)-(\d+)/).uniq.each do |type, id|
 				- #debugger
 				- case type.to_i
-					- when 2
-						- entry = @answers.detect{|a| a.id == id.to_i}
-						-if !entry.nil?
-							- if entry.ver == 1
-								%p.ans_title New answer
-							- else
-								%p.ans_title Edited answer
-				
-							%p.entry_header
-								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-							%div.ans!= "<p>#{entry.text.gsub(/\n/,'<br/>')}</p>"
-  
 					- when 3
 						- entry = @comments.detect{|c| c.id == id.to_i}
 						-if !entry.nil?
@@ -115,26 +93,12 @@
 								#{entry.author.first_name} #{entry.author.last_name} added this comment to the question
 								%span.question #{entry.question.text}
 								on
-								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+								= entry.tz[location].strftime('%A %B %d, %Y at %I:%M %p')
 								
 							%div.Comment
 								!= %Q|<p class="comment">#{entry.text.gsub(/\n/,'<br/>')}</p>|
 								-#%p.view= link_to 'View this comment', question_worksheet_url(:host=>@host, :question_id=>entry.question.id, :t=>'c', :id=> entry.id, :_mlc => @mcode)
-					
 			
-					- when 13
-						- entry = @talking_points.detect{|tp| tp.id == id.to_i}
-						-if !entry.nil?
-							%p.entry_header 
-								This talking point was added to the question
-								%span.question #{entry.question.text}
-								on
-								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
-
-							%div.TalkingPoint
-								!= %Q|<p class="talking_point">#{entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
-								-#%p.view= link_to 'Rate this talking point', question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)
-
 					- when 20
 						- entry = @ideas.detect{|i| i.id == id.to_i}
 						-if !entry.nil?
@@ -142,7 +106,7 @@
 								This idea was added to the question
 								%span.question #{entry.question.text}
 								on
-								= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+								= entry.tz[location].strftime('%A %B %d, %Y at %I:%M %p')
 
 								%div.Idea{ class: entry.role==2 ? 'theme':''}
 									!= %Q|<p class="idea">#{entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
@@ -156,7 +120,7 @@
 				for this proposal
 	
 	%h1.cta Now we want to know what you think
-	%p.cta Click one of the links above to share your voice
+	%p.cta Click a proposal link to share your voice
 	
 	%hr	
 	%p.unsubscribe_all

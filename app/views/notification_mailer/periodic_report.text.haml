@@ -8,7 +8,7 @@ We've been working on these proposals and we want you to join us
 
 - @reports.each do |report|
 	- team =  @teams.detect{|t| t.id == report.team_id}
-	- @host = team['host']
+	- @host = team.host
 	~''
 	~''
 	= team.title
@@ -20,7 +20,7 @@ We've been working on these proposals and we want you to join us
 	~''
 	~''
 	
-	- report.match_queue.scan(/(\d+)-(\d+)/).each do |type, id|
+	- report.match_queue.scan(/(\d+)-(\d+)/).uniq.each do |type, id|
 		- case type.to_i
 			- when 2
 				- entry = @answers.detect{|a| a.id == id.to_i}
@@ -32,13 +32,13 @@ We've been working on these proposals and we want you to join us
 						Edited answer:
 						~''
 		
-					= entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')
+					= entry.tz[location].strftime('%A %B %d, %Y at %I:%M %p')
 					entry.text
 
 			- when 3
 				- entry = @comments.detect{|c| c.id == id.to_i}
 				-if !entry.nil?
-					#{entry.author.first_name} #{entry.author.last_name} added this comment to the question "#{entry.question.text}" on #{entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')}:
+					#{entry.author.first_name} #{entry.author.last_name} added this comment to the question "#{entry.question.text}" on #{entry.tz[location].strftime('%A %B %d, %Y at %I:%M %p')}:
 					~''
 					= entry.text
 					~''
@@ -46,25 +46,11 @@ We've been working on these proposals and we want you to join us
 					~''
 					~''
 					~''
-			
-	
-			- when 13
-				- entry = @talking_points.detect{|tp| tp.id == id.to_i}
-				-if !entry.nil?
-					This talking point was added to the question "#{entry.question.text}" on #{entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')}:
-					
-					~''
-					= entry.text
-					~''
-					-#You can rate this talking point at #{question_worksheet_url(:host=>@host, :question_id=>entry.question_id, :t=>'tp', :id=> entry.id, :_mlc => @mcode)}
-					~''
-					~''
-					~''
 					
 			- when 20
 				- entry = @ideas.detect{|i| i.id == id.to_i}
 				-if !entry.nil?
-					This idea was added to the question "#{entry.question.text}" on #{entry[:tz][location].strftime('%A %B %d, %Y at %I:%M %p')}:
+					This idea was added to the question "#{entry.question.text}" on #{entry.tz[location].strftime('%A %B %d, %Y at %I:%M %p')}:
 
 					~''
 					= entry.text

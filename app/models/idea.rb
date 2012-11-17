@@ -2,6 +2,7 @@ class Idea < ActiveRecord::Base
   attr_accessible :member_id, :order_id, :parent_id, :question_id, :team_id, :text, :version, :visible, :member, :role, :aux_id, :is_theme, :created_at, :updated_at
   
   after_find do |idea|
+    idea.original_text = idea.text
     if idea.role == 4
       begin
         idea.question_id = idea.questions[0].id
@@ -72,6 +73,8 @@ class Idea < ActiveRecord::Base
     
   attr_accessor :member
   attr_accessor :unrated_ideas_count
+  attr_accessor :original_text
+  attr_accessor :tz
   
   before_validation :check_initiative_restrictions, :on=>:create
   before_destroy :check_destroyable
@@ -140,8 +143,11 @@ class Idea < ActiveRecord::Base
   end
   
   def log_team_content
-    # log this item into the team_content_logs
-    TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
+    if self.new_record? || ( !self.original_text.nil? && self.text != self.original_text )
+      # log this item into the team_content_logs
+      #logger.debug "record log team content"
+      TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
+    end
   end  
   
   

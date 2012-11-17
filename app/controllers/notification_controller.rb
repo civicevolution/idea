@@ -155,9 +155,11 @@ class NotificationController < ApplicationController
       return
     end
 
-    req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,4,10065)
+    req = NotificationRequest.find_by_member_id_and_report_type_and_team_id(1,4,10095)
     #req.match_queue = '{3-1227,13-76}'
-    req.match_queue = '{3-1305,3-1304,20-888,20-887}'
+    #req.match_queue = '{3-1305,3-1304,20-888,20-887}'
+    #req.match_queue = '{3-1446,3-1447,3-1448,20-1818,20-1819,20-1820}'
+    req.match_queue = '{20-1833,20-1833}'
     req.immediate = false
     req.dow_to_run = nil
     req.hour_to_run = nil
@@ -170,7 +172,7 @@ class NotificationController < ApplicationController
     #req.hour_to_run = nil
     #req.save
     
-    @recip, @teams, @ideas, @comments, @answers, @talking_points, @reports, @mcode = NotificationRequest.send_periodic_report(0,0,logger, true)
+    @recip, @teams, @ideas, @comments, @reports, @mcode = NotificationRequest.send_periodic_report(0,0,logger, true)
 
     if params[:text]
       render :template => 'notification_mailer/periodic_report.text', :layout=>'email_preview' 
