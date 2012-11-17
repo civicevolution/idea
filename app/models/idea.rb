@@ -80,6 +80,7 @@ class Idea < ActiveRecord::Base
   before_destroy :check_destroyable
 
   validate :check_length
+  before_save :check_should_log
   after_save :log_team_content
   
   def check_length
@@ -142,8 +143,15 @@ class Idea < ActiveRecord::Base
     IdeaRating.votes(self.id)
   end
   
-  def log_team_content
+  @log_idea = false
+  def check_should_log
     if self.new_record? || ( !self.original_text.nil? && self.text != self.original_text )
+      @log_idea = true
+    end
+  end
+
+  def log_team_content
+    if @log_idea
       # log this item into the team_content_logs
       #logger.debug "record log team content"
       TeamContentLog.new(:team_id=>self.team_id, :member_id=>self.member_id, :o_type=>self.o_type, :o_id=>self.id, :processed=>false).save
