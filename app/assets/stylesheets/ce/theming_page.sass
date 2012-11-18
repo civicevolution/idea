@@ -214,10 +214,6 @@ li.idea_post_it, li.theme_post_it, li.question_post_it, li.team_post_it
 	margin: 1em
 	float: left
 
-div.theme_col.edit_mode
-	li.idea_post_it, li.theme_post_it, li.question_post_it, li.team_post_it
-		cursor: default
-		
 li.idea_post_it
 	div.post-it
 		background: $yellow_post_it
@@ -318,20 +314,8 @@ div.theme_col
 		p.idea, div.status
 			display: block
 
-div.theme_col.edit_mode
-	li.theme_post_it
-		form.std_form.edit_theme
-			display: block
-		p.idea, div.status
-			display: none
-	img.clipboard
-		display: block
-	img.delete
-		display: none
-		
 p.idea
 	word-wrap: break-word
-
 
 div.new_group_drop_zone
 	ul.sortable_ideas

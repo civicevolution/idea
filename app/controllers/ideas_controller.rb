@@ -315,6 +315,26 @@ class IdeasController < ApplicationController
     logger.debug "edit_theme id #{params[:idea_id]}"
     
     idea = Idea.find(params[:idea_id])
+    # check if privileged
+    auth = true
+    
+    respond_to do |format|
+      if auth
+        format.js { render 'ideas/theme_edit_form', locals: { idea: idea} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      else
+        format.js { render 'ideas/edit_theme_error', locals: { idea: idea} }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  def edit_theme_post
+    logger.debug "edit_theme id #{params[:idea_id]}"
+    
+    idea = Idea.find(params[:idea_id])
     idea.text = params[:text]
     idea.version += 1
 

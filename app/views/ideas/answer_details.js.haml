@@ -9,3 +9,6 @@
 - if !constituent_idea.nil?	
 	:plain
 		$('div.answer_details').animate({left:'-440'},350);
+- if params[:mode] == 'edit'
+	:plain
+		details.find('a.edit_answer').click();

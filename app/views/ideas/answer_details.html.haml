@@ -14,16 +14,20 @@
 		
 				- if idea.visible == false
 					%h3.warn This idea has been marked hidden and is no longer part of the answer
-				%ul
+				%ul.answer
 					%li.theme_post_it
 						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
 							%p.idea= idea.text
 				
 					%p.timestamp
-						#{time_ago_in_words(idea.updated_at)} ago,
+						- if @member.id == idea.team.org_id
+							= link_to "Edit", edit_theme_path(idea.id, act: 'edit_answer_popup'), class: "edit_answer edit", remote: true
+						
 						Version #{idea.version}
 						-# if idea.version > 1
 							= link_to "View history", {}
+							
+							#{time_ago_in_words(idea.updated_at)} ago
 					
 				= render( partial: 'rating', locals: { idea: idea } )			
 				

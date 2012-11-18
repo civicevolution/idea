@@ -150,3 +150,4 @@ $('body').on('click','div.idea_details a.goto_theming_page',
 		return false;
 	}
 );
+

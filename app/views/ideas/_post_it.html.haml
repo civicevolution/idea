@@ -1,12 +1,4 @@
 %div{class: "R#{random_ind.pop} post-it", id: idea.id}
-	-if idea.role == 2
-		= form_tag edit_theme_path(idea.id), :class=>'std_form edit_theme', id: idea.id, :remote=>true do 
-			%div.edit_theme
-				= text_area_tag :text, idea.text, :class=>'theme autosize', :size=>"1x2", :fixed_rows=>true
-			%p.form_controls
-				= submit_tag "Save", :name=>'add_idea', 'data-disable-with'=>'Submitting...'
-				= link_to 'Cancel', '#', {:class=>'cancel', :rel=>'nofollow'}
-		
 	%p.idea= idea.text
 	- if !idea.attachments.empty?
 		%div.attachments

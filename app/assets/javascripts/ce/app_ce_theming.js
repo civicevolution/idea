@@ -51,8 +51,8 @@ function resize_theming_page(){
 		}
 	);
 		
-	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() ).css({top: win_top, left: win_left});
-	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() ).css({top: win_top, left: win_left + theme_cols_window.parent().width() - 24 });
+	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() - 40 ).css({top: win_top + 40, left: win_left});
+	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() - 40 ).css({top: win_top + 40, left: win_left + theme_cols_window.parent().width() - 24 });
 	//setTimeout(resize_dims, 1000);
 }
 
@@ -206,10 +206,13 @@ function createNewThemeGroup(ui, list, par){
 
 $('body').on('mouseup', 'div.theming_page div.post-it', show_idea_details);
 function show_idea_details(event){
-	var edit_mode = $(this).closest('div.theme_col').hasClass('edit_mode');
-	if( !edit_mode && !($(event.srcElement).is('img.delete') || $(event.srcElement).is('img.edit')) ){
+	if( !$(event.srcElement).is('img.delete') ){
 		//console.log("show_idea_details for this.id: " + this.id);
-		$.getScript('/idea/' + this.id + '/details?act=theming_popup');
+		var url = '/idea/' + this.id + '/details?act=theming_popup';
+		if( $(event.srcElement).is('img.edit') ){
+			url += '&mode=edit';
+		}
+		$.getScript(url);
 	}
 }
 
@@ -221,18 +224,6 @@ $('body').on('click','div.theming_page li.idea_post_it img.delete',
 		$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 
 			"script"
 		);
-	}
-);
-
-$('body').on('click','div.theming_page li.theme_post_it img.edit',
-	function(event){
-		if(editing_disabled())return false;
-		var theme_col = $(this).closest('div.theme_col').addClass('edit_mode');
-		theme_col.find('ul.sortable_ideas').sortable('disable');
-		theme_col.find('textarea').autoGrow({
-			minHeight  : 100,
-			maxHeight : 500
-		})
 	}
 );
 
@@ -251,26 +242,6 @@ $('body').on('click','div.theming_page li.theme_post_it img.delete',
 		}
 	}
 );
-
-
-//$('body').on('click','div.theming_page div.post-it img.clipboard',
-//	function(event){
-//		var post_it = $(this).closest('div.post-it');
-//		console.log("copy text to clipboard: " + post_it.find('p.idea').html() );
-//		//var theme = post_it.closest('div.theme_col')
-//	}
-//);
-
-$('body').on('click','div.theming_page div.post-it a.cancel',
-	function edit_theme(event){
-		var post_it = $(this).closest('div.post-it');
-		post_it.find('textarea').val( post_it.find('p.idea').html() );
-		$(this).closest('div.theme_col').removeClass('edit_mode').find('ul.sortable_ideas').sortable('enable');
-	}
-);
-
-
-
 
 //
 // Set up theming page auto scrolling with hotspots

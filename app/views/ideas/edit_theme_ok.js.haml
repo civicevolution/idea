@@ -1,22 +1,16 @@
-- if params[:act] == "theme_final_edit"
+:plain
+	var idea = #{idea.to_json}.idea;
+	temp.idea = idea
+- if params[:act] == "edit_answer_popup"
 	:plain
-		//console.log("edit theme ok in theme_final_edit page");
-		var idea = #{idea.to_json}.idea;
-		var div_edit = $('div.theme_final_edit li.theme[theme_id="#{idea.id}"] div.edit_form');
-		var theme = div_edit.parent().find('div.theme');
-		theme.find('p.theme').html(idea.text);
-		div_edit.remove();
-		theme.show();
+		console.log("Replace edited answer in edit_answer_popup");
+		var popup = $('div.idea_details.popup[idea_id="#{idea.id}"]');
+		
+		var answer = popup.find('ul.answer');
+		answer.find('p.idea').html( idea.text );
+		answer.next(form).hide(250, function(){$(this).remove()});
+		answer.show(250);
 
 - else
 	:plain
-		console.log("edit theme ok - determine if edit in theming page, theme edit page, or theme popup");
-		var idea = #{idea.to_json}.idea;
-		$('h3.theme[id="#{idea.id}"]').html(idea.text);
-		if( $('div.theming_page')){
-			var post_it = $('div.post-it[id="#{idea.id}"]');
-			post_it.find('textarea').val(idea.text);
-			post_it.find('p.idea').html(idea.text);	
-			post_it.closest('div.theme_col').removeClass('edit_mode').find('ul.sortable_ideas').sortable('enable');
-			post_it.find('img.delete').remove();
-		}
+		console.log("Replace edited answer in theme final edit page);
