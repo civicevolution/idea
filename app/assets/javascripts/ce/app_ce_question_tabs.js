@@ -55,6 +55,7 @@ function init_question_tabs(question_view, page, idea_id){
 			}
 		}
 	);
+	truncate_themes( question_view.find('div.theme_col li.theme_post_it div.post-it') );
 	dispatcher.update_idea_stats(question_view);
 	dispatcher.update_theme_stats(question_view);
 }
@@ -79,6 +80,18 @@ function init_question_view(question_view, idea_id){
 	
 }
 
+function truncate_themes(post_its){
+	// truncate long themes
+	post_its.find('div.inner').each( 
+		function(){
+			var inner = $(this);
+			inner.css('max-height','');
+			if(inner.height() > 200){
+				inner.css({overflow: 'hidden', 'max-height':'200px'}).append('<p class="more">More...</p>');
+			}
+		}
+	);
+}
 
 $('body').on('click','ul.ui-tabs-nav a.close, div.theming_page a.close_theming_page, div.theme_final_edit a.close_theming_page', function(){
 	var question_tabs = $(this).closest('div.question_tabs');

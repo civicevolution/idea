@@ -1,6 +1,8 @@
 :plain
 	var answer_html = #{BlueCloth.new( idea.text ).to_html.to_json};
-	$('div.post-it[id="#{idea.id}"] div.inner').html( answer_html );
+	var post_it = $('div.post-it[id="#{idea.id}"]');
+	post_it.find('div.inner').html( answer_html );
+	truncate_themes(post_it);
 	$('li.theme[id="#{idea.id}"] div.answer').html( answer_html );
 - if params[:act] == "edit_answer_popup"
 	:plain
