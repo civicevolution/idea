@@ -151,3 +151,49 @@ $('body').on('click','div.idea_details a.goto_theming_page',
 	}
 );
 
+
+function init_answer_editor( form, idea_id ){
+	form.find('input[name="act"]').val('edit_answer_popup');
+
+	var popup = $('div.idea_details.popup[idea_id="' + idea_id + '"]');
+	var answer = popup.find('ul.answer');
+	//answer.hide(250).after(form);
+	answer.before(form.hide());
+	form.show(250);
+	//console.log("activate_text_counters_grow");
+	activate_text_counters_grow( form.find('textarea'), 200);
+	form.on('click','a.cancel',function(){
+		form.hide(250, function(){$(this).remove()});
+		answer.find('div.post-it div.inner').show().end().find('div#wmd-preview').hide( 100, function(){$(this).remove()});
+		return false;
+	});
+	
+	if(typeof Markdown == 'undefined'){
+		//console.log("load Markdown");
+		$.getScript('/assets/Markdown.Converter.js', init_markdown_editor);
+		$.getScript('/assets/Markdown.Editor.js', init_markdown_editor);
+		$.getScript('/assets/Markdown.Sanitizer.js', init_markdown_editor);
+	}else{
+		init_markdown_editor();
+	}
+	
+	function init_markdown_editor(){
+		//console.log("init_markdown_editor");
+		if( typeof Markdown != 'undefined' && 
+			typeof Markdown.Converter != 'undefined' &&
+			typeof Markdown.getSanitizingConverter != 'undefined' && 
+			typeof Markdown.Editor != 'undefined'){
+				//console.log("create converter");
+				var converter = new Markdown.getSanitizingConverter();
+				//console.log("create editor");
+				var editor = new Markdown.Editor(converter);
+				//console.log("run editor");
+				editor.run();
+				
+				answer.find('div.post-it div.inner').hide().after( form.find('div#wmd-preview') );
+				//console.log("completed");
+			}
+	}
+	
+	
+}

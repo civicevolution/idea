@@ -3,17 +3,8 @@
 	temp.form = form;
 - if params[:act] == 'edit_answer_popup'
 	:plain
-		form.find('input[name="act"]').val('edit_answer_popup');
-	
-		var popup = $('div.idea_details.popup[idea_id="#{idea.id}"]');
-		var answer = popup.find('ul.answer');
-		answer.hide(250).after(form);
-	
-		activate_text_counters_grow( form.find('textarea'), 360);
-		form.on('click','a.cancel',function(){
-			answer.show(250).next('div.edit_form').remove();
-			return false;
-		});
+		init_answer_editor( form, #{idea.id} );
+
 - else
 	:plain
 		console.log("insert edit form into the final theme edit page");

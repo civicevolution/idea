@@ -1,8 +1,17 @@
 %div.edit_form			
 	= form_tag(edit_theme_path(params[:idea_id]), :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
 		= hidden_field_tag :act, 'edit_theme_popup'
-		- text = idea.text
-		= text_area_tag :text, text, {:class=>'autosize'}
+
+		.wmd-panel
+			#wmd-button-bar
+			- text = idea.text
+			= text_area_tag :text, text, {id: 'wmd-input', class: 'wmd-input autosize'}
+
+		#wmd-preview.wmd-panel.wmd-preview
+
+
+
+
 		%p.form_controls
 			= submit_tag "Update", 'data-disable-with'=>'Submitting...'
 			= link_to 'Cancel', {}, class: 'cancel', rel: 'nofollow'

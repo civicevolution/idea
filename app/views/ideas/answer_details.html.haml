@@ -17,8 +17,9 @@
 				%ul.answer
 					%li.theme_post_it
 						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
-							:markdown
-								#{idea.text}
+							%div.inner
+								:markdown
+									#{idea.text}
 				
 					%p.timestamp
 						- if @member.id == idea.team.org_id

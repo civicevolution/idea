@@ -6,14 +6,17 @@
 	$('li.theme[id="#{idea.id}"] div.answer').html( answer_html );
 - if params[:act] == "edit_answer_popup"
 	:plain
-		console.log("Replace edited answer in edit_answer_popup");
+		//console.log("Replace edited answer in edit_answer_popup");
 		var popup = $('div.idea_details.popup[idea_id="#{idea.id}"]');
 		
 		var answer = popup.find('ul.answer');
-		answer.find('div.post-it').html( answer_html );
-		answer.next(form).hide(250, function(){$(this).remove()});
-		answer.show(250);
-
+		answer.find('div.post-it div.inner').html( answer_html );
+		
+		answer.find('div.post-it div.inner').show(250);
+		answer.find('div.wmd-preview').hide(250, function(){$(this).remove()});
+		//console.log("remove the preview");
+		answer.prev('div.edit_form').hide(250, function(){$(this).remove()});
+		
 - else
 	:plain
 		console.log("Replace edited answer in theme final edit page);

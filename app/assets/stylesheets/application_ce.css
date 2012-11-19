@@ -20,4 +20,5 @@
  *= require ./ce/help.sass
  *= require jquery-ui-1.8.23.custom.css
  *= require prettyPhoto.css
+*= require pagedown.css
 */
