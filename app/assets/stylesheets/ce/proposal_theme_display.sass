@@ -90,15 +90,6 @@ div.tools
 // Questions and themes
 
 div.proposal
-	a.view_question
-		background: image-url('magnify.gif') no-repeat 0px 0px
-		color: #296d8A
-		text-decoration: none
-		padding-left: 30px
-		vertical-align: middle
-		&:hover
-			background: image-url('magnify-hover.gif') no-repeat 0px 0px
-			text-decoration: underline
 	div.question_summary
 		h2.question 
 			color: #296d8A
@@ -147,20 +138,23 @@ div.proposal
 			margin-left: 10px
 			padding-bottom: 8px
 			padding-top: 12px
+			padding-left: 20px
 			&.instructions
 				font-style: italic
 				width: 500px
 			li.theme
-				margin: 0 0 8px 40px
+				margin: 0 0 16px 0px
 				font-size: 1.08em
-				list-style-type: 	disc
+				list-style-type: 	none
 				position: relative
 				padding-right: 160px
+				&:hover
+					background-color: #e5e6ff
 				a
 					color: black
 					text-decoration: none
-					&:hover
-						text-decoration: underline
+				ul
+					padding-left: 36px
 				div.comments, div.ideas
 					display: none
 					position: absolute

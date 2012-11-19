@@ -8,14 +8,6 @@
 
 	%div.new_content
 		- case
-			- when @entry.class.to_s == "Answer" && @report[:report_format] == 1
-				- if @entry.ver == 1
-					%p.entry_title This new answer was added
-				- else
-					%p.entry_title An answer was edited
-		
-				%div.ans!= "<p>#{@entry.text.gsub(/\n/,'<br/>')}</p>"
-
 			- when @entry.class.to_s == "Comment" && @report[:report_format] == 1
 				%p.entry_title 
 					#{@entry.author.first_name} #{@entry.author.last_name} added this comment to the question
@@ -24,20 +16,13 @@
 					!= %Q|<p class="comment">#{@entry.text.gsub(/\n/,'<br/>')}</p>|
 					-#%p.view= link_to 'View this comment', question_worksheet_url(:host=>@host, :question_id=>@entry.question.id, :t=>'c', :id=> @entry.id, :_mlc => @mcode)
 
-			- when @entry.class.to_s == "TalkingPoint" && @report[:report_format] == 1
-				%p.entry_title 
-					This talking point was added to the question
-					%span.question= @entry.question.text
-				%div.TalkingPoint
-					!= %Q|<p class="talking_point">#{@entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
-					-#%p.view= link_to 'Rate this talking point', question_worksheet_url(:host=>@host, :question_id=>@entry.question_id, :t=>'tp', :id=> @entry.id, :_mlc => @mcode)
-
 			- when @entry.class.to_s == "Idea" && @report[:report_format] == 1
 				%p.entry_title 
 					This idea was added to the question
 					%span.question= @entry.question.text
 				%div.Idea{ class: @entry.role==2 ? 'theme':''}
-					!= %Q|<p class="idea">#{@entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
+					:markdown
+						#{@entry.text}
 					-#%p.view= link_to 'Rate this idea', question_worksheet_url(:host=>@host, :question_id=>@entry.question_id, :t=>'tp', :id=> @entry.id, :_mlc => @mcode)
 
 
@@ -92,17 +77,12 @@
 			border-radius: 10px
 		p.comment
 			font-size: 1.2em
-		div.TalkingPoint
-			background-color: #BCC3D0
+		div.Idea
+			background-color: #fffac3
 			padding: 1em
 			-webkit-border-radius: 10px
 			-moz-border-radius: 10px
 			border-radius: 10px
-		p.talking_point
-			font-size: 1.2em
-		div.Idea
-			background-color: #fffac3
-			padding: 1em
 			&.theme
 				background-color: #ccf
 		p.idea

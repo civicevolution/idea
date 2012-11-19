@@ -116,6 +116,7 @@ class NotificationController < ApplicationController
     log = TeamContentLog.find(params[:id])
     log.processed = false
     log.save
+
     @recip, @team, @report, @entry, @mcode, @host  = NotificationRequest.check_team_content_log(logger, true)
     if @team.nil?
       render :text => "No notification request for immediate report"
@@ -159,7 +160,7 @@ class NotificationController < ApplicationController
     #req.match_queue = '{3-1227,13-76}'
     #req.match_queue = '{3-1305,3-1304,20-888,20-887}'
     #req.match_queue = '{3-1446,3-1447,3-1448,20-1818,20-1819,20-1820}'
-    req.match_queue = '{20-1833,20-1833}'
+    req.match_queue = '{20-1852,20-512}'
     req.immediate = false
     req.dow_to_run = nil
     req.hour_to_run = nil

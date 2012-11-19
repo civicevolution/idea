@@ -42,6 +42,9 @@
 		div.Idea
 			background-color: #fffac3
 			padding: 1em
+			-webkit-border-radius: 10px
+			-moz-border-radius: 10px
+			border-radius: 10px
 			&.theme
 				background-color: #ccf
 		p.idea
@@ -109,7 +112,9 @@
 								= entry.tz[location].strftime('%A %B %d, %Y at %I:%M %p')
 
 								%div.Idea{ class: entry.role==2 ? 'theme':''}
-									!= %Q|<p class="idea">#{entry.text.gsub(/\n/,'<br/>')}</p>|.html_safe
+									:markdown
+										#{entry.text}
+									
 
 
 						

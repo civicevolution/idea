@@ -1,5 +1,10 @@
 %div{class: "R#{random_ind.pop} post-it", id: idea.id}
-	%p.idea= idea.text
+	- if idea.role == 2
+		%div.inner
+			:markdown
+				#{idea.text}
+	- else
+		%p.idea= idea.text
 	- if !idea.attachments.empty?
 		%div.attachments
 			- idea.attachments.each do |att|

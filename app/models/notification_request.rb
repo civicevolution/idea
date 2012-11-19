@@ -167,14 +167,8 @@ class NotificationRequest < ActiveRecord::Base
               if request.report_format == 1
                 # make sure I have the necessary data for a full report
                 case
-                  when log_record.o_type ==  2
-                    entry = Answer.find_by_id(log_record.o_id)
                   when log_record.o_type ==  3
                     entry = Comment.find_by_id(log_record.o_id)
-                  when log_record.o_type ==  12
-                    entry = BsIdea.find_by_id(log_record.o_id)
-                  when log_record.o_type ==  13 
-                    entry = TalkingPoint.find_by_id(log_record.o_id)
                   when log_record.o_type ==  20
                     entry = Idea.find_by_id(log_record.o_id)
                 end # end case

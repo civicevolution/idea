@@ -1,15 +1,14 @@
 :plain
-	var idea = #{idea.to_json}.idea;
-	temp.idea = idea
-	$('div.post-it[id="#{idea.id}"] p.idea').html( idea.text);
-	$('li.theme[id="#{idea.id}"] span').html( idea.text);
+	var answer_html = #{BlueCloth.new( idea.text ).to_html.to_json};
+	$('div.post-it[id="#{idea.id}"] div.inner').html( answer_html );
+	$('li.theme[id="#{idea.id}"] div.answer').html( answer_html );
 - if params[:act] == "edit_answer_popup"
 	:plain
 		console.log("Replace edited answer in edit_answer_popup");
 		var popup = $('div.idea_details.popup[idea_id="#{idea.id}"]');
 		
 		var answer = popup.find('ul.answer');
-		answer.find('p.idea').html( idea.text );
+		answer.find('div.post-it').html( answer_html );
 		answer.next(form).hide(250, function(){$(this).remove()});
 		answer.show(250);
 
