@@ -1,7 +1,8 @@
 :plain
 	var idea = #{idea.to_json}.idea;
 	temp.idea = idea
-	var post_it = $('div.post-it[id="#{idea.id}"] p.idea').html( idea.text);
+	$('div.post-it[id="#{idea.id}"] p.idea').html( idea.text);
+	$('li.theme[id="#{idea.id}"] span').html( idea.text);
 - if params[:act] == "edit_answer_popup"
 	:plain
 		console.log("Replace edited answer in edit_answer_popup");
