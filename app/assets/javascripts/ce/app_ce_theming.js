@@ -206,10 +206,10 @@ function createNewThemeGroup(ui, list, par){
 
 $('body').on('mouseup', 'div.theming_page div.post-it', show_idea_details);
 function show_idea_details(event){
-	if( !$(event.srcElement).is('img.delete') ){
+	if( event.target.className == 'delete' ){
 		//console.log("show_idea_details for this.id: " + this.id);
 		var url = '/idea/' + this.id + '/details?act=theming_popup';
-		if( $(event.srcElement).is('img.edit') ){
+		if( event.target.className == 'edit' ){
 			url += '&mode=edit';
 		}
 		$.getScript(url);
