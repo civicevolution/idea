@@ -16,8 +16,10 @@
 						%h3.label.discussion Executive Summary
 						
 						%div.idea_summary
-							- @team.solution_statement.split(/[\r\n]+/).each do |para|
-								%p.summary= auto_link(para, :html => { :target => '_blank' })
+							%div.inner
+								:markdown
+									#{@team.solution_statement}
+							
 							- if @member.id == @team.org_id
 								= link_to "edit", team_edit_path(@team.id, target: 'summary'), class: "edit_summary edit", remote: true
 								

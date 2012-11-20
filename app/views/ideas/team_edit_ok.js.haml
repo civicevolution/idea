@@ -3,8 +3,13 @@
 		$('h2.home_title').find('span').html( #{ team.title.to_json } ).end().show(250).next('div.edit_form').remove();
 - elsif params[:target] == 'summary'
 	:plain
-		var edit_link = $('div.idea_summary a.edit').remove();
-		$('div.summary.text div.idea_summary').html( simple_format(#{ auto_link(team.solution_statement.strip, :html => { :target => '_blank' }).to_json } ));
-		$('div.summary.text div.idea_summary p:last').append(edit_link);
-		$('div.summary.text div.idea_summary').show(250).next('div.edit_form').remove();
+		var summary_html = #{BlueCloth.new( team.solution_statement ).to_html.to_json};
+		var summary = $('div.idea_summary');
+		var edit_link = summary.find('a.edit').remove();
+
+		summary.find('div.inner').html(summary_html);
+		summary.find('div.inner').show(250);
+		summary.find('div.wmd-preview').hide(250, function(){$(this).remove()});
+		summary.prev('div.edit_form').hide(250, function(){$(this).remove()});
 		
+		$('div.summary.text div.idea_summary div.inner > *:last').append( edit_link );

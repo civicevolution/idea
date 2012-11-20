@@ -194,6 +194,62 @@ function init_answer_editor( form, idea_id ){
 				//console.log("completed");
 			}
 	}
-	
-	
+}
+
+function init_summary_editor( form, target ){
+	if( target == 'title'){
+		form.addClass('edit_title');
+		form.find('span.char_ctr').html(255);
+		form.find('input[name="target"]').val('title');
+		var h2 = $('h2.home_title');
+		h2.hide(250).after(form);
+		//.find('a.edit_title').hide().end().find('h3.question').after(form).hide();
+		activate_text_counters_grow( form.find('textarea').val( h2.find('span').html().trim() ), 80 )
+		form.on('click','a.cancel',function(){
+			$('h2.home_title').show(250).next('div.edit_form').remove();
+			return false;
+		});
+	}else{
+		form.addClass('edit_summary');
+		form.find('span.char_ctr').html(1000);
+		form.find('input[name="target"]').val('summary');
+		var summary = $('div.idea_summary');
+
+		summary.before(form.hide());
+		form.show(250);
+		
+		//console.log("activate_text_counters_grow");
+		activate_text_counters_grow( form.find('textarea'), 360);
+		form.on('click','a.cancel',function(){
+			form.hide(250, function(){$(this).remove()});
+			summary.find('div.inner').show().end().find('div#wmd-preview').hide( 100, function(){$(this).remove()});
+			return false;
+		});
+
+		if(typeof Markdown == 'undefined'){
+			//console.log("load Markdown");
+			$.getScript('/assets/Markdown.Converter.js', init_markdown_editor);
+			$.getScript('/assets/Markdown.Editor.js', init_markdown_editor);
+			$.getScript('/assets/Markdown.Sanitizer.js', init_markdown_editor);
+		}else{
+			init_markdown_editor();
+		}
+
+		function init_markdown_editor(){
+			//console.log("init_markdown_editor");
+			if( typeof Markdown != 'undefined' && 
+				typeof Markdown.Converter != 'undefined' &&
+				typeof Markdown.getSanitizingConverter != 'undefined' && 
+				typeof Markdown.Editor != 'undefined'){
+					//console.log("create converter");
+					var converter = new Markdown.getSanitizingConverter();
+					//console.log("create editor");
+					var editor = new Markdown.Editor(converter);
+					//console.log("run editor");
+					editor.run();
+
+					summary.find('div.inner').hide().after( form.find('div#wmd-preview') );
+				}
+		}
+	}
 }

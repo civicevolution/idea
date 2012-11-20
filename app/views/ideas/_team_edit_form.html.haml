@@ -1,8 +1,15 @@
 %div.edit_form			
 	= form_tag(team_edit_path(params[:team_id]), :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
-		= hidden_field_tag :target, 'title'
-		= text_area_tag :text, nil, {:class=>'autosize'}
+		= hidden_field_tag :target, params[:target]
+			
+		.wmd-panel
+			#wmd-button-bar
+			- text = params[:target] == 'title' ? team.title : team.solution_statement
+			= text_area_tag :text, text, {id: 'wmd-input', class: 'wmd-input autosize'}
+
+		#wmd-preview.wmd-panel.wmd-preview
+
 		%p.form_controls
 			= submit_tag "Update", 'data-disable-with'=>'Submitting...'
 			%span.char_ctr 1000 characters
-			= link_to 'Cancel', {}, class: 'cancel', rel: 'nofollow'
+			= link_to 'Discard changes', {}, class: 'cancel', rel: 'nofollow'			

@@ -1,10 +1,3 @@
 :plain
 	var form = $("#{escape_javascript(render( :partial=> 'ideas/theme_edit_form', locals: {idea: idea}, formats: [:html]  ))}");
-	temp.form = form;
-- if params[:act] == 'edit_answer_popup'
-	:plain
-		init_answer_editor( form, #{idea.id} );
-
-- else
-	:plain
-		console.log("insert edit form into the final theme edit page");
+	init_answer_editor( form, #{idea.id} );

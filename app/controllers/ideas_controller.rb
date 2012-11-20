@@ -56,6 +56,15 @@ class IdeasController < ApplicationController
 
   def question_view
     question = Idea.find_by_id(params[:question_id])
+
+    if params[:nav]
+      # get the next or first sibling idea
+      new_ideas = Idea.where(team_id: question.team_id, parent_id: question.parent_id, role: question.role, order_id: question.order_id + ( params[:nav]=='next' ? 1 : -1) )
+      if new_ideas.empty?
+         new_ideas = Idea.where(team_id: question.team_id, parent_id: question.parent_id, role: question.role).order('order_id').limit(1)
+      end
+      question = new_ideas[0]
+    end
     
     respond_to do |format|
       if !question.nil?
@@ -352,12 +361,12 @@ class IdeasController < ApplicationController
   end
   
   def team_edit
-    #debugger
+    team = Team.find( params[:team_id] )
     # check if privileged
     auth = true
     respond_to do |format|
       if auth
-        format.js { render 'ideas/team_edit_form' }
+        format.js { render 'ideas/team_edit_form', locals: { team: team} }
         #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
         #format.json { render json: @idea, status: :created, location: iidea }
       else
