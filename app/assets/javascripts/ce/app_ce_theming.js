@@ -51,8 +51,8 @@ function resize_theming_page(){
 		}
 	);
 		
-	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() - 16 ).css({top: win_top + 40, left: win_left});
-	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() - 16 ).css({top: win_top + 40, left: win_left + theme_cols_window.parent().width() - 24 });
+	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() - 48 ).css({top: win_top + 60, left: win_left});
+	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() - 48 ).css({top: win_top + 60, left: win_left + theme_cols_window.parent().width() - 24 });
 	//setTimeout(resize_dims, 1000);
 }
 
@@ -85,6 +85,7 @@ function make_ideas_sortable(idea_lists_ul){
 		tolerance: 'pointer',
 		start: function(event, ui) { 
 			$('div.auto-scroll')
+				.addClass('scroll-active')
 				.bind('mouseleave', stopAutoScroll )
 				.mousemove(function(e) {autoscroll_mousemove(e.pageX, e.pageY, this);});
 			var list = $(this);
@@ -96,6 +97,7 @@ function make_ideas_sortable(idea_lists_ul){
 			if(debug) console.log("STOP sortable drag\n\n\n\n\n\n"); 
 			stopAutoScroll();
 			$('div.auto-scroll')
+				.removeClass('scroll-active')
 				.unbind('mousemove')
 				.unbind('mouseleave');
 			$('div.new_group_drop_zone').removeClass('drop_hover').hide();	
@@ -353,7 +355,8 @@ function make_theme_cols_sortable(page){
 		cursorAt: {left: 0, top: 0},
 		tolerance: 'pointer',
 		start: function(event, ui) { 
-			$('div.auto-scroll')
+			$('div.auto-scroll.left, div.auto-scroll.right')
+				.addClass('scroll-active')
 				.bind('mouseleave', stopAutoScroll )
 				.mousemove(function(e) {autoscroll_mousemove(e.pageX, e.pageY, this);});
 		},
@@ -361,6 +364,7 @@ function make_theme_cols_sortable(page){
 			if(debug) console.log("STOP sortable drag\n\n\n\n\n\n"); 
 			stopAutoScroll();
 			$('div.auto-scroll')
+				.removeClass('scroll-active')
 				.unbind('mousemove')
 				.unbind('mouseleave');
 			

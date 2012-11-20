@@ -77,9 +77,15 @@ div.theming_page_outer
 				z-index: 10000
 				position: fixed
 				width: 24px
-				background-color: transparent
-				//background-color: red
-				//+opacity(40)
+				&.scroll-active
+					&.left
+						background: image-url('auto-scroll-left.png') repeat-y
+					&.right
+						background: image-url('auto-scroll-right.png') repeat-y
+					&.top
+						background: image-url('auto-scroll-top.png') no-repeat center top
+					&.bottom
+						background: image-url('auto-scroll-bottom.png') no-repeat center top
 			div.auto-scroll.top, div.auto-scroll.bottom
 				z-index: 10
 				position: absolute
@@ -387,10 +393,11 @@ li.theme_post_it
 		height: 12px
 		width: 20px
 		position: absolute
-		top: 20px
+		top: 8px
 		right: 0
 		background: image-url('visible3.gif') no-repeat 0 -12px
 		cursor: pointer
+		z-index: 100
 div.theme_col.theme_included	
 	li.theme_post_it
 		div.visibility
