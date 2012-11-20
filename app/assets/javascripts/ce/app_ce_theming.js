@@ -181,7 +181,7 @@ function make_ideas_sortable(idea_lists_ul){
 
 
 function showColumnDropZones(par){
-	console.log("Show the dropzones for this this column: " + par.attr('id') );
+	//console.log("Show the dropzones for this this column: " + par.attr('id') );
 	$('div.new_group_drop_zone').removeClass('drop_hover').hide();	
 	$('div.new_group_drop_zone[id="' + par.attr('id') + '"]').show();
 	//setTimeout(function(){this.find('ul.sortable_ideas').sortable('refresh');}.bind(par);
@@ -386,7 +386,8 @@ function make_theme_cols_sortable(page){
 				//console.log("update the theme sort to: " + new_ids);
 				$.post('/idea/' + theme_cols_window.attr('id') + '/idea_order', 
 					{	
-						ordered_ids: $.makeArray($.map(new_ids.split(','), function(el){return Number(el)}))
+						ordered_ids: $.makeArray($.map(new_ids.split(','), function(el){return Number(el)})),
+						update_proposal: true
 					}, 
 					"script"
 				);

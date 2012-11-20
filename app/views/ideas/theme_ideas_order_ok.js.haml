@@ -1,5 +1,8 @@
 :plain
 	//console.log("The theme ideas order has been updated for col: #{params[:idea_id]}");
-	$.getScript('/idea/#{params[:idea_id]}/theme_summary');
 	clear_theme_edit_wait();
+- if params[:update_proposal] == "true"
+	:plain
+		$.getScript('/idea/#{params[:idea_id]}/theme_summary');
+	
 

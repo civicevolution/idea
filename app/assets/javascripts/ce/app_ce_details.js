@@ -248,7 +248,7 @@ function init_summary_editor( form, target ){
 					//console.log("run editor");
 					editor.run();
 
-					summary.find('div.inner').hide().after( form.find('div#wmd-preview') );
+					summary.find('div.inner').hide().after( $('<h3>Preview executive summary</h3>'), form.find('div#wmd-preview').addClass('corner') );
 				}
 		}
 	}
