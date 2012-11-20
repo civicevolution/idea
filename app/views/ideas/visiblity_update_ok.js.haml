@@ -1,9 +1,5 @@
 :plain
-	console.log("The themem visibility has been updated for col: #{params[:idea_id]}");
-	var col =  $('div.theme_col[id=#{params[:idea_id]}]');
-	if( #{params[:visible]} ){
-		col.addClass('theme_included');
-	}else{
-		col.removeClass('theme_included');
-	}
+	//console.log("The theme visibility has been updated for col: #{params[:idea_id]}");
+	$('input[type="checkbox"][id="visible-#{params[:idea_id]}"]').closest('p').effect('highlight', {color: '#FF4D4D'},3000);
+	$.getScript('/idea/#{idea.question_id}/theme_summary');	
 	clear_theme_edit_wait();

@@ -416,17 +416,15 @@ function clear_theme_edit_wait(){
 	$('p.theme_saving_modal').closest('div.ui-dialog').dialog('destroy').remove();
 }
 
-$('body').on('click','div.theming_page div.visibility',
+$('body').on('change','div.theming_page p.visibility input[type="checkbox"]',
 	function(){
-		console.log("adjust visibility");
+		//console.log("adjust visibility");
 		if(editing_disabled())return false;
-		var col = $(this).closest('div.theme_col');
-		if(col.hasClass('theme_included')){
-			var visible = false;
-		}else{
-			var visible = true;
-		}
-		$.post('/idea/' + col.attr('id') + '/visbility', 
+		var checkbox = $(this);
+		var visible = checkbox.attr('checked') == 'checked' || false;
+		var id = Number(checkbox.attr('id').match(/\d+/));
+		//console.log("set " + id + " to visible: " + visible);
+		$.post('/idea/' + id + '/visbility', 
 			{	
 				visible: visible
 			}, 

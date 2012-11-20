@@ -8,9 +8,10 @@ div.theming_header
 		margin: 0
 		padding: 8px 0 0 20px
 		img
-			vertical-align: middle
+			vertical-align: baseline
 	a.close
 		position: absolute
+		font-weight: bold
 		top: 10px
 		right: 20px
 
@@ -77,7 +78,9 @@ div.theming_page_outer
 				z-index: 10000
 				position: fixed
 				width: 24px
+				display: none
 				&.scroll-active
+					display: block
 					&.left
 						background: image-url('auto-scroll-left.png') repeat-y
 					&.right
@@ -388,18 +391,12 @@ div.theme_col li.theme_post_it div.post-it
 			background: image-url('ellipsis-fade.png') repeat-x
 			cursor: pointer
 		
-li.theme_post_it		
-	div.visibility
-		height: 12px
-		width: 20px
+div.theme_col
+	p.visibility
 		position: absolute
 		top: 8px
-		right: 0
-		background: image-url('visible3.gif') no-repeat 0 -12px
-		cursor: pointer
-		z-index: 100
-div.theme_col.theme_included	
-	li.theme_post_it
-		div.visibility
-			background-position: 0 0
-		
+		left: 8px
+		margin: 0
+		font-style: italic
+		input, label
+			cursor: pointer

@@ -20,11 +20,12 @@
 					-# question.themes.includes(:attachments).each do |theme|
 					- question.themes.each do |theme|
 						- random_ind = rand.to_s.scan(/\d/)[1..20]
-						%div.theme_col.themes.fancy-scrollbar{ id:  theme.id, class: theme.visible ? 'theme_included' : '' }
-							
+						%div.theme_col.themes.fancy-scrollbar{ id:  theme.id }
+							%p.visibility
+								%input{type: 'checkbox', name: "visible-#{theme.id}", id: "visible-#{theme.id}", checked: theme.visible ? true : false}
+								%label{for: "visible-#{theme.id}"} display in answer
 							%ul.sortable_ideas
 								%li.theme_post_it
-									%div.visibility
 									= render partial: 'ideas/post_it', locals: {idea: theme, random_ind: random_ind}											
 										
 								- 1.times do 

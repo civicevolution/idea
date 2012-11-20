@@ -6,14 +6,14 @@
 			%div.details_left
 				%h3.popup_nav
 					- if idea.siblings.count > 1
-						= link_to image_tag('details_prev.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
+						= link_to image_tag('details_prev.png'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
 						Answer #{idea.order_id} of #{idea.siblings.count}
-						= link_to image_tag('details_next.gif'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
+						= link_to image_tag('details_next.png'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
 					- else
 						Answer #{idea.order_id} of #{idea.siblings.count}
 		
 				- if idea.visible == false
-					%h3.warn This idea has been marked hidden and is no longer part of the answer
+					%h3.warn This idea is not displayed in the proposal answer as set by the project coordinator
 				%ul.answer
 					%li.theme_post_it
 						%div{class: "R#{idea.id.to_s.match(/\d$/)[0]} post-it"}
