@@ -51,8 +51,8 @@ function resize_theming_page(){
 		}
 	);
 		
-	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() - 40 ).css({top: win_top + 40, left: win_left});
-	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() - 40 ).css({top: win_top + 40, left: win_left + theme_cols_window.parent().width() - 24 });
+	theme_cols_window.find('div.auto-scroll.left').height( theme_cols_window.height() - 16 ).css({top: win_top + 40, left: win_left});
+	theme_cols_window.find('div.auto-scroll.right').height( theme_cols_window.height() - 16 ).css({top: win_top + 40, left: win_left + theme_cols_window.parent().width() - 24 });
 	//setTimeout(resize_dims, 1000);
 }
 
@@ -334,3 +334,101 @@ function show_and_highlight_postit(question_id, idea_id){
 		}
 	);
 }
+
+
+//
+// Set up theming page columns sortable
+//
+
+function make_theme_cols_sortable(page){
+	//console.log("make_theme_cols_sortable");
+	if(editing_disabled(false))return false;
+	var debug = false;
+	page.sortable({
+		helper: 'clone',
+		appendTo: 'body',
+		items: 'div.theme_col.themes',
+		cursor: 'move',
+		opacity: .8,
+		cursorAt: {left: 0, top: 0},
+		tolerance: 'pointer',
+		start: function(event, ui) { 
+			$('div.auto-scroll')
+				.bind('mouseleave', stopAutoScroll )
+				.mousemove(function(e) {autoscroll_mousemove(e.pageX, e.pageY, this);});
+		},
+		stop: function(event, ui) { 
+			if(debug) console.log("STOP sortable drag\n\n\n\n\n\n"); 
+			stopAutoScroll();
+			$('div.auto-scroll')
+				.unbind('mousemove')
+				.unbind('mouseleave');
+			
+			//console.log("update the theme sort order");
+			var theme_cols_window = ui.item.closest('div.theme_cols_window');
+			var new_ids = [];
+			//var ltr_ctr = 1;
+		 	theme_cols_window.find('div.theme_col').each( function(){
+				var col = $(this);
+				var id = col.attr('id');
+				if( id.match(/^\d+$/) ){
+					new_ids.push( id );
+				}
+			});
+			new_ids = new_ids.join(',');
+			// compare if the order has changed
+			//console.log("old order: " + theme_cols_window.attr('id_order') + " new order: " + new_ids);
+			if( theme_cols_window.attr('id_order') != new_ids ){
+				//console.log("update the theme sort to: " + new_ids);
+				$.post('/idea/' + theme_cols_window.attr('id') + '/idea_order', 
+					{	
+						ordered_ids: $.makeArray($.map(new_ids.split(','), function(el){return Number(el)}))
+					}, 
+					"script"
+				);
+				theme_edit_wait();
+			}
+		}, 
+	});
+}
+
+function editing_disabled(show_msg_flag){
+	return false;
+	show_msg_flag = (typeof show_msg_flag === "undefined") ? true : show_msg_flag;
+	if(!theming_auth){
+		if(show_msg_flag){
+			alert("You are not authorized to theme this project");
+		}
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function theme_edit_wait(){
+	var dialog = $('<p class="theme_saving_modal">Please wait a moment</p>').dialog( {title : 'Saving...', modal : true, width : '200px', closeOnEscape: true, close: function(){$(this).remove()} });
+}
+function clear_theme_edit_wait(){
+	$('p.theme_saving_modal').closest('div.ui-dialog').dialog('destroy').remove();
+}
+
+$('body').on('click','div.theming_page div.visibility',
+	function(){
+		console.log("adjust visibility");
+		if(editing_disabled())return false;
+		var col = $(this).closest('div.theme_col');
+		if(col.hasClass('theme_included')){
+			var visible = false;
+		}else{
+			var visible = true;
+		}
+		$.post('/idea/' + col.attr('id') + '/visbility', 
+			{	
+				visible: visible
+			}, 
+			"script"
+		);
+		theme_edit_wait();
+	}
+);
+

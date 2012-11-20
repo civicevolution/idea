@@ -1,9 +1,9 @@
 :plain
 	console.log("The themem visibility has been updated for col: #{params[:idea_id]}");
-	var li =  $('li.theme[theme_id=#{params[:idea_id]}]');
+	var col =  $('div.theme_col[id=#{params[:idea_id]}]');
 	if( #{params[:visible]} ){
-		li.addClass('visible');
+		col.addClass('theme_included');
 	}else{
-		li.removeClass('visible');
+		col.removeClass('theme_included');
 	}
 	clear_theme_edit_wait();

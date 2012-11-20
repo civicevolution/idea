@@ -1,5 +1,19 @@
 @import "definitions"
 
+div.theming_header
+	position: relative
+	height: 36px
+	background-color: #ccf
+	h3
+		margin: 0
+		padding: 8px 0 0 20px
+		img
+			vertical-align: middle
+	a.close
+		position: absolute
+		top: 10px
+		right: 20px
+
 .fancy-scrollbar
 	&::-webkit-scrollbar
 		height: 9px
@@ -64,6 +78,8 @@ div.theming_page_outer
 				position: fixed
 				width: 24px
 				background-color: transparent
+				//background-color: red
+				//+opacity(40)
 			div.auto-scroll.top, div.auto-scroll.bottom
 				z-index: 10
 				position: absolute
@@ -365,4 +381,18 @@ div.theme_col li.theme_post_it div.post-it
 			height: 40px
 			background: image-url('ellipsis-fade.png') repeat-x
 			cursor: pointer
+		
+li.theme_post_it		
+	div.visibility
+		height: 12px
+		width: 20px
+		position: absolute
+		top: 20px
+		right: 0
+		background: image-url('visible3.gif') no-repeat 0 -12px
+		cursor: pointer
+div.theme_col.theme_included	
+	li.theme_post_it
+		div.visibility
+			background-position: 0 0
 		

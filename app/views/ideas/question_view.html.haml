@@ -1,32 +1,15 @@
 %div.question_tabs{id: question.id}
-	%div#tabs
-		%ul
-			-#%li
-				%a{href: "#tabs-summary"}
-					Discussion and rating
-			%li
-				%a{href: "#tabs-theming"}
-					Idea Theming
-					
-			%li
-				%a{href: "#tabs-editing"}
-					Theme editing
-					
-		-#%div#tabs-summary
-			%div.proposal
-			
-				%h3.view_question Q#{question.order_id}: #{question.text}
-				
-				= render :partial=> 'plan/question_theme_summary', :locals => { question: question, team: @team, link: 'no'}
-				%div.idea_details
-					= render( partial: 'rating', locals: { idea: question, my_rating: my_rating } )			
-
-					= render( partial: 'idea_discussion', locals: { idea: question } )			
-			
-			
-		%div#tabs-theming
-			- question.themes = question.themes.includes(:attachments)
-			- question.themed_ideas = question.themed_ideas.includes(:attachments)
-			= render( partial: 'ideas/theming_page', locals: { question: question}, content_type: 'html'  )
-		%div#tabs-editing
-			= render( template: 'ideas/theme_final_edit', locals: {question: question}, formats: [:html]  )
+	%div.theming_header
+		%h3
+			- if question.siblings.count > 1
+				= link_to image_tag('details_prev.gif'), question_view_path(question.id, act: 'view_question', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
+				Question #{question.order_id} of #{question.siblings.count}: #{question.text}
+				= link_to image_tag('details_next.gif'), question_view_path(question.id, act: 'view_question', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
+			- else
+				Question: #{question.text}
+	
+	
+	%div#tabs-theming
+		- question.themes = question.themes.includes(:attachments)
+		- question.themed_ideas = question.themed_ideas.includes(:attachments)
+		= render( partial: 'ideas/theming_page', locals: { question: question}, content_type: 'html'  )
