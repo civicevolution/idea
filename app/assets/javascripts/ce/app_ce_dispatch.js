@@ -214,7 +214,7 @@ dispatcher = {
 				if(total_ideas == 0){
 					view_ideas_link.addClass('hide');
 				}else{
-					var str = total_ideas == 1 ? "View 1 idea" : "View all " + total_ideas + " ideas"
+					var str = total_ideas == 1 ? "View 1 idea on post-its wall" : "View all " + total_ideas + " ideas on post-its wall"
 					view_ideas_link.removeClass('hide').html( str );
 				}
 			}
