@@ -1,5 +1,7 @@
 G3::Application.routes.draw do
 
+  match "/ce-video" => redirect("https://www.youtube.com/watch?v=kISsmyiBUgM")
+  
   resources :uploads
   post 'question/:par_id/attachment' => 'uploads#create', defaults: {par_type: 1}, as: 'question_attachment'
   post 'idea/:par_id/attachment' => 'uploads#create', defaults: {par_type: 3}, as: 'idea_attachment'
