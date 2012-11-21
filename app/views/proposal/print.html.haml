@@ -11,7 +11,8 @@
 			%span #{team.title}
 
 		%div.summary
-			= simple_format h team.solution_statement
+			:markdown
+				#{@team.solution_statement}
 
 	- team.question_ideas.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
 		%h4.question
@@ -23,7 +24,9 @@
 			%ul.talking_points.themes
 				- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
 					- if theme.version > 0 && theme.visible
-						%li.theme.talking_point{id: theme.id}= theme.text
+						%li.theme.talking_point{id: theme.id}
+							:markdown
+								#{theme.text}
 
 %div.page-break
 	%h3 #{@endorsements.size} Community endorsements

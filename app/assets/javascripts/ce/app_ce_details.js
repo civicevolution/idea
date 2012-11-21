@@ -222,7 +222,11 @@ function init_summary_editor( form, target ){
 		activate_text_counters_grow( form.find('textarea'), 360);
 		form.on('click','a.cancel',function(){
 			form.hide(250, function(){$(this).remove()});
-			summary.find('div.inner').show().end().find('div#wmd-preview').hide( 100, function(){$(this).remove()});
+			summary.find('div.inner').show().end().find('div#wmd-preview').hide( 100, 
+				function(){
+					$(this).closest('div.idea_summary').find('h3.prev-label').remove(); 
+					$(this).remove();
+				});
 			return false;
 		});
 
@@ -248,7 +252,7 @@ function init_summary_editor( form, target ){
 					//console.log("run editor");
 					editor.run();
 
-					summary.find('div.inner').hide().after( $('<h3>Preview executive summary</h3>'), form.find('div#wmd-preview').addClass('corner') );
+					summary.find('div.inner').hide().after( $('<h3 class="prev-label">Preview executive summary</h3>'), form.find('div#wmd-preview').addClass('corner') );
 				}
 		}
 	}

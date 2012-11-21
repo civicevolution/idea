@@ -9,7 +9,12 @@
 
 		summary.find('div.inner').html(summary_html);
 		summary.find('div.inner').show(250);
-		summary.find('div.wmd-preview').hide(250, function(){$(this).remove()});
+		summary.find('div.wmd-preview').hide(250, 
+			function(){
+				$(this).closest('div.idea_summary').find('h3.prev-label').remove(); 
+				$(this).remove()
+			}
+		);
 		summary.prev('div.edit_form').hide(250, function(){$(this).remove()});
 		
 		$('div.summary.text div.idea_summary div.inner > *:last').append( edit_link );
