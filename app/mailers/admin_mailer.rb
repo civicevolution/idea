@@ -8,8 +8,8 @@ class AdminMailer < ActionMailer::Base
     @html_message = html_message
     @host = host
     @mcode = mcode
-    attachments['image1.jpg'] = File.read("#{Rails.root}/public/image001.jpg")
-    attachments['image2.jpg'] = File.read("#{Rails.root}/public/image002.jpg")
+    #attachments['image1.jpg'] = File.read("#{Rails.root}/public/image001.jpg")
+    #attachments['image2.jpg'] = File.read("#{Rails.root}/public/image002.jpg")
     mail(:to => "#{recipient.first_name} #{recipient.last_name} <#{recipient.email}>",
       :subject => subject
     )

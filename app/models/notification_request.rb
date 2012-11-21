@@ -126,7 +126,10 @@ class NotificationRequest < ActiveRecord::Base
           rec = nil
           save_follow = true
       end
-      save_follow = rec.save unless rec.nil?
+      if !rec.nil?
+        save_follow = rec.save
+        Member.find(self.member_id).update_attributes( :email_ok => true)
+      end
       return save_follow, rec
       
     end # end if split_save
