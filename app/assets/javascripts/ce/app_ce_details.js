@@ -141,11 +141,8 @@ $('body').on('click','div.idea_details a.goto_theming_page',
 	function(){
 		var details = $(this).closest('div.idea_details');
 		setTimeout(function(){
+			this.closest('div.ui-dialog-content').dialog('close');
 			show_and_highlight_postit(this.attr('question_id'), this.attr('idea_id') );
-			var dialog = this.closest('div.ui-dialog');
-			dialog.slideUp(400, function(){ 
-				dialog.dialog('destroy').remove();
-			});
 		}.bind(details), 100);
 		return false;
 	}
