@@ -3,6 +3,7 @@
 	var discussion = $('div.question_summary[id="#{question.id}"] div.discussion').html( details );
 	discussion.hide().show(800);
 	activate_text_counters_grow(discussion.find('textarea'), 120);
+	init_file_uploads( discussion.find('input.attachment-upload') );
 	var disc_link = discussion.prev('h3.discussion').find('a');
 	setTimeout( function(){this.find('span').html("Hide discussion")}.bind(disc_link), 200);
 	disc_link.add( discussion.find('a.close_question_discussion') ).bind('click',function(){ discussion.hide(800);disc_link.find('span').html("Discuss this question"); disc_link.unbind('click');return false;});
