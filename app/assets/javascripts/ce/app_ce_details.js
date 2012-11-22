@@ -167,32 +167,32 @@ function init_answer_editor( form, idea_id ){
 		answer.find('div.post-it div.inner').show().end().find('div#wmd-preview').hide( 100, function(){$(this).remove()});
 		return false;
 	});
+
+	function init_answer_markdown_editor(){
+		//console.log("init_markdown_editor answer");
+		//console.log("create converter");
+		var converter = new Markdown.getSanitizingConverter();
+		//console.log("create editor");
+		var editor = new Markdown.Editor(converter);
+		//console.log("run editor");
+		editor.run();
+		answer.find('div.post-it div.inner').hide().after( form.find('div#wmd-preview') );
+		//console.log("completed");
+	}
 	
 	if(typeof Markdown == 'undefined'){
 		//console.log("load Markdown");
-		$.getScript('/assets/Markdown.Converter.js', init_markdown_editor);
-		$.getScript('/assets/Markdown.Editor.js', init_markdown_editor);
-		$.getScript('/assets/Markdown.Sanitizer.js', init_markdown_editor);
-	}else{
-		init_markdown_editor();
-	}
-	
-	function init_markdown_editor(){
-		//console.log("init_markdown_editor");
-		if( typeof Markdown != 'undefined' && 
-			typeof Markdown.Converter != 'undefined' &&
-			typeof Markdown.getSanitizingConverter != 'undefined' && 
-			typeof Markdown.Editor != 'undefined'){
-				//console.log("create converter");
-				var converter = new Markdown.getSanitizingConverter();
-				//console.log("create editor");
-				var editor = new Markdown.Editor(converter);
-				//console.log("run editor");
-				editor.run();
-				
-				answer.find('div.post-it div.inner').hide().after( form.find('div#wmd-preview') );
-				//console.log("completed");
+		$.getScript('/assets/Markdown.Converter.js',
+			function(){
+				$.getScript('/assets/Markdown.Editor.js',
+				 	function(){
+						$.getScript('/assets/Markdown.Sanitizer.js', init_answer_markdown_editor);
+					}
+				);
 			}
+		);
+	}else{
+		init_answer_markdown_editor();
 	}
 }
 
@@ -230,30 +230,30 @@ function init_summary_editor( form, target ){
 			return false;
 		});
 
-		if(typeof Markdown == 'undefined'){
-			//console.log("load Markdown");
-			$.getScript('/assets/Markdown.Converter.js', init_markdown_editor);
-			$.getScript('/assets/Markdown.Editor.js', init_markdown_editor);
-			$.getScript('/assets/Markdown.Sanitizer.js', init_markdown_editor);
-		}else{
-			init_markdown_editor();
+		function init_exec_summary_markdown_editor(){
+			//console.log("init_markdown_editor summary");
+			//console.log("create converter");
+			var converter = new Markdown.getSanitizingConverter();
+			//console.log("create editor");
+			var editor = new Markdown.Editor(converter);
+			//console.log("run editor");
+			editor.run();
+			summary.find('div.inner').hide().after( $('<h3 class="prev-label">Preview executive summary</h3>'), form.find('div#wmd-preview').addClass('corner') );
 		}
 
-		function init_markdown_editor(){
-			//console.log("init_markdown_editor");
-			if( typeof Markdown != 'undefined' && 
-				typeof Markdown.Converter != 'undefined' &&
-				typeof Markdown.getSanitizingConverter != 'undefined' && 
-				typeof Markdown.Editor != 'undefined'){
-					//console.log("create converter");
-					var converter = new Markdown.getSanitizingConverter();
-					//console.log("create editor");
-					var editor = new Markdown.Editor(converter);
-					//console.log("run editor");
-					editor.run();
-
-					summary.find('div.inner').hide().after( $('<h3 class="prev-label">Preview executive summary</h3>'), form.find('div#wmd-preview').addClass('corner') );
+		if(typeof Markdown == 'undefined'){
+			//console.log("load Markdown");
+			$.getScript('/assets/Markdown.Converter.js',
+				function(){
+					$.getScript('/assets/Markdown.Editor.js',
+					 	function(){
+							$.getScript('/assets/Markdown.Sanitizer.js', init_exec_summary_markdown_editor);
+						}
+					);
 				}
+			);
+		}else{
+			init_exec_summary_markdown_editor();
 		}
 	}
 }

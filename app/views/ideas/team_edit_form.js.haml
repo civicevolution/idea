@@ -1,3 +1,8 @@
 :plain
-	var form = $("#{escape_javascript(render( :partial=> 'ideas/team_edit_form', locals: { team: team}, formats: [:html]  ))}");
-	init_summary_editor( form, "#{params[:target]}" );
+	if($('div.wmd-panel').size() == 0){
+		var form = $("#{escape_javascript(render( :partial=> 'ideas/team_edit_form', locals: { team: team}, formats: [:html]  ))}");
+		init_summary_editor( form, "#{params[:target]}" );
+	}else{
+		$('<div><p class="warn">You can only edit one section of the proposal at a time. Please close the other editor.</p></div>').dialog({title: 'Warning'});
+	}
+

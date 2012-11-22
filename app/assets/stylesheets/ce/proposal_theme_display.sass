@@ -292,23 +292,26 @@ div.proposal
 				top: 30px
 				right: 50px
 				font-weight: bold
-		p.form_controls
-			margin: 6px 0 0 0
-			position: relative
-			width: 376px
-			input[type=submit]
-				margin: 0
-			span.char_ctr
-				display: block
-				position: absolute
-				left: 120px
-				top: 2px
-			a
-				position: absolute
-				display: block
-				right: 0
-				top: 0
-				margin: 0
+
+p.form_controls
+	&.no_attach
+		width: 400px
+	margin: 6px 0 0 0
+	position: relative
+	width: 376px
+	input[type=submit]
+		margin: 0
+	span.char_ctr
+		display: block
+		position: absolute
+		left: 120px
+		top: 2px
+	a
+		position: absolute
+		display: block
+		right: 0
+		top: 0
+		margin: 0
 
 h3.rating
 	margin-left: 30px
@@ -479,8 +482,7 @@ div.summary_block
 div.intro
 	a.edit
 		margin-left: 10px
-		font-size: .88em
-		
+		font-weight: bold
 div.idea_summary
 	ol 
 		padding-left: 40px

@@ -1,3 +1,8 @@
 :plain
-	var form = $("#{escape_javascript(render( :partial=> 'ideas/theme_edit_form', locals: {idea: idea}, formats: [:html]  ))}");
-	init_answer_editor( form, #{idea.id} );
+	if($('div.wmd-panel').size() == 0){
+		var form = $("#{escape_javascript(render( :partial=> 'ideas/theme_edit_form', locals: {idea: idea}, formats: [:html]  ))}");
+		init_answer_editor( form, #{idea.id} );
+	}else{
+		$('<div><p class="warn">You can only edit one section of the proposal at a time. Please close the other editor.</p></div>').dialog({title: 'Warning'});
+	}
+
