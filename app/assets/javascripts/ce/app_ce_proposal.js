@@ -284,3 +284,8 @@ $('body').on('click', 'div.constituent_idea_details a.return_to_answer_details',
 	}
 );
 
+setTimeout(function(){
+	if(params['clear']=='f'){
+		$('a.clear').remove();
+	}
+});
