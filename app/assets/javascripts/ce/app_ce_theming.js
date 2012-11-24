@@ -398,7 +398,6 @@ function make_theme_cols_sortable(page){
 }
 
 function editing_disabled(show_msg_flag){
-	return false;
 	show_msg_flag = (typeof show_msg_flag === "undefined") ? true : show_msg_flag;
 	if(!theming_auth){
 		if(show_msg_flag){
