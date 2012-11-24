@@ -233,7 +233,7 @@ dispatcher = {
 					total_coms + ' total').end()
 					.find('div.new').html( new_coms + ' new');
 				if(new_coms == 0 ){new_div.addClass('hide');}
-				if(total_coms == 0 ){ header.find('a span').html('Click to add a comment');}
+				//if(total_coms == 0 ){ header.find('a span').html('Click to add a comment');}
 			}
 		);	
 		page.find('h3.ideas_discussion').each(
