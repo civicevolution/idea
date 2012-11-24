@@ -14,12 +14,14 @@ class MemberMailer < ActionMailer::Base
     )
   end
 
-  def report_signup(email, app_name, sent_at = Time.now)
+  def report_signup(email, url, app_name, sent_at = Time.now)
     @email = email
+    @url = url
     @app_name = app_name
-    mail(:from => "#{app_name} <support@civicevolution.org>",
+    mail(:from => "New member <#{@email}>",
       :subject => 'New member just signed up for CivicEvolution',
-      :to => "#{app_name} <support@civicevolution.org>"
+      :to => "#{app_name} <support@civicevolution.org>",
+      :reply_to => "#{@email}"
     )
   end
 

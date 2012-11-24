@@ -120,7 +120,7 @@ class ApplicationController < ActionController::Base
     # send the email with this code
     url = new_profile_form_url(:code => code)
     MemberMailer.send_profile_link(params[:email], url, params[:_app_name] ).deliver
-    MemberMailer.delay.report_signup(params[:email], params[:_app_name])
+    MemberMailer.delay.report_signup(params[:email], url, params[:_app_name])
     #I should still have flash params and I should execute them
     #if flash[:params]
     #  ppa = PreliminaryParticipantActivity.create :init_id => params[:_initiative_id], :email=> EmailLookupCode.get_email(session[:code]), :flash_params => flash[:params]
