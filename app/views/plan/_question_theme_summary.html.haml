@@ -30,7 +30,19 @@
 						-#%p.clear_both
 	
 		- if no_themes
-			%li.theme No answers have been composed yet
+			- if @team.org_id == @member.id
+				%li
+					%p.warn Please create at least one answer for this question
+					%p 
+						The project coordinator is responsible for composing answers to each question 
+						based on the ideas, comments and ratings of the participants.
+					%p
+						Watch the 
+						= link_to "video", 'http://civicevolution.org/ce-video', {target: '_blank'}
+						for more information and/or
+						= link_to "contact us", short_help_path(tab: 2), { :remote => true}
+			- else
+				%li.theme No answers have been composed yet
 	
 	%div.form_help_slide.collapsed
 		= link_to 'close', {}, class: 'close'
