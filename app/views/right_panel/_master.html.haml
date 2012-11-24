@@ -30,10 +30,10 @@
 				Watch our
 				= link_to "video", short_help_path(tab: 1), {:remote=>true}
 			%li.invite
-				= link_to "Invite friends ", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}
+				= link_to "Invite your friends ", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}
 
 			%li.follow
-				= link_to "Follow ", notification_settings_form_path(@team.id), {:remote=>true}
+				= link_to "Follow this proposal", notification_settings_form_path(@team.id), {:remote=>true}
 
 			%li.endorse
 				= link_to "Go to endorsements",{},{:class=>'endorse_this_proposal'}
