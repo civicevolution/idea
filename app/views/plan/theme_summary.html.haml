@@ -29,8 +29,8 @@
 						= render( partial: 'ideas/rating', locals: { idea: @team.idea } )
 
 						%h3.label.discussion{idea_id: @team.idea.id}
-							= link_to view_idea_details_path(@team.idea.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the discussion for this proposal' } do
-								%span Discuss this question
+							= link_to view_idea_details_path(@team.idea.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the discussion for this proposal', orig_text: "What comments or questions do you have?" } do
+								%span What comments or questions do you have?
 								%div.comments
 									= image_tag('comment-sketch.gif', title: 'Number of comments')
 									%div.counts
