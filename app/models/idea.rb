@@ -88,7 +88,16 @@ class Idea < ActiveRecord::Base
     #q_id = (self.question_id && self.question_id > 0) ? self.question_id : Item.find(self.par_id).o_id
     #range = Question.find(q_id).answer_criteria
     #range = range.match(/(\d+)..(\d+)/)
-    range = [0,10,200]
+    case
+      when self.role == 1
+        range = [0,10,200]
+      when self.role == 2
+        range = [0,10,20000]
+      when self.role == 3
+        range = [0,6,200]
+      when self.role == 4
+        range = [0,4,255]
+    end
     length = text.scan(/\S/).size
     errors.add(:text, "must be at least #{range[1]} characters") unless length >= range[1].to_i
     errors.add(:text, "must be no longer than #{range[2]} characters") unless self.role !=1 || length <= range[2].to_i 
