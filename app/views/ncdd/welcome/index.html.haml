@@ -46,9 +46,9 @@
 				%div.team_block.corner{:id=>team.team_id}
 					%div.team_entry{:class=> cycle('stripe_bg','')}
 						= link_to team.title, proposal_path(team.team_id), {:class=>'team_entry_title',:launched=>'t'}
-
-						- team.solution_statement.split(/[\r\n]+/).each do |para|
-							%p.desc= para
+						
+						:markdown
+							#{team.solution_statement}
 						
 						%div.controls
 							%table.proposal_stats
