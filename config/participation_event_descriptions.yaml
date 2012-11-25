@@ -92,7 +92,7 @@ item11:
   description: 'Invite friend'
   summary_order: 3
   summary_title: 'friend invite'
-  points: 300
+  points: 50
     
 item13:
   id: 13
