@@ -1,5 +1,5 @@
 class ProposalController < ApplicationController
-  skip_before_filter :authorize, :only => [ :print, :vote ]
+  skip_before_filter :authorize, :only => [ :print, :vote, :list ]
     
   def print
     @team = Team.includes(:idea, :question_ideas => :themes).find(params[:team_id])
@@ -45,5 +45,19 @@ class ProposalController < ApplicationController
     
     
   end
+  
+  
+  def list
+    if params[:_initiative_id].between?(1,2)
+      init = [1,2]
+    else
+      init = params[:_initiative_id]
+    end
+    @team_stats = Team.includes(:proposal_stats).where(:initiative_id => init, :archived=>false).order('initiative_id DESC, title ASC')
+    respond_to do |format|
+      format.html{ render template: 'proposal/list', layout: 'plan'}
+    end
+  end    
+  
   
 end

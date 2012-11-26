@@ -1,0 +1,65 @@
+- content_for (:script) do
+	%style
+		:sass
+			div.page
+				width: auto
+				margin: 0 2em 200px 2em
+			table td 
+				padding: 3px
+				text-align: center
+			table tr.odd td
+				background: #e6f2ff
+			span.sort_time
+				width: 20px
+				display: none
+			td.title 
+				max-width: 200px
+				text-align: left
+			td.pts
+				background-color: #ccc
+				text-align: left
+			td.mems
+				background-color: #ddd
+			td.tp
+				background-color: #c00
+			td.com
+				background-color: #d66
+			div#team_participant_stats
+				margin-bottom: 40px
+			.stripe
+				background-color: #eeeeee
+
+	
+%table#teams{:class=>"tablesorter"}
+	%thead
+		%tr.stripe
+			%th I
+			%th Team
+			%th Participants
+			%th Invites
+			%th followers
+			%th Endorsements
+			%th Comments
+			%th Answers
+			%th Ideas
+			%th Ratings
+			%th Points
+			
+			
+	%tbody	
+		- ctr = 0;
+		- @team_stats.each do |m|
+			- logger.debug "XXXXXX Team #{m.id}"
+			%tr{:id=>"#{m['id']}", :class=>cycle('','stripe')}
+				%td= ctr+=1
+				%td.title= link_to m['title'], proposal_path(m['id']), {:target=>'_blank'}
+				%td.mems= m.proposal_stats['participants']
+				%td= m.proposal_stats['friend_invites']
+				%td= m.proposal_stats['followers']
+				%td= m.proposal_stats['endorsements']
+				%td.com= m.proposal_stats['comments']
+				%td.ans= m.proposal_stats['themes']
+				%td.tp= m.proposal_stats['ideas']
+				%td= m.proposal_stats['idea_ratings']
+				%td.pts= m.proposal_stats['points_total']
+				

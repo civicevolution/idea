@@ -55,6 +55,7 @@ G3::Application.routes.draw do
   get 'live/:session_id/vote_results' => 'ce_live#vote_results', :as => 'live_vote_results'
   
   get 'proposal/:team_id/print' => 'proposal#print', :as => 'print_proposal'
+  get 'proposal/list' => 'proposal#list', :as => 'proposal_list'
   
   get 'live/:event_id/event_setup' => 'ce_live#event_setup', :as => 'live_event_setup'
   get 'live/:session_id/micro_themer' => 'ce_live#micro_themer', :as => 'live_micro_themer' 
