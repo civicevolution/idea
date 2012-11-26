@@ -9,7 +9,9 @@
 	%div.intro
 		%h2.home_title 
 			%span #{team.title}
-
+		%p.date 
+			Created #{team.created_at.strftime(" on %m/%d/%Y")}
+			
 		%div.summary
 			:markdown
 				#{@team.solution_statement}
@@ -31,7 +33,7 @@
 %div.page-break
 	%h3 #{@endorsements.size} Community endorsements
 	
-	%table
+	%table.endorsements
 		%tr
 			%th Name
 			%th Comment
@@ -44,7 +46,7 @@
 				%td.time
 					%abbr.timeago{:title=>e.updated_at}= time_ago_in_words(e.updated_at) + ' ago'
 
--#%div.page-break
+%div.page-break
 	%h3 Proposal development details
 
 	%h4 This proposal was developed by 

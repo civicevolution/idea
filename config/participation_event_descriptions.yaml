@@ -7,7 +7,7 @@ item1:
   col_name: 'comments'
   code: 'com'
   description: 'Add comment'
-  summary_order: 7
+  summary_order: 40
   summary_title: 'comment'
   points: 120
   min_length: 40 
@@ -24,7 +24,7 @@ item3:
   col_name: 'talking_points'
   code: 'tp'
   description: 'Add talking point'
-  summary_order: 8
+  #summary_order: 8
   summary_title: 'talking point'
   points: 200
     
@@ -33,7 +33,7 @@ item4:
   col_name: 'talking_point_edits'
   code: 'e_tp'
   description: 'Edit talking point'
-  summary_order: 9
+  #summary_order: 9
   summary_title: 'talking point edit'
   points: 80
     
@@ -42,7 +42,7 @@ item5:
   col_name: ''
   code: 'ans'
   description: 'Add answer'
-  summary_order: 0
+  #summary_order: 0
   summary_title: 'answer'
   points: 600
     
@@ -51,7 +51,7 @@ item6:
   col_name: ''
   code: 'e_ans'
   description: 'Edit answer'
-  summary_order: 0
+  #summary_order: 0
   summary_title: 'answer edit'
   points: 240
     
@@ -60,7 +60,7 @@ item7:
   col_name: 'endorsements'
   code: 'end'
   description: 'Add endorsement'
-  summary_order: 6
+  summary_order: 20
   summary_title: 'endorsement'
   points: 120
     
@@ -90,7 +90,7 @@ item11:
   col_name: 'friend_invites'
   code: 'invite'
   description: 'Invite friend'
-  summary_order: 3
+  summary_order: 15
   summary_title: 'friend invite'
   points: 50
     
@@ -99,7 +99,7 @@ item13:
   col_name: 'content_reports'
   code: 'report'
   description: 'Report content'
-  summary_order: 12
+  #summary_order: 12
   summary_title: 'content report'
   points: 40
     
@@ -115,7 +115,7 @@ item17:
   col_name: 'talking_point_ratings'
   code: 'rate_tp'
   description: 'Rate talking point'
-  summary_order: 10
+  #summary_order: 10
   summary_title: 'talking point rating'
   points: 40
     
@@ -124,7 +124,7 @@ item19:
   col_name: 'talking_point_preferences'
   code: 'prefer_tp'
   description: 'Prefer talking point'
-  summary_order: 11
+  #summary_order: 11
   summary_title: 'preferred talking point'
   points: 80
     
@@ -133,7 +133,7 @@ item21:
   col_name: ''
   code: 'rate_ans'
   description: 'Rate answer'
-  summary_order: 0
+  #summary_order: 25
   summary_title: 'answer rating'
   points: 60
 
@@ -142,7 +142,7 @@ item22:
   col_name: 'ideas'
   code: 'idea'
   description: 'Add idea'
-  summary_order: 8
+  summary_order: 30
   summary_title: 'idea'
   points: 200
   min_length: 10 
@@ -159,7 +159,7 @@ item24:
   col_name: 'idea_ratings'
   code: 'rate_idea'
   description: 'Rate idea'
-  summary_order: 10
+  summary_order: 35
   summary_title: 'idea rating'
   points: 40
 
@@ -168,8 +168,8 @@ item26:
   col_name: 'themes'
   code: ''
   description: 'Add theme'
-  summary_order: 11
-  summary_title: 'theme'
+  summary_order: 25
+  summary_title: 'answer'
   points: 200
   min_length: 10 
 
@@ -185,8 +185,8 @@ item28:
   col_name: 'theme_ratings'
   code: 'rate_theme'
   description: 'Rate theme'
-  summary_order: 10
-  summary_title: 'theme rating'
+  summary_order: 28
+  summary_title: 'answer rating'
   points: 40
 
 item100:
@@ -194,7 +194,7 @@ item100:
   col_name: 'proposal_views'
   code: 'summary'
   description: 'Load proposal summary'
-  summary_order: 4
+  #summary_order: 4
   summary_title: 'proposal view'
   points: 20
     
@@ -203,7 +203,7 @@ item101:
   col_name: 'question_views'
   code: 'worksheet'
   description: 'Load question worksheet'
-  summary_order: 5
+  #summary_order: 5
   summary_title: 'question view'
   points: 20
     
@@ -247,7 +247,7 @@ item107:
   col_name: 'followers'
   code: 'notification'
   description: 'Update notification settings'
-  summary_order: 2
+  summary_order: 10
   summary_title: 'follower'
   points: 160
 
