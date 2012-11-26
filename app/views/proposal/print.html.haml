@@ -67,6 +67,10 @@
 			%tr.stripe
 				%td Participants
 				%td= team.participants.size
+			%tr
+				%td Endorsements
+				%td= @endorsements.size
+				
 			- if team.stats
 				-	PARTICIPATION_EVENT_POINTS.values.find_all{|pep| pep['summary_order'] && pep['summary_order'].to_i != 0}.sort{|a,b| a['summary_order'].to_i<=>b['summary_order'].to_i}.each do |stat|
 					%tr{:class=>cycle('','stripe')}

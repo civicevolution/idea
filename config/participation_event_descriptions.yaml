@@ -60,7 +60,7 @@ item7:
   col_name: 'endorsements'
   code: 'end'
   description: 'Add endorsement'
-  summary_order: 20
+  #summary_order: 20
   summary_title: 'endorsement'
   points: 120
     
