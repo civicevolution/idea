@@ -9,9 +9,11 @@
 	%div.intro
 		%h2.home_title 
 			%span #{team.title}
-		%p.date 
-			Created #{team.created_at.strftime(" on %m/%d/%Y")}
 			
+		%p.details Project coordinator: #{@team.organizer.first_name} #{@team.organizer.last_name}	
+		%p.details Created: #{team.created_at.strftime("%m/%d/%Y")}
+
+		%h3 Executive summary
 		%div.summary
 			:markdown
 				#{@team.solution_statement}
@@ -31,7 +33,7 @@
 								#{theme.text}
 
 %div.page-break
-	%h3 #{@endorsements.size} Community endorsements
+	%h3 #{@endorsements.size} Endorsements
 	
 	%table.endorsements
 		%tr

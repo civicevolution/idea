@@ -3,8 +3,14 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.6'
 
 group :development do
-  gem 'thin', '1.4.1'
-  gem 'debugger', '= 1.1.4'
+  # this is single threaded server & can't do pdf generation
+  #gem 'thin', '1.4.1'
+  #gem 'debugger', '= 1.1.4'
+  
+  # unicorn can do multiple workers
+  gem 'unicorn'
+  gem 'debugger'
+  
 end
 
 # Gems used only for assets and not required
@@ -55,3 +61,5 @@ gem "redis"
 gem 'rails_autolink'
 
 gem 'actionmailer-callbacks'
+
+gem 'pdfkit'

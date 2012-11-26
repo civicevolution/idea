@@ -88,5 +88,8 @@ module G3
       #File.open("#{Rails.root.to_s}/config/database.yml", 'w') {|f| f.write( ERB.new(IO.read("#{Rails.root.to_s}/config/database.yml.erb")).result ) }
     end
     
+    
+    config.middleware.use "PDFKit::Middleware", :print_media_type => true
+    
   end
 end

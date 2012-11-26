@@ -38,7 +38,9 @@
 				= link_to "Go to endorsements",{},{:class=>'endorse_this_proposal'}
 
 			%li.print
-				= link_to "Print", print_proposal_path(@team)	
+				= link_to "Printer friendly", print_proposal_path(@team)	
+				&bull;
+				= link_to "PDF", print_proposal_path(@team, format: 'pdf')	
 		
 			%li.share
 				%div.tools	
