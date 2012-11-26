@@ -18,12 +18,16 @@
 			td.pts
 				background-color: #ccc
 				text-align: left
+				padding: 0 1em
 			td.mems
 				background-color: #ddd
 			td.tp
 				background-color: #c00
 			td.com
 				background-color: #d66
+			td.age
+				text-align: left
+				padding: 0 1em
 			div#team_participant_stats
 				margin-bottom: 40px
 			.stripe
@@ -44,6 +48,8 @@
 			%th Ideas
 			%th Ratings
 			%th Points
+			%th Age
+			%th PDF
 			
 			
 	%tbody	
@@ -62,4 +68,6 @@
 				%td.tp= m.proposal_stats['ideas']
 				%td= m.proposal_stats['idea_ratings']
 				%td.pts= m.proposal_stats['points_total']
+				%td.age= time_ago_in_words( m.proposal_stats['created_at'] ) + ' ago'
+				%td= link_to 'pdf', "http://ncdd.s3.amazonaws.com/nov12/#{m['id']}.pdf", target: '_blank'
 				
