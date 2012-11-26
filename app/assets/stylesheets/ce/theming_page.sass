@@ -123,28 +123,6 @@ div.theming_page_outer
 					margin-left: 10px
 					color: white
 
-div.new_group_drop_zone
-	position: absolute
-	z-index: 10
-	height: 162px // 42px 
-	&.left
-		background: image-url('drop-left.gif') no-repeat
-	&.right
-		background: image-url('drop-right.gif') no-repeat
-	display: none
-	&.drop_hover
-		&.left
-			background: image-url('drop-hover-left.gif') no-repeat
-		&.right
-			background: image-url('drop-hover-right.gif') no-repeat
-	ul.sortable_ideas
-		height: 30px
-		min-height: 10px
-		margin: 0
-		padding: 0
-		width: 83px
-
-
 // post-it styling							
 ul.sortable_ideas
 	li
@@ -356,12 +334,9 @@ div.theme_col
 p.idea
 	word-wrap: break-word
 
-div.new_group_drop_zone
-	ul.sortable_ideas
-		//border: 1px solid red
-
 div.theme_col
 	ul.sortable_ideas
+		min-height: 400px
 		//border: 1px solid orange
 
 div.theming_page_outer		
@@ -400,3 +375,16 @@ div.theme_col
 		font-style: italic
 		input, label
 			cursor: pointer
+div.theme_col#placeholder
+	div.post-it
+		color: red
+		font-weight: bold
+		img
+			display: none
+li.idea_post_it			
+	div.post-it[id="-1"]
+		color: red
+		font-weight: bold
+		img
+			display: none
+	

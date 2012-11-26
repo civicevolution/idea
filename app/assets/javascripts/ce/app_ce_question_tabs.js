@@ -40,7 +40,8 @@ function init_question_view(question_view, idea_id){
 	//console.log("set height $(window).height(): " + $(window).height() + ", $('ul.ui-tabs-nav').outerHeight(): " + $('ul.ui-tabs-nav').outerHeight());
 	$('div.tabs-theming').height( $(window).height() - $('div.theming_header').outerHeight() - 40 );
 	
-	$('<a href="#" class="close" id="' + question_view.attr('id') + '">Close</a>').appendTo( question_view.find('div.theming_header') );
+	$('<a href="#" class="close close_theming_page" id="' + question_view.attr('id') + '">Close</a>').appendTo( question_view.find('div.theming_header') );
+	$('<a href="#" class="close_theming_page" id="' + question_view.attr('id') + '">Proposal page</a>').appendTo( question_view.find('li.idea_post_it div.post-it[id="-1"]') );
 	
 	//console.log("settimeout for make_ideas_sortable");
 	setTimeout(function(){make_ideas_sortable(this.find('div.theming_page_outer ul.sortable_ideas'))}.bind(question_view),200);
@@ -71,7 +72,7 @@ function truncate_themes(post_its){
 	);
 }
 
-$('body').on('click','div.theming_header a.close, div.theming_page a.close_theming_page, div.theme_final_edit a.close_theming_page', function(){
+$('body').on('click','div.theming_header a.close, div.theming_page a.close_theming_page', function(){
 	var question_tabs = $(this).closest('div.question_tabs');
 	var question_id = question_tabs.attr('id');
 	$.getScript('/idea/' + question_id + '/theme_summary');

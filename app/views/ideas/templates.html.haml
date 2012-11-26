@@ -72,7 +72,7 @@
 	%script#create_theme_page_template
 		:plain
 			templates['theme_page'] = $('<div></div>').html($.trim( $('script#theme_page_template').html() )).find('div:first');
-			templates['new_theme_col'] = templates['theme_page'].find('div.theme_col.themes:first');
+			templates['new_theme_col'] = templates['theme_page'].find('div.theme_col.themes[id="1"]');
 			template_functions['theme_col'] = templates['new_theme_col'].compile(
 				{
 					// directives go here
@@ -96,7 +96,6 @@
 					}
 					resize_theming_page();
 					make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
-					make_ideas_sortable($('div.theming_page').find('div.new_group_drop_zone[id="' + new_theme_col.attr('id') + '"] ul.sortable_ideas'));
 					
 					// insert the new theme into the proposal page
 					return new_theme_col;

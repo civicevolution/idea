@@ -246,15 +246,21 @@ class IdeasController < ApplicationController
 
   def create_theme
     logger.debug "create_theme to right of col with id #{params[:par_id]} with idea #{params[:child_idea_id]}"
-    
+
     idea = Idea.find(params[:child_idea_id])
-    new_theme = idea.question.ideas.create(text: 'New theme group', role: 2, member_id: @member.id, order_id: 1,
+new_text = %Q|**New answer**
+
+* mouseover and click pencil to edit this answer
+* drag to reorder|
+
+    #new_text = 'new placeholder'
+    new_theme = idea.question.ideas.create(text: new_text, role: 2, member_id: @member.id, order_id: 1,
       team_id: idea.question.team_id, question_id: idea.question.id, parent_id: idea.question.id, visible: true, version: 0, member: @member)
     idea.update_attribute(:parent_id, new_theme.id) 
 
     ordered_ids = new_theme.siblings.map(&:id)
     ordered_ids.delete(new_theme.id)
-    if params[:par_id] == 'unthemed_ideas'
+    if params[:par_id] == 'unthemed_ideas' || params[:par_id] == 'placeholder'
       ordered_ids = [new_theme.id] + ordered_ids
     else
       par_col_index = ordered_ids.index(params[:par_id].to_i);

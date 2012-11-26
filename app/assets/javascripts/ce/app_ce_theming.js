@@ -27,26 +27,13 @@ function resize_theming_page(){
 			var left = col.position().left;
 			var width = col.width();
 			if( $('div.auto-scroll[id="' + this.id +'"]').size() == 0 ){ // only insert once to the same theming page	
-				//console.log("insert new drop zone and hotspots for " + this.id );
 				// insert and position the autoscroll hotspots
 				$('<div class="auto-scroll top"></div>').appendTo(theme_cols_window).width(width).css({top: 0, left: left}).attr('id',this.id);
 				$('<div class="auto-scroll bottom"></div>').appendTo(theme_cols_window).width(width).css({top: lower_hotpsot_top, left: left}).attr('id',this.id);
-
-				// insert and position the new group dropzones
-				if(this.id != 'parked_ideas'){
-					if(this.id != 'unthemed_ideas'){
-						$('<div class="new_group_drop_zone left"><ul class="sortable_ideas"></ul></div>').appendTo(theme_cols_window)
-							.css({top: 0, left: left}).attr('id',this.id);
-					}
-					$('<div class="new_group_drop_zone right"><ul class="sortable_ideas"></ul></div>').appendTo(theme_cols_window)
-						.css({top: 0, left: left + width - 83}).attr('id',this.id);
-				}
 			}else{
 				//adjust the position of existing ones
 				$('div.auto-scroll.top[id="' + this.id +'"]').width(width).css({top: 0, left: left});
 				$('div.auto-scroll.bottom[id="' + this.id +'"]').width(width).css({top: lower_hotpsot_top, left: left});
-				$('div.new_group_drop_zone.left[id="' + this.id +'"]').css({top: 0, left: left});
-				$('div.new_group_drop_zone.right[id="' + this.id +'"]').css({top: 0, left: left + width - 83});
 			}
 		}
 	);
@@ -70,14 +57,13 @@ function resize_dims(){
 // Set up theming page sortable
 //
 
-var hideDropZonesTimeout = null;
 function make_ideas_sortable(idea_lists_ul){
 	if(editing_disabled(false))return false;
 	var debug = false;
 	idea_lists_ul.sortable({
 		helper: 'clone',
 		appendTo: 'body',
-		items: 'li.idea_post_it',
+		items: 'li.idea_post_it:not(.placeholder)',
 		connectWith: ".sortable_ideas",
 		cursor: 'move',
 		opacity: .8,
@@ -91,7 +77,6 @@ function make_ideas_sortable(idea_lists_ul){
 			var list = $(this);
 			var par = list.closest('div.theme_col');	
 			if(debug) console.log("START sortable drag in col: " + par.attr('id')); 
-			setTimeout(function(){showColumnDropZones(this);}.bind(par), 200);	
 		},
 		stop: function(event, ui) { 
 			if(debug) console.log("STOP sortable drag\n\n\n\n\n\n"); 
@@ -100,121 +85,66 @@ function make_ideas_sortable(idea_lists_ul){
 				.removeClass('scroll-active')
 				.unbind('mousemove')
 				.unbind('mouseleave');
-			$('div.new_group_drop_zone').removeClass('drop_hover').hide();	
 		}, 
 		over: function(event,ui){
 			var list = $(this);
-			var par = list.closest('div.theme_col');
-			if(list.parent().hasClass('new_group_drop_zone')){
-				if(debug) console.log("OVER sortable with new_group_drop_zone hide and show for id: " + list.parent().attr('id') + ', class: ' + list.parent().attr('class'));
-				//if(debug) console.log("cancel drop zone hide with id: " + list.parent().attr('id'));
-				clearTimeout(hideDropZonesTimeout);
-				list.parent().addClass('drop_hover');
-				ui.helper.addClass('drop_hover');
-				setTimeout(function(){$('ul.sortable_ideas').sortable('refresh');}, 100);
-				setTimeout(function(){$('ul.sortable_ideas').sortable('refreshPositions');}, 200);
-				
+			list.addClass('highlight_dropzone');
+			if(list.find('li.idea_post_it div.post-it').size() == 0){
+				ui.placeholder.height(300);
 			}else{
-				if(debug) console.log("OVER sortable NOT new_group_drop_zone, hide the call to showColumnDropZones for id: " + list.parent().attr('id') + ', class: ' + list.parent().attr('class'));
-				clearTimeout(hideDropZonesTimeout);
-				//$('div.new_group_drop_zone').hide();
-				showColumnDropZones(par);
-				list.addClass('highlight_dropzone');
+				ui.placeholder.height(100);			
 			}
-		
 		},
 		out: function(event,ui){
 			var list = $(this);
-			if(list.parent().hasClass('new_group_drop_zone')){
-				par = list.parent();
-				if(debug) console.log("OUT sortable has new_group_drop_zone REMOVE HOVER DO NOT HIDE for list: " + par.attr('id') + ', class: ' + par.attr('class') );
-				$('div.new_group_drop_zone').removeClass('drop_hover');
-				if(ui.helper){ui.helper.removeClass('drop_hover');}
-				setTimeout(function(){$('ul.sortable_ideas').sortable('refresh');}, 100);
-				setTimeout(function(){$('ul.sortable_ideas').sortable('refreshPositions');}, 200);
-			}else{
-				var par = list.closest('div.theme_col');
-				if(debug) console.log("OUT sortable NOT new_group_drop_zone hide in 500 for list: " + par.attr('id') + ', class: ' + par.attr('class') );
-				list.removeClass('highlight_dropzone');
-				//hideDropZonesTimeout = setTimeout( function(){ $('div.new_group_drop_zone').hide();}, 500);
-			}
-			if(debug) console.log("sortable out COMPLETE " + par.attr('id') );
-		},
-		receive: function(event,ui){
-			var list = $(this);
-			if(debug) console.log("RECEIVE sortable id: " + list.parent().attr('id') + ', class: ' + list.parent().attr('class'));
-			if(list.parent().hasClass('new_group_drop_zone')){
-				if(list.parent().hasClass('drop_hover')){
-					var par = $('div.theme_col[id="' + list.parent().attr('id') + '"]');
-					createNewThemeGroup(ui, list, par);
-				}else{
-					if(debug) console.log("CANCEL RECEIVE b/c no hover, sortable id: " + list.parent().attr('id') + ', class: ' + list.parent().attr('class'));
-					$('ul.sortable_ideas').sortable('cancel');
-				}
-			}else{
-				if( !list.hasClass('highlight_dropzone')){
-					$('ul.sortable_ideas').sortable('cancel');
-				}
-			}
-			
-			//if(debug) console.log("Hide the drop zones");
-			$('div.new_group_drop_zone').removeClass('drop_hover').hide();
+			list.removeClass('highlight_dropzone');
 		},
 		update: function(event,ui){
 			var list = $(this);
 			var par = list.closest('div.theme_col');
 			if(par.size() > 0){
-				//if(debug) console.log("sortable update for theme: " + par.attr('id') );
-				temp['par' + par.attr('id')] = par
-				//if(debug) console.log("ordered_ids: " + par.find('li.idea_post_it div.post-it').map(function(){return this.id;}));
-				// send the theme order data
-				$.post('/idea/' + par.attr('id') + '/idea_order', 
-					{	
-						ordered_ids: $.makeArray(par.find('li.idea_post_it div.post-it').map(function(){return Number(this.id);}))
-					}, 
-					"script"
-				);
+				if(debug) console.log("sortable update for theme: " + par.attr('id') );
+				if( par.attr('id') != 'placeholder'){
+					var ordered_ids = $.makeArray(par.find('li.idea_post_it div.post-it').map(function(){return Number(this.id);}));
+					//if(debug) console.log("ordered_ids: " + ordered_ids );
+					// send the theme order data
+					$.post('/idea/' + par.attr('id') + '/idea_order', 
+						{	
+							ordered_ids: ordered_ids
+						}, 
+						"script"
+					);
+					list.sortable('refresh');
+				}else{
+					// create a new answer group (theme)
+					var idea = list.find('li.idea_post_it').remove();
+					var constituent_idea_id = idea.find('div.post-it').attr('id');
+					if(debug) console.log("create a new answer group containing idea id: " + constituent_idea_id );
+					$.post('/idea/' + par.attr('id') + '/create_theme', 
+						{	
+							par_id: par.attr('id'),
+							child_idea_id: constituent_idea_id
+						}, 
+						"script"
+					);
+					
+				}
 			}
 		}
 	});
-}
-
-
-function showColumnDropZones(par){
-	//console.log("Show the dropzones for this this column: " + par.attr('id') );
-	$('div.new_group_drop_zone').removeClass('drop_hover').hide();	
-	$('div.new_group_drop_zone[id="' + par.attr('id') + '"]').show();
-	//setTimeout(function(){this.find('ul.sortable_ideas').sortable('refresh');}.bind(par);
-	par.find('ul.sortable_ideas').sortable('refresh');
-}
-
-function createNewThemeGroup(ui, list, par){
-	if(editing_disabled())return false;
-	var idea = list.find('li.idea_post_it').remove();
-	//console.log("createNewThemeGroup: Now create a new list for sortable receive " + par.attr('id') );
-	
-	// send the theme order data
-	$.post('/idea/' + par.attr('id') + '/create_theme', 
-		{	
-			par_id: par.attr('id'),
-			side: (list.parent().hasClass('right') ? 'right' : 'left' ),
-			child_idea_id: idea.find('div.post-it').attr('id') 
-		}, 
-		"script"
-	);
-	
-	//realtime_data_update_functions['theme_col']( { data: { id: par.attr('id'), theme_idea: idea.find('p.idea').html() }, col_par: par });
 }
 
 $('body').on('mouseup', 'div.theming_page div.post-it', show_idea_details);
 function show_idea_details(event){
 	if( event.target.className != 'delete' ){
 		//console.log("show_idea_details for this.id: " + this.id);
-		var url = '/idea/' + this.id + '/details?act=theming_popup';
-		if( event.target.className == 'edit' ){
-			url += '&mode=edit';
+		if(this.id > 0){
+			var url = '/idea/' + this.id + '/details?act=theming_popup';
+			if( event.target.className == 'edit' ){
+				url += '&mode=edit';
+			}
+			$.getScript(url);
 		}
-		$.getScript(url);
 	}
 }
 

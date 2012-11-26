@@ -146,12 +146,17 @@ div.proposal
 			&.instructions
 				font-style: italic
 				width: 500px
-			li.theme
+				
+			li.theme, li.instr
 				margin: 0 0 16px 0px
 				font-size: 1.08em
 				list-style-type: 	none
-				position: relative
 				padding-right: 160px
+				p
+					margin: 0 0 .4em 0
+				
+			li.theme	
+				position: relative
 				&:hover
 					background-color: #e5e6ff
 				a
@@ -174,8 +179,6 @@ div.proposal
 						display: block
 						div.total
 							display: none
-				p
-					margin: 0 0 .4em 0
 					
 	div.form_help_slide
 		background-color: #e3e3ff
@@ -501,3 +504,5 @@ div.idea_summary
 a.close_question_discussion
 	display: block
 	margin-top: 16px
+p.em
+	font-weight: bold

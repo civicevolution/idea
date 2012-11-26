@@ -7,7 +7,7 @@
 
 		= link_to 'Rate new ideas', view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas hide', rel: 'nofollow', remote: true, wait: 'gif' }
 		
-		= link_to 'View all ideas', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas hide', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the theming page for this question' }
+		= link_to 'View all ideas', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas hide', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
 				
 	%ul.themes
 		- no_themes = true
@@ -31,18 +31,35 @@
 	
 		- if no_themes
 			- if @team.org_id == @member.id
-				%li
+				%li.instr
 					%p.warn Please create at least one answer for this question
-					%p 
-						The project coordinator is responsible for composing answers to each question 
-						based on the ideas, comments and ratings of the participants.
+					%p.emX
+						Post one or more ideas about this question in the yellow form below and then go to the 
+						= link_to 'post-its wall', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
+						to compose an answer from the ideas
 					%p
 						Watch the 
 						= link_to "video", 'http://civicevolution.org/ce-video', {target: '_blank'}
 						for more information and/or
 						= link_to "contact us", short_help_path(tab: 2), { :remote => true}
 			- else
-				%li.theme No answers have been composed yet
+				%li.instr
+					%p No answers have been composed yet
+					- if question.question_ideas.empty?
+						%p.em
+							Please post one or more ideas about this question in the yellow form below
+							
+						%p 
+							Your ideas will be added to the 
+							= link_to 'post-its wall', question_view_path(question.id, page: 'theming'), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
+							where the project coordinator will compose answers from the ideas
+						%p 
+							Watch the 
+							= link_to "video", 'http://civicevolution.org/ce-video', {target: '_blank'}
+							for more information and/or
+							= link_to "contact us", short_help_path(tab: 2), { :remote => true}
+							
+				
 	
 	%div.form_help_slide.collapsed
 		= link_to 'close', {}, class: 'close'
