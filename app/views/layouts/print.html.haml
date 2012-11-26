@@ -2,8 +2,7 @@
 %html{html_attrs('en-en')}
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
-		= stylesheet_link_tag "#{@css_name}.css", :media=>'print'
-		= stylesheet_link_tag "#{@css_name}.css", :media=>'screen'
+		= stylesheet_link_tag "#{@css_name}.css", :media=>'all'
 		
 	%body
 		= yield
