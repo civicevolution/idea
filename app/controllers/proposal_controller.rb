@@ -4,6 +4,7 @@ class ProposalController < ApplicationController
   def print
     @team = Team.includes(:idea, :question_ideas => :themes).find(params[:team_id])
     @endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
+    @css_name = 'ce/proposal_print'
     
     render :template=>'proposal/print', :locals=>{:team => @team}, :layout => 'print'
   end
