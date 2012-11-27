@@ -1,5 +1,73 @@
 %style
-	body{ color: green}
+	:sass
+		p.details
+			margin: 0
+
+		table.endorsements
+			td
+				vertical-align: top
+				p
+					margin-top: 0
+		.stripe
+			background-color: #ddd
+
+		@media print	
+			body
+				width: 100%
+				margin: 0 
+				float: none	
+
+			.page-break
+				page-break-before: always
+
+			p.no_themes
+				font-style: italic
+				margin-left: 20px
+				margin-bottom: 2em	
+			p.participant
+				margin: 0 0 .5em 0
+			div.no_print
+				display: none
+			h4.question
+				margin-left: 1.9em
+				text-indent: -1.9em
+			ul
+				margin-left: .5em
+				li.theme
+					list-style-type: none
+
+		@media screen
+			body
+				width: 600px
+				margin: 2em
+				div.page
+					width: 600px
+			div.summary
+				margin: 0 40px 0 40px
+			ul
+				margin-bottom: 0
+				li	
+					font-size: 1em
+			p.no_themes
+				font-style: italic
+				margin-left: 20px
+				margin-bottom: 2em	
+
+			div.participants
+				margin-bottom: 4em
+			p.participant
+				margin: 0 0 .5em 0
+			h4.question
+				margin-left: 1.9em
+				text-indent: -1.9em
+			ul
+				margin-left: .5em	
+				li.theme
+					list-style-type: none
+		
+
+
+
 %div.proposal_page
 	%div.no_print
 		%button{:onclick=>'window.print();'} Print this page
@@ -54,7 +122,7 @@
 	%h4 This proposal was developed by 
 	%div.participants
 		%p #{team.organizer.first_name} #{team.organizer.last_name}, who initially suggested this idea for change, working with
-		- team.participants.select{|p| p.id  != team.org_id}.sort{|x,y| x.first_name <=> y.first_name || x.last_name <=> y.last_name}.each do |participant|
+		- team.participants.select{|p| p.id	!= team.org_id}.sort{|x,y| x.first_name <=> y.first_name || x.last_name <=> y.last_name}.each do |participant|
 			%p.participant
 				= participant.first_name
 				= participant.last_name
