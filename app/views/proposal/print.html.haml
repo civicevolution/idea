@@ -81,7 +81,7 @@
 		%p.details Project coordinator: #{@team.organizer.first_name} #{@team.organizer.last_name}	
 		%p.details Created: #{team.created_at.strftime("%m/%d/%Y")}
 
-		%h3 Executive summary
+		%h3 Our vision
 		%div.summary
 			:markdown
 				#{@team.solution_statement}
@@ -101,7 +101,7 @@
 								#{theme.text}
 
 %div.page-break
-	%h3 #{@endorsements.size} Endorsements
+	%h3= pluralize(@endorsements.size, 'Endorsement')
 	
 	%table.endorsements
 		%tr
