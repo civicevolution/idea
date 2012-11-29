@@ -7,12 +7,29 @@ class MembersController < ApplicationController
     # use the code to look up the user's email address
     params[:code] ||= session[:code]
     if params[:code].nil? 
-      render 'new_profile_code_not_found'
+      render :template=>'members/request_new_access_code', :layout=>'plan'
+      flash[:pre_request_access_code_uri] = request.fullpath
     else
-      email = EmailLookupCode.get_email( params[:code] )
-      @email = email unless email.nil?
-      session[:code] = params[:code] unless params[:code].nil?
-      render 'new_profile_form', layout: 'home'
+      @email = EmailLookupCode.get_email( params[:code] )
+      if @email.nil?
+        render :template=>'members/request_new_access_code', :layout=>'plan'
+        flash[:pre_request_access_code_uri] = request.fullpath
+      else
+        # is the email already in use?
+        @member = Member.find_by_email(@email.downcase)
+        if @member.nil?
+          session[:code] = params[:code]
+          render 'new_profile_form', layout: 'home'
+        else
+          session.delete :member_id
+          session.delete :code
+          session.delete :_mlc
+          @member = Member.new :first_name=>'Unknown', :last_name=>'Visitor'
+          @member.id = 0
+          @member.email = ''
+          render :template => "sign_in/join_email_address_in_use", locals: {email: @email}, layout: 'home'
+        end
+      end
     end
   end
 
