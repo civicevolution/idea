@@ -1,7 +1,9 @@
 function init_details_popup(details){
 	
 	// kill any existing detail popups
-	$('div.idea_details.popup').closest('div.ui-dialog').dialog('destroy').end().remove();
+	var popup = $('div.idea_details.popup');
+	popup.closest('div.ui-dialog').dialog('destroy').remove();
+	popup.remove();
 	dialog = details.dialog(  {
 		title : '', 
 		modal : true, 
