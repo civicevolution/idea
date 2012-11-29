@@ -1,7 +1,10 @@
 - link ||= 'yes'
 %div.question_summary{:id=>question.id}
-	%h3.question Q#{question.order_id}: #{question.text}
-
+	%div.question_hdr
+		%h3.question_num Q#{question.order_id}:
+		%h3.question= question.text
+		%p.clear_both
+	
 	%div.question_summary_inner
 		%h4.sub_sec_hdr.summary 
 			%span Answer composed from ideas
