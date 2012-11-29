@@ -248,4 +248,3 @@ $('body').on('dialogopen', 'div.ui-dialog-content', function(event) {
 	}
 });	
 
-$('body').on('click','a.invite',function(){alert("Sorry, the invite email is currently being updated, please try again tomorrow"); return false;});

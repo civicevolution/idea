@@ -9,8 +9,9 @@
 					font-size: .8em
 					color: #444
 	
-	%h4 Please tell your friends about this proposal
+	
 	- if @member.id == 0
+		%h4 Please tell your friends about this proposal
 		- if team.nil?
 			%p You can email them this link: #{home_url}
 		- else
@@ -20,6 +21,25 @@
 		
 		= link_to 'Cancel', {}, {:class=>'clear', :rel=>'nofollow'}
 	- else
+		%h3 We are currently updating the email invite system. 
+		%p{style:"width:400px"}
+			We have noted that you tried to invite friends and we will notify you via email as soon as it is available. We apologize for the inconvenience. 
+			
+		- if team.nil?
+			%p 
+				In the meantime, you can email your friends this link: 
+			%p
+				%b #{home_url}
+		- else
+			%p 
+				In the meantime, you can email your friends this link: 
+			%p
+				%b #{plan_url(team)}
+		
+	
+	
+	-#
+		%h4 Please tell your friends about this proposal
 		%p 
 			The email addresses you enter here will be used just one time to send this email.
 			- if !team.nil? && team.initiative_id == 1

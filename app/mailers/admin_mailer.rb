@@ -42,6 +42,15 @@ class AdminMailer < ActionMailer::Base
       :subject => 'Contact us message from CivicEvolution')
 
   end
+
+  def member_used_invite(member, team, app)
+    @member = member
+    @team = team
+    @app = app
+    mail(:to => "CivicEvolution Support<support@civicevolution.org>",
+      :subject => 'Member used CivicEvolution Invite feature')
+
+  end
   
 
   #def email_message_with_attachment(recipient, subject, plain_text_message, html_message, include_bcc, sent_at = Time.now)

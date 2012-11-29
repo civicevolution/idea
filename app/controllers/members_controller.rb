@@ -77,6 +77,12 @@ class MembersController < ApplicationController
   
   def invite_friends_form
     team = Team.find_by_id(params[:team_id])
+    
+    if @member.id != 0
+      # send Admin an email that someone wants to use the invite feature
+      AdminMailer.member_used_invite(@member, team, params[:_app_name] ).deliver
+    end
+    
     if flash[:params]
       params[:message] = flash[:params][:message]
       params[:recipient_emails] = flash[:params][:recipient_emails]
