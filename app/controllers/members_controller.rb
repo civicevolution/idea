@@ -80,7 +80,7 @@ class MembersController < ApplicationController
     
     if @member.id != 0
       # send Admin an email that someone wants to use the invite feature
-      AdminMailer.member_used_invite(@member, team, params[:_app_name] ).deliver
+      AdminMailer.delay.member_used_invite(@member, team, params[:_app_name] )
     end
     
     if flash[:params]
