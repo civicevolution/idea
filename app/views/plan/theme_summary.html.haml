@@ -4,17 +4,16 @@
 		= render :partial=> 'proposal_header'	
 		%hr.top
 		
-		%div.notebook.corner
+		%div
 			%div.intro
-				%h2.home_title
+				%h1.home_title
 					%span= @team.title
 				- if @member.id == @team.org_id
 					= link_to "edit", team_edit_path(@team.id, target: 'title'), class: "edit_title edit", remote: true
-							
+
+				%h2.label.section_hdr Our Vision
 				%div.summary_block
 					%div.summary.text
-						%h3.label.discussion Our Vision
-						
 						%div.idea_summary
 							%div.inner
 								:markdown
@@ -28,7 +27,7 @@
 							
 						= render( partial: 'ideas/rating', locals: { idea: @team.idea } )
 
-						%h3.label.discussion{idea_id: @team.idea.id}
+						%h4.sub_sec_hdr.discussion{idea_id: @team.idea.id}
 							= link_to view_idea_details_path(@team.idea.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the discussion for this proposal', orig_text: "What comments or questions do you have?" } do
 								%span What comments or questions do you have?
 								%div.comments
@@ -47,6 +46,13 @@
 					%p.clear_both
 				%p.clear_both
 			%p.clear_both
+			
+			%div.segue
+				%h2.label.section_hdr Our Plan
+				%p 
+					Let's build a coherent and convincing plan to implement this vision by thinking together to answer these four questions.
+					Our project coordinator, #{@team.organizer.first_name}, will continuously weave together our ideas and comments to compose and refine the answers.
+					
 
 			- questions = @team.question_ideas.sort {|a,b| a.order_id <=> b.order_id }
 			%div.proposal

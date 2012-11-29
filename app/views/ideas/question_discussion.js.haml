@@ -4,7 +4,7 @@
 	discussion.hide().show(800);
 	activate_text_counters_grow(discussion.find('textarea'), 120);
 	init_file_uploads( discussion.find('input.attachment-upload') );
-	var disc_link = discussion.prev('h3.discussion').find('a');
+	var disc_link = discussion.prev('h4.discussion').find('a');
 	setTimeout( function(){this.find('span').html("Hide discussion")}.bind(disc_link), 200);
 	disc_link.add( discussion.find('a.close_question_discussion') ).bind('click',function(){ discussion.hide(800);disc_link.find('span').html( disc_link.attr('orig_text')); disc_link.unbind('click');return false;});
 	setTimeout(function(){ dispatcher.update_coms_new( this );}.bind(details),200);

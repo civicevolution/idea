@@ -1,17 +1,21 @@
-- popup = params[:act] == 'review_idea' || idea.parent_id.nil? || idea.parent_id == 0
+- popup = params[:act] == 'review_idea' || params[:act] == 'review_unrated_ideas' || idea.parent_id.nil? || idea.parent_id == 0
 - idea.order_id ||= 1
 %div.idea_details{ idea_id: idea.id, question_id: idea.question_id, class: popup ? 'popup' : '' }
 	- if params[:act] == 'review_idea'
-		%h3.popup_nav Thanks for your idea:
+		%h3.popup_nav 
+			Thanks, your idea has been added to the 
+			= link_to 'post-its wall', {}, class: 'goto_theming_page'
+		
 	
 	- else
 		- case 
+			- when params[:act] == 'review_unrated_ideas'
+				- item_name = 'Unrated idea'
+				- items_count = question.unrated_ideas.count
+				- item_num = 1
 			- when idea.parent_id.nil?
 				- item_name = 'New idea'
-				- if params[:act] == 'review_unrated_ideas'
-					- items_count = question.unrated_ideas.count
-				- else
-					- items_count = idea.siblings.count
+				- items_count = idea.siblings.count
 				- item_num = 1
 			- when idea.parent_id == 0
 				- item_name = 'Parked idea'
@@ -68,7 +72,7 @@
 		
 	= render( partial: 'rating', locals: { idea: idea } )			
 	
-	%h3.label.discussion{idea_id: idea.id}
+	%h4.sub_sec_hdr.discussion{idea_id: idea.id}
 		%span Discuss this idea
 		%div.comments
 			= image_tag('comment-sketch.gif', title: 'Number of comments')

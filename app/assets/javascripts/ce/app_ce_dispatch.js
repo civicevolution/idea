@@ -203,14 +203,14 @@ dispatcher = {
 				var question = $(this);
 				var question_id = question.attr('id');
 				var unrated_ideas = dispatcher.get_data( {type: 'question_idea_count', unrated_only: true, id: question_id});
-				var unrated_link = question.find('h3.summary a.view_unrated_ideas');
+				var unrated_link = question.find('h4.summary a.view_unrated_ideas');
 				if(unrated_ideas == 0){
 					unrated_link.addClass('hide');
 				}else{
 					unrated_link.removeClass('hide').html( 'Rate ' + unrated_ideas + ' new idea' + (unrated_ideas != 1 ? 's' : '') );
 				}
 				var total_ideas = dispatcher.get_data( {type: 'question_idea_count', id: question_id});
-				var view_ideas_link = question.find('h3.summary a.view_all_ideas');
+				var view_ideas_link = question.find('h4.summary a.view_all_ideas');
 				if(total_ideas == 0){
 					view_ideas_link.addClass('hide');
 				}else{
@@ -223,7 +223,7 @@ dispatcher = {
 	update_discussion_stats: function(page){
 		//console.log("update_discussion_stats");
 		page = page || $('body');
-		page.find('h3.discussion').each(
+		page.find('h4.discussion').each(
 			function(){
 				var header = $(this);
 				var idea_id = header.attr('idea_id');
@@ -236,7 +236,7 @@ dispatcher = {
 				//if(total_coms == 0 ){ header.find('a span').html('Click to add a comment');}
 			}
 		);	
-		page.find('h3.ideas_discussion').each(
+		page.find('h4.ideas_discussion').each(
 			function(){
 				var header = $(this);
 				var idea_id = header.attr('idea_id');

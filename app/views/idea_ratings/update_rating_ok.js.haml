@@ -3,7 +3,7 @@
 - question.member = @member
 :plain
 	var rater = $('div.theme_slider[id="#{idea_rating.idea.id}"]').closest('div.rater');
-	var rater_hdr = rater.prev('h3.rating');
+	var rater_hdr = rater.prev('h4.rating');
 	rater_hdr.find('span').html('Thanks for rating this').effect('highlight', {color: '#8DEE00'},2000);		
 	rater.find('span.vote_count').html( '#{ pluralize( idea_rating.num_idea_votes, 'vote' )  }');
 	rater.find('p.results a.done').remove();
@@ -30,7 +30,7 @@
 - elsif idea_rating.idea.role == 1 && question.unrated_ideas.count > 0
 	:plain
 
-		$('div.question_summary[id="#{question.id}"] h3.summary a.view_unrated_ideas').removeClass('hide').html( 
+		$('div.question_summary[id="#{question.id}"] h4.summary a.view_unrated_ideas').removeClass('hide').html( 
 			"Rate #{pluralize(question.unrated_ideas.count, ' new idea')}" );
 		
 - else
@@ -39,7 +39,7 @@
 		done_link.click(function(){$(this).closest('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove(); return false; });
 - if idea_rating.idea.role == 1 && question.unrated_ideas.count == 0
 	:plain
-		$('div.question_summary[id="#{question.id}"] h3.summary a.view_unrated_ideas').addClass('hide');
+		$('div.question_summary[id="#{question.id}"] h4.summary a.view_unrated_ideas').addClass('hide');
 	
 	
 	

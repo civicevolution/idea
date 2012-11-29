@@ -1,8 +1,10 @@
+- title ||= !@team.nil? ? "#{@team.title}" : title || params[:_app_page_title]
 !!!
 %html{html_attrs('en-en')}
 	%head
 		%meta{'http-equiv' => 'Content-Type', :content => 'text/html;charset=UTF-8'}
 		-#= stylesheet_link_tag "#{@css_name}.css", :media=>'all'
+		%title= title
 		
 	%body
 		= yield

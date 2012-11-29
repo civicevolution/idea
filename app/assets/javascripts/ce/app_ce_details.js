@@ -235,7 +235,7 @@ function init_summary_editor( form, target ){
 			var editor = new Markdown.Editor(converter);
 			//console.log("run editor");
 			editor.run();
-			summary.find('div.inner').hide().after( $('<h3 class="prev-label">Preview executive summary</h3>'), form.find('div#wmd-preview').addClass('corner') );
+			summary.find('div.inner').hide().after( $('<h3 class="prev-label">Preview Our Vision</h3>'), form.find('div#wmd-preview').addClass('corner') );
 		}
 
 		if(typeof Markdown == 'undefined'){

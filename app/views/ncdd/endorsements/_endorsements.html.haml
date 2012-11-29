@@ -1,36 +1,28 @@
-%style
-	:sass
-		input.link
-			border: none
-			background: none
-			cursor: pointer
-			margin: 0 
-			padding: 0
-			text-decoration: underline
-		textarea
-			height: 100px
-		
 %div.endorsements
-	-#%div.spiral
-	%div.notebook.corner
-		- if @endorsements.size == 0
-			%h3.desc No one has endorsed this proposal yet.
-		- else
-			%h3 Proposal is endorsed by #{pluralize(@endorsements.size, 'community member')}
+	%h2.section_hdr Our supporters
+		
 	
-		%p If you like this proposal, please add a statement of support in the box below and click the button. You can endorse your own proposal and invite your friends to endorse it as well!
+	- if @endorsements.size == 0
+		%h4.sub_sec_hdr No one has endorsed this proposal yet.
+	- else
+		%h4.sub_sec_hdr This proposal is endorsed by #{pluralize(@endorsements.size, 'person')}
 
-		%table{:class => @endorsements.size == 0 ? 'hide' : ''}
+	- if !print
+		%p If you like this proposal, please add a statement of support in the box below and click the button. You can endorse your own proposal and invite your friends to endorse it as well!
+	%div.endorsements_inner
+
+		%table.endorsements{:class => @endorsements.size == 0 ? 'hide' : ''}
 			%tr
-				%th{:colspan=>'2'} Name
+				%th{:colspan=> !print ? 2 : 1} Name
 				%th Comment
 				%th When
 			- endorsed = false	
 			- @endorsements.each do |e|
 				%tr{:class=> cycle('','stripe'), :id=>e.member.ape_code}
-					%td.pic
-						- if !e.id.nil?
-							%img{:src=> e.member.photo.url(:small)} 
+					- if !print
+						%td.pic
+							- if !e.id.nil?
+								%img{:src=> e.member.photo.url(:small)} 
 					%td.name
 						%span.member& #{e.member.first_name} #{e.member.last_name}
 					%td.text= simple_format( e.text )

@@ -53,7 +53,7 @@ class Team < ActiveRecord::Base
     members = Member.select('id, first_name, last_name, ape_code, photo_file_name').where( :id => participation_records.map{|p|p[0]})
     
     # Now I need to get the points back into the members
-    participation_records.each{ |rec| members.detect{|m| m.id == rec[0].to_i}[:points] = rec[1].to_i }
+    participation_records.each{ |rec| members.detect{|m| m.id == rec[0].to_i}.stats[:points] = rec[1].to_i }
     return members
   end
   

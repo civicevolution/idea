@@ -33,7 +33,7 @@
 					
 				= render( partial: 'rating', locals: { idea: idea } )			
 				
-				%h3.label.discussion{idea_id: idea.id}
+				%h4.sub_sec_hdr.discussion{idea_id: idea.id}
 					%span Discuss this answer
 					%div.comments
 						= image_tag('comment-sketch.gif', title: 'Number of comments')
@@ -50,7 +50,7 @@
 		
 			%div.constituent_ideas
 				- random_ind = rand.to_s.scan(/\d/)[1..20]
-				%h3.label.ideas_discussion{idea_id: idea.id}
+				%h4.sub_sec_hdr.ideas_discussion{idea_id: idea.id}
 					%span Ideas
 					%div.comments
 						= image_tag('comment-sketch.gif', title: 'Number of comments')

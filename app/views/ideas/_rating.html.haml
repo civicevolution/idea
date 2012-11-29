@@ -1,7 +1,7 @@
 - my_rating = idea.idea_ratings.detect{|r| r.member_id == @member.id}
 - votes = idea.votes.size
 - if my_rating.nil?
-	%h3.label.rating.please-rate 
+	%h4.sub_sec_hdr.rating.please-rate 
 		- case idea.role
 			- when 1
 				%span Please rate this idea
@@ -14,7 +14,7 @@
 		= link_to "View results", {}, class: "view_results hide"
 			
 - else
-	%h3.label.rating
+	%h4.sub_sec_hdr.rating
 		- case idea.role
 			- when 1
 				%span Your rating for this idea

@@ -26,6 +26,11 @@ class Member < ActiveRecord::Base
   
   attr_accessor :question_last_visit_ts
   
+  attr_accessor :stats
+  after_initialize do |member|
+    member.stats = {}
+  end
+  
   #validate :email_for_cgg_ce
   before_save :strip_email
   before_create :reserve_ape_code

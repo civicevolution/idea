@@ -138,61 +138,6 @@ $('table#new_content tr').die('click').live('click',
 );
 $('table#new_content tr:odd').addClass('striped');
 
-
-$('div.proposal').on('click', 'div.form_help_slide a.close', function(){
-	close_idea_help_popup(this);
-	return false;
-});
-$('div.proposal').on('click', 'div.add_idea a.show_idea_help_popup', function(){
-	open_idea_help_popup(this);
-	return false;
-});
-$('div.proposal').on('focus', 'form.suggest_idea textarea', function(){
-	open_idea_help_popup(this);
-	return false;
-});
-
-function open_idea_help_popup(el){
-	var help_slide = $(el).closest('div.question_summary').find('div.form_help_slide');
-	if(el.nodeName == 'TEXTAREA' && help_slide.hasClass('auto-opened')){
-		//console.log("help was already opened once on this question");
-		return;
-	}
-	help_slide.removeClass('collapsed');
-	help_slide.addClass('auto-opened');
-	var body = help_slide.find('div.help_body');
-	var new_scroll_pos = $(document).scrollTop() + body.height();
-	if(new_scroll_pos>40) new_scroll_pos -= 40;
-	body.slideDown(800);	
-	$('html, body').animate({scrollTop: new_scroll_pos }, 800);
-}
-function close_idea_help_popup(el){
-	var help_slide = $(el).closest('div.question_summary').find('div.form_help_slide');
-	var body = help_slide.find('div.help_body');
-	body.slideUp(800, function(){
-		$(this).closest('div.form_help_slide').addClass('collapsed');
-	});
-}
-$('div.proposal').on('click', 'div.form_help_slide a.ideas_vs_comments', function(){
-	var ideas_vs_comments = $(this).closest('div.form_help_slide').find('ul.ideas_vs_comments');
-	if( ideas_vs_comments.is(':visible') ){
-		ideas_vs_comments.hide(400);
-	}else{
-		ideas_vs_comments.show(400);
-	}
-	return false;
-});
-$('div.proposal').on('click', 'div.form_help_slide a.theming_page_notes', function(){
-	var theming_page_notes = $(this).closest('div.form_help_slide').find('ul.theming_page_notes');
-	if( theming_page_notes.is(':visible') ){
-		theming_page_notes.hide(400);
-	}else{
-		theming_page_notes.show(400);
-	}
-	return false;
-});
-
-
 $(function () {
 	init_file_uploads( $('input.attachment-upload') );
 });

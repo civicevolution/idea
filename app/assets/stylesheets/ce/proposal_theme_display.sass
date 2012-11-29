@@ -1,32 +1,16 @@
 @import "definitions"
 
 // Summary section
-div.intro
-	h2.home_title
-		font-size: 1.6em
-		color: #296d8A
-		margin: 18px 0 0px 0
-		a
-			font-size: .6em
-			margin-left: 0px
-			font-weight: normal
 		
 div.summary.collapse
 	margin-bottom: 20px
 
 div.summary
 	margin: -10px 0 0 0
-	font-size: 1.12em
-	div.call-to-action.summary
-		height: 24px
-		float: left
-		span
-			vertical-align: top
-			margin-right: 16px
-			margin-left: -16px
-		img	
-			margin-right: 16px
-
+	div.idea_summary
+		font-size: 1.12em
+		margin-bottom: 2em
+		
 div.summary.text
 	float: left
 	width: 460px
@@ -93,16 +77,11 @@ div.tools
 
 div.proposal
 	div.question_summary
-		h2.question 
-			color: #296d8A
+		margin-left: 20px
+		div.question_summary_inner
+			margin-left: 20px
 			
-		h3.responses
-			float: left
-			color: #296d8A
-			margin: 0 16px 0 0 
-		h3.summary
-			margin-left: 30px
-			color: #296d8A
+		h4.summary
 			span
 				display: block
 				float: left
@@ -134,13 +113,11 @@ div.proposal
 			
 		div.discussion
 			margin-bottom: 60px
-			margin-left: 10px
 		ul.themes
 			width: 660px
-			margin-left: 10px
 			padding-bottom: 8px
 			padding-top: 12px
-			padding-left: 20px
+			clear: both
 			p
 				width: 400px
 			&.instructions
@@ -180,52 +157,7 @@ div.proposal
 						div.total
 							display: none
 					
-	div.form_help_slide
-		background-color: #e3e3ff
-		padding: 0 1em 1em 1em
-		margin-left: 20px
-		width: 500px
-		position: relative
-		a.close
-			position: absolute
-			top: 4px
-			right: 8px
-		div.help_header
-			h3.label
-				//padding-top: 16px
-				color: #296d8A
-		div.help_body	
-			display: none
-			h3.framing, h4.cta
-				margin-bottom: 4px
-				color: #296d8A
-			ul.framing_questions
-				background: #ccf
-			ul.framing_questions, ul.instructions
-				margin: 0
-				li
-					margin: 0 0 0 40px
-					list-style-type: 	disc
-					&.emphasis
-						font-weight: bold
-						color: #296d8A
-						ul
-							font-weight: normal
-							color: black
-					a
-						color: #296d8A
-				ul.ideas_vs_comments, ul.theming_page_notes
-					display: none
-			p.learn_more
-				padding-bottom: 10px
-		&.collapsed
-			background-color: white
-			padding-bottom: 0
-			a.close
-				display: none
-				
 	form.suggest_idea
-		margin-left: 30px
 		margin-bottom: 30px
 		textarea
 			width: 376px
@@ -235,19 +167,12 @@ div.proposal
 		div.add_idea
 			position: relative
 			width: 500px
-			a.show_idea_help_popup
-				position: absolute
-				top: 4px
-				right: 98px
-				height: 24px
-				width: 24px
-				background: image-url('idea_help.gif') no-repeat 0 0
 			p.clear_both
 				margin: 0
 			div.attachment_btn
 				position: absolute
 				//border: 1px solid red
-				top: 30px
+				top: 4px
 				right: 104px
 				height: 16px
 				width: 16px
@@ -319,30 +244,6 @@ p.form_controls
 		right: 0
 		top: 0
 		margin: 0
-
-h3.rating
-	margin-left: 30px
-	color: #296d8A
-	a
-		color: #296d8A
-		text-decoration: none
-		margin-left: 20px
-		margin-top: 4px
-		font-size: .8em
-		&:hover
-			text-decoration: underline
-		
-h3.discussion		
-	margin-left: 30px
-	color: #296d8A
-	a
-		color: #296d8A
-		text-decoration: none
-		&:hover
-			text-decoration: underline
-		span
-			float: left
-			margin-right: 20px
 			
 form
 	div.attachments
@@ -387,12 +288,10 @@ div.endorsements
 	position: relative
 	margin-top: 20px
 	width: 600px
+	div.endorsements_inner
+		margin-left: 20px
 	table
 		margin-right: 1em
-	h3
-		width: 100%
-		text-align: left
-		font-size: 1em
 	td,th
 		text-align: left
 	td
@@ -402,10 +301,6 @@ div.endorsements
 			margin-top: 0
 	div.cta
 		margin: 32px 0 32px 0
-
-div.question_summary
-	div.rater
-		margin-left: 30px
 			
 div.rater
 	//background: $light_yellow_background
@@ -466,11 +361,9 @@ div.results
 			position: absolute
 			bottom: 0
 			
-h3.discussion a :hover
+h4.discussion a :hover
 	text-decoration: underline
-h3.discussion		
-	margin-left: 30px
-	color: #296d8A
+h4.discussion		
 	a
 		color: #296d8A
 		text-decoration: none
@@ -480,7 +373,8 @@ h3.discussion
 			float: left
 			margin-right: 20px
 div.summary_block
-	h3.discussion, h3.rating		
+	margin-left: 20px
+	h4.discussion, h4.rating		
 		margin-left: 0
 	div.idea_details
 		padding-left: 0
@@ -506,3 +400,44 @@ a.close_question_discussion
 	margin-top: 16px
 p.em
 	font-weight: bold
+	
+h1.home_title
+	font-size: 1.9em
+	color: #296d8A
+	margin: 18px 0 0px 0
+	a
+		font-size: .6em
+		margin-left: 0px
+		font-weight: normal
+	
+h2.section_hdr
+	color: #296d8A
+	font-size: 1.6em
+
+h3.question
+	color: #296d8A
+	font-size: 1.4em
+	
+h4.sub_sec_hdr	
+	color: #296d8A
+	font-weight: normal
+	font-size: 1.2em
+	a
+		color: #6c41a6
+
+div.segue
+	p
+		width: 600px
+		
+		
+////from endorsements
+//input.link
+//	border: none
+//	background: none
+//	cursor: pointer
+//	margin: 0 
+//	padding: 0
+//	text-decoration: underline
+//textarea
+//	height: 100px
+		

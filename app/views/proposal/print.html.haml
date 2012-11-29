@@ -1,16 +1,55 @@
 %style
 	:sass
+		body, p, ol, ul, td, textarea
+			font-family: verdana, arial, helvetica, sans-serif
+			font-size:   13px
+			
 		p.details
 			margin: 0
 
 		table.endorsements
-			td
+			td, th
 				vertical-align: top
+				text-align: left
+				padding: 10px
+				min-width: 100px
 				p
 					margin-top: 0
+			td.time
+				min-width: 80px
+				
 		.stripe
 			background-color: #ddd
-
+		h2.plan
+			margin: 24px 0 4px 0
+		p.plan_intro
+			margin-top: 0
+		div.question_hdr
+			margin-left: 20px
+		h3.question
+			float: left
+			margin-right: 6px
+			max-width: 500px
+			
+		ul
+			margin-left: 0
+			li.theme
+				list-style-type: none
+	
+		div.summary
+			margin: 0 40px 0 20px
+		ul
+			margin-bottom: 0
+			li	
+				font-size: 1em
+		.clear_both
+			clear: both
+		div.page-break
+			&.supporters, &.details
+				margin-left: 20px
+				h2.section_hdr
+					margin-left: -20px
+				
 		@media print	
 			body
 				width: 100%
@@ -28,13 +67,6 @@
 				margin: 0 0 .5em 0
 			div.no_print
 				display: none
-			h4.question
-				margin-left: 1.9em
-				text-indent: -1.9em
-			ul
-				margin-left: .5em
-				li.theme
-					list-style-type: none
 
 		@media screen
 			body
@@ -42,12 +74,9 @@
 				margin: 2em
 				div.page
 					width: 600px
-			div.summary
-				margin: 0 40px 0 40px
-			ul
-				margin-bottom: 0
-				li	
-					font-size: 1em
+				h3.question
+					margin-bottom: 0
+				
 			p.no_themes
 				font-style: italic
 				margin-left: 20px
@@ -57,14 +86,10 @@
 				margin-bottom: 4em
 			p.participant
 				margin: 0 0 .5em 0
-			h4.question
-				margin-left: 1.9em
-				text-indent: -1.9em
-			ul
-				margin-left: .5em	
-				li.theme
-					list-style-type: none
-		
+			div.page-break
+				&.supporters, &.details
+					margin-top: 40px
+					margin-left: 20px
 
 
 
@@ -75,20 +100,26 @@
 
 
 	%div.intro
-		%h2.home_title 
+		%h1.home_title 
 			%span #{team.title}
 			
 		%p.details Project coordinator: #{@team.organizer.first_name} #{@team.organizer.last_name}	
 		%p.details Created: #{team.created_at.strftime("%m/%d/%Y")}
 
-		%h3 Our vision
+		%h2 Our vision
 		%div.summary
 			:markdown
 				#{@team.solution_statement}
 
+	%h2.plan.section_hdr Our Plan
+	%p.plan_intro 
+		The answers to these questions were composed by the project coordinator, #{@team.organizer.first_name} #{@team.organizer.last_name}, by weaving together the ideas and comments of the participants.
+	
 	- team.question_ideas.sort {|a,b| a.order_id <=> b.order_id }.each do |question|
-		%h4.question
-			Q#{question.order_id}: #{question.text}
+		%div.question_hdr
+			%h3.question Q#{question.order_id}:
+			%h3.question= question.text
+			%p.clear_both
 		
 		- if question.themes.detect{|t| t.visible && t.version > 0}.nil?
 			%p.no_themes No answer has been provided for this question
@@ -100,25 +131,12 @@
 							:markdown
 								#{theme.text}
 
-%div.page-break
-	%h3= pluralize(@endorsements.size, 'Endorsement')
+%div.page-break.supporters
+	= render :partial => 'endorsements/endorsements', :locals=> {:print=>true}
+
+%div.page-break.details
+	%h2.section_hdr Proposal development details
 	
-	%table.endorsements
-		%tr
-			%th Name
-			%th Comment
-			%th When
-		- @endorsements.each do |e|
-			%tr{:class=> cycle('','stripe'), :id=>e.member.ape_code}
-				%td.name
-					%span.member& #{e.member.first_name} #{e.member.last_name}
-				%td.text= simple_format( e.text )
-				%td.time
-					%abbr.timeago{:title=>e.updated_at}= time_ago_in_words(e.updated_at) + ' ago'
-
-%div.page-break
-	%h3 Proposal development details
-
 	%h4 This proposal was developed by 
 	%div.participants
 		%p #{team.organizer.first_name} #{team.organizer.last_name}, who initially suggested this idea for change, working with
