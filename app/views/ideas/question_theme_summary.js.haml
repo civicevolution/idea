@@ -3,4 +3,12 @@
 
 	var question_summary = $('div.proposal div.question_summary[id="#{params[:question_id]}"]');
 	question_summary.find('ul.themes').replaceWith(summary.find('ul.themes'));
-	setTimeout(function(){dispatcher.update_theme_stats(this);}.bind(question_summary),1000);
+	setTimeout(
+		function(){
+			stat_data.idea_counts['question_ideas_unthemed_#{question.id}'] = #{question.unthemed_ideas.count};
+			dispatcher.update_theme_stats(this);
+			dispatcher.update_question_stats( this );			
+		}.bind(question_summary),1000
+	);
+	// 
+	

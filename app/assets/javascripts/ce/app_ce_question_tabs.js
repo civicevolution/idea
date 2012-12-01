@@ -27,8 +27,6 @@ function init_question_tabs(question_view, page, idea_id){
 					resize_theming_page();
 					make_ideas_sortable( question_view.find('ul.sortable_ideas') );
 					truncate_themes( question_view.find('div.theme_col li.theme_post_it div.post-it') );
-					dispatcher.update_idea_stats(question_view);
-					dispatcher.update_theme_stats(question_view);
 				}.bind(question_view),100
 			);
 		}

@@ -68,6 +68,19 @@ class Idea < ActiveRecord::Base
       LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{self.member.id} 
       WHERE ideas.question_id = #{self.id} AND ideas.role = 1 AND idea_ratings.id IS null|
     }
+
+    has_many :unrated_answers, class_name: 'Idea', 
+      finder_sql: proc { 
+        %Q|SELECT ideas.* FROM "ideas" 
+        LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{self.member.id} 
+        WHERE ideas.question_id = #{self.id} AND ideas.role = 2 AND idea_ratings.id IS null
+        ORDER BY order_id ASC|
+      },
+      counter_sql: proc { 
+        %Q|SELECT COUNT(ideas.*) FROM "ideas" 
+        LEFT OUTER JOIN idea_ratings ON ideas.id = idea_ratings.idea_id AND idea_ratings.member_id = #{self.member.id} 
+        WHERE ideas.question_id = #{self.id} AND ideas.role = 2 AND idea_ratings.id IS null|
+      }
   
   has_many :attachments, :class_name => 'Upload', :foreign_key => 'par_id', :conditions => 'par_type = 22', :order => 'order_id asc'
     

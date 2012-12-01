@@ -72,7 +72,7 @@
 %p.clear_both
 :javascript
 	var pub_sub_channels = #{@channels}
-	var theming_auth = #{@team.org_id == @member.id}
+	var project_coordinator = #{@team.org_id == @member.id}
 	if(typeof stat_data == 'undefined'){
 		var stat_data = {
 			last_visit: #{@last_visit.to_f},

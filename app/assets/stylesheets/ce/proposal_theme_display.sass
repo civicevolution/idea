@@ -94,6 +94,8 @@ div.proposal
 				margin-right: 20px
 				margin-top: 4px
 				font-size: .8em
+				&.red
+					color: red
 				&:hover
 					text-decoration: underline
 				&.hide
@@ -134,6 +136,7 @@ div.proposal
 				
 			li.theme	
 				position: relative
+				min-height: 20px
 				&:hover
 					background-color: #e5e6ff
 				a
@@ -156,7 +159,15 @@ div.proposal
 						display: block
 						div.total
 							display: none
-					
+				div.unrated
+					position: absolute
+					top: 0
+					right: 140px
+					width: 80px
+					color: red
+					font-size: .8em
+					line-height: .9em
+
 	form.suggest_idea
 		margin-bottom: 30px
 		textarea

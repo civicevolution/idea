@@ -116,6 +116,13 @@ class IdeasController < ApplicationController
       if unrated_ideas.count > 0
         idea = unrated_ideas[0]
       end
+    elsif params[:act] == 'review_unrated_answers'
+      question = Idea.find_by_id_and_role(params[:question_id],3)
+      question.member = @member
+      unrated_answers = question.unrated_answers
+      if unrated_answers.count > 0
+        idea = unrated_answers[0]
+      end
     elsif params[:act] == 'theming_popup'
       idea = Idea.find(params[:idea_id])
       if idea.role == 1 && !idea.parent_id.nil? && idea.parent_id != 0

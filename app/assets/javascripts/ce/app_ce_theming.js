@@ -329,9 +329,9 @@ function make_theme_cols_sortable(page){
 
 function editing_disabled(show_msg_flag){
 	show_msg_flag = (typeof show_msg_flag === "undefined") ? true : show_msg_flag;
-	if(!theming_auth){
+	if(!project_coordinator){
 		if(show_msg_flag){
-			alert("You are not authorized to theme this project");
+			alert("You are not an authorized project coordinator for this project");
 		}
 		return true;
 	}else{

@@ -18,7 +18,7 @@ class MemberMailer < ActionMailer::Base
     @email = email
     @url = url
     @app_name = app_name
-    mail(:from => "New member <#{@email}>",
+    mail(:from => "#{@email}",
       :subject => 'New member just signed up for CivicEvolution',
       :to => "#{app_name} <support@civicevolution.org>",
       :reply_to => "#{@email}"

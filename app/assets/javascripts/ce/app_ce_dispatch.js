@@ -33,6 +33,8 @@ dispatcher = {
 					return stat_data.idea_counts['question_ideas_new_' + spec.id ] || 0;
 				}else if(spec.unrated_only){
 					return stat_data.idea_counts['question_ideas_unrated_' + spec.id ] || 0;
+				}else if(spec.unthemed_only){
+					return stat_data.idea_counts['question_ideas_unthemed_' + spec.id ] || 0;
 				}else{
 					return stat_data.idea_counts['question_ideas_all_' + spec.id ] || 0;
 				}
@@ -114,6 +116,12 @@ dispatcher = {
 			// ideas under question 
 			if(!istats['question_' + idea_type + 's_all_' + stat[1] ] ){ istats['question_' + idea_type + 's_all_' + stat[1] ] = 0};
 			++istats['question_' + idea_type + 's_all_' + stat[1] ];
+			// count unthemed ideas
+			if(stat[2] == null && idea_type == 'idea'){
+				if(!istats['question_' + idea_type + 's_unthemed_' + stat[1] ] ){ istats['question_' + idea_type + 's_unthemed_' + stat[1] ] = 0};
+				++istats['question_' + idea_type + 's_unthemed_' + stat[1] ];
+			}
+
 			// now count new stuff
 			if(stat[4] > stat_data.last_visit){
 				// this is a new idea
@@ -196,9 +204,10 @@ dispatcher = {
 			}
 		}
 	},
-	update_question_stats: function(){
+	update_question_stats: function(question_summaries){
+		question_summaries = question_summaries || $('div.question_summary');
 		//console.log("update_question_stats");
-		$('div.question_summary').each(
+		question_summaries.each(
 			function(){
 				var question = $(this);
 				var question_id = question.attr('id');
@@ -214,8 +223,14 @@ dispatcher = {
 				if(total_ideas == 0){
 					view_ideas_link.addClass('hide');
 				}else{
-					var str = total_ideas == 1 ? "View 1 idea on post-its wall" : "View all " + total_ideas + " ideas on post-its wall"
-					view_ideas_link.removeClass('hide').html( str );
+					var unthemed_ideas = dispatcher.get_data( {type: 'question_idea_count', unthemed_only: true, id: question_id});
+					if(project_coordinator && unthemed_ideas > 0){
+						var str = "Organize " + unthemed_ideas + ' new idea' + (unthemed_ideas != 1 ? 's' : '') + " on post-its wall"
+						view_ideas_link.addClass('red').removeClass('hide').html( str );
+					}else{
+						var str = total_ideas == 1 ? "View 1 idea on post-its wall" : "View all " + total_ideas + " ideas on post-its wall"
+						view_ideas_link.removeClass('hide red').html( str );
+					}
 				}
 			}
 		);	
@@ -252,19 +267,23 @@ dispatcher = {
 	update_theme_stats: function(page){
 		//console.log("update_theme_stats");
 		page = page || $('body');
-		var themes = page.hasClass('question_summary') ? 
-			page.find('li.theme') :
-			page.find('div.question_summary li.theme');
+		if( page.hasClass('question_summary') ){
+			var themes = page.find('li.theme');
+		}else if( page.hasClass('theme') ){
+			var themes = page;
+		}else{
+			var themes = page.find('div.question_summary li.theme');
+		}
+			
 		themes.each(
 			function(){
 				var theme = $(this);
 				var theme_id = theme.attr('id');
-				//var new_ideas = dispatcher.get_data( {type: 'theme_idea_count', unrated_only: true, id: theme_id});
-				//var new_div = theme.find('div.ideas').find('div.total').html(
-				//	dispatcher.get_data( {type: 'theme_idea_count', id: theme_id}) + ' total').end()
-				//	.find('div.new').html( new_ideas + ' new');
-				//	if(new_ideas == 0){new_div.addClass('hide');}
-					
+				theme.find('div.unrated').remove();
+				if(!stat_data.idea_recs[theme_id].rated){
+					theme.find('div.comments').before('<div class="unrated">Rate this answer</span>');
+				}
+
 				var new_coms = dispatcher.get_data( {type: 'idea_comment_count', combined_new_only: true, id: theme_id});
 				var new_div = theme.find('div.comments').find('div.total').html(
 					dispatcher.get_data( {type: 'idea_comment_count', combined_only: true, id: theme_id}) + ' total').end()

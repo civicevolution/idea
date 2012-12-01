@@ -5,7 +5,7 @@ class WelcomeController < ApplicationController
   
   def tour
     respond_to do |format|
-      format.html { render :template=>'help/tour', :layout=>'plan' }
+      format.html { render :template=>'help/tour', :layout=>'plan', locals: { title: 'Tour of CivicEvolution'} }
       format.text { render :text => 'http://civicevolution.org is only available as HTML' }
     end
   end
