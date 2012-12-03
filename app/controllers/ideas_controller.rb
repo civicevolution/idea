@@ -54,7 +54,7 @@ class IdeasController < ApplicationController
   end
 
 
-  def question_view
+  def question_post_its_wall
     question = Idea.find_by_id(params[:question_id])
 
     if params[:nav]
@@ -68,7 +68,7 @@ class IdeasController < ApplicationController
     
     respond_to do |format|
       if !question.nil?
-        format.js { render 'ideas/question_view', locals: { question: question } }
+        format.js { render 'ideas/question_post_its_wall', locals: { question: question } }
         #format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }
         #format.json { render json: @idea, status: :created, location: @idea }
       else
