@@ -1,18 +1,18 @@
-function init_question_tabs(question_view, page, idea_id){
+function init_question_post_its_wall(post_its_wall, idea_id){
 	$('div.question_tabs').remove();
-	$('body').append(question_view);
+	$('body').append(post_its_wall);
 	$('div.page div.right_side ').fadeTo(300,0);
 	
-	// set div.page height to scrollTop + window height, which puts the question_view just below the window
+	// set div.page height to scrollTop + window height, which puts the post_its_wall just below the window
 	var scroll_x = $(window).scrollTop();
 	var height = $(window).height();
-	question_view.find('div#tabs-theming').height( height - question_view.find('div.theming_header').outerHeight() - 40 );
+	post_its_wall.find('div#tabs-theming').height( height - post_its_wall.find('div.theming_header').outerHeight() - 40 );
 	var page = $('div.page');
 	page.addClass('overflow_hidden');
 	page.attr('last_scroll_pos',scroll_x)
 	page.height( scroll_x + height );
 	//console.log("scroll_x: " + scroll_x + ", height: " + height);
-	// now animate the div.page till it gets to scrollTop thereby showing all of the question_view
+	// now animate the div.page till it gets to scrollTop thereby showing all of the post_its_wall
 	page.animate( { height: scroll_x}, 800,
 		function(){
 			// finally, put the div.page below the question view
@@ -20,39 +20,39 @@ function init_question_tabs(question_view, page, idea_id){
 			$('html,body').scrollTop(0);
 			page.height('auto');
 			page.removeClass('overflow_hidden');
-			question_view.after( $('div.page') );
+			post_its_wall.after( $('div.page') );
 			setTimeout(
 				function(){
-					init_question_view(this, idea_id);
+					init_post_its_wall(this, idea_id);
 					resize_theming_page();
-					make_ideas_sortable( question_view.find('ul.sortable_ideas') );
-					truncate_themes( question_view.find('div.theme_col li.theme_post_it div.post-it') );
-				}.bind(question_view),100
+					make_ideas_sortable( post_its_wall.find('ul.sortable_ideas') );
+					truncate_themes( post_its_wall.find('div.theme_col li.theme_post_it div.post-it') );
+				}.bind(post_its_wall),100
 			);
 		}
 	);
 }
-function init_question_view(question_view, idea_id){
-	//console.log("init_question_view for id: " + question_view.attr('id') );
+function init_post_its_wall(post_its_wall, idea_id){
+	//console.log("init_post_its_wall for id: " + post_its_wall.attr('id') );
 	
 	//console.log("set height $(window).height(): " + $(window).height() + ", $('ul.ui-tabs-nav').outerHeight(): " + $('ul.ui-tabs-nav').outerHeight());
 	$('div.tabs-theming').height( $(window).height() - $('div.theming_header').outerHeight() - 40 );
 	
-	$('<a href="#" class="close close_theming_page" id="' + question_view.attr('id') + '">Close</a>').appendTo( question_view.find('div.theming_header') );
-	$('<a href="#" class="close_theming_page" id="' + question_view.attr('id') + '">Proposal page</a>').appendTo( question_view.find('li.idea_post_it div.post-it[id="-1"]') );
+	$('<a href="#" class="close close_theming_page" id="' + post_its_wall.attr('id') + '">Close</a>').appendTo( post_its_wall.find('div.theming_header') );
+	$('<a href="#" class="close_theming_page" id="' + post_its_wall.attr('id') + '">Proposal page</a>').appendTo( post_its_wall.find('li.idea_post_it div.post-it[id="-1"]') );
 	
 	//console.log("settimeout for make_ideas_sortable");
-	setTimeout(function(){make_ideas_sortable(this.find('div.theming_page_outer ul.sortable_ideas'))}.bind(question_view),200);
+	setTimeout(function(){make_ideas_sortable(this.find('div.theming_page_outer ul.sortable_ideas'))}.bind(post_its_wall),200);
 	
-	setTimeout(function(){make_theme_cols_sortable(this.find('div.theme_cols_window'))}.bind(question_view),250);
+	setTimeout(function(){make_theme_cols_sortable(this.find('div.theme_cols_window'))}.bind(post_its_wall),250);
 	
 	
-	//make_final_edit_themes_sortable( question_view.find('ul.themes') );
+	//make_final_edit_themes_sortable( post_its_wall.find('ul.themes') );
 	
-	activate_details(question_view);
+	activate_details(post_its_wall);
 	
 	if(idea_id){
-		setTimeout(function(){show_and_highlight_postit(question_view.attr('id'), idea_id);}, 100);
+		setTimeout(function(){show_and_highlight_postit(post_its_wall.attr('id'), idea_id);}, 100);
 	}
 	
 }

@@ -4,9 +4,9 @@
 		$(this).remove();
 	})
 	
-	var question_view = $("#{escape_javascript(render( :template=> 'ideas/question_view', :locals=>{my_rating: my_rating, question: question}, formats: [:html]  ))}");
+	var question_post_its_wall = $("#{escape_javascript(render( :template=> 'ideas/question_post_its_wall', :locals=>{my_rating: my_rating, question: question}, formats: [:html]  ))}");
 		
-	init_question_tabs(question_view, '#{ params[:page] || 'question'}', #{params[:idea_id] || 'null'});
+	init_question_post_its_wall(question_post_its_wall, #{params[:idea_id] || 'null'});
 	
 	
 	
