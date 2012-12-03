@@ -21,10 +21,44 @@
 	var str = question_ideas_count == 1 ? "View 1 idea on post-its wall" : "View all " + question_ideas_count + " ideas on post-its wall"
 	$('div.question_summary[id="#{question.id}"] h4.summary a.view_all_ideas').removeClass('hide').html( str );
 
-	$.getScript('/idea/#{idea.id}/details?act=review_idea', 
+
+	var new_col = $('div.my_new_ideas[id="#{question.id}"]');
+	if(new_col.size() == 0){
+		new_col = $( template_functions['new ideas col']({title: 'My new ideas', question_id: #{question.id} }) );
+		new_col.addClass('my_new_ideas');
+		$('body').append(new_col);
+		new_col.css({top: $(window).scrollTop(), height: $(window).height(), right: '-200px' } );
+		$('<h3>#{ link_to 'Open post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' } }</h3>').prependTo('div.my_new_ideas')
+	}
+	
+	var idea = #{idea.to_json}.idea
+	var post_it = $(template_functions['post-it']( idea ));		
+	
+	var form_div = form.closest('div.idea-post-it-form');
+	post_it.attr('class', form_div.find('div.post-it').attr('class') );
+	var post_it_anime = form_div.clone();
+	post_it_anime.addClass('animated');
+	post_it_anime.html( post_it );
+
+	$('body').append(post_it_anime);
+
+	// get the position of the form
+	var pos = form_div.offset();
+	post_it_anime.css({left: pos.left, top: pos.top, 'z-index': 100});
+
+	var new_pos = new_col.find('ul').offset();
+	var new_left = new_pos.left - 180;
+	var new_top = new_pos.top;
+	post_it_anime.animate({left: new_left, top: new_top}, 350, 
 		function(){
+			var post_it_div = $(this);
+			post_it_div.css({ position: 'static', 'z-index': 'auto'});
+			new_col.find('ul').prepend( post_it_div.wrap('<li/>') );
 			if(!member.follow_set){
 				$.getScript('/notification/' + team_id + '/settings?after_post=t');
 			}
 		}
 	);
+	post_it.animate( { width: 130, 'font-size': '.8em' }, 300);
+	new_col.animate({right: '0px' }, 250 );
+	

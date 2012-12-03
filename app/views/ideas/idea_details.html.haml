@@ -29,6 +29,8 @@
 		%h3.popup_nav
 			- if params[:act] == 'review_unrated_ideas'
 				#{item_name} #{item_num} of #{items_count}
+			- elsif params[:act] == 'my_new_idea_popup'
+				My new idea
 			- elsif items_count > 1
 				= link_to image_tag('details_prev.png'), view_idea_details_path(idea.id, act: 'view_idea', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
 				#{item_name} #{item_num} of #{items_count}
