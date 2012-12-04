@@ -54,6 +54,8 @@ function init_page(){
 	}catch(e){}
 	$('h2.home_title').append( $('h2.home_title').next('a') );
 	$('div.idea_summary div.inner > *:last').append( $('div.idea_summary div.inner').next('a') );
+	
+	$('input, textarea').placeholder();
 }
 
 function init_rating_sliders( sliders ){

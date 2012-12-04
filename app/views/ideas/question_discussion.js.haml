@@ -8,4 +8,5 @@
 	setTimeout( function(){this.find('span').html("Hide discussion")}.bind(disc_link), 200);
 	disc_link.add( discussion.find('a.close_question_discussion') ).bind('click',function(){ discussion.hide(800);disc_link.find('span').html( disc_link.attr('orig_text')); disc_link.unbind('click');return false;});
 	setTimeout(function(){ dispatcher.update_coms_new( this );}.bind(details),200);
+	details.find('input, textarea').placeholder();
 	

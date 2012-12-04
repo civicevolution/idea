@@ -35,6 +35,7 @@ function init_details_popup(details){
 	
 	activate_details(details);
 	dispatcher.update_discussion_stats( details );
+	details.find('input, textarea').placeholder();
 }
 function activate_details(details){
 	
