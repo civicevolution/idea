@@ -9,7 +9,7 @@
 	rater.find('p.results a.done').remove();
 	rater.find('div.vote_results').attr('votes', "#{idea_rating.idea.votes}"); 
 	show_rating_results( rater_hdr.find('a.view_results'), true );
-	stat_data.idea_recs[#{idea_rating.idea.id}].rated = true;
+	if(stat_data.idea_recs[#{idea_rating.idea.id}]){stat_data.idea_recs[#{idea_rating.idea.id}].rated = true;}
 
 - if idea_rating.idea.role == 2
 	:plain
@@ -47,7 +47,6 @@
 
 - elsif idea_rating.idea.role == 1 && question.unrated_ideas.count > 0
 	:plain
-
 		$('div.question_summary[id="#{question.id}"] h4.summary a.view_unrated_ideas').removeClass('hide').html( 
 			"Rate #{pluralize(question.unrated_ideas.count, ' new idea')}" );
 		

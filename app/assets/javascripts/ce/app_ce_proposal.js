@@ -231,6 +231,14 @@ $('body').on('click', 'div.constituent_idea_details a.return_to_answer_details',
 	}
 );
 
+$('body').on('click', 'div.my_new_ideas a.close_my_ideas', 
+	function(){
+			$(this).closest('div.my_new_ideas').hide(500,function(){$(this).remove();});
+			return false;
+	}
+);
+
+
 setTimeout(function(){
 	if(params['clear']=='f'){
 		$('a.clear').remove();

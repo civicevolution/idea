@@ -26,10 +26,14 @@
 	var new_col = $('div.my_new_ideas[id="#{question.id}"]');
 	if(new_col.size() == 0){
 		new_col = $( template_functions['new ideas col']({title: 'My new ideas', question_id: #{question.id} }) );
-		new_col.addClass('my_new_ideas');
+		new_col.addClass('my_new_ideas').removeClass('unthemed_ideas');
 		$('body').append(new_col);
-		new_col.css({top: $(window).scrollTop(), height: $(window).height(), right: '-200px' } );
-		$('<h3>#{ link_to 'Open post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' } }</h3>').prependTo('div.my_new_ideas')
+		var scroll_top = $(window).scrollTop();
+		var question_top = question.offset().top + 50;
+		var top_pos = scroll_top > question_top ? scroll_top : question_top;
+		new_col.css({top: top_pos, right: '-200px' } );
+		$('<h3>#{ link_to 'Open post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' } }</h3>').prependTo('div.my_new_ideas');
+		$('#{ link_to 'close', {}, {class: 'close_my_ideas', rel: 'nofollow', title: 'Click to close this list' } }').appendTo('div.my_new_ideas');
 	}
 	
 	var idea = #{idea.to_json}.idea
