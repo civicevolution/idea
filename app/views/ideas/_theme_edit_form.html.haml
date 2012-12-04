@@ -4,8 +4,8 @@
 
 		.wmd-panel
 			#wmd-button-bar
-			- text = idea.text
-			= text_area_tag :text, text, {id: 'wmd-input', class: 'wmd-input autosize'}
+			- text = idea.version == 0 ? '' : idea.text
+			= text_area_tag :text, text, {id: 'wmd-input', class: 'wmd-input autosize', placeholder: 'Write your answer here...'}
 
 		#wmd-preview.wmd-panel.wmd-preview
 

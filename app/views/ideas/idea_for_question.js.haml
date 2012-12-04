@@ -54,6 +54,16 @@
 			var post_it_div = $(this);
 			post_it_div.css({ position: 'static', 'z-index': 'auto'});
 			new_col.find('ul').prepend( $('<li/>').append(post_it_div) );
+			var ack = $('<div class="idea_ack"><p>Your idea has been added to the post-its wall</p><p>Click your idea to rate it or add a comment</p></div>').insertAfter( post_it_div );
+			setTimeout(
+				function(){
+					this.fadeTo(1200,0, 
+						function(){
+							$(this).remove();
+						}
+					)
+				}.bind(ack), 2600
+			);
 			if(!member.follow_set){
 				$.getScript('/notification/' + team_id + '/settings?after_post=t');
 			}
