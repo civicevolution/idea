@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121021023759) do
+ActiveRecord::Schema.define(:version => 20121204063257) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -708,6 +708,7 @@ ActiveRecord::Schema.define(:version => 20121021023759) do
     t.integer  "idea_ratings",              :default => 0
     t.integer  "themes",                    :default => 0
     t.integer  "theme_ratings",             :default => 0
+    t.boolean  "set_following"
   end
 
   create_table "participation_event_details", :force => true do |t|
@@ -716,7 +717,28 @@ ActiveRecord::Schema.define(:version => 20121021023759) do
     t.datetime "updated_at"
   end
 
+  create_table "participation_event_details_t", :id => false, :force => true do |t|
+    t.integer  "id"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "participation_events", :force => true do |t|
+    t.integer  "initiative_id"
+    t.integer  "team_id"
+    t.integer  "question_id"
+    t.integer  "item_type"
+    t.integer  "item_id"
+    t.integer  "member_id"
+    t.integer  "event_id"
+    t.integer  "points"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "participation_events_t", :id => false, :force => true do |t|
+    t.integer  "id"
     t.integer  "initiative_id"
     t.integer  "team_id"
     t.integer  "question_id"
@@ -777,6 +799,38 @@ ActiveRecord::Schema.define(:version => 20121021023759) do
     t.integer  "idea_ratings",              :default => 0
     t.integer  "themes",                    :default => 0
     t.integer  "theme_ratings",             :default => 0
+  end
+
+  create_table "proposal_stats_t", :id => false, :force => true do |t|
+    t.integer  "id"
+    t.integer  "team_id"
+    t.integer  "proposal_views"
+    t.integer  "question_views"
+    t.integer  "participants"
+    t.integer  "friend_invites"
+    t.integer  "followers"
+    t.integer  "endorsements"
+    t.integer  "talking_points"
+    t.integer  "talking_point_edits"
+    t.integer  "talking_point_ratings"
+    t.integer  "talking_point_preferences"
+    t.integer  "comments"
+    t.integer  "content_reports"
+    t.integer  "proposal_views_base"
+    t.integer  "question_views_base"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "points_total"
+    t.integer  "points_days1"
+    t.integer  "points_days3"
+    t.integer  "points_days7"
+    t.integer  "points_days14"
+    t.integer  "points_days28"
+    t.integer  "points_days90"
+    t.integer  "ideas"
+    t.integer  "idea_ratings"
+    t.integer  "themes"
+    t.integer  "theme_ratings"
   end
 
   create_table "proposal_submits", :force => true do |t|

@@ -41,7 +41,7 @@
 		:javascript
 			//_load_times.page_loaded = new Date()
 			var client;
-			var member = {first_name: "#{@member.first_name}", last_name: "#{@member.last_name}", ape_code: "#{@member.ape_code}", ror_session_id: "#{request.session_options[:id]}", follow_set: #{@participant_stats.following==0 ? false : true}, follow_freq: "#{@notification_setting.follow_freq}" }
+			var member = {first_name: "#{@member.first_name}", last_name: "#{@member.last_name}", ape_code: "#{@member.ape_code}", ror_session_id: "#{request.session_options[:id]}", follow_set: #{@participant_stats.set_following}, follow_freq: "#{@notification_setting.follow_freq}" }
 			var page_channel = '#{@page_channel}';
 		- if !@team.nil?
 			:javascript

@@ -46,6 +46,8 @@ class NotificationController < ApplicationController
     @notification_setting.attributes = params[:notification_setting]   
     @notification_setting.team_id = params[:team_id]     
     @saved, notification = @notification_setting.split_n_save  
+    
+    ParticipantStats.find_by_member_id_and_team_id(@member.id,params[:team_id]).update_attributes(set_following: true)
 
     ActiveSupport::Notifications.instrument( 'tracking', :event => 'Update notification settings', :params => params.merge(:member_id => @member.id, :notification => notification))
     
