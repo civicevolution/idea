@@ -82,18 +82,21 @@ div.proposal
 			margin-left: 20px
 			
 		h4.summary
+			font-size: 1.12em
+			position: relative
 			span
 				display: block
 				float: left
-				margin-right: 30px
+				margin-right: 4px
 			a.view_all_ideas
 				display: block
 				float: left
-				color: #296d8A
+				color: #6c41a6
 				text-decoration: none
 				margin-right: 20px
-				margin-top: 4px
-				font-size: .8em
+				//margin-top: 4px
+				//font-size: .8em
+				
 				&.red
 					color: red
 				&:hover
@@ -102,11 +105,11 @@ div.proposal
 					display: none
 			a.view_unrated_ideas
 				display: block
-				float: left
+				position: absolute
+				top: 4px
+				left:	440px
 				color: red
 				text-decoration: none
-				margin-right: 20px
-				margin-top: 4px
 				font-size: .8em
 				&:hover
 					text-decoration: underline
@@ -115,13 +118,21 @@ div.proposal
 			
 		div.discussion
 			margin-bottom: 60px
+		div.answer_block
+			background: image-url('paper-bg.gif') repeat-y 0 0 
+			padding: 2px 16px
+			margin-bottom: 20px
+			div.rater
+				border: none
 		ul.themes
 			width: 660px
-			padding-bottom: 8px
+			padding-bottom: 0
+			margin-bottom: 0
 			padding-top: 12px
 			clear: both
-			p
+			p, ul, ol
 				width: 400px
+				
 			&.instructions
 				font-style: italic
 				width: 500px
@@ -133,40 +144,45 @@ div.proposal
 				padding-right: 160px
 				p
 					margin: 0 0 .4em 0
+			li.theme
+				&:hover
+					p, ol, ul
+						background-color: white
 				
 			li.theme	
 				position: relative
 				min-height: 20px
-				&:hover
-					background-color: #e5e6ff
 				a
 					color: black
 					text-decoration: none
 				ul
 					padding-left: 36px
-				div.comments, div.ideas
-					display: none
-					position: absolute
-					top: 0
-					right: 80px
-				//div.ideas
-				//	right: 90px
 				&:hover
-					div.comments, div.ideas
-						display: block
-				&.show_new
-					div.comments, div.ideas
-						display: block
-						div.total
-							display: none
-				div.unrated
+					div.answer_status
+						div.comments
+							display: block
+				
+				div.answer_status
 					position: absolute
 					top: 0
-					right: 140px
-					width: 80px
-					color: red
-					font-size: .8em
-					line-height: .9em
+					left: 440px
+					div.comments
+						display: none
+						float: left
+						margin-right: 20px
+					div.unrated 
+						float: left
+						width: 80px
+						color: red
+						font-size: .8em
+						line-height: .9em
+				&.show_new
+					div.answer_status
+						div.comments
+							display: block
+							div.total
+								display: none
+				
 
 	form.suggest_idea
 		margin-bottom: 30px
@@ -438,7 +454,9 @@ h4.sub_sec_hdr
 	font-size: 1.2em
 	a
 		color: #6c41a6
-
+	&.rating
+		font-size: 1.12em
+		margin-top: 0
 div.segue
 	p
 		width: 600px
@@ -535,7 +553,6 @@ div.theme_col.my_new_ideas
 	top: 0
 	background: #a3a3bf
 	width: 200px
-	z-index: 10
 	h3
 		margin-left: 20px
 	div.idea-post-it-form

@@ -6,7 +6,7 @@
 	
 	var question_post_its_wall = $("#{escape_javascript(render( :template=> 'ideas/question_post_its_wall', :locals=>{my_rating: my_rating, question: question}, formats: [:html]  ))}");
 		
-	init_question_post_its_wall(question_post_its_wall, #{params[:idea_id] || 'null'});
+	init_question_post_its_wall(question_post_its_wall, #{params[:question_id]}, #{params[:idea_id] || 'null'});
 	
 	
 	

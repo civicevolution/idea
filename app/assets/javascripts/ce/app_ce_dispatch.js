@@ -219,18 +219,35 @@ dispatcher = {
 					unrated_link.removeClass('hide').html( 'Rate ' + unrated_ideas + ' new idea' + (unrated_ideas != 1 ? 's' : '') );
 				}
 				var total_ideas = dispatcher.get_data( {type: 'question_idea_count', id: question_id});
-				var view_ideas_link = question.find('h4.summary a.view_all_ideas');
-				if(total_ideas == 0){
-					view_ideas_link.addClass('hide');
+				var has_answer = question.find('div.answer').size()>0;
+				var summary_hdr = question.find('h4.summary')
+				var view_ideas_link = summary_hdr.find('a.view_all_ideas');
+				var unthemed_ideas = dispatcher.get_data( {type: 'question_idea_count', unthemed_only: true, id: question_id});
+				if(project_coordinator && unthemed_ideas > 0){
+					summary_hdr.find('span').html('');
+					var str = "Organize " + unthemed_ideas + ' new idea' + (unthemed_ideas != 1 ? 's' : '') + " on post-its wall"
+					view_ideas_link.addClass('red').removeClass('hide').html( str );
 				}else{
-					var unthemed_ideas = dispatcher.get_data( {type: 'question_idea_count', unthemed_only: true, id: question_id});
-					if(project_coordinator && unthemed_ideas > 0){
-						var str = "Organize " + unthemed_ideas + ' new idea' + (unthemed_ideas != 1 ? 's' : '') + " on post-its wall"
-						view_ideas_link.addClass('red').removeClass('hide').html( str );
-					}else{
-						var str = total_ideas == 1 ? "View 1 idea on post-its wall" : "View all " + total_ideas + " ideas on post-its wall"
-						view_ideas_link.removeClass('hide red').html( str );
+					switch(total_ideas){
+						case 0:
+							var str = "An answer will be created from your group's";
+							break;
+						case 1:
+							if(has_answer){
+								var str = "This answer was created from the one idea on the";
+							}else{
+								var str = "An answer will be created from your group's";
+							}
+							break;
+						default:
+							if(has_answer){
+								var str = "This answer was created from the " + total_ideas + " ideas on the";
+							}else{
+								var str = "An answer will be created from your group's";
+							}
 					}
+					summary_hdr.find('span').html(str);
+					view_ideas_link.removeClass('hide red').html( 'post-its wall' );
 				}
 			}
 		);	
@@ -285,6 +302,7 @@ dispatcher = {
 				}
 
 				var new_coms = dispatcher.get_data( {type: 'idea_comment_count', combined_new_only: true, id: theme_id});
+				//console.log("theme_id: " + theme_id + " new_coms: " + new_coms );
 				var new_div = theme.find('div.comments').find('div.total').html(
 					dispatcher.get_data( {type: 'idea_comment_count', combined_only: true, id: theme_id}) + ' total').end()
 					.find('div.new').html( new_coms + ' new');

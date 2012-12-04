@@ -180,12 +180,12 @@ $(function () {
 					
 					var icon_url = data.result.attachment_content_type.match(/image/i) ? 
 						data.result.attachment_icon_url : '/assets/doc_icon.gif';
-					var add_idea = $(this).closest('div.add_idea');
-					var attachments = add_idea.find('div.attachments');
+					var form = $(this).closest('form');
+					var attachments = form.find('div.attachments');
 					attachments.find('p.clear_both').before( '<div class="attachment" id="' + data.result.attachment_id + '"><img src="' + icon_url + '"/><img class="delete" src="/assets/circle_x_sm.gif"/><p>' + 	data.result.attachment_file_name + '</p></div>');
 					attachments.show(400);
 					var ids = attachments.find('div.attachment').map( function(){return this.id;});
-					add_idea.find('input[name="attachments"]').val( $.makeArray(ids).join(','));
+					form.find('input[name="attachments"]').val( $.makeArray(ids).join(','));
 				}
     });
 	}
@@ -204,7 +204,7 @@ $('body').on('click', 'div.attachments img.delete', function(){
 			var attachments = attachment_div.closest('div.attachments');
 			attachment_div.remove();
 			var ids = attachments.find('div.attachment').map( function(){return this.id;});
-			attachments.closest('div.add_idea').find('input[name="attachments"]').val( $.makeArray(ids).join(','));
+			attachments.closest('form').find('input[name="attachments"]').val( $.makeArray(ids).join(','));
 			if(attachments.find('img').size() == 0){
 				attachments.hide(800);
 			}

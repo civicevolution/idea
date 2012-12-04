@@ -1,38 +1,33 @@
-function init_question_post_its_wall(post_its_wall, idea_id){
+function init_question_post_its_wall(post_its_wall, question_id, idea_id){
 	$('div.question_tabs').remove();
 	$('body').append(post_its_wall);
-	$('div.page div.right_side ').fadeTo(300,0);
 	
-	// set div.page height to scrollTop + window height, which puts the post_its_wall just below the window
-	var scroll_x = $(window).scrollTop();
-	var height = $(window).height();
-	post_its_wall.find('div#tabs-theming').height( height - post_its_wall.find('div.theming_header').outerHeight() - 40 );
-	var page = $('div.page');
-	page.addClass('overflow_hidden');
-	page.attr('last_scroll_pos',scroll_x)
-	page.height( scroll_x + height );
-	//console.log("scroll_x: " + scroll_x + ", height: " + height);
-	// now animate the div.page till it gets to scrollTop thereby showing all of the post_its_wall
-	page.animate( { height: scroll_x}, 800,
+	//set height
+		post_its_wall.find('div.theming_page_outer').height( $(window).height() - 50 );
+	//set width
+		post_its_wall.width( $(window).width() );
+		post_its_wall.css({left: $(window).width(), top: $(window).scrollTop() });
+	
+	setTimeout(
 		function(){
-			// finally, put the div.page below the question view
-			page.hide();
-			$('html,body').scrollTop(0);
-			page.height('auto');
-			page.removeClass('overflow_hidden');
-			post_its_wall.after( $('div.page') );
-			setTimeout(
+			init_post_its_wall(this, question_id, idea_id);
+			resize_theming_page();
+			make_ideas_sortable( post_its_wall.find('ul.sortable_ideas') );
+			truncate_themes( post_its_wall.find('div.theme_col li.theme_post_it div.post-it') );
+			dispatcher.update_idea_stats( post_its_wall );
+			$('div.ui-slider').hide();
+			this.animate( {left: 0}, 
 				function(){
-					init_post_its_wall(this, idea_id);
-					resize_theming_page();
-					make_ideas_sortable( post_its_wall.find('ul.sortable_ideas') );
-					truncate_themes( post_its_wall.find('div.theme_col li.theme_post_it div.post-it') );
-				}.bind(post_its_wall),100
+					$('div.page').hide().attr('last-scroll-pos', $(window).scrollTop() );
+					$('div.my_new_ideas').hide();
+					$(window).scrollTop(0);
+					post_its_wall.css('top',0);
+				}
 			);
-		}
+		}.bind(post_its_wall),100
 	);
 }
-function init_post_its_wall(post_its_wall, idea_id){
+function init_post_its_wall(post_its_wall, question_id, idea_id){
 	//console.log("init_post_its_wall for id: " + post_its_wall.attr('id') );
 	
 	//console.log("set height $(window).height(): " + $(window).height() + ", $('ul.ui-tabs-nav').outerHeight(): " + $('ul.ui-tabs-nav').outerHeight());
@@ -46,15 +41,19 @@ function init_post_its_wall(post_its_wall, idea_id){
 	
 	setTimeout(function(){make_theme_cols_sortable(this.find('div.theme_cols_window'))}.bind(post_its_wall),250);
 	
-	
-	//make_final_edit_themes_sortable( post_its_wall.find('ul.themes') );
-	
 	activate_details(post_its_wall);
 	
-	if(idea_id){
-		setTimeout(function(){show_and_highlight_postit(post_its_wall.attr('id'), idea_id);}, 100);
-	}
+	var wall = $('div.question_tabs');	
+	var my_idea;
+	$('div.my_new_ideas[id="' + question_id + '"] div.post-it').each(
+		function(){
+			my_idea = wall.find('div.post-it[id="' + this.id + '"]').effect('highlight', {color: '#ff0000'},3000);
+		}
+	);
 	
+	if(my_idea && my_idea.size() > 0){
+		my_idea.eq(0).closest('div.theme_col').scrollTo(my_idea.eq(0),350);		
+	}
 }
 
 function truncate_themes(post_its){
@@ -74,11 +73,12 @@ $('body').on('click','div.theming_header a.close, div.theming_page a.close_themi
 	var question_tabs = $(this).closest('div.question_tabs');
 	var question_id = question_tabs.attr('id');
 	$.getScript('/idea/' + question_id + '/theme_summary');
-	$('div.page').show();
-	question_tabs.slideUp(800, function(){
-		question_tabs.remove();
-		$('html,body').animate({scrollTop: $('div.page').attr('last_scroll_pos')}, 400);
-		$('div.page div.right_side ').fadeTo(300,1);
+	question_tabs.animate( {left: question_tabs.width() }, 350, 
+		function(){
+			question_tabs.remove();
+			$(window).scrollTop( $('div.page').show().attr('last-scroll-pos') );	
+			$('div.my_new_ideas').show();		
+			$('div.ui-slider').show();
 		}
 	);
 	return false;

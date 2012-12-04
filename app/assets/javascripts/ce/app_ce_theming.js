@@ -266,12 +266,6 @@ function show_and_highlight_postit(question_id, idea_id){
 		return;
 	}
 	
-	// is the theming tab selected?
-	var theming_tab = question_tabs.find('div#tabs-theming');
-	if( !theming_tab.is(':visible') ){
-		question_tabs.find('a[href="#tabs-theming"]').click();
-	}
-	
 	var theme_col = postit.closest('div.theme_col');
 	
 	$('div.theme_cols_window_outer').scrollTo(theme_col,800);

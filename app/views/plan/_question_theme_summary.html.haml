@@ -12,66 +12,68 @@
 				= pluralize( )
 				= link_to 'post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas hide', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
 			= link_to 'Rate new ideas', view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas hide', rel: 'nofollow', remote: true, wait: 'gif' }
-	
-		%h4.sub_sec_hdr.summary 
-			%span Answer composed from ideas
 
-			= link_to 'Rate new ideas', view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas hide', rel: 'nofollow', remote: true, wait: 'gif' }
+		%div.answer_block
+			%h4.sub_sec_hdr.summary 
+				-#%span Answer composed from ideas
+				%span.text This answer was created from the ideas on the
+				= link_to 'post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
+			
+				= link_to 'Rate new ideas', view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas hide', rel: 'nofollow', remote: true, wait: 'gif' }
 		
-			= link_to 'View all ideas', question_post_its_wall_path(question.id), {class: 'view_all_ideas hide', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
-				
-		%ul.themes
-			- no_themes = true
-			- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
-				- if theme.version > 0 && theme.visible
-					- no_themes = false
-					%li.theme{id: theme.id}	
-						= link_to view_idea_details_path(theme.id), {class: 'view_theme', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to discuss and rate this answer' } do
-							%div.answer
-								:markdown
-									#{theme.text}
-										
-							%div.comments
-								= image_tag('comment-sketch.gif', title: 'Number of comments')
-								%div.counts
-									%div.new
-										0 new
-									%div.total
-										0 total
-							-#%p.clear_both
+		
+			%ul.themes
+				- no_themes = true
+				- question.themes.sort {|a,b| a.order_id <=> b.order_id }.each do |theme|
+					- if theme.version > 0 && theme.visible
+						- no_themes = false
+						%li.theme{id: theme.id}	
+							= link_to view_idea_details_path(theme.id), {class: 'view_theme', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to discuss and rate this answer' } do
+								%div.answer
+									:markdown
+										#{theme.text}
+									
+								%div.answer_status	
+									%div.comments
+										= image_tag('comment-sketch.gif', title: 'Number of comments')
+										%div.counts
+											%div.new
+												0 new
+											%div.total
+												0 total
 	
-			- if no_themes
-				- if @team.org_id == @member.id
-					%li.instr
-						%p.warn Please create at least one answer for this question
-						%p.emX
-							Post one or more ideas about this question in the yellow form below and then go to the 
-							= link_to 'post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
-							to compose an answer from the ideas
-						%p
-							Watch the 
-							= link_to "video", 'http://civicevolution.org/ce-video', {target: '_blank'}
-							for more information and/or
-							= link_to "contact us", short_help_path(tab: 2), { :remote => true}
-				- else
-					%li.instr
-						%p No answers have been composed yet
-						- if question.question_ideas.empty?
-							%p.em
-								Please post one or more ideas about this question in the yellow form below
-							
-							%p 
-								Your ideas will be added to the 
+				- if no_themes
+					- if @team.org_id == @member.id
+						%li.instr
+							%p.warn Please create at least one answer for this question
+							%p.emX
+								Post one or more ideas about this question in the yellow post-it below and then go to the 
 								= link_to 'post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
-								where the project coordinator will compose answers from the ideas
-							%p 
+								to compose an answer from the ideas
+							%p
 								Watch the 
 								= link_to "video", 'http://civicevolution.org/ce-video', {target: '_blank'}
 								for more information and/or
 								= link_to "contact us", short_help_path(tab: 2), { :remote => true}
+					- else
+						%li.instr
+							%p No answers have been composed yet
+							- if question.question_ideas.empty?
+								%p.em
+									Please post one or more ideas about this question in the yellow post-it below
+							
+								%p 
+									Your ideas will be added to the 
+									= link_to 'post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
+									where the project coordinator will compose answers from the ideas
+								%p 
+									Watch the 
+									= link_to "video", 'http://civicevolution.org/ce-video', {target: '_blank'}
+									for more information and/or
+									= link_to "contact us", short_help_path(tab: 2), { :remote => true}
 
-		- if !question.themes.empty?
-			= render( partial: 'ideas/rating', locals: { idea: question } )
+			- if !question.themes.empty?
+				= render( partial: 'ideas/rating', locals: { idea: question } )
 
 		%div.idea-post-it-form
 			= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 

@@ -17,9 +17,9 @@
 	$('div.question_summary[id="#{question.id}"] h4.summary a.view_unrated_ideas').removeClass('hide').html( 
 		"Rate #{pluralize(question.unrated_ideas.count, ' new idea')}" );
 
-	var question_ideas_count = #{question.question_ideas.count};	
-	var str = question_ideas_count == 1 ? "View 1 idea on post-its wall" : "View all " + question_ideas_count + " ideas on post-its wall"
-	$('div.question_summary[id="#{question.id}"] h4.summary a.view_all_ideas').removeClass('hide').html( str );
+	//var question_ideas_count = #{question.question_ideas.count};	
+	//var str = question_ideas_count == 1 ? "View 1 idea on post-its wall" : "View all " + question_ideas_count + " ideas on post-its wall"
+	//$('div.question_summary[id="#{question.id}"] h4.summary a.view_all_ideas').removeClass('hide').html( str );
 
 
 	var new_col = $('div.my_new_ideas[id="#{question.id}"]');
@@ -53,7 +53,7 @@
 		function(){
 			var post_it_div = $(this);
 			post_it_div.css({ position: 'static', 'z-index': 'auto'});
-			new_col.find('ul').prepend( post_it_div.wrap('<li/>') );
+			new_col.find('ul').prepend( $('<li/>').append(post_it_div) );
 			if(!member.follow_set){
 				$.getScript('/notification/' + team_id + '/settings?after_post=t');
 			}

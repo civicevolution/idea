@@ -1,5 +1,5 @@
 class IdeasController < ApplicationController
-  skip_before_filter :authorize, :only => [ :theming_page, :question_view, :theme_summary, :theme_summary, :view_idea_details]
+  skip_before_filter :authorize, :only => [ :theming_page, :question_post_its_wall, :theme_summary, :theme_summary, :view_idea_details]
   # GET /ideas
   # GET /ideas.json
   def index
