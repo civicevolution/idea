@@ -1,9 +1,5 @@
 - my_rating = question.idea_ratings.detect{|r| r.member_id == @member.id}
 :plain
-	$('div.question_tabs[id="#{question.id}"]').slideUp(200,function(){
-		$(this).remove();
-	})
-	
 	var question_post_its_wall = $("#{escape_javascript(render( :template=> 'ideas/question_post_its_wall', :locals=>{my_rating: my_rating, question: question}, formats: [:html]  ))}");
 		
 	init_question_post_its_wall(question_post_its_wall, #{params[:question_id]}, #{params[:idea_id] || 'null'});

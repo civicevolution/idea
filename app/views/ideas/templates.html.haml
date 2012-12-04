@@ -97,7 +97,13 @@
 					resize_theming_page();
 					make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
 					
-					// insert the new theme into the proposal page
+					// insert the attachments into the idea in the new theme
+					var temp_id = temp.new_answer_group_idea.find('div.post-it').attr('id');
+					//var new_idea_id = new_theme_col.find('div.post-it').attr('id');
+					if(temp_id == data.data.theme_idea_id){
+						new_theme_col.find('div.post-it').find('p.idea').after(temp.new_answer_group_idea.find('div.attachments'));
+					}
+					
 					return new_theme_col;
 				}
 

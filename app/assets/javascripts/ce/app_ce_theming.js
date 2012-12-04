@@ -118,6 +118,7 @@ function make_ideas_sortable(idea_lists_ul){
 				}else{
 					// create a new answer group (theme)
 					var idea = list.find('li.idea_post_it').remove();
+					temp.new_answer_group_idea = idea;
 					var constituent_idea_id = idea.find('div.post-it').attr('id');
 					if(debug) console.log("create a new answer group containing idea id: " + constituent_idea_id );
 					$.post('/idea/' + par.attr('id') + '/create_theme', 

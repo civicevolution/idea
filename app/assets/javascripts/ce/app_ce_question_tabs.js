@@ -1,5 +1,6 @@
 function init_question_post_its_wall(post_its_wall, question_id, idea_id){
-	$('div.question_tabs').remove();
+	var prev_post_its_wall = $('div.question_tabs');
+	var animate_duration = prev_post_its_wall.size() > 0 ? 0 : 800;
 	$('body').append(post_its_wall);
 	
 	//set height
@@ -16,12 +17,13 @@ function init_question_post_its_wall(post_its_wall, question_id, idea_id){
 			truncate_themes( post_its_wall.find('div.theme_col li.theme_post_it div.post-it') );
 			dispatcher.update_idea_stats( post_its_wall );
 			$('div.ui-slider').hide();
-			this.animate( {left: 0}, 
+			this.animate( {left: 0}, animate_duration,
 				function(){
 					$('div.page').hide().attr('last-scroll-pos', $(window).scrollTop() );
 					$('div.my_new_ideas').hide();
 					$(window).scrollTop(0);
 					post_its_wall.css('top',0);
+					prev_post_its_wall.remove();
 				}
 			);
 		}.bind(post_its_wall),100

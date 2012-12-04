@@ -9,6 +9,7 @@
 	form.find('input[name="attachments"]').val( '' );
 	
 	var attachments = form.find('div.attachments');
+	var attachments_div = attachments.clone();
 	attachments.find('div.attachment').hide(800, function(){
 		attachments.find('div.attachment').remove();
 		attachments.hide(800);
@@ -33,6 +34,10 @@
 	
 	var idea = #{idea.to_json}.idea
 	var post_it = $(template_functions['post-it']( idea ));		
+
+	// insert the attachments into the idea, if there are any
+	attachments_div.find('img.delete').remove();
+	post_it.find('p.idea').after(attachments_div);
 	
 	var form_div = form.closest('div.idea-post-it-form');
 	post_it.attr('class', form_div.find('div.post-it').attr('class') );

@@ -231,16 +231,6 @@ div.proposal
 						+opacity(0)
 						&:hover
 							cursor: pointer
-			div.attachment_upload_progress
-				position: absolute
-				top: 48px
-				right: 0px
-				height: 16px
-				width: 120px
-				div.bar
-					height: 18px
-					background: image-url('upload/progressbar.gif') repeat-x 0 0
-	
 					
 			input[type=submit], img.wait
 				position: absolute
@@ -251,6 +241,21 @@ div.proposal
 				top: 30px
 				right: 50px
 				font-weight: bold
+				
+div.idea-post-it-form				
+	form.suggest_idea
+		div.post-it
+			div.attachment_upload_progress
+				position: absolute
+				top: -20px
+				right: 0px
+				height: 16px
+				width: 120px
+				div.bar
+					height: 18px
+					background: image-url('upload/progressbar.gif') repeat-x 0 0
+			div.attachment_btn.waiting
+				right: 0
 
 p.form_controls, div.form_controls
 	&.no_attach
