@@ -1,5 +1,5 @@
 %div.edit_form			
-	= form_tag(edit_theme_path(params[:idea_id]), :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
+	= form_tag(edit_theme_path(params[:idea_id]), :remote=>true, :class=>'std_form orig theme_edit', :id=>params[:idea_id]) do
 		= hidden_field_tag :act, 'edit_theme_popup'
 
 		.wmd-panel
