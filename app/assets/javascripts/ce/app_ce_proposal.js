@@ -244,3 +244,15 @@ setTimeout(function(){
 		$('a.clear').remove();
 	}
 });
+
+$('body').on('focus blur','div.activity_stream form', 
+	function(event){
+		var form = $(this);
+		var textarea = form.find('textarea');
+		if(event.type=='focusin'){
+			form.addClass('active');
+		}else if(textarea.val()==''){
+			//form.removeClass('active');
+		}
+	}
+);

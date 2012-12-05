@@ -97,20 +97,7 @@
 						
 					%p.clear_both
 		
-							
-		%h4.sub_sec_hdr.discussion{idea_id: question.id}
-			= link_to view_idea_details_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the discussion for this question', orig_text: "What comments or questions do you have?" } do
-				%span What comments or questions do you have?
-				%div.comments
-					= image_tag('comment-sketch.gif', title: 'Number of comments')
-					%div.counts
-						%div.new
-							0 new
-						%div.total
-							0 total
-			%p.clear_both
-		%div.discussion
+		%p.clear_both
 		
-
-		
+		= render( partial: 'ideas/idea_discussion', locals: { idea: question } )			
 

@@ -21,28 +21,17 @@
 							
 							- if @member.id == @team.org_id
 								= link_to "edit", team_edit_path(@team.id, target: 'summary'), class: "edit_summary edit", remote: true
-								
-						- if @team.id == 10096	
-							= render partial: 'embedded_video'
 							
 						= render( partial: 'ideas/rating', locals: { idea: @team.idea } )
 
-						%h4.sub_sec_hdr.discussion{idea_id: @team.idea.id}
-							= link_to view_idea_details_path(@team.idea.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the discussion for this proposal', orig_text: "What comments or questions do you have?" } do
-								%span What comments or questions do you have?
-								%div.comments
-									= image_tag('comment-sketch.gif', title: 'Number of comments')
-									%div.counts
-										%div.new
-											0 new
-										%div.total
-											0 total
-							%p.clear_both
-						%div.discussion
+					%p.clear_both
 					
-
-						%p.clear_both
-
+					- if @team.id == 10096	
+						= render partial: 'embedded_video'
+					
+					
+					= render( partial: 'ideas/idea_discussion', locals: { idea: @team.idea } )			
+					
 					%p.clear_both
 				%p.clear_both
 			%p.clear_both

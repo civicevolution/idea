@@ -13,8 +13,13 @@ div.summary
 		
 div.summary.text
 	float: left
-	width: 460px
+	width: 440px
 	margin: 0 16px 0 0
+	background: image-url('paper-bg.gif') repeat-y 0 0 
+	padding: 24px 16px 2px 20px
+	margin-bottom: 20px
+	div.rater
+		border: none
 	p
 		margin: 0 0 12px 0
 
@@ -147,7 +152,7 @@ div.proposal
 			li.theme
 				&:hover
 					p, ol, ul
-						background-color: white
+						background-color: #bfbc9e //#bfb79e //#a69c3f
 				
 			li.theme	
 				position: relative
@@ -581,3 +586,62 @@ div.theme_col.my_new_ideas
 		display: block
 		margin-left: 20px
 		margin-bottom: 20px
+div.activity_stream 
+	width: 440px
+	margin-bottom: 60px
+	div.comment 
+		background-color: #f2f2ff
+		padding: 8px
+		&.form
+			padding-bottom: 0
+		min-height: 52px
+		margin-top: 2px
+		div.img
+			margin-bottom: -60px
+		div.comment_body
+			p
+				margin: 0 0 .2em 0
+			p.timeago
+				margin-top: .2em
+				font-size: .8em
+			form.add_comment
+				margin-bottom: 0
+				div.add_idea_comment
+					width: 380px
+				textarea
+					width: 360px
+					background-color: white
+				div.attachments
+					width: 356px
+					background-color: transparent
+					
+				p.form_controls, div.attachment_btn
+					display: none
+				&.active
+					p.form_controls, div.attachment_btn
+						display: block
+			p.clear
+				margin: 0
+					
+	a
+		color: #296D8A
+		text-decoration: none
+		&:hover
+			text-decoration: underline
+
+div.idea_details
+	div.activity_stream
+		margin-bottom: 20px
+		div.comment
+			div.comment_body
+				form.add_comment
+					div.add_idea_comment
+						width: 340px
+						textarea, div.attachments
+							width: 320px
+						
+				p.form_controls
+					width: 320px
+					span.char_ctr
+						left: 80px
+				

@@ -15,7 +15,7 @@ class Idea < ActiveRecord::Base
 
   belongs_to :team
   belongs_to :question, class_name: 'Idea', foreign_key: 'question_id', primary_key: 'id', conditions: 'role = 3'
-  has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 20', :order => 'id desc', :include => :author
+  has_many :comments, :foreign_key => 'parent_id', :conditions => 'parent_type = 20', :order => 'id asc', :include => :author
   has_many :idea_ratings, select: 'member_id, rating'
   has_many :ideas, foreign_key: 'parent_id', order: 'id asc'
   has_many :theme_ideas, class_name: 'Idea', foreign_key: 'parent_id', order: 'order_id asc'

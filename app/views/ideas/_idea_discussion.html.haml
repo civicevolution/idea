@@ -1,26 +1,32 @@
-= form_tag add_idea_comment_path(idea.id), :class=>"std_form add_comment", id: idea.id, :remote=>true do 
-	%div.add_idea.add_idea_comment
-		= hidden_field_tag :attachments
-		= text_area_tag :text, '', class: 'answer autosize empty', size: "1x2", fixed_rows: true, placeholder: 'Write your comment here...'
-		%div.attachments
-			%p.clear_both
-			
-		%div.attachment_btn
-			%div.inner
-				%input.attachment-upload{type: "file", name: "attachment", tabindex: 1000, 'data-url'=>question_attachment_path(idea.id) }
-		%div.attachment_upload_progress
-			%div.bar{style: "width: 0%;"}
-		
-	%p.form_controls
-		= submit_tag "Add comment", :name=>'endorse', 'data-disable-with'=>'Submitting...'
-		%span.char_ctr 1500 characters
-		= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
-
-	%p.clear
-	
--#= submit_tag "Follow this discussion", :name=>'endorse', 'data-disable-with'=>'Submitting...'
-
 %div.activity_stream
 	- idea.comments.includes(:attachments).each do |comment|
 		= render( :partial=> 'ideas/comment', :locals=>{:comment=>comment}, formats: [:html]  )
 
+
+
+
+	%div.comment.form
+		%div.img
+			%img{ src:  @member.photo.url(:small), class: 'i36'}		
+
+		%div.comment_body
+			= form_tag add_idea_comment_path(idea.id), :class=>"std_form add_comment", id: idea.id, :remote=>true do 
+				%div.add_idea.add_idea_comment
+					= hidden_field_tag :attachments
+					= text_area_tag :text, '', class: 'answer autosize empty', size: "1x1", fixed_rows: true, placeholder: 'Write your comment here...'
+					%div.attachments
+						%p.clear_both
+			
+					%div.attachment_btn
+						%div.inner
+							%input.attachment-upload{type: "file", name: "attachment", tabindex: 1000, 'data-url'=>question_attachment_path(idea.id) }
+					%div.attachment_upload_progress
+						%div.bar{style: "width: 0%;"}
+		
+				%p.form_controls
+					= submit_tag "Save", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+					%span.char_ctr 1500 characters
+					= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
+
+				%p.clear
+	

@@ -48,10 +48,19 @@
 			realtime_data_update_functions = {};
 			
 			function simple_format(s){
-				var strs = unescape(s).split(/\n\n/)
+				var strs = unescape(s).replace(/\r/g,'').split(/\n\n/)
 				s = ''
 				for(var i=0;str=strs[i];i++) s += '<p>'+str+'</p>'
 				return s.replace(/\n/g,'<br/>')
+			}
+
+			function comment_with_author(data){
+			  //com = simple_format(auto_link(h(comment.text), :all, :target => "_blank"))
+				com = simple_format( data.comment.comment.text );
+				var author_link = templates['comment'].find('a.com_author'); 
+				author_link.attr('href', author_link.attr('href').replace(/\w{14}/,data.author.member.ape_code));
+				author_link.html( data.author.member.first_name + ' ' + data.author.member.last_name);
+			  return com.replace(/<p>/,'<p>' + author_link.prop('outerHTML') + ' ');
 			}
 
 			function sanitize(s){
@@ -139,23 +148,22 @@
 			templates['comment'] = $('<div></div>').html($.trim( $('script#comment_template').html() )).find('div:first');
 			template_functions['comment'] = templates['comment'].compile(
 				{
-					'p.text' : function(arg){ return simple_format(arg.context.data.comment.comment.text)},
-					'p.name' : '\#{data.author.member.first_name} \#{data.author.member.last_name}',
+					'div.com_text' : function(arg){ return comment_with_author(arg.context.data)},
 					'p.timeago @title' : 'data.comment.comment.created_at',
 					'img.i36 @src' : 'data.photo_url'
 				}
 			);
-			
+						
 			// template_functions['comment']( com )
 			
 			realtime_data_update_functions['comment'] = 
 				function(data){
 					var new_comment = template_functions['comment']( data );
-					var form = $('form.add_comment[id="' + com.data.comment.comment.parent_id + '"]')
-					new_comment = $(new_comment).prependTo( form.siblings('div.activity_stream') );
+					var form = $('form.add_comment[id="' + data.data.comment.comment.parent_id + '"]')
+					new_comment = $(new_comment).insertBefore( form.closest('div.comment.form'));
 					new_comment.find('p.timeago').timeago();
 					new_comment.find('p.new_com').removeClass('hide');
-					form.val('').focus();
+					form.val('').blur();
 
 					if( data.data.attachments && data.data.attachments.length > 0){
 						var attachment_original = new_comment.find('div.attachment').remove();
@@ -172,19 +180,19 @@
 					}else{
 						new_comment.find('div.attachments').remove();
 					}
-					
+
 					new_comment.effect('highlight', {color: '#EAF8D0'},3000);				
-					setTimeout(function(){ 
-						var new_comment = $(this);   
-						//if(!new_comment.isOnScreen())
-						var par = new_comment.closest('div.idea_details.popup');
-						if(par.size() == 0){
-							par = $('html body');
-						}
-						var new_scroll_pos = par.scrollTop() + new_comment.height() + 40;
-						par.animate({scrollTop: new_scroll_pos }, 800);
-					}.bind(new_comment),100
-					);
+					//setTimeout(function(){ 
+					//	var new_comment = $(this);   
+					//	//if(!new_comment.isOnScreen())
+					//	var par = new_comment.closest('div.idea_details.popup');
+					//	if(par.size() == 0){
+					//		par = $('html body');
+					//	}
+					//	var new_scroll_pos = par.scrollTop() + new_comment.height() + 40;
+					//	par.animate({scrollTop: new_scroll_pos }, 800);
+					//}.bind(new_comment),100
+					//);
 					
 					return new_comment;
 				}
