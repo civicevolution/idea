@@ -18,6 +18,9 @@ div.summary.text
 	background: image-url('white-paper-bg.gif') repeat-y top right
 	padding: 24px 16px 2px 20px
 	margin-bottom: 20px
+	border: 1px solid #ebebeb
+	border-right: none
+	border-bottom: 4px solid #ebebeb
 	div.rater
 		border: none
 	p
@@ -125,8 +128,17 @@ div.proposal
 			margin-bottom: 60px
 		div.answer_block
 			background: image-url('white-paper-bg.gif') repeat-y 0 0 
-			padding: 2px 16px
+			padding: 0px 16px
 			margin-bottom: 20px
+			border-left: 1px solid #ebebeb
+			div.top_border
+				width: 450px
+				margin-left: -16px
+				border-top: 1px solid #ebebeb
+			div.bottom_border
+				width: 450px
+				margin-left: -16px
+				border-bottom: 4px solid #ebebeb
 			div.rater
 				border: none
 		ul.themes
@@ -600,7 +612,7 @@ div.activity_stream
 			margin-bottom: -60px
 		div.comment_body
 			p
-				margin: 0 0 .2em 0
+				margin: 0 0 .8em 0
 			p.timeago
 				margin-top: .2em
 				font-size: .8em

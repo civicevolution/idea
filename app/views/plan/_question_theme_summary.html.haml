@@ -14,6 +14,7 @@
 			= link_to 'Rate new ideas', view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas hide', rel: 'nofollow', remote: true, wait: 'gif' }
 
 		%div.answer_block
+			%div.top_border
 			%h4.sub_sec_hdr.summary 
 				-#%span Answer composed from ideas
 				%span.text This answer was created from the ideas on the
@@ -98,6 +99,7 @@
 						%p.clear_both
 		
 			%p.clear_both
+			%div.bottom_border
 		
 		= render( partial: 'ideas/idea_discussion', locals: { idea: question } )			
 
