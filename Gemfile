@@ -28,7 +28,7 @@ end
 group :production do
   # Use unicorn as the web server
   gem 'unicorn'
-	gem 'newrelic_rpm'
+	gem 'newrelic_rpm', '>= 3.5.3.25'
 end
 
 gem 'eventmachine', '= 0.12.10'
