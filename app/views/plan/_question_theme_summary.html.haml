@@ -75,29 +75,29 @@
 			- if !question.themes.empty?
 				= render( partial: 'ideas/rating', locals: { idea: question } )
 
-		%div.idea-post-it-form
-			= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 
-				%div{class: "R3 post-it"}
-					%div.form
-						= hidden_field_tag :attachments
-						= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true, placeholder: 'Please share your idea on this post-it... each post-it should clearly state a single point'
+			%div.idea-post-it-form
+				= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 
+					%div{class: "R3 post-it"}
+						%div.form
+							= hidden_field_tag :attachments
+							= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true, placeholder: 'Type here to share your idea... each post-it should clearly state a single point'
 
-						%div.attachments
-							%p.clear_both
+							%div.attachments
+								%p.clear_both
 
-					%div.form_controls
-						= submit_tag "Save", :name=>'add_idea', wait: 'gif'
-						%span.char_ctr 200 characters
+						%div.form_controls
+							= submit_tag "Save", :name=>'add_idea', wait: 'gif'
+							%span.char_ctr 200 characters
 						
-						%div.attachment_btn
-							%div.inner
-								%input.attachment-upload{type: "file", name: "attachment", tabindex: 1000, 'data-url'=>question_attachment_path(question.id) }
-						%div.attachment_upload_progress
-							%div.bar{style: "width: 0%;"}
+							%div.attachment_btn
+								%div.inner
+									%input.attachment-upload{type: "file", name: "attachment", tabindex: 1000, 'data-url'=>question_attachment_path(question.id) }
+							%div.attachment_upload_progress
+								%div.bar{style: "width: 0%;"}
 						
-					%p.clear_both
+						%p.clear_both
 		
-		%p.clear_both
+			%p.clear_both
 		
 		= render( partial: 'ideas/idea_discussion', locals: { idea: question } )			
 
