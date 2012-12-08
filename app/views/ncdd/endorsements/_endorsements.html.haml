@@ -8,52 +8,54 @@
 		%h4.sub_sec_hdr This proposal is endorsed by #{pluralize(@endorsements.size, 'person')}
 
 	- if !print
-		%p If you like this proposal, please add a statement of support in the box below and click the button. You can endorse your own proposal and invite your friends to endorse it as well!
-	%div.endorsements_inner
+		%p If you like this proposal, please add a statement of support in the form below and click the button. You can endorse your own proposal and invite your friends to endorse it as well!
 
-		%table.endorsements{:class => @endorsements.size == 0 ? 'hide' : ''}
-			%tr
-				%th{:colspan=> !print ? 2 : 1} Name
-				%th Comment
-				%th When
-			- endorsed = false	
-			- @endorsements.each do |e|
-				%tr{:class=> cycle('','stripe'), :id=>e.member.ape_code}
-					- if !print
-						%td.pic
-							- if !e.id.nil?
-								%img{:src=> e.member.photo.url(:small)} 
-					%td.name
-						%span.member& #{e.member.first_name} #{e.member.last_name}
-					%td.text= simple_format( e.text )
-					%td.time
-						%abbr.timeago{:title=>e.updated_at}= time_ago_in_words(e.updated_at) + ' ago'
-					- if e.member.id == @member.id && !print
-						- endorsed = true
-						%td.delete
+
+	%div.endorsements_inner
+		- ctr = 0
+		- hide_lt = 0
+		- if @endorsements.size > 3
+			- hide_lt = @endorsements.size - 3
+			%div.comment.show_all
+				%p 
+					= link_to "Show all #{@endorsements.size} endorsements", {}, class: 'show-all-endorsements'
+		
+		
+		- @endorsements.each do |e|
+			- ctr += 1
+			%div.comment{id:e.id, class: ctr < hide_lt ? 'hide' : ''}
+				%div.img
+					%img{src: e.member.photo.url(:small), class: 'i36'}		
+
+				%div.comment_body
+					%div.com_text!= endorsement_with_member(e)
+
+					%div.timeago
+						%span 
+							#{time_ago_in_words(e.updated_at)} ago
+						- if e.member.id == @member.id && !print
 							-#= form_tag edit_plan_endorsement_path(@team.id) do
 							-#	= submit_tag "Edit", :class => 'link'
 							= form_tag delete_plan_endorsement_path(@team.id) do
 								= submit_tag "Delete", :class => 'link'
-			
-		- if !print			
-					
-			= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form endorsement' + ( endorsed ? ' hide' : '' ) do 
-				%div.add_answer
-					%p
-					= label_tag :text, "My statement in support of this proposal"
-					= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2"
-					%div.form_controls
-						= submit_tag "I endorse this proposal", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+						%p.clear_both
+		
 
-						%span.char_ctr 500 characters
-						= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
-					
-					-#%div.control_line
-						%div.controls
-							= submit_tag "I endorse this proposal", :name=>'endorse', 'data-disable-with'=>'Submitting...'
+		- endorsed = !@endorsements.detect{|e| e.member_id == @member.id}.nil?
+		- if !print && !endorsed
+			%div.comment.form
+				%div.img
+					%img{ src:  @member.photo.url(:small), class: 'i36'}		
+				%div.comment_body
+					-#= form_tag add_idea_comment_path(idea.id), :class=>"std_form add_comment", id: idea.id, :remote=>true do  
+					= form_tag add_plan_endorsement_path(@team.id), :class=>'std_form endorsement' + ( endorsed ? ' hide' : '' ) do 
+						%div.add_idea.add_idea_comment
+							= hidden_field_tag :attachments
+							= text_area_tag :text, '', class: 'answer autosize empty', size: "1x1", fixed_rows: true, placeholder: 'Type your endorsement here...'
+
+						%p.form_controls
+							= submit_tag "Endorse", :name=>'endorse', 'data-disable-with'=>'Submitting...'
 							%span.char_ctr 500 characters
 							= link_to 'Clear', '#', {:class=>'clear', :rel=>'nofollow'}
-				%p.clear
-	%p.clear
 
+						%p.clear

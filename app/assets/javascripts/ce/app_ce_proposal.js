@@ -59,6 +59,12 @@ function init_page(){
 	$('div.idea_summary div.inner > *:last').append( $('div.idea_summary div.inner').next('a') );
 	
 	$('input, textarea').placeholder();
+	
+	setTimeout(function(){
+		if(params['endorsements']){
+			$('html,body').animate( {scrollTop: $('div.endorsements_inner').offset().top}, 800);
+		}
+	},1200);
 }
 
 function init_rating_sliders( sliders ){

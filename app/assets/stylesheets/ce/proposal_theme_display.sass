@@ -487,17 +487,15 @@ div.segue
 	p
 		width: 600px
 		
-		
-////from endorsements
-//input.link
-//	border: none
-//	background: none
-//	cursor: pointer
-//	margin: 0 
-//	padding: 0
-//	text-decoration: underline
-//textarea
-//	height: 100px
+
+div.endorsements
+	input.link
+		border: none
+		background: none
+		cursor: pointer
+		margin: 0 
+		padding: 0
+		text-decoration: underline
 		
 div.idea-post-it-form
 	&.animated
@@ -598,7 +596,7 @@ div.theme_col.my_new_ideas
 		display: block
 		margin-left: 20px
 		margin-bottom: 20px
-div.activity_stream 
+div.activity_stream, div.endorsements
 	width: 440px
 	margin-bottom: 60px
 	div.comment 
@@ -624,7 +622,7 @@ div.activity_stream
 		div.comment_body
 			p
 				margin: 0 0 .8em 0
-			p.timeago
+			p.timeago, div.timeago
 				margin-top: .2em
 				font-size: .8em
 			form.add_comment
@@ -669,6 +667,21 @@ div.activity_stream
 		text-decoration: none
 		&:hover
 			text-decoration: underline
+div.endorsements
+	width: 480px
+	div.comment
+		background-color: #ccf
+		div.comment_body
+			div.com_text
+				p.more
+					background: image-url('ellipsis-fade.png') repeat-x
+		div.timeago
+			span
+				display: block
+				float: left
+			form
+				float: left
+				margin-left: 20px
 
 div.idea_details
 	div.activity_stream

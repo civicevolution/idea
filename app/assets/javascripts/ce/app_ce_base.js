@@ -280,3 +280,13 @@ $('body').on('click', 'div.com_text p.more',
 		$(this).closest('div.com_text').removeClass('truncated').find('p.more').remove();
 	}
 );
+
+$('body').on('click', 'a.show-all-endorsements',
+	function(){
+		var div = $(this).closest('div.show_all');
+		var stream = div.closest('div.endorsements').find('div.comment').show(350);
+		setTimeout(function(){ truncate_comments( this )}.bind(stream), 700 );
+		div.hide(350,function(){$(this).remove();});
+		return false;
+	}
+);

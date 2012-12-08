@@ -11,7 +11,7 @@ class EndorsementsController < ApplicationController
     endorsement.member = @member
     respond_to do |format|
       if endorsement.save
-        format.html { redirect_to plan_path(params[:team_id]) }
+        format.html { redirect_to plan_path(params[:team_id], endorsements: true) }
       else
         flash[:endorsement_error] = endorsement.errors
         format.html { redirect_to plan_path(params[:team_id]) }
@@ -24,7 +24,7 @@ class EndorsementsController < ApplicationController
     endorsement.member = @member unless endorsement.nil?
     endorsement.destroy unless endorsement.nil?
     respond_to do |format|
-      format.html { redirect_to plan_path(params[:team_id]) }
+      format.html { redirect_to plan_path(params[:team_id], endorsements: true) }
     end
   end
   
