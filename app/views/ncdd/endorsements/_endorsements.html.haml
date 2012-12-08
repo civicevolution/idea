@@ -28,6 +28,7 @@
 					%img{src: e.member.photo.url(:small), class: 'i36'}		
 
 				%div.comment_body
+					- e.text = 'endorsed this proposal' if e.text.nil? || e.text == ''
 					%div.com_text!= endorsement_with_member(e)
 
 					%div.timeago
