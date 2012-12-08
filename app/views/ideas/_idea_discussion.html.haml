@@ -1,9 +1,14 @@
 %div.activity_stream
-	- idea.comments.includes(:attachments).each do |comment|
-		= render( :partial=> 'ideas/comment', :locals=>{:comment=>comment}, formats: [:html]  )
+	
+	- comments = idea.comments.includes(:attachments)
+	- hide_coms_lt = 0
+	- if comments.size > 3
+		- hide_coms_lt = comments.size - 3
+		%div.comment.show_all
+			%p 
+				= link_to "Show all #{comments.size} comments", {}, class: 'show-all-comments'
 
-
-
+	= render( partial: 'ideas/comment', collection: comments, as: 'comment', locals: {hide_coms_lt: hide_coms_lt}, formats: [:html]  )
 
 	%div.comment.form
 		%div.img

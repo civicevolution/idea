@@ -137,11 +137,11 @@
 
 	- if debug
 		%h3 ideas/_comment
-		= render( :partial => 'ideas/comment', locals: { debug: debug, comment: comment })
-
+		= render( partial: 'ideas/comment', collection: [comment], as: 'comment', locals: {hide_coms_lt: 0}, formats: [:html]  )
+		
 	%script#comment_template{:type=>'text/html'}
 		:plain
-			#{ render( :partial => 'ideas/comment', locals: { debug: debug, comment: comment })}
+			#{ render( partial: 'ideas/comment', collection: [comment], as: 'comment', locals: {hide_coms_lt: 0}, formats: [:html]  )}
 
 	%script#create_comment_template
 		:plain
@@ -162,7 +162,7 @@
 					var form = $('form.add_comment[id="' + data.data.comment.comment.parent_id + '"]')
 					new_comment = $(new_comment).insertBefore( form.closest('div.comment.form'));
 					new_comment.find('p.timeago').timeago();
-					new_comment.find('p.new_com').removeClass('hide');
+					new_comment.addClass('new');
 					form.val('').blur();
 
 					if( data.data.attachments && data.data.attachments.length > 0){

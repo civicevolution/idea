@@ -30,6 +30,9 @@ function init_page(){
 		})
 	}
 	
+	truncate_comments();
+	dispatcher.update_coms_new();
+	
 	activate_text_counters_grow($('textarea, input[type="text"]'), 120);
 	
 	init_rating_sliders( $("div.theme_slider") );

@@ -1,7 +1,7 @@
-%div.comment{id:comment.id}
+%div.comment{id:comment.id, class: comment_counter < hide_coms_lt ? 'hide' : ''}
 	%div.img
 		%img{src: comment.author.photo.url(:small), class: 'i36'}		
-		%p.new_com.hide New
+		%p.new_com New
 		
 	%div.comment_body
 		%div.com_text!= comment_with_author(comment)

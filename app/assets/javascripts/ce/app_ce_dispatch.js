@@ -333,10 +333,11 @@ dispatcher = {
 		);	
 	},
 	update_coms_new: function(page){
+		page = page || $('body');
 		page.find('div.comment').each(
 			function(){
 				var comment = $(this);
-				if( stat_data.com_recs[ comment.attr('id') ] && stat_data.com_recs[ comment.attr('id') ].new_com){ comment.find('p.new_com').removeClass('hide');}
+				if( stat_data.com_recs[ comment.attr('id') ] && stat_data.com_recs[ comment.attr('id') ].new_com){ comment.addClass('new');}
 			}
 		);	
 	},

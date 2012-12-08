@@ -248,3 +248,35 @@ $('body').on('dialogopen', 'div.ui-dialog-content', function(event) {
 	}
 });	
 
+
+//
+// adjust the # of comments displayed and truncate long comments
+//
+
+$('body').on('click', 'a.show-all-comments',
+	function(){
+		var div = $(this).closest('div.show_all');
+		var stream = div.closest('div.activity_stream').find('div.comment').show(350);
+		setTimeout(function(){ truncate_comments( this )}.bind(stream), 700 );
+		div.hide(350,function(){$(this).remove();});
+		return false;
+	}
+);
+
+function truncate_comments(section){
+	section = section || $('body');
+	section.find('div.com_text').each( 
+		function(){
+			var inner = $(this);
+			if(inner.height() > 100){
+				inner.addClass('truncated').append('<p class="more">More...</p>');
+			}
+		}
+	);
+}
+
+$('body').on('click', 'div.com_text p.more',
+	function(){
+		$(this).closest('div.com_text').removeClass('truncated').find('p.more').remove();
+	}
+);

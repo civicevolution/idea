@@ -608,8 +608,19 @@ div.activity_stream
 			padding-bottom: 0
 		min-height: 52px
 		margin-top: 2px
+		&.show_all
+			min-height: 0
+			p
+				margin: 0
 		div.img
 			margin-bottom: -60px
+		p.new_com
+			display: none
+			color: red
+		&.new
+			min-height: 66px
+			p.new_com
+				display: block
 		div.comment_body
 			p
 				margin: 0 0 .8em 0
@@ -634,6 +645,24 @@ div.activity_stream
 						display: block
 			p.clear
 				margin: 0
+			div.com_text
+				&.truncated
+					overflow: hidden
+					max-height: 100px
+				position: relative
+				p.more
+					position: absolute
+					right: 0
+					bottom: 0
+					width: 100%
+					padding-top: 20px
+					font-weight: bold
+					text-align: right
+					margin: 0
+					height: 40px
+					background: image-url('ellipsis-fade-c.png') repeat-x
+					cursor: pointer
+			
 					
 	a
 		color: #296D8A
