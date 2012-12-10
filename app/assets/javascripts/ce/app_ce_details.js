@@ -8,7 +8,7 @@ function init_details_popup(details){
 		width :'auto',
 		height: $(window).height() - 8,
 		position: ["center","center"],
-		zIndex: 10001,
+		zIndex: 101,
 		open: function(event,ui){
 			var dlg = $(this);
 			//dlg.hide().slideDown(400)
