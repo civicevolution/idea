@@ -6,6 +6,7 @@
 	dispatcher.update_discussion_stats( details );
 	$('li.theme[id="#{params[:idea_id]}"]').removeClass('show_new').find('img.wait').remove();
 	setTimeout(function(){ dispatcher.update_coms_new( this );}.bind(details),200);
+	set_answer_links_target(details);
 - if !constituent_idea.nil?	
 	:plain
 		$('div.answer_details').animate({left:'-440'},350);
