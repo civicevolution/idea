@@ -3,7 +3,8 @@
 	var post_it = $('div.post-it[id="#{idea.id}"]');
 	post_it.find('div.inner').html( answer_html );
 	truncate_themes(post_it);
-	$('li.theme[id="#{idea.id}"] div.answer').html( answer_html );
+	var proposal_page_answer = $('li.theme[id="#{idea.id}"] div.answer').html( answer_html );
+	set_answer_links_target(proposal_page_answer);
 - if params[:act] == "edit_answer_popup"
 	:plain
 		//console.log("Replace edited answer in edit_answer_popup");
@@ -16,6 +17,7 @@
 		answer.find('div.wmd-preview').hide(250, function(){$(this).remove()});
 		//console.log("remove the preview");
 		answer.prev('div.edit_form').hide(250, function(){$(this).remove()});
+		set_answer_links_target(answer);
 		
 - else
 	:plain

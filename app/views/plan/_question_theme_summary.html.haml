@@ -29,19 +29,18 @@
 					- if theme.version > 0 && theme.visible
 						- no_themes = false
 						%li.theme{id: theme.id}	
-							= link_to view_idea_details_path(theme.id), {class: 'view_theme', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to discuss and rate this answer' } do
-								%div.answer
-									:markdown
-										#{theme.text}
+							%div.answer
+								:markdown
+									#{theme.text}
 									
-								%div.answer_status	
-									%div.comments
-										= image_tag('comment-sketch.gif', title: 'Number of comments')
-										%div.counts
-											%div.new
-												0 new
-											%div.total
-												0 total
+							%div.answer_status	
+								%div.comments
+									= image_tag('comment-sketch.gif', title: 'Number of comments')
+									%div.counts
+										%div.new
+											0 new
+										%div.total
+											0 total
 	
 				- if no_themes
 					- if @team.org_id == @member.id

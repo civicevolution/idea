@@ -162,16 +162,22 @@ div.proposal
 				p
 					margin: 0 0 .4em 0
 			li.theme
+				cursor: pointer
 				&:hover
-					p, ol, ul
+					h1, h2, h3, h4, p, ol, ul
 						background-color: #bfbc9e //#bfb79e //#a69c3f
 				
 			li.theme	
 				position: relative
 				min-height: 20px
-				a
-					color: black
-					text-decoration: none
+				div.answer
+					width: 400px
+					blockquote
+						p
+							width: 360px
+				//a
+					//color: black
+					//text-decoration: none
 				ul
 					padding-left: 36px
 				&:hover

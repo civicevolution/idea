@@ -4,7 +4,7 @@
 	details.find('li img.delete').remove();
 	dispatcher.update_idea_stats( details );
 	dispatcher.update_discussion_stats( details );
-	$('li.theme[id="#{params[:idea_id]}"]').removeClass('show_new');
+	$('li.theme[id="#{params[:idea_id]}"]').removeClass('show_new').find('img.wait').remove();
 	setTimeout(function(){ dispatcher.update_coms_new( this );}.bind(details),200);
 - if !constituent_idea.nil?	
 	:plain

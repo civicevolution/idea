@@ -60,6 +60,9 @@ function init_page(){
 	
 	$('input, textarea').placeholder();
 	
+	set_answer_links_target();
+	set_answer_links_target( $('div.idea_summary') );
+	
 	setTimeout(function(){
 		if(params['endorsements']){
 			$('html,body').animate( {scrollTop: $('div.endorsements_inner').offset().top}, 800);
@@ -83,6 +86,19 @@ function init_rating_sliders( sliders ){
 		}
 	);
 }
+
+function set_answer_links_target(section){
+	section = section || $('div.answer_block div.answer')
+	section.find('a').each(
+		function(){
+			var link = $(this);
+			if(!link.attr('target') && !link.attr('class')){
+				link.attr('target','_blank');
+			}
+		}
+	);
+}
+
 
 $('div.home_page table.proposal_stats').die('click').live('click',
 	function(){
@@ -262,6 +278,15 @@ $('body').on('focus blur','div.activity_stream form',
 			form.addClass('active');
 		}else if(textarea.val()==''){
 			//form.removeClass('active');
+		}
+	}
+);
+
+$('body').on('click','div.answer_block li.theme',
+	function(event){
+		if(event.target.nodeName !='A'){
+			$(this).prepend('<img class="wait" src="/assets/wait5.gif"/>');
+			$.getScript('/idea/' + this.id + '/details');
 		}
 	}
 );

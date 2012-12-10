@@ -16,5 +16,6 @@
 			}
 		);
 		summary.prev('div.edit_form').hide(250, function(){$(this).remove()});
+		set_answer_links_target( $('div.idea_summary') );
 		
 		$('div.summary.text div.idea_summary div.inner > *:last').append( edit_link );

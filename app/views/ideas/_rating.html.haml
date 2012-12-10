@@ -10,7 +10,7 @@
 			- when 3
 				%span Please rate this overall answer
 			- when 4
-				%span Please rate this proposal
+				%span Please rate this vision
 		= link_to "View results", {}, class: "view_results hide"
 			
 - else
@@ -23,7 +23,7 @@
 			- when 3
 				%span Your rating for this overall answer
 			- when 4
-				%span Your rating for this proposal
+				%span Your rating for this vision
 		= link_to "View results", {}, class: "view_results #{votes>0 ? '' : 'hide'}"	
 			
 %div.rater.corner			
