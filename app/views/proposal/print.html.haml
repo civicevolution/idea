@@ -7,16 +7,17 @@
 		p.details
 			margin: 0
 
-		table.endorsements
-			td, th
-				vertical-align: top
-				text-align: left
-				padding: 10px
-				min-width: 100px
-				p
-					margin-top: 0
-			td.time
-				min-width: 80px
+		div.endorsements
+			div.comment.show_all
+				display: none
+			img
+				display: none
+			a
+				font-weight: bold
+				text-decoration: none
+				color: black
+			div.timeago
+				display: none
 				
 		.stripe
 			background-color: #ddd
@@ -140,11 +141,10 @@
 	%h4 This proposal was developed by 
 	%div.participants
 		%p #{team.organizer.first_name} #{team.organizer.last_name}, who initially suggested this idea for change, working with
-		- team.participants.select{|p| p.id	!= team.org_id}.sort{|x,y| x.first_name <=> y.first_name || x.last_name <=> y.last_name}.each do |participant|
+		- team.participants.select{|p| p.id	!= team.org_id}.sort{|y,x| x.stats[:points] <=> y.stats[:points] }.each do |participant|
 			%p.participant
 				= participant.first_name
 				= participant.last_name
-	
 	
 	
 	%h4 Participation statistics for developing this proposal
