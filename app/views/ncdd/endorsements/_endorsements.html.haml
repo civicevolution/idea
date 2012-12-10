@@ -22,7 +22,6 @@
 		
 		
 		- @endorsements.each do |e|
-			- ctr += 1
 			%div.comment{id:e.id, class: ctr < hide_lt ? 'hide' : ''}
 				%div.img
 					%img{src: e.member.photo.url(:small), class: 'i36'}		
@@ -40,6 +39,7 @@
 							= form_tag delete_plan_endorsement_path(@team.id) do
 								= submit_tag "Delete", :class => 'link'
 						%p.clear_both
+			- ctr += 1
 		
 
 		- endorsed = !@endorsements.detect{|e| e.member_id == @member.id}.nil?
