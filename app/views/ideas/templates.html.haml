@@ -32,6 +32,12 @@
 - upload.attachment_file_name = 'filename'
 - comment.attachments = [upload]
 
+- endorsement = Endorsement.new text: 'My endorsement'
+- endorsement.member = comment.author
+- endorsement.member.id = @member.id
+- endorsement.updated_at = newer_ts
+
+
 %div#get_templates_scripts
 	- if debug
 		%h2 ideas/get_templates.html.haml
@@ -61,6 +67,17 @@
 				author_link.attr('href', author_link.attr('href').replace(/\w{14}/,data.author.member.ape_code));
 				author_link.html( data.author.member.first_name + ' ' + data.author.member.last_name);
 			  return com.replace(/<p>/,'<p>' + author_link.prop('outerHTML') + ' ');
+			}
+			
+			function endorsement_with_author(data){
+				if(data.endorsement.endorsement.text == ''){
+					data.endorsement.endorsement.text = ' endorsed this proposal';
+				}
+				endorsement = simple_format( data.endorsement.endorsement.text );
+				var author_link = templates['comment'].find('a.com_author'); 
+				author_link.attr('href', author_link.attr('href').replace(/\w{14}/,data.member.member.ape_code));
+				author_link.html( data.member.member.first_name + ' ' + data.member.member.last_name);
+			  return endorsement.replace(/<p>/,'<p>' + author_link.prop('outerHTML') + ' ');
 			}
 
 			function sanitize(s){
@@ -196,3 +213,57 @@
 					
 					return new_comment;
 				}
+
+	%script#endorsements_template{:type=>'text/html'}
+		:plain
+			#{ render( partial: 'endorsements/endorsements', locals: {endorsements: [endorsement], team_id: 10000, print: false}, formats: [:html]  )}
+
+	%script#create_endorsements_template
+		:plain
+			templates['endorsement'] = $('<div></div>').html($.trim( $('script#endorsements_template').html() )).find('div.endorsement:first');
+			templates['endorsement_form'] = $('<div></div>').html($.trim( $('script#endorsements_template').html() )).find('div.form.endorsement');
+			template_functions['endorsement'] = templates['endorsement'].compile(
+				{
+					'@id' : 'data.endorsement.endorsement.id',
+					'div.com_text' : function(arg){ return endorsement_with_author(arg.context.data)},
+					'div.timeago @title' : 'data.endorsement.endorsement.created_at',
+					'img.i36 @src' : 'data.photo_url'
+				}
+			);
+						
+			realtime_data_update_functions['endorsement'] = 
+				function(data){
+					var new_endorsement = template_functions['endorsement']( data );
+					new_endorsement = $(new_endorsement).appendTo( 'div.endorsements_inner' );
+
+					new_endorsement.find('form').each(
+						function(){
+							var link = $(this);
+							link.attr('action', link.attr('action').replace(/\d+/,data.data.endorsement.endorsement.team_id));
+						}
+					);
+					new_endorsement.find('span.timeago').timeago();
+					new_endorsement.addClass('new');
+
+					new_endorsement.effect('highlight', {color: '#EAF8D0'},3000);				
+					
+					return new_endorsement;
+				}
+
+
+			realtime_data_update_functions['delete_endorsement'] = 
+				function(endorsement_id, photo_url){
+					$('div.endorsement[id="' + endorsement_id + '"]').hide(350,function(){$(this).remove;});
+					
+					var endorsement_form = templates['endorsement_form'];
+					endorsement_form = $(endorsement_form).appendTo( 'div.endorsements_inner' );
+					var form = endorsement_form.find('form');
+					form.attr('action', form.attr('action').replace(/\d+/,team_id));
+
+					endorsement_form.find('img.i36').attr('src', photo_url );
+					
+					activate_text_counters_grow(endorsement_form.find('textarea'), 120);
+
+					endorsement_form.effect('highlight', {color: '#EAF8D0'},3000);				
+				}
+	

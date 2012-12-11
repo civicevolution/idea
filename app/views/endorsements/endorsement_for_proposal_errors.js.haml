@@ -1,0 +1,9 @@
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
+:plain
+	var errors = $("#{escape_javascript( render :partial => 'shared/error_message', :locals => {:target => endorsement})}");
+
+	var form = $('form.endorsement');
+	form.find('p.warn').remove();
+	form.find('div#errorExplanation').remove();	
+	form.append(errors);
+	

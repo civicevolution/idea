@@ -133,7 +133,7 @@
 								#{theme.text}
 
 %div.page-break.supporters
-	= render :partial => 'endorsements/endorsements', :locals=> {:print=>true}
+	= render :partial => 'endorsements/endorsements', :locals=> {endorsements: @endorsements, team_id: @team.id, print: true}
 
 %div.page-break.details
 	%h2.section_hdr Proposal development details

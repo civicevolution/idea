@@ -47,7 +47,7 @@
 			%div.proposal
 				= render :partial=> 'question_theme_summary', :collection => questions, :as => :question, :locals => { questions: questions, team: @team}
 
-		= render :partial => 'endorsements/endorsements', :locals=> {:print=>false}
+		= render :partial => 'endorsements/endorsements', :locals=> {endorsements: @endorsements, team_id: @team.id, print: false}
 		
 		- if [1,2].include?( params[:_initiative_id] )
 			= render :partial => 'submit'

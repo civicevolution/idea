@@ -1,0 +1,4 @@
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
+:plain
+	realtime_data_update_functions['delete_endorsement']( #{ endorsement_id }, "#{@member.photo.url(:small)}" );
+	

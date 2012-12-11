@@ -1,0 +1,12 @@
+= render :template => 'shared/clear_sign_in_form', :formats => [:js]
+:plain
+	$('form.endorsement').closest('div.comment').hide(350, function(){$(this).remove();});
+
+	var endorsement = #{ { data: {endorsement: endorsement, member: endorsement.member, photo_url: endorsement.member.photo.url(:small)}}.to_json }
+	realtime_data_update_functions['endorsement'](endorsement);
+	
+	//if(!member.follow_set){
+	//	$.getScript('/notification/' + team_id + '/settings?after_post=t')
+	//}
+
+
