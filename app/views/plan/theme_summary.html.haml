@@ -36,15 +36,11 @@
 				%p.clear_both
 			%p.clear_both
 			
-			%div.segue
-				%h2.label.section_hdr Our Plan
-				%p 
-					Let's build a coherent and convincing plan to implement this vision by thinking together to answer these four questions.
-					Our project coordinator, #{@team.organizer.first_name}, will continuously weave together our ideas and comments to compose and refine the answers.
-					
 
 			- questions = @team.question_ideas.sort {|a,b| a.order_id <=> b.order_id }
 			%div.proposal
+				%h2.plan.label.section_hdr Our Plan
+				
 				= render :partial=> 'question_theme_summary', :collection => questions, :as => :question, :locals => { questions: questions, team: @team}
 
 		= render :partial => 'endorsements/endorsements', :locals=> {endorsements: @endorsements, team_id: @team.id, print: false}

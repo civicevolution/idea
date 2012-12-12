@@ -17,7 +17,7 @@ class PlanController < ApplicationController
       @team = Team.includes(:idea, :question_ideas => [:themes, :prompt]).find(params[:team_id])
       raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'
     rescue
-      render :template => 'team/proposal_not_found', :layout=> 'plan'
+      render :template => 'team/proposal_not_found', :layout=> 'home'
       return
     end
     
@@ -49,8 +49,11 @@ class PlanController < ApplicationController
       if @participant_stats.id.nil?
         # if this is a new visitor, show recent content of the last 2 weeks (#base interval on the team stats per time interval)
         @last_visit = Time.now - 14.days
+        @participant_stats = ParticipantStats.new
+    		@active_participant = false
       else
         @last_visit = @participant_stats.updated_at
+    		@active_participant = @participant_stats.endorse || @participant_stats.following>0 || @participant_stats.comments>0|| @participant_stats.ideas>0 || @participant_stats.idea_ratings>0 || @participant_stats.theme_ratings>0
       end
     end
 
@@ -63,6 +66,7 @@ class PlanController < ApplicationController
     
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
   	
+		
   	@notification_setting = NotificationRequest.find_by_member_id_and_team_id(@member.id, @team.id) || 
   	  NotificationRequest.new( :member_id=>@member.id, :team_id=>@team.id, :act=>'init')
   	@notification_setting.act = 'init'

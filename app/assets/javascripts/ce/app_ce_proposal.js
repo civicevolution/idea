@@ -62,12 +62,10 @@ function init_page(){
 	
 	set_answer_links_target();
 	set_answer_links_target( $('div.idea_summary') );
-	
-	setTimeout(function(){
-		if(params['endorsements']){
-			$('html,body').animate( {scrollTop: $('div.endorsements_inner').offset().top}, 800);
-		}
-	},1200);
+		
+	if(!member.active_participant){
+		$('div.proposal').hide();
+	}
 }
 
 function init_rating_sliders( sliders ){

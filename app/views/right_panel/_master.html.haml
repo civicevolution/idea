@@ -9,34 +9,51 @@
 		
 	= render :partial => 'right_panel/member'	
 	
-	%div.how_to.corner	
+	%div.calls-to-action
+	
+		-#%div.how_to.corner	
+			%div.pc= image_tag @team.organizer.photo.url(:small), {:class=>'i36'}
+			%p.pc 
+				%b #{@team.organizer.first_name} #{@team.organizer.last_name} 
+				needs your help developing this proposal.
+			%p 
+				#{@team.organizer.first_name} will weave together our ideas and comments to compose answers for each question.
+				Here's how you can help:
+			%ul.cta
+				%li Rate the proposal and answers
+				%li Endorse this proposal
+				%li Rate the new ideas
+				%li Rate the answers
+				%li Share your ideas
+				%li Add your comments
+		
+		
+	-#%div.how_to.corner	
 		%div.pc= image_tag @team.organizer.photo.url(:small), {:class=>'i36'}
 		%p.pc 
+			The project coordinator
 			%b #{@team.organizer.first_name} #{@team.organizer.last_name} 
 			needs your help developing this proposal.
-		%p 
-			#{@team.organizer.first_name} will weave together our ideas and comments to compose answers for each question.
-			Here's how you can help:
-		%ul.cta
-			%li Rate the proposal and answers
-			%li Endorse this proposal
-			%li Rate the new ideas
-			%li Rate the answers
-			%li Share your ideas
-			%li Add your comments
-		
+			
 	%div.tools.corner	
 		%ul
-			%li.video	
-				= link_to "Watch our video", short_help_path(tab: 1), {:remote=>true}
-			%li.invite
-				= link_to "Invite your friends ", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}
-
-			%li.follow
-				= link_to "Follow this proposal", notification_settings_form_path(@team.id), {:remote=>true}
+			%li
+				%div.pc= image_tag @team.organizer.photo.url(:small), {:class=>'i36'}
+				%p.title Project coordinator:
+				%p.name #{@team.organizer.first_name} #{@team.organizer.last_name} 
 
 			%li.endorse
 				= link_to "Go to endorsements",{},{:class=>'endorse_this_proposal'}
+
+			%li.follow
+				= link_to "Follow this proposal", notification_settings_form_path(@team.id), {:remote=>true}
+				
+			%li.invite
+				= link_to "Invite your friends ", invite_friends_form_path(@team.id), {:class=>'invite', :remote=>true}
+
+			%li.video	
+				= link_to "Watch our video", short_help_path(tab: 1), {:remote=>true}
+
 
 			%li.print
 				= link_to "Printer friendly", print_proposal_path(@team)	

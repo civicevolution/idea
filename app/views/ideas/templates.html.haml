@@ -246,6 +246,8 @@
 					new_endorsement.addClass('new');
 
 					new_endorsement.effect('highlight', {color: '#EAF8D0'},3000);				
+					call_to_action_completed('read our vision')
+					call_to_action_completed('endorse our vision')			
 					
 					return new_endorsement;
 				}
@@ -264,6 +266,36 @@
 					
 					activate_text_counters_grow(endorsement_form.find('textarea'), 120);
 
-					endorsement_form.effect('highlight', {color: '#EAF8D0'},3000);				
+					endorsement_form.effect('highlight', {color: '#EAF8D0'},3000);	
 				}
 	
+
+	%script#cta_template{:type=>'text/html'}
+		:plain
+			:plain
+				#{ render( partial: 'ideas/call_to_action', formats: [:html]  )}
+				
+				
+	%script#create_cta_template
+		:plain
+			templates['call-to-action'] = $('<div></div>').html($.trim( $('script#cta_template').html() )).find('div.cta_block');
+			template_functions['call-to-action'] = templates['call-to-action'].compile(
+				{
+					'@id' : 'id',
+					'h1' : 'ctr', 
+					'h2' : 'title',
+					'p.link' : 'link'
+				}
+			);
+
+	%script#idea_cta_help{:type=>'text/html'}
+		:plain
+			:plain
+				#{ render( template: 'help/idea_help', formats: [:html]  )}
+				
+				
+	%script#create_idea_cta_help
+		:plain
+			templates['idea_cta_help'] = $('<div></div>').html($.trim( $('script#idea_cta_help').html() )).find('div#idea_help');
+
+			

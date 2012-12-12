@@ -10,6 +10,10 @@
 	rater.find('div.vote_results').attr('votes', "#{idea_rating.idea.votes}"); 
 	show_rating_results( rater_hdr.find('a.view_results'), true );
 	if(stat_data.idea_recs[#{idea_rating.idea.id}]){stat_data.idea_recs[#{idea_rating.idea.id}].rated = true;}
+	if(rater.closest('div.summary_block').size()>0){
+		call_to_action_completed('read our vision');
+		call_to_action_completed('rate our vision');
+	}
 
 - if idea_rating.idea.role == 2
 	:plain
