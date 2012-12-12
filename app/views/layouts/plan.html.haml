@@ -35,6 +35,8 @@
 		%div.page
 			= yield
 		
+		- @participant_stats ||= ParticipantStats.new
+		- @notification_setting ||= NotificationRequest.new
 		:javascript
 			//_load_times.page_loaded = new Date()
 			var client;
