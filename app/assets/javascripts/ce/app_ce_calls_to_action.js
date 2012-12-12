@@ -1,5 +1,5 @@
 function call_to_action_completed(task){
-	console.log("call_to_action_completed task: " + task);
+	//console.log("call_to_action_completed task: " + task);
 	task = $('div.cta_block.corner[id="' + task + '"]');
 	if(!task.hasClass('completed')){
 		task.addClass('completed')
@@ -13,7 +13,7 @@ function call_to_action_completed(task){
 				var show_task = true;
 				if(typeof task_details.view_conditions != 'undefined'){
 					for(var i=0, cond; (cond=task_details.view_conditions[i]);i++){
-						console.log("test view_condition " + cond + ": " + eval(cond) );
+						//console.log("test view_condition " + cond + ": " + eval(cond) );
 						if(!eval( cond )){
 							show_task = false;
 							break;
@@ -42,14 +42,14 @@ function init_tasks(){
 		// all the include_conditions must be true
 		var add_task = true;
 		for(var i=0, cond; (cond=task_details.include_conditions[i]);i++){
-			console.log("test include_condition " + cond + ": " + eval(cond) );
+			//console.log("test include_condition " + cond + ": " + eval(cond) );
 			if(!eval( cond )){
 				add_task = false;
 				break;
 			}
 		}
 		if(add_task){
-			console.log("add task " + task);
+			//console.log("add task " + task);
 			var cta = template_functions['call-to-action']({id: task, ctr: ctr, title: task_details.title, link: task_details.link || ''});
 			cta = $(cta).appendTo('div.calls-to-action');
 			if(ctr>3){
@@ -57,7 +57,7 @@ function init_tasks(){
 			}
 			++ctr;
 		}else{
-			console.log("Do not add task " + task);
+			//console.log("Do not add task " + task);
 		}
 	}
 	
@@ -67,10 +67,10 @@ function init_tasks(){
 $('body').on('click','div.calls-to-action p.link', 
 	function(event){
 		var task_id = $(this).closest('div.cta_block').attr('id');
-		console.log("clicked on task: " + task_id);
+		//console.log("clicked on task: " + task_id);
 		var task_details = cta_tasks[ task_id ];
 		if(task_details.onclick){
-			console.log("task_details.onclick: " + task_details.onclick);
+			//console.log("task_details.onclick: " + task_details.onclick);
 			eval(task_details.onclick);
 		}
 	}
@@ -81,7 +81,7 @@ $('body').on('mouseover mouseout','div.calls-to-action h3',
 		var cta = $(this).closest('div.cta_block');
 		var task_id = cta.attr('id');
 		if(event.type == 'mouseover'){
-			console.log("Show help for task: " + task_id);
+			//console.log("Show help for task: " + task_id);
 			var help = templates['idea_cta_help'].find('div[id="' + task_id + '"]');
 			var popup = $('<div class="help-popup"><?div>').append(help.clone());
 			$('body').append(popup);
@@ -90,7 +90,7 @@ $('body').on('mouseover mouseout','div.calls-to-action h3',
 			var top = offset.top + cta.height() + 4;
 			popup.css( {top: top, left: left });			
 		}else{
-			console.log("Close help for task: " + task_id);
+			//console.log("Close help for task: " + task_id);
 			$('div.help-popup').remove();
 		}
 	}
