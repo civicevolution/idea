@@ -165,27 +165,25 @@ class Member < ActiveRecord::Base
   
   
   def load_member_data(team_id, date)
-    #debugger
     logger.debug "load member data"
   
     participant_stats = ParticipantStats.find_by_member_id_and_team_id(self.id,team_id) || ParticipantStats.new
+    if participant_stats.id.nil?
+      # if this is a new visitor, no new content (it is all new content)
+      last_visit = Time.now
+      participant_stats = ParticipantStats.new
+  		active_participant = false
+    else
+      last_visit = participant_stats.updated_at
+  		active_participant = participant_stats.endorse || participant_stats.following>0 || participant_stats.comments>0|| participant_stats.ideas>0 || participant_stats.idea_ratings>0 || participant_stats.theme_ratings>0
+    end
+    
     if date
       # force  a timestamp for testing
     	time_stamp = date.scan(/\d+/)
       last_visit = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
-    else
-      # get the last visit timestamp
-      if participant_stats.id.nil?
-        # if this is a new visitor, no new content (it is all new content)
-        last_visit = Time.now
-        participant_stats = ParticipantStats.new
-    		active_participant = false
-      else
-        last_visit = participant_stats.updated_at
-    		active_participant = participant_stats.endorse || participant_stats.following>0 || participant_stats.comments>0|| participant_stats.ideas>0 || participant_stats.idea_ratings>0 || participant_stats.theme_ratings>0
-      end
     end
-    
+        
     notification_setting = NotificationRequest.find_by_member_id_and_team_id(self.id, team_id) || 
   	  NotificationRequest.new( :member_id=>self.id, :team_id=>team_id, :act=>'init')
   	notification_setting.act = 'init'

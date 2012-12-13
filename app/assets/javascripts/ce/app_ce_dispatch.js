@@ -358,11 +358,13 @@ dispatcher = {
 				var slider = $(this);
 				var id = slider.attr('id');
 				var rating = stat_data.idea_recs[ id ].my_rating;
-				//console.log("rating for id: " + id  + " is " + rating);
-				slider.slider('value',rating);
-				var h4 = slider.closest('div.rater').prev('h4')
-				h4.find('a').removeClass('hide');
-				h4.find('span').html( h4.find('span').html().replace('Please rate','Your rating for') );
+				if(rating){
+					//console.log("rating for id: " + id  + " is " + rating);
+					slider.slider('value',rating);
+					var h4 = slider.closest('div.rater').prev('h4')
+					h4.find('a').removeClass('hide');
+					h4.find('span').html( h4.find('span').html().replace('Please rate','Your rating for') );
+				}
 			}
 		);
 	},

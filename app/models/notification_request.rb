@@ -154,73 +154,78 @@ class NotificationRequest < ActiveRecord::Base
         # don't send the same item 2x immediately
         # report_type = 1 (reply) doesn't apply if member is the author
         immed_send_mem_id = nil
-        
+
         requests.each do |request|
-        
-          logger.info "I found a match for member #{request.member_id} 2: #{immed_send_mem_id}"
-          if request.immediate
-            if request.member_id == log_record.member_id 
-              logger.debug "Don't report immediately, it is my comment"
-            elsif immed_send_mem_id == request.member_id
-              logger.debug "Don't report immediately, it's has already been reported immediately as a reply"
-            else
-              logger.debug "Send this report immediately to #{request.member_id} as report_type: #{request.report_type}"
-              team ||= Team.first(:select=>'id, title, initiative_id', :conditions=> {:id=>request[:team_id]} )
-            
-              if request.report_format == 1
-                # make sure I have the necessary data for a full report
-                case
-                  when log_record.o_type ==  3
-                    entry = Comment.find_by_id(log_record.o_id)
-                  when log_record.o_type ==  20
-                    entry = Idea.find_by_id(log_record.o_id)
-                end # end case
-              end # end if 1 (full)
-              #recipient = Member.first(:select=>'first_name, last_name, email', :conditions=>{:id=>request.member_id})
-              recipient = Member.select('id, first_name, last_name, email, location').where(:id=>request.member_id).first
-
-              logger.debug "NotificationRequest Send an email for entry #{entry.inspect} to #{recipient.email} at #{Time.now}."
-              mcode,mcode_id = MemberLookupCode.get_code_and_id(recipient.id, {:scenario=>'immediate report'})
-              
-              case team.initiative_id
-                when 1
-                  subdomain = 'cgg.'
-                  app_name = '2029 and Beyond for Staff'
-                when 2
-                  subdomain = '2029.'
-                  app_name = '2029 and Beyond'
-                when 4
-                  subdomain = 'ncdd.'
-                  app_name = 'NCDD Catalyst Awards'
-                else
-                  subdomain = ''
-                  app_name = 'CivicEvolution'
-              end
-              host = subdomain + (Rails.env == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
-
-              if !test_mode
-                NotificationMailer.immediate_report(recipient, app_name, team, request, entry, mcode, host).deliver unless team.nil? || entry.nil?
-                  #unless Rails.env=='development' && recipient.email.match(/civicevolution.org/).nil?
+          begin
+            logger.info "I found a match for member #{request.member_id} 2: #{immed_send_mem_id}"
+            if request.immediate
+              if request.member_id == log_record.member_id 
+                logger.debug "Don't report immediately, it is my comment"
+              elsif immed_send_mem_id == request.member_id
+                logger.debug "Don't report immediately, it's has already been reported immediately as a reply"
               else
-                log_record.update_attribute('processed',true)
-                return recipient, team, request, entry, mcode, host
-              end
-              immed_send_mem_id = request.member_id #if request.report_type
-            end
-          else
-            logger.debug "Queue this request to queue: #{request.match_queue}"
+                logger.debug "Send this report immediately to #{request.member_id} as report_type: #{request.report_type}"
+                team ||= Team.first(:select=>'id, title, initiative_id', :conditions=> {:id=>request[:team_id]} )
+            
+                if request.report_format == 1
+                  # make sure I have the necessary data for a full report
+                  case
+                    when log_record.o_type ==  3
+                      entry = Comment.find_by_id(log_record.o_id)
+                    when log_record.o_type ==  20
+                      entry = Idea.find_by_id(log_record.o_id)
+                  end # end case
+                end # end if 1 (full)
+                #recipient = Member.first(:select=>'first_name, last_name, email', :conditions=>{:id=>request.member_id})
+                recipient = Member.select('id, first_name, last_name, email, location').where(:id=>request.member_id).first
 
-            # I want to concatenate type-id to the queue
-            #request.update("UPDATE notification_requests SET match_queue = array_append(match_queue, '#{log_record.o_type}-#{log_record.o_id}') where id = #{request.id}",)
-            if request.match_queue.nil?
-              match_queue = "{#{log_record.o_type}-#{log_record.o_id}}"
+                logger.debug "NotificationRequest Send an email for entry #{entry.inspect} to #{recipient.email} at #{Time.now}."
+                mcode,mcode_id = MemberLookupCode.get_code_and_id(recipient.id, {:scenario=>'immediate report'})
+              
+                case team.initiative_id
+                  when 1
+                    subdomain = 'cgg.'
+                    app_name = '2029 and Beyond for Staff'
+                  when 2
+                    subdomain = '2029.'
+                    app_name = '2029 and Beyond'
+                  when 4
+                    subdomain = 'ncdd.'
+                    app_name = 'NCDD Catalyst Awards'
+                  else
+                    subdomain = ''
+                    app_name = 'CivicEvolution'
+                end
+                host = subdomain + (Rails.env == 'development' ? 'civicevolution.dev' : 'civicevolution.org')
+
+                if !test_mode
+                  NotificationMailer.immediate_report(recipient, app_name, team, request, entry, mcode, host).deliver unless team.nil? || entry.nil?
+                    #unless Rails.env=='development' && recipient.email.match(/civicevolution.org/).nil?
+                else
+                  log_record.update_attribute('processed',true)
+                  return recipient, team, request, entry, mcode, host
+                end
+                immed_send_mem_id = request.member_id #if request.report_type
+              end
             else
-              match_queue = request.match_queue.sub(/\}/,",#{log_record.o_type}-#{log_record.o_id}}")
+              logger.debug "Queue this request to queue: #{request.match_queue}"
+
+              # I want to concatenate type-id to the queue
+              #request.update("UPDATE notification_requests SET match_queue = array_append(match_queue, '#{log_record.o_type}-#{log_record.o_id}') where id = #{request.id}",)
+              if request.match_queue.nil?
+                match_queue = "{#{log_record.o_type}-#{log_record.o_id}}"
+              else
+                match_queue = request.match_queue.sub(/\}/,",#{log_record.o_type}-#{log_record.o_id}}")
+              end
+              logger.debug "match_queue: #{match_queue}"
+              request.update_attribute('match_queue',match_queue)
             end
-            logger.debug "match_queue: #{match_queue}"
-            request.update_attribute('match_queue',match_queue)
+          rescue
+            logger.warn "Error with #{log_record.inspect} and #{request.inspect}"
           end
+          
         end # end each request
+        
         log_record.update_attribute('processed',true)
       end # end each log_record
     end
