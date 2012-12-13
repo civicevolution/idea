@@ -1,4 +1,22 @@
 :plain
-	$('div.join_com').replaceWith( "#{escape_javascript(render(  :partial => 'sign_in/member_info'))}" );
-	$('div.right_col').prepend($('div#my_teams').children());
-	$('form.signin_form').closest('div.ui-dialog').dialog('destroy').remove();
+	$('div.member.corner').replaceWith( "#{escape_javascript(render(  :partial => 'right_panel/member'))}" );
+	$('form.signin_form').closest('div.ui-dialog-content').dialog('close');
+
+- if params[:team_id].to_i == 0	
+	setTimeout(function(){document.location.reload();},10);
+- else
+	- last_visit, participant_stats, active_participant, notification_setting, project_coordinator = @member.load_member_data( params[:team_id], params[:date])
+	- my_rating_data = @member.load_rating_data(params[:team_id])
+	
+	:plain
+		var member = {first_name: "#{@member.first_name}", last_name: "#{@member.last_name}", ape_code: "#{@member.ape_code}", ror_session_id: "#{request.session_options[:id]}", follow_set: #{participant_stats.set_following || false}, follow_freq: "#{notification_setting.follow_freq}", active_participant: #{active_participant}, signed_in: #{!@member.ape_code.nil?}, photo_url: '#{@member.photo.url(:small)}' }
+		var participant_stats = #{participant_stats.to_json}.participant_stats;
+		var project_coordinator = #{project_coordinator};
+		stat_data.my_ratings = #{my_rating_data.to_json};
+		stat_data.last_visit = #{last_visit.to_f};
+
+	- if project_coordinator	
+		$('h1.home_title').append( '#{link_to "edit", team_edit_path(params[:team_id], target: 'title'), class: "edit_title edit", remote: true}' );
+		$('div.idea_summary div.inner > *:last').append( '#{ link_to "edit", team_edit_path(params[:team_id], target: 'summary'), class: "edit_summary edit", remote: true}');
+	
+	update_after_signin();

@@ -34,7 +34,7 @@ function init_tasks(){
 		return;
 	}
 	$('div.right_master div.calls-to-action div.cta_block').remove();
-	
+	var num_cta_visible = member.signed_in ? 3 : 4;
 	var ctr = 1;
 	for(task in cta_tasks){
 		//console.log("task: " + task);
@@ -52,13 +52,16 @@ function init_tasks(){
 			//console.log("add task " + task);
 			var cta = template_functions['call-to-action']({id: task, ctr: ctr, title: task_details.title, link: task_details.link || ''});
 			cta = $(cta).appendTo('div.calls-to-action');
-			if(ctr>3){
+			if(ctr > num_cta_visible){
 				cta.addClass('hide');
 			}
 			++ctr;
 		}else{
 			//console.log("Do not add task " + task);
 		}
+	}
+	if(!member.signed_in){
+		$('div.cta_block[id="view our plan"]').show();
 	}
 	
 	
@@ -101,6 +104,13 @@ $(function(){
 });
 
 var cta_tasks = {
+
+	'sign in' : 
+		{
+			title: 'Sign-in / Sign-up',
+			include_conditions: ["!member.signed_in"]
+		},
+
 
 	'read our vision' : 
 		{

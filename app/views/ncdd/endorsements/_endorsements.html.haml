@@ -21,7 +21,7 @@
 					= link_to "Show all #{endorsements.size} endorsements", {}, class: 'show-all-endorsements'
 		
 		- endorsements.each do |e|
-			%div.endorsement.comment{id:e.id, class: ctr < hide_lt ? 'hide' : ''}
+			%div.endorsement.comment{id:e.id, class: ctr < hide_lt ? 'hide' : '', code: e.member.ape_code}
 				%div.img
 					%img{src: e.member.photo.url(:small), class: 'i36'}		
 

@@ -39,39 +39,15 @@ class PlanController < ApplicationController
 
     @team.question_ideas.each{|q| q.member = @member}
     
-    @participant_stats = ParticipantStats.find_by_member_id_and_team_id(@member.id,@team.id) || ParticipantStats.new
-    if params[:date]
-      # force  a timestamp for testing
-    	time_stamp = params[:date].scan(/\d+/)
-      @last_visit = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
-    else
-      # get the last visit timestamp
-      if @participant_stats.id.nil?
-        # if this is a new visitor, show recent content of the last 2 weeks (#base interval on the team stats per time interval)
-        @last_visit = Time.now - 14.days
-        @participant_stats = ParticipantStats.new
-    		@active_participant = false
-      else
-        @last_visit = @participant_stats.updated_at
-    		@active_participant = @participant_stats.endorse || @participant_stats.following>0 || @participant_stats.comments>0|| @participant_stats.ideas>0 || @participant_stats.idea_ratings>0 || @participant_stats.theme_ratings>0
-      end
-    end
-
-    # What do I need for new content?
-    @team.assign_new_theme_content(@member, @last_visit)
-    
     @com_data, @idea_data, @rating_data = @team.proposal_data
     # clear member id for rating if not my rating
     @rating_data.each{|rec| rec[1] = nil unless rec[1].to_i == @member.id}
     
   	@endorsements = Endorsement.includes(:member).order('id ASC').all(:conditions=>['team_id=?',@team.id])
   	
-		
-  	@notification_setting = NotificationRequest.find_by_member_id_and_team_id(@member.id, @team.id) || 
-  	  NotificationRequest.new( :member_id=>@member.id, :team_id=>@team.id, :act=>'init')
-  	@notification_setting.act = 'init'
-  	@notification_setting.init_settings
-
+    @last_visit, @participant_stats, @active_participant, @notification_setting, @project_coordinator = 
+      @member.load_member_data( params[:team_id], params[:date])
+      
     @channels = ["_auth_team_#{@team.id}"]
     authorize_juggernaut_channels(request.session_options[:id], @channels )
 

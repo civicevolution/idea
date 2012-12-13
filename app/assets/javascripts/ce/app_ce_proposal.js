@@ -26,7 +26,9 @@ function init_page(){
 	if(!member.ape_code){
 		$('body').on('keydown.check_signed_in', 'form.suggest_idea textarea, form.add_comment textarea, form.endorsement textarea',function(){
 			$('body').off('keydown.check_signed_in');
-			$.getScript('/sign_in/sign_in_form?act=sign_in');
+			if(!member.ape_code){
+				$.getScript('/sign_in/sign_in_form?act=sign_in&team_id=' + team_id);
+			}
 		})
 	}
 	
@@ -55,7 +57,7 @@ function init_page(){
 		$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'dark_rounded'});
 		//console.log("pretty photo is okay")
 	}catch(e){}
-	$('h2.home_title').append( $('h2.home_title').next('a') );
+	$('h1.home_title').append( $('h1.home_title').next('a') );
 	$('div.idea_summary div.inner > *:last').append( $('div.idea_summary div.inner').next('a') );
 	
 	$('input, textarea').placeholder();
@@ -76,7 +78,12 @@ function init_rating_sliders( sliders ){
 			slider.slider({
 				stop: function(event, ui) { 
 					var par = $(ui.handle).parent();
-					$.post('/idea/rating', {id: par.attr('id'), mode: par.attr('mode'), rating: ui.value}, function(){}, "script");
+					if(!member.ape_code){
+						par.slider('value',50)
+						$.getScript('/sign_in/sign_in_form?act=sign_in&team_id=' + team_id);
+					}else{
+						$.post('/idea/rating', {id: par.attr('id'), mode: par.attr('mode'), rating: ui.value}, function(){}, "script");
+					}
 				},
 				value: my_rating,
 				range: "min"
@@ -108,60 +115,6 @@ $('a.endorse_this_proposal').live('click',function(){
 	$('html,body').animate( {scrollTop: $('div.endorsements').offset().top}, 800);
 	return false;
 });
-
-$('table#new_content tr').die('click').live('click',
-	function(){
-		var tr = $(this);
-		var tp_id = tr.attr('tp_id');
-		var com_id;
-		var url;
-		if(tr.hasClass('talking_point')){
-			var url = '/talking_points/' + tp_id + '/comments';
-			//console.log("show talking point with id: " + tp_id + " with url: " + url);
-		}else if(tr.hasClass('comment')){
-			var com_id = tr.attr('com_id');
-			var url = '/talking_points/' + tp_id + '/comments?com_id=' + com_id;
-			//console.log("show comment with id: " + com_id + " in talking_point with id: " + tp_id + " with url: " + url);
-		}else if(tr.hasClass('question')){
-			var ques_id = tr.attr('id');
-			var url = '/questions/' + ques_id + '/worksheet'
-			//console.log("show question with id: " + ques_id + " with url: " + url);
-		}
-		if(url){
-		  // check if the page is already loaded before I request it
-		  if( $('div.talking_point_comments[id="' + tp_id + '"]').size() > 0 ){
-        if(com_id){
-  				var com = $('div.Comment[id="' + com_id + '"]');
-  				$('div.discussion[id="' + tp_id + '"]').scrollTo(com,600);
-  				com.effect('highlight', {color: '#EAF8D0'},3000);				
-  				tr.fadeTo(0,.4);
-  			}
-		  }else{
-		    // load the page now
-  		  tr.find('td').append('<img src="/assets/wait3.gif"/>');
-  			$.ajax({
-  			  url: url, 
-  			  complete: function(){
-  			    //console.log("display new content complete callback");
-  			    tr.find('img').remove();
-  			    tr.find('td').fadeTo(0,.4);
-          }, 
-  			  dataType: 'script'
-  			});
-        
-  			$('div.talking_point_comments').each(
-  			  function(){
-  			    var popup = $(this);
-  			    if(popup.find('textarea').val()==''){
-  			      popup.slideUp(800,function(){ $(this).remove()});
-  			    }
-  			  }
-  			);  
-  		}
-		}
-	}
-);
-$('table#new_content tr:odd').addClass('striped');
 
 $(function () {
 	init_file_uploads( $('input.attachment-upload') );

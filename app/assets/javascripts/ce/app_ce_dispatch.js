@@ -155,6 +155,14 @@ dispatcher = {
 				stat_data['idea_recs'][ stat[0] ].rated = true;
 			}
 		}
+		if(stat_data.my_ratings){
+			for (var i=0, stat;(stat=stat_data.my_ratings[i]);i++){
+				istats.rated_ideas.push( stat[0] );
+				stat_data['idea_recs'][ stat[0] ].rated = true;
+				stat_data['idea_recs'][ stat[0] ].my_rating = stat[2];
+			}
+		}
+		
 	},
 	init_stat_ideas_unrated_data: function(){
 		// ideas [id, question_id, parent_id, role, created_at]
@@ -264,7 +272,7 @@ dispatcher = {
 				var new_div = header.find('div.total').html(
 					total_coms + ' total').end()
 					.find('div.new').html( new_coms + ' new');
-				if(new_coms == 0 ){new_div.addClass('hide');}
+				if(new_coms == 0 ){new_div.addClass('hide');}else{new_div.removeClass('hide');}
 				//if(total_coms == 0 ){ header.find('a span').html('Click to add a comment');}
 			}
 		);	
@@ -276,7 +284,7 @@ dispatcher = {
 				var new_div = header.find('div.total').html(
 					dispatcher.get_data( {type: 'idea_comment_count', ideas_only: true, id: idea_id}) + ' total').end()
 					.find('div.new').html( new_coms + ' new');
-				if(new_coms == 0 ){new_div.addClass('hide');}
+				if(new_coms == 0 ){new_div.addClass('hide');}else{new_div.removeClass('hide');}
 			}
 		);	
 		
@@ -297,7 +305,7 @@ dispatcher = {
 				var theme = $(this);
 				var theme_id = theme.attr('id');
 				theme.find('div.unrated').remove();
-				if(!stat_data.idea_recs[theme_id].rated){
+				if(!stat_data.idea_recs[theme_id].rated && member.signed_in){
 					theme.find('div.comments').before('<div class="unrated">Rate this answer</span>');
 				}
 
@@ -308,7 +316,9 @@ dispatcher = {
 					.find('div.new').html( new_coms + ' new');
 				if(new_coms == 0){
 					new_div.addClass('hide');
+					theme.removeClass('show_new');
 				}else{
+					new_div.removeClass('hide');
 					theme.addClass('show_new');
 				}
 			}
@@ -327,7 +337,7 @@ dispatcher = {
 				}else{
 					var new_div = post_it.find('div.comments').find('div.total').html( total_coms + ' total').end()
 						.find('div.new').html( new_coms + ' new');
-					if(new_coms == 0){new_div.addClass('hide');}
+					if(new_coms == 0){new_div.addClass('hide');}else{new_div.removeClass('hide');}
 				}
 			}
 		);	
@@ -337,9 +347,24 @@ dispatcher = {
 		page.find('div.comment').each(
 			function(){
 				var comment = $(this);
+				comment.removeClass('new');
 				if( stat_data.com_recs[ comment.attr('id') ] && stat_data.com_recs[ comment.attr('id') ].new_com){ comment.addClass('new');}
 			}
 		);	
+	},
+	update_sliders: function(){
+		$('div.ui-slider').each(
+			function(){
+				var slider = $(this);
+				var id = slider.attr('id');
+				var rating = stat_data.idea_recs[ id ].my_rating;
+				//console.log("rating for id: " + id  + " is " + rating);
+				slider.slider('value',rating);
+				var h4 = slider.closest('div.rater').prev('h4')
+				h4.find('a').removeClass('hide');
+				h4.find('span').html( h4.find('span').html().replace('Please rate','Your rating for') );
+			}
+		);
 	},
 	init_stat_data: function(){
 		if(typeof stat_data == 'undefined') return;
@@ -373,3 +398,26 @@ function dispatcher_test(data){
 dispatcher.init_stat_data();
 
 
+function update_after_signin(){
+	setTimeout(function(){
+		dispatcher.init_stat_data();
+		dispatcher.update_sliders()},1000
+	);
+
+	$('form.signin_form').closest('div.ui-dialog').dialog('destroy').remove();
+	$('div.comment.form, div.endorsement.form').find('img.i36').attr('src',member.photo_url);
+	var endorsement = $('div.endorsement[code="' + member.ape_code + '"]');
+	if(endorsement.size() > 0){
+		var form = templates.endorsement.find('form').clone();
+		form.attr('action', form.attr('action').replace(/\d+/,team_id) );
+		endorsement.find('span.timeago').after( form );
+		$('div.endorsement.form').remove();
+	}
+	$('body').off('keydown.check_signed_in');
+ 	
+	if( member.active_participant ){
+		$('div.proposal').show();
+	}
+
+	init_tasks();
+}

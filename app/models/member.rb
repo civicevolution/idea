@@ -164,6 +164,48 @@ class Member < ActiveRecord::Base
   end
   
   
+  def load_member_data(team_id, date)
+    #debugger
+    logger.debug "load member data"
+  
+    participant_stats = ParticipantStats.find_by_member_id_and_team_id(self.id,team_id) || ParticipantStats.new
+    if date
+      # force  a timestamp for testing
+    	time_stamp = date.scan(/\d+/)
+      last_visit = Time.local(time_stamp[2], time_stamp[0], time_stamp[1])
+    else
+      # get the last visit timestamp
+      if participant_stats.id.nil?
+        # if this is a new visitor, no new content (it is all new content)
+        last_visit = Time.now
+        participant_stats = ParticipantStats.new
+    		active_participant = false
+      else
+        last_visit = participant_stats.updated_at
+    		active_participant = participant_stats.endorse || participant_stats.following>0 || participant_stats.comments>0|| participant_stats.ideas>0 || participant_stats.idea_ratings>0 || participant_stats.theme_ratings>0
+      end
+    end
+    
+    notification_setting = NotificationRequest.find_by_member_id_and_team_id(self.id, team_id) || 
+  	  NotificationRequest.new( :member_id=>self.id, :team_id=>team_id, :act=>'init')
+  	notification_setting.act = 'init'
+  	notification_setting.init_settings
+  	
+  	project_coordinator = Team.find(team_id).org_id == self.id
+  	
+    return last_visit, participant_stats, active_participant, notification_setting, project_coordinator
+  end
+  
+  def load_rating_data(team_id)
+    ActiveRecord::Base.connection.select_rows(%Q|SELECT idea_id, ir.member_id, rating
+    FROM idea_ratings ir, ideas i
+    WHERE ir.idea_id = i.id
+    AND ir.member_id = #{self.id}
+    AND i.team_id = #{team_id}|)
+  end
+  
+  
+  
   private
   
     #def email_for_cgg_ce

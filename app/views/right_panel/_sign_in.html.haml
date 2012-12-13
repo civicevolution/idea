@@ -5,6 +5,7 @@
 		%p.error= flash[:notice]
 
 	= form_tag( {:action => 'sign_in_post'}, {:class=>'signin_form'}) do
+		= hidden_field_tag :team_id, team_id
 		- if !popup
 			= hidden_field_tag :in_right_panel, 1
 		%table{:border=>0, :cellspacing=>0}

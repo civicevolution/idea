@@ -5,7 +5,7 @@
 			%p= @member.first_name
 			%p= @member.last_name
 		%div.links
-			%p= link_to "Sign out", {:controller => "sign_in", :action=> "sign_out"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow'}
+			%p= link_to "Sign out", {:controller => "sign_in", :action=> "sign_out"}, {:class=>'sign_out', :id => 'sign_out', :rel=>'nofollow', remote: true}
 			%p= link_to "Profile", edit_profile_form_path(@member.ape_code)
 	- else
-		= render :partial => 'right_panel/sign_in'
+		= render :partial => 'right_panel/sign_in', locals: {team_id: params[:team_id] }

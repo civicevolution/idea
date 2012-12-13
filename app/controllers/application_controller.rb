@@ -165,7 +165,7 @@ class ApplicationController < ActionController::Base
        request.session_options[:expire_after]= 30.days
        #request.session_options.freeze
       end
-
+      
       respond_to do |format|
         format.html{
           if flash[:params]
@@ -182,21 +182,23 @@ class ApplicationController < ActionController::Base
           end
         }
         format.js{
+          render 'sign_in/sign_in', :formats => [:js]
+          
           logger.debug "Respond to sign in form post from UJS"
-          if flash[:params]
-            # I came here through a redirect after user was told to sign in
-            # Assign the params from initial request that are stored in flash
-            flash[:params].each_pair{|key,val| params[key] = val }
-            #send params[:action] # this will execute the method stored in params[:action]
-            if flash[:fullpath]
-              redirect_to flash[:fullpath]
-            else
-              render 'sign_in/reload', :formats => [:js]
-            end
-          else
-            #render 'redirect_to_home_page'
-            render 'sign_in/reload', :formats => [:js]
-          end
+          #if flash[:params]
+          #  # I came here through a redirect after user was told to sign in
+          #  # Assign the params from initial request that are stored in flash
+          #  flash[:params].each_pair{|key,val| params[key] = val }
+          #  #send params[:action] # this will execute the method stored in params[:action]
+          #  if flash[:fullpath]
+          #    redirect_to flash[:fullpath]
+          #  else
+          #    render 'sign_in/reload', :formats => [:js]
+          #  end
+          #else
+          #  #render 'redirect_to_home_page'
+          #  render 'sign_in/sign_in', :formats => [:js]
+          #end
         }
       end
     else # no member was retrieved with password and email
@@ -239,7 +241,11 @@ class ApplicationController < ActionController::Base
     session.delete :code
     session.delete :_mlc
     flash[:notice] = "Signed out"
-    redirect_to :controller=> 'welcome', :action => "index"
+    respond_to do |format|
+      format.html { redirect_to :controller=> 'welcome', :action => "index" }
+      format.js { render 'sign_in/sign_out' }
+    end
+    
   end
   
   

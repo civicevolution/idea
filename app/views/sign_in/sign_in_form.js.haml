@@ -8,7 +8,7 @@
 - else
 	:plain
 		var sign_in_form = $("#{escape_javascript(
-			render( :partial => 'right_panel/sign_in', :formats => [:html], :locals=>{:popup => true})
+			render( :partial => 'right_panel/sign_in', :formats => [:html], :locals=>{:popup => true, team_id: params[:team_id] })
 		)}");
 		sign_in_form.find('form').attr('data-remote','true');
 		$('div.ui-dialog div#sign_in_form').closest('div.ui-dialog').dialog('destroy').end().remove();

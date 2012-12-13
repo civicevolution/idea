@@ -199,12 +199,12 @@ function init_summary_editor( form, target ){
 		form.addClass('edit_title');
 		form.find('span.char_ctr').html(255);
 		form.find('input[name="target"]').val('title');
-		var h2 = $('h2.home_title');
-		h2.hide(250).after(form);
+		var h1 = $('h1.home_title');
+		h1.hide(250).after(form);
 		//.find('a.edit_title').hide().end().find('h3.question').after(form).hide();
-		activate_text_counters_grow( form.find('textarea').val( h2.find('span').html().trim() ), 80 )
+		activate_text_counters_grow( form.find('textarea').val( h1.find('span').html().trim() ), 80 )
 		form.on('click','a.cancel',function(){
-			$('h2.home_title').show(250).next('div.edit_form').remove();
+			$('h1.home_title').show(250).next('div.edit_form').remove();
 			return false;
 		});
 	}else{
