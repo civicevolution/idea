@@ -77,6 +77,15 @@
 				= render( partial: 'ideas/rating', locals: { idea: question } )
 
 			%div.idea-post-it-form
+				
+				%div.idea-post-it-instructions
+					%p Suggest a specific & concrete idea to answer this question
+					-#%ul
+						%li Suggest a specific & concrete idea to answer this question
+						%li Ideas are rated & discussed
+						-#%li Click to learn more
+				
+				
 				= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 
 					%div{class: "R3 post-it"}
 						%div.form

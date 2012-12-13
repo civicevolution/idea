@@ -60,7 +60,7 @@ function init_tasks(){
 			//console.log("Do not add task " + task);
 		}
 	}
-	if(!member.signed_in){
+	if(!member.active_participant){
 		$('div.cta_block[id="view our plan"]').show();
 	}
 	
