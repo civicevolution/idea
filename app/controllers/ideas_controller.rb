@@ -116,6 +116,11 @@ class IdeasController < ApplicationController
       if unrated_ideas.count > 0
         idea = unrated_ideas[0]
       end
+    elsif params[:act] == 'add_new_answer'
+      idea = Idea.new role: 2
+      idea.id = 0
+      question = Idea.find_by_id_and_role(params[:question_id],3)
+      idea.team = question.team
     elsif params[:act] == 'review_unrated_answers'
       question = Idea.find_by_id_and_role(params[:question_id],3)
       question.member = @member
@@ -336,8 +341,14 @@ new_text = %Q|**New answer**
   
   def edit_theme
     logger.debug "edit_theme id #{params[:idea_id]}"
+
+    if params[:idea_id].to_i > 0
+      idea = Idea.find(params[:idea_id])
+    else
+      idea = Idea.new
+      idea.id = 0
+    end
     
-    idea = Idea.find(params[:idea_id])
     # check if privileged
     auth = true
     
@@ -357,10 +368,24 @@ new_text = %Q|**New answer**
   def edit_theme_post
     logger.debug "edit_theme id #{params[:idea_id]}"
     
-    idea = Idea.find(params[:idea_id])
-    idea.text = params[:text]
-    idea.version += 1
+    if params[:idea_id].to_i > 0
+      idea = Idea.find(params[:idea_id])
+      idea.text = params[:text]
+      idea.version += 1
+    else
+      question = Idea.find( params[:question_id])
+      idea = question.ideas.create(text: params[:text], role: 2, member_id: @member.id, order_id: 1,
+        team_id: question.team_id, question_id: question.id, parent_id: question.id, visible: true, 
+        version: 1, member: @member)
 
+      ordered_ids = idea.siblings.map(&:id)
+      ordered_ids.delete(idea.id)
+      ordered_ids = [idea.id] + ordered_ids
+      # now I need to set the order
+      Idea.reorder_siblings( idea.parent_id, ordered_ids, @member )
+      
+    end
+    
     respond_to do |format|
       if idea.save
         format.js { render 'ideas/edit_theme_ok', locals: { idea: idea} }

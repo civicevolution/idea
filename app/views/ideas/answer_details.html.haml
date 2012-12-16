@@ -5,7 +5,9 @@
 		%div.answer_details	
 			%div.details_left
 				%h3.popup_nav
-					- if idea.siblings.count > 1
+					- if params[:act] == 'add_new_answer'
+						Create a new answer
+					- elsif idea.siblings.count > 1
 						= link_to image_tag('details_prev.png'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'prev'), {class: 'view_question', rel: 'nofollow', remote: true }
 						Answer #{idea.order_id} of #{idea.siblings.count}
 						= link_to image_tag('details_next.png'), view_idea_details_path(idea.id, act: 'view_theme', nav: 'next'), {class: 'view_question', rel: 'nofollow', remote: true }
@@ -23,7 +25,7 @@
 				
 					%p.timestamp
 						- if @member.id == idea.team.org_id
-							= link_to "Edit", edit_theme_path(idea.id, act: 'edit_answer_popup'), class: "edit_answer edit", remote: true
+							= link_to "Edit", edit_theme_path(idea.id, act: 'edit_answer_popup', question_id: params[:question_id]||idea.question_id), class: "edit_answer edit", remote: true
 						
 						Version #{idea.version}
 						-# if idea.version > 1
@@ -47,26 +49,27 @@
 				= render( partial: 'idea_discussion', locals: { idea: idea } )			
 
 				= link_to 'Close', {}, class:'close_dialog'
-		
-			%div.constituent_ideas
-				- random_ind = rand.to_s.scan(/\d/)[1..20]
-				%h4.sub_sec_hdr.ideas_discussion{idea_id: idea.id}
-					%span Ideas
-					%div.comments
-						= image_tag('comment-sketch.gif', title: 'Number of comments')
-						%div.counts
-							%div.new
-								0 new
-							%div.total
-								0 total
-				%p.clear_both
+
+			- if idea.id > 0
+				%div.constituent_ideas
+					- random_ind = rand.to_s.scan(/\d/)[1..20]
+					%h4.sub_sec_hdr.ideas_discussion{idea_id: idea.id}
+						%span Ideas
+						%div.comments
+							= image_tag('comment-sketch.gif', title: 'Number of comments')
+							%div.counts
+								%div.new
+									0 new
+								%div.total
+									0 total
+					%p.clear_both
 				
-				%div.theme_col.themes.fancy-scrollbar
-					%ul.sortable_ideas
-						- idea.theme_ideas.each do |idea|
-							%li.idea_post_it
-								= render partial: 'ideas/post_it', locals: {idea: idea, random_ind: random_ind}
+					%div.theme_col.themes.fancy-scrollbar
+						%ul.sortable_ideas
+							- idea.theme_ideas.each do |idea|
+								%li.idea_post_it
+									= render partial: 'ideas/post_it', locals: {idea: idea, random_ind: random_ind}
 		
-			%div.constituent_idea_details
-				- if !constituent_idea.nil?
-					= render template: 'ideas/idea_details', locals: { idea: constituent_idea, question: question }, formats: [:html] 
+				%div.constituent_idea_details
+					- if !constituent_idea.nil?
+						= render template: 'ideas/idea_details', locals: { idea: constituent_idea, question: question }, formats: [:html] 

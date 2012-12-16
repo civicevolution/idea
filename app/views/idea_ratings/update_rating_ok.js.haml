@@ -14,6 +14,8 @@
 		call_to_action_completed('read our vision');
 		call_to_action_completed('rate our vision');
 	}
+	rater_hdr.find('a.next').remove();
+	rater.find('p.results a.next').remove();
 
 - if idea_rating.idea.role == 2
 	:plain
@@ -21,19 +23,20 @@
 		
 - if idea_rating.idea.role == 2 && question.unrated_answers.count > 0
 	:plain
-		rater_hdr.find('a.next').remove();
 		rater_hdr.find('a.view_results').hide();
-		$('#{link_to "Rate next answer", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_answers' ), {class: 'next', rel: 'nofollow', remote: true }}').appendTo( rater_hdr ).effect('highlight', {color: '#8DEE00'},2000);	
+		var next_link = $('#{link_to "Rate next answer", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_answers' ), {class: 'next', rel: 'nofollow', remote: true }}');
+		next_link.clone().appendTo( rater_hdr ).effect('highlight', {color: '#8DEE00'},2000);	
+		next_link.clone().appendTo( rater.find('p.results') ).effect('highlight', {color: '#8DEE00'},2000);
 	
 - elsif unrated_idea_count > 0
 	:plain
-		rater_hdr.find('a.next').remove();
 		rater_hdr.find('a.view_results').hide();
-		$('#{link_to "Rate next idea", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'next', rel: 'nofollow', remote: true }}').appendTo( rater_hdr ).effect('highlight', {color: '#8DEE00'},2000);	
+		var next_link = $('#{link_to "Rate next idea", view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'next', rel: 'nofollow', remote: true }}');
+		next_link.clone().appendTo( rater_hdr ).effect('highlight', {color: '#8DEE00'},2000);	
+		next_link.clone().appendTo( rater.find('p.results') ).effect('highlight', {color: '#8DEE00'},2000);	
 
 - elsif params[:mode] == 'review_unrated'
 	:plain
-		rater_hdr.find('a.next').remove();
 		rater_hdr.find('a.view_results').hide();
 		$('#{link_to "Done", {}, {class: 'close_dialog', rel: 'nofollow' }}').appendTo( rater_hdr ).effect('highlight', {color: '#8DEE00'},2000);	
 
@@ -56,8 +59,10 @@
 		
 - else
 	:plain
-		var done_link = $('#{link_to "Done", {}, {class: 'done', rel: 'nofollow', remote: false }}').insertBefore( rater.find('p.results a')).effect('highlight', {color: '#8DEE00'},2000);	
-		done_link.click(function(){$(this).closest('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove(); return false; });
+		if(rater.find('p.results a.next').size()==0){
+			var done_link = $('#{link_to "Done", {}, {class: 'done', rel: 'nofollow', remote: false }}').appendTo( rater.find('p.results')).effect('highlight', {color: '#8DEE00'},2000);	
+			done_link.click(function(){$(this).closest('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove(); return false; });
+		}
 - if idea_rating.idea.role == 1 && question.unrated_ideas.count == 0
 	:plain
 		$('div.question_summary[id="#{question.id}"] h4.summary a.view_unrated_ideas').addClass('hide');

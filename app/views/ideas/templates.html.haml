@@ -272,8 +272,7 @@
 
 	%script#cta_template{:type=>'text/html'}
 		:plain
-			:plain
-				#{ render( partial: 'ideas/call_to_action', formats: [:html]  )}
+			#{ render( partial: 'ideas/call_to_action', formats: [:html]  )}
 				
 				
 	%script#create_cta_template
@@ -290,12 +289,26 @@
 
 	%script#idea_cta_help{:type=>'text/html'}
 		:plain
-			:plain
-				#{ render( template: 'help/idea_help', formats: [:html]  )}
+			#{ render( template: 'help/idea_help', formats: [:html]  )}
 				
 				
 	%script#create_idea_cta_help
 		:plain
 			templates['idea_cta_help'] = $('<div></div>').html($.trim( $('script#idea_cta_help').html() )).find('div#idea_help');
 
+
+	%script#proposal_answer_template{:type=>'text/html'}
+		:plain
+			#{ render( partial: 'ideas/proposal_answer', locals: {theme: theme}, formats: [:html]  )}
+				
+				
+	%script#create_proposal_answer_template
+		:plain
+			templates['proposal_answer'] = $('<div></div>').html($.trim( $('script#proposal_answer_template').html() )).find('li.theme');
+			template_functions['proposal_answer'] = templates['proposal_answer'].compile(
+				{
+					'@id' : 'id',
+					'div.answer' : 'answer_html'
+				}
+			);
 			

@@ -47,6 +47,9 @@
 	
 	- if @privileges.include? 'delay_test'
 		%li= link_to "Delay test", {:action=>'delay_test'}
+		
+	- if @privileges.include? 'convert_ideas_to_answers'
+		%li= link_to "Convert ideas to answers", {:action=>'convert_ideas_to_answers'}
 
 		
 		

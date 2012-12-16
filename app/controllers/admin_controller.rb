@@ -655,6 +655,23 @@ class AdminController < ApplicationController
       
   end
   
+  def convert_ideas_to_answers
+    render template: 'admin/convert_ideas_to_answers', layout: 'home'
+  end
+
+  def convert_ideas_to_answers_post
+    params.each_key do |param|
+      if param.match(/idea_id_\d+/)
+        idea = Idea.find( param.match(/idea_id_(\d+)/)[1] )
+        puts "idea: #{idea.inspect}"
+        idea.update_attributes({role: 2, parent_id: idea.question_id});
+      end
+    end
+    
+    
+    render template: 'admin/convert_ideas_to_answers', locals: { message: 'The ideas were converted'}, layout: 'home'
+  end
+
   
   protected
     

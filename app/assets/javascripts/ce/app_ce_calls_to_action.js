@@ -137,7 +137,7 @@ var cta_tasks = {
 			title: 'View our plan',
 			link: 'Click here to view',
 			onclick: "$('div.proposal').show(350, function(){$('html,body').animate( {scrollTop: $('div.proposal').offset().top}, 3500); call_to_action_completed('view our plan'); });",
-			include_conditions: ['!member.active_participant']
+			include_conditions: ['!member.active_participant', '!project_coordinator']
 		},
 	
 	'rate answers' : 

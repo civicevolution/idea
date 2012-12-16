@@ -151,7 +151,11 @@ $('body').on('click','div.idea_details a.goto_theming_page',
 
 
 function init_answer_editor( form, idea_id ){
-	form.find('input[name="act"]').val('edit_answer_popup');
+	if(idea_id > 0){
+		form.find('input[name="act"]').val('edit_answer_popup');
+	}else{
+		form.find('input[name="act"]').val('add_answer_popup');
+	}
 
 	var popup = $('div.idea_details.popup[idea_id="' + idea_id + '"]');
 	var answer = popup.find('ul.answer');

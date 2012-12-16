@@ -1,12 +1,13 @@
 :plain
 	var answer_html = #{BlueCloth.new( idea.text ).to_html.to_json};
-	var post_it = $('div.post-it[id="#{idea.id}"]');
-	post_it.find('div.inner').html( answer_html );
-	truncate_themes(post_it);
-	var proposal_page_answer = $('li.theme[id="#{idea.id}"] div.answer').html( answer_html );
-	set_answer_links_target(proposal_page_answer);
 - if params[:act] == "edit_answer_popup"
 	:plain
+		var post_it = $('div.post-it[id="#{idea.id}"]');
+		post_it.find('div.inner').html( answer_html );
+		truncate_themes(post_it);
+		var proposal_page_answer = $('li.theme[id="#{idea.id}"] div.answer').html( answer_html );
+		set_answer_links_target(proposal_page_answer);
+		
 		//console.log("Replace edited answer in edit_answer_popup");
 		var popup = $('div.idea_details.popup[idea_id="#{idea.id}"]');
 		
@@ -18,7 +19,29 @@
 		//console.log("remove the preview");
 		answer.prev('div.edit_form').hide(250, function(){$(this).remove()});
 		set_answer_links_target(answer);
-		
-- else
+
+- elsif params[:act] == 'add_answer_popup'
 	:plain
-		console.log("Replace edited answer in theme final edit page);
+		var proposal_page_answer = $( template_functions['proposal_answer']({id: #{idea.id}, answer_html: answer_html}) ).prependTo( $('div.question_summary[id="#{idea.question_id}"] ul.themes') );
+		
+		stat_data.idea_recs[#{idea.id}] = [#{idea.id}, #{idea.question_id}, #{idea.question_id}, 2, #{idea.created_at.to_i}]
+		set_answer_links_target(proposal_page_answer);
+		dispatcher.update_theme_stats(proposal_page_answer);
+				
+		//console.log("Replace edited answer in edit_answer_popup");
+		var popup = $('div.idea_details.popup[idea_id="0"]');
+		
+		var answer = popup.find('ul.answer');
+		answer.find('div.post-it div.inner').html( answer_html );
+		
+		answer.find('div.post-it div.inner').show(250);
+		answer.find('div.wmd-preview').hide(250, function(){$(this).remove()});
+		//console.log("remove the preview");
+		answer.prev('div.edit_form').hide(250, function(){$(this).remove()});
+		set_answer_links_target(answer);
+		
+		popup.find('div.theme_slider').attr('id',#{idea.id});
+		var form = popup.find('form.add_comment')
+		form.attr('id',#{idea.id});
+		form.attr('action', form.attr('action').replace(/\d+/,#{idea.id}));
+	

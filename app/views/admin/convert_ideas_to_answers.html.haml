@@ -1,0 +1,54 @@
+- old_logger_level = Rails.logger.level
+- Rails.logger.level = 1
+- message ||= nil
+
+= render :partial => 'admin_nav'
+- if !message.nil?
+	%h1.warn= message
+	
+%h3 Ideas to be converted to answers
+
+
+= form_tag('/admin/convert_ideas_to_answers_post') do
+	%table{border:1}
+		- Team.where(initiative_id: 4).order('id asc').each do |team|
+			- questions = []
+			- team.question_ideas.each do |question|
+				- pc_ideas = []
+				- non_pc_ideas = []
+				- if( !Idea.where( "question_id = #{question.id} AND role = 2 AND version > 0").exists? )
+					-# this question doesn't have any actual answers 
+					- Idea.where( question_id: question.id, role: 1, member_id: team.org_id).each do |idea|
+						- pc_ideas.push(idea)
+					- Idea.where( "question_id = #{question.id} AND role = 1 AND member_id != #{team.org_id}" ).each do |idea|
+						- non_pc_ideas.push(idea)
+	
+				- if !pc_ideas.empty? || !non_pc_ideas.empty?
+					- questions.push( {question: question, pc_ideas: pc_ideas,non_pc_ideas: non_pc_ideas})
+
+			- if !questions.empty?
+				%tr
+					%td{colspan: 5}
+						%h3
+							= team.id
+							= link_to team.title, plan_path(team.id)
+				- questions.each do |question|
+					%tr
+						%td{colspan:5}
+							%h4= question[:question].text
+					- question[:pc_ideas].each do |idea|
+						%tr
+							%td
+								= check_box_tag "idea_id_#{idea.id}", true, false
+							%td PC
+							%td= idea.text
+					- question[:non_pc_ideas].each do |idea|
+						%tr
+							%td
+								= check_box_tag "idea_id_#{idea.id}", true, false
+							%td non-PC
+							%td= idea.text
+
+	= submit_tag
+
+- Rails.logger.level = old_logger_level

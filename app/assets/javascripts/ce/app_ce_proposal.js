@@ -65,7 +65,7 @@ function init_page(){
 	set_answer_links_target();
 	set_answer_links_target( $('div.idea_summary') );
 		
-	if(!member.active_participant){
+	if(!member.active_participant && !project_coordinator){
 		$('div.proposal').hide();
 	}
 }
