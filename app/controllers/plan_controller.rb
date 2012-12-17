@@ -12,7 +12,8 @@ class PlanController < ApplicationController
 
   def theme_summary
     logger.debug "\n\n******************************************\nStart plan/theme_summary\n"
-    
+    # clean up the team_id param
+    params[:team_id] = params[:team_id].to_i
     begin
       @team = Team.includes(:idea, :question_ideas => [:themes, :prompt]).find(params[:team_id])
       raise 'Team is no longer accessible' if @team.nil? || @team.status == 'closed'

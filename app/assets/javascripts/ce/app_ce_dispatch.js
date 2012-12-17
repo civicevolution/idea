@@ -220,7 +220,7 @@ dispatcher = {
 				var question = $(this);
 				var question_id = question.attr('id');
 				var unrated_ideas = dispatcher.get_data( {type: 'question_idea_count', unrated_only: true, id: question_id});
-				var unrated_link = question.find('h4.summary a.view_unrated_ideas');
+				var unrated_link = question.find('div.idea-post-it-intro a.view_unrated_ideas');
 				if(unrated_ideas == 0){
 					unrated_link.addClass('hide');
 				}else{
@@ -228,34 +228,13 @@ dispatcher = {
 				}
 				var total_ideas = dispatcher.get_data( {type: 'question_idea_count', id: question_id});
 				var has_answer = question.find('div.answer').size()>0;
-				var summary_hdr = question.find('h4.summary')
+				var summary_hdr = question.find('div.idea-post-it-intro');
 				var view_ideas_link = summary_hdr.find('a.view_all_ideas');
 				var unthemed_ideas = dispatcher.get_data( {type: 'question_idea_count', unthemed_only: true, id: question_id});
 				if(project_coordinator && unthemed_ideas > 0){
 					summary_hdr.find('span').html('');
-					var str = "Organize " + unthemed_ideas + ' new idea' + (unthemed_ideas != 1 ? 's' : '') + " on post-its wall"
+					var str = "Organize " + unthemed_ideas + ' new idea' + (unthemed_ideas != 1 ? 's' : '')
 					view_ideas_link.addClass('red').removeClass('hide').html( str );
-				}else{
-					switch(total_ideas){
-						case 0:
-							var str = "An answer will be created from your group's";
-							break;
-						case 1:
-							if(has_answer){
-								var str = "This answer was created from the one idea on the";
-							}else{
-								var str = "An answer will be created from your group's";
-							}
-							break;
-						default:
-							if(has_answer){
-								var str = "This answer was created from the " + total_ideas + " ideas on the";
-							}else{
-								var str = "An answer will be created from your group's";
-							}
-					}
-					summary_hdr.find('span').html(str);
-					view_ideas_link.removeClass('hide red').html( 'post-its wall' );
 				}
 			}
 		);	
@@ -417,7 +396,7 @@ function update_after_signin(){
 	}
 	$('body').off('keydown.check_signed_in');
  	
-	if( member.active_participant ){
+	if( member.active_participant || project_coordinator ){
 		$('div.proposal').show();
 	}
 

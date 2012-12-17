@@ -54,7 +54,7 @@
 
 - elsif idea_rating.idea.role == 1 && question.unrated_ideas.count > 0
 	:plain
-		$('div.question_summary[id="#{question.id}"] h4.summary a.view_unrated_ideas').removeClass('hide').html( 
+		$('div.question_summary[id="#{question.id}"] div.idea-post-it-intro a.view_unrated_ideas').removeClass('hide').html( 
 			"Rate #{pluralize(question.unrated_ideas.count, ' new idea')}" );
 		
 - else
@@ -65,7 +65,7 @@
 		}
 - if idea_rating.idea.role == 1 && question.unrated_ideas.count == 0
 	:plain
-		$('div.question_summary[id="#{question.id}"] h4.summary a.view_unrated_ideas').addClass('hide');
+		$('div.question_summary[id="#{question.id}"] div.idea-post-it-intro a.view_unrated_ideas').addClass('hide');
 	
 	
 	

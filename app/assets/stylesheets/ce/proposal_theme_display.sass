@@ -111,7 +111,7 @@ div.proposal
 					text-decoration: underline
 				&.hide
 					display: none
-			a.view_unrated_ideas, a.add_new_answer
+			a.view_unrated_ideas
 				display: block
 				position: absolute
 				top: 4px
@@ -123,8 +123,6 @@ div.proposal
 					text-decoration: underline
 				&.hide
 					display: none
-			a.add_new_answer
-				top: -16px
 			
 		div.discussion
 			margin-bottom: 60px
@@ -147,7 +145,7 @@ div.proposal
 			width: 660px
 			padding-bottom: 0
 			margin-bottom: 0
-			padding-top: 12px
+			padding-top: 0
 			clear: both
 			p, ul, ol
 				width: 400px
@@ -215,6 +213,11 @@ div.proposal
 							display: block
 							div.total
 								display: none
+								
+		a.add_new_answer
+			font-weight: bold
+			display: block
+			margin-bottom: 40px
 				
 
 	form.suggest_idea
@@ -711,6 +714,29 @@ div.idea_details
 					span.char_ctr
 						left: 80px
 
+div.idea-post-it-intro
+	float: left
+	width: 400px
+	color: #328839
+	font-weight: bold
+	margin-right: 20px
+	margin-top: 20px
+	border-top: 2px solid #328839
+	position: relative
+	p.links
+		position: absolute
+		top: 0
+		left:	440px
+		width: 200px
+		a
+			display: block
+			color: red
+			text-decoration: none
+			&:hover
+				text-decoration: underline
+			&.hide
+				display: none
+	
 div.idea-post-it-form
 	form.suggest_idea
 		float: left
@@ -720,9 +746,9 @@ div.idea-post-it-form
 		float: left
 		width: 140px
 		color: #328839
-		font-weight: bold
-		margin-right: 20px
+		margin-left: 20px
 		ul
 			padding-left: 20px
+			margin-top: 0
 			li
 				margin-bottom: 8px

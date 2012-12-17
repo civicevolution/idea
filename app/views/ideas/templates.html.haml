@@ -130,6 +130,7 @@
 						new_theme_col.find('div.post-it').find('p.idea').after(temp.new_answer_group_idea.find('div.attachments'));
 					}
 					
+					$.getScript('/idea/' + data.data.id + '/details?act=theming_popup&mode=edit')
 					return new_theme_col;
 				}
 

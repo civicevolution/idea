@@ -22,7 +22,7 @@
 
 - elsif params[:act] == 'add_answer_popup'
 	:plain
-		var proposal_page_answer = $( template_functions['proposal_answer']({id: #{idea.id}, answer_html: answer_html}) ).prependTo( $('div.question_summary[id="#{idea.question_id}"] ul.themes') );
+		var proposal_page_answer = $( template_functions['proposal_answer']({id: #{idea.id}, answer_html: answer_html}) ).appendTo( $('div.question_summary[id="#{idea.question_id}"] ul.themes') );
 		
 		stat_data.idea_recs[#{idea.id}] = [#{idea.id}, #{idea.question_id}, #{idea.question_id}, 2, #{idea.created_at.to_i}]
 		set_answer_links_target(proposal_page_answer);

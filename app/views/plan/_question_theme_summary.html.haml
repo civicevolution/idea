@@ -8,69 +8,45 @@
 	%div.question_summary_inner
 		%div.answer_block
 			%div.top_border
-			%h4.sub_sec_hdr.summary 
-				%span.text This answer was created from the ideas on the
-				= link_to 'post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
 
-				= link_to 'Add new answer', view_idea_details_path(0, question_id: question.id, act: 'add_new_answer', mode: 'edit' ), {class: 'add_new_answer', rel: 'nofollow', remote: true, wait: 'gif' }
-			
-				
-				= link_to 'Rate new ideas', view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas hide', rel: 'nofollow', remote: true, wait: 'gif' }
-		
-		
 			%ul.themes
-				- no_themes = false
 				- themes = question.themes.select{|t| t.version > 0 && t.visible}.sort {|a,b| a.order_id <=> b.order_id }
 				- if themes.size > 0
 					= render partial: 'ideas/proposal_answer', collection: themes, as: 'theme'
 				- else 
 					- if @project_coordinator
 						%li.instr
-							%p.warn Please create at least one answer for this question
-							%p.emX
-								Post one or more ideas about this question in the yellow post-it below and then go to the 
-								= link_to 'post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
-								to compose an answer from the ideas
-							%p
-								Watch the 
-								= link_to "video", 'http://civicevolution.org/ce-video', {target: '_blank'}
-								for more information and/or
-								= link_to "contact us", short_help_path(tab: 2), { :remote => true}
+							%p.warn Please add an answer to this question
+							%p People are more likely to contribute after you start the answer
+
 					- else
 						%li.instr
-							%p No answers have been composed yet
-							- if question.question_ideas.empty?
-								%p.em
-									Please post one or more ideas about this question in the yellow post-it below
-							
-								%p 
-									Your ideas will be added to the 
-									= link_to 'post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
-									where the project coordinator will compose answers from the ideas
-								%p 
-									Watch the 
-									= link_to "video", 'http://civicevolution.org/ce-video', {target: '_blank'}
-									for more information and/or
-									= link_to "contact us", short_help_path(tab: 2), { :remote => true}
+							%p #{@team.organizer.first_name}, the project coordinator has not posted any answers yet
+
+			- if @project_coordinator	
+				= link_to 'Add a new answer', view_idea_details_path(0, question_id: question.id, act: 'add_new_answer', mode: 'edit' ), {class: 'add_new_answer', rel: 'nofollow', remote: true, wait: 'gif' }
+				
 
 			- if !question.themes.empty? && question.themes.detect{|t| t.version > 0 }
 				= render( partial: 'ideas/rating', locals: { idea: question } )
+			
 
-			%div.idea-post-it-form
+			%div.idea-post-it-form{ class: @project_coordinator && themes.size == 0 ? 'hide' : ''}
 				
-				%div.idea-post-it-instructions
+				%div.idea-post-it-intro
 					%p Nominate a specific & concrete idea to be considered as part of the answer to this question
-					-#%ul
-						%li Suggest a specific & concrete idea to answer this question
-						%li Ideas are rated & discussed
-						-#%li Click to learn more
 				
+					%p.links
+						= link_to 'Rate new ideas', view_idea_details_path(0, question_id: question.id, act: 'review_unrated_ideas' ), {class: 'view_unrated_ideas hide', rel: 'nofollow', remote: true, wait: 'gif' }	
+						
+						= link_to 'Organize new ideas', question_post_its_wall_path(question.id), {class: 'view_all_ideas hide', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
+						
 				
 				= form_tag add_idea_path(question.id), :class=>'std_form suggest_idea', :remote=>true do 
 					%div{class: "R3 post-it"}
 						%div.form
 							= hidden_field_tag :attachments
-							= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true, placeholder: 'Type here to share your idea... each post-it should clearly state a single point'
+							= text_area_tag :text, '', :class=>'answer autosize', :size=>"1x2", :fixed_rows=>true, placeholder: 'Type here to share your idea... each idea should clearly state a single point'
 
 							%div.attachments
 								%p.clear_both
@@ -78,14 +54,23 @@
 						%div.form_controls
 							= submit_tag "Save", :name=>'add_idea', wait: 'gif'
 							%span.char_ctr 200 characters
-						
+					
 							%div.attachment_btn
 								%div.inner
 									%input.attachment-upload{type: "file", name: "attachment", tabindex: 1000, 'data-url'=>question_attachment_path(question.id) }
 							%div.attachment_upload_progress
 								%div.bar{style: "width: 0%;"}
-						
+					
 						%p.clear_both
+						
+				%div.idea-post-it-instructions
+					%ul
+						%li Everyone will be asked to rate and discuss your idea
+						%li 
+							Your idea will be added to the 
+							= link_to 'idea post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
+						%li Your project's coordinator, #{@team.organizer.first_name}, will organize these ideas into answers to this question
+		
 		
 			%p.clear_both
 			%div.bottom_border

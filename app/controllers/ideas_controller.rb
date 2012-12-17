@@ -380,7 +380,7 @@ new_text = %Q|**New answer**
 
       ordered_ids = idea.siblings.map(&:id)
       ordered_ids.delete(idea.id)
-      ordered_ids = [idea.id] + ordered_ids
+      ordered_ids = ordered_ids + [idea.id]
       # now I need to set the order
       Idea.reorder_siblings( idea.parent_id, ordered_ids, @member )
       
