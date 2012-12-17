@@ -221,7 +221,7 @@ dispatcher = {
 				var question_id = question.attr('id');
 				var unrated_ideas = dispatcher.get_data( {type: 'question_idea_count', unrated_only: true, id: question_id});
 				var unrated_link = question.find('div.idea-post-it-intro a.view_unrated_ideas');
-				if(unrated_ideas == 0){
+				if(unrated_ideas == 0 || !member.signed_in){
 					unrated_link.addClass('hide');
 				}else{
 					unrated_link.removeClass('hide').html( 'Rate ' + unrated_ideas + ' new idea' + (unrated_ideas != 1 ? 's' : '') );

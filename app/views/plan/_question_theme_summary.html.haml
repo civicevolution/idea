@@ -27,7 +27,7 @@
 				= link_to 'Add a new answer', view_idea_details_path(0, question_id: question.id, act: 'add_new_answer', mode: 'edit' ), {class: 'add_new_answer', rel: 'nofollow', remote: true, wait: 'gif' }
 				
 
-			- if !question.themes.empty? && question.themes.detect{|t| t.version > 0 }
+			- if !question.themes.empty? && question.themes.detect{|t| t.version > 0 && t.visible }
 				= render( partial: 'ideas/rating', locals: { idea: question } )
 			
 
