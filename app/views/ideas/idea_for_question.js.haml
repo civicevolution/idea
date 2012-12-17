@@ -42,6 +42,7 @@
 	// insert the attachments into the idea, if there are any
 	attachments_div.find('img.delete').remove();
 	post_it.find('p.idea').after(attachments_div);
+	stat_data.idea_recs[#{idea.id}] = [#{idea.id}, #{idea.question_id}, null, 1, #{idea.created_at.to_i}]
 	
 	var form_div = form.closest('div.idea-post-it-form');
 	post_it.attr('class', form_div.find('div.post-it').attr('class') );
