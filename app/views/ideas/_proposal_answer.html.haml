@@ -4,6 +4,8 @@
 			#{theme.text}
 			
 	%div.answer_status	
+		- if @project_coordinator
+			= image_tag 'blue-pencil-24.png', :class=>"edit"
 		%div.comments
 			= image_tag('comment-sketch.gif', title: 'Number of comments')
 			%div.counts

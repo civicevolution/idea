@@ -60,8 +60,7 @@
 - else
 	:plain
 		if(rater.find('p.results a.next').size()==0){
-			var done_link = $('#{link_to "Done", {}, {class: 'done', rel: 'nofollow', remote: false }}').appendTo( rater.find('p.results')).effect('highlight', {color: '#8DEE00'},2000);	
-			done_link.click(function(){$(this).closest('div.idea_details').closest('div.ui-dialog').dialog('destroy').end().remove(); return false; });
+			var done_link = $('#{link_to "Done", {}, {class: 'done close_dialog', rel: 'nofollow', remote: false }}').appendTo( rater.find('p.results')).effect('highlight', {color: '#8DEE00'},2000);	
 		}
 - if idea_rating.idea.role == 1 && question.unrated_ideas.count == 0
 	:plain

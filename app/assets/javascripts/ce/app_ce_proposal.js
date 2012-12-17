@@ -237,7 +237,7 @@ $('body').on('click','div.answer_block li.theme',
 	function(event){
 		if(event.target.nodeName !='A'){
 			$(this).prepend('<img class="wait" src="/assets/wait5.gif"/>');
-			$.getScript('/idea/' + this.id + '/details');
+			$.getScript('/idea/' + this.id + '/details'  + ( $(event.target).hasClass('edit') ? '?mode=edit' : '') );
 		}
 	}
 );

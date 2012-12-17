@@ -99,6 +99,7 @@ class IdeasController < ApplicationController
     question = Idea.find(params[:question_id])
     question.member = @member
     @team = question.team
+    @project_coordinator = @team.org_id == @member.id
     respond_to do |format|
       format.js { render 'ideas/question_theme_summary', locals: { question: question } }
       format.html { render 'plan/question_theme_summary', layout: "plan", locals: { question: question} }

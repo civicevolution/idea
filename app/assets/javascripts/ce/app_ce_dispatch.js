@@ -399,6 +399,13 @@ function update_after_signin(){
 	if( member.active_participant || project_coordinator ){
 		$('div.proposal').show();
 	}
+	if(project_coordinator){
+		$('div.question_summary').each(
+			function(){
+				$.getScript('/idea/' + $(this).attr('id') + '/theme_summary');
+			}
+		);
+	}
 
 	init_tasks();
 }

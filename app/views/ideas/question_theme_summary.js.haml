@@ -3,6 +3,16 @@
 
 	var question_summary = $('div.proposal div.question_summary[id="#{params[:question_id]}"]');
 	question_summary.find('ul.themes').replaceWith(summary.find('ul.themes'));
+	if( question_summary.find('a.add_new_answer').size()==0){
+		question_summary.find('ul.themes').after(summary.find('a.add_new_answer').clone());
+	}
+	if(question_summary.find('li.theme').size() == 0){
+		question_summary.find('div.idea-post-it-form').addClass('hide');
+	}else{
+		question_summary.find('div.idea-post-it-form').removeClass('hide');
+	}
+	
+	
 	setTimeout(
 		function(){
 			stat_data.idea_counts['question_ideas_unthemed_#{question.id}'] = #{question.unthemed_ideas.count};
@@ -11,5 +21,4 @@
 			set_answer_links_target(this);		
 		}.bind(question_summary),1000
 	);
-	// 
 	
