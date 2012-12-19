@@ -299,6 +299,11 @@
 			templates['idea_cta_help'] = $('<div></div>').html($.trim( $('script#idea_cta_help').html() )).find('div#idea_help');
 
 
+	%script#create_idea_tooltips
+		:plain
+			templates['idea_tooltips'] = $('<div></div>').html($.trim( $('script#idea_cta_help').html() )).find('div#tooltips');
+
+
 	%script#proposal_answer_template{:type=>'text/html'}
 		:plain
 			#{ render( partial: 'ideas/proposal_answer', locals: {theme: theme}, formats: [:html]  )}

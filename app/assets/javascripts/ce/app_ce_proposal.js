@@ -68,6 +68,7 @@ function init_page(){
 	if(!member.active_participant && !project_coordinator){
 		$('div.proposal').hide();
 	}
+	setTimeout(function(){init_tooltips();},300);
 }
 
 function init_rating_sliders( sliders ){

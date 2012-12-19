@@ -43,7 +43,7 @@
 
 		- endorsed = !endorsements.detect{|e| e.member_id == @member.id}.nil?
 		- if !print && !endorsed
-			%div.endorsement.comment.form
+			%div.endorsement.comment.form{data_tool_tip: 'add endorsement' }
 				%div.img
 					%img{ src:  @member.photo.url(:small), class: 'i36'}		
 				%div.comment_body

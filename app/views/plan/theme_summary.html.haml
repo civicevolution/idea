@@ -22,7 +22,7 @@
 							- if @member.id == @team.org_id
 								= link_to "edit", team_edit_path(@team.id, target: 'summary'), class: "edit_summary edit", remote: true
 							
-						= render( partial: 'ideas/rating', locals: { idea: @team.idea } )
+						= render( partial: 'ideas/rating', locals: { idea: @team.idea, tool_tip: 'rate vision' } )
 
 					%p.clear_both
 					

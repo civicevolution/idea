@@ -51,6 +51,8 @@
 				var get_templates = #{get_templates};
 
 		- if inc_js == 'all'
+			/[if lt IE 9] 
+				= javascript_include_tag 'tipped/excanvas.js'
 			= javascript_include_tag 'application_ce'
 		- else
 			= javascript_include_tag 'application_ce_no_js'

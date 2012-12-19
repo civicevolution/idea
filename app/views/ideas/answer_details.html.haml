@@ -33,7 +33,7 @@
 							
 							#{time_ago_in_words(idea.updated_at)} ago
 					
-				= render( partial: 'rating', locals: { idea: idea } )			
+				= render( partial: 'rating', locals: { idea: idea, tool_tip: 'rate answer' } )			
 				
 				%h4.sub_sec_hdr.discussion{idea_id: idea.id}
 					%span Discuss this answer

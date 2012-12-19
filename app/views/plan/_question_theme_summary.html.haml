@@ -28,7 +28,7 @@
 				
 
 			- if !question.themes.empty? && question.themes.detect{|t| t.version > 0 && t.visible }
-				= render( partial: 'ideas/rating', locals: { idea: question } )
+				= render( partial: 'ideas/rating', locals: { idea: question, tool_tip: 'rate overall answer' } )
 			
 
 			%div.idea-post-it-form{ class: @project_coordinator && themes.size == 0 ? 'hide' : ''}
@@ -65,7 +65,7 @@
 				%div.idea-post-it-instructions
 					%ul
 						%li Everyone will be asked to rate and discuss your idea
-						%li 
+						%li{data_tool_tip: 'post-its-wall'}
 							Your idea will be added to the 
 							= link_to 'idea post-its wall', question_post_its_wall_path(question.id), {class: 'view_all_ideas', rel: 'nofollow', remote: true, wait: 'gif', title: 'Click to view the post-its wall for this question' }
 						%li Your project's coordinator, #{@team.organizer.first_name}, will organize these ideas into answers to this question

@@ -6,7 +6,7 @@
 	if( question_summary.find('a.add_new_answer').size()==0){
 		question_summary.find('ul.themes').after(summary.find('a.add_new_answer').clone());
 	}
-	if(question_summary.find('li.theme').size() == 0){
+	if(question_summary.find('li.theme').size() == 0 && project_coordinator){
 		question_summary.find('div.idea-post-it-form').addClass('hide');
 	}else{
 		question_summary.find('div.idea-post-it-form').removeClass('hide');

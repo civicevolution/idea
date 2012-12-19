@@ -76,7 +76,7 @@ module G3
     # MISC
     config.assets.precompile += %w( opt/pure.js opt/json2-min.js ce/proposal_print.css opt/jquery.corner.js opt/jquery.tablesorter.min.js jquery.scrollTo-min.js jquery.form.js jquery.autogrow.js)
     
-    config.assets.precompile += %w( Markdown.Converter.js Markdown.Editor.js Markdown.Sanitizer.js )
+    config.assets.precompile += %w( Markdown.Converter.js Markdown.Editor.js Markdown.Sanitizer.js tipped/excanvas.js )
     
     #config.assets.precompile += %w( application_ce_live.css  )
     #config.assets.precompile += %w( application_ce_home_all.js )

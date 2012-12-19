@@ -26,7 +26,7 @@
 				%span Your rating for this vision
 		= link_to "View results", {}, class: "view_results #{votes>0 ? '' : 'hide'}"	
 			
-%div.rater.corner			
+%div.rater.corner{data_tool_tip: tool_tip}		
 	%div.rater_faces
 		= image_tag('rater/yuck.gif', class: 'yuck')		
 		= image_tag('rater/meh.gif', class: 'meh')		

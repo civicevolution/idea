@@ -1,3 +1,36 @@
+function update_after_signin(){
+	setTimeout(function(){
+		dispatcher.init_stat_data();
+		dispatcher.update_sliders();
+		show_default_tooltips();	
+		},1000
+	);
+
+	$('form.signin_form').closest('div.ui-dialog').dialog('destroy').remove();
+	$('div.comment.form, div.endorsement.form').find('img.i36').attr('src',member.photo_url);
+	var endorsement = $('div.endorsement[code="' + member.ape_code + '"]');
+	if(endorsement.size() > 0){
+		var form = templates.endorsement.find('form').clone();
+		form.attr('action', form.attr('action').replace(/\d+/,team_id) );
+		endorsement.find('span.timeago').after( form );
+		$('div.endorsement.form').remove();
+	}
+	$('body').off('keydown.check_signed_in');
+ 	
+	if( member.active_participant || project_coordinator ){
+		$('div.proposal').show();
+	}
+	if(project_coordinator){
+		$('div.question_summary').each(
+			function(){
+				$.getScript('/idea/' + $(this).attr('id') + '/theme_summary');
+			}
+		);
+	}
+
+	init_tasks();
+}
+
 function call_to_action_completed(task){
 	//console.log("call_to_action_completed task: " + task);
 	task = $('div.cta_block.corner[id="' + task + '"]');
@@ -64,6 +97,8 @@ function init_tasks(){
 		$('div.cta_block[id="view our plan"]').show();
 	}
 	
+	Tipped.create('div.cta_block', get_tooltip,
+		{ skin: 'yellow', hook: 'leftmiddle', containment: 'viewport'	} );
 	
 }
 
@@ -75,26 +110,6 @@ $('body').on('click','div.calls-to-action p.link',
 		if(task_details.onclick){
 			//console.log("task_details.onclick: " + task_details.onclick);
 			eval(task_details.onclick);
-		}
-	}
-);
-
-$('body').on('mouseover mouseout','div.calls-to-action h3', 
-	function(event){
-		var cta = $(this).closest('div.cta_block');
-		var task_id = cta.attr('id');
-		if(event.type == 'mouseover'){
-			//console.log("Show help for task: " + task_id);
-			var help = templates['idea_cta_help'].find('div[id="' + task_id + '"]');
-			var popup = $('<div class="help-popup"><?div>').append(help.clone());
-			$('body').append(popup);
-			var offset = cta.offset();
-			var left = offset.left + cta.width() - popup.width()- 30;
-			var top = offset.top + cta.height() + 4;
-			popup.css( {top: top, left: left });			
-		}else{
-			//console.log("Close help for task: " + task_id);
-			$('div.help-popup').remove();
 		}
 	}
 );
@@ -136,7 +151,7 @@ var cta_tasks = {
 		{
 			title: 'View our plan',
 			link: 'Click here to view',
-			onclick: "$('div.proposal').show(350, function(){$('html,body').animate( {scrollTop: $('div.proposal').offset().top}, 3500); call_to_action_completed('view our plan'); });",
+			onclick: "$('div.proposal').show(350, function(){$('html,body').animate( {scrollTop: $('div.proposal').offset().top}, 800); call_to_action_completed('view our plan'); }); Tipped.hideAll();",
 			include_conditions: ['!member.active_participant && !project_coordinator']
 		},
 	
@@ -191,3 +206,84 @@ var cta_tasks = {
 		}
 		
 };
+
+// show tool tips
+
+function get_tooltip(element){
+	element = $(element);
+	console.log("get tooltip for " + element.attr('data_tool_tip'));
+	var tooltip = templates['idea_tooltips'].find('div[id="' + element.attr('data_tool_tip') + '"]');
+	if(tooltip.size()==0){
+		console.log("No try to get tooltip for " + element.attr('is'));
+		tooltip = templates['idea_cta_help'].find('div[id="' + element.attr('id') + '"]');
+	}
+	return tooltip.html() || 'No tooltip found for ' + element.attr('data_tool_tip');
+		
+}	
+
+
+function init_tooltips(){
+	console.log("try to init_tooltips");
+	if(typeof templates == 'undefined' ){
+		console.log("try to init_tooltips again soon");
+		setTimeout( function(){init_tooltips();},300);
+		return;
+	}
+	
+	jQuery.extend(Tipped.Skins, {
+	  'custom' : {
+	    border: { size: 4, color: '#959fa9' },
+	    background: '#f7f7f7',
+	    radius: { size: 4, position: 'border' },
+	    closeButtonSkin: 'light',
+			maxWidth: 200,
+			radius: 10
+	  },
+	  'yellow' : {
+	    border: { size: 4, color: '#959fa9' },
+	    background: '#ffffaa',
+    	border: { size: 1, color: '#6d5208', opacity: .4},
+	    radius: { size: 4, position: 'border' },
+	    closeButtonSkin: 'light',
+			maxWidth: 200,
+			radius: 10,
+			shadow: {
+	      blur: 4,
+	      offset: { x: 3, y: 3 },
+	      opacity: .2
+	    }
+	  }
+	
+	});
+	
+	// set the tooltip data pointer on element as 
+	//		data_tool_tip: tool_tip
+	Tipped.create('div.answer_block div.rater, div.answer_details div.rater', get_tooltip, 
+		{ skin: 'custom', hook: 'rightmiddle'	} );
+
+	Tipped.create('div.summary_block div.rater', get_tooltip, 
+		{ skin: 'yellow', hook: 'rightmiddle', containment: false	} );
+
+	Tipped.create('div.endorsement.form', get_tooltip, 
+		{ skin: 'yellow', hook: 'rightmiddle', containment: false	} );
+		
+	Tipped.create('div.cta_block', get_tooltip,
+		{ skin: 'yellow', hook: 'leftmiddle', containment: 'viewport'	} );
+
+	Tipped.create('div.idea-post-it-instructions li:nth-child(2)', get_tooltip,
+		{ skin: 'yellow', hook: 'rightmiddle', containment: 'viewport'	} );
+		
+	show_default_tooltips();	
+	console.log("init_tooltips completed");
+}
+
+function show_default_tooltips(){
+	if(member.signed_in && $('div.summary_block h4.rating').hasClass('please-rate')){
+		Tipped.show('div.summary_block div.rater');
+	}
+
+	if( member.signed_in && !participant_stats.endorse ){
+		Tipped.show('div.endorsement.form');
+	}
+	
+}

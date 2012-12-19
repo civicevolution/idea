@@ -377,35 +377,3 @@ function dispatcher_test(data){
 //
 
 dispatcher.init_stat_data();
-
-
-function update_after_signin(){
-	setTimeout(function(){
-		dispatcher.init_stat_data();
-		dispatcher.update_sliders()},1000
-	);
-
-	$('form.signin_form').closest('div.ui-dialog').dialog('destroy').remove();
-	$('div.comment.form, div.endorsement.form').find('img.i36').attr('src',member.photo_url);
-	var endorsement = $('div.endorsement[code="' + member.ape_code + '"]');
-	if(endorsement.size() > 0){
-		var form = templates.endorsement.find('form').clone();
-		form.attr('action', form.attr('action').replace(/\d+/,team_id) );
-		endorsement.find('span.timeago').after( form );
-		$('div.endorsement.form').remove();
-	}
-	$('body').off('keydown.check_signed_in');
- 	
-	if( member.active_participant || project_coordinator ){
-		$('div.proposal').show();
-	}
-	if(project_coordinator){
-		$('div.question_summary').each(
-			function(){
-				$.getScript('/idea/' + $(this).attr('id') + '/theme_summary');
-			}
-		);
-	}
-
-	init_tasks();
-}
