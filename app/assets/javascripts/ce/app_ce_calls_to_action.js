@@ -209,15 +209,69 @@ var cta_tasks = {
 
 // show tool tips
 
+var tooltip_rules = {
+
+	'rate vision' : 
+		{
+			display_conditions: ["$('div.summary_block h4.rating').hasClass('please-rate')"]
+		},
+
+	'rate overall answer'	: 
+		{
+			display_conditions: ["element.closest('div.answer_block').find('h4.rating').hasClass('please-rate')"]
+		},
+
+	'add endorsement'	: 
+		{
+			display_conditions: ["!participant_stats.endorse"]
+		},
+
+	'post-its-wall'	: 
+		{
+			display_conditions: ["true"]
+		},
+		
+	'li.theme' : 
+		{
+			display_conditions: ["true"]
+		},
+
+	'a.view_unrated_ideas' : 
+		{
+			display_conditions: ["true"]
+		}
+		
+}
+
 function get_tooltip(element){
 	element = $(element);
-	console.log("get tooltip for " + element.attr('data_tool_tip'));
-	var tooltip = templates['idea_tooltips'].find('div[id="' + element.attr('data_tool_tip') + '"]');
+	var tooltip_id = element.attr('data_tool_tip');
+	console.log("get tooltip for " + tooltip_id);
+	var tooltip = templates['idea_tooltips'].find('div[id="' + tooltip_id + '"]');
 	if(tooltip.size()==0){
-		console.log("No try to get tooltip for " + element.attr('is'));
-		tooltip = templates['idea_cta_help'].find('div[id="' + element.attr('id') + '"]');
+		var tooltip_id = (element.prop('tagName') + '.' + element.prop('className')).toLowerCase();
+		console.log("No try to get tooltip for " + tooltip_id);
+		tooltip = templates['idea_tooltips'].find('div[id="' + tooltip_id + '"]');
 	}
-	return tooltip.html() || 'No tooltip found for ' + element.attr('data_tool_tip');
+	
+	// check if the are any rules about when to not show the tooltip
+	var display_tooltip = true;
+	var rule = tooltip_rules[tooltip_id];
+	if(rule && rule.display_conditions){
+		for(var i=0, cond; (cond=rule.display_conditions[i]);i++){
+			console.log("test include_condition " + cond + ": " + eval(cond) );
+			if(!eval( cond )){
+				display_tooltip = false;
+				break;
+			}
+		}
+	}
+	if(display_tooltip){
+		return tooltip.html() || 'No tooltip found for ' + element.attr('data_tool_tip');
+	}else{
+		Tipped.remove(element);
+		return false;
+	}
 		
 }	
 
@@ -258,8 +312,8 @@ function init_tooltips(){
 	
 	// set the tooltip data pointer on element as 
 	//		data_tool_tip: tool_tip
-	Tipped.create('div.answer_block div.rater, div.answer_details div.rater', get_tooltip, 
-		{ skin: 'custom', hook: 'rightmiddle'	} );
+	Tipped.create('div.answer_block div.rater', get_tooltip, 
+		{ skin: 'yellow', hook: 'rightmiddle'	} );
 
 	Tipped.create('div.summary_block div.rater', get_tooltip, 
 		{ skin: 'yellow', hook: 'rightmiddle', containment: false	} );
@@ -272,6 +326,13 @@ function init_tooltips(){
 
 	Tipped.create('div.idea-post-it-instructions li:nth-child(2)', get_tooltip,
 		{ skin: 'yellow', hook: 'rightmiddle', containment: 'viewport'	} );
+		
+	Tipped.create('div.answer_block li.theme:first', get_tooltip,
+		{ skin: 'yellow', hook: 'rightmiddle', containment: 'viewport'	} );
+
+	Tipped.create('a.view_unrated_ideas', get_tooltip,
+		{ skin: 'yellow', hook: 'rightmiddle', containment: 'viewport'	} );
+		
 		
 	show_default_tooltips();	
 	console.log("init_tooltips completed");

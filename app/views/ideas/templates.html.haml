@@ -283,25 +283,20 @@
 			template_functions['call-to-action'] = templates['call-to-action'].compile(
 				{
 					'@id' : 'id',
+					'@data_tool_tip' : 'id',
 					'h1' : 'ctr', 
 					'h2' : 'title',
 					'p.link' : 'link'
 				}
 			);
 
-	%script#idea_cta_help{:type=>'text/html'}
+	%script#idea_help{:type=>'text/html'}
 		:plain
 			#{ render( template: 'help/idea_help', formats: [:html]  )}
 				
-				
-	%script#create_idea_cta_help
-		:plain
-			templates['idea_cta_help'] = $('<div></div>').html($.trim( $('script#idea_cta_help').html() )).find('div#idea_help');
-
-
 	%script#create_idea_tooltips
 		:plain
-			templates['idea_tooltips'] = $('<div></div>').html($.trim( $('script#idea_cta_help').html() )).find('div#tooltips');
+			templates['idea_tooltips'] = $('<div></div>').html($.trim( $('script#idea_help').html() )).find('div#tooltips');
 
 
 	%script#proposal_answer_template{:type=>'text/html'}
