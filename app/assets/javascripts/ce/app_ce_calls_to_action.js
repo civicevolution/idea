@@ -246,11 +246,11 @@ var tooltip_rules = {
 function get_tooltip(element){
 	element = $(element);
 	var tooltip_id = element.attr('data_tool_tip');
-	console.log("get tooltip for " + tooltip_id);
+	//console.log("get tooltip for " + tooltip_id);
 	var tooltip = templates['idea_tooltips'].find('div[id="' + tooltip_id + '"]');
 	if(tooltip.size()==0){
 		var tooltip_id = (element.prop('tagName') + '.' + element.prop('className')).toLowerCase();
-		console.log("No try to get tooltip for " + tooltip_id);
+		//console.log("No try to get tooltip for " + tooltip_id);
 		tooltip = templates['idea_tooltips'].find('div[id="' + tooltip_id + '"]');
 	}
 	
@@ -259,7 +259,7 @@ function get_tooltip(element){
 	var rule = tooltip_rules[tooltip_id];
 	if(rule && rule.display_conditions){
 		for(var i=0, cond; (cond=rule.display_conditions[i]);i++){
-			console.log("test include_condition " + cond + ": " + eval(cond) );
+			//console.log("test include_condition " + cond + ": " + eval(cond) );
 			if(!eval( cond )){
 				display_tooltip = false;
 				break;
@@ -277,9 +277,9 @@ function get_tooltip(element){
 
 
 function init_tooltips(){
-	console.log("try to init_tooltips");
+	//console.log("try to init_tooltips");
 	if(typeof templates == 'undefined' ){
-		console.log("try to init_tooltips again soon");
+		//console.log("try to init_tooltips again soon");
 		setTimeout( function(){init_tooltips();},300);
 		return;
 	}
@@ -335,7 +335,7 @@ function init_tooltips(){
 		
 		
 	show_default_tooltips();	
-	console.log("init_tooltips completed");
+	//console.log("init_tooltips completed");
 }
 
 function show_default_tooltips(){
