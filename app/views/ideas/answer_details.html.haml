@@ -22,6 +22,16 @@
 							%div.inner
 								:markdown
 									#{idea.text}
+								- if !idea.attachments.empty?
+									%div.attachments
+										- idea.attachments.each do |att|
+											- icon_url = att.attachment_content_type.match(/image/i) ? att.attachment(:icon) : '/assets/doc_icon.gif'
+											%div.attachment
+												= link_to "#{att.attachment.url.to_s}", target: '_blank' do
+													=image_tag(icon_url, title: att.attachment_file_name)
+													%p= att.attachment_file_name
+										%p.clear
+							
 				
 					%p.timestamp
 						- if @member.id == idea.team.org_id

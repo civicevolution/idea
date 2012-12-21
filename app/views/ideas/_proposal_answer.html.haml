@@ -3,6 +3,16 @@
 		:markdown
 			#{theme.text}
 			
+		- if !theme.attachments.empty?
+			%div.attachments
+				- theme.attachments.each do |att|
+					- icon_url = att.attachment_content_type.match(/image/i) ? att.attachment(:icon) : '/assets/doc_icon.gif'
+					%div.attachment
+						= link_to "#{att.attachment.url.to_s}", target: '_blank' do
+							=image_tag(icon_url, title: att.attachment_file_name)
+							%p= att.attachment_file_name
+				%p.clear
+		
 	%div.answer_status	
 		- if @project_coordinator
 			= image_tag 'blue-pencil-24.png', :class=>"edit"
