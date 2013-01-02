@@ -102,7 +102,7 @@
 		-#debugger
 		- answer_ids=[]
 		- @items.select{|i| [0,1,2].include?(i.role.to_i)}.each do |m|
-			- if !answer_ids.include?(m.obj_id.to_i)
+			- if m.team_id != 10095 && !answer_ids.include?(m.obj_id.to_i)
 				- answer_ids.push(m.obj_id.to_i)
 				%tr
 					%td

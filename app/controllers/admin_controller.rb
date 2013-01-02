@@ -18,7 +18,7 @@ class AdminController < ApplicationController
   
   
   def recent_content
-    @start_days = params[:start_days].nil? ? 2 : params[:start_days].to_i
+    @start_days = params[:start_days].nil? ? 14 : params[:start_days].to_i
     @end_days = params[:end_days].nil? ? 0 : params[:end_days].to_i
     
     initiative_id = params[:_initiative_id]
