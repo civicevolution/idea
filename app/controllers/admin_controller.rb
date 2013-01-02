@@ -20,13 +20,20 @@ class AdminController < ApplicationController
   def recent_content
     @start_days = params[:start_days].nil? ? 2 : params[:start_days].to_i
     @end_days = params[:end_days].nil? ? 0 : params[:end_days].to_i
+    
+    initiative_id = params[:_initiative_id]
+    if [1,2].include?(initiative_id.to_i)
+      initiative_id = [1,2]
+    end
+    
     #logger.debug "recent content start: #{@start_days} till #{@end_days}"
     @items = TeamContentLog.all(
-      :select=>%q|m.id AS member_id, first_name, last_name, email, t.id AS team_id, t.initiative_id, t.launched, t.title, tcl.created_at,
-        (SELECT CASE WHEN tcl.o_type = 2 THEN 'ANS' WHEN tcl.o_type=3 THEN 'COM' WHEN tcl.o_type=13 THEN 'TP' END) AS type,
-        (SELECT CASE WHEN tcl.o_type = 2 THEN (SELECT text FROM answers where id = tcl.o_id) WHEN tcl.o_type=3 THEN (SELECT text FROM comments where id = tcl.o_id) WHEN tcl.o_type=13 THEN (SELECT text FROM talking_points where id = tcl.o_id) END) AS content|,
+      :select=>%q|m.id AS member_id, first_name, last_name, email, t.id AS team_id, t.initiative_id, t.launched, t.title, tcl.created_at, tcl.o_id AS obj_id,
+        (SELECT CASE WHEN tcl.o_type = 20 THEN 'IDEA' WHEN tcl.o_type=3 THEN 'COM' END) AS type,
+        (SELECT CASE WHEN tcl.o_type = 20 THEN (SELECT text FROM ideas where id = tcl.o_id) WHEN tcl.o_type=3 THEN (SELECT text FROM comments where id = tcl.o_id) END) AS content,
+        (SELECT CASE WHEN tcl.o_type = 20 THEN (SELECT role FROM ideas where id = tcl.o_id) WHEN tcl.o_type=3 THEN 0 END) AS role|,
       :joins=>'AS tcl INNER JOIN members AS m ON tcl.member_id = m.id INNER JOIN teams AS t ON tcl.team_id = t.id',
-      :conditions=>[%q|tcl.created_at BETWEEN (now() AT time zone 'UTC') - INTERVAL '? days' AND (now() AT time zone 'UTC') - INTERVAL '? days' AND t.initiative_id IN (1,2)|,@start_days, @end_days],
+      :conditions=>[%q|tcl.created_at BETWEEN (now() AT time zone 'UTC') - INTERVAL '? days' AND (now() AT time zone 'UTC') - INTERVAL '? days' AND t.initiative_id IN (?)|,@start_days, @end_days, initiative_id],
       :order=>'tcl.created_at DESC'
     )
 

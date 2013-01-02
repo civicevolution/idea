@@ -85,31 +85,39 @@
 		%tr
 			%th #
 			%th Name
-			%th Email
+			-#%th Email
 			%th Init
 			%th Live
 			%th Team
+			%th T id
 			%th Type
+			%th	Role
 			%th Content
 			%th Created
 			%th v^
 			
 			
 			
-	%tbody			
-		- @items.each do |m|
-			%tr
-				%td
-				%td= "#{m.first_name} #{m.last_name}"
-				%td= "#{m.email}"
-				%td= m['initiative_id']
-				%td= m['launched'] == 't' ? 'Live' : 'No'
-				%td.title= m['title']
-				%td= m['type']
-				%td= m['content']
-				%td= time_ago_in_words(m['created_at']) + ' ago' unless m['created_at'].nil?
-				%td 
-					%span.sort_time= m['created_at'].nil? ? 0 : Time.parse(m['created_at'].to_s).to_i
+	%tbody	
+		-#debugger
+		- answer_ids=[]
+		- @items.select{|i| [0,1,2].include?(i.role.to_i)}.each do |m|
+			- if !answer_ids.include?(m.obj_id.to_i)
+				- answer_ids.push(m.obj_id.to_i)
+				%tr
+					%td
+					%td= "#{m.first_name} #{m.last_name}"
+					-#%td= "#{m.email}"
+					%td= m['initiative_id']
+					%td= m['launched'] == 't' ? 'Live' : 'No'
+					%td.title= m['title']
+					%td= m.team_id
+					%td= m['type']
+					%td= m['role']
+					%td= m['content']
+					%td= time_ago_in_words(m['created_at']) + ' ago' unless m['created_at'].nil?
+					%td 
+						%span.sort_time= m['created_at'].nil? ? 0 : Time.parse(m['created_at'].to_s).to_i
 				
 %p	
 	= link_to "Go back 2 more days", {}, {:class=>'add_more_days'}
