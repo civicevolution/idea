@@ -14,8 +14,8 @@
 	%div.endorsements_inner
 		- ctr = 0
 		- hide_lt = 0
-		- if endorsements.size > 3
-			- hide_lt = endorsements.size - 3
+		- if endorsements.size > 3000
+			- hide_lt = endorsements.size - 3000
 			%div.comment.show_all
 				%p 
 					= link_to "Show all #{endorsements.size} endorsements", {}, class: 'show-all-endorsements'
