@@ -4,62 +4,32 @@
 
 		= render :partial=>'logo_links', :locals=>{:active=>'home'}
 		
-		%div.mission
-			%h2 Think together 
-			%h2 to act together
+		%div.header
+			%h2 Think Together to Act Together
+			%p Finding and implementing sustainable solutions requires the insight, cooperation, and support of everyone affected.
 			
-			-#%p CivicEvolution helps citizens create community written and supported plans to solve community problems–it helps us think together so we can act together.
-			%p
-				%b CivicEvolution helps your group organize its ideas
-				
-			%p You work together to brainstorm, discuss, rate, sort, and summarize your group's ideas. Our open and transparent process helps you collect and refine them into a consensus action plan.	
-						
+			
+		%div.mission
+			%p CivicEvolution uses web, mobile, and face-to-face activities and applications to help people come together around their shared concerns in meaningful conversations where they can understand their differences and pursue their mutual interests through practical cooperation. 
+			
+			%p Our approach encourages collaboration among constituents while easing the burden and risk for officials.
+
 			%p{:style=>'margin-top: 24px'} 
 				We work with citizens and community leaders. Click 
 				%b= link_to "Get started", :get_started
 				to find out how we can help your community.
-			
-			%div.ncdd
-				%div{:style=>'float:left; margin-top: 20px'}
-					%a{ :href=> 'http://ncdd.civicevolution.org'}
-						= image_tag("ncdd/catalyst-rocket-home.gif", width: '162px')
-				%div{:style=>'float:left; width: 200px; margin: 20px 0 0 20px'}
-					%p{:style=>'margin:0'} 
-						We’re excited to be hosting NCDD’s 				
-						%a{ :href=> 'http://ncdd.civicevolution.org'} Catalyst Awards!
-				%p{:style=>'margin:16px 0 0 0; clear: both'}
-					Click the link or logo above to get involved!
-			
+						
 		%div.video
 			-#<iframe src="http://player.vimeo.com/video/22453947?title=0&amp;byline=0&amp;portrait=0" width="400" height="310" frameborder="0"></iframe>
 			-#<iframe src="http://player.vimeo.com/video/29348381?title=0&amp;byline=0&amp;portrait=0" width="400" height="340" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
 			-#<iframe width="400" height="300" src="http://www.youtube.com/embed/Y1oy10ja7us?rel=0" frameborder="0" allowfullscreen></iframe>
 			-#<iframe width="400" height="225" src="http://www.youtube.com/embed/v3_HUwIanWU?rel=0" frameborder="0" allowfullscreen></iframe>
-			<iframe width="400" height="300" src="http://www.youtube.com/embed/VYqC-WwleRU?rel=0" frameborder="0" allowfullscreen></iframe>
-			
+			-#<iframe width="400" height="300" src="http://www.youtube.com/embed/VYqC-WwleRU?rel=0" frameborder="0" allowfullscreen></iframe>
+			<iframe width="400" height="300" src="http://www.youtube.com/embed/so7BokARUiI?rel=0" frameborder="0" allowfullscreen></iframe>
 			-#<iframe src="http://player.vimeo.com/video/29348381?title=0&amp;byline=0&amp;portrait=0" width="594" height="505" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
 			
-			%p 
-				%span.bright Watch video 
-				How CivicEvolution works
-			%p 
-				View the 
-				%span.bright= link_to "help page", help_path(:topic=>'Think_together_to_act_together')
-				to learn more
-				
-			-#= link_to do
-				= image_tag "happy_idea_400.gif"
-				%p 
-					%span.bright Watch video 
-					How CivicEvolution works
-					
-			-#%p.clear_both			
+			%p{style: "margin: 0"}
 
-			-#%div.call_to_action_div
-				= link_to :get_started do
-					%div.call_to_action
-						Get started
-				
 			%div.subscribe
 				- if ! flash[:subscribed].nil?
 					%p= flash[:subscribed]
@@ -83,16 +53,6 @@
 		= image_tag 'mktg/CCF_logo_6gs.gif'
 	= image_tag 'mktg/usyd_6gs.gif'
 
--#= render :template=>'welcome/how_it_works' 
-
--#%div.quote
-	%h3 Our vision drives us
-	%p 
-		= image_tag 'mktg/left_dbl_quote_20.gif'
-		Ultimately, citizens experience themselves as authentic participants in the creative co-governance of their communities
-		= image_tag 'mktg/right_dbl_quote_20.gif'
-		
-		
 		
 = render :template=>'welcome/featured_projects'
 
