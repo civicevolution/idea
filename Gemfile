@@ -4,7 +4,7 @@ gem 'rails', '3.2.12'
 
 group :development do
   # this is single threaded server & can't do pdf generation
-  #gem 'thin', '1.4.1'
+  gem 'thin', '1.4.1'
   #gem 'debugger', '= 1.1.4'
   
   # unicorn can do multiple workers

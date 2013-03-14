@@ -114,8 +114,8 @@
 	
 	%div#left
 		%div.talking_point_block
-			-# if @session.published
-				%h3.warn The themes from this session have been published and no themes can be added
+			- if @session.published
+				%h3.warn The themes from themesis session have been published and no themes can be added
 		
 			-#%p.desc= @session.description
 			

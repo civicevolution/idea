@@ -116,3 +116,29 @@ div#scribe_standby
 	
 div.auto-scroll
 	@include opacity(10)
+	
+	
+// macro theme/microtheme image-url styles
+div.idea_list.has_focus
+	div.header
+		p.theme
+			background: image-url('pencil.gif') no-repeat top right	
+	div.edit.edit_macro_theme_example_icon
+		background: image-url('pencil.gif') no-repeat top right
+
+div.idea_list.has_focus
+	div.header
+		p.theme
+			background: #eee image-url('pencil.gif') no-repeat top right	
+	div.edit.edit_macro_theme_example_icon
+		background: image-url('pencil.gif') no-repeat top right
+	
+	
+// theme final edit sass	
+div#live_theme_final_edit	
+	div.controls
+		position: relative
+		div.edit
+			background: image-url('pencil.gif') no-repeat top right 
+	div.visibility
+		background: image-url('visible3.gif') no-repeat 0 -12px
