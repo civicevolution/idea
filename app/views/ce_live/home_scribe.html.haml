@@ -33,8 +33,9 @@
 									- when 'collect'
 										%p= link_to "Collect talking points for #{session.name}", live_scribe_path(:dest => "collect_#{session.id}")
 									- when 'allocation'
-										- if !session.source_session_id.nil?
-											%p= link_to "#{session.name}", live_scribe_path(:dest => "allocation_#{session.id}")
-										- else
+										-# if !session.source_session_id.nil?
+										%p= link_to "#{session.name}", live_scribe_path(:dest => "allocation_#{session.id}")
+										-# else
+											- debugger
 											%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"
 	
