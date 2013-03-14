@@ -82,6 +82,7 @@ module G3
     #config.assets.precompile += %w( application_ce_home_all.js )
     #config.assets.precompile += %w( application_civic_home.css application_civic_home.js)
     
+    config.autoload_paths += %W(#{config.root}/presenters)
     
     #APP_NAME = Rails.root.to_s.match(/^\/data\//) ? Rails.root.to_s.match(/\/data\/(\w+)\//)[1] : Rails.root.to_s.match(/\/ce_development\/Rails\/(\w+)/)[1]
 
