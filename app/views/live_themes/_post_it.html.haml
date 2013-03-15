@@ -1,0 +1,21 @@
+%div{class: "R#{random_ind.pop} post-it", id: idea.id}
+	-# if idea.role == 2
+		%div.inner
+			:markdown
+				#{idea.text}
+	-# else
+	%p.idea= idea.text
+	%div.status
+		-#if idea.role == 2
+		= image_tag 'blue-pencil-24.png', :class=>"edit"
+		-# if idea.version == 0 || idea.role != 2
+		= image_tag 'delete_icon_16t.gif', :class=>"delete"
+		
+		-#%div.comments
+			= image_tag('comment-sketch.gif')
+			%div.counts
+				%div.new
+					0 new
+				%div.total
+					0 total
+		= image_tag('magnify.gif', class: 'magnify')

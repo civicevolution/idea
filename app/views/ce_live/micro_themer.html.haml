@@ -1,8 +1,11 @@
 - content_for(:script) do
 	= javascript_include_tag 'ce_live/app_ce_live_micro_themer.js'
+	= javascript_include_tag 'ce_live/app_ce_theming.js'
+	= javascript_include_tag 'ce_live/app_ce_live_micro_themer_post_it.js'
 		
 %div#themer.theme
 	= stylesheet_link_tag 'ce_live/ce_micro_themer_old'
+	= stylesheet_link_tag 'ce_live/theming_page'
 	
 	:javascript
 		var pub_sub_channels = #{@channels}
@@ -22,7 +25,9 @@
 					%div.show_tp Show all TP
 		%p.clear_both
 			
-	%div.workspace
+	= render partial: 'live_themes/post_its_wall', locals: {presenter: @presenter, live_session_id: @session_id }
+			
+	-#%div.workspace
 		
 		%div.incoming_ideas
 			%div#auto_bottom.auto-scroll.incoming_scroll Autoscroll

@@ -25,8 +25,16 @@ class LiveThemingSessions::MicroThemerPresenter
   def live_talking_points
     @live_talking_points
   end
+
+  def unthemed_ideas
+    @live_talking_points
+  end
   
   def dont_fit_tp
+    @dont_fit_tp
+  end
+
+  def parked_ideas
     @dont_fit_tp
   end
   

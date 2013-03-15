@@ -1,6 +1,7 @@
 //console.log("Loading app_ce_live_themer.js")
 var lock_resize = false;
 function live_resize(){
+	return false;
   //if(lock_resize)return;
   //lock_resize = true;
   if(adjust_in_process){

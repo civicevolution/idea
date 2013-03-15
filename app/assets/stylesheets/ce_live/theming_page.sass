@@ -1,0 +1,394 @@
+@import "definitions"
+
+div.question_tabs
+	position: absolute
+	
+div.theming_header
+	position: relative
+	height: 36px
+	background-color: #ccf
+	h3
+		margin: 0
+		padding: 8px 0 0 20px
+		img
+			vertical-align: baseline
+	a.close
+		position: absolute
+		font-weight: bold
+		top: 10px
+		right: 20px
+
+.fancy-scrollbar
+	&::-webkit-scrollbar
+		height: 9px
+		width: 9px
+	&::-webkit-scrollbar-button
+		&:start:decrement, &:end:increment
+			background: transparent
+			display: none
+	&::-webkit-scrollbar-track-piece
+		background: #d0d0d0
+		&:vertical
+			&:start
+				border-top-left-radius: 5px
+				border-top-right-radius: 5px
+				border-bottom-right-radius: 0
+				border-bottom-left-radius: 0
+			&:end
+				border-top-left-radius: 0
+				border-top-right-radius: 0
+				border-bottom-right-radius: 5px
+				border-bottom-left-radius: 5px
+		&:horizontal
+			&:start
+				border-top-left-radius: 5px
+				border-top-right-radius: 0
+				border-bottom-right-radius: 0
+				border-bottom-left-radius: 5px
+			&:end
+				border-top-left-radius: 0
+				border-top-right-radius: 5px
+				border-bottom-right-radius: 5px
+				border-bottom-left-radius: 0
+	&::-webkit-scrollbar-thumb
+		&:vertical, &:horizontal
+			background: #999
+			border-radius: 5px
+			display: block
+			height: 50px
+
+div.theming_page_outer
+	font-size: 13px
+	width: 100%
+	height: 100%
+	//border: 1px solid black
+	background-color: white
+	div.theming_page
+		width: 100%
+		//border: 1px solid blue
+		position: relative
+		div.theme_cols_window_outer
+			//border: 1px solid green
+			overflow-x: auto
+			overflow-y: hidden
+		a.close_theming_page.top_right
+			position: absolute
+			top: 20px
+			right: 20px
+		div.theme_cols_window	
+			//border: 1px solid orange
+			position: relative
+			div.auto-scroll
+				z-index: 10000
+				position: fixed
+				width: 24px
+				display: none
+				&.scroll-active
+					display: block
+					&.left
+						background: image-url('auto-scroll-left.png') repeat-y
+					&.right
+						background: image-url('auto-scroll-right.png') repeat-y
+					&.top
+						background: image-url('auto-scroll-top.png') no-repeat center top
+					&.bottom
+						background: image-url('auto-scroll-bottom.png') no-repeat center top
+			div.auto-scroll.top, div.auto-scroll.bottom
+				z-index: 10
+				position: absolute
+				width: 100px
+				height: 24px
+				left: 0
+			
+			div.theme_col
+				//border: 1px solid red
+				position: relative
+				overflow-x: hidden
+				overflow-y: auto
+				width: 200px
+				float: left
+				max-height: 100%
+			div.theme_col.unthemed_ideas
+				background: #a3a3bf //#cfb
+				ul.sortable_ideas.highlight_dropzone
+					background-color: #d9d9ff
+				h3
+					margin-left: 10px
+					color: white
+			//div.theme_col.theme
+			div.theme_col.parked_ideas
+				position: absolute
+				right: 0
+				top: 0
+				background: #bfbc93 //#a69c3f //#f97
+				ul.sortable_ideas.highlight_dropzone
+					background-color: #fffbd2
+				h3
+					margin-left: 10px
+					color: white
+
+// post-it styling							
+ul.sortable_ideas
+	li
+		list-style: none
+
+div.status
+	height: 20px
+	font-weight: bold
+	vertical-align: top
+	font-size: 1.2em
+div.comments, div.ideas
+	float: left
+	img
+		display: block
+		float: left
+		margin-right: 4px
+	div.counts
+		font-size: .8em
+		margin-right: 0px
+		float: left
+		div
+			font-weight: normal
+		div.new
+			font-weight: normal
+			color: #FF4D4D
+		
+div.post-it	
+	img.delete, img.edit, img.clipboard
+		display: none
+		cursor: pointer 
+		float: left
+		margin-right: 4px
+
+ul.sortable_ideas
+	div.post-it
+		ol 
+			padding-left: 20px
+			li
+				list-style-type: decimal
+				margin-bottom: 0
+		ul
+			padding-left: 20px
+			li
+				list-style-type: disc
+				margin-bottom: 0
+	
+div.theme_col
+	li.idea_post_it:hover, li.theme_post_it:hover
+		img.delete
+			display: block
+	li.theme_post_it:hover
+		img.edit
+			display: block
+
+
+div.theme_col.unthemed_ideas
+	li.idea_post_it:hover
+		img.delete
+			display: none
+	li.theme_post_it:hover
+		img.edit
+			display: none
+
+	li.idea_post_it img.delete, li.theme_post_it img.edit
+		display: none
+
+div.theming_page_outer.no_theme
+	li.idea_post_it:hover
+		img.delete
+			display: none
+	li.theme_post_it:hover
+		img.edit
+			display: none
+			
+img.magnify
+	display: block
+	float: right
+	+opacity(25)
+
+ul
+	overflow: hidden
+	padding: 0em
+	&.sortable_ideas
+		margin-top: 30px
+		min-height: 60px
+		padding-bottom: 40px
+		&.highlight_dropzone
+			background-color: #e3e3ff // for themes
+		
+li.idea_post_it, li.theme_post_it, li.question_post_it, li.team_post_it
+	cursor: pointer
+	div.post-it
+		text-decoration: none
+		color: #000
+		display: block
+		height: auto
+		width: 10em
+		padding: 1em
+		/* Firefox
+		-moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1)
+		/* Safari+Chrome
+		-webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7)
+		/* Opera
+		box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7)
+			
+	margin: 1em
+	float: left
+
+li.idea_post_it
+	div.post-it
+		background: $yellow_post_it
+	&.drop_hover
+		+opacity(20)
+li.theme_post_it div.post-it
+	background: $purple_post_it
+
+li.question_post_it div.post-it
+	background: $question_icon_bg
+
+li.team_post_it div.post-it
+	background: $proposal_icon_bg
+	
+li
+	div.R0
+		-o-transform: rotate(1deg)
+		-webkit-transform: rotate(1deg)
+		-moz-transform: rotate(1deg)
+		position: relative
+		top: 3px
+	div.R1
+		-o-transform: rotate(-1deg)
+		-webkit-transform: rotate(-1deg)
+		-moz-transform: rotate(-1deg)
+		position: relative
+		top: -5px
+	div.R2
+		-o-transform: rotate(2deg)
+		-webkit-transform: rotate(2deg)
+		-moz-transform: rotate(2deg)
+		position: relative
+		top: -10px
+	div.R3
+		-o-transform: rotate(-1deg)
+		-webkit-transform: rotate(-2deg)
+		-moz-transform: rotate(-2deg)
+		position: relative
+		top: 5px
+	div.R4
+		-o-transform: rotate(3deg)
+		-webkit-transform: rotate(3deg)
+		-moz-transform: rotate(3deg)
+		position: relative
+		top: -4px
+	div.R5
+		-o-transform: rotate(-3deg)
+		-webkit-transform: rotate(-3deg)
+		-moz-transform: rotate(-3deg)
+		position: relative
+		top: -6px
+	div.R6
+		-o-transform: rotate(4deg)
+		-webkit-transform: rotate(4deg)
+		-moz-transform: rotate(4deg)
+		position: relative
+		top: 8px
+	div.R7
+		-o-transform: rotate(-4deg)
+		-webkit-transform: rotate(-4deg)
+		-moz-transform: rotate(-4deg)
+		position: relative
+		top: -5px
+	div.R8
+		-o-transform: rotate(5deg)
+		-webkit-transform: rotate(5deg)
+		-moz-transform: rotate(5deg)
+		position: relative
+		top: -8px
+	div.R9
+		-o-transform: rotate(-5deg)
+		-webkit-transform: rotate(-5deg)
+		-moz-transform: rotate(-5deg)
+		position: relative
+		top: 4px
+
+
+//
+// Post it edit formatting
+//
+
+form.std_form.edit_theme
+	margin-bottom: 0
+	textarea
+		font-size: 1em
+	p.form_controls
+		postion: relative
+		input[type="submit"]
+			margin-left: 0
+		a.cancel
+			position: absolute
+			right: 10px
+
+div.theme_col
+	li.theme_post_it
+		form.std_form.edit_theme
+			display: none
+		p.idea, div.status
+			display: block
+
+p.idea
+	word-wrap: break-word
+
+div.theme_col
+	ul.sortable_ideas
+		min-height: 400px
+		//border: 1px solid orange
+
+div.theming_page_outer		
+	div.intro_instruction
+		margin-left: 40px
+		color: 888
+		float: left
+		width: 360px
+		ul,ol,li 
+			list-style-type: decimal
+		li
+			margin-bottom: 8px
+
+div.theme_col li.theme_post_it div.post-it 
+	div.inner
+		position: relative
+		p.more
+			position: absolute
+			right: 0
+			bottom: 0
+			width: 100%
+			padding-top: 20px
+			font-weight: bold
+			text-align: right
+			margin: 0
+			height: 40px
+			background: image-url('ellipsis-fade.png') repeat-x
+			cursor: pointer
+		
+div.theme_col
+	p.visibility
+		position: absolute
+		top: 8px
+		left: 8px
+		margin: 0
+		font-style: italic
+		input, label
+			cursor: pointer
+div.theme_col#placeholder
+	div.post-it
+		color: red
+		font-weight: bold
+		img
+			display: none
+li.idea_post_it			
+	div.post-it[id="-1"]
+		color: red
+		font-weight: bold
+		img
+			display: none
+	
