@@ -25,7 +25,7 @@ function init_details_popup(details){
 			}                                                            	
 			if(deleteNow){  
 				dialog.slideUp(400, function () { 
-					dialog.find('div.wmd-panel').remove();
+					dialog.find('div.idea_details.popup').remove();
 					dialog.dialog('destroy').remove();
 			  });                                                        	
 			}else{
@@ -43,19 +43,19 @@ function activate_details(details){
 	activate_text_counters_grow(details.find('textarea'), 120);
 	//details.modal( {escClose: false});
 	
-	// set the width of the navigation area
-	var max_markers = 1;
-	details.find('div.navigation > div').each(
-		function(){
-			var cnt = $(this).find('> a').size();
-			if(cnt>max_markers){max_markers = cnt}
-		}
-	);
-	details.find('div.navigation').width( max_markers * 30);
-
-	init_rating_sliders( details.find("div.theme_slider") );
-	
-	init_file_uploads( details.find('input.attachment-upload') );
+	//// set the width of the navigation area
+	//var max_markers = 1;
+	//details.find('div.navigation > div').each(
+	//	function(){
+	//		var cnt = $(this).find('> a').size();
+	//		if(cnt>max_markers){max_markers = cnt}
+	//	}
+	//);
+	//details.find('div.navigation').width( max_markers * 30);
+  //
+	//init_rating_sliders( details.find("div.theme_slider") );
+	//
+	//init_file_uploads( details.find('input.attachment-upload') );
 }
 
 $('body').on('click', 'div.ui-dialog a.close_dialog', function(){
