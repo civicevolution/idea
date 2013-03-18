@@ -50,7 +50,7 @@
 								- 1.times do 
 									- theme.talking_points.each do |idea|
 										%li.idea_post_it
-											= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}
+											= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind, ex_ids: theme.example_ids}
 													
 								
 				%div.theme_col.parked_ideas.fancy-scrollbar{ id:  'parked_ideas'}

@@ -82,6 +82,9 @@ G3::Application.routes.draw do
   get "live/sign_in_form" => 'ce_live#sign_in_form', :as => 'live_sign_in'
   match "live/sign_out" => 'ce_live#sign_out', :as => 'sign_out'
   
+  get 'theme/:theme_id/details', to: 'ce_live#theme_details', as: 'view_theme_details'
+  get 'idea/:theme_id/edit_theme', to: 'ce_live#edit_theme', as: 'edit_live_theme'
+  post 'idea/:theme_id/edit_theme', to: 'ce_live#edit_theme_post', as: 'edit_live_theme'
   
   
   

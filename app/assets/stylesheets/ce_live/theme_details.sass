@@ -1,0 +1,328 @@
+@import "definitions"
+
+div.idea_details.ui-dialog-content
+	overflow-x: hidden
+	
+div.idea_details        
+	position: relative
+	width: 400px
+	div.activity_stream
+		width: 400px
+	background-color: white
+	padding: 20px	
+	margin-bottom: 30px
+	a.idea-close
+		position: absolute
+		top: 10px
+		right: 20px
+	
+	h3.popup_nav
+		img	
+			vertical-align: baseline
+			cursor: pointer
+		a.return_to_answer_details, a.close_dialog
+			margin-left: 20px
+			font-size: .8em
+		
+	div.navigation
+		background: $navigation_bg
+		padding: 10px 10px 0 10px
+		max-width: 360px
+		div
+			min-height: 30px
+			&.clear_both
+				height: 0
+		a.item
+			display: block
+			height: 20px
+			width: 20px
+			float: left
+			margin-right: 10px
+			margin-bottom: 10px
+			cursor: pointer
+			&.current
+				cursor: default
+		div.proposal a
+			background: $proposal_icon_bg
+		div.questions a
+			background: $question_icon_bg
+			&.current
+				background: $question_icon_bg-current
+		div.themes a
+			background: $purple_post_it
+			&.current
+				background: $purple_post_it-current
+		div.ideas a
+			background: $yellow_post_it
+			&.current
+				background: $yellow_post_it-current
+	
+	h3.question
+		font-size: 1em
+	ul
+		padding-top: 10px
+	li.theme_post_it, li.idea_post_it, li.question_post_it, li.team_post_it
+		list-style: none
+		margin-bottom: 30px
+		div.post-it
+			width: 350px
+			a
+				color: #551A8B
+		div.attachments
+			div.attachment
+				float: left
+				margin-right: 10px
+		img.delete
+			display: none
+		
+	p.timestamp
+		clear: both
+		padding-top: 10px
+		a.edit
+			font-weight: bold
+	
+	div.details_left
+		float: left
+		margin-right: 0px
+		width: 400px
+	ul
+		padding-left: 0
+		
+	div.details_right
+		float: right
+		padding-top: 50px
+		button
+			width: 100px
+			display: block
+			margin-bottom: 16px
+	
+	div.acknowledge_new_idea
+		width: 400px
+		a
+			font-weight: bold
+			color: #296d8A
+			text-decoration: none
+			&:hover
+				text-decoration: underline
+			
+	form.std_form 
+		color: black
+		&.add_comment
+			margin-bottom: 0
+		textarea
+			background-color: white
+			&.placeholder
+				color: #aaa
+		p.form_controls
+			position: relative
+			margin-top: 0px
+			width: 380px
+			&.no_attach
+				width: 400px
+			input[type="submit"]
+				margin: 0 
+			span.char_ctr
+				display: block
+				position: absolute
+				left: 160px
+				top: 2px
+			a
+				position: absolute
+				display: block
+				right: 0
+				top: 0
+				margin: 0
+		p.clear
+			margin: 0
+			
+
+div.comment
+	margin-top: 24px
+	div.img
+		margin-bottom: -58px
+		width: 36px
+		height: 56px
+		p
+			margin: 0
+			line-height: 16px
+			color: red
+	div.comment_body
+		padding-left: 42px
+		a.com_author
+			font-weight: bold
+		p.timeago
+			color: #666
+			font-style: italic
+			margin: -.6em 0 1em 0
+
+div.edit_form
+	&.edit_title
+		margin-top: 20px
+div.add_idea_comment
+	position: relative
+	width: 400px
+	p.form_controls
+		width: 380px
+	textarea
+		width: 380px
+	div.attachment_btn
+		position: absolute
+		//border: 1px solid red
+		top: 6px
+		right: 0px
+		height: 16px
+		width: 16px
+		background: image-url('attachment16.gif') no-repeat 0 0 
+		cursor: pointer
+		&:hover
+			background-color: #ddd
+		&.waiting
+			background: image-url('wait5.gif') no-repeat 0 0
+			right: -14px
+			width: 30px
+		div.inner
+			//border: 1px solid green
+			height: 16px
+			width: 16px
+			position: relative
+			input[type="file"]
+				position: absolute
+				top: 0
+				right: 0
+				margin: 0
+				background-color: transparent
+				color: white
+				cursor: pointer
+				display: block
+				height: 16px
+				line-height: 16px
+				width: 16px
+				+opacity(0)
+				&:hover
+					cursor: pointer
+	div.attachment_upload_progress
+		position: absolute
+		top: -18px
+		right: 0px
+		height: 16px
+		width: 120px
+		div.bar
+			height: 18px
+			background: image-url('upload/progressbar.gif') repeat-x 0 0
+div.comment, div.post-it
+	div.attachments
+		margin-bottom: 10px
+		border: 1px solid transparent
+		width: 376px
+		padding: 8px 0
+		div.attachment
+			float: left
+			margin-right: 10px
+			max-width: 80px
+			max-height: 80px
+			p
+				margin: 0
+				font-size: .8em
+				word-wrap: break-word
+			img
+				margin: 0
+				max-height: 60px
+				display: block
+div.post-it div.attachments
+	width: 100%
+	background-color: transparent
+
+div.idea_details   
+	div.answer_details_outer
+		position: relative
+		width: 600px
+		div.answer_details
+			position: absolute
+			top: 0
+			left: 0
+			width: 1200px
+			div.details_left
+				float: left
+				margin-left: 20px
+			div.constituent_ideas	
+				float: left
+				width: 180px
+				ul
+					padding-left: 10px
+					li.idea_post_it
+						div.post-it
+							width: 10em
+			div.constituent_idea_details	
+				float: left
+				width: 400px
+				height: 400px
+				ul
+					padding-left: 0
+					overflow: visible
+					li.idea_post_it:hover
+						img.delete
+							display: none
+
+	h4.discussion, h4.ideas_discussion		
+		margin-left: 0
+		margin-top: 40px
+		color: #296d8A
+		span
+			float: left
+			margin-right: 20px
+		div.counts
+			div
+				font-size: .8em
+	h4.ideas_discussion
+		margin-left: 8px
+	div.discussion
+		margin-bottom: 60px
+		margin-left: 10px
+
+h4.rating
+	a
+		color: #296d8A
+		text-decoration: none
+		margin-left: 20px
+		margin-top: 4px
+		font-size: .8em
+		&:hover
+			text-decoration: underline
+		&.next
+			color: red
+div.post-it
+	div.comments
+		img
+			width: 30px
+
+ul.answer
+	div.post-it
+		ol 
+			padding-left: 40px
+			li
+				list-style-type: decimal
+				margin-bottom: 0
+		ul
+			padding-left: 34px
+			li
+				list-style-type: disc
+				margin-bottom: 0
+	
+div.answer_details, div.summary_block
+	.wmd-panel
+		margin: 0 
+		width: 400px
+		max-width: 400px
+		form
+			textarea
+				width: 400px
+	#wmd-button-row
+		padding-top: 0
+	.wmd-preview
+		background-color: transparent
+		width: 320px
+		&.corner
+			border: 1px solid #ccc
+			padding: 1em
+			width: auto
+	

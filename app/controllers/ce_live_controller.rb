@@ -971,22 +971,21 @@ class CeLiveController < ApplicationController
         
       when 'new_list' 
         logger.debug "new_list"
-        @live_theme = LiveTheme.create live_session_id: params[:live_session_id], tag: params[:output_tag],
-          themer_id: @live_node.id, text: params[:text], order_id: 0, live_talking_point_ids: params[:ltp_ids], visible: true
-          
-        # replace the temp list_id with the new one returned by @live_theme.id
-        list_ids = []
-        params[:list_ids].each do |li|
-          if li == params[:list_id]
-            list_ids.push @live_theme.id
-          else
-            list_ids.push li
-          end
-        end
+        
+        new_text = %Q|**New answer**
+
+* mouseover and click pencil to edit this answer
+* drag to reorder|
+
+        @live_theme = LiveTheme.create( live_session_id: params[:live_session_id], tag: params[:output_tag],
+          themer_id: @live_node.id, text: new_text, order_id: 0, live_talking_point_ids: params[:idea_id], visible: true )
+                
         @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
-        @live_theming_session.theme_group_ids = list_ids.join(',')
+        group_ids = @live_theming_session.theme_group_ids.scan(/\d+/).map(&:to_i)
+        @live_theming_session.theme_group_ids = group_ids.insert(1,@live_theme.id).join(',')
         @live_theming_session.tag = params[:output_tag] unless params[:output_tag].nil? || params[:output_tag] == ''
         @live_theming_session.save
+        
           
       when 'reorder_lists'
         logger.debug "reorder_lists"
@@ -1009,11 +1008,11 @@ class CeLiveController < ApplicationController
           ltp_ids = params[:ltp_ids].scan(/\d+/).uniq.join(',')
         end
         
-        if params[:list_id] == "misc"
+        if params[:list_id] == "parked_ideas"
           @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
           @live_theming_session.unthemed_ids = ltp_ids
           @live_theming_session.save
-        else
+        elsif params[:list_id].to_i > 0
           @live_theme = LiveTheme.find_by_id( params[:list_id])
           @live_theme.live_talking_point_ids = ltp_ids
           @live_theme.save
@@ -1083,6 +1082,9 @@ class CeLiveController < ApplicationController
         ltp_ids = @live_theme.live_talking_point_ids.scan(/\d+/).map{|d| d.to_i}
         ltp_ids = ltp_ids - [params[:idea_id].to_i]
         @live_theme.live_talking_point_ids = ltp_ids.uniq.join(',')
+        ex_ids = @live_theme.example_ids.scan(/\d+/).map{|d| d.to_i}
+        ex_ids = ex_ids - [params[:idea_id].to_i]
+        @live_theme.example_ids = ex_ids.uniq.join(',')
         
         # when a talking point is deleted from a uTheme, I need to update the examples if the TP was an example
         ex_ids = @live_theme.example_ids || ''
@@ -1124,6 +1126,85 @@ class CeLiveController < ApplicationController
 
     render( :template => 'ce_live/post_theme', :formats => [:js], :locals =>{:live_talking_point => nil})
   end
+  
+  def theme_details
+    theme = LiveTheme.find(params[:theme_id])
+    respond_to do |format|
+      if !theme.nil?
+        #theme.member = @member
+        format.js { 
+          render 'ce_live/theme_details', locals: { theme: theme } 
+        }
+        #format.html { render 'ideas/details', layout: "plan", locals: { idea: idea} }
+        #format.json { render json: @idea, status: :created, location: @idea }
+      else
+        format.js { render 'ce_live/theme_not_found', locals: { theme: theme } }
+        #format.html { render 'ideas/idea_not_found' }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  def edit_theme
+    logger.debug "edit_theme id #{params[:theme_id]}"
+
+    if params[:theme_id].to_i > 0
+      theme = LiveTheme.find(params[:theme_id])
+    else
+      theme = LiveTheme.new
+      theme.id = 0
+    end
+    
+    # check if privileged
+    auth = true
+    
+    respond_to do |format|
+      if auth
+        format.js { render 'ce_live/theme_edit_form', locals: { theme: theme} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      else
+        format.js { render 'ce_live/edit_theme_error', locals: { theme: theme} }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  def edit_theme_post
+    logger.debug "edit_theme id #{params[:theme_id]}"
+
+    if params[:theme_id].to_i > 0
+      theme = LiveTheme.find(params[:theme_id])
+      theme.text = params[:text]
+      #idea.version += 1
+    else
+      #question = Idea.find( params[:question_id])
+      idea = question.ideas.create(text: params[:text], role: 2, member_id: @member.id, order_id: 1,
+        team_id: question.team_id, question_id: question.id, parent_id: question.id, visible: true, 
+        version: 1, member: @member)
+
+      ordered_ids = idea.siblings.map(&:id)
+      ordered_ids.delete(idea.id)
+      ordered_ids = ordered_ids + [idea.id]
+      # now I need to set the order
+      Idea.reorder_siblings( idea.parent_id, ordered_ids, @member )
+      
+    end
+    
+    respond_to do |format|
+      if theme.save
+        format.js { render 'ce_live/edit_theme_ok', locals: { theme: theme} }
+        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
+        #format.json { render json: @idea, status: :created, location: iidea }
+      else
+        format.js { render 'ce_live/edit_theme_error', locals: { theme: theme} }
+        #format.html { render action: "new" }
+        #format.json { render json: @idea.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
   
   def get_templates
     # Set up all of the data I need for the templates to run

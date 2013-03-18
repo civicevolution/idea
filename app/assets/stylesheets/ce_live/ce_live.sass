@@ -142,3 +142,51 @@ div#live_theme_final_edit
 			background: image-url('pencil.gif') no-repeat top right 
 	div.visibility
 		background: image-url('visible3.gif') no-repeat 0 -12px
+
+
+
+
+li.idea_post_it
+	div.post-it
+		div.star
+			position: absolute
+			left: 0
+			top: 2px
+			width: 20px
+			height: 18px
+			cursor: pointer
+			background: image-url('star_sprite.gif') no-repeat 0 0 
+			&:hover
+				background-position: 0 -20px
+		
+		p.minority
+			margin: 0
+			color: #888
+			padding-left: 20px
+
+		&.example
+			div.star
+				background: image-url('star_sprite.gif') no-repeat -20px 0 
+				&:hover
+					background-position: -20px -20px
+		div.status
+			font-weight: normal
+			font-size: 1em
+			color: #999
+			span.pos
+				color: green
+			span.neg
+				color: red
+			span.minority
+				color: red
+			
+			
+		img.delete
+			float: right
+
+div#parked_ideas, div#unthemed_ideas
+	div.star
+		background: none		
+		cursor: normal
+			
+			

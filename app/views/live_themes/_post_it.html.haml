@@ -1,21 +1,24 @@
-%div{class: "R#{random_ind.pop} post-it", id: idea.id}
-	-# if idea.role == 2
+- ex_ids ||= []
+%div{class: "R#{random_ind.pop} post-it" + (ex_ids.include?(idea.id)? ' example' : ''), id: idea.id}
+	- if idea.class.to_s == "LiveTheme"
 		%div.inner
 			:markdown
 				#{idea.text}
-	-# else
-	%p.idea= idea.text
-	%div.status
-		-#if idea.role == 2
-		= image_tag 'blue-pencil-24.png', :class=>"edit"
-		-# if idea.version == 0 || idea.role != 2
-		= image_tag 'delete_icon_16t.gif', :class=>"delete"
-		
-		-#%div.comments
-			= image_tag('comment-sketch.gif')
-			%div.counts
-				%div.new
-					0 new
-				%div.total
-					0 total
-		= image_tag('magnify.gif', class: 'magnify')
+
+		%div.status
+			= image_tag 'blue-pencil-24.png', :class=>"edit"
+			= image_tag 'delete_icon_16t.gif', :class=>"delete"
+			%div.star
+				
+	- else
+		%p.idea= idea.text
+		%div.status
+			- if idea.attributes.has_key? 'group_id'
+				%span.pos +#{idea.pos_votes} 
+				%span.div /
+				%span.neg  -#{idea.neg_votes}	
+				
+				(Table #{idea.group_id})
+			
+			= image_tag 'delete_icon_16t.gif', :class=>"delete"
+			%div.star

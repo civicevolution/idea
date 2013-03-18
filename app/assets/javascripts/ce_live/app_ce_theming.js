@@ -61,7 +61,7 @@ function resize_dims(){
 
 function make_ideas_sortable(idea_lists_ul){
 	if(editing_disabled(false))return false;
-	var debug = false;
+	var debug = true;
 	idea_lists_ul.sortable({
 		helper: 'clone',
 		appendTo: 'body',
@@ -108,14 +108,17 @@ function make_ideas_sortable(idea_lists_ul){
 				if(debug) console.log("sortable update for theme: " + par.attr('id') );
 				if( par.attr('id') != 'placeholder'){
 					var ordered_ids = $.makeArray(par.find('li.idea_post_it div.post-it').map(function(){return Number(this.id);}));
-					//if(debug) console.log("ordered_ids: " + ordered_ids );
+					if(debug) console.log("Update idea order, ordered_ids: " + ordered_ids );
+					
+					post_theme_changes({act: 'update_list_idea_ids', ltp_ids: ordered_ids, list_id: par.attr('id') });
+					
 					// send the theme order data
-					$.post('/idea/' + par.attr('id') + '/idea_order', 
-						{	
-							ordered_ids: ordered_ids
-						}, 
-						"script"
-					);
+					//$.post('/idea/' + par.attr('id') + '/idea_order', 
+					//	{	
+					//		ordered_ids: ordered_ids
+					//	}, 
+					//	"script"
+					//);
 					list.sortable('refresh');
 				}else{
 					// create a new answer group (theme)
@@ -123,13 +126,8 @@ function make_ideas_sortable(idea_lists_ul){
 					temp.new_answer_group_idea = idea;
 					var constituent_idea_id = idea.find('div.post-it').attr('id');
 					if(debug) console.log("create a new answer group containing idea id: " + constituent_idea_id );
-					$.post('/idea/' + par.attr('id') + '/create_theme', 
-						{	
-							par_id: par.attr('id'),
-							child_idea_id: constituent_idea_id
-						}, 
-						"script"
-					);
+					
+					post_theme_changes({act: 'new_list', idea_id: constituent_idea_id, output_tag: page_data.output_tag })
 					
 				}
 			}
@@ -137,43 +135,43 @@ function make_ideas_sortable(idea_lists_ul){
 	});
 }
 
-$('body').on('mouseup', 'div.my_new_ideas div.post-it',
+//$('body').on('mouseup', 'div.my_new_ideas div.post-it',
+//	function(event){
+//		if( event.target.className != 'delete' ){
+//			//console.log("show_idea_details for this.id: " + this.id);
+//			if(this.id > 0){
+//				var url = '/idea/' + this.id + '/details?act=my_new_idea_popup';
+//				if( event.target.className == 'edit' ){
+//					url += '&mode=edit';
+//				}
+//				$.getScript(url);
+//			}
+//		}
+//	}
+//);
+//
+$('body').on('mouseup', 'div.theming_page li.theme_post_it div.post-it',
 	function(event){
 		if( event.target.className != 'delete' ){
 			//console.log("show_idea_details for this.id: " + this.id);
 			if(this.id > 0){
-				var url = '/idea/' + this.id + '/details?act=my_new_idea_popup';
-				if( event.target.className == 'edit' ){
-					url += '&mode=edit';
-				}
+				var url = '/theme/' + this.id + '/details?mode=edit';
 				$.getScript(url);
 			}
 		}
 	}
 );
 
-$('body').on('mouseup', 'div.theming_page div.post-it',
-	function(event){
-		if( event.target.className != 'delete' ){
-			//console.log("show_idea_details for this.id: " + this.id);
-			if(this.id > 0){
-				var url = '/idea/' + this.id + '/details?act=theming_popup';
-				if( event.target.className == 'edit' ){
-					url += '&mode=edit';
-				}
-				$.getScript(url);
-			}
-		}
-	}
-);
 $('body').on('click','div.theming_page li.idea_post_it img.delete', 
 	function(event){
 		if(editing_disabled())return false;
 		var post_it = $(this).closest('div.post-it');
-		//console.log("remove idea " + post_it.attr('id'));
-		$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 
-			"script"
-		);
+		var list = post_it.closest('div.theme_col');
+		console.log("remove idea " + post_it.attr('id') + " from list: " + list.attr('id') );
+		post_theme_changes({act: 'delete_theme_child', list_id: list.attr('id'), idea_id: post_it.attr('id') });
+		//$.post('/idea/' + post_it.attr('id') + '/remove_from_parent', 
+		//	"script"
+		//);
 	}
 );
 
@@ -183,15 +181,45 @@ $('body').on('click','div.theming_page li.theme_post_it img.delete',
 		//console.log("delete this theme if no children");
 		var theme = $(this).closest('div.post-it');
 		if(theme.closest('ul.sortable_ideas').find('li.idea_post_it').size() == 0){
-			//console.log("delete this list now");
-			$.post('/idea/' + theme.attr('id') + '/remove_theme', 
-				"script"
-			);
+			console.log("delete this list now");
+			post_theme_changes({act: 'delete_theme', list_id: theme.attr('id') });
+			//$.post('/idea/' + theme.attr('id') + '/remove_theme', 
+			//	"script"
+			//);
 		}else{
 			alert('Sorry, you cannot delete a theme with ideas');
 		}
 	}
 );
+
+$('div.post-it div.star').live('click', 
+  function(event) {
+    if(editing_disabled())return false;
+  	var idea = $(this).closest('div.post-it');
+  	if(idea.hasClass('example')){
+  	  idea.removeClass('example');
+      //console.log("Clear idea as example for the theme/list")
+  	}else{
+  	  idea.addClass('example');
+      //console.log("Save idea as example for the theme/list")
+  	}
+  	
+  	var theme = idea.closest('div.theme_col');
+  	// get the example ids for this list
+    var example_ids = [];
+    theme.find('div.post-it.example').each(
+      function(){
+        example_ids.push($(this).attr('id') );
+      }
+    );
+		console.log("update_theme_examples, example_ids: " + example_ids + ", list_id: " + theme.attr('id') );
+  	post_theme_changes({act: 'update_theme_examples', example_ids: example_ids, list_id: theme.attr('id') })
+  	
+  }
+);
+
+
+
 
 //
 // Set up theming page auto scrolling with hotspots
@@ -260,24 +288,24 @@ function autoScroll(scrollElement) {
 
 }
 
-function show_and_highlight_postit(question_id, idea_id){
-	// is the question tabs for this question open?
-	var question_tabs = $('div.question_tabs[id="' + question_id + '"]');
-	var postit = question_tabs.find('div.post-it[id="' + idea_id + '"]');
-	if(question_tabs.size() == 0 || postit.size() == 0){
-		$.getScript('/idea/' + question_id + '/view?idea_id=' + idea_id );
-		return;
-	}
-	
-	var theme_col = postit.closest('div.theme_col');
-	
-	$('div.theme_cols_window_outer').scrollTo(theme_col,800);
-	theme_col.scrollTo(postit,800, 
-		function(){
-			postit.effect('highlight', {color: '#ff0000'},3000);
-		}
-	);
-}
+//function show_and_highlight_postit(question_id, idea_id){
+//	// is the question tabs for this question open?
+//	var question_tabs = $('div.question_tabs[id="' + question_id + '"]');
+//	var postit = question_tabs.find('div.post-it[id="' + idea_id + '"]');
+//	if(question_tabs.size() == 0 || postit.size() == 0){
+//		$.getScript('/idea/' + question_id + '/view?idea_id=' + idea_id );
+//		return;
+//	}
+//	
+//	var theme_col = postit.closest('div.theme_col');
+//	
+//	$('div.theme_cols_window_outer').scrollTo(theme_col,800);
+//	theme_col.scrollTo(postit,800, 
+//		function(){
+//			postit.effect('highlight', {color: '#ff0000'},3000);
+//		}
+//	);
+//}
 
 
 //
@@ -303,7 +331,8 @@ function make_theme_cols_sortable(page){
 				.mousemove(function(e) {autoscroll_mousemove(e.pageX, e.pageY, this);});
 		},
 		stop: function(event, ui) { 
-			if(debug) console.log("STOP sortable drag\n\n\n\n\n\n"); 
+			//if(debug) 
+			console.log("STOP sortable drag\n\n\n\n\n\n"); 
 			stopAutoScroll();
 			$('div.auto-scroll')
 				.removeClass('scroll-active')
@@ -323,17 +352,18 @@ function make_theme_cols_sortable(page){
 			});
 			new_ids = new_ids.join(',');
 			// compare if the order has changed
-			//console.log("old order: " + theme_cols_window.attr('id_order') + " new order: " + new_ids);
+			console.log("old order: " + theme_cols_window.attr('id_order') + " new order: " + new_ids);
 			if( theme_cols_window.attr('id_order') != new_ids ){
-				//console.log("update the theme sort to: " + new_ids);
-				$.post('/idea/' + theme_cols_window.attr('id') + '/idea_order', 
-					{	
-						ordered_ids: $.makeArray($.map(new_ids.split(','), function(el){return Number(el)})),
-						update_proposal: true
-					}, 
-					"script"
-				);
-				theme_edit_wait();
+				console.log("update the theme sort to: " + new_ids);
+				post_theme_changes({act: 'reorder_lists', list_ids: $.makeArray($.map(new_ids.split(','), function(el){return Number(el)})) });
+				//$.post('/idea/' + theme_cols_window.attr('id') + '/idea_order', 
+				//	{	
+				//		ordered_ids: $.makeArray($.map(new_ids.split(','), function(el){return Number(el)})),
+				//		update_proposal: true
+				//	}, 
+				//	"script"
+				//);
+				//theme_edit_wait();
 			}
 		}, 
 	});
@@ -365,14 +395,16 @@ $('body').on('change','div.theming_page p.visibility input[type="checkbox"]',
 		var checkbox = $(this);
 		var visible = checkbox.attr('checked') == 'checked' || false;
 		var id = Number(checkbox.attr('id').match(/\d+/));
-		//console.log("set " + id + " to visible: " + visible);
-		$.post('/idea/' + id + '/visbility', 
-			{	
-				visible: visible
-			}, 
-			"script"
-		);
-		theme_edit_wait();
+		console.log("set " + id + " to visible: " + visible);
+		
+		post_theme_changes({act: 'update_theme_visibility', theme_id: id, visible: visible });
+		//$.post('/idea/' + id + '/visbility', 
+		//	{	
+		//		visible: visible
+		//	}, 
+		//	"script"
+		//);
+		//theme_edit_wait();
 	}
 );
 

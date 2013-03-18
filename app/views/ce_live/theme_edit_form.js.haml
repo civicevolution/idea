@@ -1,0 +1,10 @@
+:plain
+	if($('div.wmd-panel').size() == 0){
+		var form = $("#{escape_javascript(render( :partial=> 'ce_live/theme_edit_form', locals: {theme: theme}, formats: [:html]  ))}");
+		init_theme_editor( form, #{theme.id} );
+	}else{
+		$('<div><p class="warn">You can only edit one section of the proposal at a time. Please close the other editor.</p></div>').dialog({title: 'Warning'});
+	}
+	//form.find('input, textarea').placeholder();
+	form.find('textarea').focus();
+

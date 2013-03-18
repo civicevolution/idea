@@ -1,0 +1,14 @@
+%div.edit_form			
+	= form_tag(edit_theme_path(params[:theme_id]), :remote=>true, :class=>'std_form orig theme_edit', :id=>params[:theme_id]) do
+		= hidden_field_tag :act, 'edit_theme_popup'
+
+		.wmd-panel
+			#wmd-button-bar
+			-# text = idea.version == 0 ? '' : theme.text
+			= text_area_tag :text, theme.text ||'', {id: 'wmd-input', class: 'wmd-input autosize', placeholder: 'Write your answer here...'}
+
+		#wmd-preview.wmd-panel.wmd-preview
+
+		%p.form_controls.no_attach
+			= submit_tag "Update", 'data-disable-with'=>'Submitting...'
+			= link_to 'Discard changes', {}, class: 'cancel', rel: 'nofollow'

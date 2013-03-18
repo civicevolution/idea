@@ -1,0 +1,16 @@
+:plain
+	var details = $("#{escape_javascript(render( :template=> 'ce_live/theme_details', :locals=>{theme: theme}, formats: [:html]  ))}");
+	init_details_popup(details);
+-#	
+	details.find('li img.delete').remove();
+	dispatcher.update_idea_stats( details );
+	dispatcher.update_discussion_stats( details );
+	$('li.theme[id="#{params[:idea_id]}"]').removeClass('show_new').find('img.wait').remove();
+	setTimeout(function(){ dispatcher.update_coms_new( this );}.bind(details),200);
+	set_answer_links_target(details);
+-# if !constituent_idea.nil?	
+	:plain
+		$('div.answer_details').animate({left:'-440'},350);
+- if params[:mode] == 'edit'
+	:plain
+		details.find('a.edit_answer').click();

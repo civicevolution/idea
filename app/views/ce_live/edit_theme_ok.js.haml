@@ -1,0 +1,51 @@
+:plain
+	var answer_html = #{BlueCloth.new( theme.text ).to_html.to_json};	
+- if params[:act] == "edit_answer_popup"
+	:plain
+		var post_it = $('div.post-it[id="#{theme.id}"]');
+		post_it.find('div.inner').html( answer_html );
+		truncate_themes(post_it);
+		//var proposal_page_answer = $('li.theme[id="#{theme.id}"] div.answer').html( answer_html );
+		//set_answer_links_target(proposal_page_answer);
+		
+		//console.log("Replace edited answer in edit_answer_popup");
+		var popup = $('div.idea_details.popup[theme_id="#{theme.id}"]');
+		popup.find('a.edit_answer').show();
+		
+		var answer = popup.find('ul.answer');
+		answer.find('div.post-it div.inner').html( answer_html );
+		
+		answer.find('div.post-it div.inner').show(250);
+		answer.find('div.wmd-preview').hide(250, function(){$(this).remove()});
+		//console.log("remove the preview");
+		answer.prev('div.edit_form').hide(250, function(){$(this).remove()});
+		//set_answer_links_target(answer);
+
+- elsif params[:act] == 'add_answer_popup'
+	:plain
+		if( $('div.question_summary[id="#{theme.question_id}"] ul.themes li.theme').size() == 0){
+			setTimeout( function(){ $.getScript('/theme/#{theme.question_id}/theme_summary');}, 100);
+		}
+		var proposal_page_answer = $( template_functions['proposal_answer']({id: #{theme.id}, answer_html: answer_html}) ).appendTo( $('div.question_summary[id="#{theme.question_id}"] ul.themes') );
+		
+		stat_data.theme_recs[#{theme.id}] = [#{theme.id}, #{theme.question_id}, #{theme.question_id}, 2, #{theme.created_at.to_i}]
+		set_answer_links_target(proposal_page_answer);
+		dispatcher.update_theme_stats(proposal_page_answer);
+				
+		//console.log("Replace edited answer in edit_answer_popup");
+		var popup = $('div.idea_details.popup[theme_id="0"]');
+		
+		var answer = popup.find('ul.answer');
+		answer.find('div.post-it div.inner').html( answer_html );
+		
+		answer.find('div.post-it div.inner').show(250);
+		answer.find('div.wmd-preview').hide(250, function(){$(this).remove()});
+		//console.log("remove the preview");
+		answer.prev('div.edit_form').hide(250, function(){$(this).remove()});
+		set_answer_links_target(answer);
+		
+		popup.find('div.theme_slider').attr('id',#{theme.id});
+		var form = popup.find('form.add_comment')
+		form.attr('id',#{theme.id});
+		form.attr('action', form.attr('action').replace(/\d+/,#{theme.id}));
+	

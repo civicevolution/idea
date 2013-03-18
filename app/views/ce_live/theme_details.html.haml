@@ -1,0 +1,42 @@
+%div.idea_details.popup.fancy-scrollbar{ theme_id: theme.id}
+	- if !Rails.env.production?
+		= stylesheet_link_tag "ce_live/theme_details"
+	%div.answer_details_outer
+		%div.answer_details	
+			%div.details_left
+				%h3.popup_nav
+					Edit this theme
+		
+				- if theme.visible == false
+					%h3.warn This theme is not displayed in the proposal answer as set by the project coordinator
+				%ul.answer
+					%li.theme_post_it
+						%div{class: "R#{theme.id.to_s.match(/\d$/)[0]} post-it"}
+							%div.inner
+								:markdown
+									#{theme.text}
+				
+					%p.timestamp
+						= link_to "Edit", edit_live_theme_path(theme.id, act: 'edit_theme_popup'), class: "edit_answer edit", remote: true
+						
+						-#Version #{theme.version}
+						-# if theme.version > 1
+							= link_to "View history", {}
+							
+							#{time_ago_in_words(theme.updated_at)} ago
+					
+				= link_to 'Close', {}, class:'close_dialog'
+
+			- if theme.id > 0
+				%div.constituent_ideas
+					- random_ind = rand.to_s.scan(/\d/)[1..20]
+					%h4.sub_sec_hdr.ideas_discussion{theme_id: theme.id}
+						%span Ideas for this theme
+					%p.clear_both
+				
+					%div.theme_col.themes.fancy-scrollbar
+						%ul.sortable_ideas
+							- theme.constituent_ideas.each do |idea|
+								%li.idea_post_it
+									= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}, format: [:html]
+		
