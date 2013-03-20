@@ -191,3 +191,17 @@ $('a.resize').die('click').live('click',
     return false;
   }
 );
+
+
+function tptest(){
+	theme_channel = "_session_116_microthemer_29"
+	ltp_id = 3164
+	$.get("/live/ltp_to_jug?ch=" + theme_channel + "&id=" + ltp_id);
+}
+
+function lttest(){
+	theme_channel = "_session_116_microthemer_29"
+	lt_id = 1187
+	$.get("/live/lt_to_jug?ch=" + theme_channel + "&id=" + lt_id);
+}
+

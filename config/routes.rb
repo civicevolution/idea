@@ -35,6 +35,7 @@ G3::Application.routes.draw do
   get 'live/jug_id' => 'ce_live#record_juggernaut_id'
   get 'live/scribe' => 'ce_live#scribe', :as => 'live_scribe'
   get 'live/ltp_to_jug' => 'ce_live#ltp_to_jug'
+  get 'live/lt_to_jug' => 'ce_live#lt_to_jug'
   get 'live/group' => 'ce_live#group'
   get 'live/theme' => 'ce_live#theme'
   get 'live/get_templates' => 'ce_live#get_templates'

@@ -1,5 +1,6 @@
 - ex_ids ||= []
-%div{class: "R#{random_ind.pop} post-it" + (ex_ids.include?(idea.id)? ' example' : ''), id: idea.id}
+- group_id = idea.attributes.has_key?('group_id') ? idea.group_id : 0
+%div{class: "R#{random_ind.pop} post-it" + (ex_ids.include?(idea.id)? ' example' : ''), id: idea.id, table_id: group_id }
 	- if idea.class.to_s == "LiveTheme"
 		%div.inner
 			:markdown
@@ -13,12 +14,14 @@
 	- else
 		%p.idea= idea.text
 		%div.status
-			- if idea.attributes.has_key? 'group_id'
+			- if group_id > 0
 				%span.pos +#{idea.pos_votes} 
 				%span.div /
 				%span.neg  -#{idea.neg_votes}	
 				
-				(Table #{idea.group_id})
+				Table 
+				%span.table_id
+					#{group_id}
 			
 			= image_tag 'delete_icon_16t.gif', :class=>"delete"
 			%div.star

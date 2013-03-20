@@ -4,8 +4,10 @@
 
 - if params[:act] == 'new_list'
 	:plain
-		// I need to change the list_id attr
-		$('div.idea_list[list_id="#{params[:list_id]}"]').attr('list_id',#{@live_theme.id});
+		// return the json for the new column and instantiate it
+		var data = { data: { id: #{@live_theme.id}, theme_id: #{@live_theme.id}, theme_text: #{BlueCloth.new( @live_theme.text ).to_html.to_json}, theme_idea_id: #{params[:idea_id]}, theme_idea: #{LiveTalkingPoint.find(params[:idea_id]).text.to_json}, theme_idea_group_id: #{@live_talking_point.group_id} } };
+		realtime_data_update_functions['live_new_theme']( data );
+		
 - elsif params[:act] == 'update_final_theme_order'
 	:plain
 		$('ul.themes').attr('id_order', '#{@new_ids}')
@@ -35,5 +37,5 @@
 	:plain
 		if(#{!@remove_theme_id.nil?}){
 			//console.log("remove list with id: #{@remove_theme_id}");
-			$('div.idea_list[list_id="#{@remove_theme_id}"]').remove();
+			$('div.theme_col[id="#{@remove_theme_id}"]').remove();
 		}

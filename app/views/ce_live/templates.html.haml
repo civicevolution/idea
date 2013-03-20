@@ -1,0 +1,97 @@
+- old_ts = Time.local(2020,1,1)
+- newer_ts = Time.local(2025,1,1)
+
+- idea = LiveTalkingPoint.new text: 'idea text', group_id: 111, pos_votes: 4, neg_votes: 1
+- idea.created_at = old_ts
+- idea.updated_at = newer_ts
+- idea.id = 2
+
+- theme = LiveTheme.new text: 'theme text', visible: true
+- theme.created_at = old_ts
+- theme.updated_at = newer_ts
+- theme.id = 1
+- theme.talking_points = [idea]
+
+- presenter = OpenStruct.new
+- presenter.live_themes = [ theme ]
+- presenter.unthemed_ideas = [ idea ]
+- presenter.parked_ideas = []
+
+
+
+%div#get_templates_scripts
+	- if debug
+		%h2 ce_live/get_templates.html.haml
+		= javascript_include_tag 'application_ce'
+		= javascript_include_tag 'opt/pure.js'
+		
+
+	%script
+		:plain
+			templates_loaded = true;
+			// some common functions
+			templates = {};
+			template_functions = {};
+			realtime_data_update_functions = {};
+			
+	- if debug
+		%h3 ce_live/theming_page
+					
+		= render( :partial => 'live_themes/post_its_wall', locals: { presenter: presenter, debug: debug })
+		= stylesheet_link_tag "ce/theming_page"
+
+
+	%script#theme_page_template{:type=>'text/html'}
+		:plain
+			#{ render( :partial => 'live_themes/post_its_wall', locals: { presenter: presenter, debug: debug })}
+	
+	%script#create_theme_page_template
+		:plain
+			templates['theme_page'] = $('<div></div>').html($.trim( $('script#theme_page_template').html() )).find('div:first');
+			templates['new_theme_col'] = templates['theme_page'].find('div.theme_col.themes[id="1"]');
+			template_functions['new_theme_col'] = templates['new_theme_col'].compile(
+				{
+					// directives go here
+					'@id' : 'data.id',
+					'li.theme_post_it div.post-it @id' : 'data.theme_id',
+					'li.theme_post_it p' : 'data.theme_text',
+					'li.idea_post_it div.post-it @id' : 'data.theme_idea_id',						
+					'li.idea_post_it p.idea' : 'data.theme_idea',
+					'li.idea_post_it div.post-it @table_id' : 'data.theme_idea_group_id',
+					'li.idea_post_it div.post-it span.table_id' : 'data.theme_idea_group_id'	
+				}
+			);
+			
+			realtime_data_update_functions['live_new_theme'] = 
+				function(data){
+					var new_theme_col = template_functions['new_theme_col']( data );
+					
+					// insert after placeholder
+					new_theme_col = $(new_theme_col).insertAfter( $('div#placeholder.theme_col'));
+
+					resize_theming_page();
+					make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
+					
+					return new_theme_col;
+				}
+
+				//debugger
+				templates['post-it'] = templates['new_theme_col'].find('li.idea_post_it');
+				template_functions['post-it'] = templates['post-it'].compile(
+					{
+						// directives go here
+						'@id' : 'data.live_talking_point.id',
+						'p.idea' : 'data.live_talking_point.text',
+						'div.post-it @table_id' : 'data.live_talking_point.group_id',
+						'div.post-it span.table_id' : 'data.live_talking_point.group_id'
+					}
+				);
+
+				realtime_data_update_functions['live_talking_point'] = 
+					function(data){
+						//console.log("processing live_talking_point");
+						var post_it = template_functions['post-it']( data );
+						$('div#unthemed_ideas ul.sortable_ideas').append(post_it);
+						//make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
+					}
+

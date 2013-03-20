@@ -726,6 +726,24 @@ class CeLiveController < ApplicationController
     Juggernaut.publish(params[:ch], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
     render :text => "On juggernaut on channel; #{params[:ch]}, sent LiveTalkingPoint: #{ltp.inspect}", :content_type => 'text/plain'
   end
+  
+  def lt_to_jug
+    params[:id] ||= 1187
+    live_theme = LiveTheme.find(params[:id])
+    params[:idea_id] = live_theme.live_talking_point_ids.scan(/\d+/).map(&:to_i)[0]
+    
+    Juggernaut.publish( params[:ch], {:act=>'theming', :type=>'live_new_theme', 
+      :data=> { 
+        id: live_theme.id, 
+        theme_id: live_theme.id, 
+        theme_text: BlueCloth.new( live_theme.text ).to_html,
+        theme_idea_id: params[:idea_id],
+        theme_idea: LiveTalkingPoint.find(params[:idea_id]).text
+      }})
+      
+    render :text => "On juggernaut on channel; #{params[:ch]}, sent LiveTheme: #{live_theme.inspect}", :content_type => 'text/plain'
+      
+  end
 
   def authorize_juggernaut_channels(session_id, channels )
     ## read all the channels for this session_id and clear them
@@ -971,20 +989,30 @@ class CeLiveController < ApplicationController
         
       when 'new_list' 
         logger.debug "new_list"
-        
         new_text = %Q|**New answer**
 
 * mouseover and click pencil to edit this answer
 * drag to reorder|
-
         @live_theme = LiveTheme.create( live_session_id: params[:live_session_id], tag: params[:output_tag],
           themer_id: @live_node.id, text: new_text, order_id: 0, live_talking_point_ids: params[:idea_id], visible: true )
                 
         @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         group_ids = @live_theming_session.theme_group_ids.scan(/\d+/).map(&:to_i)
-        @live_theming_session.theme_group_ids = group_ids.insert(1,@live_theme.id).join(',')
+        #@live_theming_session.theme_group_ids = group_ids.insert(1,@live_theme.id).join(',')
+        @live_theming_session.theme_group_ids = group_ids.prepend(@live_theme.id).join(',')
         @live_theming_session.tag = params[:output_tag] unless params[:output_tag].nil? || params[:output_tag] == ''
         @live_theming_session.save
+        @live_talking_point = LiveTalkingPoint.find(params[:idea_id])
+
+        Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_new_theme', 
+          :data=> { 
+            id: @live_theme.id, 
+            theme_id: @live_theme.id, 
+            theme_text: BlueCloth.new( @live_theme.text ).to_html,
+            theme_idea_id: params[:idea_id],
+            theme_idea: @live_talking_point.text,
+            theme_idea_group_id: @live_talking_point.group_id
+          }})
         
           
       when 'reorder_lists'
@@ -998,6 +1026,7 @@ class CeLiveController < ApplicationController
         @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
         @live_theming_session.unthemed_ids = params[:ltp_ids].nil? ? '' : params[:ltp_ids].join(',')
         @live_theming_session.save
+        
       when 'receive_live_talking_point', 'remove_live_talking_point', 'update_list_idea_ids'
         logger.debug "receive/remove_live_talking_point act: #{params[:act]}"
         if params[:ltp_ids].nil?
@@ -1078,30 +1107,35 @@ class CeLiveController < ApplicationController
         end
         
       when 'delete_theme_child'  
-        @live_theme = LiveTheme.find_by_id( params[:list_id])
-        ltp_ids = @live_theme.live_talking_point_ids.scan(/\d+/).map{|d| d.to_i}
-        ltp_ids = ltp_ids - [params[:idea_id].to_i]
-        @live_theme.live_talking_point_ids = ltp_ids.uniq.join(',')
-        ex_ids = @live_theme.example_ids.scan(/\d+/).map{|d| d.to_i}
-        ex_ids = ex_ids - [params[:idea_id].to_i]
-        @live_theme.example_ids = ex_ids.uniq.join(',')
         
-        # when a talking point is deleted from a uTheme, I need to update the examples if the TP was an example
-        ex_ids = @live_theme.example_ids || ''
-        ex_ids = ex_ids.scan(/\d+/).map{|d| d.to_i}
-        if ex_ids.include?( params[:idea_id].to_i )
-          ex_ids = ex_ids - [params[:idea_id].to_i]
-          @live_theme.example_ids = ex_ids.uniq.join(',')
-          if ex_ids.size == 0
-            @live_theme_examples = []
-          else
-            @live_theme_examples = LiveTalkingPoint.where(id: ex_ids )
-          end
-          Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_uTheme_examples', 
-            :data=> {:live_theme_id=>params[:list_id], :examples => @live_theme_examples}})
+        if params[:list_id] == "parked_ideas"
+          @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
+          ltp_ids = @live_theming_session.unthemed_ids.scan(/\d+/).map{|d| d.to_i} - [ params[:idea_id].to_i ]
+          @live_theming_session.unthemed_ids = ltp_ids
+          @live_theming_session.save
+        else
+          @live_theme = LiveTheme.find_by_id( params[:list_id])
+          ltp_ids = @live_theme.live_talking_point_ids.scan(/\d+/).map{|d| d.to_i}
+          ltp_ids = ltp_ids - [params[:idea_id].to_i]
+          @live_theme.live_talking_point_ids = ltp_ids.uniq.join(',')
+                
+          # when a talking point is deleted from a uTheme, I need to update the examples if the TP was an example
+          ex_ids = @live_theme.example_ids || ''
+          ex_ids = ex_ids.scan(/\d+/).map{|d| d.to_i}
           
+          if ex_ids.include?( params[:idea_id].to_i )
+            ex_ids = ex_ids - [params[:idea_id].to_i]
+            @live_theme.example_ids = ex_ids.uniq.join(',')
+            if ex_ids.size == 0
+              @live_theme_examples = []
+            else
+              @live_theme_examples = LiveTalkingPoint.where(id: ex_ids )
+            end
+            Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_uTheme_examples', 
+              :data=> {:live_theme_id=>params[:list_id], :examples => @live_theme_examples}})
+          end
+          @live_theme.save
         end
-        @live_theme.save
         
       when 'delete_theme'
         @live_theme = LiveTheme.find_by_id( params[:list_id])
@@ -1174,65 +1208,34 @@ class CeLiveController < ApplicationController
   def edit_theme_post
     logger.debug "edit_theme id #{params[:theme_id]}"
 
-    if params[:theme_id].to_i > 0
-      theme = LiveTheme.find(params[:theme_id])
-      theme.text = params[:text]
-      #idea.version += 1
-    else
-      #question = Idea.find( params[:question_id])
-      idea = question.ideas.create(text: params[:text], role: 2, member_id: @member.id, order_id: 1,
-        team_id: question.team_id, question_id: question.id, parent_id: question.id, visible: true, 
-        version: 1, member: @member)
-
-      ordered_ids = idea.siblings.map(&:id)
-      ordered_ids.delete(idea.id)
-      ordered_ids = ordered_ids + [idea.id]
-      # now I need to set the order
-      Idea.reorder_siblings( idea.parent_id, ordered_ids, @member )
-      
-    end
+    theme = LiveTheme.find(params[:theme_id])
+    theme.text = params[:text]
+    theme.version += 1
     
     respond_to do |format|
       if theme.save
         format.js { render 'ce_live/edit_theme_ok', locals: { theme: theme} }
-        #format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
-        #format.json { render json: @idea, status: :created, location: iidea }
       else
         format.js { render 'ce_live/edit_theme_error', locals: { theme: theme} }
-        #format.html { render action: "new" }
-        #format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
     end
   end
   
   
   def get_templates
-    # Set up all of the data I need for the templates to run
+    flash.keep
     # Build the templates in the templates.js template which will insert the HTML in script blocks text/html to hide them from browser processing
     # Add the directives to templates.js
     # Compile the templates when this loads into the browser
-
-
-    old_ts = Time.local(2020,1,1)
-    newer_ts = Time.local(2025,1,1)
-
-    @live_talking_point = LiveTalkingPoint.new
-    @live_talking_point.created_at = old_ts
-    @live_talking_point.updated_at = newer_ts
-    # what do I need to know for the comment template?
-    @live_talking_point.text = ''
-    @live_talking_point.id = 0
-    @live_talking_point.pos_votes = 5
-    
-    @live_theme = LiveTheme.new
-    @live_theme.created_at = old_ts
-    @live_theme.updated_at = newer_ts
-    
-    @live_theme.id = 0
-    @live_theme.themer_id = 0
-    @live_theme.text = ''
     # the templates are built in get_templates.js
-    render :template => 'ce_live/get_templates', :formats => [:html], :layout => false #, :content_type => 'application/javascript'
+    # any needed data is defined in templates
+    
+    if params[:debug]
+      render :template => 'ce_live/templates', layout: 'plan', locals: { debug: true, inc_js: 'none' } #, :content_type => 'application/javascript'
+    else
+      render :template => 'ce_live/templates', layout: false, locals: { debug: false } #, :content_type => 'application/javascript'
+    end
+    
     
   end
   

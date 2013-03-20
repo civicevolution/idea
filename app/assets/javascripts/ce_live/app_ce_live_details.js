@@ -78,7 +78,7 @@ $('body').on('click','div.idea_details a.goto_theming_page',
 );
 
 
-function init_theme_editor( form, idea_id ){
+function init_theme_editor( form, idea_id, version ){
 
 	if(idea_id > 0){
 		form.find('input[name="act"]').val('edit_answer_popup');
@@ -86,6 +86,9 @@ function init_theme_editor( form, idea_id ){
 		form.find('input[name="act"]').val('add_answer_popup');
 	}
 
+	if(version==0){
+		form.find('textarea').val('');
+	}
 	var popup = $('div.idea_details.popup[theme_id="' + idea_id + '"]');
 	popup.find('a.edit_answer').hide();
 	var answer = popup.find('ul.answer');

@@ -1,11 +1,18 @@
 post_theme_changes.update_fn = function(){
+	console.log("post_theme_changes.update_fn");
+	// clear any examples that ended up in the unthemed or parked lists
+	$('div#unthemed_ideas div.post-it.example, div#parked_ideas div.post-it.example').each(
+		function(){
+			$(this).removeClass('example');
+		}
+	);
   $('div.table').each(
     function(){
       var stat = $(this);
       var table_id = stat.attr('table_id');
-      stat.find('span.unthemed_tp_count').html( ':' + $('div.live_talking_point[table_id="' + table_id + '"]').size() );
-      stat.find('span.themed_tp_count').html( '-' + $('div.list_column div.idea[table_id="' + table_id + '"]').size() );
-      stat.find('span.example_tp_count').html( '-' + $('div.list_column div.idea.example[table_id="' + table_id + '"]').size() );
+      stat.find('span.unthemed_tp_count').html( ':' + $('div#unthemed_ideas div.post-it[table_id="' + table_id + '"]').size() );
+      stat.find('span.themed_tp_count').html( '-' + $('div.theme_col.themes div.post-it[table_id="' + table_id + '"]').size() );
+      stat.find('span.example_tp_count').html( '-' + $('div.theme_col div.post-it.example[table_id="' + table_id + '"]').size() );
     }
   );
 }
@@ -167,12 +174,12 @@ $('div.chat p.hdr a').live('click',
   }
 );
 
-$(function(){
-  $('div.join_com').prepend(' /');
-  $('div.join_com').prepend( $('<a href="#" class="coord_chat">Chat with coordinator</a>') );
-  $('div.join_com').prepend(' / ');
-  $('div.join_com').prepend( $('<a href="#" class="fix_page">Fix page</a>') );
-});
+//$(function(){
+//  $('div.join_com').prepend(' /');
+//  $('div.join_com').prepend( $('<a href="#" class="coord_chat">Chat with coordinator</a>') );
+//  $('div.join_com').prepend(' / ');
+//  $('div.join_com').prepend( $('<a href="#" class="fix_page">Fix page</a>') );
+//});
 $('a.fix_page').live('click',function(){live_resize(); return false;});
 $('a.coord_chat').live('click',
   function(){
