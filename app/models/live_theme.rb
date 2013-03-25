@@ -1,7 +1,7 @@
 class LiveTheme < ActiveRecord::Base
-  attr_accessible :live_session_id, :themer_id, :text, :order_id, :live_talking_point_ids, :example_ids, :visible, :tag, :talking_points, :themes, :examples, :macro, :theme_type, :version
+  attr_accessible :live_session_id, :themer_id, :text, :order_id, :live_talking_point_ids, :example_ids, :visible, :tag, :talking_points, :themes, :examples, :macro, :theme_type, :version, :points, :percentage
   
-  attr_accessor :talking_points, :themes, :examples, :macro
+  attr_accessor :talking_points, :themes, :examples, :macro, :points, :percentage
   
   def constituent_ideas
     @constituent_ideas ||= begin

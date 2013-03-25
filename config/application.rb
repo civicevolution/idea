@@ -78,6 +78,12 @@ module G3
     
     config.assets.precompile += %w( Markdown.Converter.js Markdown.Editor.js Markdown.Sanitizer.js tipped/excanvas.js )
     
+    config.assets.precompile += %w( application_ce_live.css application_ce_live.js 	ce_live/app_ce_live_table.js )
+  	config.assets.precompile += %w( ce_live/app_ce_theming.js ce_live/ce_micro_themer_old.css ce_live/app_ce_live_themer.js)
+  	config.assets.precompile += %w( ce_live/theming_page.css ce_live/app_ce_live_details.js ce_live/app_ce_live_micro_themer_post_it.js)
+  	config.assets.precompile += %w( ce_live/theme_final_edit.css ce_live/app_ce_live_vote.js )
+    
+    
     #config.assets.precompile += %w( application_ce_live.css  )
     #config.assets.precompile += %w( application_ce_home_all.js )
     #config.assets.precompile += %w( application_civic_home.css application_civic_home.js)

@@ -26,8 +26,9 @@
 			
 				- 1.times do
 
-					- theme = Idea.new text: 'Drag a yellow post-it from the left and drop it here to start a new answer', role: 2, version: 1, visible: true
+					- theme = LiveTheme.new text: 'Drag a green post-it from the left and drop it here to start a new macro-theme',  version: 1, visible: true
 					- theme.id = -1
+					- theme.theme_type = 1
 					- random_ind = rand.to_s.scan(/\d/)[1..20]
 					%div.theme_col.themes.fancy-scrollbar{ id:  'placeholder' }
 						%p.visibility

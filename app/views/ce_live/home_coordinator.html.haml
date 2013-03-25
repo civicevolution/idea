@@ -71,7 +71,7 @@
 									- when 'microtheme'
 										%ul
 											- @subordinate_themers.each do |themer|
-												%li= link_to "Micro themer's view, Tables: #{themer[:tables]}", live_micro_themer_path(:session_id=>session.id, :id=>themer.id)
+												%li= link_to "Micro themer's view, Tables: #{themer.tables}", live_micro_themer_path(:session_id=>session.id, :id=>themer.id)
 					
 					
 									- when 'macrotheme'

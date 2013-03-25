@@ -85,6 +85,7 @@ class LiveSession < ActiveRecord::Base
     
     source_session_id = self.id
     source_input_tags = ['default']
+    
     if self.inputs.size == 0
       live_theming_session = LiveThemingSession.where(:live_session_id => self.id)
       live_themes_unordered = LiveTheme.where(:live_session_id => self.id)
@@ -103,7 +104,7 @@ class LiveSession < ActiveRecord::Base
         source_session_id = inp.source_session_id
         source_input_tags.push( inp.tag )
       end
-
+      source_session_id ||= self.inputs[0].source_session_id
     end
     
     if self.outputs.size == 0

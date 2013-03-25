@@ -56,7 +56,7 @@ class CeLiveController < ApplicationController
           rescue
             tables = 'Unassigned - Please report this immediately'
           end
-          themer[:tables]  = tables
+          themer.tables  = tables
         end
         authorize_juggernaut_channels(request.session_options[:id], @channels )
         @page_data = {type: 'coord home page'};
@@ -505,7 +505,7 @@ class CeLiveController < ApplicationController
     else
       source_session_id = @session.source_session_id
     end
-    logger.debug "\n\n\nsource_session_id: #{source_session_id}\n\n\n"
+    #logger.debug "\n\n\nsource_session_id: #{source_session_id}\n\n\n"
     if LiveSession.find_by_id(source_session_id).published
       @live_themes = LiveTheme.where("live_session_id = #{source_session_id} AND order_id > 0").order('order_id ASC')
       @live_themes.reject!{ |theme| theme.visible == false }
@@ -519,8 +519,8 @@ class CeLiveController < ApplicationController
       @live_themes.each do |theme|
         points = @allocated_points.detect{ |ap| ap.theme_id == theme.id}
         points = points.nil? ? 0 : points.points
-        theme[:points] = points
-        theme[:percentage] = @total_points > 0 ? points.to_f/@total_points : 0
+        theme.points = points
+        theme.percentage = @total_points > 0 ? points.to_f/@total_points : 0
       end
 
     else

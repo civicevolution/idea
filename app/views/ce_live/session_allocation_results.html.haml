@@ -63,12 +63,14 @@
 						%span.ltr= theme_letter
 					- theme_letter.succ!
 					%div.theme
-						%p.theme= theme.text
-						= image_tag 'blue_bar.gif', :class=>'bar_graph', :style=>"width: #{theme[:points] * graph_ratio }px"
+						%p.theme
+							:markdown
+								#{theme.text}
+						= image_tag 'blue_bar.gif', :class=>'bar_graph', :style=>"width: #{theme.points * graph_ratio }px"
 
 						%div.numeric
-							#{(theme[:percentage]*100).round}%
-							(#{theme[:points]} Pts)
+							#{(theme.percentage*100).round}%
+							(#{theme.points} Pts)
 						
 					%p.clear_both
 		
