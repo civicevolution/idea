@@ -1,6 +1,7 @@
 - ex_ids ||= []
 - group_id = idea.attributes.has_key?('group_id') ? idea.group_id : 0
-%div{class: "R#{random_ind.pop} post-it" + (ex_ids.include?(idea.id)? ' example' : ''), id: idea.id, table_id: group_id }
+- post_it_type = case when !idea.attributes.include?('theme_type') then '' when idea.theme_type == 0 then 'micro' else 'macro' end
+%div{class: "R#{random_ind.pop} post-it #{post_it_type}" + (ex_ids.include?(idea.id)? ' example' : ''), id: idea.id, table_id: group_id }
 	- if idea.class.to_s == "LiveTheme"
 		%div.inner
 			:markdown

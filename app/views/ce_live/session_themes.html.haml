@@ -7,7 +7,8 @@
 				font-size: 1.2em
 				margin: 0
 				width: 600px
-				
+			div.theme_text
+				margin-top: -1em
 			p.example
 				font-style: italic
 				color: blue
@@ -44,8 +45,9 @@
 					%div.controls
 						%span.ltr= theme_letter
 					- theme_letter.succ!
-					%div.theme
-						%p.theme= theme.text
+					%div.theme_text
+						:markdown
+							#{theme.text}
 						%p.example= theme.example_ids
 					%p.clear_both
 	

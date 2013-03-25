@@ -1,0 +1,12 @@
+%li.theme{:theme_id=>theme.id, :class => theme.visible ? 'visible' : ''}
+	%div.controls
+		%span.ltr= theme_letter
+		%div.edit
+		%div.visibility
+	- theme_letter.succ!
+	%div.theme
+		%div.theme_text
+			:markdown
+				#{theme.text}
+		%div.example_text= theme.example_ids
+	%p.clear_both

@@ -2,7 +2,13 @@
 	//clearTimeout(post_theme_changes_ack_waiting);
 	console.log("your theme update has been processed: post_theme.js")
 
-- if params[:act] == 'new_list'
+- if params[:act] == 'new_list' && @live_theme.theme_type == 1
+	:plain
+		// return the json for the new column and instantiate it
+		var data = { data: { id: #{@live_theme.id}, theme_id: #{@live_theme.id}, theme_text: #{BlueCloth.new( @live_theme.text ).to_html.to_json}, theme_idea_id: #{params[:idea_id]}, theme_idea: #{LiveTheme.find(params[:idea_id]).text.to_json} } };
+		realtime_data_update_functions['live_new_macro_theme']( data );
+	
+- elsif params[:act] == 'new_list' && @live_theme.theme_type == 0
 	:plain
 		// return the json for the new column and instantiate it
 		var data = { data: { id: #{@live_theme.id}, theme_id: #{@live_theme.id}, theme_text: #{BlueCloth.new( @live_theme.text ).to_html.to_json}, theme_idea_id: #{params[:idea_id]}, theme_idea: #{LiveTalkingPoint.find(params[:idea_id]).text.to_json}, theme_idea_group_id: #{@live_talking_point.group_id} } };

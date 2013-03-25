@@ -201,7 +201,13 @@ function tptest(){
 
 function lttest(){
 	theme_channel = "_session_116_microthemer_29"
-	lt_id = 1187
+	lt_id = 1205
+	$.get("/live/lt_to_jug?ch=" + theme_channel + "&id=" + lt_id);
+}
+
+function mttest(){
+	theme_channel = "_session_117_microthemer_29"
+	lt_id = 1205
 	$.get("/live/lt_to_jug?ch=" + theme_channel + "&id=" + lt_id);
 }
 

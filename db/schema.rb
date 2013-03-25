@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319204557) do
+ActiveRecord::Schema.define(:version => 20130321171906) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -583,6 +583,7 @@ ActiveRecord::Schema.define(:version => 20130319204557) do
     t.boolean  "visible"
     t.string   "tag",                    :default => "default"
     t.integer  "version",                :default => 0
+    t.integer  "theme_type",             :default => 0
   end
 
   create_table "live_theming_sessions", :force => true do |t|

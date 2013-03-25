@@ -157,7 +157,7 @@ div.post-it
 	img.delete, img.edit, img.clipboard
 		display: none
 		cursor: pointer 
-		float: left
+		float: right
 		margin-right: 4px
 
 ul.sortable_ideas
@@ -181,6 +181,10 @@ div.theme_col
 		img.edit
 			display: block
 
+div.idea_details.popup
+	li.idea_post_it:hover, li.theme_post_it:hover
+		img.delete
+			display: none
 
 div.theme_col.unthemed_ideas
 	li.idea_post_it:hover
@@ -238,10 +242,48 @@ li.idea_post_it, li.theme_post_it, li.question_post_it, li.team_post_it
 li.idea_post_it
 	div.post-it
 		background: $yellow_post_it
+		&.micro
+			background: $green_post_it
+			padding-bottom: 0
+		div.examples			
+			color: #666
+			font-style: italic
+			p.count
+				color: #999
+				display: block
+				margin: 0
+			div.example
+				display: none
+				margin-bottom: 8px
+			&:hover
+				p.count
+					display: none
+				div.example
+					display: block
+				
+div.idea_details.popup			
+	li.idea_post_it
+		div.post-it
+			p.count
+				display: none
+			div.example
+				display: block
+
+div.idea_details.popup
+	li.theme_post_it
+		div.examples			
+			color: #444
+			font-style: italic
+	
+			
 	&.drop_hover
 		+opacity(20)
 li.theme_post_it div.post-it
+	background: $green_post_it
+
+li.theme_post_it div.post-it.macro
 	background: $purple_post_it
+
 
 li.question_post_it div.post-it
 	background: $question_icon_bg
@@ -391,4 +433,9 @@ li.idea_post_it
 		font-weight: bold
 		img
 			display: none
+	
+
+form.theme_edit
+	.wmd-input 
+		height: 120px
 	

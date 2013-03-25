@@ -1,3 +1,4 @@
+- post_it_type = case when theme.theme_type == 0 then 'micro' else 'macro' end
 %div.idea_details.popup.fancy-scrollbar{ theme_id: theme.id}
 	- if !Rails.env.production?
 		= stylesheet_link_tag "ce_live/theme_details"
@@ -11,13 +12,17 @@
 					%h3.warn This theme is not displayed in the proposal answer as set by the project coordinator
 				%ul.answer
 					%li.theme_post_it
-						%div{class: "R#{theme.id.to_s.match(/\d$/)[0]} post-it"}
+						%div{class: "R#{theme.id.to_s.match(/\d$/)[0]} post-it #{post_it_type}", id: theme.id}
 							%div.inner
 								:markdown
 									#{theme.text}
+									
+							- if theme.theme_type == 1
+								%div.examples
+									= theme.example_ids							
 				
 					%p.timestamp
-						= link_to "Edit", edit_live_theme_path(theme.id, act: 'edit_theme_popup'), class: "edit_answer edit", remote: true
+						= link_to "Edit", edit_live_theme_path(theme.id, act: 'edit_theme_popup', theme_type: theme.theme_type, theming_live_session_id: params[:theming_live_session_id]), class: "edit_answer edit", remote: true
 						
 						-#Version #{theme.version}
 						-# if theme.version > 1
@@ -36,7 +41,13 @@
 				
 					%div.theme_col.themes.fancy-scrollbar
 						%ul.sortable_ideas
-							- theme.constituent_ideas.each do |idea|
-								%li.idea_post_it
-									= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}, format: [:html]
-		
+							- if theme.theme_type == 0
+								- theme.constituent_ideas.each do |idea|
+									%li.idea_post_it
+										= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}, format: [:html]
+							- else
+								- theme.constituent_micro_themes.each do |idea|
+									%li.idea_post_it
+										= render partial: 'live_themes/post_it_macro', locals: {idea: idea, random_ind: random_ind}, format: [:html]
+
+									

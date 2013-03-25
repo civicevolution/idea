@@ -1,0 +1,66 @@
+- live_session_id ||= 1
+%div.theming_page_outer
+	%div.theming_page
+
+		%div.theme_cols_window_outer.fancy-scrollbar
+			%div.theme_cols_window{:id_order=> presenter.live_themes.map(&:id).join(','), id: live_session_id }
+				%div.auto-scroll.left
+				%div.auto-scroll.right
+				
+				%div.theme_col.unthemed_ideas.fancy-scrollbar{ id:  'unthemed_ideas'}
+						
+					%h3 New ideas
+					%ul.sortable_ideas
+						- random_ind = rand.to_s.scan(/\d/)[1..20]
+						- 1.times do
+							- presenter.unthemed_ideas.each do |idea|
+								%li.idea_post_it
+									= render partial: 'live_themes/post_it_macro', locals: {idea: idea, random_ind: random_ind}		
+
+						- if presenter.live_themes.size == 0 && presenter.unthemed_ideas.empty?
+							- idea = Idea.new text: 'No ideas have been shared yet. Please return to the proposal page and share some ideas in the yellow form under the question', role: 1, version: 1, visible: true
+							- idea.id = -1
+							%li.idea_post_it.placeholder
+								= render partial: 'live_themes/post_it_macro', locals: {idea: idea, random_ind: random_ind}		
+							
+			
+				- 1.times do
+
+					- theme = Idea.new text: 'Drag a yellow post-it from the left and drop it here to start a new answer', role: 2, version: 1, visible: true
+					- theme.id = -1
+					- random_ind = rand.to_s.scan(/\d/)[1..20]
+					%div.theme_col.themes.fancy-scrollbar{ id:  'placeholder' }
+						%p.visibility
+							%input{type: 'checkbox', name: "visible-#{theme.id}", id: "visible-#{theme.id}", checked: theme.visible ? true : false}
+							%label{for: "visible-#{theme.id}"} display in answer
+						%ul.sortable_ideas
+							%li.theme_post_it
+								= render partial: 'live_themes/post_it_macro', locals: {idea: theme, random_ind: random_ind}											
+					
+					
+					- presenter.my_themes.each do |theme|
+						- random_ind = rand.to_s.scan(/\d/)[1..20]
+						%div.theme_col.themes.fancy-scrollbar{ id:  theme.id }
+							%p.visibility
+								%input{type: 'checkbox', name: "visible-#{theme.id}", id: "visible-#{theme.id}", checked: theme.visible ? true : false}
+								%label{for: "visible-#{theme.id}"} display in answer
+							%ul.sortable_ideas
+								%li.theme_post_it
+									= render partial: 'live_themes/post_it_macro', locals: {idea: theme, random_ind: random_ind}											
+										
+								- 1.times do 
+									-#logger.debug "\n\n\ntheme.themes: #{theme.themes.inspect}"
+									- theme.themes.each do |idea|
+										%li.idea_post_it
+											= render partial: 'live_themes/post_it_macro', locals: {idea: idea, random_ind: random_ind}
+													
+								
+				%div.theme_col.parked_ideas.fancy-scrollbar{ id:  'parked_ideas'}
+					%h3 Parked ideas
+					%ul.sortable_ideas
+						- random_ind = rand.to_s.scan(/\d/)[1..20]
+						- presenter.parked_ideas.each do |idea|
+							%li.idea_post_it
+								= render partial: 'live_themes/post_it_macro', locals: {idea: idea, random_ind: random_ind}
+										
+				

@@ -1,10 +1,20 @@
 :plain
 	var answer_html = #{BlueCloth.new( theme.text ).to_html.to_json};	
+	var example_text = #{ theme.example_ids.to_json};
 - if params[:act] == "edit_answer_popup"
 	:plain
 		var post_it = $('div.post-it[id="#{theme.id}"]');
 		post_it.find('div.inner').html( answer_html );
-		truncate_themes(post_it);
+		post_it.find('div.examples').html( example_text );
+		
+		if( $('div#live_theme_final_edit').size() > 0 ){
+			console.log("Update the new theme content");
+			var theme_li = $('li.theme[theme_id="#{theme.id}"]');
+			theme_li.find('div.theme_text').html( answer_html );
+			theme_li.find('div.example_text').html( example_text );
+		}else{
+			truncate_themes(post_it);
+		}
 		//var proposal_page_answer = $('li.theme[id="#{theme.id}"] div.answer').html( answer_html );
 		//set_answer_links_target(proposal_page_answer);
 		
@@ -23,17 +33,23 @@
 
 - elsif params[:act] == 'add_answer_popup'
 	:plain
-		if( $('div.question_summary[id="#{theme.question_id}"] ul.themes li.theme').size() == 0){
-			setTimeout( function(){ $.getScript('/theme/#{theme.question_id}/theme_summary');}, 100);
-		}
-		var proposal_page_answer = $( template_functions['proposal_answer']({id: #{theme.id}, answer_html: answer_html}) ).appendTo( $('div.question_summary[id="#{theme.question_id}"] ul.themes') );
+		var post_it = $('div.idea_details.popup div.post-it[id="0"]');
+		post_it.attr('id',#{theme.id});
+		var popup = post_it.closest('div.idea_details.popup');
+		popup.attr('theme_id',#{theme.id});
+		post_it.find('div.inner').html( answer_html );
+		post_it.find('div.examples').html( example_text );
 		
-		stat_data.theme_recs[#{theme.id}] = [#{theme.id}, #{theme.question_id}, #{theme.question_id}, 2, #{theme.created_at.to_i}]
-		set_answer_links_target(proposal_page_answer);
-		dispatcher.update_theme_stats(proposal_page_answer);
+		var link = popup.find('a.edit_answer');
+		link.attr('href', link.attr('href').replace(/\/theme\/\d+/,'/theme/#{theme.id}') );
+		link.show();
+		
+		console.log("Insert the new theme content");
+		var new_theme = $("#{escape_javascript(render( :partial=> 'ce_live/theme_for_final_edit', locals: {theme: theme, theme_letter: 'A'}, formats: [:html]  ))}");
 				
-		//console.log("Replace edited answer in edit_answer_popup");
-		var popup = $('div.idea_details.popup[theme_id="0"]');
+		new_theme.find('span.ltr').html( int_to_letters( $('ul.themes li.theme').size() + 1 ) );
+		$('ul.themes').append(new_theme)
+		
 		
 		var answer = popup.find('ul.answer');
 		answer.find('div.post-it div.inner').html( answer_html );
@@ -42,10 +58,4 @@
 		answer.find('div.wmd-preview').hide(250, function(){$(this).remove()});
 		//console.log("remove the preview");
 		answer.prev('div.edit_form').hide(250, function(){$(this).remove()});
-		set_answer_links_target(answer);
-		
-		popup.find('div.theme_slider').attr('id',#{theme.id});
-		var form = popup.find('form.add_comment')
-		form.attr('id',#{theme.id});
-		form.attr('action', form.attr('action').replace(/\d+/,#{theme.id}));
 	

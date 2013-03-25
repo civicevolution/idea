@@ -1,11 +1,18 @@
 %div.edit_form			
 	= form_tag(edit_live_theme_path(params[:theme_id]), :remote=>true, :class=>'std_form orig theme_edit', :id=>params[:theme_id]) do
 		= hidden_field_tag :act, 'edit_theme_popup'
+		= hidden_field_tag :theming_live_session_id, params[:theming_live_session_id]
 
 		.wmd-panel
 			#wmd-button-bar
 			-# text = idea.version == 0 ? '' : theme.text
 			= text_area_tag :text, theme.text ||'', {id: 'wmd-input', class: 'wmd-input autosize', placeholder: 'Write your theme here...'}
+
+			- if theme.theme_type == 1
+				%h3.popup_nav
+					Example text
+				= text_area_tag :examples, theme.example_ids ||'', {id: 'wmd-input', class: 'wmd-input autosize', placeholder: 'Write the example text here...'}
+
 
 		#wmd-preview.wmd-panel.wmd-preview
 

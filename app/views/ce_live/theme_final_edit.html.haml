@@ -1,74 +1,14 @@
 - content_for(:script) do
-	%style
-		:sass
-			textarea.theme
-				width: 600px
-				height: 60px
-			textarea.example
-				width: 600px
-				height: 60px
-				margin-bottom: 30px
-			body
-				padding-bottom: 40px
-			p.lbl_theme
-				margin: 0
-			p.lbl_example
-				margin: 6px 0 0 0 
-				
-			p.theme
-				font-size: 1.2em
-				margin: 0
-				width: 600px
-				
-			p.example
-				font-style: italic
-				color: blue
-				margin: 6px 0 16px 0
-				width: 600px
-			div.controls
-				width: 60px
-				text-align: center
-				font-size: 1.6em
-			ul.themes
-				list-style: none
-				li
-					min-height: 60px
-					div
-						float: left
-			p.clear_both
-				clear: both
-			form.theme_edit, li.theme.model
-				display: none
-			div.controls
-				position: relative
-				div.edit
-					//background: url('/images/pencil.gif') no-repeat top right 
-					position: absolute
-					top: 30px
-					left: 26px
-					cursor: pointer
-					width: 20px
-					height: 16px
-					
-			div.visibility
-				height: 12px
-				width: 20px
-				position: absolute
-				top: 32px
-				left: 10px
-				//background: url(/images/visible3.gif) no-repeat 0 -12px
-				cursor: pointer
-			li.visible
-				div.visibility
-					background-position: 0 0
-			ul.themes
-				width: 900px
-					
+			
+	= javascript_include_tag 'ce_live/app_ce_live_themer.js'
+	= javascript_include_tag 'ce_live/app_ce_theming.js'
+	= javascript_include_tag 'ce_live/app_ce_live_details.js'
 			
 				
 	:javascript
 		var pub_sub_channels = #{@channels}
 		var live_session_id = #{params[:session_id]}
+		var theming_live_session_id = #{@live_theming_session[0].live_session_id}
 		var disable_editing = #{@disable_editing}
 		var published = #{@source_session.published}
 		function update_status_report(){}
@@ -136,38 +76,31 @@
 			}
 			$('input[name="form_id"][value="' + form_id + '"]').closest('div.ui-dialog').dialog('destroy').remove();
 		}
-		var form_ctr = 1
+		
+		
 		$('a.add_edit_theme').die('click').live('click',
 			function(){
 				if(editing_disabled())return;
-				//console.log("Add a theme");
-				var form = $('form.theme_edit').clone();
-				form.show();
-				form.find('input[name="form_id"]').val( form_ctr++ );
-				form.find('input[name="theme_id"]').val( null );
-				form.find('textarea[name="theme"]').val( '');
-				form.find('textarea[name="example"]').val('');
-				var dialog = form.dialog( {title : 'Add a new theme and example', modal : true, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });
+				console.log("Add a theme");
+				
+				var url = '/theme/0/details?mode=edit&theme_type=macro&theming_live_session_id=' + theming_live_session_id;
+				$.getScript(url);
+				
 				return false;
 			}
 		);
 		
-		$('div.edit').die('click').live('click',
-		  function(){
-				if(editing_disabled())return;
-		    //console.log("edit the theme/example");
-				var li = $(this).closest('li');
-				var theme_id = li.attr('theme_id');
-				var form = $('form.theme_edit').clone();
-				form.show();
-				form.find('input[name="form_id"]').val( form_ctr++ );
-				form.find('input[name="theme_id"]').val( theme_id );
-				form.find('textarea[name="theme"]').val( li.find('p.theme').html() );
-				form.find('textarea[name="example"]').val( li.find('p.example').html() );
-				var dialog = form.dialog( {title : 'Edit this theme and example', modal : true, width : '600px', closeOnEscape: false, close: function(){$(this).remove()} });
-				return false;
+		$('body').on('mouseup', 'div#live_theme_final_edit div.edit',
+			function(event){
+				var id = Number( $(this).closest('li.theme').attr('theme_id') );
+				console.log("show_idea_details for id: " + id);
+				if(id > 0){
+					var url = '/theme/' + id + '/details?mode=edit';
+					$.getScript(url);
+				}
 			}
 		);
+		
 		
 		$('div.visibility').die('click').live('click',
 			function(){
@@ -196,37 +129,18 @@
 		
 		
 %div#live_theme_final_edit
+	= stylesheet_link_tag 'ce_live/ce_micro_themer_old'
+	= stylesheet_link_tag 'ce_live/theming_page'
+	= stylesheet_link_tag 'ce_live/theme_final_edit'
+	
 
-	- theme_letter = 'A'
 	%ul.themes{:id_order=> @my_themes.map(&:id).join(',') }
-		- @my_themes.each do |theme|
-			%li.theme{:theme_id=>theme.id, :class => theme.visible ? 'visible' : ''}
-				%div.controls
-					%span.ltr= theme_letter
-					%div.edit
-					%div.visibility
-				- theme_letter.succ!
-				%div.theme
-					%p.theme= theme.text
-					%p.example= theme.example_ids
-				%p.clear_both
+		= render partial: 'theme_for_final_edit', collection: @my_themes, as: :theme, locals: {theme_letter: 'A'}
+
 	= link_to 'Add a theme', {}, {:class=>'add_edit_theme'}
 	
-	= form_tag(post_live_theme_path, :remote=>true, :class=>'std_form orig theme_edit', :id=>1) do
-		= hidden_field_tag :live_session_id, @source_session.id
-		= hidden_field_tag :output_tag, @source_session_tag
-		= hidden_field_tag :form_id 
-		= hidden_field_tag :theme_id 
-		= hidden_field_tag :act, 'update_theme_text_and_example'
-		%label{:for=>'theme'} Theme
-		= text_area_tag :theme, nil, {:class=>'autosize'}
-		%label{:for=>'example'} Example
-		= text_area_tag :example, nil, {:class=>'autosize'}
-		%button{'data-disable-with' =>'Submitting...'}
-			Save
-		= link_to 'Cancel', {}, {:class=>'cancel'}
 	
-	%li.theme.model
+	-#%li.theme.model
 		%div.controls
 			%span.ltr
 			%div.edit
