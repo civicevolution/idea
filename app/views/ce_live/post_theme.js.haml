@@ -38,7 +38,9 @@
 	:plain
 		console.log("remove from parent is ok");
 		var removed_post_it = $('div.post-it[id="#{params[:idea_id]}"]').closest('li').remove();
-		$('div.unthemed_ideas ul.sortable_ideas').append(removed_post_it);
+		if(!removed_post_it.hasClass('deleted')){
+			$('div.unthemed_ideas ul.sortable_ideas').append(removed_post_it);
+		}
 - elsif params[:act] == 'delete_theme'
 	:plain
 		if(#{!@remove_theme_id.nil?}){

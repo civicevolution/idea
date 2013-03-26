@@ -17,15 +17,7 @@
 								%li.idea_post_it
 									= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}		
 
-						- if presenter.live_themes.size == 0 && presenter.unthemed_ideas.empty?
-							- idea = Idea.new text: 'No ideas have been shared yet. Please return to the proposal page and share some ideas in the yellow form under the question', role: 1, version: 1, visible: true
-							- idea.id = -1
-							%li.idea_post_it.placeholder
-								= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}		
-							
-			
 				- 1.times do
-
 					- theme = Idea.new text: 'Drag a yellow post-it from the left and drop it here to start a new theme', role: 2, version: 1, visible: true
 					- theme.id = -1
 					- random_ind = rand.to_s.scan(/\d/)[1..20]

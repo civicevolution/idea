@@ -112,17 +112,10 @@ function make_ideas_sortable(idea_lists_ul){
 					
 					post_theme_changes({act: 'update_list_idea_ids', ltp_ids: ordered_ids, list_id: par.attr('id') });
 					
-					// send the theme order data
-					//$.post('/idea/' + par.attr('id') + '/idea_order', 
-					//	{	
-					//		ordered_ids: ordered_ids
-					//	}, 
-					//	"script"
-					//);
 					list.sortable('refresh');
 				}else{
 					// create a new answer group (theme)
-					var idea = list.find('li.idea_post_it').addClass('for_new_group').hide();
+					var idea = list.find('li.idea_post_it:visible').addClass('for_new_group').hide();
 					temp.new_answer_group_idea = idea;
 					var constituent_idea_id = idea.find('div.post-it').attr('id');
 					if(debug) console.log("create a new answer group containing idea id: " + constituent_idea_id );
@@ -197,14 +190,15 @@ $('div.post-it div.star').live('click',
     if(editing_disabled())return false;
   	var idea = $(this).closest('div.post-it');
   	if(idea.hasClass('example')){
-  	  idea.removeClass('example');
+			$('div.post-it[id="' + idea.attr('id') + '"]').removeClass('example');
       //console.log("Clear idea as example for the theme/list")
   	}else{
-  	  idea.addClass('example');
+			$('div.post-it[id="' + idea.attr('id') + '"]').addClass('example');
       //console.log("Save idea as example for the theme/list")
   	}
   	
   	var theme = idea.closest('div.theme_col');
+
   	// get the example ids for this list
     var example_ids = [];
     theme.find('div.post-it.example').each(
@@ -212,14 +206,24 @@ $('div.post-it div.star').live('click',
         example_ids.push($(this).attr('id') );
       }
     );
-		console.log("update_theme_examples, example_ids: " + example_ids + ", list_id: " + theme.attr('id') );
-  	post_theme_changes({act: 'update_theme_examples', example_ids: example_ids, list_id: theme.attr('id') })
+	console.log("update_theme_examples, example_ids: " + example_ids + ", list_id: " + theme.attr('id') );
+  	post_theme_changes({act: 'update_theme_examples', example_ids: example_ids, list_id: theme.attr('id')})
   	
   }
 );
 
-
-
+if(page_data.type == 'macro theming'){
+	$('body').on('mouseenter', 'div.post-it div.examples',
+		function(event){
+			$(this).addClass('show')
+		}
+	);
+	$('body').on('mouseleave', 'div.post-it',
+		function(event){
+			$(this).find('div.examples').removeClass('show')
+		}
+	);
+}
 
 //
 // Set up theming page auto scrolling with hotspots

@@ -654,7 +654,23 @@ class CeLiveController < ApplicationController
       }})
       
     render :text => "On juggernaut on channel; #{params[:ch]}, sent LiveTheme: #{live_theme.inspect}", :content_type => 'text/plain'
+  end
+  
+  def ut_to_jug
+    @live_theme = LiveTheme.find(1211)
+    @live_talking_points = LiveTalkingPoint.order('id desc').limit(3).map{|ltp| {group_id: ltp.group_id, text: ltp.text}}
+    
+
+    Juggernaut.publish("_session_#{@live_theme.live_session_id}_macrothemer", {:act=>'theming', :type=>'live_new_theme', 
+      :data=> { 
+        id: @live_theme.id, 
+        theme_id: @live_theme.id, 
+        theme_text: BlueCloth.new( @live_theme.text ).to_html,
+        version: @live_theme.version,
+        examples: @live_talking_points
+      }})
       
+    render :text => "On juggernaut on channel; #{params[:ch]}, sent LiveTheme: #{@live_theme.inspect}", :content_type => 'text/plain'
   end
 
   def authorize_juggernaut_channels(session_id, channels )
@@ -845,6 +861,19 @@ class CeLiveController < ApplicationController
     render( :template => 'ce_live/post_talking_point_from_group', :formats => [:js], :locals =>{:live_talking_point => ltp})
   end
   
+  def send_theme_via_jug(theme)
+    if theme.theme_type == 0
+      Juggernaut.publish("_session_#{theme.live_session_id}_macrothemer", {:act=>'theming', :type=>'live_new_theme', 
+        :data=> { 
+          id: theme.id, 
+          theme_id: theme.id, 
+          theme_text: BlueCloth.new( theme.text ).to_html,
+          version: theme.version,
+          examples: LiveTalkingPoint.where( id: theme.example_ids.try{ |ids| ids.scan(/\d+/).map(&:to_i) || []}).map{|ltp| {group_id: ltp.group_id, text: ltp.text} }
+        }})
+    end
+  end
+  
   def post_theme_update
     
     # I want to use session to determine 
@@ -895,9 +924,7 @@ class CeLiveController < ApplicationController
           @live_theme_examples = LiveTalkingPoint.where(id: params[:example_ids] )
         end
         @live_theme.save
-        Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_uTheme_examples', 
-          :data=> {:live_theme_id=>params[:list_id], :examples => @live_theme_examples}})
-        
+        send_theme_via_jug(@live_theme)
         
       when 'new_list' 
         logger.debug "new_list"
@@ -915,7 +942,7 @@ class CeLiveController < ApplicationController
         @live_theming_session.tag = params[:output_tag] unless params[:output_tag].nil? || params[:output_tag] == ''
         @live_theming_session.save
         
-
+        
         if LiveSession.find( params[:live_session_id] ).session_type == 'macrotheme'
           @live_theme.update_column(:theme_type, 1)
           @child_theme = LiveTheme.find(params[:idea_id])
@@ -931,7 +958,7 @@ class CeLiveController < ApplicationController
           
         else
           @live_talking_point = LiveTalkingPoint.find(params[:idea_id])
-
+          
           Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_new_theme', 
             :data=> { 
               id: @live_theme.id, 
@@ -1059,8 +1086,7 @@ class CeLiveController < ApplicationController
             else
               @live_theme_examples = LiveTalkingPoint.where(id: ex_ids )
             end
-            Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_uTheme_examples', 
-              :data=> {:live_theme_id=>params[:list_id], :examples => @live_theme_examples}})
+            send_theme_via_jug(@live_theme)
           end
           @live_theme.save
         end
@@ -1077,8 +1103,9 @@ class CeLiveController < ApplicationController
           @live_theming_session.theme_group_ids = list_ids.uniq.join(',')
           @live_theming_session.save
           
-          Juggernaut.publish("_session_#{params[:live_session_id]}_macrothemer", {:act=>'theming', :type=>'live_uTheme_delete', 
-            :data=> {:live_theme_id=>params[:list_id]}})
+          Juggernaut.publish("_session_#{@live_theme.live_session_id}_macrothemer", 
+            {:act=>'theming', :type=>'live_uTheme_delete', :data=> { live_theme_id: @live_theme.id } } )
+            
         end
         
         
@@ -1120,6 +1147,9 @@ class CeLiveController < ApplicationController
         end
         micro_theme.examples = example_talking_points
       end
+    else
+      # convert utheme example_ids into an array
+      theme.example_ids = theme.example_ids.nil? ? [] : theme.example_ids.scan(/\d+/).map{|i| i.to_i}
     end
     
     
@@ -1178,10 +1208,9 @@ class CeLiveController < ApplicationController
     #params[:examples] = theme.example_ids + theme.example_ids[-1].succ
     #params[:act] = "add_answer_popup"
     
-    
     if theme
       theme.text = params[:text]
-      theme.example_ids = params[:examples] if theme.theme_type = 1
+      theme.example_ids = params[:examples] if theme.theme_type == 1
       theme.version += 1
     else
       live_session_id = params[:theming_live_session_id]
@@ -1196,9 +1225,12 @@ class CeLiveController < ApplicationController
       group_ids = @live_theming_session.theme_group_ids.scan(/\d+/).map(&:to_i)
       @live_theming_session.theme_group_ids = group_ids.append(theme.id).join(',')
       @live_theming_session.save
-        
-      
+
     end
+    if theme.theme_type == 0
+      send_theme_via_jug(theme)
+    end
+    
     respond_to do |format|
       if theme.save
         format.js { render 'ce_live/edit_theme_ok', locals: { theme: theme} }

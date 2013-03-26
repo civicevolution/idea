@@ -72,15 +72,43 @@
 		
 			realtime_data_update_functions['live_new_theme'] = 
 				function(data){
-					var new_theme_col = template_functions['new_theme_col']( data );
-				
-					// insert after placeholder
-					new_theme_col = $(new_theme_col).insertAfter( $('div#placeholder.theme_col'));
+					// it depends on whether this is the macro page or the micro page
+					if( page_data.type == "macro theming" ){
+						console.log("do something with live new theme for macro-theming page");
+						if(data.data.version == 0) { return; }
+						// show new live_theme as a post-it in the new ideas column, if not version == 0
+						var micro_theme_post_it = template_functions['micro_theme_post-it']( data );
+						//$('div#unthemed_ideas ul.sortable_ideas').append(micro_theme_post_it);
+						micro_theme_post_it = $(micro_theme_post_it)
+						micro_theme_post_it.find('div.post-it').addClass('micro');
+						
+						if( data.data.examples.length > 0 ){
+							var ex_div = micro_theme_post_it.find('div.examples');
+							ex_div.append( '<p class="count">' + data.data.examples.length + ' example' + ( data.data.examples.length > 1 ? 's' : '') + '</p>');
+							for( var i=0, ex; (ex=data.data.examples[i]); i++){
+								ex_div.append( '<div class="example">' + ex['text'] + ' (' + ex['group_id'] + ')</p>');
+							}
+						}
 
-					resize_theming_page();
-					make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
-				
-					return new_theme_col;
+						if( $('div.post-it[id="' + data.data.id + '"]').size() == 0){
+							$('div#unthemed_ideas ul.sortable_ideas').append( micro_theme_post_it );
+						}else{
+							$('div.post-it[id="' + data.data.id + '"]').closest('li').replaceWith(micro_theme_post_it);
+						}
+						
+						var post_it = micro_theme_post_it.find('div.post-it');
+						post_it.find('span.warn').remove();
+						post_it.prepend(' <span class="warn delete">Updated</span>');
+						
+						
+					} else if ( page_data.type == "micro theming" ){
+						var new_theme_col = template_functions['new_theme_col']( data );
+						// insert after placeholder
+						new_theme_col = $(new_theme_col).insertAfter( $('div#placeholder.theme_col'));
+
+						resize_theming_page();
+						make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
+					}
 				}
 
 				templates['post-it'] = templates['new_theme_col'].find('li.idea_post_it');
@@ -89,6 +117,7 @@
 						// directives go here
 						'@id' : 'data.live_talking_point.id',
 						'p.idea' : 'data.live_talking_point.text',
+						'div.post-it @id' : 'data.live_talking_point.id',
 						'div.post-it @table_id' : 'data.live_talking_point.group_id',
 						'div.post-it span.table_id' : 'data.live_talking_point.group_id'
 					}
@@ -96,14 +125,16 @@
 
 				realtime_data_update_functions['live_talking_point'] = 
 					function(data){
-						//console.log("processing live_talking_point");
+						console.log("processing live_talking_point");
+						debugger
 						var post_it = template_functions['post-it']( data );
 						$('div#unthemed_ideas ul.sortable_ideas').append(post_it);
 						//make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
 					}
-
+					
 	-# build the templates for the macro theming page
 	%script#macro_theme_page_template{:type=>'text/html'}
+		- presenter.unthemed_ideas = presenter.live_themes
 		:plain
 			#{ render( :partial => 'live_themes/post_its_wall_macro', locals: { presenter: presenter, debug: debug })}
 
@@ -147,4 +178,34 @@
 					'div.inner' : 'data.live_talking_point.text'
 				}
 			);
+
+			template_functions['micro_theme_post-it'] = templates['macro-post-it'].compile(
+				{
+					// directives go here
+					'div.post-it @id' : 'data.id',
+					'div.inner' : 'data.theme_text'
+				}
+			);
+			
+			realtime_data_update_functions['live_uTheme_delete'] =
+				function(data){
+					if(page_data.type != "macro theming") return;
+					//console.log("Update the themes examples");
+					var microtheme = $('div.post-it[id="' + data.data.live_theme_id + '"]');
+					
+					microtheme.find('span.warn').remove();
+					microtheme.prepend(' <span class="warn delete">[This microtheme has been deleted by Themer]</span>');
+					var col_id = microtheme.closest('div.theme_col').attr('id');
+					if(col_id == 'unthemed_ideas' || col_id == 'parked_ideas'){
+						// fade and delete
+						microtheme.closest('li').hide(2000, function(){$(this).remove();});
+					}else{
+						//it is has been themed, mark it as deleted
+						microtheme.closest('li').addClass('deleted').fadeTo(2000,.4);
+						 
+					}
+					setTimeout(post_theme_changes.update_fn,1200);
+				}		
+			
+		
 

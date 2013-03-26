@@ -39,12 +39,12 @@
 						%span Ideas for this theme
 					%p.clear_both
 				
-					%div.theme_col.themes.fancy-scrollbar
+					%div.theme_col.themes.fancy-scrollbar{id: theme.id}
 						%ul.sortable_ideas
 							- if theme.theme_type == 0
 								- theme.constituent_ideas.each do |idea|
 									%li.idea_post_it
-										= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}, format: [:html]
+										= render partial: 'live_themes/post_it', locals: {idea: idea, ex_ids: theme.example_ids, random_ind: random_ind}, format: [:html]
 							- else
 								- theme.constituent_micro_themes.each do |idea|
 									%li.idea_post_it

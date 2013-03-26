@@ -207,7 +207,7 @@ function lttest(){
 
 function mttest(){
 	theme_channel = "_session_117_microthemer_29"
-	lt_id = 1205
-	$.get("/live/lt_to_jug?ch=" + theme_channel + "&id=" + lt_id);
+	lt_id = 1211
+	$.get("/live/ut_to_jug?ch=" + theme_channel + "&id=" + lt_id);
 }
 

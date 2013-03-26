@@ -158,6 +158,7 @@ function init_juggernaut_subscribe(){
 
 function process_juggernaut_input(data){
 	temp.data = data;
+	//console.log("process_juggernaut_input data.act: " + data.act);
 	switch(data.act){
 	  case 'theming':
 			if(realtime_data_update_functions[data.type]){
@@ -303,7 +304,7 @@ function report_status(){
 				activity: activity
 		}
 		//console.log("Send report status: " + Date() );	
-		console.log("send status report " + new Date().getTime() );
+		//console.log("send status report " + new Date().getTime() );
     jug.publish(event_channel,{act: 'status_report', message: status_message, only: recipient_jug_ids });		
   }
   //setTimeout(report_status,10000);
