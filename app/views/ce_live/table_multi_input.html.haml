@@ -76,7 +76,6 @@
 						
 						%p.section_title Share a new idea about strategy
 						%textarea{id: "text", name: "text", placeholder: 'Write your strategy here...', class: 'autosize', field_height: 3}
-							Test for strategy
 
 						%div.form_controls
 							%span.char_ctr{:cnt=>250}
@@ -85,10 +84,10 @@
 						%p.table_vote 
 							%span.for
 								Votes in favor:
-								= text_field_tag :votes_for, 5
+								= text_field_tag :votes_for
 							%span.against
 								Votes opposed:
-								= text_field_tag :votes_against, 0
+								= text_field_tag :votes_against
 						
 						%div.submit
 							%button{'data-disable-with' =>'Submitting...'}
@@ -108,7 +107,6 @@
 												
 						%p.section_title Share a concern or question
 						%textarea{id: "text", name: "text", placeholder: 'Write your concern here...', class: 'autosize', field_height: 3 }
-							Text for concern
 
 						%div.form_controls
 							%span.char_ctr{:cnt=>250}
@@ -117,10 +115,10 @@
 						%p.table_vote 
 							%span.for
 								Votes in favor:
-								= text_field_tag :votes_for, 5
+								= text_field_tag :votes_for
 							%span.against
 								Votes opposed:
-								= text_field_tag :votes_against, 0
+								= text_field_tag :votes_against
 						
 						%div.submit
 							%button{'data-disable-with' =>'Submitting...'}

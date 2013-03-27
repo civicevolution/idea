@@ -943,7 +943,8 @@ class CeLiveController < ApplicationController
           themer_id: @live_node.id, text: new_text, order_id: 0, live_talking_point_ids: params[:idea_id], visible: true )
                 
         @live_theming_session = LiveThemingSession.find_or_create_by_live_session_id_and_themer_id( params[:live_session_id], @live_node.id)
-        group_ids = @live_theming_session.theme_group_ids.scan(/\d+/).map(&:to_i)
+
+        group_ids = @live_theming_session.theme_group_ids.try{ |group_ids| group_ids.scan(/\d+/).map(&:to_i) } || []
         #@live_theming_session.theme_group_ids = group_ids.insert(1,@live_theme.id).join(',')
         @live_theming_session.theme_group_ids = group_ids.prepend(@live_theme.id).join(',')
         @live_theming_session.tag = params[:output_tag] unless params[:output_tag].nil? || params[:output_tag] == ''
