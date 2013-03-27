@@ -16,21 +16,23 @@ class LiveSession < ActiveRecord::Base
     
     source_session_id = self.id
     source_input_tags = ['default']
+      
     if self.inputs.size == 0
       live_talking_points = LiveTalkingPoint.where(:live_session_id => self.id, 
         :group_id => LiveNode.where(:role => 'scribe', :parent_id => themer_id).map{|n| n.name.match(/\d+/)[0].to_i} ).order('id ASC')
     else
       live_talking_points = []
       source_input_tags = []
+      source_session_id = nil
       self.inputs.each do |inp|
         live_talking_points += LiveTalkingPoint.where(:live_session_id => inp.source_session_id, :tag => inp.tag,
           :group_id => LiveNode.where(:role => 'scribe', :parent_id => themer_id).map{|n| n.name.match(/\d+/)[0].to_i} ).order('id ASC')
-        source_session_id = inp.source_session_id
+        source_session_id ||= inp.source_session_id
         source_input_tags.push( inp.tag )
       end
 
     end
-
+    
     live_theming_session = LiveThemingSession.where(:live_session_id => self.id, :themer_id => themer_id)
     live_themes_unordered = LiveTheme.where(:live_session_id => self.id, :themer_id => themer_id)
     

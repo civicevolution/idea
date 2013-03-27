@@ -151,18 +151,20 @@ class CeLiveController < ApplicationController
       @page_title = "Table #{group_id}, Topic: #{@session.name}"
 
       primary_tag = ActiveRecord::Base.connection.select_value(%Q|SELECT tag FROM live_session_data WHERE live_session_id = #{@session.id} AND primary_field = true|)
+
+      #if primary_tag.nil?
+      #  @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
+      #else
+      #  all_live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
+      #  @live_talking_points = all_live_talking_points.select{|ltp| ltp.tag == primary_tag}
+      #  
+      #  @live_talking_points.each do |pltp|
+      #    pltp.sub_ltp = all_live_talking_points.select{|ltp| ltp.id_letter == pltp.id_letter} - [pltp]
+      #  end
+      #  
+      #end
       
-      if primary_tag.nil?
-        @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
-      else
-        all_live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
-        @live_talking_points = all_live_talking_points.select{|ltp| ltp.tag == primary_tag}
-        
-        @live_talking_points.each do |pltp|
-          pltp.sub_ltp = all_live_talking_points.select{|ltp| ltp.id_letter == pltp.id_letter} - [pltp]
-        end
-        
-      end
+      @live_talking_points = LiveTalkingPoint.where(:live_session_id => @session.id, :group_id => group_id).order('id ASC')
       
       @page_data = {type: 'enter talking points', session_id: @session.id, session_title: @session.name};
       
@@ -622,6 +624,7 @@ class CeLiveController < ApplicationController
     @page_title = @presenter.page_title
     
     @channels = @presenter.channels
+
     authorize_juggernaut_channels(request.session_options[:id], @presenter.channels )
     
     @macro_session = LiveSession.find_by_sql(%Q|select * from live_sessions where id in (select live_session_id from live_session_data where io_type = 1 and source_session_id = #{@session.id})|)
@@ -815,7 +818,11 @@ class CeLiveController < ApplicationController
       group_id = group_id[0].to_i
     end
 
-    if params[:text]
+    if params[:tag]
+      ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: group_id, text: params[:text], tag: params[:tag],
+        pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: ''
+      
+    elsif params[:text]
       # how do I determine the letter to give this talking point  
       last = LiveTalkingPoint.select('id_letter').where(:live_session_id => params[:s_id], :group_id => group_id).order('id DESC').limit(1)
       if last.empty?
@@ -823,10 +830,10 @@ class CeLiveController < ApplicationController
       else
         id_letter = last[0].id_letter.succ
       end
-
+    
       ltp = LiveTalkingPoint.create live_session_id: params[:s_id], group_id: group_id, text: params[:text], tag: 'default',
         pos_votes: params[:votes_for], neg_votes: params[:votes_against], id_letter: id_letter
-      
+    
     else
       # I need the primary input tag for this session
       primary_tag = ActiveRecord::Base.connection.select_value(%Q|SELECT tag FROM live_session_data WHERE live_session_id = #{params[:s_id].to_i} AND primary_field = true|)
@@ -837,7 +844,7 @@ class CeLiveController < ApplicationController
       else
         id_letter = last[0].id_letter.succ
       end
-
+    
       sub_ltp = []
       primary_field_value = params["_tp_#{primary_tag}_1"]
       params.each_pair do |name,value|
@@ -856,7 +863,7 @@ class CeLiveController < ApplicationController
       end
       ltp.sub_ltp = sub_ltp
     end
-      
+
     Juggernaut.publish("_session_#{params[:s_id]}_microthemer_#{@live_node.parent_id}", {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
     render( :template => 'ce_live/post_talking_point_from_group', :formats => [:js], :locals =>{:live_talking_point => ltp})
   end

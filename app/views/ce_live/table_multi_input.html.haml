@@ -1,94 +1,11 @@
 - content_for(:script) do
-	%style
-		:sass
-			$navy_blue: #23238E
-			$help_tag: #f3973a
-			div.page
-				div#left
-					width: 400px
-					float: left
-					margin-right: 40px
-				div#right
-					width: 400px
-					float: left
+	-#= javascript_include_tag 'ce_live/app_ce_live_themer.js'
+	-#= javascript_include_tag 'ce_live/app_ce_theming.js'
+	-#= javascript_include_tag 'ce_live/app_ce_live_details.js'
+	-#= javascript_include_tag 'ce_live/app_ce_live_micro_themer_post_it.js'
 
-			p.table_vote
-				font-weight: bold
-				span
-					margin-left: 16px
-				input[type="text"]
-					width: 40px
-
-			div#live_talking_points, div#groups_live_talking_points
-				div.inner
-					overflow: auto
-					overflow-y: scroll
-					width: 460px
-					height: 300px
-					border: 1px solid black
-					padding: 1em 0
-				input[type=text]
-					width: 360px
-				p.text
-					margin: 0
-				ul.sub_text
-					margin-top: 0
-					margin-bottom: 0
-					li
-						color: blue
-				
-			
-			div#groups_live_talking_points
-				div.inner
-					height: 300px
-					div.live_talking_point
-						background-color: #FBE574
-						margin: 20px
-						padding: 10px
-						img
-							display: none
-						p.stats
-							display: block
-							font-size: .8em
-							span.pos
-								margin-left: 10px
-								color: green
-							span.neg
-								color: red
-			p.section_title
-				font-weight: bold
-				margin-bottom: 4px
-			
-			form.post_live_tp
-				img
-					display: inline
-					float: right
-				p.table_vote
-					margin: 0
-					button
-						font-size: 1.2em
-				ul.errors
-					color: red
-				div.form_controls
-					text-align: left
-					font-size: 12px
-					height: 16px
-					margin: -4px 0 8px 0
-					span.char_ctr
-						right: 0
-						left: auto
-			div.request_help
-				float: right
-				background-color: $help_tag
-				color: $navy_blue
-				width: 120px
-				text-align: center
-				font-weight: bold
-				margin: 4px 10px 4px 0
-
-				
-						
 	= javascript_include_tag 'ce_live/app_ce_live_table.js'
+
 	:javascript
 		var pub_sub_channels = #{@channels}
 		if(#{@not_scribe_message.nil? ? false : true}){
@@ -102,8 +19,36 @@
 		//	$('form.post_live_tp :input').attr('disabled','disabled')
 		//	$('a.new_live_talking_point').remove();
 		//}
+		
+		var form_ctr = 1;
+		$('body').on('click','button.add_form', 
+			function(evt){
+				var cur_forms = $('div#live_forms').find('div.form');
+				if(cur_forms.size() > 3){
+					alert("You must complete your outstanding forms before opening a new one")
+				}else{
+					var par = $(this).closest('div.forms_section');
+					var form = par.find('div.form').clone();
+					form.find('input[name="form_id"]').val( form_ctr++ );
+					//if( form.hasClass('strategy') ){
+					//}else{
+					//}
+					$('div#live_forms').prepend(form);
+				}
+			}
+		);
+		$('body').on('click','form a.cancel_form', 
+			function(evt){
+				$(this).closest('div.form').hide(800,function(){$(this).remove();});
+				return false;
+			}
+		);
+		
 
+	
 %div#table
+	= stylesheet_link_tag 'ce_live/table_multi_input'
+	= stylesheet_link_tag 'ce_live/theming_page'
 	
 	- if @warning.nil?		
 		- if @not_scribe_message
@@ -115,42 +60,107 @@
 	%div#left
 		%div.talking_point_block
 			- if @session.published
-				%h3.warn The themes from themesis session have been published and no themes can be added
+				%h3.warn The themes from this session have been published and no more ideas can be added
 		
 			-#%p.desc= @session.description
 			
-			= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig post_live_tp', :id=>1) do
-				= hidden_field_tag :s_id, @session.id
-				= hidden_field_tag :form_id, 1
+			#strategy.forms_section
+				%p Think of strategies and leverage points for achieving participatory sustainability
+				%button.add_form Share a strategy
 				
-				- @session.outputs.sort{|a,b| a.primary_field ? -1 : 1  }.each do |field|
-					%p.section_title= field.label
-					- for ctr in 1..field.qty
-					
-						%textarea{id: "_tp_#{field.tag}_#{ctr}", name: "_tp_#{field.tag}_#{ctr}", class: 'autosize', field_height: field.height}
+				%div.form.strategy
+					= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig post_live_tp', :id=>1) do
+						= hidden_field_tag :s_id, @session.id
+						= hidden_field_tag :form_id, 1
+						= hidden_field_tag :tag, 'strategy'
 						
+						%p.section_title Share a new idea about strategy
+						%textarea{id: "text", name: "text", placeholder: 'Write your strategy here...', class: 'autosize', field_height: 3}
+							Test for strategy
+
 						%div.form_controls
 							%span.char_ctr{:cnt=>250}
 								250 characters
-					
-				
-				%button{'data-disable-with' =>'Submitting...'}
-					Share
-					
 						
+						%p.table_vote 
+							%span.for
+								Votes in favor:
+								= text_field_tag :votes_for, 5
+							%span.against
+								Votes opposed:
+								= text_field_tag :votes_against, 0
+						
+						%div.submit
+							%button{'data-disable-with' =>'Submitting...'}
+								Submit strategy
+							= link_to 'Cancel', {}, class: 'cancel_form'
+				
+			
+			#concern.forms_section
+				%p Think of your questions, concerns, and assumptions from your deliberations and the presentation
+				%button.add_form Share a concern
+
+				%div.form.concern
+					= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig post_live_tp', :id=>1) do
+						= hidden_field_tag :s_id, @session.id
+						= hidden_field_tag :form_id, 1
+						= hidden_field_tag :tag, 'concern'
+												
+						%p.section_title Share a concern or question
+						%textarea{id: "text", name: "text", placeholder: 'Write your concern here...', class: 'autosize', field_height: 3 }
+							Text for concern
+
+						%div.form_controls
+							%span.char_ctr{:cnt=>250}
+								250 characters
+						
+						%p.table_vote 
+							%span.for
+								Votes in favor:
+								= text_field_tag :votes_for, 5
+							%span.against
+								Votes opposed:
+								= text_field_tag :votes_against, 0
+						
+						%div.submit
+							%button{'data-disable-with' =>'Submitting...'}
+								Submit concern
+							= link_to 'Cancel', {}, class: 'cancel_form'
+								
+			#live_forms
+			
+				
 		
 	%div#right
-	
-		%p.section_title Talking points sent by your table
-		%div#groups_live_talking_points
-			%div.inner
-				= render :partial => 'ce_live/live_talking_point', :formats => [:html], :locals =>{:mode => 'table_confirmation'}, :collection => @live_talking_points, :as => :live_talking_point
+		%div.theme_col.fancy-scrollbar{ id: 'strategy'}
+				
+			%ul.sortable_ideas
+				- random_ind = rand.to_s.scan(/\d/)[1..20]
+				- theme = LiveTheme.new( text: '**Strategies for participatory sustainability**')
+				- theme.id = 0
+				%li.theme_post_it
+					= render partial: 'live_themes/post_it', locals: {idea: theme, random_ind: random_ind}											
+				- @live_talking_points.select{|tp| tp.tag == 'strategy'}.each do |idea|
+					%li.idea_post_it
+						= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}		
+		-#%p.clear_both
 		
-		-#%h3 Talking points as seen by themers
-		-#%div#live_talking_points
-			%div.inner
 
-	%div.chat.parent
+		%div.theme_col.fancy-scrollbar{ id: 'concern'}
+				
+			%ul.sortable_ideas
+				- random_ind = rand.to_s.scan(/\d/)[1..20]
+				- theme = LiveTheme.new( text: '**Concerns, questions and assumptions**')
+				- theme.id = 0
+				%li.theme_post_it
+					= render partial: 'live_themes/post_it', locals: {idea: theme, random_ind: random_ind}											
+				- @live_talking_points.select{|tp| tp.tag == 'concern'}.each do |idea|
+					%li.idea_post_it
+						= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}		
+		
+		-#%p.clear_both
+			
+	-#%div.chat.parent
 		%p.hdr 
 			Help chat
 			= link_to 'Close'

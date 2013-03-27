@@ -125,11 +125,14 @@
 
 				realtime_data_update_functions['live_talking_point'] = 
 					function(data){
-						console.log("processing live_talking_point");
-						debugger
-						var post_it = template_functions['post-it']( data );
-						$('div#unthemed_ideas ul.sortable_ideas').append(post_it);
-						//make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
+						if( data.data.live_talking_point.tag == page_data.output_tag){
+							console.log("processing live_talking_point, add to new talking points, ignore type: " + data.data.live_talking_point.tag);
+							var post_it = template_functions['post-it']( data );
+							$('div#unthemed_ideas ul.sortable_ideas').append(post_it);
+							//make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
+						}else{
+							console.log("processing live_talking_point, ignore type: " + data.data.live_talking_point.tag);
+						}
 					}
 					
 	-# build the templates for the macro theming page
