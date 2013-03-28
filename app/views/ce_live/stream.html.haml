@@ -56,7 +56,8 @@
 		}
 		
 		function overwrite_update_function(){
-			if( typeof realtime_data_update_functions['live_talking_point'] == 'function'){
+			if( typeof realtime_data_update_functions != 'undefined' && 
+				typeof realtime_data_update_functions['live_talking_point'] == 'function'){
 				realtime_data_update_functions['live_talking_point'] = update_stream;
 			}else{
 				setTimeout(overwrite_update_function, 500);
