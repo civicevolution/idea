@@ -125,3 +125,9 @@
 											
 									- else
 										%p Create a home page entry for session_type: #{session.session_type}
+
+			%tr
+				%td
+				%td{:colspan=>2}
+					%p= link_to 'Stream concerns', live_stream_path(125, tags: 'concern')
+			

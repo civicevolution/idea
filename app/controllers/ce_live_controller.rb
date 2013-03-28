@@ -638,6 +638,7 @@ class CeLiveController < ApplicationController
     
   def ltp_to_jug
     ltp = LiveTalkingPoint.find(params[:id])
+    ltp.text = params[:ctr] + ' ' + ltp.text
     Juggernaut.publish(params[:ch], {:act=>'theming', :type=>'live_talking_point', :data=>ltp})
     render :text => "On juggernaut on channel; #{params[:ch]}, sent LiveTalkingPoint: #{ltp.inspect}", :content_type => 'text/plain'
   end

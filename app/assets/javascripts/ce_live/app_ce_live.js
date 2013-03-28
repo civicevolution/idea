@@ -193,10 +193,11 @@ $('a.resize').die('click').live('click',
 );
 
 
-function tptest(){
+function tptest(ctr){
+	ctr = ctr ? ctr : 1;
 	theme_channel = "_session_125_microthemer_50"
 	ltp_id = 3249
-	$.get("/live/ltp_to_jug?ch=" + theme_channel + "&id=" + ltp_id);
+	$.get("/live/ltp_to_jug?ch=" + theme_channel + "&id=" + ltp_id + "&ctr=" + ctr);
 }
 
 function lttest(){

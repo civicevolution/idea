@@ -57,4 +57,9 @@
 						%td{:colspan=>2}
 							- if session.session_type == 'microtheme'
 								%p= link_to session.name, live_micro_themer_path(session.id)
-
+		
+			%tr
+				%td
+				%td{:colspan=>2}
+					%p= link_to 'Stream concerns', live_stream_path(125, tags: 'concern')
+			
