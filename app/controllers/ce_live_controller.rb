@@ -726,9 +726,28 @@ class CeLiveController < ApplicationController
     @page_data = {type: 'enter talking points', session_id: @session.id, session_title: @session.name, tags: tags};
     
     render :template => 'ce_live/stream', :layout => 'ce_live', :locals=>{}
+   
+  end
+
+  def stream_juggernaut_messages
     
+    @session = LiveSession.find_by_id(params[:session_id])
+    @event = LiveEvent.find( @session.live_event_id )
+    @themers = LiveNode.where( live_event_id: @session.live_event_id, role: 'theme')
+    # I need to listen to all of the channels
+
+    @channels = @themers.map{ |t| "_session_#{@session.id}_microthemer_#{t.id}"} + ["_event_#{@session.live_event_id}", "_session_#{@session.id + 1}_macrothemer"]
+    
+    authorize_juggernaut_channels(request.session_options[:id], @channels )
+
+    @page_title = "Topic: #{@session.name}"
+    
+    @page_data = {type: 'enter talking points', session_id: @session.id, session_title: @session.name};
+    
+    render :template => 'ce_live/stream_juggernaut_messages', :layout => 'ce_live', :locals=>{}
     
   end
+  
   
   def add_session_form
     @live_session = flash[:live_session] || params[:id].nil? ? LiveSession.new : LiveSession.find(params[:id])

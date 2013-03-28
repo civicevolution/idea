@@ -1,0 +1,79 @@
+- content_for(:script) do
+	%style
+		:sass
+
+	:javascript
+		var pub_sub_channels = #{@channels}
+		if(#{@not_scribe_message.nil? ? false : true}){
+			// disable the form inputs
+			$('form :input').attr('disabled','disabled')
+			$('a.new_live_talking_point').remove();
+		}
+		
+		function update_status_report(message){
+		}
+		
+		// I need to override the live talking point function in templates
+
+		function show_stream_entry(data){
+			switch(data.act){
+				case 'status_report':
+					msg = "Status report for " + data.message.name
+					break;
+				case 'update_roster':
+					msg = "Update roster with " + data.roster.length + " members"
+					break;
+				
+				case 'theming':
+					switch(data.type){
+						case "live_talking_point":
+							msg = "Live talking point: " + data.data.live_talking_point.text.substring(0,30);
+							break;
+						case "live_new_theme":
+							msg = "Live new theme: " + data.data.theme_text.substring(0,30).replace(/<\?*[^>]*>/,'');
+							break;
+						case "live_uTheme_delete":
+							msg = "Deleted a microtheme";
+							break;
+						default:
+							//debugger
+							msg = "<b>What to do with theming data.type: " + data.type + "</b>";
+					}
+					break;
+				default:
+					console.log("process_juggernaut_input data.act: " + data.act);
+					msg = "<b>What to do with data.act: " + data.act + "</b>";
+					msg = data.act
+					//debugger
+			}
+			
+			$('div.theme_col').prepend('<p>' + Date().toString().match(/\d+:\d+:\d+/)[0] + ': ' + msg + '</p>');
+			
+		}
+		
+		function overwrite_update_function(){
+			if( typeof process_juggernaut_input != 'undefined' && 
+				typeof process_juggernaut_input == 'function'){
+				process_juggernaut_input = show_stream_entry;
+			}else{
+				setTimeout(overwrite_update_function, 500);
+			}
+		}
+		setTimeout(overwrite_update_function, 500);
+		
+		$('body').on('click','a.clear_stream', 
+			function(){
+				$('div.theme_col').html('');
+				return false;
+			}
+		);
+		
+	
+%div#stream
+	%h3 
+		Stream of Juggernaut messages
+		= link_to 'clear', {}, class: 'clear_stream'
+		
+	%div#right
+		%div.theme_col.fancy-scrollbar{ id: 'strategy'}
+			%p Juggernaut messages appear here
