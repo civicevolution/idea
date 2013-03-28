@@ -1,7 +1,7 @@
 - post_it_type = case when theme.theme_type == 0 then 'micro' else 'macro' end
 %div.idea_details.popup.fancy-scrollbar{ theme_id: theme.id}
-	- if !Rails.env.production?
-		= stylesheet_link_tag "ce_live/theme_details"
+	-# if !Rails.env.production?
+	= stylesheet_link_tag "ce_live/theme_details"
 	%div.answer_details_outer
 		%div.answer_details	
 			%div.details_left
