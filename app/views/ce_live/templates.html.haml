@@ -120,8 +120,8 @@
 						'div.post-it @id' : 'data.live_talking_point.id',
 						'div.post-it @table_id' : 'data.live_talking_point.group_id',
 						'div.post-it span.table_id' : 'data.live_talking_point.group_id',
-						'div.post-it span.pos' : 'data.live_talking_point.pos_votes',
-						'div.post-it span.neg' : 'data.live_talking_point.neg_votes'
+						'div.post-it span.pos' : '+\#{data.live_talking_point.pos_votes}',
+						'div.post-it span.neg' : '-\#{data.live_talking_point.neg_votes}'
 					}
 				);
 

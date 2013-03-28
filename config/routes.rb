@@ -74,7 +74,8 @@ G3::Application.routes.draw do
   match 'live/:event_id/add_session(/:id)' => 'ce_live#add_session_form', :as=> 'edit_live_session'
   match 'live/:event_id/post_session(/:id)' => 'ce_live#add_session_post', :via=>[:put,:post], :as=> 'post_live_session'
   match 'live/:event_id/delete_session(/:id)' => 'ce_live#delete_session_post', :via=>[:put,:post], :as=> 'delete_live_session'
-
+  get 'live/:session_id/stream' => 'ce_live#stream', as: 'stream'
+  
   get 'live/:event_id/add_node(/:id)' => 'ce_live#add_node_form', :as=> 'add_live_node'
   match 'live/:event_id/add_node(/:id)' => 'ce_live#add_node_form', :as=> 'edit_live_node'
   match 'live/:event_id/post_node(/:id)' => 'ce_live#add_node_post', :via=>[:put,:post], :as=> 'post_live_node'

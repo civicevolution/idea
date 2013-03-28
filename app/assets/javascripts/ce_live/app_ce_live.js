@@ -194,8 +194,8 @@ $('a.resize').die('click').live('click',
 
 
 function tptest(){
-	theme_channel = "_session_116_microthemer_29"
-	ltp_id = 3164
+	theme_channel = "_session_125_microthemer_50"
+	ltp_id = 3249
 	$.get("/live/ltp_to_jug?ch=" + theme_channel + "&id=" + ltp_id);
 }
 

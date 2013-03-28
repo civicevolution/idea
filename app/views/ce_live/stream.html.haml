@@ -1,0 +1,84 @@
+- content_for(:script) do
+	%style
+		:sass
+			ul.sortable_ideas
+				width: 440px
+			li.idea_post_it
+				cursor: default
+				width: 20em
+				margin-bottom: 2em
+				div.post-it
+					width: 20em
+				&.strategy
+				
+				&.concern
+					div.post-it
+						background-color: #edc7db
+			div.theme_col
+				div.post-it
+				li.idea_post_it:hover, li.theme_post_it:hover
+					img.delete
+						display: none
+						
+						
+						
+	-#= javascript_include_tag 'ce_live/app_ce_live_themer.js'
+	-#= javascript_include_tag 'ce_live/app_ce_theming.js'
+	-#= javascript_include_tag 'ce_live/app_ce_live_details.js'
+	-#= javascript_include_tag 'ce_live/app_ce_live_micro_themer_post_it.js'
+
+	-#= javascript_include_tag 'ce_live/app_ce_live_table.js'
+
+	:javascript
+		var pub_sub_channels = #{@channels}
+		if(#{@not_scribe_message.nil? ? false : true}){
+			// disable the form inputs
+			$('form :input').attr('disabled','disabled')
+			$('a.new_live_talking_point').remove();
+		}
+		
+		function update_status_report(message){
+		}
+		
+		// I need to override the live talking point function in templates
+
+		function update_stream(data){
+			var tag =  data.data.live_talking_point.tag;
+			// is the tag in page_data.tags?
+			if( $.inArray(tag, page_data.tags) > -1 ){
+				var post_it = $(template_functions['post-it']( data ));
+				post_it.addClass(tag);
+				var inner = post_it.find('div.post-it');
+				var inner_class = inner.attr('class');
+				inner.attr('class', inner_class.replace(/R\d/, 'R' + Math.floor(Math.random()*10) ));
+				$('div.theme_col ul.sortable_ideas').prepend(post_it);
+			}
+		}
+		
+		function overwrite_update_function(){
+			if( typeof realtime_data_update_functions['live_talking_point'] == 'function'){
+				realtime_data_update_functions['live_talking_point'] = update_stream;
+			}else{
+				setTimeout(overwrite_update_function, 500);
+			}
+		}
+		setTimeout(overwrite_update_function, 500);
+		
+		
+	
+%div#stream
+	%h3 Stream of ideas
+	= stylesheet_link_tag 'ce_live/table_multi_input'
+	= stylesheet_link_tag 'ce_live/theming_page'				
+		
+	%div#right
+		%div.theme_col.fancy-scrollbar{ id: 'strategy'}
+				
+			%ul.sortable_ideas
+				- random_ind = rand.to_s.scan(/\d/)[1..20]
+				-# @live_talking_points.select{|tp| tp.tag == 'strategy'}.each do |idea|
+				- @live_talking_points.each do |idea|
+					%li.idea_post_it{class: idea.tag}
+						= render partial: 'live_themes/post_it', locals: {idea: idea, random_ind: random_ind}		
+		
+
