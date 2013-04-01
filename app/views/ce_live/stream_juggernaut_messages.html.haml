@@ -21,7 +21,21 @@
 					msg = "Status report for " + data.message.name
 					break;
 				case 'update_roster':
-					msg = "Update roster with " + data.roster.length + " members"
+					msg = "Update roster with " + data.roster.length + " members";
+					for(var i=0,member; (member=data.roster[i]); i++){
+						var browser = member.ape_code.browser;
+						if(browser.mozilla){
+							browser = "Mozilla"
+						}else if(browser.safari){
+							browser = "Safari";
+						}else if(browser.chrome){
+							browser = "Chrome";
+						}else{
+							browser = "Unknown";
+						}
+						msg += '<br/>'+ member.ape_code.node_id + ': ' + member.name + ' ' + member.ape_code.jug_id + ' ' + 
+							member.ape_code.href.match(/civicevolution.(.*)/)[1] + ' ' + browser
+					}
 					break;
 				
 				case 'theming':

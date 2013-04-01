@@ -1,7 +1,7 @@
 %div#scribe_standby
 	%h3 Table #{group_id}
-	%p Please leave the browser open to this page. 
-	%p The page will be updated automatically to allow you to record your table's talking points.
+	-#%p Please leave the browser open to this page. 
+	-#%p The page will be updated automatically to allow you to record your table's talking points.
 	
 	- if @sessions
 	
@@ -10,12 +10,12 @@
 				%tr
 					%td{colspan: 3}
 						%h3 
-							Session #{group.name}:
+							#{group.name}:
 			
 				- @sessions.select{|s| s.group_id == group.id && s.session_type != 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |session|
 	
 					- if session.session_type == 'collect' || session.session_type == 'allocation'
-						%tr
+						-#%tr
 							%td
 								%h3.time
 									= session.starting_time.strftime("%H:%M") unless session.starting_time.nil?
@@ -31,7 +31,7 @@
 							%td{:colspan=>2}
 								- case session.session_type
 									- when 'collect'
-										%p= link_to "Collect talking points for #{session.name}", live_scribe_path(:dest => "collect_#{session.id}")
+										%p= link_to "Collect ideas for #{session.name}", live_scribe_path(:dest => "collect_#{session.id}")
 									- when 'allocation'
 										-# if !session.source_session_id.nil?
 										%p= link_to "#{session.name}", live_scribe_path(:dest => "allocation_#{session.id}")

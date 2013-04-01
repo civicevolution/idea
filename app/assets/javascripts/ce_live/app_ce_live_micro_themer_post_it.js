@@ -45,12 +45,12 @@ function init_post_its_wall(post_its_wall){
 
 function truncate_themes(post_its){
 	// truncate long themes
-	post_its.find('div.inner').each( 
+	post_its.find('div.content').each( 
 		function(){
 			var inner = $(this);
 			inner.css('max-height','');
-			if(inner.height() > 200){
-				inner.css({overflow: 'hidden', 'max-height':'200px'}).append('<p class="more">More...</p>');
+			if(inner.height() > 300){
+				inner.css({overflow: 'hidden', 'max-height':'300px'}).append('<p class="more">More...</p>');
 			}
 		}
 	);

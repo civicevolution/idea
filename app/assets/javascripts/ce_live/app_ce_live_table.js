@@ -142,10 +142,10 @@ $('div.chat p.hdr a').live('click',
   }
 );
 
-$(function(){
-  $('div.join_com').prepend(' /');
-  $('div.join_com').prepend( $('<a href="#" class="ask_for_help">Ask for help</a>') );
-});
+//$(function(){
+//  $('div.join_com').prepend(' /');
+//  $('div.join_com').prepend( $('<a href="#" class="ask_for_help">Ask for help</a>') );
+//});
 $('a.ask_for_help').live('click',
   function(){
     var chat = $('div.chat');

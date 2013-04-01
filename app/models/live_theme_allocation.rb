@@ -9,7 +9,7 @@ class LiveThemeAllocation < ActiveRecord::Base
     vote_under = false
 
     votes.each_value do |points|
-      vote_over = true if points > 30
+      vote_over = true if points > 40
       vote_under = true if points < 0
       vote_sum += points
     end

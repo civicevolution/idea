@@ -7,7 +7,7 @@ function init_details_popup(details){
 		modal : true, 
 		width :'auto',
 		height: $(window).height() - 8,
-		position: ["center","center"],
+		position: ["left","center"],
 		zIndex: 101,
 		open: function(event,ui){
 			var dlg = $(this);

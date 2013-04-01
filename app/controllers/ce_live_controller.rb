@@ -176,7 +176,7 @@ class CeLiveController < ApplicationController
     
     elsif page_type == 'allocation'
       
-      @page_title = "Table #{group_id} Prioritisation for: #{@session.name}"
+      @page_title = "Table #{group_id} #{@session.name}"
 
       if @session.source_session_id.nil? || @session.inputs.size > 0
         @source_session_id = @session.inputs[0].source_session_id

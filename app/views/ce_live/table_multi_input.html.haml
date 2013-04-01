@@ -29,6 +29,7 @@
 				}else{
 					var par = $(this).closest('div.forms_section');
 					var form = par.find('div.form').clone();
+					activate_text_counters_grow(form.find('textarea'), 120);
 					form.find('input[name="form_id"]').val( form_ctr++ );
 					//if( form.hasClass('strategy') ){
 					//}else{
@@ -65,8 +66,8 @@
 			-#%p.desc= @session.description
 			
 			#strategy.forms_section
-				%p Think of strategies and leverage points for achieving participatory sustainability
-				%button.add_form Share a strategy
+				%p What are the key leverage points that could effectively ‘nudge’ us towards such a new norm?
+				%button.add_form Share a leverage point
 				
 				%div.form.strategy
 					= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig post_live_tp', :id=>1) do
@@ -74,8 +75,8 @@
 						= hidden_field_tag :form_id, 1
 						= hidden_field_tag :tag, 'strategy'
 						
-						%p.section_title Share a new idea about strategy
-						%textarea{id: "text", name: "text", placeholder: 'Write your strategy here...', class: 'autosize', field_height: 3}
+						%p.section_title Share a new idea about a leverage point
+						%textarea{id: "text", name: "text", placeholder: 'Write your leverage point here...', class: 'autosize', field_height: 3}
 
 						%div.form_controls
 							%span.char_ctr{:cnt=>250}
@@ -96,8 +97,8 @@
 				
 			
 			#concern.forms_section
-				%p Think of your questions, concerns, and assumptions from your deliberations and the presentation
-				%button.add_form Share a concern
+				%p What assumptions would we have to ‘surface’ and ‘bust’ to be able to effectively lever such a change?
+				%button.add_form Share an assumption
 
 				%div.form.concern
 					= form_tag(post_live_tp_path, :remote=>true, :class=>'std_form orig post_live_tp', :id=>1) do
@@ -105,8 +106,8 @@
 						= hidden_field_tag :form_id, 1
 						= hidden_field_tag :tag, 'concern'
 												
-						%p.section_title Share a concern or question
-						%textarea{id: "text", name: "text", placeholder: 'Write your concern here...', class: 'autosize', field_height: 3 }
+						%p.section_title Share an assumption
+						%textarea{id: "text", name: "text", placeholder: 'Write your assumption here...', class: 'autosize', field_height: 3 }
 
 						%div.form_controls
 							%span.char_ctr{:cnt=>250}
@@ -134,7 +135,7 @@
 				
 			%ul.sortable_ideas
 				- random_ind = rand.to_s.scan(/\d/)[1..20]
-				- theme = LiveTheme.new( text: '**Strategies for participatory sustainability**')
+				- theme = LiveTheme.new( text: '**Leverage points**')
 				- theme.id = 0
 				%li.theme_post_it
 					= render partial: 'live_themes/post_it', locals: {idea: theme, random_ind: random_ind}											
@@ -148,7 +149,7 @@
 				
 			%ul.sortable_ideas
 				- random_ind = rand.to_s.scan(/\d/)[1..20]
-				- theme = LiveTheme.new( text: '**Concerns, questions and assumptions**')
+				- theme = LiveTheme.new( text: '**Assumptions**')
 				- theme.id = 0
 				%li.theme_post_it
 					= render partial: 'live_themes/post_it', locals: {idea: theme, random_ind: random_ind}											

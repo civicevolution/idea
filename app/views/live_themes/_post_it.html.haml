@@ -4,12 +4,13 @@
 %div{class: "R#{random_ind.pop} post-it #{post_it_type}" + (ex_ids.include?(idea.id)? ' example' : ''), id: idea.id, table_id: group_id }
 	- if idea.class.to_s == "LiveTheme"
 		%div.inner
+			%div.idea_text
 			:markdown
 				#{idea.text}
 
 		%div.status
-			= image_tag 'blue-pencil-24.png', :class=>"edit"
 			= image_tag 'delete_icon_16t.gif', :class=>"delete"
+			= image_tag 'blue-pencil-24.png', :class=>"edit"
 			%div.star
 				
 	- else

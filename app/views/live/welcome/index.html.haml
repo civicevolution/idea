@@ -55,7 +55,7 @@
 							%td{:colspan=>2}
 								- case session.session_type
 									- when 'collect'
-										%p= link_to "Collect talking points for #{session.name}", live_table_path(session.id), :target=>'page'
+										%p= link_to "Collect ideas for #{session.name}", live_table_path(session.id), :target=>'page'
 									- when 'feedback_themes'
 										- if !session.source_session_id.nil?
 											%p= link_to "#{session.name}", live_session_themes_path(session.source_session_id)

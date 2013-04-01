@@ -2,17 +2,22 @@
 - post_it_type = case when !idea.attributes.include?('theme_type') then '' when idea.theme_type == 0 then 'micro' else 'macro' end
 %div{class: "R#{random_ind.pop} post-it #{post_it_type}", id: idea.id, table_id: group_id }
 	- if idea.class.to_s == "LiveTheme"
-		%div.inner
-			:markdown
-				#{idea.text}
+		%div.content
+			%div.inner
+				%div.idea_text
+				:markdown
+					#{idea.text}
 
-		%div.examples
-			- if idea.macro.nil? && !idea.examples.nil?	
-				%p.count= pluralize( idea.examples.size, 'example')
-				- idea.examples.each do |tp|
+			%div.examples
+				- if idea.macro
 					%div.example 
-						= tp.text
-						(#{tp.group_id})
+						= idea.example_ids
+				- elsif idea.macro.nil? && !idea.examples.nil?	
+					%p.count= pluralize( idea.examples.size, 'example')
+					- idea.examples.each do |tp|
+						%div.example 
+							= tp.text
+							(#{tp.group_id})
 			
 		%div.status
 			= image_tag 'delete_icon_16t.gif', :class=>"delete"

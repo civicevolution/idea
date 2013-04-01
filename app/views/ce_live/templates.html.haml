@@ -154,7 +154,7 @@
 					'li.theme_post_it div.post-it @id' : 'data.theme_id',
 					'li.theme_post_it p' : 'data.theme_text',
 					'li.idea_post_it div.post-it @id' : 'data.theme_idea_id',						
-					'li.idea_post_it div.inner' : 'data.theme_idea'
+					'li.idea_post_it div.inner div.idea_text' : 'data.theme_idea'
 				}
 			);
 
@@ -180,7 +180,7 @@
 				{
 					// directives go here
 					'@id' : 'data.live_talking_point.id',
-					'div.inner' : 'data.live_talking_point.text'
+					'div.inner div.idea_text' : 'data.live_talking_point.text'
 				}
 			);
 
@@ -188,7 +188,7 @@
 				{
 					// directives go here
 					'div.post-it @id' : 'data.id',
-					'div.inner' : 'data.theme_text'
+					'div.inner div.idea_text' : 'data.theme_text'
 				}
 			);
 			
