@@ -464,8 +464,8 @@ class CeLiveController < ApplicationController
   def session_themes
 
     @session = LiveSession.find_by_id(params[:session_id])
-    
-    @page_title = "Themes for: #{@session.name}"
+
+    @page_title = "#{@session.name}"
 
     if LiveSession.find_by_id(@session.id).published
       @live_themes = LiveTheme.where("live_session_id = #{@session.id} AND order_id > 0").order('order_id ASC')
@@ -500,7 +500,7 @@ class CeLiveController < ApplicationController
   def session_allocation_results
     @session = LiveSession.find_by_id(params[:session_id])
     
-    @page_title = "Prioritisation for: #{@session.name}"
+    @page_title = '' # "Prioritisation for: #{@session.name}"
 
     if @session.source_session_id.nil? || @session.inputs.size > 0
       source_session_id = @session.inputs[0].source_session_id
