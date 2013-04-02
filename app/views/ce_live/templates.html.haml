@@ -81,7 +81,7 @@
 						//$('div#unthemed_ideas ul.sortable_ideas').append(micro_theme_post_it);
 						micro_theme_post_it = $(micro_theme_post_it)
 						micro_theme_post_it.find('div.post-it').addClass('micro');
-						
+
 						if( data.data.examples.length > 0 ){
 							var ex_div = micro_theme_post_it.find('div.examples');
 							ex_div.append( '<p class="count">' + data.data.examples.length + ' example' + ( data.data.examples.length > 1 ? 's' : '') + '</p>');
@@ -99,7 +99,10 @@
 						var post_it = micro_theme_post_it.find('div.post-it');
 						post_it.find('span.warn').remove();
 						post_it.prepend(' <span class="warn delete">Updated</span>');
-						
+
+						if(post_theme_changes.update_fn){
+						  setTimeout(post_theme_changes.update_fn,200);
+						}
 						
 					} else if ( page_data.type == "micro theming" ){
 						var new_theme_col = template_functions['new_theme_col']( data );
@@ -132,6 +135,9 @@
 							var post_it = template_functions['post-it']( data );
 							$('div#unthemed_ideas ul.sortable_ideas').append(post_it);
 							//make_ideas_sortable(new_theme_col.find('ul.sortable_ideas'));
+							if(post_theme_changes.update_fn){
+							  setTimeout(post_theme_changes.update_fn,200);
+							}
 						}else{
 							console.log("processing live_talking_point, ignore type: " + data.data.live_talking_point.tag);
 						}
@@ -154,6 +160,7 @@
 					'li.theme_post_it div.post-it @id' : 'data.theme_id',
 					'li.theme_post_it p' : 'data.theme_text',
 					'li.idea_post_it div.post-it @id' : 'data.theme_idea_id',						
+					'li.idea_post_it div.post-it @table_id' : 'data.theme_idea_themer_id',
 					'li.idea_post_it div.inner div.idea_text' : 'data.theme_idea'
 				}
 			);
@@ -188,6 +195,7 @@
 				{
 					// directives go here
 					'div.post-it @id' : 'data.id',
+					'div.post-it @table_id' : 'data.theme_idea_themer_id',
 					'div.inner div.idea_text' : 'data.theme_text'
 				}
 			);

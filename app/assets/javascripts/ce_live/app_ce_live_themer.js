@@ -1,20 +1,32 @@
 post_theme_changes.update_fn = function(){
-	console.log("post_theme_changes.update_fn");
+	//console.log("post_theme_changes.update_fn");
 	// clear any examples that ended up in the unthemed or parked lists
 	$('div#unthemed_ideas div.post-it.example, div#parked_ideas div.post-it.example').each(
 		function(){
 			$(this).removeClass('example');
 		}
 	);
-  $('div.table').each(
-    function(){
-      var stat = $(this);
-      var table_id = stat.attr('table_id');
-      stat.find('span.unthemed_tp_count').html( ':' + $('div#unthemed_ideas div.post-it[table_id="' + table_id + '"]').size() );
-      stat.find('span.themed_tp_count').html( '-' + $('div.theme_col.themes div.post-it[table_id="' + table_id + '"]').size() );
-      stat.find('span.example_tp_count').html( '-' + $('div.theme_col div.post-it.example[table_id="' + table_id + '"]').size() );
-    }
-  );
+	if( page_data.type == 'macro theming' ){
+		//console.log("UPDATE stats for macro theming");
+		$('div.table').each(
+	    function(){
+	      var stat = $(this);
+	      var themer_id = stat.attr('themer_id');
+	      stat.find('span.unthemed_uT_count').html( ':' + $('div#unthemed_ideas div.post-it[table_id="' + themer_id + '"]').size() );
+	      stat.find('span.themed_uT_count').html( '-' + $('div.theme_col.themes div.post-it[table_id="' + themer_id + '"]').size() );
+	    }
+	  );
+	}else{
+	  $('div.table').each(
+	    function(){
+	      var stat = $(this);
+	      var table_id = stat.attr('table_id');
+	      stat.find('span.unthemed_tp_count').html( ':' + $('div#unthemed_ideas div.post-it[table_id="' + table_id + '"]').size() );
+	      stat.find('span.themed_tp_count').html( '-' + $('div.theme_col.themes div.post-it[table_id="' + table_id + '"]').size() );
+	      stat.find('span.example_tp_count').html( '-' + $('div.theme_col div.post-it.example[table_id="' + table_id + '"]').size() );
+	    }
+	  );
+	}
 }
 post_theme_changes.update_fn();
 

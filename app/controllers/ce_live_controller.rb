@@ -920,6 +920,7 @@ class CeLiveController < ApplicationController
           theme_id: theme.id, 
           theme_text: BlueCloth.new( theme.text ).to_html,
           version: theme.version,
+          themer_id: theme.themer_id,
           examples: LiveTalkingPoint.where( id: theme.example_ids.try{ |ids| ids.scan(/\d+/).map(&:to_i) || []}).map{|ltp| {group_id: ltp.group_id, text: ltp.text} }
         }})
     end
@@ -1018,7 +1019,10 @@ class CeLiveController < ApplicationController
               theme_text: BlueCloth.new( @live_theme.text ).to_html,
               theme_idea_id: params[:idea_id],
               theme_idea: @live_talking_point.text,
-              theme_idea_group_id: @live_talking_point.group_id
+              theme_idea_group_id: @live_talking_point.group_id,
+              version: @live_theme.version,
+              themer_id: @live_theme.themer_id,
+              examples: []
             }})
         end
           

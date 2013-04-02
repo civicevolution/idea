@@ -1,4 +1,4 @@
-- group_id = idea.attributes.has_key?('group_id') ? idea.group_id : 0
+- group_id = idea.attributes.has_key?('group_id') ? idea.group_id : idea.themer_id
 - post_it_type = case when !idea.attributes.include?('theme_type') then '' when idea.theme_type == 0 then 'micro' else 'macro' end
 %div{class: "R#{random_ind.pop} post-it #{post_it_type}", id: idea.id, table_id: group_id }
 	- if idea.class.to_s == "LiveTheme"
