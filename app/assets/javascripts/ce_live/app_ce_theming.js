@@ -1,6 +1,6 @@
 // js code for the theming page
 
-var project_coordinator = true;
+//var project_coordinator = true;
 
 //
 //resize code
@@ -61,7 +61,7 @@ function resize_dims(){
 
 function make_ideas_sortable(idea_lists_ul){
 	if(editing_disabled(false))return false;
-	var debug = true;
+	var debug = false;
 	idea_lists_ul.sortable({
 		helper: 'clone',
 		appendTo: 'body',
@@ -146,6 +146,7 @@ function make_ideas_sortable(idea_lists_ul){
 $('body').on('mouseup', 'div.theming_page li.theme_post_it div.post-it',
 	function(event){
 		if( event.target.className != 'delete' ){
+			if(editing_disabled())return false;
 			//console.log("show_idea_details for this.id: " + this.id);
 			if(this.id > 0){
 				var url = '/theme/' + this.id + '/details?mode=edit';
@@ -335,8 +336,7 @@ function make_theme_cols_sortable(page){
 				.mousemove(function(e) {autoscroll_mousemove(e.pageX, e.pageY, this);});
 		},
 		stop: function(event, ui) { 
-			//if(debug) 
-			console.log("STOP sortable drag\n\n\n\n\n\n"); 
+			if(debug) console.log("STOP sortable drag\n\n\n\n\n\n"); 
 			stopAutoScroll();
 			$('div.auto-scroll')
 				.removeClass('scroll-active')
@@ -375,9 +375,10 @@ function make_theme_cols_sortable(page){
 
 function editing_disabled(show_msg_flag){
 	show_msg_flag = (typeof show_msg_flag === "undefined") ? true : show_msg_flag;
-	if(!project_coordinator){
+	//if(!project_coordinator){
+	if( disable_editing ){	
 		if(show_msg_flag){
-			alert("You are not an authorized project coordinator for this project");
+			alert("You are not authorized to edit");
 		}
 		return true;
 	}else{
