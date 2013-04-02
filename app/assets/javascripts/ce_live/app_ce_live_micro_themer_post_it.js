@@ -7,7 +7,7 @@ function init_post_its_theming_page(){
 	var post_its_wall = $('body').find('div.theming_page_outer');
 	
 	//set height
-		post_its_wall.height( $(window).height() - 50 );
+		post_its_wall.height( $(window).height() - 74 );
 	//set width
 		post_its_wall.width( $(window).width() );
 		//post_its_wall.css({left: $(window).width(), top: $(window).scrollTop() });
