@@ -394,10 +394,16 @@ class CeLiveController < ApplicationController
       @source_session = LiveSession.find_by_id(source_session_id)
       @live_theming_session = LiveThemingSession.where(:live_session_id => source_session_id,
         :themer_id=>@live_node.id, :tag=>@session.inputs[0].tag)
+      
+      if @live_theming_session.size == 0  
+        lts = LiveThemingSession.find_or_create_by_live_session_id_and_tag_and_themer_id(source_session_id, @session.inputs[0].tag, @live_node.id)
+        lts.update_attribute(:theme_group_ids, '')
         
+        @live_theming_session = [ lts ]
+      end
+
       @live_themes_unordered = LiveTheme.where(:live_session_id => source_session_id,
         :themer_id=>@live_node.id, :tag=>@session.inputs[0].tag)
-
     end
     
     # i need to put the live_themes in the order according to @live_theming_session.theme_group_ids
@@ -1313,6 +1319,33 @@ class CeLiveController < ApplicationController
     
     
   end
+  
+  def clear_event_test_data
+    
+    @live_event = LiveEvent.find(params[:event_id])
+
+    if @live_event.test_mode
+    
+      live_session_ids = LiveSession.joins('join live_events on live_sessions.live_event_id = live_events.id').where("live_events.id = #{@live_event.id} AND live_events.test_mode = true").map(&:id)
+      
+      LiveTalkingPoint.delete_all( live_session_id: live_session_ids)
+      LiveTheme.delete_all( live_session_id: live_session_ids)
+      LiveThemingSession.delete_all( live_session_id: live_session_ids)
+      LiveThemeAllocation.delete_all( session_id: live_session_ids)
+    
+      render template: 'ce_live/clear_event_test_data_ok', formats: [:js]
+    else
+      render template: 'ce_live/clear_event_test_data_fail', formats: [:js]
+    end
+    
+  end
+  
+  def exit_event_test_mode
+    live_event = LiveEvent.find(params[:event_id])
+    live_event.update_attribute('test_mode', false)
+    render template: 'ce_live/exit_test_mode_ok', formats: [:js]
+  end
+  
   
   def session_test
     ltps = LiveTalkingPoint.where(:live_session_id => params[:sid], :group_id => params[:gid] )

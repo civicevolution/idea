@@ -81,7 +81,10 @@ G3::Application.routes.draw do
   match 'live/:event_id/add_node(/:id)' => 'ce_live#add_node_form', :as=> 'edit_live_node'
   match 'live/:event_id/post_node(/:id)' => 'ce_live#add_node_post', :via=>[:put,:post], :as=> 'post_live_node'
   match 'live/:event_id/delete_node(/:id)' => 'ce_live#delete_node_post', :via=>[:put,:post], :as=> 'delete_live_node'
-
+  
+  post 'live/:event_id/clear_event_test_data' => 'ce_live#clear_event_test_data', as: 'clear_event_test_data'
+  post 'live/:event_id/exit_event_test_mode' => 'ce_live#exit_event_test_mode', as: 'exit_event_test_mode'
+  
   match "live/chat" => 'ce_live#send_chat_message', :as => 'live_chat'
   get "live/sign_in_form" => 'ce_live#sign_in_form', :as => 'live_sign_in'
   match "live/sign_out" => 'ce_live#sign_out', :as => 'sign_out'

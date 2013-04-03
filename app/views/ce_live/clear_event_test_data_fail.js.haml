@@ -1,0 +1,8 @@
+- if !@live_event.test_mode
+	:plain
+		$('<p class="warn">This event is NOT in test mode and the data cannot be cleared!</p>').dialog( {title : 'Notice', modal : true, width : '400px', closeOnEscape: true, close: function(){$(this).remove()} });
+
+- else
+	:plain
+		$('<p class="warn">The event test data was not cleared.<br/><br/>Please contact the administrator.</p>').dialog( {title : 'Notice', modal : true, width : '400px', closeOnEscape: true, close: function(){$(this).remove()} });
+	

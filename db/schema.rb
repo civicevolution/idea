@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130321171906) do
+ActiveRecord::Schema.define(:version => 20130403175552) do
 
   create_table "activities", :force => true do |t|
     t.integer  "member_id"
@@ -502,6 +502,7 @@ ActiveRecord::Schema.define(:version => 20130321171906) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "event_code"
+    t.boolean  "test_mode",   :default => true
   end
 
   create_table "live_nodes", :force => true do |t|
