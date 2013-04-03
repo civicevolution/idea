@@ -72,7 +72,7 @@
 												%p.warn Themes have not been published yet
 
 											%p= link_to "View final themes", live_session_themes_path(final_session.id)
-											-#%p.report_link= link_to "Session - Full data report", live_session_full_data_path(final_session.id)
+											%p.report_link= link_to "Session - Full data report", live_session_full_data_path(final_session.id)
 											
 										- else
 											%p.warn Please set the session data source in Event setup page

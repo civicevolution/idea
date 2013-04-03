@@ -587,10 +587,13 @@ class CeLiveController < ApplicationController
           @macro_themes = LiveTheme.where(live_session_id: @session.id, visible: true).order('id ASC')
           @micro_themes = []
           @live_talking_points = []
+          
           @session.inputs.each do |inp|
             @micro_themes += LiveTheme.where(:live_session_id => inp.source_session_id, :tag => inp.tag)
-            LiveSession.find(inp.source_session_id).inputs.each do |tp_inp|
-              @live_talking_points = LiveTalkingPoint.where(:live_session_id=>tp_inp.source_session_id, :tag => tp_inp.tag)
+            LiveSession.find_by_id(inp.source_session_id).try do |ls|
+              ls.inputs.each do |tp_inp|
+                @live_talking_points += LiveTalkingPoint.where(:live_session_id=>tp_inp.source_session_id, :tag => tp_inp.tag)
+              end
             end
           end
 
