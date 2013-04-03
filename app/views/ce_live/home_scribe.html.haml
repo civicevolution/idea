@@ -7,7 +7,7 @@
 	
 		%table
 			- @sessions.select{|es| es.session_type == 'group'}.sort{|a,b| a.order_id<=>b.order_id}.each do |group|
-				%tr
+				-#%tr
 					%td{colspan: 3}
 						%h3 
 							#{group.name}:
@@ -31,10 +31,12 @@
 							%td{:colspan=>2}
 								- case session.session_type
 									- when 'collect'
-										%p= link_to "Collect ideas for #{session.name}", live_scribe_path(:dest => "collect_#{session.id}")
+										-#%p= link_to "Collect ideas for #{session.name}", live_scribe_path(:dest => "collect_#{session.id}")
+										%h3= link_to "Collect ideas", live_scribe_path(:dest => "collect_#{session.id}")
 									- when 'allocation'
 										-# if !session.source_session_id.nil?
-										%p= link_to "#{session.name}", live_scribe_path(:dest => "allocation_#{session.id}")
+										-#%p= link_to "#{session.name}", live_scribe_path(:dest => "allocation_#{session.id}")
+										%h3= link_to "Prioritise ideas", live_scribe_path(:dest => "allocation_#{session.id}")
 										-# else
 											- debugger
 											%p.warn Please notify the table facilitator that the event setup is incomplete for "#{session.name}"

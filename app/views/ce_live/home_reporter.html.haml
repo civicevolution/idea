@@ -9,7 +9,8 @@
 				white-space: nowrap
 			h3.time
 				margin-right: 20px
-			p.report_link
+			//p.report_link
+			p a
 				font-size: 1.2em
 				
 	:javascript
@@ -71,7 +72,7 @@
 												%p.warn Themes have not been published yet
 
 											%p= link_to "View final themes", live_session_themes_path(final_session.id)
-											%p.report_link= link_to "Session - Full data report", live_session_full_data_path(final_session.id)
+											-#%p.report_link= link_to "Session - Full data report", live_session_full_data_path(final_session.id)
 											
 										- else
 											%p.warn Please set the session data source in Event setup page
@@ -98,4 +99,10 @@
 										- else
 											%p.warn Please check the session data source in Event setup page
 	
-									
+		%tr
+			%td
+			%td{:colspan=>2}
+				%p= link_to 'Stream leverage points', live_stream_path(125, tags: 'strategy')
+				%p= link_to 'Stream assumptions', live_stream_path(125, tags: 'concern')
+				%p= link_to 'Stream leverage points and assumptions', live_stream_path(125, tags: 'strategy-concern')
+		
