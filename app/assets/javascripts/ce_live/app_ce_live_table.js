@@ -16,9 +16,9 @@ function live_resize(){
   //var inner_padding = 20;
   //ltp.find('div.inner').height( ltp.height() - 4 - inner_padding);
   
-  var inner = $('div#groups_live_talking_points div.inner');
-	inner.top = inner.offset().top;
-	inner.height( win_height - inner.top - 60);
+  //var inner = $('div#groups_live_talking_points div.inner');
+	//inner.top = inner.offset().top;
+	//inner.height( win_height - inner.top - 60);
 	
 	
 	  	  

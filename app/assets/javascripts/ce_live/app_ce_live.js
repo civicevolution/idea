@@ -212,3 +212,41 @@ function mttest(){
 	$.get("/live/ut_to_jug?ch=" + theme_channel + "&id=" + lt_id);
 }
 
+
+$( function(){
+	if(params["load_test"]== 't'){
+		setTimeout(send_idea, 1000);
+	}
+});
+
+function send_idea(){
+	test_post_idea();
+	setTimeout(send_idea, 10000 * Math.random() );	
+}
+
+
+function test_post_idea( ){
+	var rand = Math.random();
+	var data = {
+		s_id: page_data.session_id,
+		form_id: 1,
+		tag: rand > .5 ? 'concern' : 'strategy',
+		text: Date().toString().match(/\d+:\d+:\d+/)[0] + ' This is a test message for load testing... people need better information to help them make decisions that support sustainability',
+		votes_for: 5,
+		votes_against: 1
+	}
+  console.log("test_post_idea");
+  var url = '/live/post_tp';
+  $.ajax({
+	  url: url, 
+	  data: data,
+	  type: 'POST',
+	  dataType: 'script',
+	  error: 
+	    function(xhr, textStatus, errorThrown){
+        console.log("An error was detected on test_post_idea submit");
+        var error_dlg = $('<div><p class="warn">Your changes are not being saved!</p><p class="warn">Please report this to IT person:</p><p class="warn">' + xhr.statusText + '</p>' + xhr.responseText + '</div>');
+        var dialog = error_dlg.dialog( {title : 'Critical data connection error', modal : false, width : 'auto', closeOnEscape: false, close: function(){$(this).remove()} });
+      }
+	});
+}

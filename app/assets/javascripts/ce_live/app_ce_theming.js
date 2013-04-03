@@ -58,7 +58,7 @@ function resize_dims(){
 //
 // Set up theming page sortable
 //
-
+var drag_mode_active = false;
 function make_ideas_sortable(idea_lists_ul){
 	if(editing_disabled(false))return false;
 	var debug = false;
@@ -72,6 +72,7 @@ function make_ideas_sortable(idea_lists_ul){
 		cursorAt: {left: 0, top: 0},
 		tolerance: 'pointer',
 		start: function(event, ui) { 
+			drag_mode_active = true;
 			$('div.auto-scroll')
 				.addClass('scroll-active')
 				.bind('mouseleave', stopAutoScroll )
@@ -87,6 +88,7 @@ function make_ideas_sortable(idea_lists_ul){
 				.removeClass('scroll-active')
 				.unbind('mousemove')
 				.unbind('mouseleave');
+			setTimeout( function(){drag_mode_active = false;}, 200);
 		}, 
 		over: function(event,ui){
 			var list = $(this);
@@ -148,7 +150,7 @@ $('body').on('mouseup', 'div.theming_page li.theme_post_it div.post-it',
 		if( event.target.className != 'delete' ){
 			if(editing_disabled())return false;
 			//console.log("show_idea_details for this.id: " + this.id);
-			if(this.id > 0){
+			if( !drag_mode_active && this.id > 0){
 				var url = '/theme/' + this.id + '/details?mode=edit';
 				$.getScript(url);
 			}
