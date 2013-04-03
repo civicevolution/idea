@@ -13,6 +13,12 @@
 				font-size: 1.2em
 			td.left_margin
 				width: 60px
+			div.test_mode
+				border: 2px solid red
+				margin: 1em
+				padding: 1em
+				width: 600px
+			
 				
 	:javascript
 		var live_session_id;
@@ -33,6 +39,16 @@
 		
 %div#live_home
 	%h2 CivicEvolution Live Coordinator Homepage
+	
+	- if @event.test_mode
+		%div.test_mode
+			%h1.warn Warning!! This event is still in test mode
+			%h2.warn You should exit test mode before the event commences
+
+			%p= link_to 'Exit test mode', exit_event_test_mode_path(@event.id), method: :post, remote: true, confirm: 'Are you sure you want to exit event test mode? Data cannot be cleared once you exit test mode.'
+			%h3 While in test mode you can clear the test data for this event
+			%p= link_to 'Clear event test data', clear_event_test_data_path(@event.id), method: :post, remote: true, confirm: 'Are you sure you want to clear the event data? This cannot be undone!'
+	
 	
 	= link_to "Event setup", live_event_setup_path(@live_node.live_event_id)
 	

@@ -46,6 +46,7 @@ class CeLiveController < ApplicationController
         render :template =>'ce_live/home_scribe', :locals=>{:group_id=>group_id, :get_templates => 'false'}
       
       when 'coord'
+        @event = LiveEvent.find( @live_node.live_event_id )
         @sessions = LiveSession.where( :live_event_id => @live_node.live_event_id ).order(:order_id)
         @subordinate_themers = LiveNode.where(:parent_id=>@live_node.id, :role=>'theme').order(:id)
         @subordinate_themers.each do |themer|
@@ -1332,6 +1333,7 @@ class CeLiveController < ApplicationController
       LiveTheme.delete_all( live_session_id: live_session_ids)
       LiveThemingSession.delete_all( live_session_id: live_session_ids)
       LiveThemeAllocation.delete_all( session_id: live_session_ids)
+      LiveSession.where(id: live_session_ids).update_all(published: false)
     
       render template: 'ce_live/clear_event_test_data_ok', formats: [:js]
     else
