@@ -11,4 +11,9 @@
 		
 		$('div.theme_col##{live_talking_point.tag} ul.sortable_ideas').append(ltp);
 		
+		ltp.find('div.post-it img.delete').remove();
+		ltp.find('div.post-it').css('cursor','default');
+		ltp.css('cursor','default');
+		
+		
 		$('div#live_forms input[name="form_id"][value="#{params[:form_id]}"]').closest('div.form').hide(800,function(){$(this).remove();});
